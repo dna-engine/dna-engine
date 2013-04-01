@@ -25,7 +25,7 @@ dna.core = {
          );
       },
    compile: function(template) {
-      var regex = /~~|{{|}}/g;  //dna gene
+      var regex = /~~|{{|}}/g;  //dna base pairs
       dna.core.findFieldElems(template).each(function() {
          var elem = $(this);
          elem.addClass('dna-field-' + elem.text().replace(regex, '')).empty();
