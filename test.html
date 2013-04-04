@@ -1,0 +1,76 @@
+<!doctype html>
+<!-- - - - - - - -->
+<!--  dna.js     -->
+<!--  TEST 123!  -->
+<!-- - - - - - - -->
+<html>
+<head>
+<meta charset=utf-8>
+<title>dna.js &bull; TEST 123!</title>
+<style>
+   body          { font-family: sans-serif; margin: 30px; }
+   h3            { border-top: 1px solid silver; margin: 40px 0px 5px 0px; }
+   p             { margin-top: 0px; }
+   .book-list    { width: 250px; }
+   .dna-template { display: none; }
+   .dna-clone    { background-color: darkseagreen; padding: 10px; margin-bottom: 15px; }
+</style>
+</head>
+<body>
+<h1>dna.js Template Cloner</h1>
+<h2>TEST 123!</h2>
+
+<!-- - - - - - -->
+<h3>Test: #01</h3>
+<p>Add 2 items [result: 2 items]</p>
+<div class=book-list>
+   <div class=dna-template data-dna-name=t01-book>
+      <div>Title:  <span>~~title~~</span></div>
+      <div>Author: <span>~~author~~</span></div>
+   </div>
+</div>
+
+<!-- - - - - - -->
+<h3>Test: #02</h3>
+<p>Add 2 items, empty, and add 1 item [result: 1 item]</p>
+<div class=book-list>
+   <div class=dna-template data-dna-name=t02-book>
+      <div>Title:  <span>~~title~~</span></div>
+      <div>Author: <span>~~author~~</span></div>
+   </div>
+</div>
+
+<!-- - - - - - -->
+<h3>Test: #03</h3>
+<p>Add 3 items with fade and top set to true [result: 3 faded items with #3 on top]</p>
+<div class=book-list>
+   <div class=dna-template data-dna-name=t03-book>
+      <div>Title:  <span>~~title~~</span></div>
+      <div>Author: <span>~~author~~</span></div>
+   </div>
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="dna.js"></script>
+<script>
+var options;
+
+//Test #1
+dna.clone('t01-book', { title: 'The DOM',     author: 'Suzy' });
+dna.clone('t01-book', { title: 'Howdy HTML5', author: 'Ed' });
+
+//Test #2
+dna.clone('t02-book', { title: 'The DOM',     author: 'Suzy' });
+dna.clone('t02-book', { title: 'Howdy HTML5', author: 'Ed' });
+dna.empty('t02-book');
+dna.clone('t02-book', { title: 'The One', author: 'Lee' });
+
+//Test #3
+options = { fade: true, top: true };
+dna.clone('t03-book', { title: '1st', author: 'Suzy' }, options);
+dna.clone('t03-book', { title: '2nd', author: 'Suzy' }, options);
+dna.clone('t03-book', { title: '3rd', author: 'Suzy' }, options);
+
+</script>
+</body>
+</html>

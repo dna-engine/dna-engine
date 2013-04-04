@@ -30,7 +30,7 @@ dna.core = {
       var regex = /~~|{{|}}/g;  //dna base pairs
       dna.core.findFieldElems(template).each(function() {
          var elem = $(this);
-         elem.addClass('dna-field-' + elem.text().replace(regex, '')).empty();
+         elem.addClass('dna-field').data('dna-field', elem.text().replace(regex, '')).empty();
          });
       return template.addClass('dna-compiled').data('dna', 0);
       },
@@ -45,20 +45,24 @@ dna.core = {
 dna.api = {
    clone: function(name, dataObj, options) {
       options = dna.util.defaults(options, { fade: false });
-      var template = dna.core.get(name);
+      var template = dna.core.getTemplate(name);
       var elem = template.clone(true, true).removeClass('dna-template dna-compiled');
       template.data('dna', template.data('dna') + 1);
-      for (var field in dataObj)
-         if (dataObj.hasOwnProperty(field))
-            elem.find('.dna-field-' + field).html(dataObj[field]);
-      elem.appendTo(template.parent()).addClass('dna-clone');
+      elem.addClass('dna-clone').find('.dna-field').each(function() {
+         console.log($(this).data('dna-field'));
+         $(this).html(dataObj[$(this).data('dna-field')]);
+         });
+      if (options.top)
+         template.after(elem);
+      else
+         template.parent().append(elem);
       if (options.fade)
          elem.hide().fadeIn();
       return elem;
       },
    empty: function(name, options) {
       options = dna.util.defaults(options, { fade: false });
-      var elems = dna.core.get(name).parent().children('.dna-clone');
+      var elems = dna.core.getTemplate(name).parent().children('.dna-clone');
       var duration = options.fade ? 'normal' : 0;
       return elems.fadeOut(duration, function() { $(this).remove(); });
       }
