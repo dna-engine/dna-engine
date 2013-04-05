@@ -10,16 +10,16 @@ dna.util = {
       if (options)
          for (var field in defaults)
             if (defaults.hasOwnProperty(field))
-               if (typeof options[field] == 'undefined')
+               if (options[field] === undefined)
                   options[field] = defaults[field];
-      return options ? options : defaults;
+      return options || defaults;
       }
    };
 
 dna.core = {
    templates: null,
-   regexDnaField: /^(~~|{{).*(~~|}})$/,  //example: ~~title~~
-   regexDnaBasePairs: /~~|{{|}}/g,  //mathces the two "~~" strings so they can be removed
+   regexDnaField: /^(~~|\{\{).*(~~|\}\})$/,  //example: ~~title~~
+   regexDnaBasePairs: /~~|\{\{|\}\}/g,  //matches the two "~~" strings so they can be removed
    getTemplates: function() {
       if (!dna.core.templates)
          dna.core.templates = $('.dna-template');
@@ -48,13 +48,8 @@ dna.core = {
       if (!template.hasClass('dna-compiled'))
          dna.core.compile(template);
       return template;
-      }
-   };
-
-dna.api = {
-   clone: function(name, dataObj, options) {
-      options = dna.util.defaults(options, { fade: false });
-      var template = dna.core.getTemplate(name);
+      },
+   cloneOne: function(template, dataObj, options) {
       var elem = template.clone(true, true).removeClass('dna-template dna-compiled');
       template.data('dna', template.data('dna') + 1);
       elem.addClass('dna-clone').find('.dna-field').each(function() {
@@ -70,6 +65,18 @@ dna.api = {
       if (options.fade)
          elem.hide().fadeIn();
       return elem;
+      }
+   };
+
+dna.api = {
+   clone: function(name, data, options) {
+      options = dna.util.defaults(options, { fade: false, top: false });
+      var template = dna.core.getTemplate(name);
+      var list = data instanceof Array ? data : [data];
+      var clones = $();
+      for (var count = 0; count < list.length; count++)
+         clones = clones.add(dna.core.cloneOne(template, list[count], options));
+      return clones;
       },
    empty: function(name, options) {
       options = dna.util.defaults(options, { fade: false });
