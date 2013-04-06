@@ -25,18 +25,20 @@ dna.core = {
          dna.core.templates = $('.dna-template');
       return dna.core.templates;
       },
-   findFieldElems: function(template) {
-      //Returns list of elements whose content is a dna field
-      return template.find('*').filter(
-         function() { return $(this).text().match(dna.core.regexDnaField); }
-         );
+   isDnaField: function() {
+      var firstNode = $(this)[0].childNodes[0];
+      return firstNode && firstNode.nodeValue &&
+         firstNode.nodeValue.match(dna.core.regexDnaField);
       },
-   compile: function(template) {
-      //Prepares template to be cloned
-      dna.core.findFieldElems(template).each(function() {
-         var elem = $(this);
-         elem.addClass('dna-field').data('dna-field', elem.text().replace(dna.core.regexDnaBasePairs, '')).empty();
-         });
+   getFieldElems: function(template) {
+      return template.find('*').filter(dna.core.isDnaField);
+      },
+   compileFieldElem: function() {
+      $(this).addClass('dna-field').data('dna-field',
+         $(this).text().replace(dna.core.regexDnaBasePairs, '')).empty();
+      },
+   compile: function(template) {  //prepare template to be cloned
+      dna.core.getFieldElems(template).each(dna.core.compileFieldElem);
       template.find('img[data-dna-src]').each(function () {
          $(this).addClass('dna-image-field')
             .data('dna-src', $(this).data('dna-src').replace(dna.core.regexDnaBasePairs, ''));
