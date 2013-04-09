@@ -30,19 +30,29 @@ dna.core = {
       return firstNode && firstNode.nodeValue &&
          firstNode.nodeValue.match(dna.core.regexDnaField);
       },
-   getFieldElems: function(template) {
-      return template.find('*').filter(dna.core.isDnaField);
-      },
    compileFieldElem: function() {
+      //Example: "<p>~~age~~</p>" --> "<p class=dna-field data-field-age></p>"
       $(this).addClass('dna-field').data('dna-field',
          $(this).text().replace(dna.core.regexDnaBasePairs, '')).empty();
       },
+   compileAttrElem: function() {
+      //Example: "<p data-dna-attr=~~id:code~~></p>" --> "<p class=dna-attr data-dna-attr=['id','code']></p>"
+      var list = $(this).data('dna-attr').replace(dna.core.regexDnaBasePairs, '').split(/[,:]/);
+      $(this).addClass('dna-attr').data('dna-attr', list);
+      },
+   compileClassElem: function() {
+      //Example: "<p data-dna-class=~~c1,c2~~></p>" --> "<p class=dna-class data-dna-class=['c1','c2']></p>"
+      var list = $(this).data('dna-class').replace(dna.core.regexDnaBasePairs, '').split(',');
+      $(this).addClass('dna-class').data('dna-class', list);
+      },
    compile: function(template) {  //prepare template to be cloned
-      dna.core.getFieldElems(template).each(dna.core.compileFieldElem);
-      template.find('img[data-dna-src]').each(function () {
-         $(this).addClass('dna-image-field')
-            .data('dna-src', $(this).data('dna-src').replace(dna.core.regexDnaBasePairs, ''));
-         });
+      var templateElems = template.find('*').add(template);
+      var fieldElems = templateElems.filter(dna.core.isDnaField);
+      var attrElems =  templateElems.filter('[data-dna-attr]');
+      var classElems = templateElems.filter('[data-dna-class]');
+      fieldElems.each(dna.core.compileFieldElem);
+      attrElems.each(dna.core.compileAttrElem);
+      classElems.each(dna.core.compileClassElem);
       return template.addClass('dna-compiled').data('dna', 0);
       },
    getTemplate: function(name) {
@@ -53,12 +63,22 @@ dna.core = {
       },
    cloneOne: function(template, dataObj, options) {
       var elem = template.clone(true, true).removeClass('dna-template dna-compiled');
+      var list, len, x;
       template.data('dna', template.data('dna') + 1);
       elem.addClass('dna-clone').find('.dna-field').each(function() {
          $(this).html(dataObj[$(this).data('dna-field')]);
          });
-      elem.find('.dna-image-field').each(function() {
-         $(this).attr('src', dataObj[$(this).data('dna-src')]);
+      elem.find('.dna-attr').each(function() {
+         list = $(this).data('dna-attr');
+         len = list.length / 2;
+         for (x = 0; x < len; x = x + 2)
+            $(this).attr(list[x], dataObj[list[x + 1]]);
+         });
+      elem.find('.dna-class').add(elem.filter('.dna-class')).each(function() {
+         list = $(this).data('dna-class');
+         len = list.length;
+         for (x = 0; x < len; x++)
+            $(this).addClass(dataObj[list[x]]);
          });
       if (options.top)
          template.after(elem);
