@@ -46,7 +46,7 @@ dna.core = {
       $(this).addClass('dna-class').data('dna-class', list);
       },
    compile: function(template) {  //prepare template to be cloned
-      var templateElems = template.find('*').add(template);
+      var templateElems = template.find('*').addBack();
       var fieldElems = templateElems.filter(dna.core.isDnaField);
       var attrElems =  templateElems.filter('[data-dna-attr]');
       var classElems = templateElems.filter('[data-dna-class]');
@@ -61,20 +61,24 @@ dna.core = {
          dna.core.compile(template);
       return template;
       },
+   apply: function(elem, selector, func) {
+      elem.find(selector).addBack(selector).each(func);
+      },
    cloneOne: function(template, dataObj, options) {
-      var elem = template.clone(true, true).removeClass('dna-template dna-compiled');
-      var list, len, x;
+      var elem = template.clone(true, true)
+         .removeClass('dna-template dna-compiled').addClass('dna-clone');
       template.data('dna', template.data('dna') + 1);
-      elem.addClass('dna-clone').find('.dna-field').each(function() {
+      dna.core.apply(elem, '.dna-field', function() {
          $(this).html(dataObj[$(this).data('dna-field')]);
          });
-      elem.find('.dna-attr').each(function() {
+      var list, len, x;
+      dna.core.apply(elem, '.dna-attr', function() {
          list = $(this).data('dna-attr');
          len = list.length / 2;
          for (x = 0; x < len; x = x + 2)
             $(this).attr(list[x], dataObj[list[x + 1]]);
          });
-      elem.find('.dna-class').add(elem.filter('.dna-class')).each(function() {
+      dna.core.apply(elem, '.dna-class', function() {
          list = $(this).data('dna-class');
          len = list.length;
          for (x = 0; x < len; x++)
