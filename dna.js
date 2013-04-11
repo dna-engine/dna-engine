@@ -17,12 +17,10 @@ dna.util = {
    };
 
 dna.core = {
-   templates: null,
+   templates: {},
    regexDnaField: /^(~~|\{\{).*(~~|\}\})$/,  //example: ~~title~~
    regexDnaBasePairs: /~~|\{\{|\}\}/g,  //matches the two "~~" strings so they can be removed
    getTemplates: function() {
-      if (!dna.core.templates)
-         dna.core.templates = $('.dna-template');
       return dna.core.templates;
       },
    isDnaField: function() {
@@ -46,18 +44,23 @@ dna.core = {
       $(this).addClass('dna-class').data('dna-class', list);
       },
    compile: function(template) {  //prepare template to be cloned
-      var templateElems = template.find('*').addBack();
-      var fieldElems = templateElems.filter(dna.core.isDnaField);
-      var attrElems =  templateElems.filter('[data-dna-attr]');
-      var classElems = templateElems.filter('[data-dna-class]');
-      fieldElems.each(dna.core.compileFieldElem);
-      attrElems.each(dna.core.compileAttrElem);
-      classElems.each(dna.core.compileClassElem);
-      return template.addClass('dna-compiled').data('dna', 0);
+      var elems = template.elem.find('*').addBack();
+      elems.filter(dna.core.isDnaField).each(dna.core.compileFieldElem);
+      elems.filter('[data-dna-attr]').each(dna.core.compileAttrElem);
+      elems.filter('[data-dna-class]').each(dna.core.compileClassElem);
+      template.compiled = true;
+      template.elem.removeClass('dna-template').addClass('dna-clone');
+      },
+   storeTemplate: function() {
+      dna.core.templates[$(this).data('dna-name')] =
+         { elem: $(this), container: $(this).parent(), compiled: false, clones: 0 };
+      $(this).detach();
       },
    getTemplate: function(name) {
-      var template = dna.core.getTemplates().filter('[data-dna-name=' + name + ']');
-      if (!template.hasClass('dna-compiled'))
+      if ($.isEmptyObject(dna.core.templates))
+         $('.dna-template').each(dna.core.storeTemplate);
+      var template = dna.core.templates[name];
+      if (template && !template.compiled)
          dna.core.compile(template);
       return template;
       },
@@ -65,32 +68,31 @@ dna.core = {
       elem.find(selector).addBack(selector).each(func);
       },
    cloneOne: function(template, dataObj, options) {
-      var elem = template.clone(true, true)
-         .removeClass('dna-template dna-compiled').addClass('dna-clone');
-      template.data('dna', template.data('dna') + 1);
-      dna.core.apply(elem, '.dna-field', function() {
+      var clone = template.elem.clone(true, true);
+      template.clones++;
+      dna.core.apply(clone, '.dna-field', function() {
          $(this).html(dataObj[$(this).data('dna-field')]);
          });
       var list, len, x;
-      dna.core.apply(elem, '.dna-attr', function() {
+      dna.core.apply(clone, '.dna-attr', function() {
          list = $(this).data('dna-attr');
          len = list.length / 2;
          for (x = 0; x < len; x = x + 2)
             $(this).attr(list[x], dataObj[list[x + 1]]);
          });
-      dna.core.apply(elem, '.dna-class', function() {
+      dna.core.apply(clone, '.dna-class', function() {
          list = $(this).data('dna-class');
          len = list.length;
          for (x = 0; x < len; x++)
             $(this).addClass(dataObj[list[x]]);
          });
       if (options.top)
-         template.after(elem);
+         template.container.prepend(clone);
       else
-         template.parent().append(elem);
+         template.container.append(clone);
       if (options.fade)
-         elem.hide().fadeIn();
-      return elem;
+         clone.hide().fadeIn();
+      return clone;
       }
    };
 
@@ -106,10 +108,10 @@ dna.api = {
       },
    empty: function(name, options) {
       options = dna.util.defaults(options, { fade: false });
-      var elems = dna.core.getTemplate(name).parent().children('.dna-clone');
       var duration = options.fade ? 'normal' : 0;
-      return elems.fadeOut(duration, function() { $(this).remove(); });
-      }
+      var clones = dna.core.getTemplate(name).container.find('.dna-clone');
+      return clones.fadeOut(duration, function() { $(this).remove(); });
+      },
    };
 
 dna.clone = dna.api.clone;
