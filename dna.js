@@ -112,7 +112,14 @@ dna.api = {
       var clones = dna.core.getTemplate(name).container.find('.dna-clone');
       return clones.fadeOut(duration, function() { $(this).remove(); });
       },
+   debug: function() {
+      console.log('~~ dns.js ~~');
+      console.log('template count: ' + Object.keys(dna.core.templates).length);
+      console.log('template names: ' + Object.keys(dna.core.templates));
+      console.log(dna.core.templates);
+      }
    };
 
 dna.clone = dna.api.clone;
 dna.empty = dna.api.empty;
+dna.debug = dna.api.debug;
