@@ -157,7 +157,7 @@ $(function() {
    <p>Sub-template with array of data</p>
    <div class=book-list>
       <div class=dna-template data-dna-name=t07-book>
-         <div>Author: <span>~~author~~</span></div>
+         <div>Author: <span>~~author.name~~</span></div>
          <div>
             <div class=dna-template data-dna-name=t07-book-info>
                <div>Title: <span>~~title~~</span></div>
@@ -174,10 +174,10 @@ $(function() {
       { title: '1st', year: 2012 },
       { title: '2nd', year: 2013 },
       ];
-   dna.clone('t07-book', { author: 'Ed' });
+   dna.clone('t07-book', { author: { name: 'Ed' } });
    var elem = dna.clone('t07-book', { author: 'Jan' });
    dna.clone('t07-book-info', books, { holder: elem }).addClass('color-change');;
-   dna.clone('t07-book', { author: 'Lee' });
+   dna.clone('t07-book', { author: { name: 'Lee' } });
    });
 </script>
 

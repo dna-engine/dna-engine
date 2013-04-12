@@ -14,6 +14,11 @@ dna.util = {
                   options[field] = defaults[field];
       return options || defaults;
       },
+   value: function(data, fields) {  //example: { a: { b: 7 }}, 'a.b' --> 7
+      if (typeof fields == 'string')
+         fields = fields.split('.');
+      return fields.length == 1 ? data[fields[0]] : this.value(data[fields[0]], fields.slice(1));
+      },
    findAll: function(elem, selector) {
       return elem.find(selector).addBack(selector);
       },
@@ -82,24 +87,24 @@ dna.store = {
    };
 
 dna.core = {
-   cloneOne: function(template, dataObj, options) {
+   cloneOne: function(template, data, options) {
       var clone = template.elem.clone(true, true);
       template.clones++;
       dna.util.apply(clone, '.dna-field', function() {
-         $(this).html(dataObj[$(this).data('dna-field')]);
+         $(this).html(dna.util.value(data, $(this).data('dna-field')));
          });
       var list, len, x;
       dna.util.apply(clone, '.dna-attr', function() {
          list = $(this).data('dna-attr');
          len = list.length / 2;
          for (x = 0; x < len; x = x + 2)
-            $(this).attr(list[x], dataObj[list[x + 1]]);
+            $(this).attr(list[x], dna.util.value(data, list[x + 1]));
          });
       dna.util.apply(clone, '.dna-class', function() {
          list = $(this).data('dna-class');
          len = list.length;
          for (x = 0; x < len; x++)
-            $(this).addClass(dataObj[list[x]]);
+            $(this).addClass(dna.util.value(data, list[x]));
          });
       var container = options.holder ? dna.util.findAll(options.holder,
          '.dna-contains-' + template.name) : template.container;
@@ -113,7 +118,6 @@ dna.core = {
 dna.api = {
    clone: function(name, data, options) {
       options = dna.util.defaults(options, { fade: false, top: false, holder: null });
-      console.log(options);
       var template = dna.store.getTemplate(name);
       var list = data instanceof Array ? data : [data];
       var clones = $();
