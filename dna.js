@@ -1,5 +1,5 @@
-// dna.js Template Cloner, version 0.2 (beta)
-// GPLv3/MIT, see: dnajs.org/license.html
+// dna.js Template Cloner ~~ version 0.2 (beta)
+// GPLv3/MIT ~~ dnajs.org/license.html
 // Copyright (c) 2013 Center Key Software and other contributors
 
 var dna = {};
@@ -14,30 +14,40 @@ dna.util = {
                   options[field] = defaults[field];
       return options || defaults;
       },
+   findAll: function(elem, selector) {
+      return elem.find(selector).addBack(selector);
+      },
    apply: function(elem, selector, func) {
-      elem.find(selector).addBack(selector).each(func);
+      dna.util.findAll(elem, selector).each(func);
       },
    };
 
 dna.compile = {
+   regexDnaField: /^(~~|\{\{).*(~~|\}\})$/,  //example: ~~title~~
+   regexDnaBasePairs: /~~|\{\{|\}\}/g,  //matches the two "~~" strings so they can be removed
+   isDnaField: function() {
+      var firstNode = $(this)[0].childNodes[0];
+      return firstNode && firstNode.nodeValue &&
+         firstNode.nodeValue.match(dna.compile.regexDnaField);
+      },
    fieldElem: function() {
       //Example: "<p>~~age~~</p>" --> "<p class=dna-field data-field-age></p>"
       $(this).addClass('dna-field').data('dna-field',
-         $(this).text().replace(dna.core.regexDnaBasePairs, '')).empty();
+         $(this).text().replace(dna.compile.regexDnaBasePairs, '')).empty();
       },
    attrElem: function() {
       //Example: "<p data-dna-attr=~~id:code~~></p>" --> "<p class=dna-attr data-dna-attr=['id','code']></p>"
-      var list = $(this).data('dna-attr').replace(dna.core.regexDnaBasePairs, '').split(/[,:]/);
+      var list = $(this).data('dna-attr').replace(dna.compile.regexDnaBasePairs, '').split(/[,:]/);
       $(this).addClass('dna-attr').data('dna-attr', list);
       },
    classElem: function() {
       //Example: "<p data-dna-class=~~c1,c2~~></p>" --> "<p class=dna-class data-dna-class=['c1','c2']></p>"
-      var list = $(this).data('dna-class').replace(dna.core.regexDnaBasePairs, '').split(',');
+      var list = $(this).data('dna-class').replace(dna.compile.regexDnaBasePairs, '').split(',');
       $(this).addClass('dna-class').data('dna-class', list);
       },
    template: function(template) {  //prepare template to be cloned
       var elems = template.elem.find('*').addBack();
-      elems.filter(dna.core.isDnaField).each(dna.compile.fieldElem);
+      elems.filter(dna.compile.isDnaField).each(dna.compile.fieldElem);
       elems.filter('[data-dna-attr]').each(dna.compile.attrElem);
       elems.filter('[data-dna-class]').each(dna.compile.classElem);
       template.compiled = true;
@@ -45,28 +55,33 @@ dna.compile = {
       }
    };
 
-dna.core = {
-   templates: {},
-   regexDnaField: /^(~~|\{\{).*(~~|\}\})$/,  //example: ~~title~~
-   regexDnaBasePairs: /~~|\{\{|\}\}/g,  //matches the two "~~" strings so they can be removed
-   isDnaField: function() {
-      var firstNode = $(this)[0].childNodes[0];
-      return firstNode && firstNode.nodeValue &&
-         firstNode.nodeValue.match(dna.core.regexDnaField);
-      },
-   storeTemplate: function() {
-      dna.core.templates[$(this).data('dna-name')] =
-         { elem: $(this), container: $(this).parent(), compiled: false, clones: 0 };
-      $(this).detach();
+dna.store = {
+   templates: null,
+   stash: function() {
+      var elem = $(this);
+      if (!dna.store.templates)
+         dna.store.templates = {};
+      var name = elem.data('dna-name');
+      dna.store.templates[name] = {
+         name:      name,
+         elem:      elem,
+         container: elem.parent().addClass('dna-contains-' + name),
+         compiled:  false,
+         clones:    0
+         };
+      elem.detach();
       },
    getTemplate: function(name) {
-      if ($.isEmptyObject(dna.core.templates))
-         $('.dna-template').each(dna.core.storeTemplate);
-      var template = dna.core.templates[name];
-      if (template && !template.compiled)
+      if (!dna.store.templates)
+         $('.dna-template').each(dna.store.stash);
+      var template = dna.store.templates[name];
+      if (!template.compiled)
          dna.compile.template(template);
       return template;
-      },
+      }
+   };
+
+dna.core = {
    cloneOne: function(template, dataObj, options) {
       var clone = template.elem.clone(true, true);
       template.clones++;
@@ -86,10 +101,9 @@ dna.core = {
          for (x = 0; x < len; x++)
             $(this).addClass(dataObj[list[x]]);
          });
-      if (options.top)
-         template.container.prepend(clone);
-      else
-         template.container.append(clone);
+      var container = options.holder ? dna.util.findAll(options.holder,
+         '.dna-contains-' + template.name) : template.container;
+      options.top ? container.prepend(clone) : container.append(clone);
       if (options.fade)
          clone.hide().fadeIn();
       return clone;
@@ -98,8 +112,9 @@ dna.core = {
 
 dna.api = {
    clone: function(name, data, options) {
-      options = dna.util.defaults(options, { fade: false, top: false });
-      var template = dna.core.getTemplate(name);
+      options = dna.util.defaults(options, { fade: false, top: false, holder: null });
+      console.log(options);
+      var template = dna.store.getTemplate(name);
       var list = data instanceof Array ? data : [data];
       var clones = $();
       for (var count = 0; count < list.length; count++)
@@ -109,14 +124,14 @@ dna.api = {
    empty: function(name, options) {
       options = dna.util.defaults(options, { fade: false });
       var duration = options.fade ? 'normal' : 0;
-      var clones = dna.core.getTemplate(name).container.find('.dna-clone');
+      var clones = dna.store.getTemplate(name).container.find('.dna-clone');
       return clones.fadeOut(duration, function() { $(this).remove(); });
       },
    debug: function() {
       console.log('~~ dns.js ~~');
-      console.log('template count: ' + Object.keys(dna.core.templates).length);
-      console.log('template names: ' + Object.keys(dna.core.templates));
-      console.log(dna.core.templates);
+      console.log('template count: ' + Object.keys(dna.store.templates).length);
+      console.log('template names: ' + Object.keys(dna.store.templates));
+      console.log(dna.store.templates);
       }
    };
 

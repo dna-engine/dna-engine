@@ -44,7 +44,7 @@
 </div>
 <script>
 $(function() {
-   dna.clone('t01-book', { title: 'The DOM',     author: 'Suzy' });
+   dna.clone('t01-book', { title: 'The DOM',     author: 'Jan' });
    dna.clone('t01-book', { title: 'Howdy HTML5', author: 'Ed' });
    });
 </script>
@@ -63,7 +63,7 @@ $(function() {
 </div>
 <script>
 $(function() {
-   dna.clone('t02-book', { title: 'The DOM',     author: 'Suzy' });
+   dna.clone('t02-book', { title: 'The DOM',     author: 'Jan' });
    dna.clone('t02-book', { title: 'Howdy HTML5', author: 'Ed' });
    dna.empty('t02-book');
    dna.clone('t02-book', { title: 'The One', author: 'Lee' });
@@ -85,9 +85,9 @@ $(function() {
 <script>
 $(function() {
    var options = { fade: true, top: true };
-   dna.clone('t03-book', { title: '1st', author: 'Suzy' }, options).addClass('color-change');
-   dna.clone('t03-book', { title: '2nd', author: 'Suzy' }, options);
-   dna.clone('t03-book', { title: '3rd', author: 'Suzy' }, options);
+   dna.clone('t03-book', { title: '1st', author: 'Jan' }, options).addClass('color-change');
+   dna.clone('t03-book', { title: '2nd', author: 'Jan' }, options);
+   dna.clone('t03-book', { title: '3rd', author: 'Jan' }, options);
    });
 </script>
 
@@ -126,7 +126,7 @@ $(function() {
 $(function() {
    var books = [
       { title: '1st', author: 'Lee' },
-      { title: '2nd', author: 'Suzy' },
+      { title: '2nd', author: 'Jan' },
       ];
    dna.clone('t05-book', books);
    dna.clone('t05-book', books).addClass('color-change');
@@ -148,6 +148,36 @@ $(function() {
 $(function() {
    dna.clone('t06-book', { title: 'Les Attributs', isbn: 123, language: 'fr', c: 'border-change' });
    $('#123').addClass('color-change').find('[lang=fr]').addClass('color-change2');
+   });
+</script>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class=test-case>
+   <h3>Test Case: #07</h3>
+   <p>Sub-template with array of data</p>
+   <div class=book-list>
+      <div class=dna-template data-dna-name=t07-book>
+         <div>Author: <span>~~author~~</span></div>
+         <div>
+            <div class=dna-template data-dna-name=t07-book-info>
+               <div>Title: <span>~~title~~</span></div>
+               <div>Year: <span>~~year~~</span></div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <p>Result: <b>3 items with the middle having 2 sub-items in blue</b></p>
+</div>
+<script>
+$(function() {
+   var books = [
+      { title: '1st', year: 2012 },
+      { title: '2nd', year: 2013 },
+      ];
+   dna.clone('t07-book', { author: 'Ed' });
+   var elem = dna.clone('t07-book', { author: 'Jan' });
+   dna.clone('t07-book-info', books, { holder: elem }).addClass('color-change');;
+   dna.clone('t07-book', { author: 'Lee' });
    });
 </script>
 
