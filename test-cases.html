@@ -203,6 +203,29 @@ $(function() {
    });
 </script>
 
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class=test-case>
+   <h3>Test Case: #09</h3>
+   <p>Add 2 items loaded from REST call</p>
+   <div class=book-list>
+      <div class=dna-template data-dna-name=t09-book>
+         <div>Title:  <span>~~title~~</span></div>
+         <div>Author: <span>~~author~~</span></div>
+      </div>
+   </div>
+   <p>Result: <b>2 items &rarr;
+      <a href="http://dnajs.org/rest/book/1" onclick="this.target='_target';">book 1</a> &mdash;
+      <a href="http://dnajs.org/rest/book/2" onclick="this.target='_target';">book 2</a>
+   </p>
+</div>
+<script>
+$(function() {
+   dna.load('t09-book', 'http://dnajs.org/rest/book/1');
+   dna.load('t09-book', 'http://dnajs.org/rest/book/2');
+   dna.load('t09-book', 'http://dnajs.org/rest/book/7');  //test call to missing resource
+   });
+</script>
+
 <script>$(function() { dna.debug(); });</script>
 </body>
 </html>

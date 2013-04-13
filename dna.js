@@ -115,6 +115,10 @@ dna.core = {
       if (options.fade)
          clone.hide().fadeIn();
       return clone;
+      },
+   unload: function(name, data, options) {
+      if (!data.error)
+         dna.api.clone(name, data, options)
       }
    };
 
@@ -127,6 +131,9 @@ dna.api = {
       for (var count = 0; count < list.length; count++)
          clones = clones.add(dna.core.replicate(template, list[count], options));
       return clones;
+      },
+   load: function(name, url, options) {
+      $.getJSON(url, function(data) { dna.core.unload(name, data, options) });
       },
    empty: function(name, options) {
       options = dna.util.defaults(options, { fade: false });
@@ -146,6 +153,7 @@ dna.api = {
    };
 
 dna.clone =  dna.api.clone;
+dna.load =   dna.api.load;
 dna.empty =  dna.api.empty;
 dna.mutate = dna.api.mutate;
 dna.debug =  dna.api.debug;
