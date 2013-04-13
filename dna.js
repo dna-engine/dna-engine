@@ -87,9 +87,7 @@ dna.store = {
    };
 
 dna.core = {
-   cloneOne: function(template, data, options) {
-      var clone = template.elem.clone(true, true);
-      template.clones++;
+   inject: function(clone, data) {
       dna.util.apply(clone, '.dna-field', function() {
          $(this).html(dna.util.value(data, $(this).data('dna-field')));
          });
@@ -106,6 +104,11 @@ dna.core = {
          for (x = 0; x < len; x++)
             $(this).addClass(dna.util.value(data, list[x]));
          });
+      },
+   replicate: function(template, data, options) {
+      var clone = template.elem.clone(true, true);
+      template.clones++;
+      dna.core.inject(clone, data);
       var container = options.holder ? dna.util.findAll(options.holder,
          '.dna-contains-' + template.name) : template.container;
       options.top ? container.prepend(clone) : container.append(clone);
@@ -122,7 +125,7 @@ dna.api = {
       var list = data instanceof Array ? data : [data];
       var clones = $();
       for (var count = 0; count < list.length; count++)
-         clones = clones.add(dna.core.cloneOne(template, list[count], options));
+         clones = clones.add(dna.core.replicate(template, list[count], options));
       return clones;
       },
    empty: function(name, options) {
@@ -130,6 +133,9 @@ dna.api = {
       var duration = options.fade ? 'normal' : 0;
       var clones = dna.store.getTemplate(name).container.find('.dna-clone');
       return clones.fadeOut(duration, function() { $(this).remove(); });
+      },
+   mutate: function(clone, data) {
+      dna.core.inject(clone, data);
       },
    debug: function() {
       console.log('~~ dns.js ~~');
@@ -139,6 +145,11 @@ dna.api = {
       }
    };
 
-dna.clone = dna.api.clone;
-dna.empty = dna.api.empty;
-dna.debug = dna.api.debug;
+dna.clone =  dna.api.clone;
+dna.empty =  dna.api.empty;
+dna.mutate = dna.api.mutate;
+dna.debug =  dna.api.debug;
+
+
+
+
