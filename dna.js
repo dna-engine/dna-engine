@@ -24,7 +24,7 @@ dna.util = {
       },
    apply: function(elem, selector, func) {
       dna.util.findAll(elem, selector).each(func);
-      },
+      }
    };
 
 dna.compile = {
@@ -157,7 +157,3 @@ dna.load =   dna.api.load;
 dna.empty =  dna.api.empty;
 dna.mutate = dna.api.mutate;
 dna.debug =  dna.api.debug;
-
-
-
-

@@ -10,7 +10,7 @@
 <style>
    body           { font-family: sans-serif; margin: 30px; }
    h1, h3         { margin: 0px 0px 5px 0px; }
-   h2             { margin: 0px 0px 20px 0px; }
+   h2             { margin: 0px; }
    p              { margin: 0px; }
    .push-right    { float: right; }
    .test-case     { display: inline-block; width: 280px; vertical-align: top; border: 1px solid silver; padding: 10px; margin: 0px 20px 20px 0px; }
@@ -23,12 +23,20 @@
    .border-change { border: 2px solid darkorange; }
 </style>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="dna.js"></script>
+<script>
+var dna =    '<script src="dna.js">';
+var dnaMin = '<script src="dna.min.js">';
+$('head').append($(location.search == '?min' ? dnaMin : dna ));
+</script>
 </head>
 <body>
-<p class=push-right><a href="http://dnajs.org/">dnajs.org</a></p>
+<div class=push-right>
+   <a href="http://dnajs.org/">dnajs.org</a>
+</div>
 <h1>dna.js Template Cloner</h1>
 <h2>Test Cases</h2>
+<p><span id=mode></span> &mdash; <a id=switch href="test-cases.html">switch</a></p>
+<br>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class=test-case>
@@ -226,6 +234,13 @@ $(function() {
    });
 </script>
 
-<script>$(function() { dna.debug(); });</script>
+<script>
+$(function() {
+   var mode = $('head script[src^=dna]').attr('src');
+   $('#mode').text(mode);
+   if (mode == 'dna.js') $('#switch').attr('href', '?min');
+   dna.debug();
+   });
+</script>
 </body>
 </html>
