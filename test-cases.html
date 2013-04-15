@@ -238,7 +238,8 @@ $(function() {
 $(function() {
    var mode = $('head script[src^=dna]').attr('src');
    $('#mode').text(mode);
-   if (mode == 'dna.js') $('#switch').attr('href', '?min');
+   if (mode == 'dna.js')
+      $('#switch').attr('href', '?min');
    dna.debug();
    });
 </script>
