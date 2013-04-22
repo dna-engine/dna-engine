@@ -8,7 +8,8 @@ dna.util = {
    value: function(data, fields) {  //example: { a: { b: 7 }}, 'a.b' --> 7
       if (typeof fields == 'string')
          fields = fields.split('.');
-      return fields.length == 1 ? data[fields[0]] : this.value(data[fields[0]], fields.slice(1));
+      return fields.length == 1 ? data[fields[0]] :
+         this.value(data[fields[0]], fields.slice(1));
       },
    findAll: function(elem, selector) {
       return elem.find(selector).addBack(selector);
