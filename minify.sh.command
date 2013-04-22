@@ -14,11 +14,11 @@ echo "Mini-Me Clone"
 echo "============="
 cd `dirname "$0"`
 pwd
-header="//dna.js  ~~ `git tag | tail -1` ~~ dnajs.org/license.html"
+echo "//dna.js ~~ `git tag | tail -1` ~~ dnajs.org/license.html" > dna.min.js
 echo $minifier
-(curl --data compilation_level=SIMPLE_OPTIMIZATIONS --data output_format=text \
+curl --data compilation_level=SIMPLE_OPTIMIZATIONS --data output_format=text \
    --data output_info=compiled_code --data-urlencode "js_code@dna.js" \
-   $minifier & echo $header) | cat > dna.min.js
+   $minifier >> dna.min.js
 echo
 echo "Files:"
 ls -l *.js

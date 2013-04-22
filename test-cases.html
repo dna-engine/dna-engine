@@ -24,8 +24,8 @@
 </style>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
-var dna =    '<script src="dna.js">';
-var dnaMin = '<script src="dna.min.js">';
+var dna =    '<script src=dna.js>';
+var dnaMin = '<script src=dna.min.js>';
 $('head').append($(location.search == '?min' ? dnaMin : dna ));
 </script>
 </head>
@@ -62,19 +62,19 @@ $(function() {
    <h3>Test Case: #02</h3>
    <p>Add 2 items, empty, and add 1 item (with mustache)</p>
    <div class=book-list>
-      <div class=dna-template data-dna-name=t02-book>
-         <div>Title:  <span>{{title}}</span></div>
-         <div>Author: <span>{{author}}</span></div>
+      <div class="dna-template" data-dna-name="t02-book">
+         <div data-dna-class="{{c}}">Title:  <span>{{title}}</span></div>
+         <div data-dna-class={{c}}>Author: <span>{{author}}</span></div>
       </div>
    </div>
-   <p>Result: <b>1 item</b></p>
+   <p>Result: <b>1 item with blue core</b></p>
 </div>
 <script>
 $(function() {
    dna.clone('t02-book', { title: 'The DOM',     author: 'Jan' });
    dna.clone('t02-book', { title: 'Howdy HTML5', author: 'Ed' });
    dna.empty('t02-book');
-   dna.clone('t02-book', { title: 'The One', author: 'Lee' });
+   dna.clone('t02-book', { title: 'The One', author: 'Lee', c: 'color-change' });
    });
 </script>
 
@@ -221,8 +221,8 @@ $(function() {
          <div>Author: <span>~~author~~</span></div>
       </div>
    </div>
-   <p>Result: <b>2 items &rarr;
-      <a href="http://dnajs.org/rest/book/1" onclick="this.target='_target';">book 1</a> &mdash;
+   <p>Result: <b>2 items &rarr;</b>
+      <a href="http://dnajs.org/rest/book/1" onclick="this.target='_target';">book 1</a> &amp;
       <a href="http://dnajs.org/rest/book/2" onclick="this.target='_target';">book 2</a>
    </p>
 </div>
