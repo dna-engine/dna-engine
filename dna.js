@@ -5,15 +5,6 @@
 var dna = {};
 
 dna.util = {
-   defaults: function(options, defaults) {
-      //Sets each missing field in options to its default value
-      if (options)
-         for (var field in defaults)
-            if (defaults.hasOwnProperty(field))
-               if (options[field] === undefined)
-                  options[field] = defaults[field];
-      return options || defaults;
-      },
    value: function(data, fields) {  //example: { a: { b: 7 }}, 'a.b' --> 7
       if (typeof fields == 'string')
          fields = fields.split('.');
@@ -105,14 +96,14 @@ dna.core = {
             $(this).addClass(dna.util.value(data, list[x]));
          });
       },
-   replicate: function(template, data, options) {
+   replicate: function(template, data, settings) {
       var clone = template.elem.clone(true, true);
       template.clones++;
       dna.core.inject(clone, data);
-      var container = options.holder ? dna.util.findAll(options.holder,
+      var container = settings.holder ? dna.util.findAll(settings.holder,
          '.dna-contains-' + template.name) : template.container;
-      options.top ? container.prepend(clone) : container.append(clone);
-      if (options.fade)
+      settings.top ? container.prepend(clone) : container.append(clone);
+      if (settings.fade)
          clone.hide().fadeIn();
       return clone;
       },
@@ -124,20 +115,22 @@ dna.core = {
 
 dna.api = {
    clone: function(name, data, options) {
-      options = dna.util.defaults(options, { fade: false, top: false, holder: null });
+      var settings = { fade: false, top: false, holder: null };
+      $.extend(settings, options);
       var template = dna.store.getTemplate(name);
       var list = data instanceof Array ? data : [data];
       var clones = $();
       for (var count = 0; count < list.length; count++)
-         clones = clones.add(dna.core.replicate(template, list[count], options));
+         clones = clones.add(dna.core.replicate(template, list[count], settings));
       return clones;
       },
    load: function(name, url, options) {
       $.getJSON(url, function(data) { dna.core.unload(name, data, options) });
       },
    empty: function(name, options) {
-      options = dna.util.defaults(options, { fade: false });
-      var duration = options.fade ? 'normal' : 0;
+      var settings = { fade: false };
+      $.extend(settings, options);
+      var duration = settings.fade ? 'normal' : 0;
       var clones = dna.store.getTemplate(name).container.find('.dna-clone');
       return clones.fadeOut(duration, function() { $(this).remove(); });
       },
