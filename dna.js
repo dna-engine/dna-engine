@@ -139,10 +139,12 @@ dna.api = {
       dna.core.inject(clone, data);
       },
    debug: function() {
-      console.log('~~ dns.js ~~');
-      console.log('template count: ' + Object.keys(dna.store.templates).length);
-      console.log('template names: ' + Object.keys(dna.store.templates));
-      console.log(dna.store.templates);
+      if (console) {
+         console.log('~~ dns.js ~~');
+         console.log('template count: ' + Object.keys(dna.store.templates).length);
+         console.log('template names: ' + Object.keys(dna.store.templates));
+         console.log(dna.store.templates);
+         }
       }
    };
 
