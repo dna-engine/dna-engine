@@ -20,26 +20,29 @@ dna.util = {
    };
 
 dna.compile = {
-   regexDnaField: /^(~~|\{\{).*(~~|\}\})$/,  //example: ~~title~~
+   regexDnaField: /^[\s]*(~~|\{\{).*(~~|\}\})[\s]*$/,  //example: ~~title~~
    regexDnaBasePairs: /~~|\{\{|\}\}/g,  //matches the two "~~" strings so they can be removed
    isDnaField: function() {
       var firstNode = $(this)[0].childNodes[0];
       return firstNode && firstNode.nodeValue &&
          firstNode.nodeValue.match(dna.compile.regexDnaField);
       },
+   stripBasePairs: function(s) {
+      return $.trim(s).replace(dna.compile.regexDnaBasePairs, '');
+      },
    fieldElem: function() {
       //Example: "<p>~~age~~</p>" --> "<p class=dna-field data-field-age></p>"
       $(this).addClass('dna-field').data('dna-field',
-         $(this).text().replace(dna.compile.regexDnaBasePairs, '')).empty();
+         dna.compile.stripBasePairs($(this).text())).empty();
       },
    attrElem: function() {
       //Example: "<p data-dna-attr=~~id:code~~></p>" --> "<p class=dna-attr data-dna-attr=['id','code']></p>"
-      var list = $(this).data('dna-attr').replace(dna.compile.regexDnaBasePairs, '').split(/[,:]/);
+      var list = dna.compile.stripBasePairs($(this).data('dna-attr')).split(/[,:]/);
       $(this).addClass('dna-attr').data('dna-attr', list);
       },
    classElem: function() {
       //Example: "<p data-dna-class=~~c1,c2~~></p>" --> "<p class=dna-class data-dna-class=['c1','c2']></p>"
-      var list = $(this).data('dna-class').replace(dna.compile.regexDnaBasePairs, '').split(',');
+      var list = dna.compile.stripBasePairs($(this).data('dna-class')).split(',');
       $(this).addClass('dna-class').data('dna-class', list);
       },
    template: function(template) {  //prepare template to be cloned
@@ -87,8 +90,8 @@ dna.core = {
       dna.util.apply(clone, '.dna-attr', function() {
          list = $(this).data('dna-attr');
          len = list.length / 2;
-         for (x = 0; x < len; x = x + 2)
-            $(this).attr(list[x], dna.util.value(data, list[x + 1]));
+         for (x = 0; x < len; x++)
+            $(this).attr(list[x*2], dna.util.value(data, list[x*2 + 1]));
          });
       dna.util.apply(clone, '.dna-class', function() {
          list = $(this).data('dna-class');
