@@ -86,17 +86,15 @@ dna.core = {
       dna.util.apply(clone, '.dna-field', function() {
          $(this).html(dna.util.value(data, $(this).data('dna-field')));
          });
-      var list, len, x;
+      var list, x;
       dna.util.apply(clone, '.dna-attr', function() {
          list = $(this).data('dna-attr');
-         len = list.length / 2;
-         for (x = 0; x < len; x++)
+         for (x = 0; x < list.length / 2; x++)
             $(this).attr(list[x*2], dna.util.value(data, list[x*2 + 1]));
          });
       dna.util.apply(clone, '.dna-class', function() {
          list = $(this).data('dna-class');
-         len = list.length;
-         for (x = 0; x < len; x++)
+         for (x = 0; x < list.length; x++)
             $(this).addClass(dna.util.value(data, list[x]));
          });
       },
