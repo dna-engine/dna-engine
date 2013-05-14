@@ -238,21 +238,21 @@ $(function() {
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class=test-case>
    <h3>Test Case: #10</h3>
-   <p>Add 1 items and apply task function</p>
+   <p>Add 1 item and apply task function</p>
    <div class=book-list>
       <div class=dna-template data-dna-name=t10-book>
          <div>~~title~~</div>
       </div>
    </div>
-   <p>Result: <b>1 item with a background image</b></p>
+   <p>Result: <b>1 item with a fade in background</b></p>
 </div>
 <script>
 $(function() {
    var applyBackgnd = function(elem, data) {
-      elem.css({ 'background-image': data.image }).height(100);
+      elem.css('background-image', data.image).css('background-size', '80px').height(60);
       };
-   dna.clone('t10-book', { title: 'Background', image: 'http://dnajs.org/graphics/dnajs-logo.png' },
-      { task: applyBackgnd });
+   dna.clone('t10-book', { title: 'Background', image: 'url(http://dnajs.org/graphics/dnajs-logo.png)' },
+      { fade: true, task: applyBackgnd });
    });
 </script>
 
