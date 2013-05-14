@@ -107,6 +107,8 @@ dna.core = {
       var container = settings.holder ? dna.util.findAll(settings.holder,
          '.dna-contains-' + template.name) : template.container;
       settings.top ? container.prepend(clone) : container.append(clone);
+      if (settings.task)
+         settings.task(clone, data);
       if (settings.fade)
          clone.hide().fadeIn();
       return clone;
@@ -119,7 +121,7 @@ dna.core = {
 
 dna.api = {
    clone: function(name, data, options) {
-      var settings = { fade: false, top: false, holder: null };
+      var settings = { fade: false, top: false, holder: null, task: null };
       $.extend(settings, options);
       var template = dna.store.getTemplate(name);
       var list = data instanceof Array ? data : [data];
