@@ -137,7 +137,8 @@ $(function() {
       { title: '1st', author: 'Lee' },
       { title: '2nd', author: 'Jan' }
       ];
-   dna.clone('t05-book', books);
+   dna.clone('t05-book', books).addClass('color-change');
+   dna.clone('t05-book', books, { empty: true });
    dna.clone('t05-book', books).addClass('color-change');
    });
 </script>

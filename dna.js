@@ -119,9 +119,12 @@ dna.core = {
 
 dna.api = {
    clone: function(name, data, options) {
-      var settings = { fade: false, top: false, holder: null, task: null };
+      var settings =
+         { fade: false, top: false, holder: null, empty: false, task: null };
       $.extend(settings, options);
       var template = dna.store.getTemplate(name);
+      if (settings.empty)
+         dna.api.empty(name);
       var list = data instanceof Array ? data : [data];
       var clones = $();
       for (var count = 0; count < list.length; count++)
@@ -134,9 +137,12 @@ dna.api = {
    empty: function(name, options) {
       var settings = { fade: false };
       $.extend(settings, options);
-      var duration = settings.fade ? 'normal' : 0;
       var clones = dna.store.getTemplate(name).container.find('.dna-clone');
-      return clones.fadeOut(duration, function() { $(this).remove(); });
+      if (settings.fade)
+         clones.fadeOut('normal', function() { $(this).remove(); });
+      else
+      	clones.remove();
+      return clones;
       },
    mutate: function(clone, data) {
       dna.core.inject(clone, data);
