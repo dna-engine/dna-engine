@@ -27,22 +27,19 @@ dna.compile = {
       return firstNode && firstNode.nodeValue &&
          firstNode.nodeValue.match(dna.compile.regexDnaField);
       },
-   stripBasePairs: function(s) {
-      return $.trim(s).replace(dna.compile.regexDnaBasePairs, '');
-      },
    fieldElem: function() {
       //Example: "<p>~~age~~</p>" --> "<p class=dna-field data-field-age></p>"
       $(this).addClass('dna-field').data('dna-field',
-         dna.compile.stripBasePairs($(this).text())).empty();
+         $.trim($(this).text()).replace(dna.compile.regexDnaBasePairs, '')).empty();
       },
    attrElem: function() {
-      //Example: "<p data-dna-attr=~~id:code~~></p>" --> "<p class=dna-attr data-dna-attr=['id','code']></p>"
-      var list = dna.compile.stripBasePairs($(this).data('dna-attr')).split(/[,:]/);
+      //Example: "<p data-dna-attr=id:code></p>" --> "<p class=dna-attr data-dna-attr=['id','code']></p>"
+      var list = $(this).data('dna-attr').split(/[,:]/);
       $(this).addClass('dna-attr').data('dna-attr', list);
       },
    classElem: function() {
-      //Example: "<p data-dna-class=~~c1,c2~~></p>" --> "<p class=dna-class data-dna-class=['c1','c2']></p>"
-      var list = dna.compile.stripBasePairs($(this).data('dna-class')).split(',');
+      //Example: "<p data-dna-class=c1,c2></p>" --> "<p class=dna-class data-dna-class=['c1','c2']></p>"
+      var list = $(this).data('dna-class').split(',');
       $(this).addClass('dna-class').data('dna-class', list);
       },
    template: function(template) {  //prepare template to be cloned
