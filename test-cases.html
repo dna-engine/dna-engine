@@ -258,6 +258,29 @@ $(function() {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class=test-case>
+   <h3>Test Case: #11</h3>
+   <p>Add 2 items with missing fields</p>
+   <div class=book-list>
+      <div class=dna-template data-dna-name=t11-book>
+         <div>Title:
+            <span data-dna-require=title>~~title~~</span>
+            <span data-dna-missing=title><i>[Gone with the Wind]</i></span>
+         </div>
+         <div data-dna-require=author>Author: <span>~~author~~</span></div>
+         <div data-dna-missing=author><i>[no author]</i></div>
+      </div>
+   </div>
+   <p>Result: <b>Item 1 missing title and item 2 missing author</b></p>
+</div>
+<script>
+$(function() {
+   dna.clone('t11-book', { author: 'Jan' });
+   dna.clone('t11-book', { title: 'Howdy HTML5' });
+   });
+</script>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <script>
 $(function() {
    var mode = $('head script[src^=dna]').attr('src');

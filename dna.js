@@ -47,6 +47,8 @@ dna.compile = {
       elems.filter(dna.compile.isDnaField).each(dna.compile.fieldElem);
       elems.filter('[data-dna]').each(dna.compile.attrElem);
       elems.filter('[data-dna-class]').each(dna.compile.classElem);
+      elems.filter('[data-dna-require]').addClass('dna-require');
+      elems.filter('[data-dna-missing]').addClass('dna-missing');
       template.compiled = true;
       template.elem.removeClass('dna-template').addClass('dna-clone');
       }
@@ -95,10 +97,21 @@ dna.core = {
             $(this).addClass(dna.util.value(data, list[x]));
          });
       },
+   thimblerig: function(clone, data) {
+      dna.util.apply(clone, '.dna-require', function() {
+         if (!data[$(this).data('dna-require')])
+            $(this).hide();
+         });
+      dna.util.apply(clone, '.dna-missing', function() {
+         if (data[$(this).data('dna-missing')])
+            $(this).hide();
+         });
+      },
    replicate: function(template, data, settings) {
       var clone = template.elem.clone(true, true);
       template.clones++;
       dna.core.inject(clone, data);
+      dna.core.thimblerig(clone, data);
       var container = settings.holder ? dna.util.findAll(settings.holder,
          '.dna-contains-' + template.name) : template.container;
       settings.top ? container.prepend(clone) : container.append(clone);
