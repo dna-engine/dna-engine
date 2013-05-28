@@ -149,14 +149,16 @@ $(function() {
    <p>Add 1 item with attributes</p>
    <div class=book-list>
       <div class=dna-template data-dna-name=t06-book data-dna-class=c>
-         <div data-dna=id@isbn>Title: <span data-dna=lang@language>~~title~~</span></div>
+         <div data-dna=id:info.isbn>  <!-- tests alternate comma notation plus nested object  -->
+            Title: <span data-dna=lang@language>~~title~~</span>
+        </div>
       </div>
    </div>
    <p>Result: <b>1 item with "class=border-change" (orange), "id=123" (blue), and "lang=fr" (gold)</b></p>
 </div>
 <script>
 $(function() {
-   dna.clone('t06-book', { title: 'Les Attributs', isbn: 123, language: 'fr', c: 'border-change' });
+   dna.clone('t06-book', { title: 'Les Attributs', info: { isbn: 123 }, language: 'fr', c: 'border-change' });
    $('#123').addClass('color-change').find('[lang=fr]').addClass('color-change2');
    });
 </script>

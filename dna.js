@@ -6,10 +6,10 @@ var dna = {};
 
 dna.util = {
    value: function(data, fields) {  //example: { a: { b: 7 }}, 'a.b' --> 7
-      if (typeof fields == 'string')
+      if (typeof fields === 'string')
          fields = fields.split('.');
-      return data == null ? null : (fields.length == 1 ? data[fields[0]] :
-         this.value(data[fields[0]], fields.slice(1)));
+      return (data === null || fields === undefined) ? null :
+         (fields.length === 1 ? data[fields[0]] : this.value(data[fields[0]], fields.slice(1)));
       },
    findAll: function(elem, selector) {
       return elem.find(selector).addBack(selector);
@@ -34,7 +34,7 @@ dna.compile = {
       },
    attrElem: function() {
       //Example: "<p data-dna=id@code></p>" --> "<p class=dna-attr data-dna=['id','code']></p>"
-      var list = $(this).data('dna').split(/[,@]/);
+      var list = $(this).data('dna').split(/[,@:]/);  //colon is alternative notation to at sign
       $(this).addClass('dna-attr').data('dna', list);
       },
    classElem: function() {
@@ -99,12 +99,10 @@ dna.core = {
       },
    thimblerig: function(clone, data) {
       dna.util.apply(clone, '.dna-require', function() {
-         if (!data[$(this).data('dna-require')])
-            $(this).hide();
+         $(this).toggle(dna.util.value(data, $(this).data('dna-require')) !== undefined);
          });
       dna.util.apply(clone, '.dna-missing', function() {
-         if (data[$(this).data('dna-missing')])
-            $(this).hide();
+         $(this).toggle(dna.util.value(data, $(this).data('dna-missing')) === undefined);
          });
       },
    replicate: function(template, data, settings) {
