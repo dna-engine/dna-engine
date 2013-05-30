@@ -74,6 +74,8 @@ dna.store = {
       if (!dna.store.templates)
          $('.dna-template').each(dna.store.stash);
       var template = dna.store.templates[name];
+      if (!template)
+         dna.core.berserk('Template not found: ' + name);
       if (!template.compiled)
          dna.compile.template(template);
       return template;
@@ -122,6 +124,9 @@ dna.core = {
    unload: function(name, data, options) {
       if (!data.error)
          dna.api.clone(name, data, options)
+      },
+   berserk: function(msg) {
+      throw 'dna.js error -> ' + msg;
       }
    };
 
