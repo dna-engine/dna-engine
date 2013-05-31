@@ -101,10 +101,10 @@ dna.core = {
       },
    thimblerig: function(clone, data) {
       dna.util.apply(clone, '.dna-require', function() {
-         $(this).toggle(dna.util.value(data, $(this).data('dna-require')) !== undefined);
+         $(this).toggle(dna.util.value(data, $(this).data('dna-require')) !== null);
          });
       dna.util.apply(clone, '.dna-missing', function() {
-         $(this).toggle(dna.util.value(data, $(this).data('dna-missing')) === undefined);
+         $(this).toggle(dna.util.value(data, $(this).data('dna-missing')) === null);
          });
       },
    replicate: function(template, data, settings) {
