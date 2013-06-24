@@ -8,7 +8,7 @@ dna.util = {
    value: function(data, fields) {  //example: { a: { b: 7 }}, 'a.b' --> 7
       if (typeof fields === 'string')
          fields = fields.split('.');
-      return (data === null || fields === undefined) ? null :
+      return (data === null || data === undefined || fields === undefined) ? null :
          (fields.length === 1 ? data[fields[0]] : this.value(data[fields[0]], fields.slice(1)));
       },
    findAll: function(elem, selector) {
@@ -83,7 +83,7 @@ dna.store = {
    };
 
 dna.core = {
-   inject: function(clone, data) {
+   inject: function(clone, data) {  //insert data into new clone
       dna.util.apply(clone, '.dna-field', function() {
          $(this).html(dna.util.value(data, $(this).data('dna-field')));
          });
@@ -99,7 +99,7 @@ dna.core = {
             $(this).addClass(dna.util.value(data, list[x]));
          });
       },
-   thimblerig: function(clone, data) {
+   thimblerig: function(clone, data) {  //apply logic to hide specific elements
       dna.util.apply(clone, '.dna-require', function() {
          $(this).toggle(dna.util.value(data, $(this).data('dna-require')) !== null);
          });
@@ -107,7 +107,7 @@ dna.core = {
          $(this).toggle(dna.util.value(data, $(this).data('dna-missing')) === null);
          });
       },
-   replicate: function(template, data, settings) {
+   replicate: function(template, data, settings) {  //make and setup the clone
       var clone = template.elem.clone(true, true);
       template.clones++;
       dna.core.inject(clone, data);
@@ -121,16 +121,16 @@ dna.core = {
          clone.hide().fadeIn();
       return clone;
       },
-   unload: function(name, data, options) {
+   unload: function(name, data, options) {  //use rest data to make clone
       if (!data.error)
          dna.api.clone(name, data, options)
       },
-   berserk: function(msg) {
+   berserk: function(msg) {  //oops, file a tps report
       throw 'dna.js error -> ' + msg;
       }
    };
 
-dna.api = {
+dna.api = {  //see: http://dnajs.org/manual.html#api
    clone: function(name, data, options) {
       var settings =
          { fade: false, top: false, holder: null, empty: false, task: null };
@@ -163,9 +163,9 @@ dna.api = {
    debug: function() {
       if (console) {
          console.log('~~ dns.js ~~');
-         console.log('template count: ' + Object.keys(dna.store.templates).length);
-         console.log('template names: ' + Object.keys(dna.store.templates));
-         console.log(dna.store.templates);
+         console.log('count:', Object.keys(dna.store.templates).length);
+         console.log('names:', Object.keys(dna.store.templates));
+         console.log('templates:', dna.store.templates);
          }
       }
    };
