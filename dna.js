@@ -90,8 +90,11 @@ dna.core = {
       var list, x;
       dna.util.apply(clone, '.dna-attr', function() {
          list = $(this).data('dna');
-         for (x = 0; x < list.length / 2; x++)
+         for (x = 0; x < list.length / 2; x++) {
             $(this).attr(list[x*2], dna.util.value(data, list[x*2 + 1]));
+            if (list[x*2] === 'value')
+               $(this).val($(this).attr('value'));
+            }
          });
       dna.util.apply(clone, '.dna-class', function() {
          list = $(this).data('dna-class');
