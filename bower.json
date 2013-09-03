@@ -1,0 +1,10 @@
+{
+  "name": "dna.js",
+  "version": "0.1.0",
+  "main": ["dna.js", "dna.min.js"],
+  "ignore": [
+    ".gitignore",
+    "minify.sh.command",
+    "test-cases.html"
+  ]
+}
