@@ -21,6 +21,7 @@ dna.util = {
 
 dna.compile = {
    regexDnaField: /^[\s]*(~~|\{\{).*(~~|\}\})[\s]*$/,  //example: ~~title~~
+   regexDnaBasePair: /~~|{{|}}/,  //matches the '~~' string
    regexDnaBasePairs: /~~|\{\{|\}\}/g,  //matches the two "~~" strings so they can be removed
    isDnaField: function() {
       var firstNode = $(this)[0].childNodes[0];
@@ -33,9 +34,16 @@ dna.compile = {
          $.trim($(this).text()).replace(dna.compile.regexDnaBasePairs, '')).empty();
       },
    attrElem: function() {
-      //Example: "<p data-dna=id@code></p>" --> "<p class=dna-attr data-dna=['id','code']></p>"
-      var list = $(this).data('dna').split(/[,@:]/);  //colon is alternative notation to at sign
-      $(this).addClass('dna-attr').data('dna', list);
+      // Example: "<a data-dna-attr-id=~~code~~ href=~~link~~></a>" -->
+      //    "<a class=dna-attr data-dna=['id',['','code',''],'href',['','link','']></a>"
+      var list = [];
+      $.each(this.attributes, function() {
+         if (this.value.split(dna.compile.regexDnaBasePair).length === 3)
+            list.push(this.name.replace(/^data-dna-attr-/, ''),
+               this.value.split(dna.compile.regexDnaBasePair));
+         });
+      if (list.length > 0)
+         $(this).addClass('dna-attr').data('dna', list);
       },
    classElem: function() {
       //Example: "<p data-dna-class=c1,c2></p>" --> "<p class=dna-class data-dna-class=['c1','c2']></p>"
@@ -91,7 +99,8 @@ dna.core = {
       dna.util.apply(clone, '.dna-attr', function() {
          list = $(this).data('dna');
          for (x = 0; x < list.length / 2; x++) {
-            $(this).attr(list[x*2], dna.util.value(data, list[x*2 + 1]));
+            var parts = list[x*2 + 1];  //ex: 'J~~code.num~~' --> ['J', 'code.num', '']
+            $(this).attr(list[x*2], parts[0] + dna.util.value(data, parts[1]) + parts[2]);
             if (list[x*2] === 'value')
                $(this).val($(this).attr('value'));
             }
