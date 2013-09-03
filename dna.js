@@ -11,10 +11,10 @@ dna.util = {
       return (data === null || data === undefined || fields === undefined) ? null :
          (fields.length === 1 ? data[fields[0]] : this.value(data[fields[0]], fields.slice(1)));
       },
-   findAll: function(elem, selector) {
+   findAll: function(elem, selector) {  //returns selected elements including nested elements
       return elem.find(selector).addBack(selector);
       },
-   apply: function(elem, selector, func) {
+   apply: function(elem, selector, func) {  //calls func for each element
       dna.util.findAll(elem, selector).each(func);
       }
    };
@@ -22,14 +22,14 @@ dna.util = {
 dna.compile = {
    regexDnaField: /^[\s]*(~~|\{\{).*(~~|\}\})[\s]*$/,  //example: ~~title~~
    regexDnaBasePair: /~~|{{|}}/,  //matches the '~~' string
-   regexDnaBasePairs: /~~|\{\{|\}\}/g,  //matches the two "~~" strings so they can be removed
+   regexDnaBasePairs: /~~|\{\{|\}\}/g,  //matches the two '~~' strings so they can be removed
    isDnaField: function() {
       var firstNode = $(this)[0].childNodes[0];
       return firstNode && firstNode.nodeValue &&
          firstNode.nodeValue.match(dna.compile.regexDnaField);
       },
    fieldElem: function() {
-      //Example: "<p>~~age~~</p>" --> "<p class=dna-field data-field-age></p>"
+      // Example: "<p>~~age~~</p>" --> "<p class=dna-field data-field-age></p>"
       $(this).addClass('dna-field').data('dna-field',
          $.trim($(this).text()).replace(dna.compile.regexDnaBasePairs, '')).empty();
       },
@@ -46,14 +46,14 @@ dna.compile = {
          $(this).addClass('dna-attr').data('dna', list);
       },
    classElem: function() {
-      //Example: "<p data-dna-class=c1,c2></p>" --> "<p class=dna-class data-dna-class=['c1','c2']></p>"
+      // Example: "<p data-dna-class=c1,c2></p>" --> "<p class=dna-class data-dna-class=['c1','c2']></p>"
       var list = $(this).data('dna-class').split(',');
       $(this).addClass('dna-class').data('dna-class', list);
       },
    template: function(template) {  //prepare template to be cloned
       var elems = template.elem.find('*').addBack();
       elems.filter(dna.compile.isDnaField).each(dna.compile.fieldElem);
-      elems.filter('[data-dna]').each(dna.compile.attrElem);
+      elems.each(dna.compile.attrElem);
       elems.filter('[data-dna-class]').each(dna.compile.classElem);
       elems.filter('[data-dna-require]').addClass('dna-require');
       elems.filter('[data-dna-missing]').addClass('dna-missing');
@@ -63,6 +63,7 @@ dna.compile = {
    };
 
 dna.store = {
+   // Handles storage and retrieval of templates
    templates: null,
    stash: function() {
       var elem = $(this);
@@ -173,12 +174,11 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       dna.core.inject(clone, data);
       },
    debug: function() {
-      if (console) {
-         console.log('~~ dns.js ~~');
-         console.log('count:', Object.keys(dna.store.templates).length);
-         console.log('names:', Object.keys(dna.store.templates));
-         console.log('templates:', dna.store.templates);
-         }
+      console.log('~~ dns.js ~~');
+      console.log('count:', Object.keys(dna.store.templates).length);
+      console.log('names:', Object.keys(dna.store.templates));
+      console.log('templates:', dna.store.templates);
+      return navigator.appVersion;
       }
    };
 
