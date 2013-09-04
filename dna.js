@@ -96,20 +96,22 @@ dna.core = {
       dna.util.apply(clone, '.dna-field', function() {
          $(this).html(dna.util.value(data, $(this).data('dna-field')));
          });
-      var list, x;
+      var list, attr, parts, value;
       dna.util.apply(clone, '.dna-attr', function() {
          list = $(this).data('dna');
          for (x = 0; x < list.length / 2; x++) {
-            var parts = list[x*2 + 1];  //ex: 'J~~code.num~~' --> ['J', 'code.num', '']
-            $(this).attr(list[x*2], parts[0] + dna.util.value(data, parts[1]) + parts[2]);
+            attr = list[x*2];
+            parts = list[x*2 + 1];  //ex: 'J~~code.num~~' --> ['J', 'code.num', '']
+            value = [parts[0], dna.util.value(data, parts[1]), parts[2]].join('');
+            $(this).attr(list[x*2], value);
             if (list[x*2] === 'value')
-               $(this).val($(this).attr('value'));
+               $(this).val(value);
             }
          });
       dna.util.apply(clone, '.dna-class', function() {
          list = $(this).data('dna-class');
-         for (x = 0; x < list.length; x++)
-            $(this).addClass(dna.util.value(data, list[x]));
+         for (var i = 0; i < list.length; i++)
+            $(this).addClass(dna.util.value(data, list[i]));
          });
       },
    thimblerig: function(clone, data) {  //apply logic to hide specific elements
