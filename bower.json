@@ -1,10 +1,13 @@
 {
-   "name":    "dna.js",
-   "version": "0.1.0",
-   "main":    ["dna.js", "dna.min.js"],
-   "ignore":  [
+   "name":     "dna.js",
+   "version":  "0.1.1",
+   "homepage": "http://dnajs.org",
+   "main":     ["dna.js", "dna.min.js"],
+   "ignore":   [
       ".gitignore",
+      "bower.json",
       "minify.sh.command",
-      "test-cases.html"
+      "test-cases.html",
+      "README.md"
       ]
 }
