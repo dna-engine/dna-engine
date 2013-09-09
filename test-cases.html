@@ -48,7 +48,7 @@ $('head').append($(location.search == '?min' ? dnaMin : dna ));
    <fieldset>
 		<legend>Actual</legend>
 		<div class=book-list>
-			<div class=dna-template data-dna-name=t01-book>
+			<div id=t01-book class=dna-template>
 				<div>Title:  <span>~~title~~</span></div>
 				<div>Author: <span>~~author~~</span></div>
 			</div>
@@ -116,7 +116,7 @@ $(function() {
    <fieldset>
 		<legend>Actual</legend>
 		<div class=book-list>
-			<div class=dna-template data-dna-name=t03-book>
+			<div id=t03-book class=dna-template>
 				<div>Title:  <span>~~title~~</span></div>
 				<div>Author: <span>~~author~~</span></div>
 			</div>
@@ -149,7 +149,7 @@ $(function() {
    <fieldset>
 		<legend>Actual</legend>
 		<div class=book-list>
-			<div class=dna-template data-dna-name=t04-book>
+			<div id=t04-book class=dna-template>
 				<div>Title:  <span>~~title~~</span></div>
 				<div>Author: <span>~~author~~</span></div>
 				<div>Cover: <img data-dna-attr-src=~~image~~ src="" alt="Cover"></div>
@@ -181,7 +181,7 @@ $(function() {
    <fieldset>
 		<legend>Actual</legend>
 		<div class=book-list>
-			<div class=dna-template data-dna-name=t05-book>
+			<div id=t05-book class=dna-template>
 				<div>Title:  <span>~~title~~</span></div>
 				<div>Author: <span>~~author~~</span></div>
 			</div>
@@ -218,7 +218,7 @@ $(function() {
    <fieldset>
 		<legend>Actual</legend>
 		<div class=book-list>
-			<div class=dna-template data-dna-name=t06-book data-dna-class=c>
+			<div id=t06-book class=dna-template data-dna-class=c>
 				<div id=~~info.isbn~~>
 					Title: <span lang=~~language~~ class=~~language~~>~~title~~</span>
 			  </div>
@@ -251,10 +251,10 @@ $(function() {
    <fieldset>
 		<legend>Actual</legend>
 		<div class=book-list>
-			<div class=dna-template data-dna-name=t07-book>
+			<div id=t07-book class=dna-template>
 				<div>Author: <span>~~author.name~~</span></div>
 				<div>
-					<div class=dna-template data-dna-name=t07-book-info>
+					<div id=t07-book class=dna-template-info>
 						<div>Title: <span>~~title~~</span></div>
 						<div>Year: <span>~~year~~</span></div>
 					</div>
@@ -268,7 +268,7 @@ $(function() {
 			<div class=dna-clone>
 				<div>Author: <span>~~author.name~~</span></div>
 				<div>
-					<div class=dna-template data-dna-name=t07-book-info>
+					<div id=t07-book class=dna-template-info>
 						<div>Title: <span>~~title~~</span></div>
 						<div>Year: <span>~~year~~</span></div>
 					</div>
@@ -298,7 +298,7 @@ $(function() {
    <fieldset>
 		<legend>Actual</legend>
 		<div class=book-list>
-			<div class=dna-template data-dna-name=t08-book>
+			<div id=t08-book class=dna-template>
 				<div>Title:  <span>~~title~~</span></div>
 				<div>Author: <span>~~author~~</span></div>
 			</div>
@@ -332,7 +332,7 @@ $(function() {
    <fieldset>
 		<legend>Actual</legend>
 		<div class=book-list>
-			<div class=dna-template data-dna-name=t09-book>
+			<div id=t09-book class=dna-template>
 				<div>Title:  <span>~~title~~</span></div>
 				<div>Author: <span>~~author~~</span></div>
 			</div>
@@ -367,7 +367,7 @@ $(function() {
    <fieldset>
 		<legend>Actual</legend>
 		<div class=book-list>
-			<div class=dna-template data-dna-name=t10-book>
+			<div id=t10-book class=dna-template>
 				<div>~~title~~</div>
 			</div>
 		</div>
@@ -400,7 +400,7 @@ $(function() {
    <fieldset>
 		<legend>Actual</legend>
 		<div class=book-list>
-			<div class=dna-template data-dna-name=t11-book>
+			<div id=t11-book class=dna-template>
 				<div>Title:
 					<span data-dna-require=title>~~title~~</span>
 					<span data-dna-missing=title><i>[Gone with the Wind]</i></span>
