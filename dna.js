@@ -69,7 +69,7 @@ dna.store = {
       var elem = $(this);
       if (!dna.store.templates)
          dna.store.templates = {};
-      var name = elem.data('dna-name');
+      var name = elem.attr('id');
       dna.store.templates[name] = {
          name:      name,
          elem:      elem,
@@ -77,7 +77,7 @@ dna.store = {
          compiled:  false,
          clones:    0
          };
-      elem.detach();
+      elem.removeAttr('id').detach();
       },
    getTemplate: function(name) {
       if (!dna.store.templates)
