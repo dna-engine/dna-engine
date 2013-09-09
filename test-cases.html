@@ -25,7 +25,7 @@
    .color-change2 { background-color: gold; }
    .border-change { border: 2px solid darkorange; }
 </style>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
 var dna =    '<script src=dna.js>';
 var dnaMin = '<script src=dna.min.js>';
@@ -66,8 +66,9 @@ $('head').append($(location.search == '?min' ? dnaMin : dna ));
 				<div>Author: <span>Ed</span></div>
 			</div>
 		</div>
+
    </fieldset>
-   <p class=result>Result: <b>2 items</b></p>
+   <p class=result>Result:<br>2 items</b></b></p>
 </div>
 <script>
 $(function() {
@@ -83,7 +84,7 @@ $(function() {
    <fieldset>
 		<legend>Actual</legend>
 		<div class=book-list>
-			<div class="dna-template" data-dna-name="t02-book">
+			<div id="t02-book" class="dna-template">
 				<div data-dna-class="c">Title: <span>{{title}}</span></div>
 				<div data-dna-class=c>Author: <span>{{author}}</span></div>
 			</div>
@@ -93,12 +94,12 @@ $(function() {
       <legend>Expected</legend>
 		<div class=book-list>
 			<div class=dna-clone>
-				<div data-dna-class="c">Title: <span>{{title}}</span></div>
-				<div data-dna-class=c>Author: <span>{{author}}</span></div>
+				<div class=color-change>Title: <span>The One</span></div>
+				<div class=color-change>Author: <span>Lee</span></div>
 			</div>
 		</div>
    </fieldset>
-   <p class=result>Result: <b>1 item with blue core</b></p>
+   <p class=result>Result:<br>1 item with blue core</b></b></p>
 </div>
 <script>
 $(function() {
@@ -126,12 +127,20 @@ $(function() {
       <legend>Expected</legend>
 		<div class=book-list>
 			<div class=dna-clone>
-				<div>Title:  <span>~~title~~</span></div>
-				<div>Author: <span>~~author~~</span></div>
+				<div>Title:  <span>3rd</span></div>
+				<div>Author: <span>Jan</span></div>
+			</div>
+			<div class=dna-clone>
+				<div>Title:  <span>2nd</span></div>
+				<div>Author: <span>Jan</span></div>
+			</div>
+			<div class="dna-clone color-change">
+				<div>Title:  <span>1st</span></div>
+				<div>Author: <span>Jan</span></div>
 			</div>
 		</div>
    </fieldset>
-   <p class=result>Result: <b>3 faded items with #3 on top</b></p>
+   <p class=result>Result:<br>3 faded items with #3 on top</b></b></p>
 </div>
 <script>
 $(function() {
@@ -160,13 +169,13 @@ $(function() {
       <legend>Expected</legend>
 		<div class=book-list>
 			<div class=dna-clone>
-				<div>Title:  <span>~~title~~</span></div>
-				<div>Author: <span>~~author~~</span></div>
-				<div>Cover: <img data-dna-attr-src=~~image~~ src="" alt="Cover"></div>
+				<div>Title:  <span>Logo</span></div>
+				<div>Author: <span>Lee</span></div>
+				<div>Cover: <img src="http://dnajs.org/graphics/dnajs-logo.png" alt="Cover"></div>
 			</div>
 		</div>
    </fieldset>
-   <p class=result>Result: <b>1 item with an image</b></p>
+   <p class=result>Result:<br>1 item with an image</b></b></p>
 </div>
 <script>
 $(function() {
@@ -191,13 +200,25 @@ $(function() {
       <legend>Expected</legend>
 		<div class=book-list>
 			<div class=dna-clone>
-				<div>Title:  <span>~~title~~</span></div>
-				<div>Author: <span>~~author~~</span></div>
+				<div>Title:  <span>1st</span></div>
+				<div>Author: <span>Lee</span></div>
+			</div>
+			<div class=dna-clone>
+				<div>Title:  <span>2st</span></div>
+				<div>Author: <span>Jan</span></div>
+			</div>
+			<div class="dna-clone color-change">
+				<div>Title:  <span>1st</span></div>
+				<div>Author: <span>Lee</span></div>
+			</div>
+			<div class="dna-clone color-change">
+				<div>Title:  <span>2st</span></div>
+				<div>Author: <span>Jan</span></div>
 			</div>
 		</div>
    </fieldset>
    </fieldset>
-   <p class=result>Result: <b>4 items (last 2 blue)</b></p>
+   <p class=result>Result:<br>4 items (last 2 blue)</b></b></p>
 </div>
 <script>
 $(function() {
@@ -229,13 +250,14 @@ $(function() {
       <legend>Expected</legend>
 		<div class=book-list>
 			<div class=dna-clone>
-				<div id=~~info.isbn~~>
-					Title: <span lang=~~language~~ class=~~language~~>~~title~~</span>
+				<div id=123 class=color-change>
+					Title: <span lang=fr class="fr color-change2">Les Attributs</span>
 			  </div>
 			</div>
 		</div>
    </fieldset>
-   <p class=result>Result: <b>1 item with "class=border-change" (orange), "id=123" (blue), and "lang=fr" (gold)</b></p>
+   <p class=result>Result:<br>1 item with "class=border-change" (orange),<br>
+      "id=123" (blue), and "lang=fr" (gold)</b></b></p>
 </div>
 <script>
 $(function() {
@@ -254,7 +276,7 @@ $(function() {
 			<div id=t07-book class=dna-template>
 				<div>Author: <span>~~author.name~~</span></div>
 				<div>
-					<div id=t07-book class=dna-template-info>
+					<div id=t07-book-info class=dna-template>
 						<div>Title: <span>~~title~~</span></div>
 						<div>Year: <span>~~year~~</span></div>
 					</div>
@@ -266,17 +288,31 @@ $(function() {
       <legend>Expected</legend>
 		<div class=book-list>
 			<div class=dna-clone>
-				<div>Author: <span>~~author.name~~</span></div>
+				<div>Author: <span>Ed</span></div>
 				<div>
-					<div id=t07-book class=dna-template-info>
-						<div>Title: <span>~~title~~</span></div>
-						<div>Year: <span>~~year~~</span></div>
+				</div>
+			</div>
+			<div class=dna-clone>
+				<div>Author: <span>Jan</span></div>
+				<div>
+					<div class="dna-clone color-change">
+						<div>Title: <span>1st</span></div>
+						<div>Year: <span>2012</span></div>
 					</div>
+					<div class="dna-clone color-change">
+						<div>Title: <span>2nd</span></div>
+						<div>Year: <span>2013</span></div>
+					</div>
+				</div>
+			</div>
+			<div class=dna-clone>
+				<div>Author: <span>Lee</span></div>
+				<div>
 				</div>
 			</div>
 		</div>
    </fieldset>
-   <p class=result>Result: <b>3 items with the middle having 2 sub-items in blue</b></p>
+   <p class=result>Result:<br>3 items with the middle having 2 sub-items in blue</b></b></p>
 </div>
 <script>
 $(function() {
@@ -308,12 +344,16 @@ $(function() {
       <legend>Expected</legend>
 		<div class=book-list>
 			<div class=dna-clone>
-				<div>Title:  <span>~~title~~</span></div>
-				<div>Author: <span>~~author~~</span></div>
+				<div>Title:  <span>The New DOM</span></div>
+				<div>Author: <span>Jan II</span></div>
+			</div>
+			<div class=dna-clone>
+				<div>Title:  <span>Howdy HTML5</span></div>
+				<div>Author: <span>Ed II</span></div>
 			</div>
 		</div>
    </fieldset>
-   <p class=result>Result: <b>item 1 with all new data and item 2 with new author</b></p>
+   <p class=result>Result:<br>item 1 with all new data and item 2 with new author</b></b></p>
 </div>
 <script>
 $(function() {
@@ -342,15 +382,19 @@ $(function() {
       <legend>Expected</legend>
 		<div class=book-list>
 			<div class=dna-clone>
-				<div>Title:  <span>~~title~~</span></div>
-				<div>Author: <span>~~author~~</span></div>
+				<div>Title:  <span>Go JavaScript</span></div>
+				<div>Author: <span>Jake</span></div>
+			</div>
+			<div class=dna-clone>
+				<div>Title:  <span>Styling CSS3</span></div>
+				<div>Author: <span>Abby</span></div>
 			</div>
 		</div>
    </fieldset>
-   <p class=result>Result: <b>2 items &rarr;</b>
+   <p class=result>Result:<br>2 items &rarr;</b>
       <a href="http://dnajs.org/rest/book/1" onclick="this.target='_target';">book 1</a> &amp;
       <a href="http://dnajs.org/rest/book/2" onclick="this.target='_target';">book 2</a>
-   </p>
+   </b></p>
 </div>
 <script>
 $(function() {
@@ -375,12 +419,13 @@ $(function() {
    <fieldset>
       <legend>Expected</legend>
 		<div class=book-list>
-			<div class=dna-clone>
-				<div>~~title~~</div>
+			<div class=dna-clone
+					style="height: 60px; color: white; background-image: url(http://dnajs.org/graphics/dnajs-logo.png); background-size: 80px;">
+				<div>Background</div>
 			</div>
 		</div>
    </fieldset>
-   <p class=result>Result: <b>1 item with a fade in background</b></p>
+   <p class=result>Result:<br>1 item with a fade in background</b></b></p>
 </div>
 <script>
 $(function() {
@@ -415,15 +460,19 @@ $(function() {
 		<div class=book-list>
 			<div class=dna-clone>
 				<div>Title:
-					<span data-dna-require=title>~~title~~</span>
 					<span data-dna-missing=title><i>[Gone with the Wind]</i></span>
 				</div>
-				<div data-dna-require=author>Author: <span>~~author~~</span></div>
+				<div data-dna-require=author>Author: <span>Jan</span></div>
+			</div>
+			<div class=dna-clone>
+				<div>Title:
+					<span data-dna-require=title>Howdy HTML5</span>
+				</div>
 				<div data-dna-missing=author><i>[no author]</i></div>
 			</div>
 		</div>
    </fieldset>
-   <p class=result>Result: <b>Item 1 missing title and item 2 missing author</b></p>
+   <p class=result>Result:<br>Item 1 missing title and item 2 missing author</b></b></p>
 </div>
 <script>
 $(function() {
