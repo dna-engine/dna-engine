@@ -15,7 +15,7 @@ echo "============="
 cd `dirname "$0"`
 pwd
 v=$(curl --silent https://raw.github.com/dnajs/dna.js/master/dna.js | head -1 | awk '{print $6;}')
-echo "//dna.js ~~ $v ~~ dnajs.org/license.html" > dna.min.js
+echo "//dna.js $v ~~ dnajs.org/license.html" > dna.min.js
 echo $minifier
 curl --data compilation_level=SIMPLE_OPTIMIZATIONS --data output_format=text \
    --data output_info=compiled_code --data-urlencode "js_code@dna.js" \
