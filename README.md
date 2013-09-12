@@ -11,7 +11,7 @@ Designate DNA templates with the `dna-template` class, and put the templates dir
 ##### HTML for book template
     <div>
        <h2>Featured Books</h2>
-       <div id=book class=dna_template>
+       <div id=book class=dna-template>
           <div>Title:  <span>~~title~~</span></div>
           <div>Author: <span>~~author~~</span></div>
        </div>
@@ -27,7 +27,7 @@ The new element is a DNA clone, and it is appended to the template's parent elem
 #### Resulting HTML with DNA clone
     <div>
        <h2>Featured Books</h2>
-       <div id=book class=dna_clone>
+       <div id=book class=dna-clone>
           <div>Title:  <span>The DOM</span></div>
           <div>Author: <span>Jan</span></div>
        </div>
