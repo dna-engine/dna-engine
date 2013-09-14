@@ -129,7 +129,10 @@ dna.core = {
       dna.core.thimblerig(clone, data);
       var container = settings.holder ? dna.util.findAll(settings.holder,
          '.dna-contains-' + template.name) : template.container;
-      settings.top ? container.prepend(clone) : container.append(clone);
+      if (settings.top)
+         container.prepend(clone);
+      else
+         container.append(clone);
       if (settings.task)
          settings.task(clone, data);
       if (settings.fade)
@@ -138,7 +141,7 @@ dna.core = {
       },
    unload: function(name, data, options) {  //use rest data to make clone
       if (!data.error)
-         dna.api.clone(name, data, options)
+         dna.api.clone(name, data, options);
       },
    berserk: function(msg) {  //oops, file a tps report
       throw 'dna.js error -> ' + msg;
@@ -160,7 +163,7 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       return clones;
       },
    load: function(name, url, options) {
-      $.getJSON(url, function(data) { dna.core.unload(name, data, options) });
+      $.getJSON(url, function(data) { dna.core.unload(name, data, options); });
       },
    empty: function(name, options) {
       var settings = { fade: false };
@@ -169,7 +172,7 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       if (settings.fade)
          clones.fadeOut('normal', function() { $(this).remove(); });
       else
-      	clones.remove();
+         clones.remove();
       return clones;
       },
    mutate: function(clone, data) {
