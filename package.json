@@ -1,0 +1,17 @@
+{
+   "name":       "dna.js",
+   "version":    "0.1.2",
+   "repository": {
+      "type": "git",
+      "url":  "https://github.com/dnajs/dna.js.git"
+      },
+   "devDependencies": {
+      "grunt":                "~0.4.1",
+      "grunt-contrib-jshint": "~0.6.4",
+      "grunt-contrib-uglify": "~0.2.4"
+      },
+   "licenses": [{
+      "type": "MIT/GPLv3",
+      "url":  "http://dnajs.org/license.html"
+      }]
+}
