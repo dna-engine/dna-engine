@@ -64,25 +64,27 @@ dna.compile = {
 
 dna.store = {
    // Handles storage and retrieval of templates
-   templates: null,
-   stash: function() {
-      var elem = $(this);
-      if (!dna.store.templates)
-         dna.store.templates = {};
-      var name = elem.attr('id');
-      dna.store.templates[name] = {
-         name:      name,
-         elem:      elem,
-         container: elem.parent().addClass('dna-contains-' + name),
-         compiled:  false,
-         clones:    0
-         };
-      elem.removeAttr('id').detach();
+   templates: {},
+   stash: function(name, isNested) {
+      var elem = $('#' + name);
+      if (!isNested)
+         elem.find('.dna-template').each(dna.store.stashNested);
+      if (elem.hasClass('dna-template'))
+			dna.store.templates[name] = {
+				name:      name,
+				elem:      elem,
+				container: elem.parent().addClass('dna-contains-' + name),
+				compiled:  false,
+				clones:    0
+				};
+		elem.removeAttr('id').detach();
+      return dna.store.templates[name];
+      },
+   stashNested: function() {
+      dna.store.stash($(this).attr('id'), true);
       },
    getTemplate: function(name) {
-      if (!dna.store.templates)
-         $('.dna-template').each(dna.store.stash);
-      var template = dna.store.templates[name];
+      var template = dna.store.templates[name] || dna.store.stash(name);
       if (!template)
          dna.core.berserk('Template not found: ' + name);
       if (!template.compiled)
