@@ -118,10 +118,10 @@ dna.core = {
       },
    thimblerig: function(clone, data) {  //apply logic to hide specific elements
       dna.util.apply(clone, '.dna-require', function() {
-         $(this).toggle(dna.util.value(data, $(this).data('dna-require')) !== null);
+         $(this).toggle(dna.util.value(data, $(this).data('dna-require')) !== undefined);
          });
       dna.util.apply(clone, '.dna-missing', function() {
-         $(this).toggle(dna.util.value(data, $(this).data('dna-missing')) === null);
+         $(this).toggle(dna.util.value(data, $(this).data('dna-missing')) === undefined);
          });
       },
    replicate: function(template, data, settings) {  //make and setup the clone
