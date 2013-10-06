@@ -46,15 +46,15 @@ dna.compile = {
          $(this).addClass('dna-attr').data('dna', list);
       },
    classElem: function() {
-      // Example: "<p data-dna-class=c1,c2></p>" --> "<p class=dna-class data-dna-class=['c1','c2']></p>"
-      var list = $(this).data('dna-class').split(',');
+      // Example: "<p data-dna-add-class=c1,c2></p>" --> "<p class=dna-class data-dna-class=['c1','c2']></p>"
+      var list = $(this).data('dna-add-class').split(',');
       $(this).addClass('dna-class').data('dna-class', list);
       },
    template: function(template) {  //prepare template to be cloned
       var elems = template.elem.find('*').addBack();
       elems.filter(dna.compile.isDnaField).each(dna.compile.fieldElem);
       elems.each(dna.compile.attrElem);
-      elems.filter('[data-dna-class]').each(dna.compile.classElem);
+      elems.filter('[data-dna-add-class]').each(dna.compile.classElem);
       elems.filter('[data-dna-require]').addClass('dna-require');
       elems.filter('[data-dna-missing]').addClass('dna-missing');
       template.compiled = true;
