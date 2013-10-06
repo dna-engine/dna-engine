@@ -482,6 +482,37 @@ $(function() {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class=test-case>
+   <h3>Test Case: #12</h3>
+   <p>Loop</p>
+   <fieldset>
+		<legend>Actual</legend>
+		<div class=book-list>
+			<div id=t12-book class=dna-template>
+				<div>Author: <span>~~author~~</span></div>
+				<div data-dna-loop=titles>Title:  <span>~~it~~</span></div>
+			</div>
+		</div>
+   </fieldset>
+   <fieldset>
+      <legend>Expected</legend>
+		<div class=book-list>
+			<div class=dna-clone>
+				<div>Author: <span>Ed</span></div>
+				<div>Title:  <span>Howdy HTML5</span></div>
+				<div>Title:  <span>Howdy HTML5 II</span></div>
+			</div>
+		</div>
+   </fieldset>
+   <p class=result>Result:<br>2 titles</b></b></p>
+</div>
+<script>
+$(function() {
+   dna.clone('t12-book', { author: 'Ed', titles: ['Howdy HTML5', 'Howdy HTML5 II'] });
+   });
+</script>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <script>
 $(function() {
    var mode = $('head script[src^=dna]').attr('src');
