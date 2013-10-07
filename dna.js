@@ -70,14 +70,14 @@ dna.store = {
       if (!isNested)
          elem.find('.dna-template').each(dna.store.stashNested);
       if (elem.hasClass('dna-template'))
-			dna.store.templates[name] = {
-				name:      name,
-				elem:      elem,
-				container: elem.parent().addClass('dna-contains-' + name),
-				compiled:  false,
-				clones:    0
-				};
-		elem.removeAttr('id').detach();
+         dna.store.templates[name] = {
+            name:      name,
+            elem:      elem,
+            container: elem.parent().addClass('dna-contains-' + name),
+            compiled:  false,
+            clones:    0
+            };
+      elem.removeAttr('id').detach();
       return dna.store.templates[name];
       },
    stashNested: function() {
