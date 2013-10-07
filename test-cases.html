@@ -85,8 +85,8 @@ $(function() {
 		<legend>Actual</legend>
 		<div class=book-list>
 			<div id="t02-book" class="dna-template">
-				<div data-dna-class="c">Title: <span>{{title}}</span></div>
-				<div data-dna-class=c>Author: <span>{{author}}</span></div>
+				<div data-dna-add-class="c">Title: <span>{{title}}</span></div>
+				<div data-dna-add-class=c>Author: <span>{{author}}</span></div>
 			</div>
 		</div>
    </fieldset>
@@ -169,8 +169,8 @@ $(function() {
       <legend>Expected</legend>
 		<div class=book-list>
 			<div class=dna-clone>
-				<div>Title:  <span>Logo</span></div>
-				<div>Author: <span>Lee</span></div>
+				<div>Title:  <span>Lo<b>go</b></span></div>
+				<div>Author: <span>Lee&lt;&bull;&gt;</span></div>
 				<div>Cover: <img src="http://dnajs.org/graphics/dnajs-logo.png" alt="Cover"></div>
 			</div>
 		</div>
@@ -179,7 +179,7 @@ $(function() {
 </div>
 <script>
 $(function() {
-   dna.clone('t04-book', { title: 'Logo', author: 'Lee', image: 'http://dnajs.org/graphics/dnajs-logo.png' });
+   dna.clone('t04-book', { title: 'Lo<b>go</b>', author: 'Lee&lt;&bull;&gt;', image: 'http://dnajs.org/graphics/dnajs-logo.png' });
    });
 </script>
 
@@ -239,7 +239,7 @@ $(function() {
    <fieldset>
 		<legend>Actual</legend>
 		<div class=book-list>
-			<div id=t06-book class=dna-template data-dna-class=c>
+			<div id=t06-book class=dna-template data-dna-add-class=c>
 				<div id=~~info.isbn~~>
 					Title: <span lang=~~language~~ class=~~language~~>~~title~~</span>
 			  </div>
