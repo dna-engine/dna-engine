@@ -1,0 +1,470 @@
+<!--#set var="title" value="Manual" -->
+<!--#include file="~begin.fhtml" -->
+
+<p>
+   See the <a href=".#example">Bookstore Example</a> for an overview of using dna.js
+   Template Cloner.&nbsp;  For richer examples, view the HTML source of the
+   <a href="test-cases.html">Test Cases</a>.
+</p>
+<div class=push-left>
+<div class=toc>
+   <header>Contents:</header>
+   <ol>
+      <li><a href="#terms">Terms</a></li>
+      <li><a href="#requirements">Requirements and Support</a></li>
+      <li><a href="#setup">Setup</a></li>
+      <li><a href="#html">HTML</a></li>
+      <li><a href="#api">JavaScript API</a></li>
+      <li><a href="#complex">Complex Data</a></li>
+   </ol>
+</div>
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<h3 id=terms>Terms</h3>
+<dl>
+   <dt>DNA Template:</dt>
+   <dd>
+      An HTML element whose clones will be injected with data from JavaScript
+      objects.&nbsp;  The element has the <code>dna-template</code> class.
+   </dd>
+</dl>
+<dl>
+   <dt>DNA Field:</dt>
+   <dd>
+      DNA fields identify where in the template data is to be injected
+      during the cloning process (example: <code>~~author~~</code>).
+   </dd>
+</dl>
+<dl>
+   <dt>DNA Strand:</dt>
+   <dd>
+      A pair of double tildes (<code>~~</code>) used to surround a field name (a.k.a.
+      DNA base pair).&nbsp;
+      Mustache notation with curly braces (<code>{{</code> and <code>}}</code>)
+      is also supported.
+   </dd>
+</dl>
+<dl>
+   <dt>DNA Clone:</dt>
+   <dd>
+      A DOM element that is made by copying a DNA Template.  The element has
+      the <code>dna-clone</code> class.
+   </dd>
+</dl>
+<dl>
+   <dt>Junk DNA:</dt>
+   <dd>Not permitted in this project.</dd>
+</dl>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<h3 id=requirements>Requirements and Support</h3>
+<dl>
+   <dt>Web Browsers:</dt>
+   <dd>
+      dna.js supports Chrome, Internet Exploder, Firefox, Opera, and Safari.
+   </dd>
+</dl>
+<dl>
+   <dt>Versions:</dt>
+   <dd>
+      dna.js requires jQuery 1.8 or above, and it has the same system requirements
+      and <a href="http://jquery.com/browser-support/" class=external-site>browser
+      support</a> as the version of jQuery you use.
+   </dd>
+</dl>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<h3 id=setup>Setup</h3>
+<div class=toc>
+   <header>Contents:</header>
+   <ol>
+      <li><a href="#setup-css">CSS</a></li>
+      <li><a href="#setup-js">JavaScript Libraries</a></li>
+   </ol>
+</div>
+
+<section id=setup-css>
+   <h4>CSS</h4>
+   <p>
+      Add the following line to your site's CSS so the DNA templates are not
+      displayed in the browser.
+   </p>
+   <div class=code-caption>CSS to hide templates</div>
+   <pre><code class=language-css>.dna-template { display: none; }</code></pre>
+   <p>
+      Note that the first call to <code>dna.clone()</code> detaches the template
+      from the DOM, so the above line of CSS is technically not required if you
+      always call <code>dna.clone()</code> before the web page is displayed.
+   </p>
+</section>
+
+<section id=setup-js>
+   <h4>JavaScript Libraries</h4>
+   <p>
+      Download the
+      <code><a href="https://raw.github.com/dnajs/dna.js/current/dna.min.js" class=external-site>dna.min.js</a></code>
+      file (or the
+      <code><a href="https://raw.github.com/dnajs/dna.js/current/dna.js" class=external-site>dna.js</a></code>
+      uncompressed version) and include it in your site.&nbsp;
+      <!--#echo var="name" --> requires jQuery but can be loaded before or after
+      jQuery.
+   </p>
+   <p>
+      Example of loading jQuery, dna.js, and your JavaScript web application:
+   </p>
+   <div class=code-caption>Load libraries</div>
+   <pre><code class=language-markup>...
+&lt;script src=&quot;js/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/dna.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/your-app.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<h3 id=html>HTML &mdash; Classes and Attributes</h3>
+<div class=toc>
+   <header>Contents:</header>
+   <ol>
+      <li><a href="#html-template">DNA Template</a></li>
+      <li><a href="#html-field">DNA Field</a></li>
+      <li><a href="#html-attr">DNA Attribute</a></li>
+      <li><a href="#html-class">DNA Class</a></li>
+      <li><a href="#html-example">Ensemble</a></li>
+   </ol>
+</div>
+
+<section id=html-template>
+   <h4>DNA Template</h4>
+   <p>
+      The <code>dna-template</code> class signifies a template.&nbsp;  The <code>id</code>
+      attribute of the element is the template name.
+   </p>
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;</code></pre>
+</section>
+
+<section id=html-field>
+   <h4>DNA Field</h4>
+   <p>
+      Enclose data field names in double tildes.&nbsp;  Each field takes up the entire
+      text part of the HTML node.
+   </p>
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;span&gt;~~title~~&lt;/span&gt;</code></pre>
+</section>
+
+<section id=html-attr>
+   <h4>DNA Attribute</h4>
+   <p>
+      Attributes are set using the same notation as fields.
+   </p>
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;div id=__code__&gt;</code></pre>
+   <p>
+      Attributes can also be set by prefixing <code>data-dna-attr-</code> to the attribute
+      name.
+   </p>
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;img data-dna-attr-src=__url__ alt="Profile avatar"&gt;</code></pre>
+   <p>
+      The prefixing technique enables setting the <code>src</code> attribute for an
+      <code>img</code> node without causing the browser to fetch the image until the
+      <code>src</code> attribute is actually set.&nbsp;  This technique can also be used to set the
+      <code>id</code> when the regular technique would result in duplicate IDs.
+   </p>
+</section>
+
+<section id=html-class>
+   <h4>DNA Class</h4>
+   <p>
+      A class can be set just like other attributes.
+   </p>
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;div class=__type__&gt;</code></pre>
+   <p>
+      However, the regular attribute technique above wipes out existing classes on the
+      element, so it is generally better to the use the
+      <code>data-dna-add-class</code> technique.
+   </p>
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;div data-dna-add-class=__type__&gt;</code></pre>
+</section>
+
+<section id=html-example>
+   <h4>Ensemble</h4>
+   <p>
+      Below is an example of a completed template.
+   </p>
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;
+   &lt;div id=__code__&gt;
+      Title: &lt;span&gt;~~title~~&lt;/span&gt;
+   &lt;/div&gt;
+   &lt;div data-dna-add-class=__type__&gt;
+      Author: &lt;span&gt;~~author~~&lt;/span&gt;
+   &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+</section>
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<h3 id=api>JavaScript API &mdash; Calling DNA</h3>
+<div class=toc>
+   <header>Methods:</header>
+   <ol>
+      <li><a href="#api-clone">dna.clone()</a></li>
+      <li><a href="#api-load">dna.load()</a></li>
+      <li><a href="#api-empty">dna.empty()</a></li>
+      <li><a href="#api-mutate">dna.mutate()</a></li>
+      <li><a href="#api-debug">dna.debug()</a></li>
+   </ol>
+</div>
+
+<!--  dna.clone()  -->
+<section id=api-clone>
+   <h4>dna.clone(name[, data ][, options])</h4>
+   <div class=api-description>
+      Generates a copy of the template and populates the fields, attributes, and
+      classes from the supplied data.
+   </div>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>name</b> (String):</label>
+            Name of the template to clone.
+         </li>
+         <li>
+            <label><b>data</b> (Object or Array) <i>[optional]</i>:</label>
+            Object with data fields to be used in generating the clone.&nbsp;
+            If <code>data</code> is an array, it must be an array of data
+            objects where the length of the array is the number of clones to be
+            generated.
+         </li>
+         <li>
+            <!--#include file="~parameters.fhtml" -->
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>dna.clone('book', { title: 'The DOM', author: 'Bo' });</code></pre>
+   <div class=api-details>
+   </div>
+</section>
+
+<!--  dna.load()  -->
+<section id=api-load>
+   <h4>dna.load(name, url [, options])</h4>
+   <div class=api-description>
+      Makes a GET request to the url and then generates a copy of the template
+      and populates the fields, attributes, and classes from the JSON response.
+   </div>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>name</b> (String):</label>
+            Name of the template to clone.
+         </li>
+         <li>
+            <label><b>url</b> (String):</label>
+            URL of a REST call that returns data as JSON text
+            (<code>Content-Type: application/json</code>).&nbsp;  See the
+            <code>data</code> field for the <code>dna.clone()</code> method.
+         </li>
+         <li>
+            <!--#include file="~parameters.fhtml" -->
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>dna.load('book', 'http://dnajs.org/rest/book/3');</code></pre>
+   <div class=api-details>
+      <p>
+         The <code>dna.load()</code> method will not create a clone if the REST
+         call returns an <code>error</code> field equal to <code>true</code>.
+      </p>
+      <p>
+         For <a href="http://dnajs.org/rest/book/7" class=external-site>example</a>:<br>
+         <code class=indent>{ "error": true, "msg": "Resource not found" }</code>
+      </p>
+   </div>
+</section>
+
+<!--  dna.empty()  -->
+<section id=api-empty>
+   <h4>dna.empty(name[, options])</h4>
+   <div class=api-description>
+      Deletes all clones generated from the template.
+   </div>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>name</b> (String):</label>
+            Name of the template to clone.
+         </li>
+         <li>
+            <label><b>options</b> (Object) <i>[optional]</i>:</label>
+            <ul>
+               <li>
+                  <label><b>fade</b> (Boolean) &mdash;</label>
+                  Use the jQuery <code>.fadeOut()</code> effect (default: <b>false</b>).
+               </li>
+            </ul>
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>dna.empty('book', { fade: true });</code></pre>
+   <div class=api-details>
+      <p>
+         The <code>dna.empty()</code> method does not delete sub-clones
+         generated from nested templates.
+      </p>
+   </div>
+</section>
+
+<!--  dna.mutate()  -->
+<section id=api-mutate>
+   <h4>dna.mutate(clone, data)</h4>
+   <div class=api-description>
+      Updates an existing clone with new data.
+   </div>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>clone</b> (jQuery Element):</label>
+            A element returned from a call to the <code>dna.clone()</code> method.
+         </li>
+         <li>
+            <label><b>data</b> (Object):</label>
+            Object with fields to be used in updating the clone.&nbsp;
+            Only fields contained in the <code>data</code> paramater are
+            modified.
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>var book = { title: 'The DOM', author: 'Bo' };
+var clone = dna.clone('book', book);
+dna.mutate(clone, { title: 'The DOM 2' });</code></pre>
+   <div class=api-details>
+   </div>
+</section>
+
+<!--  dna.debug()  -->
+<section id=api-debug>
+   <h4>dna.debug()</h4>
+   <div class=api-description>
+      Logs information to the browser console.
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>dna.debug();</code></pre>
+   <div class=api-details>
+      <p>
+         The <code>dna.debug()</code> method is intended to be called manually
+         from the console to see which templates have been detected and
+         compiled.
+      </p>
+   </div>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<h3 id=complex>Complex Data</h3>
+<div class=toc>
+   <header>Contents:</header>
+   <ol>
+      <li><a href="#data-array">Data Arrays</a></li>
+      <li><a href="#data-sub-object">Object Data Fields</a></li>
+      <li><a href="#data-sub-template">Nested Templates</a></li>
+      <li><a href="#data-thimblerig">Thimblerig (conditional hide and seek logic)</a></li>
+      <li><a href="#data-task">Task Functions</a></li>
+   </ol>
+</div>
+
+<section id=data-array>
+   <h4>Data Arrays</h4>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>var books = [
+   { title: 'The DOM', author: 'Bo' },
+   { title: 'The Interwebs', author: 'Eve' }
+   ];
+dna.clone('book', books);</code></pre>
+</section>
+
+<section id=data-sub-object>
+   <h4>Object Data Fields</h4>
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;div id=book class=dna_clone&gt;
+   First Name: &lt;span&gt;~~author.first~~&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>var book = {
+   title: 'The DOM',
+   author: { first: 'Bo', last: 'Smith' }
+   };
+dna.clone('book', book);</code></pre>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <div class=code-caption>Resulting HTML</div>
+   <pre><code class=language-markup>&lt;div class=dna_clone&gt;
+   First Name: &lt;span&gt;Bo&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+   <!-- End: Result  -->
+</section>
+
+<section id=data-sub-templates>
+   <h4>Nested Templates</h4>
+   View source for <a href="test-cases.html">test cases #07</a>.
+</section>
+
+<section id=data-thimblerig>
+   <h4>Thimblerig (conditional hide and seek logic)</h4>
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;
+   &lt;span data-dna-require=title&gt;~~title~~&lt;/span&gt;
+   &lt;span data-dna-missing=title&gt;[not found]&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>dna.clone('book', { author: 'Bo', title: 'The DOM' });
+dna.clone('book', { author: 'Jan' });</code></pre>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <div class=code-caption>Resulting HTML</div>
+   <pre><code class=language-markup>&lt;div class=dna_clone&gt;
+   &lt;span&gt;The DOM&lt;/span&gt;
+&lt;/div&gt;
+&lt;div id=book class=dna_clone&gt;
+   &lt;span&gt;[not found]&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+   <!-- End: Result  -->
+</section>
+
+<section id=data-task>
+   <h4>Task Functions</h4>
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;div id=logo class=dna_template&gt;
+   ~~title~~
+&lt;/div&gt;</code></pre>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>var applyBackgnd = function(elem, data) {
+   elem.css('background-image', data.cover);
+   };
+var options = { fade: true, task: applyBackgnd };
+var book = { title: 'Task', cover: 'url(cover.png)' };
+dna.clone('logo', book, options);</code></pre>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <div class=code-caption>Resulting HTML</div>
+   <pre><code class=language-markup>&lt;div class=dna_clone
+   style="background-image: url(cover.png);"&gt;
+   Task
+&lt;/div&gt;</code></pre>
+   <!-- End: Result  -->
+</section>
+
+<!--#include file="~end.fhtml" -->

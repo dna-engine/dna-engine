@@ -1,0 +1,16 @@
+<div>
+   <header>September 4, 2013</header>
+   <p><b>Beta announcement for dna.js:</b> The first beta release of <i>dna.js
+   Template Cloner</i> is available for download.&nbsp;  dna.js is the world's
+   easiest to use DOM templating engine for jQuery.&nbsp;  It helps web
+   developers keep their HTML and JavaScript cleanly separated.</p>
+</div>
+
+<!-- - - - - - - - - - - - - - - -->
+<!--
+<div class=reveal-action data-reveal=more-news>more...</div>
+-->
+<div class=reveal-target data-reveal=more-news>
+<!-- - - - - - - - - - - - - - - -->
+
+</div>

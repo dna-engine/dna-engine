@@ -1,0 +1,8 @@
+<!--#set var="title" value="Thank You" -->
+<!--#include file="~begin.fhtml" -->
+
+<p><b>Your message has been sent.</b></p>
+<p>Thanks.</p>
+<p><button class=jump-click data-url=".">&laquo; Back to Home Page</button></p>
+
+<!--#include file="~end.fhtml" -->

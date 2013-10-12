@@ -1,0 +1,34 @@
+<!doctype html>
+<!-- - - - - - - - - - - - - - - - - - -->
+<!--  Bookstore                        -->
+<!--  www.dnajs.org/hello-world.html   -->
+<!-- - - - - - - - - - - - - - - - - - -->
+<html>
+<head>
+<meta charset=utf-8>
+<title>Bookstore</title>
+<style>
+   body          { font-family: sans-serif; margin: 30px; }
+   .book-list    { width: 250px; }
+   .dna-template { display: none; }
+   .dna-clone    { background-color: pink; padding: 10px; margin-bottom: 15px; }
+</style>
+</head>
+<body>
+
+<h1>Bookstore</h1>
+<div class=book-list>
+   <div id=book class=dna-template>
+      <div>Title:  <span>~~title~~</span></div>
+      <div>Author: <span>~~author~~</span></div>
+   </div>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="dna.min.js"></script>
+<script>
+   dna.clone('book', { title: 'The DOM',     author: 'Jan' });
+   dna.clone('book', { title: 'Howdy HTML5', author: 'Ed' });
+</script>
+</body>
+</html>

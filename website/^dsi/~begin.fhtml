@@ -1,0 +1,50 @@
+<!doctype html>
+<!--
+
+\ ,-"-.   ,-"-. ,-"-.   ,-"-. ,-"-.   ,
+ X | | \ / | | X | | \ / | | X | | \ /
+/ \| | |X| | |/ \| | |X| | |/ \| | |X|
+   `-!-' `-!-"   `-!-' `-!-'   `-!-' `-
+
+-->
+<!-- - - - - - - - - - - - - - -->
+<!--  dna.js Template Cloner   -->
+<!--  http://dnajs.org         -->
+<!-- - - - - - - - - - - - - - -->
+<!--#set var="name"      value="dna.js Template Cloner"                    -->
+<!--#set var="copyright" value="Copyright (c) 2013"                        -->
+<!--#set var="authors"   value="Center Key Software and other contributors"-->
+<!--#set var="release"   value="version 0.1.3 (beta)"                      -->
+<!--#set var="size"      value="4 kb"                                      -->
+<html>
+<head>
+<meta charset=utf-8>
+<title><!--#echo var="name" --> &bull; <!--#echo var="title" --></title>
+<!--#if file="$DOCUMENT_NAME=file-not-found.bhtml" -->
+<base href="http://dnajs.org/">
+<!--#endif -->
+<link rel=icon       href="graphics/bookmark.png">
+<link rel=stylesheet href="http://www.centerkey.com/css/reset.css">
+<link rel=stylesheet href="style.css">
+<link rel=stylesheet href="http://www.centerkey.com/files/prism/prism.css">
+</head>
+<body>
+
+<div class=main-content>
+<div class=align-centered>
+   <ul class=navigation-bar>
+      <li><a href=".">Home</a></li>
+      <li><a href="hello-world.html">Example</a></li>
+      <li><a href="manual.html">Manual</a></li>
+      <li><a href="forum.html">Forum</a></li>
+      <li><a href="license.html">License</a></li>
+   </ul>
+</div>
+
+<h1 class=distinct><!--#echo var="name" --></h1>
+<h2><!--#echo var="title" --></h2>
+<div id=logo>
+   <a href="http://dnajs.org">
+      <img src="graphics/dnajs-logo.png" alt="Logo">
+   </a>
+</div>
