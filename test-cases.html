@@ -321,7 +321,7 @@ $(function() {
       { title: '2nd', year: 2013 }
       ];
    dna.clone('t07-book', { author: { name: 'Ed' } });
-   var elem = dna.clone('t07-book', { author: 'Jan' });
+   var elem = dna.clone('t07-book', { author: { name: 'Jan' } });
    dna.clone('t07-book-info', books, { holder: elem }).addClass('color-change');;
    dna.clone('t07-book', { author: { name: 'Lee' } });
    });
