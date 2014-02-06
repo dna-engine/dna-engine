@@ -72,8 +72,10 @@ $('head').append($(location.search == '?min' ? dnaMin : dna ));
 </div>
 <script>
 $(function() {
-   dna.clone('t01-book', { title: 'The DOM',     author: 'Jan' });
-   dna.clone('t01-book', { title: 'Howdy HTML5', author: 'Ed' });
+   var book1 = { title: 'The DOM',     author: 'Jan' };
+   var book2 = { title: 'Howdy HTML5', author: 'Ed' };
+   dna.clone('t01-book', book1);
+   dna.clone('t01-book', book2);
    });
 </script>
 
@@ -103,10 +105,12 @@ $(function() {
 </div>
 <script>
 $(function() {
-   dna.clone('t02-book', { title: 'The DOM',     author: 'Jan' });
-   dna.clone('t02-book', { title: 'Howdy HTML5', author: 'Ed' });
+   var book1 = { title: 'The DOM',     author: 'Jan' };
+   var book2 = { title: 'Howdy HTML5', author: 'Ed' };
+   var book3 = { title: 'The One',     author: 'Lee', c: 'color-change' };
+   dna.clone('t02-book', [book1, book2]);
    dna.empty('t02-book');
-   dna.clone('t02-book', { title: 'The One', author: 'Lee', c: 'color-change' });
+   dna.clone('t02-book', book3);
    });
 </script>
 
@@ -144,10 +148,13 @@ $(function() {
 </div>
 <script>
 $(function() {
+   var book1 = { title: '1st', author: 'Jan' };
+   var book2 = { title: '2nd', author: 'Jan' };
+   var book3 = { title: '3rd', author: 'Jan' };
    var options = { fade: true, top: true };
-   dna.clone('t03-book', { title: '1st', author: 'Jan' }, options).addClass('color-change');
-   dna.clone('t03-book', { title: '2nd', author: 'Jan' }, options);
-   dna.clone('t03-book', { title: '3rd', author: 'Jan' }, options);
+   dna.clone('t03-book', book1, options).addClass('color-change');
+   dna.clone('t03-book', book2, options);
+   dna.clone('t03-book', book3, options);
    });
 </script>
 
@@ -179,7 +186,8 @@ $(function() {
 </div>
 <script>
 $(function() {
-   dna.clone('t04-book', { title: 'Lo<b>go</b>', author: 'Lee&lt;&bull;&gt;', image: 'http://dnajs.org/graphics/dnajs-logo.png' });
+   var book = { title: 'Lo<b>go</b>', author: 'Lee&lt;&bull;&gt;', image: 'http://dnajs.org/graphics/dnajs-logo.png' };
+   dna.clone('t04-book', book);
    });
 </script>
 
@@ -222,13 +230,11 @@ $(function() {
 </div>
 <script>
 $(function() {
-   var books = [
-      { title: '1st', author: 'Lee' },
-      { title: '2nd', author: 'Jan' }
-      ];
-   dna.clone('t05-book', books).addClass('color-change');
-   dna.clone('t05-book', books, { empty: true });
-   dna.clone('t05-book', books).addClass('color-change');
+   var book1 = { title: '1st', author: 'Lee' };
+   var book2 = { title: '2nd', author: 'Jan' };
+   dna.clone('t05-book', [book1, book2]).addClass('color-change');
+   dna.clone('t05-book', [book1, book2], { empty: true });
+   dna.clone('t05-book', [book1, book2]).addClass('color-change');
    });
 </script>
 
@@ -261,7 +267,8 @@ $(function() {
 </div>
 <script>
 $(function() {
-   dna.clone('t06-book', { title: 'Les Attributs', info: { isbn: 123 }, language: 'fr', c: 'border-change' });
+   var bouquin = { title: 'Les Attributs', info: { isbn: 123 }, language: 'fr', c: 'border-change' };
+   dna.clone('t06-book', bouquin);
    $('#123').addClass('color-change').find('[lang=fr]').addClass('color-change2');
    });
 </script>
@@ -276,9 +283,8 @@ $(function() {
 			<div id=t07-book class=dna-template>
 				<div>Author: <span>~~author.name~~</span></div>
 				<div>
-					<div id=t07-book-info class=dna-template>
-						<div>Title: <span>~~title~~</span></div>
-						<div>Year: <span>~~year~~</span></div>
+					<div id=t07-book-chapter class=dna-template>
+						<div>Chapter: <span>~~header~~</span></div>
 					</div>
 				</div>
 			</div>
@@ -296,12 +302,10 @@ $(function() {
 				<div>Author: <span>Jan</span></div>
 				<div>
 					<div class="dna-clone color-change">
-						<div>Title: <span>1st</span></div>
-						<div>Year: <span>2012</span></div>
+						<div>Chapter: <span>Preface</span></div>
 					</div>
 					<div class="dna-clone color-change">
-						<div>Title: <span>2nd</span></div>
-						<div>Year: <span>2013</span></div>
+						<div class=color-change>Chapter: <span>Index</span></div>
 					</div>
 				</div>
 			</div>
@@ -316,14 +320,14 @@ $(function() {
 </div>
 <script>
 $(function() {
-   var books = [
-      { title: '1st', year: 2012 },
-      { title: '2nd', year: 2013 }
-      ];
-   dna.clone('t07-book', { author: { name: 'Ed' } });
-   var elem = dna.clone('t07-book', { author: { name: 'Jan' } });
-   dna.clone('t07-book-info', books, { holder: elem }).addClass('color-change');;
-   dna.clone('t07-book', { author: { name: 'Lee' } });
+   var book1 = { author: { name: 'Ed' } };
+   var book2 = { author: { name: 'Jan' } };
+   var book3 = { author: { name: 'Lee' } };
+   dna.clone('t07-book', book1);
+   var clone = dna.clone('t07-book', book2);
+   var chapters = [{ header: 'Preface' }, { header: 'Index' }]
+   dna.clone('t07-book-chapter', chapters, { holder: clone }).addClass('color-change');;
+   dna.clone('t07-book', book3);
    });
 </script>
 
@@ -357,10 +361,13 @@ $(function() {
 </div>
 <script>
 $(function() {
+   var book1 = { title: 'The DOM',     author: 'Jan' };
+   var book2 = { title: 'The New DOM', author: 'Jan II' };
+   var book3 = { title: 'Howdy HTML5', author: 'Ed' };
    var clone;
-   clone = dna.clone('t08-book', { title: 'The DOM', author: 'Jan' });
-   dna.mutate(clone, { title: 'The New DOM', author: 'Jan II' });
-   clone = dna.clone('t08-book', { title: 'Howdy HTML5', author: 'Ed' });
+   clone = dna.clone('t08-book', book1);
+   dna.mutate(clone, book2);
+   clone = dna.clone('t08-book', book3);
    dna.mutate(clone, { author: 'Ed II' });
    });
 </script>
@@ -433,8 +440,9 @@ $(function() {
       elem.css({ height: '60px', color: 'white',
          'background-image': data.image, 'background-size': '80px' });
       };
-   dna.clone('t10-book', { title: 'Background', image: 'url(http://dnajs.org/graphics/dnajs-logo.png)' },
-      { fade: true, task: applyBackgnd });
+   var book = { title: 'Background', image: 'url(http://dnajs.org/graphics/dnajs-logo.png)' };
+   var options = { fade: true, task: applyBackgnd };
+   dna.clone('t10-book', book, options);
    });
 </script>
 
@@ -476,21 +484,23 @@ $(function() {
 </div>
 <script>
 $(function() {
-   dna.clone('t11-book', { author: 'Jan' });
-   dna.clone('t11-book', { title: 'Howdy HTML5' });
+   var book1 = { author: 'Jan' };
+   var book2 = { title: 'Howdy HTML5' };
+   dna.clone('t11-book', book1);
+   dna.clone('t11-book', book2);
    });
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class=test-case>
    <h3>Test Case: #12</h3>
-   <p>Loop</p>
+   <p>Array field (nested template)</p>
    <fieldset>
 		<legend>Actual</legend>
 		<div class=book-list>
 			<div id=t12-book class=dna-template>
-				<div>Author: <span>~~author~~</span></div>
-				<div data-dna-loop=titles>Title:  <span>~~it~~</span></div>
+				<div>Title: <span>~~title~~</span></div>
+				<div class=color-change data-dna-array=chapters>Chapter: <span>~~header~~</span></div>
 			</div>
 		</div>
    </fieldset>
@@ -498,17 +508,26 @@ $(function() {
       <legend>Expected</legend>
 		<div class=book-list>
 			<div class=dna-clone>
-				<div>Author: <span>Ed</span></div>
+				<div>Title:  <span>The DOM</span></div>
+			</div>
+			<div class=dna-clone>
 				<div>Title:  <span>Howdy HTML5</span></div>
-				<div>Title:  <span>Howdy HTML5 II</span></div>
+				<div class="dna-clone color-change">Chapter: <span>Preface</span></div>
+				<div class="dna-clone color-change">Chapter: <span>Index</span></div>
+			</div>
+			<div class=dna-clone>
+				<div>Title:  <span>Styling CSS3</span></div>
 			</div>
 		</div>
    </fieldset>
-   <p class=result>Result:<br>2 titles</b></b></p>
+   <p class=result>Result:<br>3 items with item 2 containing 2 chapters</b></b></p>
 </div>
 <script>
 $(function() {
-   dna.clone('t12-book', { author: 'Ed', titles: ['Howdy HTML5', 'Howdy HTML5 II'] });
+   var book1 = { title: 'The DOM' };
+   var book2 = { title: 'Howdy HTML5',  chapters: [{ header: 'Preface' }, { header: 'Index' }] };
+   var book3 = { title: 'Styling CSS3', chapters: [] };
+   dna.clone('t12-book', [book1, book2, book3]);
    });
 </script>
 
