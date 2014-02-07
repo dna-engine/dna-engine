@@ -67,13 +67,20 @@ dna.store = {
    templates: {},
    stash: function(name, isNested) {
       var elem = $('#' + name);
-      if (!isNested)
+      if (!isNested) {
+         elem.find('[data-dna-array]').addClass('dna-template').each(function () {
+            var elem = $(this);
+            elem.attr('id', name + '-array-' + elem.data('dna-array'));
+            elem.parent().addClass('dna-array').data('dna-array-field',
+               $(this).data('dna-array')).data('dna-array-insert', elem.index());  //note: index not implemented yet
+            });
          elem.find('.dna-template').each(dna.store.stashNested);
+         }
       if (elem.hasClass('dna-template'))
          dna.store.templates[name] = {
             name:      name,
             elem:      elem,
-            container: elem.parent().addClass('dna-contains-' + name),
+            container: elem.parent().addClass('dna-contains-' + name).data('dna-contains', name),
             compiled:  false,
             clones:    0
             };
@@ -95,13 +102,20 @@ dna.store = {
 
 dna.core = {
    inject: function(clone, data) {  //insert data into new clone
+      dna.util.apply(clone, '.dna-array', function() {
+         var holder = $(this);
+         var templateName = holder.data('dna-contains');
+         var dataArray = data[holder.data('dna-array-field')];
+         if (dataArray)
+            dna.clone(templateName, dataArray, { holder: $(this) });
+         });
       dna.util.apply(clone, '.dna-field', function() {
-         $(this).html(dna.util.value(data, $(this).data('dna-field')));
+         $(this).html(dna.util.value(data, $(this).data('dna-field')));  //TODO: .text() with option for .html() (check for null)
          });
       var list, attr, parts, value;
       dna.util.apply(clone, '.dna-attr', function() {
          list = $(this).data('dna');
-         for (x = 0; x < list.length / 2; x++) {
+         for (var x = 0; x < list.length / 2; x++) {
             attr = list[x*2];
             parts = list[x*2 + 1];  //ex: 'J~~code.num~~' --> ['J', 'code.num', '']
             value = [parts[0], dna.util.value(data, parts[1]), parts[2]].join('');
@@ -130,7 +144,7 @@ dna.core = {
       dna.core.inject(clone, data);
       dna.core.thimblerig(clone, data);
       var container = settings.holder ? dna.util.findAll(settings.holder,
-         '.dna-contains-' + template.name) : template.container;
+         '.dna-contains-' + template.name) : template.container;  //TODO: switch to '[dna-contains=' + template.name + ']'
       if (settings.top)
          container.prepend(clone);
       else
