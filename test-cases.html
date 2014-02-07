@@ -139,7 +139,7 @@ $(function() {
 				<div>Author: <span>Jan</span></div>
 			</div>
 			<div class="dna-clone color-change">
-				<div>Title:  <span>1st</span></div>
+				<div>Title:  <span>1<sup>st</sup> &bull;</span></div>
 				<div>Author: <span>Jan</span></div>
 			</div>
 		</div>
@@ -148,10 +148,10 @@ $(function() {
 </div>
 <script>
 $(function() {
-   var book1 = { title: '1st', author: 'Jan' };
+   var book1 = { title: '1<sup>st</sup> &bull;', author: 'Jan' };
    var book2 = { title: '2nd', author: 'Jan' };
    var book3 = { title: '3rd', author: 'Jan' };
-   var options = { fade: true, top: true };
+   var options = { fade: true, top: true, html: true };
    dna.clone('t03-book', book1, options).addClass('color-change');
    dna.clone('t03-book', book2, options);
    dna.clone('t03-book', book3, options);
@@ -176,8 +176,8 @@ $(function() {
       <legend>Expected</legend>
 		<div class=book-list>
 			<div class=dna-clone>
-				<div>Title:  <span>Lo<b>go</b></span></div>
-				<div>Author: <span>Lee&lt;&bull;&gt;</span></div>
+				<div>Title:  <span>&lt;b&gt;Text&lt;/b&gt;&amp;bull;</span></div>
+				<div>Author: <span>Lee</span></div>
 				<div>Cover: <img src="http://dnajs.org/graphics/dnajs-logo.png" alt="Cover"></div>
 			</div>
 		</div>
@@ -186,7 +186,7 @@ $(function() {
 </div>
 <script>
 $(function() {
-   var book = { title: 'Lo<b>go</b>', author: 'Lee&lt;&bull;&gt;', image: 'http://dnajs.org/graphics/dnajs-logo.png' };
+   var book = { title: '<b>Text</b>&bull;', author: 'Lee', image: 'http://dnajs.org/graphics/dnajs-logo.png' };
    dna.clone('t04-book', book);
    });
 </script>

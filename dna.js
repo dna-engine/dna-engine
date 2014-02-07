@@ -1,6 +1,6 @@
 // dna.js Template Cloner ~~ v0.1.3
 // MIT/GPLv3 ~~ dnajs.org/license.html
-// Copyright (c) 2013 Center Key Software and other contributors
+// Copyright (c) 2013-2014 Center Key Software and other contributors
 
 var dna = {};
 
@@ -101,7 +101,7 @@ dna.store = {
    };
 
 dna.core = {
-   inject: function(clone, data) {  //insert data into new clone
+   inject: function(clone, data, settings) {  //insert data into new clone
       dna.util.apply(clone, '.dna-array', function() {
          var holder = $(this);
          var templateName = holder.data('dna-contains');
@@ -110,7 +110,9 @@ dna.core = {
             dna.clone(templateName, dataArray, { holder: $(this) });
          });
       dna.util.apply(clone, '.dna-field', function() {
-         $(this).html(dna.util.value(data, $(this).data('dna-field')));  //TODO: .text() with option for .html() (check for null)
+         var value = dna.util.value(data, $(this).data('dna-field'));
+         if (typeof value === 'string')
+            var x = settings.html ? $(this).html(value) : $(this).text(value);
          });
       var list, attr, parts, value;
       dna.util.apply(clone, '.dna-attr', function() {
@@ -141,7 +143,7 @@ dna.core = {
    replicate: function(template, data, settings) {  //make and setup the clone
       var clone = template.elem.clone(true, true);
       template.clones++;
-      dna.core.inject(clone, data);
+      dna.core.inject(clone, data, settings);
       dna.core.thimblerig(clone, data);
       var container = settings.holder ? dna.util.findAll(settings.holder,
          '.dna-contains-' + template.name) : template.container;  //TODO: switch to '[dna-contains=' + template.name + ']'
@@ -166,8 +168,8 @@ dna.core = {
 
 dna.api = {  //see: http://dnajs.org/manual.html#api
    clone: function(name, data, options) {
-      var settings =
-         { fade: false, top: false, holder: null, empty: false, task: null };
+      var settings = { fade: false, top: false, holder: null, empty: false,
+         html: false, task: null };
       $.extend(settings, options);
       var template = dna.store.getTemplate(name);
       if (settings.empty)
@@ -191,8 +193,10 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
          clones.remove();
       return clones;
       },
-   mutate: function(clone, data) {
-      dna.core.inject(clone, data);
+   mutate: function(clone, data, options) {
+      var settings = { html: false };
+      $.extend(settings, options);
+      dna.core.inject(clone, data, settings);
       },
    debug: function() {
       console.log('~~ dns.js ~~');
