@@ -380,6 +380,7 @@ dna.mutate(clone, { title: 'The DOM 2' });</code></pre>
    <ol>
       <li><a href="#data-array">Data Arrays</a></li>
       <li><a href="#data-sub-object">Object Data Fields</a></li>
+      <li><a href="#data-loop">Data Field Arrays</a></li>
       <li><a href="#data-sub-template">Nested Templates</a></li>
       <li><a href="#data-thimblerig">Thimblerig (conditional hide and seek logic)</a></li>
       <li><a href="#data-task">Task Functions</a></li>
@@ -415,6 +416,11 @@ dna.clone('book', book);</code></pre>
    First Name: &lt;span&gt;Bo&lt;/span&gt;
 &lt;/div&gt;</code></pre>
    <!-- End: Result  -->
+</section>
+
+<section id=data-loop>
+   <h4>Data Field Arrays (Sub-templates)</h4>
+   View source for <a href="test-cases.html">test cases #12</a>.
 </section>
 
 <section id=data-sub-templates>

@@ -10,7 +10,8 @@
 echo
 echo "Mini-Me Clone"
 echo "============="
-cd `dirname "$0"`
+cd $(dirname "$0")
+echo "Project folder:"
 pwd
 echo
 if [ -z $(which npm) ]; then
@@ -21,8 +22,10 @@ if [ -z $(which grunt) ]; then
    echo "*** grunt not found ***\nTo install Grunt:\n   $ sudo npm install -g grunt-cli\n"
    fi
 npm install
+echo "Grunt:"
 which grunt
 ls -l Gruntfile.js
+echo
 grunt
 echo "\nFiles:"
 ls -l dna*.js

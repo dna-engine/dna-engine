@@ -1,6 +1,6 @@
 {
    "name":     "dna.js",
-   "version":  "0.1.3",
+   "version":  "0.1.4",
    "main":     ["dna.js", "dna.min.js"],
    "ignore":   [
       ".gitignore",
