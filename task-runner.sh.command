@@ -1,6 +1,6 @@
 #!/bin/sh
 ############################
-#  Minify                  #
+#  Task Runner             #
 #  dna.js Template Cloner  #
 ############################
 
