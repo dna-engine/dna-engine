@@ -8,10 +8,9 @@
 #    $ chmod +x minify.sh.command
 
 echo
-echo "Mini-Me Clone"
-echo "============="
+echo "dna.js Task Runner"
+echo "=================="
 cd $(dirname "$0")
-echo "Project folder:"
 pwd
 echo
 if [ -z $(which npm) ]; then
@@ -32,14 +31,16 @@ ls -l dna*.js
 open test-cases.html
 git status --short
 echo
-echo "Releases:"
+echo "Tagged releases:"
 git tag
 echo
-echo "Current stable release (dna.js/dna.min.js):"
-curl --silent https://raw.github.com/dnajs/dna.js/current/dna.js | head  -1
-curl --silent https://raw.github.com/dnajs/dna.js/current/dna.min.js | head  -1
+echo "Current version (project.json):"
+version=$(grep '"version"' package.json | awk -F'"' '{print $4}')
+echo $version
 echo
-echo "Upcoming release (dna.js/dna.min.js):"
-curl --silent https://raw.github.com/dnajs/dna.js/master/dna.js | head  -1
-echo "$(cat dna.min.js | head  -1)  [LOCAL]"
-echo "============="
+echo "To release (publish) this version (beta):"
+echo "   $ cd $(pwd)"
+echo "   $ git tag -af v$version -m \"Beta release\""
+echo "   $ git tag -af current -m \"Current stable release\""
+echo "   $ git push origin --tags"
+echo "=================="
