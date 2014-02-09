@@ -198,8 +198,8 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       $.extend(settings, options);
       dna.core.inject(clone, data, settings);
       },
-   debug: function() {
-      console.log('~~ dns.js ~~');
+   info: function() {
+      console.log('~~ dns.js v0.1.4 ~~');
       console.log('count:', Object.keys(dna.store.templates).length);
       console.log('names:', Object.keys(dna.store.templates));
       console.log('templates:', dna.store.templates);
@@ -211,4 +211,4 @@ dna.clone =  dna.api.clone;
 dna.load =   dna.api.load;
 dna.empty =  dna.api.empty;
 dna.mutate = dna.api.mutate;
-dna.debug =  dna.api.debug;
+dna.info =   dna.api.info;
