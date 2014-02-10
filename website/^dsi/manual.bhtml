@@ -218,7 +218,7 @@
       <li><a href="#api-load">dna.load()</a></li>
       <li><a href="#api-empty">dna.empty()</a></li>
       <li><a href="#api-mutate">dna.mutate()</a></li>
-      <li><a href="#api-debug">dna.debug()</a></li>
+      <li><a href="#api-info">dna.info()</a></li>
    </ol>
 </div>
 
@@ -356,17 +356,17 @@ dna.mutate(clone, { title: 'The DOM 2' });</code></pre>
    </div>
 </section>
 
-<!--  dna.debug()  -->
-<section id=api-debug>
-   <h4>dna.debug()</h4>
+<!--  dna.info()  -->
+<section id=api-info>
+   <h4>dna.info()</h4>
    <div class=api-description>
       Logs information to the browser console.
    </div>
    <div class=code-caption>Example JavaScript</div>
-   <pre><code class=language-javascript>dna.debug();</code></pre>
+   <pre><code class=language-javascript>dna.info();</code></pre>
    <div class=api-details>
       <p>
-         The <code>dna.debug()</code> method is intended to be called manually
+         The <code>dna.info()</code> method is intended to be called manually
          from the console to see which templates have been detected and
          compiled.
       </p>
