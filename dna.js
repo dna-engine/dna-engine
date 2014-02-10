@@ -20,6 +20,15 @@ dna.util = {
    };
 
 dna.compile = {
+   // Pre-compile                        Post-compile class + data
+   // -----------                        --------------------------
+   // class=dna-template            -->  dna-clone
+   // <span>~~field~~</span>        -->  dna-field + data.dna-field='field'
+   // id=pre~~field~~post           -->  dna-attr +  data.dna=['id', ['pre', 'field', 'post']]
+   // data-dna-attr-id=~~field~~    -->  dna-attr +  data.dna=['id', ['pre', 'field', 'post']]
+   // data-dna-add-class=~~field~~  -->  dna-class + data.dna-class=['field']
+   // data-dna-require=~~field~~    -->  dna-require
+   // data-dna-missing=~~field~~    -->  dna-missing
    regexDnaField: /^[\s]*(~~|\{\{).*(~~|\}\})[\s]*$/,  //example: ~~title~~
    regexDnaBasePair: /~~|{{|}}/,  //matches the '~~' string
    regexDnaBasePairs: /~~|\{\{|\}\}/g,  //matches the two '~~' strings so they can be removed
@@ -29,13 +38,10 @@ dna.compile = {
          firstNode.nodeValue.match(dna.compile.regexDnaField);
       },
    fieldElem: function() {
-      // Example: "<p>~~age~~</p>" --> "<p class=dna-field data-field-age></p>"
       $(this).addClass('dna-field').data('dna-field',
          $.trim($(this).text()).replace(dna.compile.regexDnaBasePairs, '')).empty();
       },
    attrElem: function() {
-      // Example: "<a data-dna-attr-id=~~code~~ href=~~link~~></a>" -->
-      //    "<a class=dna-attr data-dna=['id',['','code',''],'href',['','link','']></a>"
       var list = [];
       $.each(this.attributes, function() {
          if (this.value.split(dna.compile.regexDnaBasePair).length === 3)
@@ -46,7 +52,6 @@ dna.compile = {
          $(this).addClass('dna-attr').data('dna', list);
       },
    classElem: function() {
-      // Example: "<p data-dna-add-class=c1,c2></p>" --> "<p class=dna-class data-dna-class=['c1','c2']></p>"
       var list = $(this).data('dna-add-class').split(',');
       $(this).addClass('dna-class').data('dna-class', list);
       },
@@ -57,8 +62,8 @@ dna.compile = {
       elems.filter('[data-dna-add-class]').each(dna.compile.classElem);
       elems.filter('[data-dna-require]').addClass('dna-require');
       elems.filter('[data-dna-missing]').addClass('dna-missing');
-      template.compiled = true;
       template.elem.removeClass('dna-template').addClass('dna-clone');
+      template.compiled = true;
       }
    };
 
@@ -102,13 +107,6 @@ dna.store = {
 
 dna.core = {
    inject: function(clone, data, settings) {  //insert data into new clone
-      dna.util.apply(clone, '.dna-array', function() {
-         var holder = $(this);
-         var templateName = holder.data('dna-contains');
-         var dataArray = data[holder.data('dna-array-field')];
-         if (dataArray)
-            dna.clone(templateName, dataArray, { holder: $(this) });
-         });
       dna.util.apply(clone, '.dna-field', function() {
          var value = dna.util.value(data, $(this).data('dna-field'));
          if (typeof value === 'string')
@@ -121,8 +119,8 @@ dna.core = {
             attr = list[x*2];
             parts = list[x*2 + 1];  //ex: 'J~~code.num~~' --> ['J', 'code.num', '']
             value = [parts[0], dna.util.value(data, parts[1]), parts[2]].join('');
-            $(this).attr(list[x*2], value);
-            if (list[x*2] === 'value')
+            $(this).attr(attr, value);
+            if (attr === 'value')
                $(this).val(value);
             }
          });
@@ -130,6 +128,13 @@ dna.core = {
          list = $(this).data('dna-class');
          for (var i = 0; i < list.length; i++)
             $(this).addClass(dna.util.value(data, list[i]));
+         });
+      dna.util.apply(clone, '.dna-array', function() {
+         var holder = $(this);
+         var templateName = holder.data('dna-contains');
+         var dataArray = data[holder.data('dna-array-field')];
+         if (dataArray)
+            dna.clone(templateName, dataArray, { holder: $(this) });
          });
       },
    thimblerig: function(clone, data) {  //apply logic to hide specific elements
