@@ -23,6 +23,7 @@
    .dna-clone img { width: 120px; }
    .color-change  { background-color: lightsteelblue; }
    .color-change2 { background-color: gold; }
+   #back          { background-color: honeydew; }
    .border-change { border: 2px solid darkorange; }
 </style>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -501,7 +502,10 @@ $(function() {
 		<div class=book-list>
 			<div id=t12-book class=dna-template>
 				<div>Title: <span>~~title~~</span></div>
-				<div class=color-change data-dna-array=chapters>Chapter: <span>~~header~~</span></div>
+				<div class=color-change data-dna-array=chapters>
+				   <span data-dna-add-class=~~type~~ data-type=~~type~~>~~type~~</span>:
+				   <span id=~~type~~>~~header~~</span>
+				</div>
 			</div>
 		</div>
    </fieldset>
@@ -513,8 +517,10 @@ $(function() {
 			</div>
 			<div class=dna-clone>
 				<div>Title:  <span>Howdy HTML5</span></div>
-				<div class="dna-clone color-change">Chapter: <span>Preface</span></div>
-				<div class="dna-clone color-change">Chapter: <span>Index</span></div>
+				<div class="dna-clone color-change"><span data-type=front>front</span>:
+				<span id=front>Preface</span></div>
+				<div class="dna-clone color-change"><span data-type=back>back</span>:
+				<span id=back>Index</span></div>
 			</div>
 			<div class=dna-clone>
 				<div>Title:  <span>Styling CSS3</span></div>
@@ -526,7 +532,8 @@ $(function() {
 <script>
 $(function() {
    var book1 = { title: 'The DOM' };
-   var book2 = { title: 'Howdy HTML5',  chapters: [{ header: 'Preface' }, { header: 'Index' }] };
+   var chapters = [{ header: 'Preface', type: 'front' }, { header: 'Index', type: 'back' }];
+   var book2 = { title: 'Howdy HTML5',  chapters: chapters };
    var book3 = { title: 'Styling CSS3', chapters: [] };
    dna.clone('t12-book', [book1, book2, book3]);
    });
@@ -539,7 +546,7 @@ $(function() {
    $('#mode').text(mode);
    if (mode == 'dna.js')
       $('#switch').attr('href', '?min');
-   dna.debug();
+   dna.info();
    });
 </script>
 </body>
