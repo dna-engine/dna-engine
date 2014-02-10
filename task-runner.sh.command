@@ -5,7 +5,7 @@
 ############################
 
 # To make this file runnable:
-#    $ chmod +x minify.sh.command
+#    $ chmod +x task-runner.sh.command
 
 echo
 echo "dna.js Task Runner"
@@ -39,8 +39,9 @@ version=$(grep '"version"' package.json | awk -F'"' '{print $4}')
 echo $version
 echo
 echo "To release (publish) this version (beta):"
-echo "   $ cd $(pwd)"
-echo "   $ git tag -af v$version -m \"Beta release\""
-echo "   $ git tag -af current -m \"Current stable release\""
-echo "   $ git push origin --tags"
+echo "   cd $(pwd)"
+echo "   git tag -af v$version -m \"Beta release\""
+echo "   git tag -af current -m \"Current stable release\""
+echo "   git remote -v"
+echo "   git push origin --tags --force"
 echo "=================="
