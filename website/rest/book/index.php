@@ -1,6 +1,5 @@
 <?php
 // dna.js
-// Book #1
 
 $id = basename($_SERVER["REQUEST_URI"]);
 
@@ -24,7 +23,7 @@ $books[] = $book;
 
 $books = array(
    array("title" => "Go JavaScript", "author" => "Jake"),
-   array("title" => "Styling CSS3",   "author" => "Abby"),
+   array("title" => "Styling CSS3",  "author" => "Abby"),
    array("title" => "Howdy HTML5",   "author" => "Ed")
    );
 
@@ -33,6 +32,7 @@ if ($id > 0 && $id <= count($books))
 else
    $resource = array("error" => true, "msg" => "Resource not found");
 
+header("Access-Control-Allow-Origin: *");
 header("Content-type: application/json");
 echo json_encode($resource);
 ?>

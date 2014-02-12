@@ -389,18 +389,23 @@ dna.mutate(clone, { title: 'The DOM 2' });</code></pre>
 
 <section id=data-array>
    <h4>Data Arrays</h4>
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;~~title~~&lt;/div&gt;</code></pre>
    <div class=code-caption>Example JavaScript</div>
-   <pre><code class=language-javascript>var books = [
-   { title: 'The DOM', author: 'Bo' },
-   { title: 'The Interwebs', author: 'Eve' }
-   ];
+   <pre><code class=language-javascript>var books = [{ title: 'The DOM' }, { title: 'Interwebz' }];
 dna.clone('book', books);</code></pre>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <div class=code-caption>Resulting HTML</div>
+   <pre><code class=language-markup>&lt;div class=dna_clone&gt;The DOM&lt;/div&gt;
+&lt;div class=dna_clone&gt;Interwebz&lt;/div&gt;</code></pre>
+   <!-- End: Result  -->
 </section>
 
 <section id=data-sub-object>
    <h4>Object Data Fields</h4>
    <div class=code-caption>Example HTML</div>
-   <pre><code class=language-markup>&lt;div id=book class=dna_clone&gt;
+   <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;
    First Name: &lt;span&gt;~~author.first~~&lt;/span&gt;
 &lt;/div&gt;</code></pre>
    <div class=code-caption>Example JavaScript</div>
