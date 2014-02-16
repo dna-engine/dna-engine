@@ -9,6 +9,13 @@
 		Prepend new clone element (default: <b>false</b>).
 	</li>
 	<li>
+		<label><b>html</b> (Boolean) &mdash;</label>
+		Inject data as <a href="https://api.jquery.com/html/" class=external-site>HTML</a>
+		rather than the default
+		<a href="https://api.jquery.com/text/" class=external-site>text</a>
+		(default: <b>false</b>).
+	</li>
+	<li>
 		<label><b>empty</b> (Boolean) &mdash;</label>
 		Clear out existing clones first (default: <b>false</b>).
 	</li>
