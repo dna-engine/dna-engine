@@ -426,7 +426,7 @@ $(function() {
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class=test-case>
    <h3>Test Case: #10</h3>
-   <p>Add 1 item and apply task function</p>
+   <p>Add 1 item and apply callback function</p>
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
@@ -454,7 +454,7 @@ $(function() {
          'background-image': data.image, 'background-size': '80px' });
       };
    var book = { title: 'Background', image: 'url(http://dnajs.org/graphics/dnajs-logo.png)' };
-   var options = { fade: true, task: applyBackgnd };
+   var options = { fade: true, callback: applyBackgnd };
    dna.clone('t10-book', book, options);
    });
 </script>

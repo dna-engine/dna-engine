@@ -169,7 +169,9 @@ dna.core = {
          container.prepend(clone);
       else
          container.append(clone);
-      if (settings.task)
+      if (settings.callback)
+         settings.callback(clone, data);
+      if (settings.task)  //DEPRECATED
          settings.task(clone, data);
       if (settings.fade)
          clone.hide().fadeIn();
@@ -187,7 +189,8 @@ dna.core = {
 dna.api = {  //see: http://dnajs.org/manual.html#api
    clone: function(name, data, options) {
       var settings = { fade: false, top: false, holder: null, empty: false,
-         html: false, task: null };
+         task: null,  //DEPRECATED
+         html: false, callback: null };
       $.extend(settings, options);
       var template = dna.store.getTemplate(name);
       if (settings.empty)
