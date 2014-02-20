@@ -11,24 +11,24 @@ dna.util = {
       return (data === null || data === undefined || fields === undefined) ? null :
          (fields.length === 1 ? data[fields[0]] : this.value(data[fields[0]], fields.slice(1)));
       },
-   findAll: function(elem, selector) {  //returns selected elements including nested elements
-      return elem.find(selector).addBack(selector);
-      },
-   apply: function(elem, selector, func) {  //calls func for each element
-      dna.util.findAll(elem, selector).each(func);
+   apply: function(elem, selector, func, param) {  //calls func for each element (param is optional)
+      elem.find(selector).addBack(selector).each(func);
       }
    };
 
 dna.compile = {
-   // Pre-compile                        Post-compile class + data
-   // -----------                        --------------------------
-   // class=dna-template            -->  dna-clone
-   // <span>~~field~~</span>        -->  dna-field + data.dna-field='field'
-   // id=pre~~field~~post           -->  dna-attr +  data.dna=['id', ['pre', 'field', 'post']]
-   // data-dna-attr-id=~~field~~    -->  dna-attr +  data.dna=['id', ['pre', 'field', 'post']]
-   // data-dna-add-class=~~field~~  -->  dna-class + data.dna-class=['field']
-   // data-dna-require=~~field~~    -->  dna-require
-   // data-dna-missing=~~field~~    -->  dna-missing
+   // Pre-compile                             Post-compile class + data
+   // -----------                             --------------------------
+   // class=dna-template                 -->  dna-clone
+   // <span>~~field~~</span>             -->  dna-field + data.dna-field='field'
+   // <span>~~field~~</span>             -->  dna-data +  data.dna.text='field'  ***WIP***
+   // id=pre~~field~~post                -->  dna-attr +  data.dna=['id', ['pre', 'field', 'post']]
+   // data-dna-attr-id=pre~~field~~post  -->  dna-attr +  data.dna=['id', ['pre', 'field', 'post']]
+   // id=pre~~field~~post                -->  dna-data +  data.dna.attr=['id', ['pre', 'field', 'post']]  ***WIP***
+   // data-dna-attr-id=pre~~field~~post  -->  dna-data +  data.dna.attr=['id', ['pre', 'field', 'post']]  ***WIP***
+   // data-dna-class=~~field1,field2~~   -->  dna-data +  data.dna.class='field1,field2'
+   // data-dna-require=~~field~~         -->  dna-data +  data.dna.require='field'
+   // data-dna-missing=~~field~~         -->  dna-data +  data.dna.missing='field'
    regexDnaField: /^[\s]*(~~|\{\{).*(~~|\}\})[\s]*$/,  //example: ~~title~~
    regexDnaBasePair: /~~|{{|}}/,  //matches the '~~' string
    regexDnaBasePairs: /~~|\{\{|\}\}/g,  //matches the two '~~' strings so they can be removed
@@ -51,17 +51,28 @@ dna.compile = {
       if (list.length > 0)
          $(this).addClass('dna-attr').data('dna', list);
       },
-   classElem: function() {
-      var list = $(this).data('dna-add-class').split(',');
-      $(this).addClass('dna-class').data('dna-class', list);
+   getDataField: function(elem, type) {
+      return $.trim(elem.data('dna-' + type)
+         .replace(dna.compile.regexDnaBasePairs, ''));
+      },
+   addDataToElems: function(elems, type) {
+      // Example with "require" type:
+      //    data-dna-require=~~title~~  ==>  data-dnax = { require: "title" }
+      function add() {
+         var elem = $(this);
+         var dnaData = elem.data('dnax') ? elem.data('dnax') : {};
+         dnaData[type] = dna.compile.getDataField(elem, type);
+         elem.data('dnax', dnaData).addClass('dna-data');
+         }
+      return elems.filter('[data-dna-' + type + ']').each(add);
       },
    template: function(template) {  //prepare template to be cloned
       var elems = template.elem.find('*').addBack();
       elems.filter(dna.compile.isDnaField).each(dna.compile.fieldElem);
       elems.each(dna.compile.attrElem);
-      elems.filter('[data-dna-add-class]').each(dna.compile.classElem);
-      elems.filter('[data-dna-require]').addClass('dna-require');
-      elems.filter('[data-dna-missing]').addClass('dna-missing');
+      dna.compile.addDataToElems(elems, 'class');
+      dna.compile.addDataToElems(elems, 'require');
+      dna.compile.addDataToElems(elems, 'missing');
       template.elem.removeClass('dna-template').addClass('dna-clone');
       template.compiled = true;
       }
@@ -75,9 +86,12 @@ dna.store = {
       if (!isNested) {
          elem.find('[data-dna-array]').addClass('dna-template').each(function () {
             var elem = $(this);
-            elem.attr('id', name + '-array-' + elem.data('dna-array'));
-            elem.parent().addClass('dna-array').data('dna-array-field',
-               $(this).data('dna-array')).data('dna-array-insert', elem.index());  //note: index not implemented yet
+            var holder = elem.parent();
+            var dnaData = holder.data('dnax') ? elem.data('dnax') : {};
+            dnaData.array = dna.compile.getDataField(elem, 'array');
+            holder.data('dnax', dnaData).addClass('dna-data');
+            holder.data('dna-array-index', elem.index());
+            elem.attr('id', name + '-array-' + dnaData.array);
             });
          elem.find('.dna-template').each(dna.store.stashNested);
          }
@@ -124,34 +138,33 @@ dna.core = {
                $(this).val(value);
             }
          });
-      dna.util.apply(clone, '.dna-class', function() {
-         list = $(this).data('dna-class');
-         for (var i = 0; i < list.length; i++)
-            $(this).addClass(dna.util.value(data, list[i]));
-         });
-      dna.util.apply(clone, '.dna-array', function() {
-         var holder = $(this);
-         var templateName = holder.data('dna-contains');
-         var dataArray = data[holder.data('dna-array-field')];
-         if (dataArray)
-            dna.clone(templateName, dataArray, { holder: $(this) });
-         });
       },
-   thimblerig: function(clone, data) {  //apply logic to hide specific elements
-      dna.util.apply(clone, '.dna-require', function() {
-         $(this).toggle(dna.util.value(data, $(this).data('dna-require')) !== undefined);
-         });
-      dna.util.apply(clone, '.dna-missing', function() {
-         $(this).toggle(dna.util.value(data, $(this).data('dna-missing')) === undefined);
-         });
+   cloneSubtemplate: function(holder, dataArray) {
+      var templateName = holder.data('dna-contains');
+      if (dataArray)
+         dna.clone(templateName, dataArray, { holder: holder });
+      },
+   processElem: function(elem, data) {
+      var dnaData = elem.data('dnax');
+      if (dnaData['class'])
+         $.each(('' + dnaData['class']).split(','),
+            function(i, value) { elem.addClass(dna.util.value(data, value)); });
+      if (dnaData.require)
+         elem.toggle(dna.util.value(data, dnaData.require) !== undefined);
+      if (dnaData.missing)
+         elem.toggle(dna.util.value(data, dnaData.missing) === undefined);
+      if (dnaData.array)
+         dna.core.cloneSubtemplate(elem, data[elem.data('dnax').array]);
       },
    replicate: function(template, data, settings) {  //make and setup the clone
       var clone = template.elem.clone(true, true);
       template.clones++;
+      function process() { dna.core.processElem($(this), data); }
       dna.core.inject(clone, data, settings);
-      dna.core.thimblerig(clone, data);
-      var container = settings.holder ? dna.util.findAll(settings.holder,
-         '.dna-contains-' + template.name) : template.container;  //TODO: switch to '[dna-contains=' + template.name + ']'
+      clone.find('.dna-data').addBack('.dna-data').each(process);
+      var selector = '.dna-contains-' + template.name;
+      var container = settings.holder ?  //TODO: switch to '[dna-contains=' + template.name + ']'
+         settings.holder.find(selector).addBack(selector) : template.container;
       if (settings.top)
          container.prepend(clone);
       else
