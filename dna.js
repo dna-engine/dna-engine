@@ -5,12 +5,32 @@
 var dna = {};
 
 dna.util = {
+	toCamel: function(codeStr) {  //example: 'ready-set-go' ==> 'readySetGo'
+		return ('' + codeStr).replace(/\-(.)/g, function(match, char) {
+			return char.toUpperCase(); });
+		},
+	toCode: function(camelCaseStr) {  //example: 'readySetGo' ==> 'ready-set-go'
+		return ('' + camelCaseStr).replace(/([A-Z])/g, function() {
+			return '-' + arguments[1].toLowerCase(); });
+		},
    value: function(data, fields) {  //example: { a: { b: 7 }}, 'a.b' --> 7
       if (typeof fields === 'string')
          fields = fields.split('.');
       return (data === null || data === undefined || fields === undefined) ? null :
          (fields.length === 1 ? data[fields[0]] : this.value(data[fields[0]], fields.slice(1)));
       },
+	call: function(fnName, elem) {  //example: 'app.cart.buy' ==> window['app']['cart']['buy'](elem);
+		var contextCall = function(obj, names) {
+			if (!obj)
+				dna.core.berserk('Invalid name before "' + names[0] + '" in: ' + fnName);
+			else if (names.length == 1)
+				obj[names[0]](elem);
+			else
+				contextCall(obj[names[0]], names.slice(1));
+			};
+		if (fnName && elem.length)
+			contextCall(window, fnName.split('.'));
+		},
    apply: function(elem, selector, func, param) {  //calls func for each element (param is optional)
       elem.find(selector).addBack(selector).each(func);
       }
