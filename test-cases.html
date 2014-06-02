@@ -17,7 +17,6 @@
    .test-case     { display: inline-block; vertical-align: top; border: 1px solid silver; padding: 10px; margin: 0px 20px 20px 0px; }
    fieldset       { float: left; width: 200px; border: 1px solid silver; }
    legend         { border: 1px solid silver; padding: 0px 10px; }
-   .result        { clear: both; padding-top: 10px; }
    .dna-template  { display: none; }
    .dna-clone     { background-color: darkseagreen; padding: 10px; margin-bottom: 15px; }
    .dna-clone img { width: 120px; }
@@ -70,7 +69,6 @@
       </div>
 
    </fieldset>
-   <p class=result>Result:<br>2 items</b></b></p>
 </div>
 <script>
 $(function() {
@@ -104,7 +102,6 @@ $(function() {
          </div>
       </div>
    </fieldset>
-   <p class=result>Result:<br>1 item with blue core</b></b></p>
 </div>
 <script>
 $(function() {
@@ -148,7 +145,6 @@ $(function() {
          </div>
       </div>
    </fieldset>
-   <p class=result>Result:<br>3 faded items with #3 on top</b></b></p>
 </div>
 <script>
 $(function() {
@@ -187,7 +183,6 @@ $(function() {
          </div>
       </div>
    </fieldset>
-   <p class=result>Result:<br>1 item with an image</b></b></p>
 </div>
 <script>
 $(function() {
@@ -232,7 +227,6 @@ $(function() {
       </div>
    </fieldset>
    </fieldset>
-   <p class=result>Result:<br>4 items (last 2 blue)</b></b></p>
 </div>
 <script>
 $(function() {
@@ -269,8 +263,6 @@ $(function() {
          </div>
       </div>
    </fieldset>
-   <p class=result>Result:<br>1 item with "class=border-change" (orange),<br>
-      "id=123" (blue), and "lang=fr" (gold)</b></b></p>
 </div>
 <script>
 $(function() {
@@ -325,7 +317,6 @@ $(function() {
          </div>
       </div>
    </fieldset>
-   <p class=result>Result:<br>3 items with the middle having 2 sub-items in blue</b></b></p>
 </div>
 <script>
 $(function() {
@@ -349,8 +340,10 @@ $(function() {
       <legend>Actual</legend>
       <div class=book-list>
          <div id=t08-book class=dna-template>
-            <div>Title:  <span>~~title~~</span></div>
-            <div>Author: <span>~~author~~</span></div>
+            <div>Title:   <span>~~title~~</span></div>
+            <div>Author:  <span>~~author~~</span></div>
+            <div>Score:   <span>~~score~~</span></div>
+            <div>On Sale: <span>~~sale~~</span></div>
          </div>
       </div>
    </fieldset>
@@ -358,35 +351,43 @@ $(function() {
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone>
-            <div>Title:  <span>The New DOM</span></div>
-            <div>Author: <span>Jan II</span></div>
+            <div>Title:   <span>The New DOM</span></div>
+            <div>Author:  <span>Jan II</span></div>
+            <div>Score:   <span>81</span></div>
+            <div>On Sale: <span>true</span></div>
          </div>
          <div class=dna-clone>
-            <div>Title:  <span>Howdy HTML5</span></div>
-            <div>Author: <span>Ed II</span></div>
+            <div>Title:   <span>Howdy HTML5</span></div>
+            <div>Author:  <span>Ed II</span></div>
+            <div>Score:   <span>97</span></div>
+            <div>On Sale: <span>false</span></div>
          </div>
       </div>
    </fieldset>
-   <p class=result>Result:<br>item 1 with all new data and item 2 with new author</b></b></p>
 </div>
 <script>
 $(function() {
    console.log('Test Case: #08');
-   var book1 = { title: 'The DOM',     author: 'Jan' };
-   var book2 = { title: 'The New DOM', author: 'Jan II' };
-   var book3 = { title: 'Howdy HTML5', author: 'Ed' };
+   var book1 = { title: 'The DOM',     author: 'Jan',    score: 77, sale: false };
+   var book2 = { title: 'The New DOM', author: 'Jan II', score: 81, sale: true };
+   var book3 = { title: 'Howdy HTML5', author: 'Ed',     score: 92, sale: false };
    var clone;
    clone = dna.clone('t08-book', book1);
    dna.mutate(clone, book2);
    clone = dna.clone('t08-book', book3);
-   dna.mutate(clone, { author: 'Ed II' });
+   dna.mutate(clone, { author: 'Ed II', score: 97 });
    });
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class=test-case>
    <h3>Test Case: #09</h3>
-   <p>Add 2 items loaded from REST call</p>
+   <p>
+      Add 2 items
+      (<a href="http://dnajs.org/rest/book/1" onclick="this.target='_target';">book 1</a> &amp;
+      <a href="http://dnajs.org/rest/book/2" onclick="this.target='_target';">book 2</a>)
+      loaded from REST call
+   </p>
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
@@ -409,10 +410,6 @@ $(function() {
          </div>
       </div>
    </fieldset>
-   <p class=result>Result:<br>2 items &rarr;</b>
-      <a href="http://dnajs.org/rest/book/1" onclick="this.target='_target';">book 1</a> &amp;
-      <a href="http://dnajs.org/rest/book/2" onclick="this.target='_target';">book 2</a>
-   </b></p>
 </div>
 <script>
 $(function() {
@@ -444,7 +441,6 @@ $(function() {
          </div>
       </div>
    </fieldset>
-   <p class=result>Result:<br>1 item with a fade in background</b></b></p>
 </div>
 <script>
 $(function() {
@@ -493,7 +489,6 @@ $(function() {
          </div>
       </div>
    </fieldset>
-   <p class=result>Result:<br>Item 1 missing title and item 2 missing author</b></b></p>
 </div>
 <script>
 $(function() {
@@ -541,7 +536,6 @@ $(function() {
          </div>
       </div>
    </fieldset>
-   <p class=result>Result:<br>3 items with item 2 containing 2 chapters</b></b></p>
 </div>
 <script>
 $(function() {

@@ -143,7 +143,10 @@ dna.core = {
    inject: function(clone, data, settings) {  //insert data into new clone
       dna.util.apply(clone, '.dna-field', function() {
          var value = dna.util.value(data, $(this).data('dna-field'));
-         if (typeof value === 'string')
+         function printable(value) {
+            return ['string', 'number', 'boolean'].indexOf(typeof value) !== -1;
+            }
+         if (printable(value))
             var x = settings.html ? $(this).html(value) : $(this).text(value);
          });
       var list, attr, parts, value;
