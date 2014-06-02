@@ -5,32 +5,32 @@
 var dna = {};
 
 dna.util = {
-	toCamel: function(codeStr) {  //example: 'ready-set-go' ==> 'readySetGo'
-		return ('' + codeStr).replace(/\-(.)/g, function(match, char) {
-			return char.toUpperCase(); });
-		},
-	toCode: function(camelCaseStr) {  //example: 'readySetGo' ==> 'ready-set-go'
-		return ('' + camelCaseStr).replace(/([A-Z])/g, function() {
-			return '-' + arguments[1].toLowerCase(); });
-		},
-   value: function(data, fields) {  //example: { a: { b: 7 }}, 'a.b' --> 7
+   toCamel: function(codeStr) {  //example: 'ready-set-go' ==> 'readySetGo'
+      function hump(match, char) { return char.toUpperCase(); }
+      return ('' + codeStr).replace(/\-(.)/g, hump);
+      },
+   toCode: function(camelCaseStr) {  //example: 'readySetGo' ==> 'ready-set-go'
+      function dash(word) { return '-' + word.toLowerCase(); }
+      return ('' + camelCaseStr).replace(/([A-Z])/g, dash);
+      },
+   value: function(data, fields) {  //example: { a: { b: 7 }}, 'a.b' ==> 7
       if (typeof fields === 'string')
          fields = fields.split('.');
       return (data === null || data === undefined || fields === undefined) ? null :
          (fields.length === 1 ? data[fields[0]] : this.value(data[fields[0]], fields.slice(1)));
       },
-	call: function(fnName, elem) {  //example: 'app.cart.buy' ==> window['app']['cart']['buy'](elem);
-		var contextCall = function(obj, names) {
-			if (!obj)
-				dna.core.berserk('Invalid name before "' + names[0] + '" in: ' + fnName);
-			else if (names.length == 1)
-				obj[names[0]](elem);
-			else
-				contextCall(obj[names[0]], names.slice(1));
-			};
-		if (fnName && elem.length)
-			contextCall(window, fnName.split('.'));
-		},
+   call: function(fnName, elem) {  //example: 'app.cart.buy' ==> window['app']['cart']['buy'](elem);
+      var contextCall = function(obj, names) {
+         if (!obj)
+            dna.core.berserk('Invalid name before "' + names[0] + '" in: ' + fnName);
+         else if (names.length == 1)
+            obj[names[0]](elem);
+         else
+            contextCall(obj[names[0]], names.slice(1));
+         };
+      if (fnName && elem.length)
+         contextCall(window, fnName.split('.'));
+      },
    apply: function(elem, selector, func, param) {  //calls func for each element (param is optional)
       elem.find(selector).addBack(selector).each(func);
       }
@@ -142,12 +142,14 @@ dna.store = {
 dna.core = {
    inject: function(clone, data, settings) {  //insert data into new clone
       dna.util.apply(clone, '.dna-field', function() {
-         var value = dna.util.value(data, $(this).data('dna-field'));
+         var elem = $(this);
+         var field = elem.data('dna-field');
+         var value = dna.util.value(data, field);
          function printable(value) {
             return ['string', 'number', 'boolean'].indexOf(typeof value) !== -1;
             }
          if (printable(value))
-            var x = settings.html ? $(this).html(value) : $(this).text(value);
+            elem = settings.html ? elem.html(value) : elem.text(value);
          });
       var list, attr, parts, value;
       dna.util.apply(clone, '.dna-attr', function() {
@@ -220,8 +222,8 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
          dna.api.empty(name);
       var list = data instanceof Array ? data : [data];
       var clones = $();
-      for (var count = 0; count < list.length; count++)
-         clones = clones.add(dna.core.replicate(template, list[count], settings));
+      for (var index = 0; index < list.length; index++)
+         clones = clones.add(dna.core.replicate(template, list[index], settings));
       return clones;
       },
    load: function(name, url, options) {
