@@ -252,6 +252,10 @@ p>code, dd>code {
    position: absolute;
    top: 0px;
    right: 0px;
+   opacity: 0.8;
+   }
+#github-banner:hover {
+   opacity: 1.0;
    }
 
 /* Prism */

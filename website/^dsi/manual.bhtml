@@ -289,7 +289,7 @@
       </p>
       <p>
          For <a href="http://dnajs.org/rest/book/7" class=external-site>example</a>:<br>
-         <code class=indent>{ "error": true, "msg": "Resource not found" }</code>
+         <code class=indent>{ "error": true, "message": "Resource not found" }</code>
       </p>
    </div>
 </section>
@@ -443,7 +443,7 @@ dna.clone('book', book);</code></pre>
    <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;
    Title: &lt;span&gt;~~title~~&lt;/span&gt;
    &lt;div&gt;
-      &lt;div data_dna_array=__chapters__&gt;
+      &lt;div data-dna-array=__chapters__&gt;
          Chapter: &lt;span&gt;~~header~~&lt;/span&gt;
       &lt;/div&gt;
    &lt;/div&gt;
