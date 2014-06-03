@@ -1,8 +1,7 @@
 <div>
-   <header>February 6, 2014</header>
-   <p>Release 0.1.4 of dna.js adds support for array field sub-templates.&nbsp;
-   The clone function can now handle an array of objects embedded with arrays of
-   more objects.</p>
+   <header>June 3, 2014</header>
+   <p>Release 0.1.5 of dna.js adds support for simple arrays and for numeric and
+   boolean field types.</p>
 </div>
 
 <!-- - - - - - - - - - - - - - - -->
@@ -10,6 +9,12 @@
 <div class=reveal-target data-reveal=more-news>
 <!-- - - - - - - - - - - - - - - -->
 
+<div>
+   <header>February 6, 2014</header>
+   <p>Release 0.1.4 of dna.js adds support for array field sub-templates.&nbsp;
+   The clone function can now handle an array of objects embedded with arrays of
+   more objects.</p>
+</div>
 <div>
    <header>September 4, 2013</header>
    <p><b>Beta announcement for dna.js:</b> The first beta release of <i>dna.js
