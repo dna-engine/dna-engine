@@ -18,7 +18,8 @@
    fieldset       { float: left; width: 200px; border: 1px solid silver; }
    legend         { border: 1px solid silver; padding: 0px 10px; }
    .dna-template  { display: none; }
-   .dna-clone     { background-color: darkseagreen; padding: 10px; margin-bottom: 15px; }
+   .dna-clone     { background-color: darkseagreen; }
+   div.dna-clone  { padding: 10px; margin-bottom: 15px; }
    .dna-clone img { width: 120px; }
    .color-change  { background-color: lightsteelblue; }
    .color-change2 { background-color: gold; }
@@ -511,6 +512,13 @@ $(function() {
             <div>
                Title: <span>~~title~~</span>
             </div>
+            Authors:
+            <span>
+               <span data-dna-array=~~authors~~>
+                  (<span>~~[count]~~</span>)
+                  <span>~~[value]~~</span>
+               </span>
+            </span>
             <div class=color-change data-dna-array=~~chapters~~>
                <span data-dna-class=~~type~~ data-type=~~type~~>~~type~~</span>:
                <span id=~~type~~>~~header~~</span>
@@ -523,9 +531,18 @@ $(function() {
       <div class=book-list>
          <div class=dna-clone>
             <div>Title:  <span>The DOM</span></div>
+				Authors:
+				<span>
+				</span>
          </div>
          <div class=dna-clone>
             <div>Title:  <span>Howdy HTML5</span></div>
+				Authors:
+				<span>
+					<span class=dna-clone> (1) <span>Ed</span> </span>
+					<span class=dna-clone> (2) <span>Jake</span> </span>
+					<span class=dna-clone> (3) <span>Abby</span> </span>
+				</span>
             <div class="dna-clone color-change"><span data-type=front>front</span>:
             <span id=front>Preface</span></div>
             <div class="dna-clone color-change"><span data-type=back>back</span>:
@@ -533,6 +550,9 @@ $(function() {
          </div>
          <div class=dna-clone>
             <div>Title:  <span>Styling CSS3</span></div>
+				Authors:
+				<span>
+				</span>
          </div>
       </div>
    </fieldset>
@@ -540,11 +560,50 @@ $(function() {
 <script>
 $(function() {
    console.log('Test Case: #12');
-   var chapters = [{ header: 'Preface', type: 'front' }, { header: 'Index', type: 'back' }];
+   var chapters = [
+      { header: 'Preface', type: 'front' },
+      { header: 'Index', type: 'back' }
+      ];
+   var authors = ['Ed', 'Jake', 'Abby'];
    var book1 = { title: 'The DOM' };
-   var book2 = { title: 'Howdy HTML5',  chapters: chapters };
-   var book3 = { title: 'Styling CSS3', chapters: [] };
+   var book2 = { title: 'Howdy HTML5',  authors: authors, chapters: chapters };
+   var book3 = { title: 'Styling CSS3', authors: [],      chapters: [] };
    dna.clone('t12-book', [book1, book2, book3]);
+   });
+</script>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class=test-case>
+   <h3>Test Case: #13</h3>
+   <p>Simple array</p>
+   <fieldset>
+      <legend>Actual</legend>
+      <div class=book-list>
+         <div id=t13-book class=dna-template>
+            Book #<span>~~[count]~~</span>: <span>~~[value]~~</span>
+         </div>
+      </div>
+   </fieldset>
+   <fieldset>
+      <legend>Expected</legend>
+      <div class=book-list>
+         <div class=dna-clone>
+            Book #<span>1</span>: <span>The DOM</span>
+         </div>
+         <div class=dna-clone>
+            Book #<span>2</span>: <span>Howdy HTML5</span>
+         </div>
+         <div class=dna-clone>
+            Book #<span>3</span>: <span>Styling CSS3</span>
+         </div>
+      </div>
+   </fieldset>
+</div>
+<script>
+$(function() {
+   console.log('Test Case: #13');
+   var books = ['The DOM', 'Howdy HTML5', 'Styling CSS3'];
+   dna.clone('t13-book', books);
    });
 </script>
 

@@ -78,7 +78,7 @@
 <h3 id=setup>Setup</h3>
 <div class=toc>
    <header>Contents:</header>
-   <ol>
+   <ol type=A>
       <li><a href="#setup-css">CSS</a></li>
       <li><a href="#setup-js">JavaScript Libraries</a></li>
    </ol>
@@ -126,7 +126,7 @@
 <h3 id=html>HTML &mdash; Classes and Attributes</h3>
 <div class=toc>
    <header>Contents:</header>
-   <ol>
+   <ol type=A>
       <li><a href="#html-template">DNA Template</a></li>
       <li><a href="#html-field">DNA Field</a></li>
       <li><a href="#html-attr">DNA Attribute</a></li>
@@ -153,6 +153,13 @@
    </p>
    <div class=code-caption>Example HTML</div>
    <pre><code class=language-markup>&lt;span&gt;~~title~~&lt;/span&gt;</code></pre>
+   <p>
+      The field name referes to the field in the data object.&nbsp;  If the data
+      is a simple literal (string, number, or boolean) rather than an object,
+      use the special name <code>[value]</code> for the field.
+   </p>
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;span&gt;~~[value]~~&lt;/span&gt;</code></pre>
 </section>
 
 <section id=html-attr>
@@ -214,7 +221,7 @@
 <h3 id=api>JavaScript API &mdash; Calling DNA</h3>
 <div class=toc>
    <header>Methods:</header>
-   <ol>
+   <ol type=A>
       <li><a href="#api-clone">dna.clone()</a></li>
       <li><a href="#api-load">dna.load()</a></li>
       <li><a href="#api-empty">dna.empty()</a></li>
@@ -238,11 +245,10 @@
             Name of the template to clone.
          </li>
          <li>
-            <label><b>data</b> (Object or Array) <i>[optional]</i>:</label>
-            Object with data fields to be used in generating the clone.&nbsp;
-            If <code>data</code> is an array, it must be an array of data
-            objects where the length of the array is the number of clones to be
-            generated.
+            <label><b>data</b> (Object, String, Number, Boolean, or Array) <i>[optional]</i>:</label>
+            Data to be used for populating the template fields when cloning the
+            template.&nbsp;  If <code>data</code> is an array, the length of the
+            array is the number of clones to be generated.
          </li>
          <li>
             <!--#include file="~parameters.fhtml" -->
@@ -378,8 +384,9 @@ dna.mutate(clone, { title: 'The DOM 2' });</code></pre>
 <h3 id=complex>Complex Data</h3>
 <div class=toc>
    <header>Contents:</header>
-   <ol>
+   <ol type=A>
       <li><a href="#data-array">Data Arrays</a></li>
+      <li><a href="#data-literals">Arrays of Literals</a></li>
       <li><a href="#data-sub-object">Object Data Fields</a></li>
       <li><a href="#data-loop">Data Field Arrays</a></li>
       <li><a href="#data-sub-template">Nested Templates</a></li>
@@ -404,6 +411,32 @@ dna.clone('book', books);</code></pre>
    <div class=code-caption>Resulting HTML</div>
    <pre><code class=language-markup>&lt;div class=dna_clone&gt;The DOM&lt;/div&gt;
 &lt;div class=dna_clone&gt;Interwebz&lt;/div&gt;</code></pre>
+   <!-- End: Result  -->
+</section>
+
+<section id=data-literals>
+   <h4>Arrays of Literals</h4>
+   <p>
+      The special field <code>[value]</code> tells the template to use values
+      from an array of literals.&nbsp;  The special field <code>[count]</code>
+      is the value's index number in the array plus 1.
+   </p>
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;
+   &lt;span&gt;~~[count]~~&lt;span&gt;. &lt;span&gt;~~[value]~~&lt;span&gt;
+&lt;/div&gt;</code></pre>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>var books = ['The DOM', 'Interwebz'];
+dna.clone('book', books);</code></pre>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <div class=code-caption>Resulting HTML</div>
+   <pre><code class=language-markup>&lt;div class=dna_clone&gt;
+   &lt;span&gt;1&lt;/span&gt;. &lt;span&gt;The DOM&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class=dna_clone&gt;
+   &lt;span&gt;2&lt;/span&gt;. &lt;span&gt;Interwebz&lt;/span&gt;
+&lt;/div&gt;</code></pre>
    <!-- End: Result  -->
 </section>
 
@@ -441,7 +474,10 @@ dna.clone('book', book);</code></pre>
    </p>
    <div class=code-caption>Example HTML</div>
    <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;
-   Title: &lt;span&gt;~~title~~&lt;/span&gt;
+   Book: &lt;span&gt;~~title~~&lt;/span&gt; by
+   &lt;span&gt;
+      &lt;span data-dna-array=__authors__&gt;~~[value]~~&lt;/span&gt;
+   &lt;/span&gt;
    &lt;div&gt;
       &lt;div data-dna-array=__chapters__&gt;
          Chapter: &lt;span&gt;~~header~~&lt;/span&gt;
@@ -450,16 +486,21 @@ dna.clone('book', book);</code></pre>
 &lt;/div&gt;
 </code></pre>
    <div class=code-caption>Example JavaScript</div>
-   <pre><code class=language-javascript>var book = {
-   title: 'Interwebz',
-   chapters: [header: 'ARPANET', header: 'TCP/IP']
-   };
+   <pre><code class=language-javascript>var books = [
+   { title: 'Interwebz', authors: ['Ed', 'Jake', 'Abby'],
+      chapters: [header: 'ARPANET', header: 'TCP/IP'] }
+   ];
 dna.clone('book', books);</code></pre>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
    <div class=code-caption>Resulting HTML</div>
    <pre><code class=language-markup>&lt;div class=dna_clone&gt;
-   Title: &lt;span&gt;Interwebz&lt;/span&gt;
+   Book: &lt;span&gt;Interwebz&lt;/span&gt; by
+   &lt;span&gt;
+      &lt;span class=dna_clone&gt;Ed&lt;/span&gt;
+      &lt;span class=dna_clone&gt;Jake&lt;/span&gt;
+      &lt;span class=dna_clone&gt;Abby&lt;/span&gt;
+   &lt;/span&gt;
    &lt;div&gt;
       &lt;div class=dna_clone&gt;
          Chapter: &lt;span&gt;ARPANET&lt;/span&gt;

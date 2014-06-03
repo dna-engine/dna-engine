@@ -140,11 +140,12 @@ dna.store = {
    };
 
 dna.core = {
-   inject: function(clone, data, settings) {  //insert data into new clone
+   inject: function(clone, data, count, settings) {  //insert data into new clone
       dna.util.apply(clone, '.dna-field', function() {
          var elem = $(this);
          var field = elem.data('dna-field');
-         var value = dna.util.value(data, field);
+         var value = typeof data === 'object' ? dna.util.value(data, field) :
+            field === '[count]' ? count : field === '[value]' ? data : null;
          function printable(value) {
             return ['string', 'number', 'boolean'].indexOf(typeof value) !== -1;
             }
@@ -181,11 +182,11 @@ dna.core = {
       if (dnaData.array)
          dna.core.cloneSubtemplate(elem, data[elem.data('dnax').array]);
       },
-   replicate: function(template, data, settings) {  //make and setup the clone
+   replicate: function(template, data, count, settings) {  //make and setup the clone
       var clone = template.elem.clone(true, true);
       template.clones++;
       function process() { dna.core.processElem($(this), data); }
-      dna.core.inject(clone, data, settings);
+      dna.core.inject(clone, data, count, settings);
       clone.find('.dna-data').addBack('.dna-data').each(process);
       var selector = '.dna-contains-' + template.name;
       var container = settings.holder ?  //TODO: switch to '[dna-contains=' + template.name + ']'
@@ -206,8 +207,8 @@ dna.core = {
       if (!data.error)
          dna.api.clone(name, data, options);
       },
-   berserk: function(msg) {  //oops, file a tps report
-      throw 'dna.js error -> ' + msg;
+   berserk: function(message) {  //oops, file a tps report
+      throw 'dna.js error -> ' + message;
       }
    };
 
@@ -223,7 +224,7 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       var list = data instanceof Array ? data : [data];
       var clones = $();
       for (var index = 0; index < list.length; index++)
-         clones = clones.add(dna.core.replicate(template, list[index], settings));
+         clones = clones.add(dna.core.replicate(template, list[index], index + 1, settings));
       return clones;
       },
    load: function(name, url, options) {
@@ -242,7 +243,7 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
    mutate: function(clone, data, options) {
       var settings = { html: false };
       $.extend(settings, options);
-      dna.core.inject(clone, data, settings);
+      dna.core.inject(clone, data, null, settings);
       },
    info: function() {
       console.log('~~ dns.js v0.1.5 ~~');

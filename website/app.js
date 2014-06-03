@@ -35,9 +35,20 @@ app.nav = {
 			current = $('.navigation-bar li').first();
 		current.addClass('current');
       }
-   }
+   };
+
+app.manual = {
+   setup: function() {
+      function addOutlineNumber(elemIndex) {
+         $(this).text((elemIndex + 1) + '. ' + $(this).text());
+         }
+      if (window.location.pathname.indexOf('manual.html') !== -1)
+         $('h3').each(addOutlineNumber);
+      }
+   };
 
 $(function() {
    app.nav.setup();
    app.bookstore.setup();
+   app.manual.setup();
    });
