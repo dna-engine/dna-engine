@@ -93,7 +93,7 @@ dna.compile = {
       dna.compile.addDataToElems(elems, 'class');
       dna.compile.addDataToElems(elems, 'require');
       dna.compile.addDataToElems(elems, 'missing');
-      template.elem.removeClass('dna-template').addClass('dna-clone');
+      template.elem.removeClass('dna-template').addClass('dna-clone').addClass(template.name);
       template.compiled = true;
       }
    };
