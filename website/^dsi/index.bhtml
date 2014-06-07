@@ -66,7 +66,7 @@
 <div class=code-caption>Resulting HTML with DNA clone</div>
 <pre><code class=language-markup>&lt;div&gt;
    &lt;h2&gt;Featured Books&lt;/h2&gt;
-   &lt;div class=dna_clone&gt;
+   &lt;div class=book&gt;
       &lt;div&gt;Title:  &lt;span&gt;The DOM&lt;/span&gt;&lt;/div&gt;
       &lt;div&gt;Author: &lt;span&gt;Jan&lt;/span&gt;&lt;/div&gt;
    &lt;/div&gt;

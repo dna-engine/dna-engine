@@ -29,7 +29,7 @@ The new element is a DNA clone, and it is appended to the template's parent elem
 #### c) Resulting HTML with DNA clone
     <div>
        <h2>Featured Books</h2>
-       <div class=dna-clone>
+       <div class=book>
           <div>Title:  <span>The DOM</span></div>
           <div>Author: <span>Jan</span></div>
        </div>

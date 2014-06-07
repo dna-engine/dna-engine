@@ -1,6 +1,5 @@
 <!--#set var="title" value="Hello World Example" -->
 <!--#include file="~begin.fhtml" -->
-<!--#set var="jsfiddle" value="4jcyS" -->
 
 <p>
 The code below is a bare bones, standalone web page with the all CSS and
@@ -28,8 +27,8 @@ Each call to <code>dna.clone()</code> creates a new element from the
 &lt;style&gt;
    body          { font-family: sans-serif; margin: 30px; }
    .book-list    { width: 250px; }
+   .book         { background-color: pink; padding: 10px; margin-bottom: 15px; }
    .dna-template { display: none; }
-   .dna-clone    { background-color: pink; padding: 10px; margin-bottom: 15px; }
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;

@@ -48,8 +48,8 @@
 <dl>
    <dt>DNA Clone:</dt>
    <dd>
-      A DOM element that is made by copying a DNA Template.  The element has
-      the <code>dna-clone</code> class.
+      A DOM element that is made by copying a DNA Template.  The template name
+      is added as each clone's class name.
    </dd>
 </dl>
 <dl>
@@ -409,8 +409,8 @@ dna.clone('book', books);</code></pre>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
    <div class=code-caption>Resulting HTML</div>
-   <pre><code class=language-markup>&lt;div class=dna_clone&gt;The DOM&lt;/div&gt;
-&lt;div class=dna_clone&gt;Interwebz&lt;/div&gt;</code></pre>
+   <pre><code class=language-markup>&lt;div class=book&gt;The DOM&lt;/div&gt;
+&lt;div class=book&gt;Interwebz&lt;/div&gt;</code></pre>
    <!-- End: Result  -->
 </section>
 
@@ -431,10 +431,10 @@ dna.clone('book', books);</code></pre>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
    <div class=code-caption>Resulting HTML</div>
-   <pre><code class=language-markup>&lt;div class=dna_clone&gt;
+   <pre><code class=language-markup>&lt;div class=book&gt;
    &lt;span&gt;1&lt;/span&gt;. &lt;span&gt;The DOM&lt;/span&gt;
 &lt;/div&gt;
-&lt;div class=dna_clone&gt;
+&lt;div class=book&gt;
    &lt;span&gt;2&lt;/span&gt;. &lt;span&gt;Interwebz&lt;/span&gt;
 &lt;/div&gt;</code></pre>
    <!-- End: Result  -->
@@ -459,7 +459,7 @@ dna.clone('book', book);</code></pre>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
    <div class=code-caption>Resulting HTML</div>
-   <pre><code class=language-markup>&lt;div class=dna_clone&gt;
+   <pre><code class=language-markup>&lt;div class=book&gt;
    First Name: &lt;span&gt;Bo&lt;/span&gt;
 &lt;/div&gt;</code></pre>
    <!-- End: Result  -->
@@ -494,18 +494,18 @@ dna.clone('book', books);</code></pre>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
    <div class=code-caption>Resulting HTML</div>
-   <pre><code class=language-markup>&lt;div class=dna_clone&gt;
+   <pre><code class=language-markup>&lt;div class=book&gt;
    Book: &lt;span&gt;Interwebz&lt;/span&gt; by
    &lt;span&gt;
-      &lt;span class=dna_clone&gt;Ed&lt;/span&gt;
-      &lt;span class=dna_clone&gt;Jake&lt;/span&gt;
-      &lt;span class=dna_clone&gt;Abby&lt;/span&gt;
+      &lt;span&gt;Ed&lt;/span&gt;
+      &lt;span&gt;Jake&lt;/span&gt;
+      &lt;span&gt;Abby&lt;/span&gt;
    &lt;/span&gt;
    &lt;div&gt;
-      &lt;div class=dna_clone&gt;
+      &lt;div&gt;
          Chapter: &lt;span&gt;ARPANET&lt;/span&gt;
       &lt;/div&gt;
-      &lt;div class=dna_clone&gt;
+      &lt;div&gt;
          Chapter: &lt;span&gt;TCP/IP&lt;/span&gt;
       &lt;/div&gt;
    &lt;/div&gt;
@@ -547,10 +547,10 @@ dna.clone('book', { author: 'Jan' });</code></pre>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
    <div class=code-caption>Resulting HTML</div>
-   <pre><code class=language-markup>&lt;div class=dna_clone&gt;
+   <pre><code class=language-markup>&lt;div class=book&gt;
    &lt;span&gt;The DOM&lt;/span&gt;
 &lt;/div&gt;
-&lt;div class=dna_clone&gt;
+&lt;div class=book&gt;
    &lt;span&gt;[not found]&lt;/span&gt;
 &lt;/div&gt;</code></pre>
    <!-- End: Result  -->
@@ -564,22 +564,21 @@ dna.clone('book', { author: 'Jan' });</code></pre>
       into the clone.
    </p>
    <div class=code-caption>Example HTML</div>
-   <pre><code class=language-markup>&lt;div id=logo class=dna_template&gt;
+   <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;
    ~~title~~
 &lt;/div&gt;</code></pre>
    <div class=code-caption>Example JavaScript</div>
-   <pre><code class=language-javascript>var applyBackgnd = function(elem, data) {
+   <pre><code class=language-javascript>function applyBkgnd(elem, data) {
    elem.css('background-image', data.cover);
    };
-var options = { fade: true, callback: applyBackgnd };
-var book = { title: 'Task', cover: 'url(cover.png)' };
-dna.clone('logo', book, options);</code></pre>
+var options = { fade: true, callback: applyBkgnd };
+var book = { title: 'Taskmaster', cover: 'url(cover.png)' };
+dna.clone('book', book, options);</code></pre>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
    <div class=code-caption>Resulting HTML</div>
-   <pre><code class=language-markup>&lt;div class=dna_clone
-   style="background-image: url(cover.png);"&gt;
-   Task
+   <pre><code class=language-markup>&lt;div class=book style="background-image: url(cover.png);"&gt;
+   Taskmaster
 &lt;/div&gt;</code></pre>
    <!-- End: Result  -->
 </section>

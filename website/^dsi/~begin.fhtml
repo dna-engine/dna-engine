@@ -16,6 +16,8 @@
 <!--#set var="authors"   value="Center Key Software and other contributors"-->
 <!--#set var="release"   value="v0.1.5 (beta)"                             -->
 <!--#set var="size"      value="5 kb"                                      -->
+<!--#set var="jsfiddle"  value="Bk4wX"                                     -->
+
 <html>
 <head>
 <meta charset=utf-8>

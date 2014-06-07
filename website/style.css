@@ -17,13 +17,13 @@
    font-size: 11pt;
    margin-bottom: 10px;
    }
-.featured-books .dna-clone {
+.featured-books .book {
    background-color: gold;
    border: 1px solid silver;
    padding: 10px;
    margin: 0px 10px 10px 10px;
    }
-.featured-books .dna-clone span {
+.featured-books .book span {
    font-weight: bold;
    }
 
