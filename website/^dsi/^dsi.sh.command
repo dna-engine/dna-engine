@@ -25,9 +25,10 @@ cp -v htaccess.txt "$target/.htaccess"
 cp -R graphics rest "$target"
 cd "$target"
 echo "\nDownloading:"
-curl -O https://raw.github.com/dnajs/dna.js/current/dna.js
-curl -O https://raw.github.com/dnajs/dna.js/current/dna.min.js
-curl -O https://raw.github.com/dnajs/dna.js/current/test-cases.html
+pwd
+curl -O https://raw.githubusercontent.com/dnajs/dna.js/current/dna.js
+curl -O https://raw.githubusercontent.com/dnajs/dna.js/current/dna.min.js
+curl -O https://raw.githubusercontent.com/dnajs/dna.js/current/test-cases.html
 echo "\nWebsite:"
 pwd
 ls -l
