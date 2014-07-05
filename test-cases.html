@@ -26,7 +26,7 @@
    #back          { background-color: honeydew; }
    .border-change { border: 2px solid darkorange; }
 </style>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
    console.log('~~ dna.js Test Cases ~~');
    var dna =    '<script src=dna.js>';
@@ -554,6 +554,19 @@ $(function() {
 				<span>
 				</span>
          </div>
+         <div class=dna-clone>
+            <div>Title:  <span>Howdy HTML5</span></div>
+				Authors:
+				<span>
+					<span class=dna-clone> (1) <span>Ed</span> </span>
+					<span class=dna-clone> (2) <span>Jake</span> </span>
+					<span class=dna-clone> (3) <span>Abby</span> </span>
+				</span>
+            <div class="dna-clone color-change"><span data-type=front>front</span>:
+            <span id=front>Preface</span></div>
+            <div class="dna-clone color-change"><span data-type=back>back</span>:
+            <span id=back>Index</span></div>
+         </div>
       </div>
    </fieldset>
 </div>
@@ -568,7 +581,8 @@ $(function() {
    var book1 = { title: 'The DOM' };
    var book2 = { title: 'Howdy HTML5',  authors: authors, chapters: chapters };
    var book3 = { title: 'Styling CSS3', authors: [],      chapters: [] };
-   dna.clone('t12-book', [book1, book2, book3]);
+   dna.clone('t12-book', [book1, book2, book3, book1]);
+   dna.mutate($('.t12-book').last(), book2);
    });
 </script>
 
