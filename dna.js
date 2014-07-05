@@ -11,7 +11,7 @@ dna.util = {
       },
    toCode: function(camelCaseStr) {  //example: 'readySetGo' ==> 'ready-set-go'
       function dash(word) { return '-' + word.toLowerCase(); }
-      return ('' + camelCaseStr).replace(/([A-Z])/g, dash);
+      return ('' + camelCaseStr).replace(/([A-Z])/g, dash).replace(/\s|^-/g, '');
       },
    value: function(data, fields) {  //example: { a: { b: 7 }}, 'a.b' ==> 7
       if (typeof fields === 'string')
@@ -111,7 +111,7 @@ dna.store = {
             dnaData.array = dna.compile.getDataField(elem, 'array');
             holder.data('dnax', dnaData).addClass('dna-data');
             holder.data('dna-array-index', elem.index());
-            elem.attr('id', name + '-array-' + dnaData.array);
+            elem.attr('id', name + '-' + dnaData.array + '-instance');
             });
          elem.find('.dna-template').each(dna.store.stashNested);
          }
