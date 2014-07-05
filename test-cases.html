@@ -589,11 +589,48 @@ $(function() {
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class=test-case>
    <h3>Test Case: #13</h3>
-   <p>Simple array</p>
+   <p>Security</p>
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
          <div id=t13-book class=dna-template>
+            Title: <span>~~[value]~~</span>
+         </div>
+      </div>
+   </fieldset>
+   <fieldset>
+      <legend>Expected</legend>
+      <div class=book-list>
+         <div class=dna-clone>
+            Title: <span>&lt;script&gt;alert(1);&lt;/script&gt;</span>
+         </div>
+         <div class=dna-clone>
+            Title: <span>&lt;script&gt;alert(2);&lt;/script&gt;</span>
+         </div>
+         <div class=dna-clone>
+            Title: <span>3</span>
+         </div>
+      </div>
+   </fieldset>
+</div>
+<script>
+$(function() {
+   console.log('Test Case: #13');
+   dna.clone('t13-book', '<script>alert(1);<\/script>');
+   dna.clone('t13-book', '<script>alert(2);<\/script>', { html: false });
+   dna.clone('t13-book', '<script>$(".t13-book").last().find("span").text(3);<\/script>',
+      { html: true });
+   });
+</script>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class=test-case>
+   <h3>Test Case: #14</h3>
+   <p>Simple array</p>
+   <fieldset>
+      <legend>Actual</legend>
+      <div class=book-list>
+         <div id=t14-book class=dna-template>
             Book #<span>~~[count]~~</span>: <span>~~[value]~~</span>
          </div>
       </div>
@@ -615,9 +652,9 @@ $(function() {
 </div>
 <script>
 $(function() {
-   console.log('Test Case: #13');
+   console.log('Test Case: #14');
    var books = ['The DOM', 'Howdy HTML5', 'Styling CSS3'];
-   dna.clone('t13-book', books);
+   dna.clone('t14-book', books);
    });
 </script>
 
