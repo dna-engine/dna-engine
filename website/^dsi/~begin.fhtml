@@ -37,7 +37,7 @@
    <ul class=navigation-bar>
       <li><a href=".">Home</a></li>
       <li><a href="hello-world.html">Example</a></li>
-      <li><a href="manual.html">Manual</a></li>
+      <li><a href="manual.html">Documentation</a></li>
       <li><a href="forum.html">Forum</a></li>
       <li><a href="license.html">License</a></li>
    </ul>

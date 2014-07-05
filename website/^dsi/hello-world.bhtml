@@ -41,7 +41,7 @@ Each call to <code>dna.clone()</code> creates a new element from the
    &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;dna.min.js&quot;&gt;&lt;/script&gt;
 &lt;script&gt;
    dna.clone('book', { title: 'The DOM',     author: 'Jan' });

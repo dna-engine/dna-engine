@@ -39,12 +39,10 @@
 </p>
 
 <div class=code-caption>HTML for <code>book</code> template</div>
-<pre><code class=language-markup>&lt;div&gt;
-   &lt;h2&gt;Featured Books&lt;/h2&gt;
-   &lt;div id=book class=dna_template&gt;
-      &lt;div&gt;Title:  &lt;span&gt;~~title~~&lt;/span&gt;&lt;/div&gt;
-      &lt;div&gt;Author: &lt;span&gt;~~author~~&lt;/span&gt;&lt;/div&gt;
-   &lt;/div&gt;
+<pre><code class=language-markup>&lt;h1&gt;Featured Books&lt;/h1&gt;
+&lt;div id=book class=dna_template&gt;
+   &lt;div&gt;Title:  &lt;span&gt;~~title~~&lt;/span&gt;&lt;/div&gt;
+   &lt;div&gt;Author: &lt;span&gt;~~author~~&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
 
@@ -64,12 +62,10 @@
 </p>
 
 <div class=code-caption>Resulting HTML with DNA clone</div>
-<pre><code class=language-markup>&lt;div&gt;
-   &lt;h2&gt;Featured Books&lt;/h2&gt;
-   &lt;div class=book&gt;
-      &lt;div&gt;Title:  &lt;span&gt;The DOM&lt;/span&gt;&lt;/div&gt;
-      &lt;div&gt;Author: &lt;span&gt;Jan&lt;/span&gt;&lt;/div&gt;
-   &lt;/div&gt;
+<pre><code class=language-markup>&lt;h1&gt;Featured Books&lt;/h1&gt;
+&lt;div class=book&gt;
+   &lt;div&gt;Title:  &lt;span&gt;The DOM&lt;/span&gt;&lt;/div&gt;
+   &lt;div&gt;Author: &lt;span&gt;Jan&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
 
