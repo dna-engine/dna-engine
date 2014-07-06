@@ -250,6 +250,8 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       var settings = { html: false };
       $.extend(settings, options);
       dna.core.inject(clone, data, null, settings);
+      function process() { dna.core.processElem($(this), data); }  //TODO: verify it's ok to processElem when mutating (not just initial cloning)
+      clone.find('.dna-data').addBack('.dna-data').each(process);
       },
    info: function() {
       console.log('~~ dns.js v0.1.5 ~~');
