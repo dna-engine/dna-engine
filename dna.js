@@ -80,12 +80,12 @@ dna.compile = {
       },
    addDataToElems: function(elems, type) {
       // Example with "require" type:
-      //    data-dna-require=~~title~~  ==>  data-dnax = { require: "title" }
+      //    data-dna-require=~~title~~  ==>  data-dna-model = { require: "title" }
       function add() {
          var elem = $(this);
-         var dnaData = elem.data('dnax') ? elem.data('dnax') : {};
+         var dnaData = elem.data('dna-model') ? elem.data('dna-model') : {};
          dnaData[type] = dna.compile.getDataField(elem, type);
-         elem.data('dnax', dnaData).addClass('dna-data');
+         elem.data('dna-model', dnaData).addClass('dna-data');
          }
       return elems.filter('[data-dna-' + type + ']').each(add);
       },
@@ -107,14 +107,14 @@ dna.store = {
    stash: function(name, isNested) {
       var elem = $('#' + name);
       function stashSubTemplate() {
-			var elem = $(this);
-			var holder = elem.parent();
-			var dnaData = holder.data('dnax') ? elem.data('dnax') : {};
-			dnaData.array = dna.compile.getDataField(elem, 'array');
-			holder.data('dnax', dnaData).addClass('dna-data');
-			holder.data('dna-array-index', elem.index());
-			elem.attr('id', name + '-' + dnaData.array + '-instance');
-			}
+         var elem = $(this);
+         var holder = elem.parent();
+         var dnaData = holder.data('dna-model') ? elem.data('dna-model') : {};
+         dnaData.array = dna.compile.getDataField(elem, 'array');
+         holder.data('dna-model', dnaData).addClass('dna-data');
+         holder.data('dna-array-index', elem.index());
+         elem.attr('id', name + '-' + dnaData.array + '-instance');
+         }
       if (!isNested) {
          elem.find('[data-dna-array]').addClass('dna-template').each(stashSubTemplate);
          elem.find('.dna-template').each(dna.store.stashNested);
@@ -172,13 +172,13 @@ dna.core = {
          }
       dna.util.apply(clone, '.dna-attr', injectAttr);
       },
-   cloneSubtemplate: function(holder, dataArray) {
+   cloneSubTemplate: function(holder, dataArray) {
       var templateName = holder.data('dna-contains');
       if (dataArray)
          dna.clone(templateName, dataArray, { holder: holder });
       },
    processElem: function(elem, data) {
-      var dnaData = elem.data('dnax');
+      var dnaData = elem.data('dna-model');
       function processClass() { elem.addClass(dna.util.value(data, this)); }
       if (dnaData['class'])
          $.each(('' + dnaData['class']).split(','), processClass);
@@ -187,13 +187,13 @@ dna.core = {
       if (dnaData.missing)
          elem.toggle(dna.util.value(data, dnaData.missing) === undefined);
       if (dnaData.array)
-         dna.core.cloneSubtemplate(elem, data[elem.data('dnax').array]);
+         dna.core.cloneSubTemplate(elem, data[elem.data('dna-model').array]);
       },
    replicate: function(template, data, count, settings) {  //make and setup the clone
       var clone = template.elem.clone(true, true);
       template.clones++;
-      function process() { dna.core.processElem($(this), data); }
       dna.core.inject(clone, data, count, settings);
+      function process() { dna.core.processElem($(this), data); }
       clone.find('.dna-data').addBack('.dna-data').each(process);
       var selector = '.dna-contains-' + template.name;
       var container = settings.holder ?  //TODO: switch to '[dna-contains=' + template.name + ']'
