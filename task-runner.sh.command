@@ -46,28 +46,27 @@ echo
 echo "Checked in version:"
 echo $version
 echo
-if [ "$version" == "$released" ]
-   then
-      echo "Status: RELEASED"
-      echo
-      echo "Steps to prepare for next release"
-      echo "   1) Increment version number in:"
-      echo "         $(pwd)/package.json"
-      echo "   2) Rerun:"
-      echo "         $(pwd)/task-runner.sh.command"
-      echo "   3) Check changes into git with the comment:"
-      echo "         Version number updated for next release"
-   else
-      echo "Status: NOT YET RELEASED"
-      echo
-      echo "To release this version:"
-      echo "   cd $(pwd)"
-      echo "   git tag -af $version -m \"Beta release\""
-      echo "   git tag -af current -m \"Current stable release\""
-      echo "   git remote -v"
-      echo "   git push origin --tags --force"
-      #...plus README.md, bower, jquery, release notes, and web site
-   fi
+status="NOT YET RELEASED"
+if [ "$version" == "$released" ]; then
+	status="RELEASED"
+	fi
+echo "Status: $status"
+echo
+echo "Steps to prepare for next release"
+echo "   1) Increment version number in:"
+echo "         $(pwd)/package.json"
+echo "   2) Rerun:"
+echo "         $(pwd)/task-runner.sh.command"
+echo "   3) Check changes into git with the comment:"
+echo "         Version number updated for next release"
+echo
+echo "To release this version:"
+echo "   cd $(pwd)"
+echo "   git tag -af $version -m \"Beta release\""
+echo "   git tag -af current -m \"Current stable release\""
+echo "   git remote -v"
+echo "   git push origin --tags --force"
+echo "TBD: README.md, bower, jquery, release notes, and web site"
 echo
 open test-cases.html
 echo "=================="
