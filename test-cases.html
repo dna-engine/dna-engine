@@ -46,7 +46,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class=test-case>
    <h3>Test Case: #01</h3>
-   <p>Add 2 items</p>
+   <p>Add 3 items and delete 1 item</p>
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
@@ -74,10 +74,13 @@
 <script>
 $(function() {
    console.log('Test Case: #01');
-   var book1 = { title: 'The DOM',     author: 'Jan' };
-   var book2 = { title: 'Howdy HTML5', author: 'Ed' };
+   var book1 = { title: 'The DOM',      author: 'Jan' };
+   var book2 = { title: 'Styling CSS3', author: 'Abby' };
+   var book3 = { title: 'Howdy HTML5',  author: 'Ed' };
    dna.clone('t01-book', book1);
-   dna.clone('t01-book', book2);
+   var clone = dna.clone('t01-book', book2);
+   dna.clone('t01-book', book3);
+   dna.destroy(clone, { fade: true });
    });
 </script>
 

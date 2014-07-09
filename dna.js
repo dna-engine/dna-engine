@@ -33,7 +33,10 @@ dna.util = {
       },
    apply: function(elem, selector, func, param) {  //calls func for each element (param is optional)
       elem.find(selector).addBack(selector).each(func);
-      }
+      },
+   deleteElem: function() {
+   	$(this).remove();
+   	}
    };
 
 dna.compile = {
@@ -239,9 +242,8 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       var settings = { fade: false };
       $.extend(settings, options);
       var clones = dna.store.getTemplate(name).container.find('.dna-clone');
-      function deleteElem() { $(this).remove(); }
       if (settings.fade)
-         clones.fadeOut('normal', deleteElem);
+         clones.fadeOut('normal', dna.util.deleteElem);
       else
          clones.remove();
       return clones;
@@ -253,6 +255,12 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       function process() { dna.core.processElem($(this), data); }  //TODO: verify it's ok to processElem when mutating (not just initial cloning)
       clone.find('.dna-data').addBack('.dna-data').each(process);
       },
+   destroy: function(clone, options) {
+      if (options.fade)
+         clone.fadeOut('normal', dna.util.deleteElem);
+      else
+         clones.remove();
+      },
    info: function() {
       console.log('~~ dns.js v0.1.6 ~~');
       console.log('count:', Object.keys(dna.store.templates).length);
@@ -262,8 +270,9 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       }
    };
 
-dna.clone =  dna.api.clone;
-dna.load =   dna.api.load;
-dna.empty =  dna.api.empty;
-dna.mutate = dna.api.mutate;
-dna.info =   dna.api.info;
+dna.clone =   dna.api.clone;
+dna.load =    dna.api.load;
+dna.empty =   dna.api.empty;
+dna.mutate =  dna.api.mutate;
+dna.destroy = dna.api.destroy;
+dna.info =    dna.api.info;
