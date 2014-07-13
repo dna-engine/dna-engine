@@ -13,29 +13,32 @@ dna.util = {
       function dash(word) { return '-' + word.toLowerCase(); }
       return ('' + camelCaseStr).replace(/([A-Z])/g, dash).replace(/\s|^-/g, '');
       },
-   value: function(data, fields) {  //example: { a: { b: 7 }}, 'a.b' ==> 7
-      if (typeof fields === 'string')
-         fields = fields.split('.');
-      return (data === null || data === undefined || fields === undefined) ? null :
-         (fields.length === 1 ? data[fields[0]] : this.value(data[fields[0]], fields.slice(1)));
+   value: function(data, field) {  //example: dna.util.value({ a: { b: 7 }}, 'a.b'); ==> 7
+      if (typeof field === 'string')
+         field = field.split('.');
+      return (data === null || data === undefined || field === undefined) ? null :
+         (field.length === 1 ? data[field[0]] : this.value(data[field[0]], field.slice(1)));
       },
-   call: function(fnName, elem) {  //example: 'app.cart.buy' ==> window['app']['cart']['buy'](elem);
+   call: function(func, param) {  //calls func (string name or actual function) passing in param
+       //example: dna.util.call('app.cart.buy', 7); ==> app.cart.buy(7);
       function contextCall(obj, names) {
          if (!obj)
-            dna.core.berserk('Invalid name before "' + names[0] + '" in: ' + fnName);
+            dna.core.berserk('Invalid name before "' + names[0] + '" in: ' + func);
          else if (names.length == 1)
-            obj[names[0]](elem);
+            obj[names[0]](param);  //'app.cart.buy' -> window['app']['cart']['buy'](param);
          else
             contextCall(obj[names[0]], names.slice(1));
          }
-      if (fnName && elem.length)
-         contextCall(window, fnName.split('.'));
-      return elem;
+      if (typeof(func) === 'string')
+         contextCall(window, func.split('.'));
+      else if (func instanceof Function)
+         func(param);
+      return param;
       },
    apply: function(elem, selector, func, param) {  //calls func for each element (param is optional)
       return elem.find(selector).addBack(selector).each(func);
       },
-   deleteElem: function() {
+   deleteElem: function() {  //example: $('.box').fadeOut(dna.util.deleteElem);
       return $(this).remove();
       },
    slideFadeIn: function(elem, callback) {
