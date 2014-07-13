@@ -68,7 +68,6 @@
             <div>Author: <span>Ed</span></div>
          </div>
       </div>
-
    </fieldset>
 </div>
 <script>
@@ -80,7 +79,7 @@ $(function() {
    dna.clone('t01-book', book1);
    var clone = dna.clone('t01-book', book2);
    dna.clone('t01-book', book3);
-   dna.destroy(clone, { fade: true });
+   dna.destroy(clone);
    });
 </script>
 

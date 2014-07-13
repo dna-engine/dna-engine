@@ -30,13 +30,29 @@ dna.util = {
          }
       if (fnName && elem.length)
          contextCall(window, fnName.split('.'));
+      return elem;
       },
    apply: function(elem, selector, func, param) {  //calls func for each element (param is optional)
-      elem.find(selector).addBack(selector).each(func);
+      return elem.find(selector).addBack(selector).each(func);
       },
    deleteElem: function() {
-   	$(this).remove();
-   	}
+      return $(this).remove();
+      },
+   slideFadeIn: function(elem, callback) {
+      var obscure = { opacity: 0.0, transition: 'opacity 0s ease 0s' };
+      var reveal =  { opacity: 1.0, transition: 'opacity 0.4s ease-in' };
+      return elem.css(obscure).hide().slideDown().css(reveal);
+      },
+   slideFadeOut: function(elem, callback) {
+      var fade = { opacity: 0.0, transition: 'opacity 0.4s ease-in' };
+      return elem.css(fade).slideUp({ complete: callback });
+      },
+   slideFadeToggle: function(elem, callback) {
+      return dna.util[elem.is(':visible') ? 'slideFadeOut' :  'slideFadeIn'](elem, callback);
+      },
+   slideFadeDelete: function(elem) {
+      return dna.util.slideFadeOut(elem, dna.util.deleteElem);
+      }
    };
 
 dna.compile = {
@@ -64,6 +80,7 @@ dna.compile = {
       var elem = $(this);
       elem.addClass('dna-field').data('dna-field',
          $.trim(elem.text()).replace(dna.compile.regexDnaBasePairs, '')).empty();
+      return elem;
       },
    attrs: function() {
       var elem = $(this);
@@ -76,6 +93,7 @@ dna.compile = {
       $.each(elem.get(0).attributes, compile);
       if (list.length > 0)
          elem.addClass('dna-attr').data('dna', list);
+      return elem;
       },
    getDataField: function(elem, type) {
       return $.trim(elem.data('dna-' + type)
@@ -101,6 +119,7 @@ dna.compile = {
       dna.compile.addDataToElems(elems, 'missing');
       template.elem.removeClass('dna-template').addClass('dna-clone').addClass(template.name);
       template.compiled = true;
+      return template;
       }
    };
 
@@ -134,7 +153,7 @@ dna.store = {
       return dna.store.templates[name];
       },
    stashNested: function() {
-      dna.store.stash($(this).attr('id'), true);
+      return dna.store.stash($(this).attr('id'), true);
       },
    getTemplate: function(name) {
       var template = dna.store.templates[name] || dna.store.stash(name);
@@ -191,6 +210,7 @@ dna.core = {
          elem.toggle(dna.util.value(data, dnaData.missing) === undefined);
       if (dnaData.array)
          dna.core.cloneSubTemplate(elem, data[elem.data('dna-model').array]);
+      return elem;
       },
    replicate: function(template, data, count, settings) {  //make and setup the clone
       var clone = template.elem.clone(true, true);
@@ -207,7 +227,7 @@ dna.core = {
       if (settings.task)  //DEPRECATED
          settings.task(clone, data);
       if (settings.fade)
-         clone.hide().fadeIn();
+         dna.util.slideFadeIn(clone);
       return clone;
       },
    unload: function(name, data, options) {  //use rest data to make clone
@@ -236,14 +256,14 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       },
    load: function(name, url, options) {
       function processJson(data) { dna.core.unload(name, data, options); }
-      $.getJSON(url, processJson);
+      return $.getJSON(url, processJson);
       },
    empty: function(name, options) {
       var settings = { fade: false };
       $.extend(settings, options);
       var clones = dna.store.getTemplate(name).container.find('.dna-clone');
       if (settings.fade)
-         clones.fadeOut('normal', dna.util.deleteElem);
+         dna.util.slideFadeDelete(clones);
       else
          clones.remove();
       return clones;
@@ -254,12 +274,16 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       dna.core.inject(clone, data, null, settings);
       function process() { dna.core.processElem($(this), data); }  //TODO: verify it's ok to processElem when mutating (not just initial cloning)
       clone.find('.dna-data').addBack('.dna-data').each(process);
+      return clone;
       },
    destroy: function(clone, options) {
-      if (options.fade)
-         clone.fadeOut('normal', dna.util.deleteElem);
+      var settings = { fade: false };
+      $.extend(settings, options);
+      if (settings.fade)
+         dna.util.slideFadeDelete(clone);
       else
-         clones.remove();
+         clone.remove();
+      return clone;
       },
    info: function() {
       console.log('~~ dns.js v0.1.6 ~~');
