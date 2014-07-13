@@ -226,6 +226,7 @@
       <li><a href="#api-load">dna.load()</a></li>
       <li><a href="#api-empty">dna.empty()</a></li>
       <li><a href="#api-mutate">dna.mutate()</a></li>
+      <li><a href="#api-destroy">dna.destroy()</a></li>
       <li><a href="#api-info">dna.info()</a></li>
    </ol>
 </div>
@@ -345,7 +346,7 @@
       <ul>
          <li>
             <label><b>clone</b> (jQuery Element):</label>
-            A element returned from a call to the <code>dna.clone()</code> method.
+            An element returned from a call to the <code>dna.clone()</code> method.
          </li>
          <li>
             <label><b>data</b> (Object):</label>
@@ -359,6 +360,37 @@
    <pre><code class=language-javascript>var book = { title: 'The DOM', author: 'Bo' };
 var clone = dna.clone('book', book);
 dna.mutate(clone, { title: 'The DOM 2' });</code></pre>
+   <div class=api-details>
+   </div>
+</section>
+
+<!--  dna.destroy()  -->
+<section id=api-destroy>
+   <h4>dna.destroy(clone[, options])</h4>
+   <div class=api-description>
+      Removes an existing clone from the DOM.
+   </div>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>clone</b> (jQuery Element):</label>
+            An element returned from a call to the <code>dna.clone()</code> method.
+         </li>
+         <li>
+            <label><b>options</b> (Object) <i>[optional]</i>:</label>
+            <ul>
+               <li>
+                  <label><b>fade</b> (Boolean) &mdash;</label>
+                  Use the jQuery <code>.fadeOut()</code> effect (default: <b>false</b>).
+               </li>
+            </ul>
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>var clone = dna.clone('book', book);
+dna.destroy(clone, { fade: true });</code></pre>
    <div class=api-details>
    </div>
 </section>

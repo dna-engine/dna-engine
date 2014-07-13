@@ -1,7 +1,7 @@
 <div>
-   <header>June 3, 2014</header>
-   <p>Release 0.1.5 of dna.js adds support for simple arrays and for numeric and
-   boolean field types.</p>
+   <header>July 7, 2014</header>
+   <p>Release 0.1.6 of dna.js adds support for mutating values in
+   sub-templates (embedded arrays).</p>
 </div>
 
 <!-- - - - - - - - - - - - - - - -->
@@ -9,6 +9,11 @@
 <div class=reveal-target data-reveal=more-news>
 <!-- - - - - - - - - - - - - - - -->
 
+<div>
+   <header>June 3, 2014</header>
+   <p>Release 0.1.5 of dna.js adds support for simple arrays and for numeric and
+   boolean field types.</p>
+</div>
 <div>
    <header>February 6, 2014</header>
    <p>Release 0.1.4 of dna.js adds support for array field sub-templates.&nbsp;
