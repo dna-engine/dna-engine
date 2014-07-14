@@ -113,12 +113,12 @@ dna.compile = {
       },
    addDataToElems: function(elems, type) {
       // Example with "require" type:
-      //    data-dna-require=~~title~~  ==>  data-dna-model = { require: "title" }
+      //    data-dna-require=~~title~~  ==>  data-dna-rules = { require: "title" }
       function add() {
          var elem = $(this);
-         var dnaData = elem.data('dna-model') ? elem.data('dna-model') : {};
+         var dnaData = elem.data('dna-rules') ? elem.data('dna-rules') : {};
          dnaData[type] = dna.compile.getDataField(elem, type);
-         elem.data('dna-model', dnaData).addClass('dna-data');
+         elem.data('dna-rules', dnaData).addClass('dna-data');
          }
       return elems.filter('[data-dna-' + type + ']').each(add);
       },
@@ -145,9 +145,9 @@ dna.store = {
       function stashSubTemplate() {
          var elem = $(this);
          var holder = elem.parent();
-         var dnaData = holder.data('dna-model') ? elem.data('dna-model') : {};
+         var dnaData = holder.data('dna-rules') ? elem.data('dna-rules') : {};
          dnaData.array = dna.compile.getDataField(elem, 'array');
-         holder.data('dna-model', dnaData).addClass('dna-data');
+         holder.data('dna-rules', dnaData).addClass('dna-data');
          holder.data('dna-array-index', elem.index());
          elem.attr('id', name + '-' + dnaData.array + '-instance');
          }
@@ -181,6 +181,7 @@ dna.store = {
 
 dna.core = {
    inject: function(clone, data, count, settings) {  //insert data into new clone
+   	clone.data('dna-model', data);
       function injectField() {
          var elem = $(this);
          var field = elem.data('dna-field');
@@ -214,7 +215,7 @@ dna.core = {
          dna.clone(templateName, dataArray, { holder: holder });
       },
    processElem: function(elem, data) {
-      var dnaData = elem.data('dna-model');
+      var dnaData = elem.data('dna-rules');
       function processClass() { elem.addClass(dna.util.value(data, this)); }
       if (dnaData['class'])
          $.each(('' + dnaData['class']).split(','), processClass);
@@ -227,7 +228,7 @@ dna.core = {
       if (dnaData.falsey)
          elem.toggle(!dna.util.realTruth(dna.util.value(data, dnaData.falsey)));
       if (dnaData.array)
-         dna.core.cloneSubTemplate(elem, data[elem.data('dna-model').array]);
+         dna.core.cloneSubTemplate(elem, data[elem.data('dna-rules').array]);
       return elem;
       },
    replicate: function(template, data, count, settings) {  //make and setup the clone
@@ -276,6 +277,9 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       function processJson(data) { dna.core.unload(name, data, options); }
       return $.getJSON(url, processJson);
       },
+   getModel: function(clone) {
+      return clone.data('dna-model');
+      },
    empty: function(name, options) {
       var settings = { fade: false };
       $.extend(settings, options);
@@ -312,9 +316,10 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       }
    };
 
-dna.clone =   dna.api.clone;
-dna.load =    dna.api.load;
-dna.empty =   dna.api.empty;
-dna.mutate =  dna.api.mutate;
-dna.destroy = dna.api.destroy;
-dna.info =    dna.api.info;
+dna.clone =    dna.api.clone;
+dna.load =     dna.api.load;
+dna.getModel = dna.api.getModel;
+dna.empty =    dna.api.empty;
+dna.mutate =   dna.api.mutate;
+dna.destroy =  dna.api.destroy;
+dna.info =     dna.api.info;

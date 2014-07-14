@@ -359,7 +359,7 @@ $(function() {
             <div>Score:   <span>81</span></div>
             <div>On Sale: <span>true</span></div>
          </div>
-         <div class=dna-clone>
+         <div class="dna-clone border-change">
             <div>Title:   <span>Howdy HTML5</span></div>
             <div>Author:  <span>Ed II</span></div>
             <div>Score:   <span>97</span></div>
@@ -376,9 +376,13 @@ $(function() {
    var book3 = { title: 'Howdy HTML5', author: 'Ed',     score: 92, sale: false };
    var clone;
    clone = dna.clone('t08-book', book1);
+   var modelOk = dna.getModel(clone).title === book1.title;  //test initial model
    dna.mutate(clone, book2);
    clone = dna.clone('t08-book', book3);
    dna.mutate(clone, { author: 'Ed II', score: 97 });
+   modelOk = modelOk && dna.getModel(clone).score === 97;  //test mutated model
+   if (modelOk)
+      clone.addClass('border-change');
    });
 </script>
 
@@ -541,18 +545,18 @@ $(function() {
       <div class=book-list>
          <div class=dna-clone>
             <div>Title:  <span>The DOM</span></div>
-				Authors:
-				<span>
-				</span>
+            Authors:
+            <span>
+            </span>
          </div>
          <div class=dna-clone>
             <div>Title:  <span>Howdy HTML5</span></div>
-				Authors:
-				<span>
-					<span class=dna-clone> (1) <span>Ed</span> </span>
-					<span class=dna-clone> (2) <span>Jake</span> </span>
-					<span class=dna-clone> (3) <span>Abby</span> </span>
-				</span>
+            Authors:
+            <span>
+               <span class=dna-clone> (1) <span>Ed</span> </span>
+               <span class=dna-clone> (2) <span>Jake</span> </span>
+               <span class=dna-clone> (3) <span>Abby</span> </span>
+            </span>
             <div class="dna-clone color-change"><span data-type=front>front</span>:
             <span id=front>Preface</span></div>
             <div class="dna-clone color-change"><span data-type=back>back</span>:
@@ -560,18 +564,18 @@ $(function() {
          </div>
          <div class=dna-clone>
             <div>Title:  <span>Styling CSS3</span></div>
-				Authors:
-				<span>
-				</span>
+            Authors:
+            <span>
+            </span>
          </div>
          <div class=dna-clone>
             <div>Title:  <span>Howdy HTML5</span></div>
-				Authors:
-				<span>
-					<span class=dna-clone> (1) <span>Ed</span> </span>
-					<span class=dna-clone> (2) <span>Jake</span> </span>
-					<span class=dna-clone> (3) <span>Abby</span> </span>
-				</span>
+            Authors:
+            <span>
+               <span class=dna-clone> (1) <span>Ed</span> </span>
+               <span class=dna-clone> (2) <span>Jake</span> </span>
+               <span class=dna-clone> (3) <span>Abby</span> </span>
+            </span>
             <div class="dna-clone color-change"><span data-type=front>front</span>:
             <span id=front>Preface</span></div>
             <div class="dna-clone color-change"><span data-type=back>back</span>:
