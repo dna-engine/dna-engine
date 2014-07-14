@@ -472,6 +472,10 @@ $(function() {
             </div>
             <div data-dna-require=~~author~~>Author: <span>~~author~~</span></div>
             <div data-dna-missing=~~author~~><i>[no author]</i></div>
+            <div data-dna-truthy=~~available~~>Available</div>
+            <div data-dna-falsey=~~available~~>Out of stock</div>
+            <div data-dna-truthy=~~onSale~~>ON SALE!</div>
+            <div data-dna-falsey=~~onSale~~>Regular price</div>
          </div>
       </div>
    </fieldset>
@@ -480,15 +484,19 @@ $(function() {
       <div class=book-list>
          <div class=dna-clone>
             <div>Title:
-               <span data-dna-missing=~~title~~><i>[Gone with the Wind]</i></span>
+               <span><i>[Gone with the Wind]</i></span>
             </div>
-            <div data-dna-require=~~author~~>Author: <span>Jan</span></div>
+            <div>Author: <span>Jan</span></div>
+            <div>Available</div>
+            <div>ON SALE!</div>
          </div>
          <div class=dna-clone>
             <div>Title:
-               <span data-dna-require=~~title~~>Howdy HTML5</span>
+               <span>Howdy HTML5</span>
             </div>
-            <div data-dna-missing=~~author~~><i>[no author]</i></div>
+            <div><i>[no author]</i></div>
+            <div>Out of stock</div>
+            <div>Regular price</div>
          </div>
       </div>
    </fieldset>
@@ -496,8 +504,8 @@ $(function() {
 <script>
 $(function() {
    console.log('Test Case: #11');
-   var book1 = { author: 'Jan' };
-   var book2 = { title: 'Howdy HTML5' };
+   var book1 = { author: 'Jan',        available: 1, onSale: 'true' };
+   var book2 = { title: 'Howdy HTML5', available: 0, onSale: [] };
    dna.clone('t11-book', book1);
    dna.clone('t11-book', book2);
    });

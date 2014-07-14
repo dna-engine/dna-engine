@@ -568,6 +568,24 @@ dna.clone('book', books);</code></pre>
       element should only be included if the specified data field does not have
       a value.
    </p>
+   <p>
+      Use the <code>data-dna-truthy</code> attribute to indicate that a DOM
+      element should only be included if the value* of the specified
+      data field means true.
+   </p>
+   <p>
+      Use the <code>data-dna-false</code> attribute to indicate that a DOM
+      element should only be included if the value* of the specified
+      data field means false.
+   </p>
+   <p>
+      *<small><b>Note:</b> Regular JavaScript evaluation is use to determine truthy
+      and falsey calculations with the addition that empty arrays plus the
+      strings "false", "F", and "0" are all considered falsey.</small>
+      <!--
+      false, undefined, null, NaN, 0, "0", "" (empty string), [] (empty array), "false" (case insensitive), "f", and "F".
+      -->
+   </p>
    <div class=code-caption>Example HTML</div>
    <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;
    &lt;span data-dna-require=__title__&gt;~~title~~&lt;/span&gt;

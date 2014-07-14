@@ -19,6 +19,13 @@ dna.util = {
       return (data === null || data === undefined || field === undefined) ? null :
          (field.length === 1 ? data[field[0]] : this.value(data[field[0]], field.slice(1)));
       },
+   realTruth: function(value) {  //returns a boolean
+      // Example true values:  true,  7, '7', [5], 't', 'T', 'TRue',  {}
+      // Example false values: false, 0, '0', [],  'f', 'F', 'faLSE', null, undefined, NaN
+      function falseyStr() { return /^(f|false|0)$/i.test(value); }
+      function emptyArray() { return value instanceof Array && value.length === 0; }
+      return value ? !emptyArray() && !falseyStr() : false;
+      },
    call: function(func, param) {  //calls func (string name or actual function) passing in param
        //example: dna.util.call('app.cart.buy', 7); ==> app.cart.buy(7);
       function contextCall(obj, names) {
@@ -71,6 +78,8 @@ dna.compile = {
    // data-dna-class=~~field1,field2~~   -->  dna-data +  data.dna.class='field1,field2'
    // data-dna-require=~~field~~         -->  dna-data +  data.dna.require='field'
    // data-dna-missing=~~field~~         -->  dna-data +  data.dna.missing='field'
+   // data-dna-truthy=~~field~~          -->  dna-data +  data.dna.truthy='field'
+   // data-dna-falsey=~~field~~          -->  dna-data +  data.dna.falsey='field'
    regexDnaField: /^[\s]*(~~|\{\{).*(~~|\}\})[\s]*$/,  //example: ~~title~~
    regexDnaBasePair: /~~|{{|}}/,  //matches the '~~' string
    regexDnaBasePairs: /~~|\{\{|\}\}/g,  //matches the two '~~' strings so they can be removed
@@ -120,6 +129,8 @@ dna.compile = {
       dna.compile.addDataToElems(elems, 'class');
       dna.compile.addDataToElems(elems, 'require');
       dna.compile.addDataToElems(elems, 'missing');
+      dna.compile.addDataToElems(elems, 'truthy');
+      dna.compile.addDataToElems(elems, 'falsey');
       template.elem.removeClass('dna-template').addClass('dna-clone').addClass(template.name);
       template.compiled = true;
       return template;
@@ -211,6 +222,10 @@ dna.core = {
          elem.toggle(dna.util.value(data, dnaData.require) !== undefined);
       if (dnaData.missing)
          elem.toggle(dna.util.value(data, dnaData.missing) === undefined);
+      if (dnaData.truthy)
+         elem.toggle(dna.util.realTruth(dna.util.value(data, dnaData.truthy)));
+      if (dnaData.falsey)
+         elem.toggle(!dna.util.realTruth(dna.util.value(data, dnaData.falsey)));
       if (dnaData.array)
          dna.core.cloneSubTemplate(elem, data[elem.data('dna-model').array]);
       return elem;
