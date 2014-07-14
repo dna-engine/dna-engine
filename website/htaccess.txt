@@ -1,5 +1,0 @@
-
-RewriteEngine on
-RewriteCond %{HTTP_HOST} ^www\.dnajs\.org$
-RewriteRule ^(.*)$ "http\:\/\/dnajs\.org\/$1" [R=301,L]
-
