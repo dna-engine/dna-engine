@@ -5,7 +5,7 @@ DOM Templating Engine for jQuery
 
 dna.js is the world's easiest to use DOM templating engine.
 
-Current release: **v0.1.6**
+Current release: **v0.2.0**
 
 ### 1. Bookstore Example
 Designate DNA templates with the `dna-template` class, and put the templates directly into the HTML of your web page.&nbsp;  Use the element's `id` to indicate the name of the template.&nbsp;  Enclose data fields in double tildes `~~` (a.k.a. DNA strands).

@@ -66,7 +66,7 @@ echo "   git tag -af $version -m \"Beta release\""
 echo "   git tag -af current -m \"Current stable release\""
 echo "   git remote -v"
 echo "   git push origin --tags --force"
-echo "TBD: README.md, bower, jquery, release notes, and web site"
+echo "TBD: README.md, bower, jquery, release notes, and website"
 echo
 open test-cases.html
 echo "=================="
