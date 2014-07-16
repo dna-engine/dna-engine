@@ -181,7 +181,7 @@ dna.store = {
 
 dna.core = {
    getClone: function(elem) {
-      var clone = elem.hasClass('dna-clone') ? elem : elem.closest('dna-clone');
+      var clone = elem.hasClass('dna-clone') ? elem : elem.closest('.dna-clone');
       if (!clone)
          dna.core.berserk('Cannot find clone from element: ' + elem.prop('tagName'));
       return clone;

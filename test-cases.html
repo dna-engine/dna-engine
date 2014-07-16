@@ -100,7 +100,7 @@ $(function() {
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone>
-            <div class=color-change>Title: <span>The One</span></div>
+            <div class=color-change>Title: <span class=color-change2>The One</span></div>
             <div class=color-change>Author: <span>Lee</span></div>
          </div>
       </div>
@@ -114,7 +114,9 @@ $(function() {
    var book3 = { title: 'The One',     author: 'Lee', c: 'color-change' };
    dna.clone('t02-book', [book1, book2]);
    dna.empty('t02-book');
-   dna.clone('t02-book', book3);
+   var titleElem = dna.clone('t02-book', book1).find('span').first();
+   titleElem.addClass('color-change2');
+   dna.mutate(titleElem, book3);
    });
 </script>
 
