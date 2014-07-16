@@ -224,6 +224,7 @@
    <ol type=A>
       <li><a href="#api-clone">dna.clone()</a></li>
       <li><a href="#api-load">dna.load()</a></li>
+      <li><a href="#api-get-model">dna.getModel()</a></li>
       <li><a href="#api-empty">dna.empty()</a></li>
       <li><a href="#api-mutate">dna.mutate()</a></li>
       <li><a href="#api-destroy">dna.destroy()</a></li>
@@ -301,6 +302,30 @@
    </div>
 </section>
 
+<!--  dna.getModel()  -->
+<section id=api-get-model>
+   <h4>dna.getModel(clone)</h4>
+   <div class=api-description>
+      Returns the underlying data of the clone.
+   </div>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>clone</b> (jQuery Element):</label>
+            An element returned from a call to the <code>dna.clone()</code> method.
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>var book = { title: 'The DOM', author: 'Bo' };
+var clone = dna.clone('book', book);
+dna.getModel(clone).title = 'The DOM II';
+dna.mutate(clone);</code></pre>
+   <div class=api-details>
+   </div>
+</section>
+
 <!--  dna.empty()  -->
 <section id=api-empty>
    <h4>dna.empty(name[, options])</h4>
@@ -337,7 +362,7 @@
 
 <!--  dna.mutate()  -->
 <section id=api-mutate>
-   <h4>dna.mutate(clone, data)</h4>
+   <h4>dna.mutate(clone[, data[, options]])</h4>
    <div class=api-description>
       Updates an existing clone with new data.
    </div>

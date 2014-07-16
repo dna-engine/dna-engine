@@ -25,9 +25,9 @@
 		(default: <b>null</b>).
 	</li>
 	<li>
-		<label><b>task</b> (Function) &mdash;</label>
-		Process to be run at the end of cloning.&nbsp;  The
-		<a href="#data-task">form</a> is
+		<label><b>callback</b> (Function) &mdash;</label>
+		Task to be run at the end of cloning.&nbsp;  The
+		<a href="#data-callback">form</a> is
 		<code>Function(elem, data) {...}</code>, where
 		<code>elem</code> is the jQuery object for the clone and
 		<code>data</code> is the data object applied to that clone
