@@ -344,7 +344,7 @@ $(function() {
       <div class=book-list>
          <div id=t08-book class=dna-template>
             <div>Title:   <span>~~title~~</span></div>
-            <div>Author:  <span>~~author~~</span></div>
+            <div>Authors: <span data-dna-array=~~authors~~> *<span>~~[value]~~</span></span></div>
             <div>Score:   <span>~~score~~</span></div>
             <div>On Sale: <span>~~sale~~</span></div>
          </div>
@@ -355,13 +355,13 @@ $(function() {
       <div class=book-list>
          <div class=dna-clone>
             <div>Title:   <span>The New DOM</span></div>
-            <div>Author:  <span>Jan II</span></div>
+            <div>Authors: <span> *<span>Jan II</span></span><span> *<span>Bo</span></span></div>
             <div>Score:   <span>81</span></div>
             <div>On Sale: <span>true</span></div>
          </div>
          <div class="dna-clone border-change">
             <div>Title:   <span>Howdy HTML5</span></div>
-            <div>Author:  <span>Ed II</span></div>
+            <div>Authors: <span> *<span>Ed II</span></span></div>
             <div>Score:   <span>97</span></div>
             <div>On Sale: <span>false</span></div>
          </div>
@@ -371,18 +371,20 @@ $(function() {
 <script>
 $(function() {
    console.log('Test Case: #08');
-   var book1 = { title: 'The DOM',     author: 'Jan',    score: 77, sale: false };
-   var book2 = { title: 'The New DOM', author: 'Jan II', score: 81, sale: true };
-   var book3 = { title: 'Howdy HTML5', author: 'Ed',     score: 92, sale: false };
-   var clone;
-   clone = dna.clone('t08-book', book1);
-   var modelOk = dna.getModel(clone).title === book1.title;  //test initial model
-   dna.mutate(clone, book2);
-   clone = dna.clone('t08-book', book3);
-   dna.mutate(clone, { author: 'Ed II', score: 97 });
-   modelOk = modelOk && dna.getModel(clone).score === 97;  //test mutated model
-   if (modelOk)
-      clone.addClass('border-change');
+   var book1 = { title: 'The DOM',     authors: ['Jan'],          score: 77, sale: false };
+   var book2 = { title: 'The New DOM', authors: ['Jan II', 'Bo'], score: 81, sale: true };
+   var book3 = { title: 'Howdy HTML5', authors: ['Ed'],           score: 92, sale: false };
+   //clone #1
+   var clone1 = dna.clone('t08-book', book1);
+   var modelOk = dna.getModel(clone1).title === book1.title;  //test initial model
+   dna.mutate(clone1, book2);
+   //clone #2
+   var clone2 = dna.clone('t08-book', book3);
+   dna.getModel(clone2).authors = ['Ed II'];
+   dna.getModel(clone2).score = 97;
+   dna.mutate(clone2);
+   modelOk = modelOk && dna.getModel(clone2).score === 97;  //test mutated model
+   clone2.addClass(modelOk ? 'border-change' : 'color-change');
    });
 </script>
 

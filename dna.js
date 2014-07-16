@@ -180,8 +180,14 @@ dna.store = {
    };
 
 dna.core = {
+   getClone: function(elem) {
+      var clone = elem.hasClass('dna-clone') ? elem : elem.closest('dna-clone');
+      if (!clone)
+         dna.core.berserk('Cannot find clone from element: ' + elem.prop('tagName'));
+      return clone;
+      },
    inject: function(clone, data, count, settings) {  //insert data into new clone
-   	clone.data('dna-model', data);
+      clone.data('dna-model', data);
       function injectField() {
          var elem = $(this);
          var field = elem.data('dna-field');
@@ -211,6 +217,7 @@ dna.core = {
       },
    cloneSubTemplate: function(holder, dataArray) {
       var templateName = holder.data('dna-contains');
+      holder.find('.' + templateName).remove();
       if (dataArray)
          dna.clone(templateName, dataArray, { holder: holder });
       },
@@ -243,8 +250,6 @@ dna.core = {
       container[settings.top ? 'prepend' : 'append'](clone);
       if (settings.callback)
          settings.callback(clone, data);
-      if (settings.task)  //DEPRECATED
-         settings.task(clone, data);
       if (settings.fade)
          dna.util.slideFadeIn(clone);
       return clone;
@@ -261,7 +266,6 @@ dna.core = {
 dna.api = {  //see: http://dnajs.org/manual.html#api
    clone: function(name, data, options) {
       var settings = { fade: false, top: false, holder: null, empty: false,
-         task: null,  //DEPRECATED
          html: false, callback: null };
       $.extend(settings, options);
       var template = dna.store.getTemplate(name);
@@ -278,21 +282,20 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       return $.getJSON(url, processJson);
       },
    getModel: function(clone) {
-      return clone.data('dna-model');
+      return dna.core.getClone(clone).data('dna-model');
       },
    empty: function(name, options) {
       var settings = { fade: false };
       $.extend(settings, options);
       var clones = dna.store.getTemplate(name).container.find('.dna-clone');
-      if (settings.fade)
-         dna.util.slideFadeDelete(clones);
-      else
-         clones.remove();
-      return clones;
+      return settings.fade ? dna.util.slideFadeDelete(clones) : clones.remove();
       },
    mutate: function(clone, data, options) {
       var settings = { html: false };
       $.extend(settings, options);
+      clone = dna.core.getClone(clone);
+      if (!data)
+         data = dna.getModel(clone);
       dna.core.inject(clone, data, null, settings);
       function process() { dna.core.processElem($(this), data); }  //TODO: verify it's ok to processElem when mutating (not just initial cloning)
       clone.find('.dna-data').addBack('.dna-data').each(process);
@@ -301,11 +304,8 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
    destroy: function(clone, options) {
       var settings = { fade: false };
       $.extend(settings, options);
-      if (settings.fade)
-         dna.util.slideFadeDelete(clone);
-      else
-         clone.remove();
-      return clone;
+      clone = dna.core.getClone(clone);
+      return settings.fade ? dna.util.slideFadeDelete(clone) : clone.remove();
       },
    info: function() {
       console.log('~~ dns.js v0.2.0 ~~');
