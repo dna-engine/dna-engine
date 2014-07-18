@@ -27,7 +27,7 @@ dna.util = {
       return value ? !emptyArray() && !falseyStr() : false;
       },
    call: function(func, param) {  //calls func (string name or actual function) passing in param
-       //example: dna.util.call('app.cart.buy', 7); ==> app.cart.buy(7);
+      // Example: dna.util.call('app.cart.buy', 7); ==> app.cart.buy(7);
       function contextCall(obj, names) {
          if (!obj)
             dna.core.berserk('Invalid name before "' + names[0] + '" in: ' + func);
@@ -48,17 +48,27 @@ dna.util = {
    deleteElem: function() {  //example: $('.box').fadeOut(dna.util.deleteElem);
       return $(this).remove();
       },
-   slideFadeIn: function(elem, callback) {
+   slideFade: function(elem, callback, show) {
       var obscure = { opacity: 0.0, transition: 'opacity 0s ease 0s' };
-      var reveal =  { opacity: 1.0, transition: 'opacity 0.4s ease-in' };
-      return elem.css(obscure).hide().slideDown().css(reveal);
+      var easyIn =  { opacity: 1.0, transition: 'opacity 0.4s ease-in' };
+      var easyOut = { opacity: 0.0, transition: 'opacity 0.4s ease-out' };
+      var reset =   { transition: 'opacity 0s ease 0s' };
+      function clearOpacityTransition() { elem.css(reset); }
+      window.setTimeout(clearOpacityTransition, 1000);  //keep clean for other animations
+      if (show)
+         elem.css(obscure).hide().slideDown({ complete: callback }).css(easyIn);
+      else
+         elem.css(easyOut).slideUp({ complete: callback });
+      return elem;
+      },
+   slideFadeIn: function(elem, callback) {
+      return dna.util.slideFade(elem, callback, true);
       },
    slideFadeOut: function(elem, callback) {
-      var fade = { opacity: 0.0, transition: 'opacity 0.4s ease-in' };
-      return elem.css(fade).slideUp({ complete: callback });
+      return dna.util.slideFade(elem, callback, false);
       },
    slideFadeToggle: function(elem, callback) {
-      return dna.util[elem.is(':visible') ? 'slideFadeOut' :  'slideFadeIn'](elem, callback);
+      return dna.util.slideFade(elem, callback, !elem.is(':visible'));
       },
    slideFadeDelete: function(elem) {
       return dna.util.slideFadeOut(elem, dna.util.deleteElem);
