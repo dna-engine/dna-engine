@@ -384,8 +384,8 @@ $(function() {
    var clone2 = dna.clone('t08-book', book3);
    dna.getModel(clone2).authors = ['Ed II'];
    dna.getModel(clone2).score = 97;
-   dna.mutate(clone2);
-   modelOk = modelOk && dna.getModel(clone2).score === 97;  //test mutated model
+   dna.mutateAll('t08-book');
+   modelOk = modelOk && dna.getModel('t08-book')[1].score === 97;  //test mutated model
    clone2.addClass(modelOk ? 'border-change' : 'color-change');
    });
 </script>

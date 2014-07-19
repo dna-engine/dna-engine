@@ -196,6 +196,9 @@ dna.core = {
          dna.core.berserk('Cannot find clone from element: ' + elem.prop('tagName'));
       return clone;
       },
+   getClones: function(name) {
+      return dna.store.getTemplate(name).container.children().filter('.dna-clone');
+      },
    inject: function(clone, data, count, settings) {  //insert data into new clone
       clone.data('dna-model', data);
       function injectField() {
@@ -291,8 +294,15 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       function processJson(data) { dna.core.unload(name, data, options); }
       return $.getJSON(url, processJson);
       },
-   getModel: function(clone) {
-      return dna.core.getClone(clone).data('dna-model');
+   getModel: function(nameOrClone) {
+      function getModelArray() {
+         var model = [];
+         dna.core.getClones(nameOrClone).each(
+            function() { model.push($(this).data('dna-model')); });
+         return model;
+         }
+      return nameOrClone instanceof jQuery ?
+         dna.core.getClone(nameOrClone).data('dna-model') : getModelArray();
       },
    empty: function(name, options) {
       var settings = { fade: false };
@@ -311,6 +321,10 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       clone.find('.dna-data').addBack('.dna-data').each(process);
       return clone;
       },
+   mutateAll: function(name) {
+      function mutate() { dna.mutate($(this)); }
+      return dna.core.getClones(name).each(mutate);
+      },
    destroy: function(clone, options) {
       var settings = { fade: false };
       $.extend(settings, options);
@@ -326,10 +340,11 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       }
    };
 
-dna.clone =    dna.api.clone;
-dna.load =     dna.api.load;
-dna.getModel = dna.api.getModel;
-dna.empty =    dna.api.empty;
-dna.mutate =   dna.api.mutate;
-dna.destroy =  dna.api.destroy;
-dna.info =     dna.api.info;
+dna.clone =     dna.api.clone;
+dna.load =      dna.api.load;
+dna.getModel =  dna.api.getModel;
+dna.empty =     dna.api.empty;
+dna.mutate =    dna.api.mutate;
+dna.mutateAll = dna.api.mutateAll;
+dna.destroy =   dna.api.destroy;
+dna.info =      dna.api.info;
