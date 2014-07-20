@@ -677,6 +677,42 @@ $(function() {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class=test-case>
+   <h3>Test Case: #15</h3>
+   <p>Stuff</p>
+   <fieldset>
+      <legend>Actual</legend>
+      <div class=book-list>
+         <div id=t15-book class=dna-template>
+            <button class=t15-action>Bye</button>
+            <span>~~[count]~~</span>: <span>~~[value]~~</span>
+         </div>
+      </div>
+   </fieldset>
+   <fieldset>
+      <legend>Expected</legend>
+      <div class=book-list>
+         <div class=dna-clone>
+            <button class=t15-action>Bye</button>
+            <span>2</span>: <span>Howdy HTML5</span>
+         </div>
+         <div class=dna-clone>
+            <button class=t15-action>Bye</button>
+            <span>3</span>: <span>Styling CSS3</span>
+         </div>
+      </div>
+   </fieldset>
+</div>
+<script>
+$(function() {
+   dna.clone('t15-book', ['NUKE', 'Howdy HTML5', 'Styling CSS3', 'NUKE']);
+	$('button.t15-action').click(dna.bye);
+	dna.getClones('t15-book').first().find('button').click();     //nuke first
+	dna.getClone($('.t15-book').last().find('button')).remove();  //nuke last
+   });
+</script>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <script>
 $(function() {
    console.log('');
