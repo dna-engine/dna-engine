@@ -7,7 +7,7 @@
 # To make this file runnable:
 #    $ chmod +x task-runner.sh.command
 
-package=https://raw.githubusercontent.com/dnajs/dna.js/current/package.json
+package=https://raw.githubusercontent.com/dnajs/dna.js/master/package.json
 echo
 echo "dna.js Task Runner"
 echo "=================="
@@ -69,7 +69,7 @@ if [ "$versionLocal" != "$versionRemote" ]
       echo "***************************"
       echo
    else
-      status="NOT YET RELEASED"
+      status="NOT RELEASED (in development)"
 	fi
 echo "Status: $status"
 echo
