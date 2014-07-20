@@ -1,4 +1,4 @@
-// dna.js Template Cloner ~~ v0.2.0
+// dna.js Template Cloner ~~ v0.2.1
 // MIT/GPLv3 ~~ dnajs.org/license.html
 // Copyright (c) 2013-2014 Center Key Software and other contributors
 
@@ -332,7 +332,7 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       return settings.fade ? dna.util.slideFadeDelete(clone) : clone.remove();
       },
    info: function() {
-      console.log('~~ dns.js v0.2.0 ~~');
+      console.log('~~ dns.js v0.2.1 ~~');
       console.log('count:', Object.keys(dna.store.templates).length);
       console.log('names:', Object.keys(dna.store.templates));
       console.log('templates:', dna.store.templates);
