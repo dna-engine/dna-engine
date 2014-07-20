@@ -190,15 +190,6 @@ dna.store = {
    };
 
 dna.core = {
-   getClone: function(elem) {
-      var clone = elem.hasClass('dna-clone') ? elem : elem.closest('.dna-clone');
-      if (!clone)
-         dna.core.berserk('Cannot find clone from element: ' + elem.prop('tagName'));
-      return clone;
-      },
-   getClones: function(name) {
-      return dna.store.getTemplate(name).container.children().filter('.dna-clone');
-      },
    inject: function(clone, data, count, settings) {  //insert data into new clone
       clone.data('dna-model', data);
       function injectField() {
@@ -297,12 +288,12 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
    getModel: function(nameOrClone) {
       function getModelArray() {
          var model = [];
-         dna.core.getClones(nameOrClone).each(
+         dna.getClones(nameOrClone).each(
             function() { model.push($(this).data('dna-model')); });
          return model;
          }
       return nameOrClone instanceof jQuery ?
-         dna.core.getClone(nameOrClone).data('dna-model') : getModelArray();
+         dna.getClone(nameOrClone).data('dna-model') : getModelArray();
       },
    empty: function(name, options) {
       var settings = { fade: false };
@@ -313,7 +304,7 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
    mutate: function(clone, data, options) {
       var settings = { html: false };
       $.extend(settings, options);
-      clone = dna.core.getClone(clone);
+      clone = dna.getClone(clone);
       if (!data)
          data = dna.getModel(clone);
       dna.core.inject(clone, data, null, settings);
@@ -323,13 +314,25 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       },
    mutateAll: function(name) {
       function mutate() { dna.mutate($(this)); }
-      return dna.core.getClones(name).each(mutate);
+      return dna.getClones(name).each(mutate);
       },
    destroy: function(clone, options) {
       var settings = { fade: false };
       $.extend(settings, options);
-      clone = dna.core.getClone(clone);
+      clone = dna.getClone(clone);
       return settings.fade ? dna.util.slideFadeDelete(clone) : clone.remove();
+      },
+   getClone: function(elem) {
+      var clone = elem.hasClass('dna-clone') ? elem : elem.closest('.dna-clone');
+      if (!clone)
+         dna.core.berserk('Cannot find clone from element: ' + elem.prop('tagName'));
+      return clone;
+      },
+   getClones: function(name) {
+      return dna.store.getTemplate(name).container.children().filter('.dna-clone');
+      },
+   bye: function() {  //removes clone that contains clicked element
+      return dna.util.slideFadeOut(dna.getClone($(this)), dna.util.deleteElem);
       },
    info: function() {
       console.log('~~ dns.js v0.2.1 ~~');
@@ -347,4 +350,7 @@ dna.empty =     dna.api.empty;
 dna.mutate =    dna.api.mutate;
 dna.mutateAll = dna.api.mutateAll;
 dna.destroy =   dna.api.destroy;
+dna.getClone =  dna.api.getClone;
+dna.getClones = dna.api.getClones;
+dna.bye =       dna.api.bye;
 dna.info =      dna.api.info;
