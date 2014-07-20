@@ -7,10 +7,11 @@
 # To make this file runnable:
 #    $ chmod +x task-runner.sh.command
 
+package=https://raw.githubusercontent.com/dnajs/dna.js/current/package.json
 echo
 echo "dna.js Task Runner"
 echo "=================="
-cd $(dirname "$0")
+cd $(dirname $0)
 pwd
 echo
 if [ -z $(which npm) ]; then
@@ -30,43 +31,56 @@ echo
 echo "Files:"
 ls -l dna*.js
 echo "dna.min.js -> $(ls -lsh dna.min.js | awk '{print $6}')"
+echo
+echo "Local changes:"
 git status --short
+versionLocal=v$(grep '"version"' package.json | awk -F'"' '{print $4}')
+versionRemote=v$(curl --silent $package | grep '"version":' | awk -F'"' '{print $4}')
+versionReleased=$(git tag | tail -1)
+versionReadMe=$(grep "Current release:" README.md | awk -F"*" '{print $3}')
+if [ "$versionReadMe" != "$versionReleased" ]; then
+   file=$(sed "s/$versionReadMe/$versionReleased/" README.md)
+   echo "$file" > README.md
+   echo "*** README.md version updated to: $versionReleased"
+   fi
 echo
-package=https://raw.githubusercontent.com/dnajs/dna.js/current/package.json
-version=v$(curl $package | grep '"version":' | awk -F'"' '{print $4}')
+echo "Versions:"
+echo "   $versionLocal (local)"
+echo "   $versionRemote (checked in)"
+echo "   $versionReleased (released)"
 echo
-echo "Local code version:"
-local=v$(grep '"version"' package.json | awk -F'"' '{print $4}')
-echo $local
-echo
-echo "Tagged releases:"
-git tag
-released=$(git tag | tail -1)
-echo
-echo "Checked in version:"
-echo $version
-echo
-status="NOT YET RELEASED"
-if [ "$version" == "$released" ]; then
-	status="RELEASED"
+if [ "$versionLocal" != "$versionRemote" ]
+   then
+      status="LOCAL VERSION NOT CHECKED IN"
+      echo "***** Action Required *****"
+      echo "Check in local version number with commit comment:"
+      echo "   Version number updated for next release"
+      echo "then rerun:"
+      echo "   $(pwd)/task-runner.sh.command"
+      echo "***************************"
+      echo
+   elif [ "$versionRemote" == "$versionReleased" ]; then
+      status="RELEASED"
+      echo "***** Action Required *****"
+      echo "This version has already been released -- increment version number in:"
+      echo "   $(pwd)/package.json"
+      echo "then rerun:"
+      echo "   $(pwd)/task-runner.sh.command"
+      echo "***************************"
+      echo
+   else
+      status="NOT YET RELEASED"
 	fi
 echo "Status: $status"
 echo
-echo "Steps to prepare for next release"
-echo "   1) Increment version number in:"
-echo "         $(pwd)/package.json"
-echo "   2) Rerun:"
-echo "         $(pwd)/task-runner.sh.command"
-echo "   3) Check changes into git with the comment:"
-echo "         Version number updated for next release"
-echo
 echo "To release this version:"
 echo "   cd $(pwd)"
-echo "   git tag -af $version -m \"Beta release\""
+echo "   git tag -af $versionRemote -m \"Beta release\""
 echo "   git tag -af current -m \"Current stable release\""
 echo "   git remote -v"
 echo "   git push origin --tags --force"
-echo "TBD: README.md, bower, jquery, release notes, and website"
+echo "and update:"
+echo "   https://github.com/dnajs/dna.js/wiki/Release-Notes"
 echo
 open test-cases.html
 echo "=================="

@@ -3,8 +3,7 @@ module.exports = function(grunt) {
       pkg: grunt.file.readJSON('package.json'),
       version: {
          options: { prefix: '(~~ v)|(js v)|(release: \\*\\*v)|("version":\\s*")' },
-         src: ['dna.js', 'README.md', 'bower.json', 'dna.jquery.json'],
-         //src: ['dna.js'],
+         src: ['dna.js', 'bower.json', 'dna.jquery.json'],
          },
       jshint: {
          myFiles: ['dna.js', 'Gruntfile.js']
