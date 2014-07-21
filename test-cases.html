@@ -710,14 +710,13 @@ $(function() {
 <script>
 $(function() {
    dna.clone('t15-book', ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE']);
-   $('.t15-book button').click(function() { console.log('Button!'); });  //add handler
-   $('.t15-book button.action-bye').click(dna.bye);                      //add handler
+   $('.t15-book button.action-bye').click(dna.bye);  //add handler
    var clones = dna.getClones('t15-book');
    clones.eq(0).find('button[data-dna-click]').click();               //nuke 1st
    clones.eq(1).find('button.action-bye').click();                    //nuke 2nd (bye w/event)
-   dna.bye(clones.eq(3));                                             //nuke middle (bye w/jQuery elem)
-   dna.getClone($('.t15-book').last().find('span').last()).remove();  //nuke last
-   $('.t15-book').last().each(dna.bye);                               //nuke last (bye w/jQuery loop)
+   dna.bye(clones.eq(3));                                             //nuke 4th (bye w/jQuery elem)
+   dna.getClone($('.t15-book').last().find('span').last()).remove();  //nuke 7th
+   $('.t15-book').last().each(dna.bye);                               //nuke 6th (bye w/jQuery loop)
    });
 </script>
 

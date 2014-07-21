@@ -45,6 +45,10 @@ dna.util = {
    apply: function(elem, selector, func, param) {  //calls func for each element (param is optional)
       return elem.find(selector).addBack(selector).each(func);
       },
+   toElem: function(elemOrEventOrIndex, that) {
+      return elemOrEventOrIndex instanceof jQuery ? elemOrEventOrIndex :
+         elemOrEventOrIndex.target ? $(elemOrEventOrIndex.target) : $(that);
+      },
    deleteElem: function() {  //example: $('.box').fadeOut(dna.util.deleteElem);
       return $(this).remove();
       },
@@ -189,6 +193,24 @@ dna.store = {
       }
    };
 
+dna.events = {
+	ready: false,
+	runner: function(elem, type) {
+	   elem = elem.closest('[data-dna-' + type + ']');
+      return dna.util.call(elem.data('dna-' + type), elem);
+	   },
+	click: function(event) {
+	   return dna.events.runner($(event.target), 'click');
+	   },
+	change: function(event) {
+	   return dna.events.runner($(event.target), 'change');
+	   },
+   setup: function() {
+      $(document).click(dna.events.click).change(dna.events.change);
+      dna.events.ready = true;
+      }
+   };
+
 dna.core = {
    inject: function(clone, data, count, settings) {  //insert data into new clone
       clone.data('dna-model', data);
@@ -272,6 +294,8 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       var settings = { fade: false, top: false, holder: null, empty: false,
          html: false, callback: null };
       $.extend(settings, options);
+      if (!dna.events.ready)
+         dna.events.setup();
       var template = dna.store.getTemplate(name);
       if (settings.empty)
          dna.api.empty(name);
@@ -323,16 +347,13 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       return settings.fade ? dna.util.slideFadeDelete(clone) : clone.remove();
       },
    getClone: function(elem) {
-      var clone = elem.hasClass('dna-clone') ? elem : elem.closest('.dna-clone');
-      if (!clone)
-         dna.core.berserk('Cannot find clone from element: ' + elem.prop('tagName'));
-      return clone;
+      return elem instanceof jQuery ? elem.closest('.dna-clone') : $();
       },
    getClones: function(name) {
       return dna.store.getTemplate(name).container.children().filter('.dna-clone');
       },
-   bye: function() {  //removes clone that contains clicked element
-      return dna.util.slideFadeOut(dna.getClone($(this)), dna.util.deleteElem);
+   bye: function(elemOrEventOrIndex) {
+      return dna.destroy(dna.util.toElem(elemOrEventOrIndex, this), { fade: true });
       },
    info: function() {
       console.log('~~ dns.js v0.2.1 ~~');
