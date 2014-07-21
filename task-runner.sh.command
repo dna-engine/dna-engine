@@ -73,7 +73,7 @@ if [ "$versionLocal" != "$versionRemote" ]
 	fi
 echo "Status: $status"
 echo
-echo "To release this version:"
+echo "To release this version, check in local changes and:"
 echo "   cd $(pwd)"
 echo "   git tag -af $versionRemote -m \"Beta release\""
 echo "   git tag -af current -m \"Current stable release\""
