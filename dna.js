@@ -194,17 +194,17 @@ dna.store = {
    };
 
 dna.events = {
-	ready: false,
-	runner: function(elem, type) {
-	   elem = elem.closest('[data-dna-' + type + ']');
+   ready: false,
+   runner: function(elem, type) {
+      elem = elem.closest('[data-dna-' + type + ']');
       return dna.util.call(elem.data('dna-' + type), elem);
-	   },
-	click: function(event) {
-	   return dna.events.runner($(event.target), 'click');
-	   },
-	change: function(event) {
-	   return dna.events.runner($(event.target), 'change');
-	   },
+      },
+   click: function(event) {
+      return dna.events.runner($(event.target), 'click');
+      },
+   change: function(event) {
+      return dna.events.runner($(event.target), 'change');
+      },
    setup: function() {
       $(document).click(dna.events.click).change(dna.events.change);
       dna.events.ready = true;
