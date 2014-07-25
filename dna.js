@@ -194,8 +194,7 @@ dna.store = {
    };
 
 dna.events = {
-   ready: false,
-   runner: function(elem, type) {
+   runner: function(elem, type) {  //type: click|change
       elem = elem.closest('[data-dna-' + type + ']');
       return dna.util.call(elem.data('dna-' + type), elem);
       },
@@ -207,9 +206,10 @@ dna.events = {
       },
    setup: function() {
       $(document).click(dna.events.click).change(dna.events.change);
-      dna.events.ready = true;
       }
    };
+
+$(dna.events.setup);
 
 dna.core = {
    inject: function(clone, data, count, settings) {  //insert data into new clone
@@ -286,7 +286,9 @@ dna.core = {
       },
    berserk: function(message) {  //oops, file a tps report
       throw 'dna.js error -> ' + message;
-      }
+      },
+   setup: function() {
+   	}
    };
 
 dna.api = {  //see: http://dnajs.org/manual.html#api
@@ -294,8 +296,6 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       var settings = { fade: false, top: false, holder: null, empty: false,
          html: false, callback: null };
       $.extend(settings, options);
-      if (!dna.events.ready)
-         dna.events.setup();
       var template = dna.store.getTemplate(name);
       if (settings.empty)
          dna.api.empty(name);

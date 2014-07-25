@@ -700,6 +700,11 @@ $(function() {
             <button>Bye 2</button>
          </div>
          <div class=dna-clone>
+            <div><span>X</span>: <span>NUKE</span></div>
+            <button id=t15-book-not-a-clone data-dna-click=dna.bye>Bye</button>
+            <button>Bye 2</button>
+         </div>
+         <div class=dna-clone>
             <div><span>5</span>: <span>Styling CSS3</span></div>
             <button>Bye</button>
             <button>Bye 2</button>
@@ -717,6 +722,7 @@ $(function() {
    dna.bye(clones.eq(3));                                             //nuke 4th (bye w/jQuery elem)
    dna.getClone($('.t15-book').last().find('span').last()).remove();  //nuke 7th
    $('.t15-book').last().each(dna.bye);                               //nuke 6th (bye w/jQuery loop)
+   $('#t15-book-not-a-clone').click();
    });
 </script>
 

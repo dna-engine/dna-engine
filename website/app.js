@@ -47,8 +47,12 @@ app.manual = {
       }
    };
 
-$(function() {
-   app.nav.setup();
-   app.bookstore.setup();
-   app.manual.setup();
-   });
+app.start = {
+   go: function() {
+      app.nav.setup();
+      app.bookstore.setup();
+      app.manual.setup();
+      }
+   };
+
+$(app.start.go);
