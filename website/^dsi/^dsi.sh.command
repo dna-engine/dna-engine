@@ -54,5 +54,5 @@ curl --remote-name --silent $releasedFolder/test-cases.html
 echo "Website:"
 pwd
 ls -l
+open "http://localhost/~$(whoami)$(echo $target | sed 's/.*Sites//')"
 echo "~~~~~~~~~"
-echo
