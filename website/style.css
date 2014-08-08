@@ -93,6 +93,9 @@ p>code, dd>code {
 #logo img:hover {
    opacity: 0.9;
 	}
+.side-image {
+   height: 100px;
+   }
 
 .gateway-sidebar {
    float: right;

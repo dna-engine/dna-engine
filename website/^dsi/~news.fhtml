@@ -12,7 +12,7 @@
 <div>
    <header>July 7, 2014</header>
    <p>Release 0.1.6 adds support for mutating values in
-   sub-templates (embedded arrays).</p>
+   sub-templates (array loops).</p>
 </div>
 <div>
    <header>June 3, 2014</header>
@@ -21,8 +21,8 @@
 </div>
 <div>
    <header>February 6, 2014</header>
-   <p>Release 0.1.4 adds support for array field sub-templates.&nbsp;
-   The clone function can now handle an array of objects embedded with arrays of
+   <p>Release 0.1.4 adds support for sub-templates (array loops).&nbsp;
+   The clone function can now handle an array of objects that includes arrays of
    more objects.</p>
 </div>
 <div>

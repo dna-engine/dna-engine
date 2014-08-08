@@ -107,8 +107,7 @@
       file (or the
       <code><a href="https://raw.github.com/dnajs/dna.js/current/dna.js" class=external-site>dna.js</a></code>
       uncompressed version) and include it in your site.&nbsp;
-      <!--#echo var="name" --> requires jQuery but can be loaded before or after
-      jQuery.
+      <!--#echo var="name" --> requires jQuery.
    </p>
    <p>
       Example of loading jQuery, dna.js, and your JavaScript web application:
@@ -442,18 +441,18 @@ dna.destroy(clone, { fade: true });</code></pre>
 <div class=toc>
    <header>Contents:</header>
    <ol type=A>
-      <li><a href="#data-array">Data Arrays</a></li>
-      <li><a href="#data-literals">Arrays of Literals</a></li>
-      <li><a href="#data-sub-object">Object Data Fields</a></li>
-      <li><a href="#data-loop">Data Field Arrays</a></li>
-      <li><a href="#data-sub-template">Nested Templates</a></li>
+      <li><a href="#data-loop">Data Arrays (loops)</a></li>
+      <li><a href="#data-primitive">Arrays of Primitives (strings, numbers, booleans)</a></li>
+      <li><a href="#data-nested-object">Object Dot Notation (nested objects)</a></li>
+      <li><a href="#data-sub-template">Sub-templates (array loops)</a></li>
+      <li><a href="#data-nested-template">Nested Templates</a></li>
       <li><a href="#data-thimblerig">Thimblerig (conditional hide and seek logic)</a></li>
       <li><a href="#data-callback">Callback Functions</a></li>
    </ol>
 </div>
 
-<section id=data-array>
-   <h4>Data Arrays</h4>
+<section id=data-loop>
+   <h4>Data Arrays (loops)</h4>
    <p>
       Pass in a single object to create one clone.&nbsp;  Pass in an array of
       objects to create multiple clones.
@@ -471,11 +470,11 @@ dna.clone('book', books);</code></pre>
    <!-- End: Result  -->
 </section>
 
-<section id=data-literals>
-   <h4>Arrays of Literals</h4>
+<section id=data-primitive>
+   <h4>Arrays of Primitives (strings, numbers, booleans)</h4>
    <p>
-      The special field <code>[value]</code> tells the template to use values
-      from an array of literals.&nbsp;  The special field <code>[count]</code>
+      The special field <code>[value]</code> tells the template to use simple values
+      from an array of primitives.&nbsp;  The special field <code>[count]</code>
       is the value's index number in the array plus 1.
    </p>
    <div class=code-caption>Example HTML</div>
@@ -497,11 +496,11 @@ dna.clone('book', books);</code></pre>
    <!-- End: Result  -->
 </section>
 
-<section id=data-sub-object>
-   <h4>Object Data Fields</h4>
+<section id=data-nested-object>
+   <h4>Object Dot Notation (nested objects)</h4>
    <p>
-      Use JavaScript dot notation in DNA fields to reference data within
-      fields of nested objects.
+      Use JavaScript object dot notation in DNA fields to reference data fields
+      of nested object literals.
    </p>
    <div class=code-caption>Example HTML</div>
    <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;
@@ -522,8 +521,8 @@ dna.clone('book', book);</code></pre>
    <!-- End: Result  -->
 </section>
 
-<section id=data-loop>
-   <h4>Data Field Arrays (Sub-templates)</h4>
+<section id=data-sub-template>
+   <h4>Sub-templates (array loops)</h4>
    <p>
       Use the <code>data-dna-array</code> attribute to create a sub-template
       for data fields that are arrays.&nbsp;  Each element of the array will
@@ -571,7 +570,7 @@ dna.clone('book', books);</code></pre>
    <!-- End: Result  -->
 </section>
 
-<section id=data-sub-templates>
+<section id=data-nested-template>
    <h4>Nested Templates</h4>
    <p>
       For additional flexibility, templates can be nestes and then explicitly
@@ -604,7 +603,7 @@ dna.clone('book', books);</code></pre>
       data field means false.
    </p>
    <p>
-      *<small><b>Note:</b> Regular JavaScript evaluation is use to determine truthy
+      *<small><b>Note:</b> Regular JavaScript evaluation determines truthy
       and falsey calculations with the addition that empty arrays plus the
       strings "false", "F", and "0" are all considered falsey.</small>
       <!--
