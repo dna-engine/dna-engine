@@ -1,8 +1,9 @@
 <!doctype html>
-<!-- - - - - - - - -->
-<!--  dna.js       -->
-<!--  Test Cases   -->
-<!-- - - - - - - - -->
+<!-- - - - - - - - - - - - - - - -->
+<!--  dna.js                     -->
+<!--  Test Cases                 -->
+<!--  dnajs.org/test-cases.html  -->
+<!-- - - - - - - - - - - - - - - -->
 <html>
 <head>
 <meta charset=utf-8>
@@ -92,8 +93,8 @@ $(function() {
       <legend>Actual</legend>
       <div class=book-list>
          <div id="t02-book" class="dna-template">
-            <div data-dna-class="c">Title: <span>{{title}}</span></div>
-            <div data-dna-class=~~a,b,c,d,e~~>Author: <span>{{author}}</span></div>
+            <div data-dna-class="class">Title: <span>{{title}}</span></div>
+            <div data-dna-class=~~sale,wow,color-change~~>Author: <span data-dna-class=~~sale,color-change~~>{{author}}</span></div>
          </div>
       </div>
    </fieldset>
@@ -112,7 +113,7 @@ $(function() {
    console.log('Test Case: #02');
    var book1 = { title: 'The DOM',     author: 'Jan' };
    var book2 = { title: 'Howdy HTML5', author: 'Ed' };
-   var book3 = { title: 'The One',     author: 'Lee', c: 'color-change' };
+   var book3 = { title: 'The One',     author: 'Lee', class: 'color-change', sale: false };
    dna.clone('t02-book', [book1, book2]);
    dna.empty('t02-book');
    var titleElem = dna.clone('t02-book', book1).find('span').first();
@@ -252,10 +253,10 @@ $(function() {
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
-         <div id=t06-book class=dna-template data-dna-class=c>
-            <div id=~~info.isbn~~>
-               Title: <span lang=~~language~~ class=~~language~~>~~title~~</span>
-           </div>
+         <div id=t06-book class=dna-template data-dna-class=extra>
+            <div id=~~info.isbn~~ data-dna-class=~~language,color-change,do-not-apply-this-class~~>
+               Title: <span data-lang=~~language~~ lang=~~language~~>~~title~~</span>
+            </div>
          </div>
       </div>
    </fieldset>
@@ -263,8 +264,8 @@ $(function() {
       <legend>Expected</legend>
       <div class=book-list>
          <div class="dna-clone border-change">
-            <div id=123 class=color-change>
-               Title: <span lang=fr class="fr color-change2">Les Attributs</span>
+            <div id=123-expected class=color-change>
+               Title: <span lang=fr class=color-change2>Les Attributs</span>
            </div>
          </div>
       </div>
@@ -273,16 +274,16 @@ $(function() {
 <script>
 $(function() {
    console.log('Test Case: #06');
-   var bouquin = { title: 'Les Attributs', info: { isbn: 123 }, language: 'fr', c: 'border-change' };
+   var bouquin = { title: 'Les Attributs', info: { isbn: 123 }, language: 'fr', extra: 'border-change' };
    dna.clone('t06-book', bouquin);
-   $('#123').addClass('color-change').find('[lang=fr]').addClass('color-change2');
+   $('#123').find('[lang=fr]').addClass('color-change2');
    });
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class=test-case>
    <h3>Test Case: #07</h3>
-   <p>Sub-template with array of data</p>
+   <p>Embedded template with array of data</p>
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
@@ -333,7 +334,7 @@ $(function() {
    dna.clone('t07-book', book1);
    var clone = dna.clone('t07-book', book2);
    var chapters = [{ header: 'Preface' }, { header: 'Index' }]
-   dna.clone('t07-book-chapter', chapters, { holder: clone }).addClass('color-change');;
+   dna.clone('t07-book-chapter', chapters, { container: clone }).addClass('color-change');;
    dna.clone('t07-book', book3);
    });
 </script>
