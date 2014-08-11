@@ -29,6 +29,26 @@
    .border-change { border: 2px solid darkorange; }
 </style>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+var testing = {
+   summary: function() {
+		console.log('');
+		dna.info();
+		console.log('');
+		},
+	setup: function() {
+		var dna =    '<script src=dna.js>';
+		var dnaMin = '<script src=dna.min.js>';
+		$('head').append($(location.search == '?min' ? dnaMin : dna ));
+		var mode = $('head script[src^=dna]').attr('src');
+		$('#mode').text(mode);
+		if (mode == 'dna.js')
+			$('#switch').attr('href', '?min');
+		console.log('~~ dna.js Test Cases ~~');
+	   }
+	};
+testing.setup();
+</script>
 </head>
 <body>
 <div class=push-right>
@@ -717,12 +737,12 @@ $(test14.run);
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class=test-case>
    <h3>Test Case: #15</h3>
-   <p>Stuff</p>
+   <p>Events</p>
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
          <div id=t15-book class=dna-template>
-            <div><span>~~[count]~~</span>: <span>~~[value]~~</span></div>
+            <div><span class=count>~~[count]~~</span>: <span>~~[value]~~</span></div>
             <button data-dna-click=dna.bye>Bye</button>
             <button class=action-bye>Bye 2</button>
          </div>
@@ -732,13 +752,8 @@ $(test14.run);
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone>
-            <div><span>3</span>: <span>Howdy HTML5</span></div>
+            <div><span class=count>3</span>: <span>Howdy HTML5</span></div>
             <button>Bye</button>
-            <button>Bye 2</button>
-         </div>
-         <div class=dna-clone>
-            <div><span>X</span>: <span>NUKE</span></div>
-            <button id=t15-book-not-a-clone data-dna-click=dna.bye>Bye</button>
             <button>Bye 2</button>
          </div>
          <div class=dna-clone>
@@ -755,39 +770,20 @@ var test15 = {
       console.log('Test Case: #15');
 		dna.clone('t15-book', ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE']);
 		$('.t15-book button.action-bye').click(dna.bye);  //add handler
-		var clones = dna.getClones('t15-book');
-		clones.eq(0).find('button[data-dna-click]').click();               //nuke 1st
-		clones.eq(1).find('button.action-bye').click();                    //nuke 2nd (bye w/event)
-		dna.bye(clones.eq(3));                                             //nuke 4th (bye w/jQuery elem)
-		dna.getClone($('.t15-book').last().find('span').last()).remove();  //nuke 7th
-		$('.t15-book').last().each(dna.bye);                               //nuke 6th (bye w/jQuery loop)
-		$('#t15-book-not-a-clone').click();
+		function getClone(count) {
+			return $('.t15-book .count:contains(' + count + ')').closest('.dna-clone');
+			}
+		getClone(1).find('button:first').click();              //nuke 1st (bye w/data-dna-click)
+		getClone(2).find('button:last').click();               //nuke 2nd (bye w/event handler)
+		dna.bye(getClone(4));                                  //nuke 4th (bye w/jQuery elem)
+		dna.getClone(getClone(7).find('span:last')).remove();  //nuke 7th (remove w/sub-node)
+		getClone(6).each(dna.bye);                             //nuke 6th (bye w/jQuery loop)
       }
    };
 $(test15.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<script>
-var testing = {
-   summary: function() {
-		console.log('');
-		dna.info();
-		console.log('');
-		},
-   setup: function() {
-		console.log('~~ dna.js Test Cases ~~');
-		var dna =    '<script src=dna.js>';
-		var dnaMin = '<script src=dna.min.js>';
-		$('head').append($(location.search == '?min' ? dnaMin : dna ));
-		var mode = $('head script[src^=dna]').attr('src');
-		$('#mode').text(mode);
-		if (mode == 'dna.js')
-			$('#switch').attr('href', '?min');
-		$(testing.summary);
-		}
-	};
-testing.setup();
-</script>
+<script>$(testing.summary);</script>
 </body>
 </html>
