@@ -787,7 +787,7 @@ $(test15.run);
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class=test-case>
    <h3>Test Case: #16</h3>
-   <p>Forms</p>
+   <p>Input tag properties (minimized attributes)</p>
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
@@ -795,20 +795,20 @@ $(test15.run);
             Book: <span>~~title~~</span>
             <div>
                <label data-dna-array=~~options~~>
-                  <input type=checkbox value=~~code~~ dna-data-prop-checked=~~set~~>
+                  <input type=checkbox value=~~code~~ data-dna-prop-checked=~~set~~>
                   <span>~~name~~</span>
                </label>
             </div>
             <div>
-               <label data-dna-array=~~types~~>
-                  <input type=radio value=~~code~~ name=type
-                     dna-data-prop-disabled=~~available~~ dna-data-prop-checked=~~set~~>
+               <label data-dna-array=~~cover~~>
+                  <input type=radio value=~~code~~ name=cover
+                     data-dna-prop-disabled=~~reject~~ data-dna-prop-checked=~~set~~>
                   <span>~~name~~</span>
                </label>
             </div>
             Purpose:
             <select>
-               <option data-dna-array=~~purposes~~ value=~~code~~ dna-data-prop-selected=~~set~~>~~name~~</option>
+               <option data-dna-array=~~purposes~~ value=~~code~~ data-dna-prop-selected=~~set~~>~~name~~</option>
             </select>
          </div>
       </div>
@@ -830,11 +830,11 @@ $(test15.run);
             </div>
             <div>
                <label>
-                  <input type=radio value=soft name=type checked>
+                  <input type=radio value=soft name=cover-expected checked>
                   <span>Paperback</span>
                </label>
                <label>
-                  <input type=radio value=hard name=type disabled>
+                  <input type=radio value=hard name=cover-expected disabled>
                   <span>Hardcover</span>
                </label>
             </div>
@@ -856,7 +856,7 @@ var test16 = {
       var book = {
          title:    'The DOM',
          options:  [{ code: 'fast', name: 'Overnight', set: true }, { code: 'gift', name: 'Gift', set: false }],
-         types:    [{ code: 'soft', name: 'Paperback', reject: 0, set: 1 }, { code: 'hard', name: 'Hardcover', reject: 1, set: 0}],
+         cover:    [{ code: 'soft', name: 'Paperback', reject: 0, set: 1 }, { code: 'hard', name: 'Hardcover', reject: 1, set: 0}],
          purposes: [{ code: 'work', name: 'Business', set: 'F' }, { code: 'fun', name: 'Personal', set: 'T' }, {code: 'edu', name: 'School', set: 'F'}]
          };
       dna.clone('t16-book', book);

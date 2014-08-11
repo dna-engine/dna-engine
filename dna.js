@@ -85,16 +85,16 @@ dna.compile = {
    // templates    <p id=ad class=dna-template>      class=dna-clone
    // arrays       <p data-dna-array=~~tags~~>       class=dna-nucleotide + array='tags'
    // fields       <p>~~tag~~</p>                    class=dna-nucleotide + text='tag'
-   // attributes   <p id=~~num~~>                    class=dna-nucleotide + attr=['id', ['', 'num', '']]
+   // attributes   <p id=~~num~~>                    class=dna-nucleotide + attrs=['id', ['', 'num', '']]
    // rules        <p data-dna-truthy=~~on~~>        class=dna-nucleotide + truthy='on'
-   // attr rules   <p data-dna-attr-src=~~url~~>     class=dna-nucleotide + attr=['src', ['', 'url', '']]
-   // prop rules   <p data-dna-prop-checked=~~on~~>  class=dna-nucleotide + prop=['checked', 'on']
+   // attr rules   <p data-dna-attr-src=~~url~~>     class=dna-nucleotide + attrs=['src', ['', 'url', '']]
+   // prop rules   <input data-dna-prop-checked=~~on~~>  class=dna-nucleotide + props=['checked', 'on']
    //
    // Rules                                          data().dnaRules
    // ---------------------------------------------  ----------
    // data-dna-class=~~field,name-true,name-false~~  class=['field','name-true','name-false']
-   // data-dna-attr-{NAME}=pre~~field~~post          attr=['{NAME}', ['pre', 'field', 'post']]
-   // data-dna-prop-{NAME}=pre~~field~~post          prop=['{NAME}', 'field']
+   // data-dna-attr-{NAME}=pre~~field~~post          attrs=['{NAME}', ['pre', 'field', 'post']]
+   // data-dna-prop-{NAME}=pre~~field~~post          props=['{NAME}', 'field']
    // data-dna-require=~~field~~                     require='field'
    // data-dna-missing=~~field~~                     missing='field'
    // data-dna-truthy=~~field~~                      truthy='field'
@@ -115,26 +115,33 @@ dna.compile = {
       },
    field: function() {
       // Example:
-      //    <p>~~name~~</p>  ==>  <p class=dna-nucleotide data-dna={ text: 'name' }></p>
+      //    <p>~~name~~</p>  ==>  <p class=dna-nucleotide data-dnaRules={ text: 'name' }></p>
       var elem = dna.compile.setupNucleotide($(this));
       elem.data().dnaRules.text = $.trim(elem.text()).replace(dna.compile.regexDnaBasePairs, '');
       return elem.empty();
       },
-   attrs: function() {
+   propsAndAttrs: function() {
       // Examples:
-      //    <p id=~~num~~>                 ==>  <p class=dna-nucleotide + data-dna={ attr: ['id', ['', 'num', '']] }>
-      //    <p data-dna-attr-src=~~url~~>  ==>  <p class=dna-nucleotide + data-dna={ attr: ['src', ['', 'url', '']] }>
+      //    <option data-dna-prop-selected=~~set~~>  ==>  <option class=dna-nucleotide + data-dnaRules={ props: ['selected', 'set'] }>
+      //    <p id=~~num~~>                 ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['id', ['', 'num', '']] }>
+      //    <p data-dna-attr-src=~~url~~>  ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['src', ['', 'url', '']] }>
       var elem = $(this);
-      var list = [];
+      var props = [];
+      var attrs = [];
       function compile() {
-         if (this.value.split(dna.compile.regexDnaBasePair).length === 3)
-            list.push(this.name.replace(/^data-dna-attr-/, ''),
+         if ((/^data-dna-prop-/).test(this.name))
+            props.push(this.name.replace(/^data-dna-prop-/, ''),
+               this.value.replace(dna.compile.regexDnaBasePairs, ''));
+         else if (this.value.split(dna.compile.regexDnaBasePair).length === 3)
+            attrs.push(this.name.replace(/^data-dna-attr-/, ''),
                this.value.split(dna.compile.regexDnaBasePair));
          //TODO: handle data-dna-array data-dna-prop-{NAME} plus removeAttr(data-dna-attr-*)
          }
       $.each(elem.get(0).attributes, compile);
-      if (list.length > 0)
-         dna.compile.setupNucleotide(elem).data().dnaRules.attr = list;
+      if (props.length > 0)
+         dna.compile.setupNucleotide(elem).data().dnaRules.props = props;
+      if (attrs.length > 0)
+         dna.compile.setupNucleotide(elem).data().dnaRules.attrs = attrs;
       return elem;
       },
    getDataField: function(elem, type) {
@@ -144,7 +151,7 @@ dna.compile = {
       },
    rules: function(elems, type, isList) {
       // Example:
-      //    <p data-dna-require=~~title~~>, 'require'  ==>  <p data-dna={ require: 'title' }>
+      //    <p data-dna-require=~~title~~>, 'require'  ==>  <p data-dnaRules={ require: 'title' }>
       function add() {
          var elem = dna.compile.setupNucleotide($(this));
          var field = dna.compile.getDataField(elem, type);
@@ -166,7 +173,7 @@ dna.compile = {
       dna.compile.rules(elems, 'missing');
       dna.compile.rules(elems, 'truthy');
       dna.compile.rules(elems, 'falsey');
-      elems.each(dna.compile.attrs).removeAttr('id');
+      elems.each(dna.compile.propsAndAttrs).removeAttr('id');
       return dna.store.stash(elem);
       }
    };
@@ -242,10 +249,14 @@ dna.core = {
          if (printable(value))
             elem = settings.html ? elem.html(value) : elem.text(value);
          }
-      function injectAttr(elem, attrList) {
-         for (var x = 0; x < attrList.length / 2; x++) {
-            var attr = attrList[x*2];
-            var parts = attrList[x*2 + 1];  //ex: 'J~~code.num~~' --> ['J', 'code.num', '']
+      function injectProps(elem, props) {
+         for (var x = 0; x < props.length / 2; x++)
+            elem.prop(props[x*2], dna.util.realTruth(dna.util.value(data, props[x*2 + 1])));
+         }
+      function injectAttrs(elem, attrs) {
+         for (var x = 0; x < attrs.length / 2; x++) {
+            var attr = attrs[x*2];
+            var parts = attrs[x*2 + 1];  //ex: 'J~~code.num~~' --> ['J', 'code.num', '']
             var value = [parts[0], dna.util.value(data, parts[1]), parts[2]].join('');
             elem.attr(attr, value);
             if (attr === 'value')
@@ -260,23 +271,25 @@ dna.core = {
             elem.addClass(value);
             }
          else if (classList.length > 1) {
-				elem.toggleClass(classList[1], truth);
-				if (classList[2])
-					elem.toggleClass(classList[2], !truth);
+            elem.toggleClass(classList[1], truth);
+            if (classList[2])
+               elem.toggleClass(classList[2], !truth);
             }
          }
       function processLoop(elem, loop) {
          var dataArray = dna.util.value(data, loop.field);
-			if (dataArray)
-				dna.clone(loop.name, dataArray, { container: elem });
+         if (dataArray)
+            dna.clone(loop.name, dataArray, { container: elem });
          }
       function process() {
          var elem = $(this);
          var dnaRules = elem.data().dnaRules;
          if (dnaRules.text)
             injectField(elem, dnaRules.text);
-         if (dnaRules.attr)
-            injectAttr(elem, dnaRules.attr);
+         if (dnaRules.props)
+            injectProps(elem, dnaRules.props);
+         if (dnaRules.attrs)
+            injectAttrs(elem, dnaRules.attrs);
          if (dnaRules.class)
             injectClass(elem, dnaRules.class);
          if (dnaRules.require)
