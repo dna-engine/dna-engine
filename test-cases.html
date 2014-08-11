@@ -29,12 +29,6 @@
    .border-change { border: 2px solid darkorange; }
 </style>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script>
-   console.log('~~ dna.js Test Cases ~~');
-   var dna =    '<script src=dna.js>';
-   var dnaMin = '<script src=dna.min.js>';
-   $('head').append($(location.search == '?min' ? dnaMin : dna ));
-</script>
 </head>
 <body>
 <div class=push-right>
@@ -73,16 +67,19 @@
    </fieldset>
 </div>
 <script>
-$(function() {
-   console.log('Test Case: #01');
-   var book1 = { title: 'The DOM',      author: 'Jan' };
-   var book2 = { title: 'Styling CSS3', author: 'Abby' };
-   var book3 = { title: 'Howdy HTML5',  author: 'Ed' };
-   dna.clone('t01-book', book1);
-   var clone = dna.clone('t01-book', book2);
-   dna.clone('t01-book', book3);
-   dna.destroy(clone);
-   });
+var test01 = {
+   run: function() {
+      console.log('Test Case: #01');
+      var book1 = { title: 'The DOM',      author: 'Jan' };
+      var book2 = { title: 'Styling CSS3', author: 'Abby' };
+      var book3 = { title: 'Howdy HTML5',  author: 'Ed' };
+      dna.clone('t01-book', book1);
+      var clone = dna.clone('t01-book', book2);
+      dna.clone('t01-book', book3);
+      dna.destroy(clone);
+      }
+   };
+$(test01.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -109,17 +106,20 @@ $(function() {
    </fieldset>
 </div>
 <script>
-$(function() {
-   console.log('Test Case: #02');
-   var book1 = { title: 'The DOM',     author: 'Jan' };
-   var book2 = { title: 'Howdy HTML5', author: 'Ed' };
-   var book3 = { title: 'The One',     author: 'Lee', class: 'color-change', sale: false };
-   dna.clone('t02-book', [book1, book2]);
-   dna.empty('t02-book');
-   var titleElem = dna.clone('t02-book', book1).find('span').first();
-   titleElem.addClass('color-change2');
-   dna.mutate(titleElem, book3);
-   });
+var test02 = {
+   run: function() {
+      console.log('Test Case: #02');
+		var book1 = { title: 'The DOM',     author: 'Jan' };
+		var book2 = { title: 'Howdy HTML5', author: 'Ed' };
+		var book3 = { title: 'The One',     author: 'Lee', class: 'color-change', sale: false };
+		dna.clone('t02-book', [book1, book2]);
+		dna.empty('t02-book');
+		var titleElem = dna.clone('t02-book', book1).find('span').first();
+		titleElem.addClass('color-change2');
+		dna.mutate(titleElem, book3);
+      }
+   };
+$(test02.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -154,16 +154,19 @@ $(function() {
    </fieldset>
 </div>
 <script>
-$(function() {
-   console.log('Test Case: #03');
-   var book1 = { title: '1<sup>st</sup> &bull;', author: 'Jan' };
-   var book2 = { title: '2nd', author: 'Jan' };
-   var book3 = { title: '3rd', author: 'Jan' };
-   var options = { fade: true, top: true, html: true };
-   dna.clone('t03-book', book1, options).addClass('color-change');
-   dna.clone('t03-book', book2, options);
-   dna.clone('t03-book', book3, options);
-   });
+var test03 = {
+   run: function() {
+      console.log('Test Case: #03');
+		var book1 = { title: '1<sup>st</sup> &bull;', author: 'Jan' };
+		var book2 = { title: '2nd', author: 'Jan' };
+		var book3 = { title: '3rd', author: 'Jan' };
+		var options = { fade: true, top: true, html: true };
+		dna.clone('t03-book', book1, options).addClass('color-change');
+		dna.clone('t03-book', book2, options);
+		dna.clone('t03-book', book3, options);
+      }
+   };
+$(test03.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -192,11 +195,14 @@ $(function() {
    </fieldset>
 </div>
 <script>
-$(function() {
-   console.log('Test Case: #04');
-   var book = { title: '<b>Text</b>&bull;', author: 'Lee', image: 'http://dnajs.org/graphics/dnajs-logo.png' };
-   dna.clone('t04-book', book);
-   });
+var test04 = {
+   run: function() {
+      console.log('Test Case: #04');
+		var book = { title: '<b>Text</b>&bull;', author: 'Lee', image: 'http://dnajs.org/graphics/dnajs-logo.png' };
+		dna.clone('t04-book', book);
+      }
+   };
+$(test04.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -236,14 +242,17 @@ $(function() {
    </fieldset>
 </div>
 <script>
-$(function() {
-   console.log('Test Case: #05');
-   var book1 = { title: '1st', author: 'Lee' };
-   var book2 = { title: '2nd', author: 'Jan' };
-   dna.clone('t05-book', [book1, book2]).addClass('color-change');
-   dna.clone('t05-book', [book1, book2], { empty: true });
-   dna.clone('t05-book', [book1, book2]).addClass('color-change');
-   });
+var test05 = {
+   run: function() {
+      console.log('Test Case: #05');
+		var book1 = { title: '1st', author: 'Lee' };
+		var book2 = { title: '2nd', author: 'Jan' };
+		dna.clone('t05-book', [book1, book2]).addClass('color-change');
+		dna.clone('t05-book', [book1, book2], { empty: true });
+		dna.clone('t05-book', [book1, book2]).addClass('color-change');
+      }
+   };
+$(test05.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -272,12 +281,15 @@ $(function() {
    </fieldset>
 </div>
 <script>
-$(function() {
-   console.log('Test Case: #06');
-   var bouquin = { title: 'Les Attributs', info: { isbn: 123 }, language: 'fr', extra: 'border-change' };
-   dna.clone('t06-book', bouquin);
-   $('#123').find('[lang=fr]').addClass('color-change2');
-   });
+var test06 = {
+   run: function() {
+      console.log('Test Case: #06');
+		var bouquin = { title: 'Les Attributs', info: { isbn: 123 }, language: 'fr', extra: 'border-change' };
+		dna.clone('t06-book', bouquin);
+		$('#123').find('[lang=fr]').addClass('color-change2');
+      }
+   };
+$(test06.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -326,17 +338,20 @@ $(function() {
    </fieldset>
 </div>
 <script>
-$(function() {
-   console.log('Test Case: #07');
-   var book1 = { author: { name: 'Ed' } };
-   var book2 = { author: { name: 'Jan' } };
-   var book3 = { author: { name: 'Lee' } };
-   dna.clone('t07-book', book1);
-   var clone = dna.clone('t07-book', book2);
-   var chapters = [{ header: 'Preface' }, { header: 'Index' }]
-   dna.clone('t07-book-chapter', chapters, { container: clone }).addClass('color-change');;
-   dna.clone('t07-book', book3);
-   });
+var test07 = {
+   run: function() {
+      console.log('Test Case: #07');
+		var book1 = { author: { name: 'Ed' } };
+		var book2 = { author: { name: 'Jan' } };
+		var book3 = { author: { name: 'Lee' } };
+		dna.clone('t07-book', book1);
+		var clone = dna.clone('t07-book', book2);
+		var chapters = [{ header: 'Preface' }, { header: 'Index' }]
+		dna.clone('t07-book-chapter', chapters, { container: clone }).addClass('color-change');;
+		dna.clone('t07-book', book3);
+      }
+   };
+$(test07.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -373,23 +388,26 @@ $(function() {
    </fieldset>
 </div>
 <script>
-$(function() {
-   console.log('Test Case: #08');
-   var book1 = { title: 'The DOM',     authors: ['Jan'],          score: 77, sale: false };
-   var book2 = { title: 'The New DOM', authors: ['Jan II', 'Bo'], score: 81, sale: true };
-   var book3 = { title: 'Howdy HTML5', authors: ['Ed'],           score: 92, sale: false };
-   //clone #1
-   var clone1 = dna.clone('t08-book', book1);
-   var modelOk = dna.getModel(clone1).title === book1.title;  //test initial model
-   dna.mutate(clone1, book2);
-   //clone #2
-   var clone2 = dna.clone('t08-book', book3);
-   dna.getModel(clone2).authors = ['Ed II'];
-   dna.getModel(clone2).score = 97;
-   dna.mutateAll('t08-book');
-   modelOk = modelOk && dna.getModel('t08-book')[1].score === 97;  //test mutated model
-   clone2.addClass(modelOk ? 'border-change' : 'color-change');
-   });
+var test08 = {
+   run: function() {
+      console.log('Test Case: #08');
+		var book1 = { title: 'The DOM',     authors: ['Jan'],          score: 77, sale: false };
+		var book2 = { title: 'The New DOM', authors: ['Jan II', 'Bo'], score: 81, sale: true };
+		var book3 = { title: 'Howdy HTML5', authors: ['Ed'],           score: 92, sale: false };
+		//clone #1
+		var clone1 = dna.clone('t08-book', book1);
+		var modelOk = dna.getModel(clone1).title === book1.title;  //test initial model
+		dna.mutate(clone1, book2);
+		//clone #2
+		var clone2 = dna.clone('t08-book', book3);
+		dna.getModel(clone2).authors = ['Ed II'];
+		dna.getModel(clone2).score = 97;
+		dna.mutateAll('t08-book');
+		modelOk = modelOk && dna.getModel('t08-book')[1].score === 97;  //test mutated model
+		clone2.addClass(modelOk ? 'border-change' : 'color-change');
+      }
+   };
+$(test08.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -425,12 +443,15 @@ $(function() {
    </fieldset>
 </div>
 <script>
-$(function() {
-   console.log('Test Case: #09');
-   dna.load('t09-book', 'http://dnajs.org/rest/book/1');
-   dna.load('t09-book', 'http://dnajs.org/rest/book/2');
-   dna.load('t09-book', 'http://dnajs.org/rest/book/7');  //test call to missing resource
-   });
+var test09 = {
+   run: function() {
+      console.log('Test Case: #09');
+		dna.load('t09-book', 'http://dnajs.org/rest/book/1');
+		dna.load('t09-book', 'http://dnajs.org/rest/book/2');
+		dna.load('t09-book', 'http://dnajs.org/rest/book/7');  //test call to missing resource
+      }
+   };
+$(test09.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -456,16 +477,19 @@ $(function() {
    </fieldset>
 </div>
 <script>
-$(function() {
-   console.log('Test Case: #10');
-   var applyBackgnd = function(elem, data) {
-      elem.css({ height: '60px', color: 'white',
-         'background-image': data.image, 'background-size': '80px' });
-      };
-   var book = { title: 'Background', image: 'url(http://dnajs.org/graphics/dnajs-logo.png)' };
-   var options = { fade: true, callback: applyBackgnd };
-   dna.clone('t10-book', book, options);
-   });
+var test10 = {
+   run: function() {
+      console.log('Test Case: #10');
+		var applyBackgnd = function(elem, data) {
+			elem.css({ height: '60px', color: 'white',
+				'background-image': data.image, 'background-size': '80px' });
+			};
+		var book = { title: 'Background', image: 'url(http://dnajs.org/graphics/dnajs-logo.png)' };
+		var options = { fade: true, callback: applyBackgnd };
+		dna.clone('t10-book', book, options);
+      }
+   };
+$(test10.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -512,13 +536,16 @@ $(function() {
    </fieldset>
 </div>
 <script>
-$(function() {
-   console.log('Test Case: #11');
-   var book1 = { author: 'Jan',        available: 1, onSale: 'true' };
-   var book2 = { title: 'Howdy HTML5', available: 0, onSale: [] };
-   dna.clone('t11-book', book1);
-   dna.clone('t11-book', book2);
-   });
+var test11 = {
+   run: function() {
+      console.log('Test Case: #11');
+		var book1 = { author: 'Jan',        available: 1, onSale: 'true' };
+		var book2 = { title: 'Howdy HTML5', available: 0, onSale: [] };
+		dna.clone('t11-book', book1);
+		dna.clone('t11-book', book2);
+      }
+   };
+$(test11.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -591,19 +618,22 @@ $(function() {
    </fieldset>
 </div>
 <script>
-$(function() {
-   console.log('Test Case: #12');
-   var chapters = [
-      { header: 'Preface', type: 'front' },
-      { header: 'Index', type: 'back' }
-      ];
-   var authors = ['Ed', 'Jake', 'Abby'];
-   var book1 = { title: 'The DOM' };
-   var book2 = { title: 'Howdy HTML5',  authors: authors, chapters: chapters };
-   var book3 = { title: 'Styling CSS3', authors: [],      chapters: [] };
-   dna.clone('t12-book', [book1, book2, book3, book1]);
-   dna.mutate($('.t12-book').last(), book2);
-   });
+var test12 = {
+   run: function() {
+      console.log('Test Case: #12');
+		var chapters = [
+			{ header: 'Preface', type: 'front' },
+			{ header: 'Index', type: 'back' }
+			];
+		var authors = ['Ed', 'Jake', 'Abby'];
+		var book1 = { title: 'The DOM' };
+		var book2 = { title: 'Howdy HTML5',  authors: authors, chapters: chapters };
+		var book3 = { title: 'Styling CSS3', authors: [],      chapters: [] };
+		dna.clone('t12-book', [book1, book2, book3, book1]);
+		dna.mutate($('.t12-book').last(), book2);
+      }
+   };
+$(test12.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -634,13 +664,16 @@ $(function() {
    </fieldset>
 </div>
 <script>
-$(function() {
-   console.log('Test Case: #13');
-   dna.clone('t13-book', '<script>alert(1);<\/script>');
-   dna.clone('t13-book', '<script>alert(2);<\/script>', { html: false });
-   dna.clone('t13-book', '<script>$(".t13-book").last().find("span").text(3);<\/script>',
-      { html: true });
-   });
+var test13 = {
+   run: function() {
+      console.log('Test Case: #13');
+		dna.clone('t13-book', '<script>alert(1);<\/script>');
+		dna.clone('t13-book', '<script>alert(2);<\/script>', { html: false });
+		dna.clone('t13-book', '<script>$(".t13-book").last().find("span").text(3);<\/script>',
+	      { html: true });
+      }
+   };
+$(test13.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -671,11 +704,14 @@ $(function() {
    </fieldset>
 </div>
 <script>
-$(function() {
-   console.log('Test Case: #14');
-   var books = ['The DOM', 'Howdy HTML5', 'Styling CSS3'];
-   dna.clone('t14-book', books);
-   });
+var test14 = {
+   run: function() {
+      console.log('Test Case: #14');
+		var books = ['The DOM', 'Howdy HTML5', 'Styling CSS3'];
+		dna.clone('t14-book', books);
+      }
+   };
+$(test14.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -714,30 +750,44 @@ $(function() {
    </fieldset>
 </div>
 <script>
-$(function() {
-   dna.clone('t15-book', ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE']);
-   $('.t15-book button.action-bye').click(dna.bye);  //add handler
-   var clones = dna.getClones('t15-book');
-   clones.eq(0).find('button[data-dna-click]').click();               //nuke 1st
-   clones.eq(1).find('button.action-bye').click();                    //nuke 2nd (bye w/event)
-   dna.bye(clones.eq(3));                                             //nuke 4th (bye w/jQuery elem)
-   dna.getClone($('.t15-book').last().find('span').last()).remove();  //nuke 7th
-   $('.t15-book').last().each(dna.bye);                               //nuke 6th (bye w/jQuery loop)
-   $('#t15-book-not-a-clone').click();
-   });
+var test15 = {
+   run: function() {
+      console.log('Test Case: #15');
+		dna.clone('t15-book', ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE']);
+		$('.t15-book button.action-bye').click(dna.bye);  //add handler
+		var clones = dna.getClones('t15-book');
+		clones.eq(0).find('button[data-dna-click]').click();               //nuke 1st
+		clones.eq(1).find('button.action-bye').click();                    //nuke 2nd (bye w/event)
+		dna.bye(clones.eq(3));                                             //nuke 4th (bye w/jQuery elem)
+		dna.getClone($('.t15-book').last().find('span').last()).remove();  //nuke 7th
+		$('.t15-book').last().each(dna.bye);                               //nuke 6th (bye w/jQuery loop)
+		$('#t15-book-not-a-clone').click();
+      }
+   };
+$(test15.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <script>
-$(function() {
-   console.log('');
-   var mode = $('head script[src^=dna]').attr('src');
-   $('#mode').text(mode);
-   if (mode == 'dna.js')
-      $('#switch').attr('href', '?min');
-   dna.info();
-   console.log('');
-   });
+var testing = {
+   summary: function() {
+		console.log('');
+		dna.info();
+		console.log('');
+		},
+   setup: function() {
+		console.log('~~ dna.js Test Cases ~~');
+		var dna =    '<script src=dna.js>';
+		var dnaMin = '<script src=dna.min.js>';
+		$('head').append($(location.search == '?min' ? dnaMin : dna ));
+		var mode = $('head script[src^=dna]').attr('src');
+		$('#mode').text(mode);
+		if (mode == 'dna.js')
+			$('#switch').attr('href', '?min');
+		$(testing.summary);
+		}
+	};
+testing.setup();
 </script>
 </body>
 </html>
