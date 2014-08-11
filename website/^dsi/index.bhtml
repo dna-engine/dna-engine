@@ -99,13 +99,16 @@ To see all the pieces running together, check out the standalone example:
    </a>
 </div>
 <p>
-Every framework must have a todo application, so here's the dna.js one:<br>
-   <span class=indent><a href="http://jsfiddle.net/zDF4Z/" class=external-site>jsfiddle.net/zDF4Z</a></span>
+   Every framework must have a todo application, so here's the dna.js one:<br>
+   <span class=indent>
+      <a href="http://jsfiddle.net/<!--#echo var="todo" -->/" class=external-site>
+         jsfiddle.net/<!--#echo var="todo" --></a>
+   </span>
 </p>
 <p>
-The core of the todo application is only 10 lines of JavaScript and it includes
-add a task, complete a task with style change, delete a task, and smooth
-animation effects.
+   The core of the todo application is less then 10 lines of JavaScript and it
+   includes add a task, complete a task with style change, delete a task, and
+   smooth animation effects.
 </p>
 
 <h3 id=philosophy>Philosophy</h3>
