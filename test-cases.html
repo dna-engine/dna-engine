@@ -33,6 +33,11 @@
 <script>
 var testing = {
    summary: function() {
+      var mode = $('head script[src^=dna]').attr('src');
+      $('#mode').text(mode);
+      console.log($('head script[src^=dna]'), mode, mode == 'dna.js', $('#mode'), $('#mode').text());
+      if (mode == 'dna.js')
+         $('#switch').attr('href', '?min');
       console.log('');
       dna.info();
       console.log('');
@@ -41,10 +46,6 @@ var testing = {
       var dna =    '<script src=dna.js>';
       var dnaMin = '<script src=dna.min.js>';
       $('head').append($(location.search == '?min' ? dnaMin : dna ));
-      var mode = $('head script[src^=dna]').attr('src');
-      $('#mode').text(mode);
-      if (mode == 'dna.js')
-         $('#switch').attr('href', '?min');
       console.log('~~ dna.js Test Cases ~~');
       }
    };
