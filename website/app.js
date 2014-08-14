@@ -40,7 +40,8 @@ app.nav = {
 app.manual = {
    setup: function() {
       function addOutlineNumber(elemIndex) {
-         $(this).text((elemIndex + 1) + '. ' + $(this).text());
+         var letter = String.fromCharCode('A'.charCodeAt() + elemIndex);
+         $(this).text(letter + '. ' + $(this).text());
          }
       if (window.location.pathname.indexOf('manual.html') !== -1)
          $('h3').each(addOutlineNumber);

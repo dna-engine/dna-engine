@@ -144,8 +144,9 @@ p>code, dd>code {
    }
 
 .toc {
-   font-size: 13pt;
-   margin-bottom: 20px;
+   font-size: 14pt;
+   margin-left: 100px;
+   margin-bottom: 30px;
    }
 .toc header {
    font-weight: bold;
@@ -155,6 +156,20 @@ p>code, dd>code {
    }
 .toc li a:hover {
    color: white;
+   }
+.toc >ol {
+   list-style-type: upper-alpha;
+   margin-left: 30px;
+   }
+.toc >ol >li {
+   margin-bottom: 8px;
+   }
+.toc ol ol {
+   font-size: 10.5pt;
+   }
+.toc ~ h3 {
+   margin-top: 50px;
+   margin-bottom: 20px;
    }
 
 .api-description {

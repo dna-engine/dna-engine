@@ -6,18 +6,49 @@
    Template Cloner.&nbsp;  For richer examples, view the HTML source of the
    <a href="test-cases.html">Test Cases</a>.
 </p>
-<div class=push-left>
 <div class=toc>
    <header>Contents:</header>
    <ol>
       <li><a href="#terms">Terms</a></li>
       <li><a href="#requirements">Requirements and Support</a></li>
-      <li><a href="#setup">Setup</a></li>
-      <li><a href="#html">HTML</a></li>
-      <li><a href="#api">JavaScript API</a></li>
-      <li><a href="#complex">Complex Data</a></li>
+      <li><a href="#setup">Setup</a>
+         <ol>
+            <li><a href="#setup-css">CSS</a></li>
+            <li><a href="#setup-js">JavaScript Libraries</a></li>
+         </ol>
+      </li>
+      <li><a href="#html">HTML</a>
+         <ol>
+            <li><a href="#html-template">DNA Template</a></li>
+            <li><a href="#html-field">DNA Field</a></li>
+            <li><a href="#html-attr">DNA Attribute</a></li>
+            <li><a href="#html-class">DNA Class</a></li>
+            <li><a href="#html-example">Ensemble</a></li>
+         </ol>
+      </li>
+      <li><a href="#api">JavaScript API</a>
+         <ol>
+            <li><a href="#api-clone">dna.clone()</a></li>
+            <li><a href="#api-load">dna.load()</a></li>
+            <li><a href="#api-get-model">dna.getModel()</a></li>
+            <li><a href="#api-empty">dna.empty()</a></li>
+            <li><a href="#api-mutate">dna.mutate()</a></li>
+            <li><a href="#api-destroy">dna.destroy()</a></li>
+            <li><a href="#api-info">dna.info()</a></li>
+         </ol>
+      </li>
+      <li><a href="#complex">Complex Data</a>
+         <ol>
+            <li><a href="#data-loop">Data Arrays (loops)</a></li>
+            <li><a href="#data-primitive">Arrays of Primitives (strings, numbers, booleans)</a></li>
+            <li><a href="#data-nested-object">Object Dot Notation (nested objects)</a></li>
+            <li><a href="#data-sub-template">Sub-templates (array loops)</a></li>
+            <li><a href="#data-nested-template">Nested Templates</a></li>
+            <li><a href="#data-thimblerig">Thimblerig (conditional hide and seek logic)</a></li>
+            <li><a href="#data-callback">Callback Functions</a></li>
+         </ol>
+      </li>
    </ol>
-</div>
 </div>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -76,13 +107,6 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=setup>Setup</h3>
-<div class=toc>
-   <header>Contents:</header>
-   <ol type=A>
-      <li><a href="#setup-css">CSS</a></li>
-      <li><a href="#setup-js">JavaScript Libraries</a></li>
-   </ol>
-</div>
 
 <section id=setup-css>
    <h4>CSS</h4>
@@ -123,16 +147,6 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=html>HTML &mdash; Classes and Attributes</h3>
-<div class=toc>
-   <header>Contents:</header>
-   <ol type=A>
-      <li><a href="#html-template">DNA Template</a></li>
-      <li><a href="#html-field">DNA Field</a></li>
-      <li><a href="#html-attr">DNA Attribute</a></li>
-      <li><a href="#html-class">DNA Class</a></li>
-      <li><a href="#html-example">Ensemble</a></li>
-   </ol>
-</div>
 
 <section id=html-template>
    <h4>DNA Template</h4>
@@ -218,18 +232,6 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=api>JavaScript API &mdash; Calling DNA</h3>
-<div class=toc>
-   <header>Methods:</header>
-   <ol type=A>
-      <li><a href="#api-clone">dna.clone()</a></li>
-      <li><a href="#api-load">dna.load()</a></li>
-      <li><a href="#api-get-model">dna.getModel()</a></li>
-      <li><a href="#api-empty">dna.empty()</a></li>
-      <li><a href="#api-mutate">dna.mutate()</a></li>
-      <li><a href="#api-destroy">dna.destroy()</a></li>
-      <li><a href="#api-info">dna.info()</a></li>
-   </ol>
-</div>
 
 <!--  dna.clone()  -->
 <section id=api-clone>
@@ -438,18 +440,6 @@ dna.destroy(clone, { fade: true });</code></pre>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=complex>Complex Data</h3>
-<div class=toc>
-   <header>Contents:</header>
-   <ol type=A>
-      <li><a href="#data-loop">Data Arrays (loops)</a></li>
-      <li><a href="#data-primitive">Arrays of Primitives (strings, numbers, booleans)</a></li>
-      <li><a href="#data-nested-object">Object Dot Notation (nested objects)</a></li>
-      <li><a href="#data-sub-template">Sub-templates (array loops)</a></li>
-      <li><a href="#data-nested-template">Nested Templates</a></li>
-      <li><a href="#data-thimblerig">Thimblerig (conditional hide and seek logic)</a></li>
-      <li><a href="#data-callback">Callback Functions</a></li>
-   </ol>
-</div>
 
 <section id=data-loop>
    <h4>Data Arrays (loops)</h4>
