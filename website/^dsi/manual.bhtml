@@ -111,7 +111,7 @@
 <section id=setup-css>
    <h4>CSS</h4>
    <p>
-      Add the following line to your site's CSS so the DNA templates are not
+      Add the following line to your website's CSS so the DNA templates are not
       displayed in the browser.
    </p>
    <div class=code-caption>CSS to hide templates</div>
@@ -130,7 +130,7 @@
       <code><a href="https://raw.github.com/dnajs/dna.js/current/dna.min.js" class=external-site>dna.min.js</a></code>
       file (or the
       <code><a href="https://raw.github.com/dnajs/dna.js/current/dna.js" class=external-site>dna.js</a></code>
-      uncompressed version) and include it in your site.&nbsp;
+      uncompressed version) and include it in your website.&nbsp;
       <!--#echo var="name" --> requires jQuery.
    </p>
    <p>
