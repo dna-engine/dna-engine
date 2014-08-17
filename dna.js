@@ -29,7 +29,7 @@ dna.util = {
    call: function(func, param) {  //calls func (string name or actual function) passing in param
       // Example: dna.util.call('app.cart.buy', 7); ==> app.cart.buy(7);
       function contextCall(obj, names) {
-			if (!obj || (names.length == 1 && typeof obj[names[0]] !== 'function'))
+         if (!obj || (names.length == 1 && typeof obj[names[0]] !== 'function'))
             dna.core.berserk('Callback function not found: ' + func);
          else if (names.length == 1)
             obj[names[0]](param);  //'app.cart.buy' -> window['app']['cart']['buy'](param);
@@ -38,7 +38,7 @@ dna.util = {
          }
       if (func === '' || $.inArray(typeof func, ['number', 'boolean']) !== -1)
          dna.core.berserk('Invalid callback function: ' + func);
-      else if (typeof(func) === 'string' && func.lenght > 0)
+      else if (typeof(func) === 'string' && func.length > 0)
          contextCall(window, func.split('.'));
       else if (func instanceof Function)
          func(param);
@@ -77,16 +77,19 @@ dna.ui = {
       return dna.ui.slideFade(elem, callback, false);
       },
    slideFadeToggle: function(elem, callback) {
-      return dna.ui.slideFade(elem, callback, !elem.is(':visible'));
+      return dna.ui.slideFade(elem, callback, elem.is(':hidden'));
       },
    slideFadeDelete: function(elem) {
       return dna.ui.slideFadeOut(elem, dna.ui.deleteElem);
+      },
+   slidingFlasher: function(elem, callback) {
+      return elem.is(':hidden') ? dna.ui.slideFadeIn(elem, callback) : elem.hide().fadeIn();
       }
    };
 
 dna.compile = {
    // Pre-compile  Example                           Post-compile class + data().dnaRules
-   // -----------  --------------------------------  -------------------------------
+   // -----------  --------------------------------  ------------------------------------
    // templates    <p id=ad class=dna-template>      class=dna-clone
    // arrays       <p data-dna-array=~~tags~~>       class=dna-nucleotide + array='tags'
    // fields       <p>~~tag~~</p>                    class=dna-nucleotide + text='tag'
@@ -96,7 +99,7 @@ dna.compile = {
    // prop rules   <input data-dna-prop-checked=~~on~~>  class=dna-nucleotide + props=['checked', 'on']
    //
    // Rules                                          data().dnaRules
-   // ---------------------------------------------  ----------
+   // ---------------------------------------------  ---------------
    // data-dna-class=~~field,name-true,name-false~~  class=['field','name-true','name-false']
    // data-dna-attr-{NAME}=pre~~field~~post          attrs=['{NAME}', ['pre', 'field', 'post']]
    // data-dna-prop-{NAME}=pre~~field~~post          props=['{NAME}', 'field']
@@ -250,7 +253,7 @@ dna.core = {
          var value = typeof data === 'object' ? dna.util.value(data, field) :
             field === '[count]' ? count : field === '[value]' ? data : null;
          var printableTypes = ['string', 'number', 'boolean'];
-         function printable(value) { return printableTypes.indexOf(typeof value) !== -1; }
+         function printable(value) { return $.inArray(typeof value, printableTypes) !== -1; }
          if (printable(value))
             elem = settings.html ? elem.html(value) : elem.text(value);
          }
