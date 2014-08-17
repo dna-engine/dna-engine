@@ -26,13 +26,14 @@ dna.util = {
       function emptyArray() { return value instanceof Array && value.length === 0; }
       return value ? !emptyArray() && !falseyStr() : false;
       },
-   call: function(func, param) {  //calls func (string name or actual function) passing in param
+   call: function(func, params) {  //calls func (string name or actual function) passing in params
       // Example: dna.util.call('app.cart.buy', 7); ==> app.cart.buy(7);
+      params = params instanceof Array ? params : [params];
       function contextCall(obj, names) {
          if (!obj || (names.length == 1 && typeof obj[names[0]] !== 'function'))
             dna.core.berserk('Callback function not found: ' + func);
          else if (names.length == 1)
-            obj[names[0]](param);  //'app.cart.buy' -> window['app']['cart']['buy'](param);
+            obj[names[0]](params[0], params[1]);  //'app.cart.buy' ==> window['app']['cart']['buy']
          else
             contextCall(obj[names[0]], names.slice(1));
          }
@@ -41,8 +42,8 @@ dna.util = {
       else if (typeof(func) === 'string' && func.length > 0)
          contextCall(window, func.split('.'));
       else if (func instanceof Function)
-         func(param);
-      return param;
+         func(params[0], params[1]);
+      return params;
       },
    apply: function(elem, selector, func, param) {  //calls func for each element (param is optional)
       return elem.find(selector).addBack(selector).each(func);
@@ -329,6 +330,8 @@ dna.core = {
       var container = settings.container ?
          settings.container.find(selector).addBack(selector) : template.container;
       container[settings.top ? 'prepend' : 'append'](clone);
+      function init() { dna.util.call($(this).data('dna-init'), $(this), data); }
+      clone.find('[data-dna-init]').addBack('[data-dna-init]').each(init);
       if (settings.callback)
          settings.callback(clone, data);
       if (settings.fade)
