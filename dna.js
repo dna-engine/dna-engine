@@ -46,12 +46,15 @@ dna.util = {
       },
    apply: function(elem, selector, func, param) {  //calls func for each element (param is optional)
       return elem.find(selector).addBack(selector).each(func);
-      },
+      }
+   };
+
+dna.ui = {
    toElem: function(elemOrEventOrIndex, that) {
       return elemOrEventOrIndex instanceof jQuery ? elemOrEventOrIndex :
          elemOrEventOrIndex.target ? $(elemOrEventOrIndex.target) : $(that);
       },
-   deleteElem: function() {  //example: $('.box').fadeOut(dna.util.deleteElem);
+   deleteElem: function() {  //example: $('.box').fadeOut(dna.ui.deleteElem);
       return $(this).remove();
       },
    slideFade: function(elem, callback, show) {
@@ -68,16 +71,16 @@ dna.util = {
       return elem;
       },
    slideFadeIn: function(elem, callback) {
-      return dna.util.slideFade(elem, callback, true);
+      return dna.ui.slideFade(elem, callback, true);
       },
    slideFadeOut: function(elem, callback) {
-      return dna.util.slideFade(elem, callback, false);
+      return dna.ui.slideFade(elem, callback, false);
       },
    slideFadeToggle: function(elem, callback) {
-      return dna.util.slideFade(elem, callback, !elem.is(':visible'));
+      return dna.ui.slideFade(elem, callback, !elem.is(':visible'));
       },
    slideFadeDelete: function(elem) {
-      return dna.util.slideFadeOut(elem, dna.util.deleteElem);
+      return dna.ui.slideFadeOut(elem, dna.ui.deleteElem);
       }
    };
 
@@ -320,7 +323,7 @@ dna.core = {
       if (settings.callback)
          settings.callback(clone, data);
       if (settings.fade)
-         dna.util.slideFadeIn(clone);
+         dna.ui.slideFadeIn(clone);
       return clone;
       },
    unload: function(name, data, options) {  //use rest data to make clone
@@ -366,7 +369,7 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       var settings = { fade: false };
       $.extend(settings, options);
       var clones = dna.store.getTemplate(name).container.find('.dna-clone');
-      return settings.fade ? dna.util.slideFadeDelete(clones) : clones.remove();
+      return settings.fade ? dna.ui.slideFadeDelete(clones) : clones.remove();
       },
    mutate: function(clone, data, options) {
       var settings = { html: false };
@@ -385,7 +388,7 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       var settings = { fade: false };
       $.extend(settings, options);
       clone = dna.getClone(clone);
-      return settings.fade ? dna.util.slideFadeDelete(clone) : clone.remove();
+      return settings.fade ? dna.ui.slideFadeDelete(clone) : clone.remove();
       },
    getClone: function(elem) {
       return elem instanceof jQuery ? elem.closest('.dna-clone') : $();
@@ -394,7 +397,7 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       return dna.store.getTemplate(name).container.children().filter('.dna-clone');
       },
    bye: function(elemOrEventOrIndex) {
-      return dna.destroy(dna.util.toElem(elemOrEventOrIndex, this), { fade: true });
+      return dna.destroy(dna.ui.toElem(elemOrEventOrIndex, this), { fade: true });
       },
    info: function() {
       console.log('~~ dns.js v0.2.3 ~~');
