@@ -35,7 +35,6 @@ var testing = {
    summary: function() {
       var mode = $('head script[src^=dna]').attr('src');
       $('#mode').text(mode);
-      console.log($('head script[src^=dna]'), mode, mode == 'dna.js', $('#mode'), $('#mode').text());
       if (mode == 'dna.js')
          $('#switch').attr('href', '?min');
       console.log('');
@@ -385,7 +384,7 @@ $(test07.run);
       <div class=book-list>
          <div id=t08-book class=dna-template>
             <div>Title:   <span>~~title~~</span></div>
-            <div>Authors: <span data-dna-array=~~authors~~> *<span>~~[value]~~</span></span></div>
+            <div>Authors: <span data-dna-array=~~authors~~> *<span data-dna-init=test08.init>~~[value]~~</span></span></div>
             <div>Score:   <span>~~score~~</span></div>
             <div>On Sale: <span>~~sale~~</span></div>
          </div>
@@ -396,13 +395,13 @@ $(test07.run);
       <div class=book-list>
          <div class=dna-clone>
             <div>Title:   <span>The New DOM</span></div>
-            <div>Authors: <span> *<span>Jan II</span></span><span> *<span>Bo</span></span></div>
+            <div>Authors: <span> *<span class=color-change>Jan II</span></span><span> *<span class=color-change>Bo</span></span></div>
             <div>Score:   <span>81</span></div>
             <div>On Sale: <span>true</span></div>
          </div>
          <div class="dna-clone border-change">
             <div>Title:   <span>Howdy HTML5</span></div>
-            <div>Authors: <span> *<span>Ed II</span></span></div>
+            <div>Authors: <span> *<span class=color-change>Ed II</span></span></div>
             <div>Score:   <span>97</span></div>
             <div>On Sale: <span>false</span></div>
          </div>
@@ -411,6 +410,9 @@ $(test07.run);
 </div>
 <script>
 var test08 = {
+   init: function(elem) {
+   	elem.addClass('color-change');
+   	},
    run: function() {
       console.log('Test Case: #08');
       var book1 = { title: 'The DOM',     authors: ['Jan'],          score: 77, sale: false };
@@ -743,7 +745,7 @@ $(test14.run);
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
-         <div id=t15-book class=dna-template>
+         <div id=t15-book class=dna-template data-dna-init=test15.init>
             <div><span class=count>~~[count]~~</span>: <span>~~[value]~~</span></div>
             <button data-dna-click=dna.bye>Bye</button>
             <button class=action-bye>Bye 2</button>
@@ -753,12 +755,12 @@ $(test14.run);
    <fieldset>
       <legend>Expected</legend>
       <div class=book-list>
-         <div class=dna-clone>
+         <div class="dna-clone color-change">
             <div><span class=count>3</span>: <span>Howdy HTML5</span></div>
             <button>Bye</button>
             <button>Bye 2</button>
          </div>
-         <div class=dna-clone>
+         <div class="dna-clone color-change">
             <div><span>5</span>: <span>Styling CSS3</span></div>
             <button>Bye</button>
             <button>Bye 2</button>
@@ -768,6 +770,9 @@ $(test14.run);
 </div>
 <script>
 var test15 = {
+   init: function(elem) {
+   	elem.addClass('color-change');
+   	},
    run: function() {
       console.log('Test Case: #15');
       dna.clone('t15-book', ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE']);
