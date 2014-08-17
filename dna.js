@@ -229,18 +229,24 @@ dna.store = {
 
 dna.events = {
    runner: function(elem, eventType) {
-      // Finds elements for eventType (click|change) and executes callback
+      // Finds elements for eventType (click|change|key-up|key-down|key-press) and executes callback
       elem = elem.closest('[data-dna-' + eventType + ']');
       return dna.util.call(elem.data('dna-' + eventType), elem);
       },
-   handleClick: function(event) {
-      return dna.events.runner($(event.target), 'click');
+   handle: function(event) {
+      return dna.events.runner($(event.target), event.type.replace('key', 'key-'));
       },
-   handleChange: function(event) {
-      return dna.events.runner($(event.target), 'change');
+   handleEnterKey: function(event) {
+      return event.which === 13 ? dna.events.runner($(event.target), 'enter-key') : null;
       },
    setup: function() {
-      $(document).click(dna.events.handleClick).change(dna.events.handleChange);
+      $(document)
+         .click(dna.events.handle)
+         .change(dna.events.handle)
+         .keyup(dna.events.handle)
+         .keyup(dna.events.handleEnterKey)
+         .keydown(dna.events.handle)
+         .keypress(dna.events.handle);
       }
    };
 
