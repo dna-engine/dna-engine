@@ -29,14 +29,16 @@ dna.util = {
    call: function(func, param) {  //calls func (string name or actual function) passing in param
       // Example: dna.util.call('app.cart.buy', 7); ==> app.cart.buy(7);
       function contextCall(obj, names) {
-         if (!obj)
-            dna.core.berserk('Invalid name before "' + names[0] + '" in: ' + func);
+			if (!obj || (names.length == 1 && typeof obj[names[0]] !== 'function'))
+            dna.core.berserk('Callback function not found: ' + func);
          else if (names.length == 1)
             obj[names[0]](param);  //'app.cart.buy' -> window['app']['cart']['buy'](param);
          else
             contextCall(obj[names[0]], names.slice(1));
          }
-      if (typeof(func) === 'string')
+      if (func === '' || $.inArray(typeof func, ['number', 'boolean']) !== -1)
+         dna.core.berserk('Invalid callback function: ' + func);
+      else if (typeof(func) === 'string' && func.lenght > 0)
          contextCall(window, func.split('.'));
       else if (func instanceof Function)
          func(param);
