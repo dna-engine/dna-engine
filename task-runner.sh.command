@@ -73,13 +73,22 @@ if [ "$versionLocal" != "$versionRemote" ]
 	fi
 echo "Status: $status"
 echo
-echo "To release this version, check in local changes and:"
+echo "To release this version:"
 echo "   cd $(pwd)"
+echo "   grunt release"
+echo "   website/^dsi/^dsi.sh.command"
+echo "   *** Check in local changes with the comment:"
+echo "      Release $versionLocal"
+echo
+if [ -n "$(git status --short)" ]; then
+   echo "   *** Check in local changes ***"
+   fi
 echo "   git tag -af $versionRemote -m \"Beta release\""
 echo "   git tag -af current -m \"Current stable release\""
 echo "   git remote -v"
 echo "   git push origin --tags --force"
-echo "and update:"
+echo
+echo "   *** Finally, update:"
 echo "   https://github.com/dnajs/dna.js/wiki/Release-Notes"
 echo
 open test-cases.html

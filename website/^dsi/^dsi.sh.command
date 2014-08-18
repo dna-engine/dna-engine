@@ -19,12 +19,12 @@ versionReleased=$(git tag | tail -1)
 getHtmlVersion
 echo "Release Version: $versionReleased"
 echo "HTML Version:    $versionHtml"
-if [ "$versionReleased" != "$versionHtml" ]; then
-   file=$(sed "s/$versionHtml/$versionReleased/" ~begin.fhtml)
-   echo "$file" > ~begin.fhtml
-   getHtmlVersion
-   echo "*** HTML version updated to: $versionHtml"
-   fi
+#if [ "$versionReleased" != "$versionHtml" ]; then
+#   file=$(sed "s/$versionHtml/$versionReleased/" ~begin.fhtml)
+#   echo "$file" > ~begin.fhtml
+#   getHtmlVersion
+#   echo "*** HTML version updated to: $versionHtml"
+#   fi
 
 # Run DSI
 [ ! -f dsi.jar ] && curl -O http://www.centerkey.com/dsi/download/dsi.jar
