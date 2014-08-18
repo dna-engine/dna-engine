@@ -409,6 +409,14 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       var settings = { fade: false };
       $.extend(settings, options);
       clone = dna.getClone(clone);
+      if (clone.hasClass('dna-array')) {
+         var field = dna.getClone(clone).data().dnaRules.array;
+         var array = dna.getModel(clone.parent())[field];
+         var name = dna.getClone(clone.parent()).data().dnaRules.template;
+         var arrayClones = clone.parent().children('.' + name+ '-'+field+'-instance');
+         var i = arrayClones.index(clone);
+         array.splice(i, 1);
+         }
       return settings.fade ? dna.ui.slideFadeDelete(clone) : clone.remove();
       },
    getClone: function(elem) {

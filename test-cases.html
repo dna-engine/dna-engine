@@ -625,7 +625,7 @@ $(test11.run);
             <span>
             </span>
          </div>
-         <div class=dna-clone>
+         <div class="dna-clone border-change">
             <div>Title:  <span>Howdy HTML5</span></div>
             Authors:
             <span>
@@ -641,8 +641,6 @@ $(test11.run);
             <span id=back>Bio</span></div>
             <div class="dna-clone color-change"><span data-type=back>back</span>:
             <span id=back>Bio 2</span></div>
-            <div class="dna-clone color-change"><span data-type=back>back</span>:
-            <span id=back>Bio 3</span></div>
          </div>
       </div>
    </fieldset>
@@ -667,6 +665,9 @@ var test12 = {
       var clone = dna.mutate($('.t12-book').last(), book2);
       dna.cloneSubTemplate(clone, 'chapters', { header: 'Bio', type: 'back' });
       dna.cloneSubTemplate(clone, 'chapters', moreChapters);
+      var elem = $('.t12-book').find(':contains(Bio 2)');
+      dna.destroy(elem);
+      clone.toggleClass('border-change', dna.getModel(clone).chapters.length === 4);
       }
    };
 $(test12.run);
