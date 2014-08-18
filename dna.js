@@ -363,6 +363,15 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
          clones = clones.add(dna.core.replicate(template, list[i], i + 1, settings));
       return clones;
       },
+   cloneSubTemplate: function(holderClone, arrayField, data, options) {
+      var name = dna.getClone(holderClone).data().dnaRules.template + '-' + arrayField + '-instance';
+      var selector = '.dna-contains-' + name;
+      var settings = { container: holderClone.find(selector).addBack(selector) };
+      $.extend(settings, options);
+      dna.clone(name, data, settings);
+      var array = dna.getModel(holderClone)[arrayField];
+      $.each(data instanceof Array ? data : [data], function() { array.push(this); });
+      },
    load: function(name, url, options) {
       function processJson(data) { dna.core.unload(name, data, options); }
       return $.getJSON(url, processJson);
@@ -420,14 +429,15 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       }
    };
 
-dna.clone =     dna.api.clone;
-dna.load =      dna.api.load;
-dna.getModel =  dna.api.getModel;
-dna.empty =     dna.api.empty;
-dna.mutate =    dna.api.mutate;
-dna.mutateAll = dna.api.mutateAll;
-dna.destroy =   dna.api.destroy;
-dna.getClone =  dna.api.getClone;
-dna.getClones = dna.api.getClones;
-dna.bye =       dna.api.bye;
-dna.info =      dna.api.info;
+dna.clone =            dna.api.clone;
+dna.cloneSubTemplate = dna.api.cloneSubTemplate;
+dna.load =             dna.api.load;
+dna.getModel =         dna.api.getModel;
+dna.empty =            dna.api.empty;
+dna.mutate =           dna.api.mutate;
+dna.mutateAll =        dna.api.mutateAll;
+dna.destroy =          dna.api.destroy;
+dna.getClone =         dna.api.getClone;
+dna.getClones =        dna.api.getClones;
+dna.bye =              dna.api.bye;
+dna.info =             dna.api.info;
