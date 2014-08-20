@@ -1,4 +1,4 @@
-// dna.js Template Cloner ~~ v0.2.3
+// dna.js Template Cloner ~~ v0.2.4
 // MIT/GPLv3 ~~ dnajs.org/license.html
 // Copyright (c) 2013-2014 Center Key Software and other contributors
 
@@ -158,6 +158,12 @@ dna.compile = {
       //    <p dna-array=~~tags~~>, 'array'  ==>  'tags'
       return $.trim(elem.data('dna-' + type).replace(dna.compile.regexDnaBasePairs, ''));
       },
+  subTemplateName: function(holder, arrayField) {  //holder can be element or template name
+      // Example: subTemplateName('book', 'authors') ==> 'book-authors-instance'
+      var mainTemplateName = holder instanceof jQuery ?
+         dna.getClone(holder).data().dnaRules.template : holder;
+      return mainTemplateName + '-' + arrayField + '-instance';
+      },
    rules: function(elems, type, isList) {
       // Example:
       //    <p data-dna-require=~~title~~>, 'require'  ==>  <p data-dnaRules={ require: 'title' }>
@@ -215,8 +221,9 @@ dna.store = {
          //    class=dna-nucleotide + data().dnaRules.loop={ name: '{NAME}-{FIELD}-instance', field: 'field' }
          var elem = $(this);
          var field = elem.data().dnaRules.array;
-         var sub = name + '-' + field + '-instance';
-         dna.compile.setupNucleotide(elem.parent()).data().dnaRules.loop = { name: sub, field: field };
+         var sub = dna.compile.subTemplateName(name, field);
+         dna.compile.setupNucleotide(elem.parent()).data().dnaRules.loop =
+            { name: sub, field: field };
          elem.data().dnaRules.template = sub;
          }
       elem.find('.dna-template').addBack().each(move);
@@ -330,8 +337,6 @@ dna.core = {
       var container = settings.container ?
          settings.container.find(selector).addBack(selector) : template.container;
       container[settings.top ? 'prepend' : 'append'](clone);
-      function init() { dna.util.call($(this).data('dna-init'), $(this), data); }
-      clone.find('[data-dna-init]').addBack('[data-dna-init]').each(init);
       if (settings.callback)
          settings.callback(clone, data);
       if (settings.fade)
@@ -364,7 +369,7 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       return clones;
       },
    cloneSubTemplate: function(holderClone, arrayField, data, options) {
-      var name = dna.getClone(holderClone).data().dnaRules.template + '-' + arrayField + '-instance';
+      var name = dna.compile.subTemplateName(holderClone, arrayField);
       var selector = '.dna-contains-' + name;
       var settings = { container: holderClone.find(selector).addBack(selector) };
       $.extend(settings, options);
@@ -409,14 +414,12 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       var settings = { fade: false };
       $.extend(settings, options);
       clone = dna.getClone(clone);
-      if (clone.hasClass('dna-array')) {
-         var field = dna.getClone(clone).data().dnaRules.array;
-         var array = dna.getModel(clone.parent())[field];
-         var name = dna.getClone(clone.parent()).data().dnaRules.template;
-         var arrayClones = clone.parent().children('.' + name+ '-'+field+'-instance');
-         var i = arrayClones.index(clone);
-         array.splice(i, 1);
+      function removeArrayItem(holder, field) {
+         var arrayClones = holder.children('.' + dna.compile.subTemplateName(holder, field));
+         dna.getModel(holder)[field].splice(arrayClones.index(clone), 1);
          }
+      if (clone.hasClass('dna-array'))
+         removeArrayItem(clone.parent(), clone.data().dnaRules.array);
       return settings.fade ? dna.ui.slideFadeDelete(clone) : clone.remove();
       },
    getClone: function(elem) {
@@ -429,7 +432,7 @@ dna.api = {  //see: http://dnajs.org/manual.html#api
       return dna.destroy(dna.ui.toElem(elemOrEventOrIndex, this), { fade: true });
       },
    info: function() {
-      console.log('~~ dns.js v0.2.3 ~~');
+      console.log('~~ dns.js v0.2.4 ~~');
       console.log('count:', Object.keys(dna.store.templates).length);
       console.log('names:', Object.keys(dna.store.templates));
       console.log('templates:', dna.store.templates);
