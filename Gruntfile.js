@@ -10,11 +10,11 @@ module.exports = function(grunt) {
       version: {
          dev: {
             options: { prefix: versionPatterns },
-            src: ['dna.js', 'bower.json', 'dna.jquery.json'],
+            src: ['dna.js'],
             },
          release: {
             options: { prefix: versionPatterns },
-            src: ['README.md', 'website/^dsi/~begin.fhtml'],
+            src: ['bower.json', 'dna.jquery.json', 'README.md', 'website/^dsi/~begin.fhtml'],
             },
          },
       jshint: {
