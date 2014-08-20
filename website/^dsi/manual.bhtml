@@ -232,6 +232,21 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=api>JavaScript API &mdash; Calling DNA</h3>
+<h5>API Overview</h5>
+<ol>
+   <li><b>dna.clone</b>(name, data, options)</li>
+   <li><b>dna.cloneSubTemplate</b>(holderClone, arrayField, data, options)</li>
+   <li><b>dna.load</b>(name, url, options)</li>
+   <li><b>dna.getModel</b>(nameOrClone)</li>
+   <li><b>dna.empty</b>(name, options)</li>
+   <li><b>dna.mutate</b>(clone, data, options)</li>
+   <li><b>dna.mutateAll</b>(name)</li>
+   <li><b>dna.destroy</b>(clone, options)</li>
+   <li><b>dna.getClone</b>(elem)</li>
+   <li><b>dna.getClones</b>(name)</li>
+   <li><b>dna.bye</b>(elemOrEventOrIndex)</li>
+   <li><b>dna.info</b>()</li>
+</ol>
 
 <!--  dna.clone()  -->
 <section id=api-clone>
