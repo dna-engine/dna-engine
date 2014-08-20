@@ -757,6 +757,8 @@ $(test14.run);
    <p>Events</p>
    <fieldset>
       <legend>Actual</legend>
+      <p class=dna-init data-dna-init=dna.ui.deleteElem>DELETE ME!</p>
+      <hr data-dna-init=dna.ui.deleteElem>
       <div class=book-list>
          <div id=t15-book class=dna-template data-dna-init=test15.init>
             <div><span class=count>~~[count]~~</span>: <span>~~[value]~~</span></div>
@@ -767,6 +769,7 @@ $(test14.run);
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
+      <hr>
       <div class=book-list>
          <div class="dna-clone color-change">
             <div><span class=count>3</span>: <span>Howdy HTML5</span></div>

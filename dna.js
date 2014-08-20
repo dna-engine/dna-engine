@@ -53,10 +53,10 @@ dna.util = {
 dna.ui = {
    toElem: function(elemOrEventOrIndex, that) {
       return elemOrEventOrIndex instanceof jQuery ? elemOrEventOrIndex :
-         elemOrEventOrIndex.target ? $(elemOrEventOrIndex.target) : $(that);
+         elemOrEventOrIndex ? $(elemOrEventOrIndex.target) : $(that);
       },
-   deleteElem: function() {  //example: $('.box').fadeOut(dna.ui.deleteElem);
-      return $(this).remove();
+   deleteElem: function(elemOrEventOrIndex) {  //example: $('.box').fadeOut(dna.ui.deleteElem);
+      return dna.ui.toElem(elemOrEventOrIndex, this).remove();
       },
    slideFade: function(elem, callback, show) {
       var obscure = { opacity: 0.0, transition: 'opacity 0s ease 0s' };
@@ -236,6 +236,16 @@ dna.store = {
    };
 
 dna.events = {
+   onLoadInit: function(root, data) {
+      // Example (outside of template):
+      //    <p class=dna-init data-dna-init=app.cart.setup>
+      // Example (within template):
+      //    <select data-dna-init=app.dropDown.setup>
+      function init() { dna.util.call($(this).data('dna-init'), $(this), data); }
+      var selector = '[data-dna-init]';
+      var elems = root ? root.find(selector).addBack(selector) : $('.dna-init');
+      return elems.each(init).addClass('dna-initialized');
+      },
    runner: function(elem, eventType) {
       // Finds elements for eventType (click|change|key-up|key-down|key-press) and executes callback
       elem = elem.closest('[data-dna-' + eventType + ']');
@@ -255,6 +265,7 @@ dna.events = {
          .keyup(dna.events.handleEnterKey)
          .keydown(dna.events.handle)
          .keypress(dna.events.handle);
+      dna.events.onLoadInit();
       }
    };
 
@@ -337,6 +348,7 @@ dna.core = {
       var container = settings.container ?
          settings.container.find(selector).addBack(selector) : template.container;
       container[settings.top ? 'prepend' : 'append'](clone);
+      dna.events.onLoadInit(clone, data);
       if (settings.callback)
          settings.callback(clone, data);
       if (settings.fade)
