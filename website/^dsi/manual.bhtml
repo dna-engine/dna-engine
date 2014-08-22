@@ -245,6 +245,8 @@
    <li><b>dna.getClone</b>(elem)</li>
    <li><b>dna.getClones</b>(name)</li>
    <li><b>dna.bye</b>(elemOrEventOrIndex)</li>
+   <li><b>dna.registerInitializer</b>(func, options)</li>
+   <li><b>dna.clearInitializers</b>()</li>
    <li><b>dna.info</b>()</li>
 </ol>
 

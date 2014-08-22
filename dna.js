@@ -15,6 +15,8 @@ var dna = {
    //    dna.getClone()
    //    dna.getClones()
    //    dna.bye()
+   //    dna.registerInitializer()
+   //    dna.clearInitializers()
    //    dna.info()
    // See: http://dnajs.org/manual.html#api
    clone: function(name, data, options) {
@@ -39,7 +41,8 @@ var dna = {
       $.extend(settings, options);
       dna.clone(name, data, settings);
       var array = dna.getModel(holderClone)[arrayField];
-      $.each(data instanceof Array ? data : [data], function() { array.push(this); });
+      function append() { array.push(this); }
+      $.each(data instanceof Array ? data : [data], append);
       },
    load: function(name, url, options) {
       function processJson(data) { dna.core.unload(name, data, options); }
@@ -95,11 +98,23 @@ var dna = {
    bye: function(elemOrEventOrIndex) {
       return dna.destroy(dna.ui.toElem(elemOrEventOrIndex, this), { fade: true });
       },
+   registerInitializer: function(func, options) {
+      var settings = { onDocumentLoad: true };
+      $.extend(settings, options);
+      dna.events.initializers.push({ func: func, selector: settings.selector });
+      if (settings.onDocumentLoad)
+         dna.util.call(func, settings.selector ? $(settings.selector) : $(document));
+      },
+   clearInitializers: function() {
+      dna.events.initializers = [];
+      },
    info: function() {
+      var names = Object.keys(dna.store.templates);
       console.log('~~ dns.js v0.2.4 ~~');
-      console.log('count:', Object.keys(dna.store.templates).length);
-      console.log('names:', Object.keys(dna.store.templates));
-      console.log('templates:', dna.store.templates);
+      console.log('templates:', names.length);
+      console.log('names:', names);
+      console.log('store:', dna.store.templates);
+      console.log('initializers:', dna.events.initializers.length);
       return navigator.appVersion;
       }
    };
@@ -336,6 +351,12 @@ dna.store = {
    };
 
 dna.events = {
+   initializers: [],  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
+   runInitializers: function(elem) {
+      function init() { dna.util.call(this.func,
+         this.selector ? elem.find(this.selector).addBack(this.selector) : elem); }
+      $.each(dna.events.initializers, init);
+      },
    onLoadInit: function(root, data) {
       // Example (outside of template):
       //    <p class=dna-init data-dna-init=app.cart.setup>
@@ -449,6 +470,7 @@ dna.core = {
          settings.container.find(selector).addBack(selector) : template.container;
       container[settings.top ? 'prepend' : 'append'](clone);
       dna.events.onLoadInit(clone, data);
+      dna.events.runInitializers(clone);
       if (settings.callback)
          settings.callback(clone, data);
       if (settings.fade)
