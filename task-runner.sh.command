@@ -37,12 +37,6 @@ git status --short
 versionLocal=v$(grep '"version"' package.json | awk -F'"' '{print $4}')
 versionRemote=v$(curl --silent $package | grep '"version":' | awk -F'"' '{print $4}')
 versionReleased=$(git tag | tail -1)
-versionReadMe=$(grep "Current release:" README.md | awk -F"*" '{print $3}')
-if [ "$versionReadMe" != "$versionReleased" ]; then
-   file=$(sed "s/$versionReadMe/$versionReleased/" README.md)
-   echo "$file" > README.md
-   echo "*** README.md version updated to: $versionReleased"
-   fi
 echo
 echo "Versions:"
 echo "   $versionLocal (local)"
