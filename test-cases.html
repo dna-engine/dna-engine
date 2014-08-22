@@ -9,25 +9,26 @@
 <meta charset=utf-8>
 <title>dna.js &bull; Test Cases</title>
 <style>
-   body           { font-family: sans-serif; margin: 30px; }
-   h1, h3         { margin: 0px 0px 5px 0px; }
-   h2             { margin: 0px; }
-   p              { margin: 0px; }
-   button         { cursor: pointer; }
-   label          { display: block; }
-   #mode          { display: inline-block; width: 75px; }
-   .push-right    { float: right; }
-   .test-case     { display: inline-block; vertical-align: top; border: 1px solid silver; padding: 10px; margin: 0px 20px 20px 0px; }
-   fieldset       { float: left; width: 200px; border: 1px solid silver; }
-   legend         { border: 1px solid silver; padding: 0px 10px; }
-   .dna-template  { display: none; }
-   .dna-clone     { background-color: darkseagreen; }
-   div.dna-clone  { padding: 10px; margin-bottom: 15px; }
-   .dna-clone img { width: 120px; }
-   .color-change  { background-color: lightsteelblue; }
-   .color-change2 { background-color: gold; }
-   #back          { background-color: honeydew; }
-   .border-change { border: 2px solid darkorange; }
+   body            { font-family: sans-serif; margin: 30px; }
+   h1, h3          { margin: 0px 0px 5px 0px; }
+   h2              { margin: 0px; }
+   p               { margin: 0px; }
+   button          { cursor: pointer; }
+   label           { display: block; }
+   #mode           { display: inline-block; width: 75px; }
+   .push-right     { float: right; }
+   .test-case      { display: inline-block; vertical-align: top; border: 1px solid silver; padding: 10px; margin: 0px 20px 20px 0px; }
+   fieldset        { float: left; width: 200px; border: 1px solid silver; }
+   legend          { border: 1px solid silver; padding: 0px 10px; }
+   .dna-template   { display: none; }
+   .dna-clone      { background-color: darkseagreen; }
+   div.dna-clone   { padding: 10px; margin-bottom: 15px; }
+   .dna-clone img  { width: 120px; }
+   .color-change   { background-color: lightsteelblue; }
+   .color-change2  { background-color: gold; }
+   #back           { background-color: honeydew; }
+   .border-change  { border: 2px solid darkorange; }
+   .border-change2 { border: 2px solid darkslateblue; }
 </style>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
@@ -758,10 +759,10 @@ $(test14.run);
    <fieldset>
       <legend>Actual</legend>
       <p class=dna-init data-dna-init=dna.ui.deleteElem>DELETE ME!</p>
-      <hr data-dna-init=dna.ui.deleteElem>
+      <hr data-dna-init=dna.ui.deleteElem class=surrounded>
       <div class=book-list>
          <div id=t15-book class=dna-template data-dna-init=test15.init>
-            <div><span class=count>~~[count]~~</span>: <span>~~[value]~~</span></div>
+            <div class=surrounded><span class=count>~~[count]~~</span>: <span>~~[value]~~</span></div>
             <button data-dna-click=dna.bye>Bye</button>
             <button class=action-bye>Bye 2</button>
          </div>
@@ -769,15 +770,15 @@ $(test14.run);
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
-      <hr>
+      <hr class=border-change>
       <div class=book-list>
-         <div class="dna-clone color-change">
-            <div><span class=count>3</span>: <span>Howdy HTML5</span></div>
+         <div class="dna-clone color-change border-change2">
+            <div class=border-change><span class=count>3</span>: <span>Howdy HTML5</span></div>
             <button>Bye</button>
             <button>Bye 2</button>
          </div>
-         <div class="dna-clone color-change">
-            <div><span>5</span>: <span>Styling CSS3</span></div>
+         <div class="dna-clone color-change border-change2">
+            <div class=border-change><span>5</span>: <span>Styling CSS3</span></div>
             <button>Bye</button>
             <button>Bye 2</button>
          </div>
@@ -789,8 +790,16 @@ var test15 = {
    init: function(elem) {
    	elem.addClass('color-change');
    	},
+   surround: function(elem) {
+   	elem.addClass('border-change');
+   	},
+   surround2: function(elem) {
+   	elem.addClass('border-change2');
+   	},
    run: function() {
       console.log('Test Case: #15');
+		dna.registerInitializer('test15.surround', { selector: '.surrounded' });
+		dna.registerInitializer(test15.surround2);  //apply to each clone
       dna.clone('t15-book', ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE']);
       $('.t15-book button.action-bye').click(dna.bye);  //add handler
       function getClone(count) {
@@ -801,6 +810,7 @@ var test15 = {
       dna.bye(getClone(4));                                  //nuke 4th (bye w/jQuery elem)
       dna.getClone(getClone(7).find('span:last')).remove();  //nuke 7th (remove w/sub-node)
       getClone(6).each(dna.bye);                             //nuke 6th (bye w/jQuery loop)
+		dna.clearInitializers();
       }
    };
 $(test15.run);
