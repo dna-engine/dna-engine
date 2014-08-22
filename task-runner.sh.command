@@ -84,7 +84,7 @@ if [ -n "$(git status --short)" ]; then
    echo "   *** Check in local changes ***"
    fi
 echo "   cd $(pwd)"
-echo "   git tag -af $versionRemote -m \"Beta release\""
+echo "   git tag -a $versionRemote -m \"Beta release\""
 echo "   git tag -af current -m \"Current stable release\""
 echo "   git remote -v"
 echo "   git push origin --tags --force"
