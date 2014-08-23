@@ -43,6 +43,7 @@ var dna = {
       var array = dna.getModel(holderClone)[arrayField];
       function append() { array.push(this); }
       $.each(data instanceof Array ? data : [data], append);
+      return holderClone;
       },
    load: function(name, url, options) {
       function processJson(data) { dna.core.unload(name, data, options); }
@@ -101,9 +102,9 @@ var dna = {
    registerInitializer: function(func, options) {
       var settings = { onDocumentLoad: true };
       $.extend(settings, options);
-      dna.events.initializers.push({ func: func, selector: settings.selector });
       if (settings.onDocumentLoad)
          dna.util.call(func, settings.selector ? $(settings.selector) : $(document));
+      return dna.events.initializers.push({ func: func, selector: settings.selector });
       },
    clearInitializers: function() {
       dna.events.initializers = [];
@@ -356,6 +357,7 @@ dna.events = {
       function init() { dna.util.call(this.func,
          this.selector ? elem.find(this.selector).addBack(this.selector) : elem); }
       $.each(dna.events.initializers, init);
+      return elem;
       },
    onLoadInit: function(root, data) {
       // Example (outside of template):
