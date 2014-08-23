@@ -782,6 +782,7 @@ $(test14.run);
             <button>Bye</button>
             <button>Bye 2</button>
          </div>
+         <hr><hr><hr><hr><hr><hr><hr><hr>
       </div>
    </fieldset>
 </div>
@@ -792,6 +793,8 @@ var test15 = {
    	},
    surround: function(elem) {
    	elem.addClass('border-change');
+   	function addHr() { $('.test-case').eq(15-1).find('fieldset').first().append('<hr>'); }
+   	elem.each(addHr);  //exactly 8 times (1 <hr> + 7 clones)
    	},
    surround2: function(elem) {
    	elem.addClass('border-change2');

@@ -103,7 +103,8 @@ var dna = {
       var settings = { onDocumentLoad: true };
       $.extend(settings, options);
       if (settings.onDocumentLoad)
-         dna.util.call(func, settings.selector ? $(settings.selector) : $(document));
+         dna.util.call(func, settings.selector ? $(settings.selector).not(
+            '.dna-template ' + settings.selector).addClass('dna-initialized') : $(document));
       return dna.events.initializers.push({ func: func, selector: settings.selector });
       },
    clearInitializers: function() {
@@ -159,7 +160,7 @@ dna.util = {
          contextCall(window, func.split('.'));
       else if (func instanceof Function)
          func(params[0], params[1]);
-      return params;
+      return params[0];
       },
    apply: function(elem, selector, func, param) {  //calls func for each element (param is optional)
       return elem.find(selector).addBack(selector).each(func);
@@ -354,8 +355,8 @@ dna.store = {
 dna.events = {
    initializers: [],  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
    runInitializers: function(elem) {
-      function init() { dna.util.call(this.func,
-         this.selector ? elem.find(this.selector).addBack(this.selector) : elem); }
+      function init() { dna.util.call(this.func, this.selector ?
+         elem.find(this.selector).addBack(this.selector) : elem).addClass('dna-initialized'); }
       $.each(dna.events.initializers, init);
       return elem;
       },
