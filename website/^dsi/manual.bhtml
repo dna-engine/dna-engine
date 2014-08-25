@@ -37,17 +37,31 @@
             <li><a href="#api-info">dna.info()</a></li>
          </ol>
       </li>
-      <li><a href="#complex">Complex Data</a>
+      <li><a href="#loop">Looping</a>
          <ol>
-            <li><a href="#data-loop">Data Arrays (loops)</a></li>
-            <li><a href="#data-primitive">Arrays of Primitives (strings, numbers, booleans)</a></li>
-            <li><a href="#data-nested-object">Object Dot Notation (nested objects)</a></li>
-            <li><a href="#data-sub-template">Sub-templates (array loops)</a></li>
-            <li><a href="#data-nested-template">Nested Templates</a></li>
-            <li><a href="#data-thimblerig">Thimblerig (conditional hide and seek logic)</a></li>
+            <li><a href="#loop-templates">Template Array Loops</a></li>
+            <li><a href="#loop-sub-templates">Sub-template Array Loops</a></li>
+            <li><a href="#loop-primitives">Arrays of Primitives (strings, numbers, booleans)</a></li>
+         </ol>
+      </li>
+      <li><a href="#callback">Callbacks</a>
+         <ol>
+            <li><a href="#callback-???">Event????</a></li>
+            <li><a href="#callback-???">Event????</a></li>
+            <li><a href="#callback-???">Event????</a></li>
+            <li><a href="#callback-???">Event????</a></li>
+            <li><a href="#callback-???">Event????</a></li>
             <li><a href="#data-callback">Callback Functions</a></li>
          </ol>
       </li>
+      <li><a href="#structure">Structures and Logic</a>
+         <ol>
+            <li><a href="#structure-thimblerig">Thimblerig (conditional hide and seek logic)</a></li>
+            <li><a href="#structure-nested-object">Object Dot Notation (nested objects)</a></li>
+            <li><a href="#structure-nested-template">Nested Templates</a></li>
+         </ol>
+      </li>
+      <li><a href="#util">Utilities</a></li>
    </ol>
 </div>
 
@@ -252,7 +266,7 @@
 
 <!--  dna.clone()  -->
 <section id=api-clone>
-   <h4>dna.clone(name[, data ][, options])</h4>
+   <h4>dna.clone(name, data [, options])</h4>
    <div class=api-description>
       Generates a copy of the template and populates the fields, attributes, and
       classes from the supplied data.
@@ -662,6 +676,238 @@ dna.clone('book', book, options);</code></pre>
    Taskmaster
 &lt;/div&gt;</code></pre>
    <!-- End: Result  -->
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<h3 id=util>Utilities</h3>
+<p>
+   The utility functions built into dna.js are available to be called directly in the event that
+   they might be generally useful.
+</p>
+<h5>Utility Functions Overview</h5>
+<ol>
+   <li><b>dna.ui.deleteElem</b>(elemOrEventOrIndex)</li>
+   <li>
+      <b>dna.ui.slideFadeDelete</b>(elem)<br>
+      <b>dna.ui.slideFadeIn</b>(elem, callback)<br>
+      <b>dna.ui.slideFadeOut</b>(elem, callback)<br>
+      <b>dna.ui.slideFadeToggle</b>(elem, callback)
+   </li>
+   <li><b>dna.ui.slidingFlasher</b>(elem, callback)</li>
+   <li><b>dna.ui.toElem</b>(elemOrEventOrIndex, that)</li>
+   <li><b>dna.util.call</b>(func, params)</li>
+   <li><b>dna.util.realTruth</b>(value)</li>
+   <li><b>dna.util.toCamel</b>(codeStr)</li>
+   <li><b>dna.util.toCode</b>(camelCaseStr)</li>
+   <li><b>dna.util.value</b>(data, field)</li>
+</ol>
+
+<!--  dna.ui.deleteElem()  -->
+<section id=ui-delete-elem>
+   <h4>dna.ui.deleteElem(elemOrEventOrIndex)</h4>
+   <div class=api-description>
+      A flexible function for removing a jQuery element.
+   </div>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>elemOrEventOrIndex</b> (jQuery Object, Event, or Index):</label>
+            Reference to a jQuery element.
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>$('.box').last().fadeOut(dna.ui.deleteElem);  //removes last box
+dna.ui.deleteElem(('.box').first());  //removes first box</code></pre>
+</section>
+
+<!--  dna.ui.slideFade()  -->
+<section id=ui-slide-fade>
+   <h4>dna.ui.slideFadeDelete(elem)</h4>
+   <h4>dna.ui.slideFadeIn(elem[, callback])</h4>
+   <h4>dna.ui.slideFadeOut(elem[, callback])</h4>
+   <h4>dna.ui.slideFadeToggle(elem[, callback])</h4>
+   <div class=api-description>
+      Various functions to apply the smooth slide plus fade effect.
+   </div>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>elem</b> (jQuery Object):</label>
+            Element to be faded in or faded out.
+         </li>
+         <li>
+            <label><b>callback</b> (String or Function):</label>
+            String name of a function or an actual function.
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>dna.ui.slideFadeDelete($('.box').last());  //removes the last box
+dna.ui.slideFadeIn($('.box').first());  //shows the box</code></pre>
+</section>
+
+<!--  dna.ui.slidingFlasher()  -->
+<section id=ui-sliding-flasher>
+   <h4>dna.ui.slidingFlasher(elem[, callback])</h4>
+   <div class=api-description>
+      Uses a smooth slide down plus fade in effect on an element if it is hidden or a smooth fade in
+      flash if the element is already visible &mdash;  intended to display an error message.
+   </div>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>elem</b> (jQuery Object):</label>
+            Element to be displayed.
+         </li>
+         <li>
+            <label><b>callback</b> (String or Function):</label>
+            String name of a function or an actual function.
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>var elem = $('#msg').text('Error!');
+dna.ui.slidingFlasher(elem);  //slide down
+...
+dna.ui.slidingFlasher(elem);  //pulse</code></pre>
+</section>
+
+<!--  dna.ui.toElem()  -->
+<section id=ui-to-elem>
+   <h4>dna.ui.toElem(elemOrEventOrIndex, that)</h4>
+   <div class=api-description>
+      A flexible way to get the jQuery element whether it is passed in directly, the target of an
+      event, or comes from the jQuery context.
+   </div>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>elemOrEventOrIndex</b> (jQuery Object, Event, or Index):</label>
+            Reference to a jQuery element.
+         </li>
+         <li>
+            <label><b>that</b> (this):</label>
+            <code>this</code>.
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>function logFadeDone(e) { console.log('Gone:', dna.ui.toElem(e, this)); }
+$('.box').last().fadeOut(logFadeDone);</code></pre>
+</section>
+
+<!--  dna.util.call()  -->
+<section id=util-call>
+   <h4>dna.util.call(func, params)</h4>
+   <div class=api-description>
+      Calls a function passing in the provided parameters.
+   </div>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>func</b> (String or Function):</label>
+            String name of a function or an actual function.
+         </li>
+         <li>
+            <label><b>params</b> (anything or Array):</label>
+            A single value to pass into the function or an array of values where each element in
+            the array is a parameter passed into the function.
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>dna.util.call('app.cart.buy', 7);  //same as: app.cart.buy(7);</code></pre>
+</section>
+
+<!--  dna.util.realTruth()  -->
+<section id=util-real-truth>
+   <h4>dna.util.realTruth(value)</h4>
+   <div class=api-description>
+      <p>Looks for the true or false meaning a value.&nbsp;  Whereas JavaScript truthy an falsy is
+      more about existence, the "real" truth is for evaluating boolean data as it is often stored
+      or transmitted.</p>
+      Example true values:  <code>true,  0, '1', [5], 't', 'T', 'TRue',  {},   'Colbert'</code><br>
+      Example false values: <code>false, 0, '0', [],  'f', 'F', 'faLSE', null, undefined, NaN</code>
+   </div>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>value</b> (anything):</label>
+            Whatever you want to interrogate.
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>dna.util.realTruth('F');  //false</code></pre>
+</section>
+
+<!--  dna.util.toCamel()  -->
+<section id=util-to-camel>
+   <h4>dna.util.toCamel(codeStr)</h4>
+   <div class=api-description>
+      Converts a code made of lowercase letters and dashes into camel case string.
+   </div>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>codeStr</b> (String):</label>
+            A string made of lowercase letters and dashes.
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>dna.util.toCamel('ready-set-go');  //'readySetGo'</code></pre>
+</section>
+
+<!--  dna.util.toCode()  -->
+<section id=util-to-code>
+   <h4>dna.util.toCode(camelCaseStr)</h4>
+   <div class=api-description>
+      Converts a camel case string to a code made of only lowercase letters and dashes.
+   </div>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>camelCaseStr</b> (String):</label>
+            A camel case string.
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>dna.util.toCode('readySetGo');  //'ready-set-go'</code></pre>
+</section>
+
+<!--  dna.util.value()  -->
+<section id=util-value>
+   <h4>dna.util.value(data, field)</h4>
+   <div class=api-description>
+      Retrieve a value from a field within an object.
+   </div>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>data</b> (Object):</label>
+            Object with fields containing data.
+         </li>
+         <li>
+            <label><b>field</b> (String):</label>
+            Name of a field within the data object (supports object dot notation for nested
+            objects).
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>dna.util.value({ cart: { items: 7 }}, 'cart.items');  //7</code></pre>
 </section>
 
 <!--#include file="~end.fhtml" -->
