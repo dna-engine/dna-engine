@@ -161,9 +161,6 @@ dna.util = {
       else if (func instanceof Function)
          func(params[0], params[1]);
       return params[0];
-      },
-   apply: function(elem, selector, func, param) {  //calls func for each element (param is optional)
-      return elem.find(selector).addBack(selector).each(func);
       }
    };
 
@@ -275,7 +272,7 @@ dna.compile = {
       //    <p dna-array=~~tags~~>, 'array'  ==>  'tags'
       return $.trim(elem.data('dna-' + type).replace(dna.compile.regexDnaBasePairs, ''));
       },
-  subTemplateName: function(holder, arrayField) {  //holder can be element or template name
+   subTemplateName: function(holder, arrayField) {  //holder can be element or template name
       // Example: subTemplateName('book', 'authors') ==> 'book-authors-instance'
       var mainTemplateName = holder instanceof jQuery ?
          dna.getClone(holder).data().dnaRules.template : holder;
