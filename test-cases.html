@@ -773,12 +773,12 @@ $(test14.run);
       <hr class=border-change>
       <div class=book-list>
          <div class="dna-clone color-change border-change2">
-            <div class=border-change><span class=count>3</span>: <span>Howdy HTML5</span></div>
+            <div class=border-change style="color: white; padding: 10px;"><span class=count>3</span>: <span>Howdy HTML5</span></div>
             <button>Bye</button>
             <button>Bye 2</button>
          </div>
          <div class="dna-clone color-change border-change2">
-            <div class=border-change><span>5</span>: <span>Styling CSS3</span></div>
+            <div class=border-change style="color: white; padding: 10px;"><span>5</span>: <span>Styling CSS3</span></div>
             <button>Bye</button>
             <button>Bye 2</button>
          </div>
@@ -802,6 +802,8 @@ var test15 = {
    run: function() {
       console.log('Test Case: #15');
 		dna.registerInitializer('test15.surround', { selector: '.surrounded' });
+		dna.registerInitializer('css', { selector: '.surrounded', params: { color: 'white' } });
+		dna.registerInitializer('css', { selector: '.surrounded', params: ['padding', '10px'] });
 		dna.registerInitializer(test15.surround2);  //apply to each clone
       dna.clone('t15-book', ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE']);
       $('.t15-book button.action-bye').click(dna.bye);  //add handler

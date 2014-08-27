@@ -103,9 +103,10 @@ var dna = {
       var settings = { onDocumentLoad: true };
       $.extend(settings, options);
       if (settings.onDocumentLoad)
-         dna.util.call(func, settings.selector ? $(settings.selector).not(
+         dna.util.apply(func, settings.selector ? $(settings.selector).not(
             '.dna-template ' + settings.selector).addClass('dna-initialized') : $(document));
-      return dna.events.initializers.push({ func: func, selector: settings.selector });
+      return dna.events.initializers.push(
+         { func: func, selector: settings.selector, params: settings.params });
       },
    clearInitializers: function() {
       dna.events.initializers = [];
@@ -143,19 +144,19 @@ dna.util = {
       function emptyArray() { return value instanceof Array && value.length === 0; }
       return value ? !emptyArray() && !falseyStr() : false;
       },
-   call: function(func, params) {  //calls func (string name or actual function) passing in params
-      // Example: dna.util.call('app.cart.buy', 7); ==> app.cart.buy(7);
+   apply: function(func, params) {  //calls func (string name or actual function) passing in params
+      // Example: dna.util.apply('app.cart.buy', 7); ==> app.cart.buy(7);
       var args = [].concat(params);
       var elem = args[0];
       if (elem instanceof jQuery && elem.length === 0)
          return elem;
-      function contextCall(obj, names) {
+      function contextApply(obj, names) {
          if (!obj || (names.length == 1 && typeof obj[names[0]] !== 'function'))
             dna.core.berserk('Callback function not found: ' + func);
          else if (names.length == 1)
             obj[names[0]].apply(elem, args);  //'app.cart.buy' ==> window['app']['cart']['buy']
          else
-            contextCall(obj[names[0]], names.slice(1));
+            contextApply(obj[names[0]], names.slice(1));
          }
       if (typeof func === 'function')
          func.apply(elem, args);
@@ -164,7 +165,7 @@ dna.util = {
       else if (func === '' || $.inArray(typeof func, ['number', 'boolean']) !== -1)
          dna.core.berserk('Invalid callback function: ' + func);
       else if (typeof func === 'string' && func.length > 0)
-         contextCall(window, func.split('.'));
+         contextApply(window, func.split('.'));
       return elem;
       }
    };
@@ -357,8 +358,8 @@ dna.store = {
 dna.events = {
    initializers: [],  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
    runInitializers: function(elem) {
-      function init() { dna.util.call(this.func, this.selector ?
-         elem.find(this.selector).addBack(this.selector) : elem).addClass('dna-initialized'); }
+      function init() { dna.util.apply(this.func, [this.selector ? elem.find(
+         this.selector).addBack(this.selector) : elem].concat(this.params)).addClass('dna-initialized'); }
       $.each(dna.events.initializers, init);
       return elem;
       },
@@ -367,7 +368,7 @@ dna.events = {
       //    <p class=dna-init data-dna-init=app.cart.setup>
       // Example (within template):
       //    <select data-dna-init=app.dropDown.setup>
-      function init() { dna.util.call($(this).data('dna-init'), $(this), data); }
+      function init() { dna.util.apply($(this).data('dna-init'), $(this), data); }
       var selector = '[data-dna-init]';
       var elems = root ? root.find(selector).addBack(selector) : $('.dna-init');
       return elems.each(init).addClass('dna-initialized');
@@ -375,7 +376,7 @@ dna.events = {
    runner: function(elem, eventType) {
       // Finds elements for eventType (click|change|key-up|key-down|key-press) and executes callback
       elem = elem.closest('[data-dna-' + eventType + ']');
-      return dna.util.call(elem.data('dna-' + eventType), elem);
+      return dna.util.apply(elem.data('dna-' + eventType), elem);
       },
    handle: function(event) {
       return dna.events.runner($(event.target), event.type.replace('key', 'key-'));
