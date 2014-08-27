@@ -145,22 +145,27 @@ dna.util = {
       },
    call: function(func, params) {  //calls func (string name or actual function) passing in params
       // Example: dna.util.call('app.cart.buy', 7); ==> app.cart.buy(7);
-      params = params instanceof Array ? params : [params];
+      var args = [].concat(params);
+      var elem = args[0];
+      if (elem instanceof jQuery && elem.length === 0)
+         return elem;
       function contextCall(obj, names) {
          if (!obj || (names.length == 1 && typeof obj[names[0]] !== 'function'))
             dna.core.berserk('Callback function not found: ' + func);
          else if (names.length == 1)
-            obj[names[0]](params[0], params[1]);  //'app.cart.buy' ==> window['app']['cart']['buy']
+            obj[names[0]].apply(elem, args);  //'app.cart.buy' ==> window['app']['cart']['buy']
          else
             contextCall(obj[names[0]], names.slice(1));
          }
-      if (func === '' || $.inArray(typeof func, ['number', 'boolean']) !== -1)
+      if (typeof func === 'function')
+         func.apply(elem, args);
+      else if (elem && elem[func])
+         elem[func](args[1], args[2], args[3]);
+      else if (func === '' || $.inArray(typeof func, ['number', 'boolean']) !== -1)
          dna.core.berserk('Invalid callback function: ' + func);
-      else if (typeof(func) === 'string' && func.length > 0)
+      else if (typeof func === 'string' && func.length > 0)
          contextCall(window, func.split('.'));
-      else if (func instanceof Function)
-         func(params[0], params[1]);
-      return params[0];
+      return elem;
       }
    };
 
