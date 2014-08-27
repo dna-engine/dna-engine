@@ -103,8 +103,8 @@ var dna = {
       var settings = { onDocumentLoad: true };
       $.extend(settings, options);
       if (settings.onDocumentLoad)
-         dna.util.apply(func, settings.selector ? $(settings.selector).not(
-            '.dna-template ' + settings.selector).addClass('dna-initialized') : $(document));
+         dna.util.apply(func, [settings.selector ? $(settings.selector).not('.dna-template ' +
+            settings.selector).addClass('dna-initialized') : $(document)].concat(settings.params));
       return dna.events.initializers.push(
          { func: func, selector: settings.selector, params: settings.params });
       },
@@ -147,26 +147,26 @@ dna.util = {
    apply: function(func, params) {  //calls func (string name or actual function) passing in params
       // Example: dna.util.apply('app.cart.buy', 7); ==> app.cart.buy(7);
       var args = [].concat(params);
-      var elem = args[0];
-      if (elem instanceof jQuery && elem.length === 0)
-         return elem;
+      var elem = args[0], result;
       function contextApply(obj, names) {
          if (!obj || (names.length == 1 && typeof obj[names[0]] !== 'function'))
             dna.core.berserk('Callback function not found: ' + func);
          else if (names.length == 1)
-            obj[names[0]].apply(elem, args);  //'app.cart.buy' ==> window['app']['cart']['buy']
+            result = obj[names[0]].apply(elem, args);  //'app.cart.buy' ==> window['app']['cart']['buy']
          else
             contextApply(obj[names[0]], names.slice(1));
          }
-      if (typeof func === 'function')
-         func.apply(elem, args);
+      if (elem instanceof jQuery && elem.length === 0)
+         result = elem;
+      else if (typeof func === 'function')
+         result = func.apply(elem, args);
       else if (elem && elem[func])
-         elem[func](args[1], args[2], args[3]);
+         result = elem[func](args[1], args[2], args[3]);
       else if (func === '' || $.inArray(typeof func, ['number', 'boolean']) !== -1)
          dna.core.berserk('Invalid callback function: ' + func);
       else if (typeof func === 'string' && func.length > 0)
          contextApply(window, func.split('.'));
-      return elem;
+      return result;
       }
    };
 
@@ -358,8 +358,9 @@ dna.store = {
 dna.events = {
    initializers: [],  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
    runInitializers: function(elem) {
-      function init() { dna.util.apply(this.func, [this.selector ? elem.find(
-         this.selector).addBack(this.selector) : elem].concat(this.params)).addClass('dna-initialized'); }
+      function init() { dna.util.apply(this.func, [(this.selector ?
+         elem.find(this.selector).addBack(this.selector) : elem).addClass('dna-initialized')]
+            .concat(this.params)); }
       $.each(dna.events.initializers, init);
       return elem;
       },
