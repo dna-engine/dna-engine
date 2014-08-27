@@ -9,15 +9,14 @@
 <div class=toc>
    <header>Contents:</header>
    <ol>
-      <li><a href="#terms">Terms</a></li>
-      <li><a href="#requirements">Requirements and Support</a></li>
+      <li><a href="#terms-requirements">Terms and System Requirements</a></li>
       <li><a href="#setup">Setup</a>
          <ol>
             <li><a href="#setup-css">CSS</a></li>
             <li><a href="#setup-js">JavaScript Libraries</a></li>
          </ol>
       </li>
-      <li><a href="#html">HTML</a>
+      <li><a href="#html">HTML &mdash; Classes and Attributes</a>
          <ol>
             <li><a href="#html-template">DNA Template</a></li>
             <li><a href="#html-field">DNA Field</a></li>
@@ -29,12 +28,19 @@
       <li><a href="#api">JavaScript API</a>
          <ol>
             <li><a href="#api-clone">dna.clone()</a></li>
+            <li><a href="#api-clone-sub-template">dna.cloneSubTemplate()</a></li>
             <li><a href="#api-load">dna.load()</a></li>
             <li><a href="#api-get-model">dna.getModel()</a></li>
             <li><a href="#api-empty">dna.empty()</a></li>
             <li><a href="#api-mutate">dna.mutate()</a></li>
+            <li><a href="#api-mutate-all">dna.mutateAll()</a></li>
             <li><a href="#api-destroy">dna.destroy()</a></li>
-            <li><a href="#api-info">dna.info()</a></li>
+            <li><a href="#api-get-clone">dna.getClone()</a></li>
+            <li><a href="#api-get-clones">dna.getClones()</a></li>
+            <li><a href="#api-bye">dna.bye()</a></li>
+            <li><a href="#api-register-initializer">dna.registerInitializer()</a></li>
+            <li><a href="#api-clear-initializers">dna.clearInitializers()</a></li>
+            <li><a href="#api-info">dna.info()</li>
          </ol>
       </li>
       <li><a href="#loop">Looping</a>
@@ -44,20 +50,20 @@
             <li><a href="#loop-primitives">Arrays of Primitives (strings, numbers, booleans)</a></li>
          </ol>
       </li>
-      <li><a href="#callback">Callbacks</a>
+      <li><a href="#event">Events and Callbacks</a>
          <ol>
-            <li><a href="#callback-???">Event????</a></li>
-            <li><a href="#callback-???">Event????</a></li>
-            <li><a href="#callback-???">Event????</a></li>
-            <li><a href="#callback-???">Event????</a></li>
-            <li><a href="#callback-???">Event????</a></li>
-            <li><a href="#data-callback">Callback Functions</a></li>
+            <li><a href="#event-???">Event????</a></li>
+            <li><a href="#event-???">Event????</a></li>
+            <li><a href="#event-???">Event????</a></li>
+            <li><a href="#event-???">Event????</a></li>
+            <li><a href="#event-???">Event????</a></li>
+            <li><a href="#event-callback">Callback Functions</a></li>
          </ol>
       </li>
-      <li><a href="#structure">Structures and Logic</a>
+      <li><a href="#structure">Structures and Conditional Logic</a>
          <ol>
-            <li><a href="#structure-thimblerig">Thimblerig (conditional hide and seek logic)</a></li>
             <li><a href="#structure-nested-object">Object Dot Notation (nested objects)</a></li>
+            <li><a href="#structure-thimblerig">Thimblerig (conditional hide and seek logic)</a></li>
             <li><a href="#structure-nested-template">Nested Templates</a></li>
          </ol>
       </li>
@@ -66,7 +72,8 @@
 </div>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<h3 id=terms>Terms</h3>
+<h3 id=terms-requirements>Terms and System Requirements</h3>
+<h4 id=terms>Terms</h4>
 <dl>
    <dt>DNA Template:</dt>
    <dd>
@@ -101,9 +108,8 @@
    <dt>Junk DNA:</dt>
    <dd>Not permitted in this project.</dd>
 </dl>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<h3 id=requirements>Requirements and Support</h3>
+<br>
+<h4 id=requirements>System Requirements</h4>
 <dl>
    <dt>Web Browsers:</dt>
    <dd>
@@ -156,7 +162,12 @@
 &lt;script src=&quot;js/dna.min.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;js/your-app.js&quot;&gt;&lt;/script&gt;
 &lt;/body&gt;
-&lt;/html&gt;</code></pre>
+&lt;/html&gt;
+</code></pre>
+   <p>
+      For experimentation and development, you can <a href="dna.js">link</a> directly to:<br>
+         <code class=indent>http://dnajs.org/dna.js</code>
+   </p>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -295,6 +306,11 @@
    </div>
 </section>
 
+<!--  dna.cloneSubTemplate()  -->
+<section id=api-clone-sub-template>
+   <h4>dna.cloneSubTemplate(holderClone, arrayField, data, options)</h4>
+</section>
+
 <!--  dna.load()  -->
 <section id=api-load>
    <h4>dna.load(name, url [, options])</h4>
@@ -421,6 +437,11 @@ dna.mutate(clone, { title: 'The DOM 2' });</code></pre>
    </div>
 </section>
 
+<!--  dna.mutateAll()  -->
+<section id=api-mutate-all>
+   <h4>dna.mutateAll(name)</h4>
+</section>
+
 <!--  dna.destroy()  -->
 <section id=api-destroy>
    <h4>dna.destroy(clone[, options])</h4>
@@ -452,6 +473,31 @@ dna.destroy(clone, { fade: true });</code></pre>
    </div>
 </section>
 
+<!--  dna.getClone()  -->
+<section id=api-get-clone>
+   <h4>dna.getClone(elem)</h4>
+</section>
+
+<!--  dna.getClones()  -->
+<section id=api-get-clones>
+   <h4>dna.getClones(name)</h4>
+</section>
+
+<!--  dna.bye()  -->
+<section id=api-bye>
+   <h4>dna.bye(elemOrEventOrIndex)</h4>
+</section>
+
+<!--  dna.registerInitializer()  -->
+<section id=api-register-initializer>
+   <h4>dna.registerInitializer(func, options)</h4>
+</section>
+
+<!--  dna.clearInitializers()  -->
+<section id=api-clear-initializers>
+   <h4>dna.clearInitializers()</h4>
+</section>
+
 <!--  dna.info()  -->
 <section id=api-info>
    <h4>dna.info()</h4>
@@ -470,10 +516,10 @@ dna.destroy(clone, { fade: true });</code></pre>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<h3 id=complex>Complex Data</h3>
+<h3 id=loop>Looping</h3>
 
-<section id=data-loop>
-   <h4>Data Arrays (loops)</h4>
+<section id=loop-templates>
+   <h4>Template Array Loops</h4>
    <p>
       Pass in a single object to create one clone.&nbsp;  Pass in an array of
       objects to create multiple clones.
@@ -491,58 +537,7 @@ dna.clone('book', books);</code></pre>
    <!-- End: Result  -->
 </section>
 
-<section id=data-primitive>
-   <h4>Arrays of Primitives (strings, numbers, booleans)</h4>
-   <p>
-      The special field <code>[value]</code> tells the template to use simple values
-      from an array of primitives.&nbsp;  The special field <code>[count]</code>
-      is the value's index number in the array plus 1.
-   </p>
-   <div class=code-caption>Example HTML</div>
-   <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;
-   &lt;span&gt;~~[count]~~&lt;span&gt;. &lt;span&gt;~~[value]~~&lt;span&gt;
-&lt;/div&gt;</code></pre>
-   <div class=code-caption>Example JavaScript</div>
-   <pre><code class=language-javascript>var books = ['The DOM', 'Interwebz'];
-dna.clone('book', books);</code></pre>
-   <!-- Start: Result  -->
-   <div class=down-arrow></div>
-   <div class=code-caption>Resulting HTML</div>
-   <pre><code class=language-markup>&lt;div class=book&gt;
-   &lt;span&gt;1&lt;/span&gt;. &lt;span&gt;The DOM&lt;/span&gt;
-&lt;/div&gt;
-&lt;div class=book&gt;
-   &lt;span&gt;2&lt;/span&gt;. &lt;span&gt;Interwebz&lt;/span&gt;
-&lt;/div&gt;</code></pre>
-   <!-- End: Result  -->
-</section>
-
-<section id=data-nested-object>
-   <h4>Object Dot Notation (nested objects)</h4>
-   <p>
-      Use JavaScript object dot notation in DNA fields to reference data fields
-      of nested object literals.
-   </p>
-   <div class=code-caption>Example HTML</div>
-   <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;
-   First Name: &lt;span&gt;~~author.first~~&lt;/span&gt;
-&lt;/div&gt;</code></pre>
-   <div class=code-caption>Example JavaScript</div>
-   <pre><code class=language-javascript>var book = {
-   title: 'The DOM',
-   author: { first: 'Bo', last: 'Smith' }
-   };
-dna.clone('book', book);</code></pre>
-   <!-- Start: Result  -->
-   <div class=down-arrow></div>
-   <div class=code-caption>Resulting HTML</div>
-   <pre><code class=language-markup>&lt;div class=book&gt;
-   First Name: &lt;span&gt;Bo&lt;/span&gt;
-&lt;/div&gt;</code></pre>
-   <!-- End: Result  -->
-</section>
-
-<section id=data-sub-template>
+<section id=loop-sub-templates>
    <h4>Sub-templates (array loops)</h4>
    <p>
       Use the <code>data-dna-array</code> attribute to create a sub-template
@@ -591,18 +586,95 @@ dna.clone('book', books);</code></pre>
    <!-- End: Result  -->
 </section>
 
-<section id=data-nested-template>
-   <h4>Nested Templates</h4>
+<section id=loop-primitives>
+   <h4>Arrays of Primitives (strings, numbers, booleans)</h4>
    <p>
-      For additional flexibility, templates can be nestes and then explicitly
-      cloned with calls to <code>dna.clone()</code>.&nbsp;  A nested template
-      belongs to a holder template, and the specific holder clone must be
-      passed into <code>dna.clone()</code> when cloning a nested template.
+      The special field <code>[value]</code> tells the template to use simple values
+      from an array of primitives.&nbsp;  The special field <code>[count]</code>
+      is the value's index number in the array plus 1.
    </p>
-   View source for <a href="test-cases.html">test cases #07</a>.
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;
+   &lt;span&gt;~~[count]~~&lt;span&gt;. &lt;span&gt;~~[value]~~&lt;span&gt;
+&lt;/div&gt;</code></pre>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>var books = ['The DOM', 'Interwebz'];
+dna.clone('book', books);</code></pre>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <div class=code-caption>Resulting HTML</div>
+   <pre><code class=language-markup>&lt;div class=book&gt;
+   &lt;span&gt;1&lt;/span&gt;. &lt;span&gt;The DOM&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class=book&gt;
+   &lt;span&gt;2&lt;/span&gt;. &lt;span&gt;Interwebz&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+   <!-- End: Result  -->
 </section>
 
-<section id=data-thimblerig>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<h3 id=event>Events and Callbacks</h3>
+
+<section id=event-???>
+   <h4>Event???</h4>
+</section>
+
+<section id=event-callback>
+   <h4>Callbacks Functions</h4>
+   <p>
+      Once the cloning is completed, the <code>callback</code> function is
+      executed and passed the clone element plus the data that was injected
+      into the clone.
+   </p>
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;
+   ~~title~~
+&lt;/div&gt;</code></pre>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>function applyBkgnd(elem, data) {
+   elem.css('background-image', data.cover);
+   };
+var options = { fade: true, callback: applyBkgnd };
+var book = { title: 'Taskmaster', cover: 'url(cover.png)' };
+dna.clone('book', book, options);</code></pre>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <div class=code-caption>Resulting HTML</div>
+   <pre><code class=language-markup>&lt;div class=book style="background-image: url(cover.png);"&gt;
+   Taskmaster
+&lt;/div&gt;</code></pre>
+   <!-- End: Result  -->
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<h3 id=structure>Structures and Conditional Logic</h3>
+
+<section id=structure-nested-object>
+   <h4>Object Dot Notation (nested objects)</h4>
+   <p>
+      Use JavaScript object dot notation in DNA fields to reference data fields
+      of nested object literals.
+   </p>
+   <div class=code-caption>Example HTML</div>
+   <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;
+   First Name: &lt;span&gt;~~author.first~~&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+   <div class=code-caption>Example JavaScript</div>
+   <pre><code class=language-javascript>var book = {
+   title: 'The DOM',
+   author: { first: 'Bo', last: 'Smith' }
+   };
+dna.clone('book', book);</code></pre>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <div class=code-caption>Resulting HTML</div>
+   <pre><code class=language-markup>&lt;div class=book&gt;
+   First Name: &lt;span&gt;Bo&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+   <!-- End: Result  -->
+</section>
+
+<section id=structure-thimblerig>
    <h4>Thimblerig (conditional hide and seek logic)</h4>
    <p>
       Use the <code>data-dna-require</code> attribute to indicate that a DOM
@@ -651,31 +723,22 @@ dna.clone('book', { author: 'Jan' });</code></pre>
    <!-- End: Result  -->
 </section>
 
-<section id=data-callback>
-   <h4>Callbacks Functions</h4>
+<section id=structure-nested-template>
+   <h4>Nested Templates</h4>
    <p>
-      Once the cloning is completed, the <code>callback</code> function is
-      executed and passed the clone element plus the data that was injected
-      into the clone.
+      For additional flexibility, templates can be nestes and then explicitly
+      cloned with calls to <code>dna.clone()</code>.&nbsp;  A nested template
+      belongs to a holder template, and the specific holder clone must be
+      passed into <code>dna.clone()</code> when cloning a nested template.
    </p>
-   <div class=code-caption>Example HTML</div>
-   <pre><code class=language-markup>&lt;div id=book class=dna_template&gt;
-   ~~title~~
-&lt;/div&gt;</code></pre>
-   <div class=code-caption>Example JavaScript</div>
-   <pre><code class=language-javascript>function applyBkgnd(elem, data) {
-   elem.css('background-image', data.cover);
-   };
-var options = { fade: true, callback: applyBkgnd };
-var book = { title: 'Taskmaster', cover: 'url(cover.png)' };
-dna.clone('book', book, options);</code></pre>
-   <!-- Start: Result  -->
-   <div class=down-arrow></div>
-   <div class=code-caption>Resulting HTML</div>
-   <pre><code class=language-markup>&lt;div class=book style="background-image: url(cover.png);"&gt;
-   Taskmaster
-&lt;/div&gt;</code></pre>
-   <!-- End: Result  -->
+   <p>
+      View source for <a href="test-cases.html">test cases #07</a>.
+   </p>
+   <p>
+      In most cases, a simple <a href="#loop-sub-templates">sub-template array loop</a>
+      is the better solution.
+   </p>
+
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -695,7 +758,7 @@ dna.clone('book', book, options);</code></pre>
    </li>
    <li><b>dna.ui.slidingFlasher</b>(elem, callback)</li>
    <li><b>dna.ui.toElem</b>(elemOrEventOrIndex, that)</li>
-   <li><b>dna.util.call</b>(func, params)</li>
+   <li><b>dna.util.apply</b>(func, params)</li>
    <li><b>dna.util.realTruth</b>(value)</li>
    <li><b>dna.util.toCamel</b>(codeStr)</li>
    <li><b>dna.util.toCode</b>(camelCaseStr)</li>
@@ -801,9 +864,9 @@ dna.ui.slidingFlasher(elem);  //pulse</code></pre>
 $('.box').last().fadeOut(logFadeDone);</code></pre>
 </section>
 
-<!--  dna.util.call()  -->
-<section id=util-call>
-   <h4>dna.util.call(func, params)</h4>
+<!--  dna.util.apply()  -->
+<section id=util-apply>
+   <h4>dna.util.apply(func, params)</h4>
    <div class=api-description>
       Calls a function passing in the provided parameters.
    </div>
@@ -822,18 +885,21 @@ $('.box').last().fadeOut(logFadeDone);</code></pre>
       </ul>
    </div>
    <div class=code-caption>Example JavaScript</div>
-   <pre><code class=language-javascript>dna.util.call('app.cart.buy', 7);  //same as: app.cart.buy(7);</code></pre>
+   <pre><code class=language-javascript>dna.util.apply('app.cart.buy', 7);      //app.cart.buy(7);
+dna.util.apply(Math.max, [7, 21, -3]);  //21
+dna.util.apply('fadeIn', $('h1'));      //$('h1').fadeIn();
+dna.util.apply('css', [$('h1'), { color: 'red' }]);
+dna.util.apply('css', [$('h1'), 'color', 'gold']);
+</code></pre>
 </section>
 
 <!--  dna.util.realTruth()  -->
 <section id=util-real-truth>
    <h4>dna.util.realTruth(value)</h4>
    <div class=api-description>
-      <p>Looks for the true or false meaning a value.&nbsp;  Whereas JavaScript truthy an falsy is
+      Looks for the true or false meaning a value.&nbsp;  Whereas JavaScript truthy an falsy is
       more about existence, the "real" truth is for evaluating boolean data as it is often stored
-      or transmitted.</p>
-      Example true values:  <code>true,  0, '1', [5], 't', 'T', 'TRue',  {},   'Colbert'</code><br>
-      Example false values: <code>false, 0, '0', [],  'f', 'F', 'faLSE', null, undefined, NaN</code>
+      or transmitted.
    </div>
    <div class=api-parameters>
       Parameters:
@@ -846,6 +912,10 @@ $('.box').last().fadeOut(logFadeDone);</code></pre>
    </div>
    <div class=code-caption>Example JavaScript</div>
    <pre><code class=language-javascript>dna.util.realTruth('F');  //false</code></pre>
+   <p>
+      Example true values:  <code>true</code>, <code>1</code>, <code>'1'</code>, <code>[5]</code>, <code>'t'</code>, <code>'T'</code>, <code>'TRue'</code>, <code>{}</code>, <code>'Colbert'</code><br>
+      Example false values: <code>false</code>, <code>0</code>, <code>'0'</code>, <code>[]</code>, <code>'f'</code>, <code>'F'</code>, <code>'faLSE'</code>, <code>null</code>, <code>undefined</code>
+   </p>
 </section>
 
 <!--  dna.util.toCamel()  -->
