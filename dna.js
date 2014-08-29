@@ -1,4 +1,4 @@
-// dna.js Template Cloner ~~ v0.2.6
+// dna.js Template Cloner ~~ v0.2.7
 // MIT/GPLv3 ~~ dnajs.org/license.html
 // Copyright (c) 2013-2014 Center Key Software and other contributors
 
@@ -113,7 +113,7 @@ var dna = {
       },
    info: function() {
       var names = Object.keys(dna.store.templates);
-      console.log('~~ dns.js v0.2.6 ~~');
+      console.log('~~ dns.js v0.2.7 ~~');
       console.log('templates:', names.length);
       console.log('names:', names);
       console.log('store:', dna.store.templates);
@@ -357,33 +357,35 @@ dna.store = {
 
 dna.events = {
    initializers: [],  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
-   runInitializers: function(elem) {
+   onLoadInit: function(root, data) {
+      // Example (outside of template):
+      //    <p class=dna-init data-dna-init=app.cart.setup>
+      // Example (within template):
+      //    <select data-dna-init=app.dropDown.setup>
+      function init() { dna.util.apply($(this).data('dna-init'), [$(this), data]); }
+      var selector = '[data-dna-init]';
+      var elems = root ? root.find(selector).addBack(selector) : $('.dna-init');
+      return elems.each(init).addClass('dna-initialized');
+      },
+   runInitializers: function(elem, data) {
+      // Executes both the data-dna-init functions and the registered initializers
+      dna.events.onLoadInit(elem, data);
       function init() { dna.util.apply(this.func, [(this.selector ?
          elem.find(this.selector).addBack(this.selector) : elem).addClass('dna-initialized')]
             .concat(this.params)); }
       $.each(dna.events.initializers, init);
       return elem;
       },
-   onLoadInit: function(root, data) {
-      // Example (outside of template):
-      //    <p class=dna-init data-dna-init=app.cart.setup>
-      // Example (within template):
-      //    <select data-dna-init=app.dropDown.setup>
-      function init() { dna.util.apply($(this).data('dna-init'), $(this), data); }
-      var selector = '[data-dna-init]';
-      var elems = root ? root.find(selector).addBack(selector) : $('.dna-init');
-      return elems.each(init).addClass('dna-initialized');
-      },
-   runner: function(elem, eventType) {
-      // Finds elements for eventType (click|change|key-up|key-down|key-press) and executes callback
-      elem = elem.closest('[data-dna-' + eventType + ']');
-      return dna.util.apply(elem.data('dna-' + eventType), elem);
+   runner: function(elem, type, event) {
+      // Finds elements for type (click|change|key-up|key-down|key-press) and executes callback
+      elem = elem.closest('[data-dna-' + type + ']');
+      return dna.util.apply(elem.data('dna-' + type), [elem, event]);
       },
    handle: function(event) {
-      return dna.events.runner($(event.target), event.type.replace('key', 'key-'));
+      return dna.events.runner($(event.target), event.type.replace('key', 'key-'), event);
       },
    handleEnterKey: function(event) {
-      return event.which === 13 ? dna.events.runner($(event.target), 'enter-key') : null;
+      return event.which === 13 ? dna.events.runner($(event.target), 'enter-key', event) : null;
       },
    setup: function() {
       $(document)
@@ -476,8 +478,7 @@ dna.core = {
       var container = settings.container ?
          settings.container.find(selector).addBack(selector) : template.container;
       container[settings.top ? 'prepend' : 'append'](clone);
-      dna.events.onLoadInit(clone, data);
-      dna.events.runInitializers(clone);
+      dna.events.runInitializers(clone, data);
       if (settings.callback)
          settings.callback(clone, data);
       if (settings.fade)

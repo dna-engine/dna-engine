@@ -759,30 +759,38 @@ $(test14.run);
    <fieldset>
       <legend>Actual</legend>
       <p class=dna-init data-dna-init=dna.ui.deleteElem>DELETE ME!</p>
-      <hr data-dna-init=dna.ui.deleteElem class=surrounded>
+      <section data-dna-init=dna.ui.deleteElem class=surrounded></section>
+      <hr>
       <div class=book-list>
          <div id=t15-book class=dna-template data-dna-init=test15.init>
             <div class=surrounded><span class=count>~~[count]~~</span>: <span>~~[value]~~</span></div>
-            <button data-dna-click=dna.bye>Bye</button>
-            <button class=action-bye>Bye 2</button>
+            <button class=1 data-dna-click=dna.bye>Bye 1</button>
+            <button class=2>Bye 2</button>
+            <button class=3 data-dna-click=test15.bye>Bye 3</button>
          </div>
       </div>
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
-      <hr class=border-change style="color: white; padding: 10px;">
+      <section class=border-change style="color: white; padding: 10px;">
+      	<hr class=border-change2>
+      	<hr class=border-change2 style="color: white; padding: 10px;">
+      </section>
+      <hr>
       <div class=book-list>
          <div class="dna-clone color-change border-change2">
             <div class=border-change style="color: white; padding: 10px;"><span class=count>3</span>: <span>Howdy HTML5</span></div>
-            <button>Bye</button>
+            <button>Bye 1</button>
             <button>Bye 2</button>
+            <button>Bye 3</button>
          </div>
          <div class="dna-clone color-change border-change2">
             <div class=border-change style="color: white; padding: 10px;"><span>5</span>: <span>Styling CSS3</span></div>
-            <button>Bye</button>
+            <button>Bye 1</button>
             <button>Bye 2</button>
+            <button>Bye 3</button>
          </div>
-         <hr><hr><hr><hr><hr><hr><hr><hr>
+         <hr><hr><hr><hr><hr><hr><hr><hr><hr><hr>
       </div>
    </fieldset>
 </div>
@@ -794,10 +802,15 @@ var test15 = {
    surround: function(elem) {
    	elem.addClass('border-change');
    	function addHr() { $('.test-case').eq(15-1).find('fieldset').first().append('<hr>'); }
-   	elem.each(addHr);  //exactly 8 times (1 <hr> + 7 clones)
+   	elem.each(addHr);  //exactly 9 times (1 <section> + 8 clones + 1 <hr>)
    	},
    surround2: function(elem) {
    	elem.addClass('border-change2');
+   	},
+   bye: function(elem, e) {
+   	if (e.type === 'click')
+   		dna.bye(elem);
+   	console.log(3, elem, e.type, e.type === 'click', e, event, event ? event.type : 0);
    	},
    run: function() {
       console.log('Test Case: #15');
@@ -805,16 +818,20 @@ var test15 = {
 		dna.registerInitializer('css', { selector: '.surrounded', params: { color: 'white' } });
 		dna.registerInitializer('css', { selector: '.surrounded', params: ['padding', '10px'] });
 		dna.registerInitializer(test15.surround2);  //apply to each clone
-      dna.clone('t15-book', ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE']);
-      $('.t15-book button.action-bye').click(dna.bye);  //add handler
+      dna.clone('t15-book', ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE']);
+      $('.t15-book button.2').click(dna.bye);  //add handler
       function getClone(count) {
          return $('.t15-book .count:contains(' + count + ')').closest('.dna-clone');
          }
-      getClone(1).find('button:first').click();              //nuke 1st (bye w/data-dna-click)
-      getClone(2).find('button:last').click();               //nuke 2nd (bye w/event handler)
+      getClone(1).find('button.1').click();                  //nuke 1st (bye w/data-dna-click)
+      getClone(2).find('button.2').click();                  //nuke 2nd (bye w/event handler)
+      getClone(8).find('button.3').click();                  //nuke 8th (remove w/dna click callback)
       dna.bye(getClone(4));                                  //nuke 4th (bye w/jQuery elem)
       dna.getClone(getClone(7).find('span:last')).remove();  //nuke 7th (remove w/sub-node)
       getClone(6).each(dna.bye);                             //nuke 6th (bye w/jQuery loop)
+		var box = $('.t15-book').closest('fieldset').find('section');
+		var foreigners = $('<hr><hr data-dna-init=fadeOut><hr class=surrounded>').appendTo(box);
+		dna.events.runInitializers(foreigners);
 		dna.clearInitializers();
       }
    };
