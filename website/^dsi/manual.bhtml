@@ -52,12 +52,10 @@
       </li>
       <li><a href="#event">Events and Callbacks</a>
          <ol>
-            <li><a href="#event-???">Event????</a></li>
-            <li><a href="#event-???">Event????</a></li>
-            <li><a href="#event-???">Event????</a></li>
-            <li><a href="#event-???">Event????</a></li>
-            <li><a href="#event-???">Event????</a></li>
-            <li><a href="#event-callback">Callback Functions</a></li>
+            <li><a href="#event-init-callback">Initialization Callback</a></li>
+            <li><a href="#event-user">Click, Change, and Key Events</a></li>
+            <li><a href="#event-initializers">Initializers</a></li>
+            <li><a href="#event-callback-option">Callback Option</a></li>
          </ol>
       </li>
       <li><a href="#structure">Structures and Conditional Logic</a>
@@ -516,7 +514,7 @@ dna.destroy(clone, { fade: true });
 <!--  dna.bye()  -->
 <section id=api-bye>
    <h4>dna.bye(elemOrEventOrIndex)</h4>
-
+...
 </section>
 
 <!--  dna.registerInitializer()  -->
@@ -664,11 +662,78 @@ dna.clone('book', books);
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=event>Events and Callbacks</h3>
 
-<section id=event-???>
-   <h4>Event???</h4>
+<section id=event-element-init>
+   <h4>Element Initialization</h4>
+   <p>
+      ...
+   </p>
 </section>
 
-<section id=event-callback>
+<section id=event-user>
+   <h4>Click, Change, and Key Events</h4>
+   <p>
+      Event bindings in dna.js are done with data attributes directly on DOM elements that need
+      to trigger callbacks.&nbsp;  The value assigned to the attribute is the name of the
+      function to be called when the event occurs.&nbsp;  The jQuery element which triggered the
+      event is passed into the callback function as the first parameter, and the event object is
+      passed in as the second parameter.
+   </p>
+   <p>
+      Element attributes for supported events:<code>
+      <ol>
+         <li>data-dna-click</li>
+         <li>data-dna-change</li>
+         <li>data-dna-key-up</li>
+         <li>data-dna-key-down</li>
+         <li>data-dna-key-press</li>
+         <li>data-dna-enter-key</li>
+      </ol></code>
+   </p>
+   <div class=code-caption>Example</div>
+<pre><code class=language-markup>
+Click:  &lt;button data-dna-click=showMsg     value=1&gt;1&lt;/button&gt;&lt;br&gt;
+Change: &lt;input  data-dna-change=showMsg    value=2&gt;&lt;br&gt;
+Up:     &lt;input  data-dna-key-up=showMsg    value=3&gt;&lt;br&gt;
+Down:   &lt;input  data-dna-key-down=showMsg  value=4&gt;&lt;br&gt;
+Press:  &lt;input  data-dna-key-press=showMsg value=5&gt;&lt;br&gt;
+Submit: &lt;input  data-dna-enter-key=showMsg value=6&gt;&lt;br&gt;
+&lt;p id=message&gt;&lt;/p&gt;
+&lt;script&gt;
+   function showMsg(elem, event) {
+      var msg = 'Value: "' + elem.val() + '", Event: ' + event.type;
+      $('#message').text(msg).hide().fadeIn();
+      }
+&lt;/script&gt;
+</code></pre>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <div class=code-caption>Result (interactive)</div>
+   <div class=code-body>
+      Click:  <button data-dna-click=showMsg     value=1>1</button><br>
+      Change: <input  data-dna-change=showMsg    value=2><br>
+      Up:     <input  data-dna-key-up=showMsg    value=3><br>
+      Down:   <input  data-dna-key-down=showMsg  value=4><br>
+      Press:  <input  data-dna-key-press=showMsg value=5><br>
+      Submit: <input  data-dna-enter-key=showMsg value=6><br>
+      <p id=message></p>
+      <script>
+         function showMsg(elem, event) {
+            var msg = 'Value: "' + elem.val() + '", Event: ' + event.type;
+            $('#message').text(msg).hide().fadeIn();
+            }
+      </script>
+   </div>
+   <!-- End: Result  -->
+</section>
+
+<section id=event-initializers>
+   <h4>Initializers</h4>
+   <p>
+      ...
+   </p>
+</section>
+
+<section id=event-callback-option>
    <h4>Callbacks Functions</h4>
    <p>
       Once the cloning is completed, the <code>callback</code> function is
@@ -677,7 +742,6 @@ dna.clone('book', books);
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-
 &lt;div id=book class=dna_template&gt;
    ~~title~~
 &lt;/div&gt;
@@ -700,6 +764,11 @@ dna.clone('book', book, options);
 &lt;/div&gt;
 </code></pre>
    <!-- End: Result  -->
+   <p>
+      <b>Note:</b> It is generally easier to use the <code>data-dna-init</code>
+      <a href="#event-element-init">attribute</a> to declare the callback function
+      than to use the <code>callback</code> option.
+   </p>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

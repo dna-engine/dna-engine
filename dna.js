@@ -380,7 +380,8 @@ dna.events = {
       return elem;
       },
    runner: function(elem, type, event) {
-      // Finds elements for type (click|change|key-up|key-down|key-press) and executes callback
+      // Finds elements for given type and executes callback passing in the element and the event
+      // Types: click|change|key-up|key-down|key-press|enter-key
       elem = elem.closest('[data-dna-' + type + ']');
       return dna.util.apply(elem.data('dna-' + type), [elem, event]);
       },
