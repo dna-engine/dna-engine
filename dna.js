@@ -257,6 +257,7 @@ dna.compile = {
       var elem = $(this);
       var props = [];
       var attrs = [];
+      var names = [];
       function compile() {
          if ((/^data-dna-prop-/).test(this.name))
             props.push(this.name.replace(/^data-dna-prop-/, ''),
@@ -264,14 +265,16 @@ dna.compile = {
          else if (this.value.split(dna.compile.regexDnaBasePair).length === 3)
             attrs.push(this.name.replace(/^data-dna-attr-/, ''),
                this.value.split(dna.compile.regexDnaBasePair));
-         //TODO: handle data-dna-array data-dna-prop-{NAME} plus removeAttr(data-dna-attr-*)
+         else
+            return;
+         names.push(this.name);
          }
       $.each(elem.get(0).attributes, compile);
       if (props.length > 0)
          dna.compile.setupNucleotide(elem).data().dnaRules.props = props;
       if (attrs.length > 0)
          dna.compile.setupNucleotide(elem).data().dnaRules.attrs = attrs;
-      return elem;
+      return elem.removeAttr(names.join(' '));
       },
    getDataField: function(elem, type) {
       // Example:
