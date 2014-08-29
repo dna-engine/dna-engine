@@ -293,6 +293,7 @@ p>code, dd>code {
    font-weight: normal;
    background-color: white;
    border: 3px solid steelblue;
+   padding: 0px 0px 15px 15px;
    margin: 0px auto 20px auto;
    }
 .main-content .full-screen-code .code-caption {
@@ -300,7 +301,11 @@ p>code, dd>code {
    }
 .main-content .full-screen-code pre {
    width: 100%;
-   font-size: 10pt;
+   font-size: 10.5pt;
+   }
+.main-content section .code-caption,
+.main-content section pre[class*=language-] {
+   width: 90%;
    }
 
 /* Reveal Action */

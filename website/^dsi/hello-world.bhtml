@@ -2,20 +2,21 @@
 <!--#include file="~begin.fhtml" -->
 
 <p>
-The code below is a bare bones, standalone web page with the all CSS and
-JavaScript (including loading jQuery and dna.js) to demostrate dna.js Template
-Cloner in action.
+   The code below is a bare bones, standalone web page with the all CSS and
+   JavaScript (including loading jQuery and dna.js) to demostrate dna.js Template
+   Cloner in action.
 </p>
 <p>
-Each call to <code>dna.clone()</code> creates a new element from the
-<code>book</code> template and appends the element to the
-<code>book-list</code> element.
+   Each call to <code>dna.clone()</code> creates a new element from the
+   <code>book</code> template and appends the element to the
+   <code>book-list</code> element.
 </p>
 
 <h3 id=code>Bookstore Code</h3>
 <div class=full-screen-code>
 <div class=code-caption>bookstore.html</div>
-<pre><code class=language-markup>&lt;!doctype html&gt;
+<pre><code class=language-markup>
+&lt;!doctype html&gt;
 &lt;!-- - - - - - - - - - - - - - - - --&gt;
 &lt;!--  Bookstore                    --&gt;
 &lt;!--  dnajs.org/hello-world.html   --&gt;
