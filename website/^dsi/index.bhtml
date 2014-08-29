@@ -115,12 +115,16 @@ To see all the pieces running together, check out the standalone example:
 Templating should be lightweight, clean, and simple:
 <ol>
    <li>No HTML in JavaScript code</li>
-   <li>Templates are real HTML that <a href="http://validator.w3.org/" class=external-site>validate</a></li>
+   <li>Templates are real HTML that
+      <a href="http://validator.w3.org/" class=external-site>validate</a></li>
    <li>Templates can be in-place (no need for separate template files)</li>
-   <li>Iteration is done with <a href="manual.html#data-sub-template">data arrays</a> not messy template for loops</li>
+   <li>Iteration is done with <a href="manual.html#data-sub-template">data arrays</a> not messy
+      template for loops</li>
    <li><a href="http://techdem.centerkey.com/2013/02/lazy-setup-50x-javascript-performance.html"
       class=external-site>Zero setup</a> until data is pushed (can be after page load)</li>
    <li>No serialization or deserialization (no need to call the <code>.html()</code> function)</li>
+   <li>Declaring callbacks using simple HTML attributes is far more cohesive and semantically
+      meaningful than programmatically binding with JavaScript code</li>
 </ol>
 <p>
    The more transparent a JavaScript templating solution is, the less impact it
@@ -130,7 +134,7 @@ Templating should be lightweight, clean, and simple:
 <p>
    JavaScript is easier to write, quicker to read, and more compact if it is
    focused on handling data not generating HTML.&nbsp;  Traditional web
-   frameworks, like Grails, PHP, and Rails, already handle HTML.&nbsp;
+   frameworks, such as Grails, PHP, and Rails, already handle HTML.&nbsp;
    Generating HTML from both the web framework and a client-side HTML templating
    engine makes the HTML cumbersome to manage and style.
 </p>
