@@ -1,4 +1,4 @@
-// dna.js Template Cloner ~~ v0.2.7
+// dna.js Template Cloner ~~ v0.2.8
 // MIT/GPLv3 ~~ dnajs.org/license.html
 // Copyright (c) 2013-2014 Center Key Software and other contributors
 
@@ -113,7 +113,7 @@ var dna = {
       },
    info: function() {
       var names = Object.keys(dna.store.templates);
-      console.log('~~ dns.js v0.2.7 ~~');
+      console.log('~~ dns.js v0.2.8 ~~');
       console.log('templates:', names.length);
       console.log('names:', names);
       console.log('store:', dna.store.templates);
@@ -302,7 +302,7 @@ dna.compile = {
       if (!elem.length)
          dna.core.berserk('Template not found: ' + name);
       function saveName() { $(this).data().dnaRules = { template: $(this).attr('id') }; }
-      elem.find('.dna-template').addBack().each(saveName);
+      elem.find('.dna-template').addBack().each(saveName).removeAttr('id');
       var elems = elem.find('*').addBack();
       elems.filter(dna.compile.isDnaField).each(dna.compile.field);
       dna.compile.rules(elems, 'array').addClass('dna-array');
@@ -311,7 +311,7 @@ dna.compile = {
       dna.compile.rules(elems, 'missing');
       dna.compile.rules(elems, 'truthy');
       dna.compile.rules(elems, 'falsey');
-      elems.each(dna.compile.propsAndAttrs).removeAttr('id');
+      elems.each(dna.compile.propsAndAttrs);
       return dna.store.stash(elem);
       }
    };

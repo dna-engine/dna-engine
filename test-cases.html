@@ -27,6 +27,7 @@
    .color-change   { background-color: lightsteelblue; }
    .color-change2  { background-color: gold; }
    #back           { background-color: honeydew; }
+   #back-expected  { background-color: honeydew; }
    .border-change  { border: 2px solid darkorange; }
    .border-change2 { border: 2px solid darkslateblue; }
 </style>
@@ -616,9 +617,9 @@ $(test11.run);
                <span class=dna-clone> (3) <span>Abby</span> </span>
             </span>
             <div class="dna-clone color-change"><span data-type=front>front</span>:
-            <span id=front>Preface</span></div>
+            <span id=front-expected>Preface</span></div>
             <div class="dna-clone color-change"><span data-type=back>back</span>:
-            <span id=back>Index</span></div>
+            <span id=back-expected>Index</span></div>
          </div>
          <div class=dna-clone>
             <div>Title:  <span>Styling CSS3</span></div>
@@ -635,13 +636,13 @@ $(test11.run);
                <span class=dna-clone> (3) <span>Abby</span> </span>
             </span>
             <div class="dna-clone color-change"><span data-type=front>front</span>:
-            <span id=front>Preface</span></div>
+            <span id=front-expected>Preface</span></div>
             <div class="dna-clone color-change"><span data-type=back>back</span>:
-            <span id=back>Index</span></div>
+            <span id=back-expected>Index</span></div>
             <div class="dna-clone color-change"><span data-type=back>back</span>:
-            <span id=back>Bio</span></div>
+            <span id=back-expected>Bio</span></div>
             <div class="dna-clone color-change"><span data-type=back>back</span>:
-            <span id=back>Bio 3</span></div>
+            <span id=back-expected>Bio 3</span></div>
          </div>
       </div>
    </fieldset>
@@ -652,10 +653,10 @@ var test12 = {
       console.log('Test Case: #12');
       var chapters = [
          { header: 'Preface', type: 'front' },
-         { header: 'Index', type: 'back' }
+         { header: 'Index',   type: 'back' }
          ];
       var moreChapters = [
-         { header: 'Bio 2', type: 'back' },
+         { header: 'Bio 2', type: 'back' },  //TODO: Fix duplicate ids (5 chapters end up with "id=back")
          { header: 'Bio 3', type: 'back' }
          ];
       var authors = ['Ed', 'Jake', 'Abby'];
