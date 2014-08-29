@@ -3,7 +3,7 @@
    "title":       "dna.js Template Cloner",
    "description": "DOM Templating Engine for jQuery",
    "keywords":     [ "dom", "html", "template", "templating" ],
-   "version":      "0.2.6",
+   "version":      "0.2.7",
    "author":       { "name": "Center Key Software and other contributors" },
    "licenses":     [{ "type": "MIT/GPLv3", "url": "http://dnajs.org/license.html" }],
    "bugs":         "https://github.com/dnajs/dna.js/issues",
