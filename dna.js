@@ -333,7 +333,7 @@ dna.store = {
             clones:    0
             };
          dna.store.templates[name] = template;
-         elem.removeClass('dna-template').addClass('dna-clone').addClass(name).detach();
+         elem.removeClass('dna-template').addClass('dna-clone').addClass(name).detach().show();
          }
       function prepLoop() {
          // Pre (sub-template array loops -- data-dna-array):
@@ -392,6 +392,7 @@ dna.events = {
       return event.which === 13 ? dna.events.runner($(event.target), 'enter-key', event) : null;
       },
    setup: function() {
+      $('.dna-template').hide();
       $(document)
          .click(dna.events.handle)
          .change(dna.events.handle)
