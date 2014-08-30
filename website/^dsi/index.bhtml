@@ -31,6 +31,25 @@
 </p>
 <div id=social-buttons></div>
 
+<h3 id=todo>Obligatory Todo Application</h3>
+<div class=push-right>
+   <a href="http://commons.wikimedia.org/wiki/File:Task.svg" class=external-site>
+      <img class=side-image src="graphics/icon-todo-app.png" alt="Todo icon">
+   </a>
+</div>
+<p>
+   Every framework must have a todo application, so here's the dna.js one:<br>
+   <span class=indent>
+      <a href="http://jsfiddle.net/<!--#echo var="todo" -->/" class=external-site>
+         jsfiddle.net/<!--#echo var="todo" --></a>
+   </span>
+</p>
+<p>
+   The core of the todo application is less then 10 lines of JavaScript and it
+   includes add a task, complete a task with style change, delete a task, and
+   smooth animation effects.
+</p>
+
 <h3 id=example>Bookstore Example</h3>
 <p>
    Designate DNA templates with the <code>dna-template</code> class, and put the templates
@@ -96,25 +115,6 @@ created from the template.
 To see all the pieces running together, check out the standalone example:
 <p class=indent>
     <button class=jump-click data-url="hello-world.html">View Source</button>
-</p>
-
-<h3 id=todo>Obligatory Todo Application</h3>
-<div class=push-right>
-   <a href="http://commons.wikimedia.org/wiki/File:Task.svg" class=external-site>
-      <img class=side-image src="graphics/icon-todo-app.png" alt="Todo icon">
-   </a>
-</div>
-<p>
-   Every framework must have a todo application, so here's the dna.js one:<br>
-   <span class=indent>
-      <a href="http://jsfiddle.net/<!--#echo var="todo" -->/" class=external-site>
-         jsfiddle.net/<!--#echo var="todo" --></a>
-   </span>
-</p>
-<p>
-   The core of the todo application is less then 10 lines of JavaScript and it
-   includes add a task, complete a task with style change, delete a task, and
-   smooth animation effects.
 </p>
 
 <h3 id=philosophy>Philosophy</h3>
