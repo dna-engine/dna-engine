@@ -16,7 +16,7 @@
 <!--#set var="authors"   value="Center Key Software and other contributors"-->
 <!--#set var="release"   value="v0.2.7 (beta)"                             -->
 <!--#set var="size"      value="9 kb"                                      -->
-<!--#set var="jsfiddle"  value="h0hebm1p"                                  -->
+<!--#set var="jsfiddle"  value="03gwe66z"                                  -->
 <!--#set var="todo"      value="w60g19h4"                                  -->
 
 <html>
@@ -36,15 +36,15 @@
 <div class=main-content>
 <div class=align-centered>
    <ul class=navigation-bar>
-      <li><a href=".">Home</a></li>
-      <li><a href="hello-world.html">Example</a></li>
-      <li><a href="manual.html">Documentation</a></li>
-      <li><a href="forum.html">Forum</a></li>
-      <li><a href="license.html">License</a></li>
+      <li><a class=plain href=".">Home</a></li>
+      <li><a class=plain href="hello-world.html">Example</a></li>
+      <li><a class=plain href="manual.html">Documentation</a></li>
+      <li><a class=plain href="forum.html">Forum</a></li>
+      <li><a class=plain href="license.html">License</a></li>
    </ul>
 </div>
 
-<h1 class=distinct><!--#echo var="name" --></h1>
+<h1><!--#echo var="name" --></h1>
 <h2><!--#echo var="title" --></h2>
 <div id=logo>
    <a href="http://dnajs.org">

@@ -33,7 +33,7 @@
 
 <h3 id=todo>Obligatory Todo Application</h3>
 <div class=push-right>
-   <a href="http://commons.wikimedia.org/wiki/File:Task.svg" class=external-site>
+   <a href="http://commons.wikimedia.org/wiki/File:Task.svg" class="plain external-site">
       <img class=side-image src="graphics/icon-todo-app.png" alt="Todo icon">
    </a>
 </div>
@@ -45,7 +45,7 @@
    </span>
 </p>
 <p>
-   The core of the todo application is less then 10 lines of JavaScript and it
+   The core of the todo application is less than 10 lines of JavaScript and it
    includes add a task, complete a task with style change, delete a task, and
    smooth animation effects.
 </p>
@@ -96,7 +96,7 @@ dna.load('book', 'http://dnajs.org/rest/book/3');
 
 <h3 id=try>Try It Out</h3>
 <p>
-Click "Add a Random Book" to trigger an event that calls the
+Click "Add a Book" to trigger an event that calls the
 <code>dna.clone()</code> function.&nbsp;  Click "Clear List" to call the
 <code>dna.clone()</code> function, which deletes all the clones previously
 created from the template.
@@ -104,7 +104,7 @@ created from the template.
 <div class=featured-books>
    <h2>Featured Books</h2>
    <div class=buttons>
-      <button id=action-books-add>Add a Random Book<div class=bubble-help>dna.clone('book', { title: 'The DOM', author: 'Jan' });</div></button>
+      <button id=action-books-add>Add a Book<div class=bubble-help>dna.clone('book', { title: 'The DOM', author: 'Jan' });</div></button>
       <button id=action-books-clear>Clear List<div class=bubble-help>dna.empty('book');</div></button>
    </div>
    <div id=book class=dna-template>

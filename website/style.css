@@ -1,4 +1,4 @@
-/* Live in Style -- dna.js  */
+/* Live in Style -- dna.js */
 
 /* Bookstore */
 .featured-books {
@@ -14,7 +14,6 @@
    }
 .featured-books .buttons {
    text-align: center;
-   font-size: 11pt;
    margin-bottom: 10px;
    }
 .featured-books .book {
@@ -33,10 +32,6 @@ html {
    background-size: cover;
    }
 body {
-   font-size: 16px;
-   margin: 0px;
-   }
-.main-content {
    width: 800px;
    background-color: rgba(255,255,255,0.9);
    border-left: 1px solid steelblue;
@@ -46,18 +41,21 @@ body {
    box-shadow: 0px 0px 2.0em 0.0em white;
    }
 h1 {
+   font-size: 2.2rem;
+   font-family: 'Chango', sans-serif;
    text-align: center;
    color: steelblue;
    margin-bottom: 5px;
    }
 h2 {
+   font-size: 1.2rem;
    text-align: center;
    margin-bottom: 20px;
    }
 h3 {
 	clear: both;
+   font-size: 1.2rem;
    text-align: center;
-   font-size: 14pt;
    color: steelblue;
    background-color: aliceblue;
    border: 1px dotted;
@@ -67,7 +65,10 @@ h3 {
    margin-bottom: 10px;
    }
 h4 {
-   font-size: 13pt;
+   font-size: 1.2rem;
+   font-weight: bold;
+   text-transform: none;
+   letter-spacing: normal;
    color: steelblue;
    margin-bottom: 4px;
    }
@@ -79,7 +80,7 @@ section {
 dt {
    font-weight: bold;
    }
-p>code, dd>code {
+p>code, dd>code, td>code {
    font-weight: bold;
    white-space: nowrap;
    }
@@ -104,14 +105,14 @@ p>code, dd>code {
    }
 .gateway-sidebar .alt-link {
    text-align: right;
-   font-size: 11px;
+   font-size: 0.7rem;
    margin: 15px 0px 20px 0px;
    }
 #social-buttons {
    margin: 20px 0px;
    }
 #news {
-   font-size: 9pt;
+   font-size: 0.8rem;
    background-color: gainsboro;
    border: 1px solid dimgray;
    border-radius: 2px;
@@ -119,37 +120,38 @@ p>code, dd>code {
    margin-bottom: 30px;
    }
 #news h4 {
-   font-size: 11pt;
+   font-size: 0.9rem;
    font-weight: bold;
    text-align: center;
    color: dimgray;
    }
 #news header {
    display: inline-block;
-   font-size: 8pt;
+   font-size: 0.8rem;
    color: white;
    background-color: gray;
    padding: 3px 10px;
    margin-bottom: 3px;
    }
 .reveal-action {
-   font-size: 8pt;
+   font-size: 0.8rem;
    }
 
 .link-box {
-   font-size: 10pt;
+   font-size: 0.9rem;
    }
 .link-box p {
    margin: 0pt 0pt 2pt 20pt;
    }
 
 .toc {
-   font-size: 14pt;
+   font-size: 1.1rem;
    margin-left: 100px;
    margin-bottom: 30px;
    }
-.toc header {
-   font-weight: bold;
+.toc h2 {
+   text-align: left;
+   margin-bottom: 5px;
    }
 .toc li a {
    color: steelblue;
@@ -159,13 +161,14 @@ p>code, dd>code {
    }
 .toc >ol {
    list-style-type: upper-alpha;
+   font-size: 1.0rem;
    margin-left: 30px;
    }
 .toc >ol >li {
    margin-bottom: 8px;
    }
 .toc ol ol {
-   font-size: 10.5pt;
+   font-size: 0.9rem;
    }
 .toc ~ h3 {
    margin-top: 50px;
@@ -205,7 +208,7 @@ p>code, dd>code {
 
 .legal-terms {
    white-space: pre-wrap;
-   font-size: 10pt;
+   font-size: 0.9rem;
    font-family: monospace;
    background-color: white;
    border: 1px solid silver;
@@ -219,7 +222,7 @@ p>code, dd>code {
 /* Tools */
 .snazzy-button {
    text-align: center;
-   font-size: 22px;
+   font-size: 1.2rem;
    font-weight: bold;
    color: gray;
    background-color: lightskyblue;
@@ -232,7 +235,7 @@ p>code, dd>code {
    height: 20px;
    }
 .snazzy-button div {
-   font-size: 12px;
+   font-size: 0.7rem;
    }
 .snazzy-button:hover {
    background-color: #8CD3FF;
@@ -241,7 +244,7 @@ p>code, dd>code {
 
 .subtle-note {
    text-align: center;
-   font-size: 9pt;
+   font-size: 0.7rem;
    padding: 0px 20%;
    }
 
@@ -260,7 +263,7 @@ p>code, dd>code {
    -webkit-transform: rotate(180deg);
        -ms-transform: rotate(180deg);
            transform: rotate(180deg);
-   font-size: 25pt;
+   font-size: 2.5rem;
    font-weight: bold;
    color: steelblue;
    margin: -10px 0px 10px 0px;
@@ -280,7 +283,7 @@ p>code, dd>code {
 /* Prism */
 .main-content .code-caption {
    width: 80%;
-   font-size: 12pt;
+   font-size: 1.0rem;
    font-weight: bold;
    color: white;
    background-color: steelblue;
@@ -289,7 +292,7 @@ p>code, dd>code {
    }
 .main-content .code-body {
    width: 80%;
-   font-size: 12pt;
+   font-size: 1.0rem;
    font-weight: normal;
    background-color: white;
    border: 3px solid steelblue;
@@ -298,7 +301,7 @@ p>code, dd>code {
    }
 .main-content pre[class*=language-] {
    width: 80%;
-   font-size: 11pt;
+   font-size: 0.92rem;
    font-weight: normal;
    background-color: white;
    border: 3px solid steelblue;
@@ -310,7 +313,7 @@ p>code, dd>code {
    }
 .main-content .full-screen-code pre {
    width: 100%;
-   font-size: 10.5pt;
+   font-size: 0.9rem;
    }
 .main-content section .code-caption,
 .main-content section .code-body,
@@ -353,7 +356,7 @@ ul.navigation-bar li a {
    display: inline-block;
    text-decoration: none;
    font-weight: bold;
-   font-size: 13px;
+   font-size: 0.9rem;
    color: darkgray;
    border-bottom: 1px solid darkgray;
    padding: 1px 15px;
