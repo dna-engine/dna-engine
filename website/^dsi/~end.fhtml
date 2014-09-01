@@ -1,7 +1,10 @@
-</div>
-<a href="https://github.com/dnajs/dna.js"><img id=github-banner
-   src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-   alt="Fork me on GitHub"></a>
+<footer>
+   <a id=github-banner href="https://github.com/dnajs/dna.js">
+      <img src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
+      alt="Fork me on GitHub">
+   </a>
+</footer>
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="http://www.centerkey.com/files/prism/prism.js"></script>
 <script src="http://www.centerkey.com/files/prism/prism-fix.js"></script>

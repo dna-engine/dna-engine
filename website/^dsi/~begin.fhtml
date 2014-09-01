@@ -28,26 +28,26 @@
 <!--#endif -->
 <link rel=icon       href="graphics/bookmark.png">
 <link rel=stylesheet href="http://www.centerkey.com/css/reset.css">
-<link rel=stylesheet href="style.css">
 <link rel=stylesheet href="http://www.centerkey.com/files/prism/prism.css">
+<link rel=stylesheet href="style.css">
 </head>
 <body>
 
-<div class=main-content>
-<div class=align-centered>
-   <ul class=navigation-bar>
-      <li><a class=plain href=".">Home</a></li>
-      <li><a class=plain href="hello-world.html">Example</a></li>
-      <li><a class=plain href="manual.html">Documentation</a></li>
-      <li><a class=plain href="forum.html">Forum</a></li>
-      <li><a class=plain href="license.html">License</a></li>
-   </ul>
-</div>
-
-<h1><!--#echo var="name" --></h1>
-<h2><!--#echo var="title" --></h2>
-<div id=logo>
-   <a href="http://dnajs.org">
-      <img src="graphics/dnajs-logo.png" alt="Logo">
-   </a>
-</div>
+<header>
+   <nav>
+      <ul class=navigation-bar>
+         <li><a class=plain href=".">Home</a></li>
+         <li><a class=plain href="hello-world.html">Example</a></li>
+         <li><a class=plain href="manual.html">Documentation</a></li>
+         <li><a class=plain href="forum.html">Forum</a></li>
+         <li><a class=plain href="license.html">License</a></li>
+      </ul>
+   </nav>
+   <h1><!--#echo var="name" --></h1>
+   <h2><!--#echo var="title" --></h2>
+   <div id=logo>
+      <a href="http://dnajs.org">
+         <img src="graphics/dnajs-logo.png" alt="Logo">
+      </a>
+   </div>
+</header>

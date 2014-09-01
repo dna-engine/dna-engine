@@ -1,62 +1,64 @@
 <!--#set var="title" value="DOM Templating Engine for jQuery" -->
 <!--#include file="~begin.fhtml" -->
 
-<div class=gateway-sidebar>
-   <a href="https://raw.github.com/dnajs/dna.js/current/dna.min.js" class=external-site>
-      <div class=snazzy-button>
-         <img src="graphics/icon-download.png" alt="Download"> Download dna.min.js
-         <div><!--#echo var="release" -->, <!--#echo var="size" --></div>
+<article>
+
+   <div class=gateway-sidebar>
+      <a href="https://raw.github.com/dnajs/dna.js/current/dna.min.js" class=external-site>
+         <div class=snazzy-button>
+            <img src="graphics/icon-download.png" alt="Download"> Download dna.min.js
+            <div><!--#echo var="release" -->, <!--#echo var="size" --></div>
+         </div>
+      </a>
+      <p class=alt-link>
+         Non-minified version:
+         <a href="https://raw.github.com/dnajs/dna.js/current/dna.js"
+            class=external-site>Download dna.js</a>
+      </p>
+      <div id=news>
+         <h4>News</h4>
+         <!--#include file="~news.fhtml" -->
       </div>
-   </a>
-   <p class=alt-link>
-      Non-minified version:
-      <a href="https://raw.github.com/dnajs/dna.js/current/dna.js"
-         class=external-site>Download dna.js</a>
-   </p>
-   <div id=news>
-      <h4>News</h4>
-      <!--#include file="~news.fhtml" -->
    </div>
-</div>
 
-<p>
-   dna.js is the world's easiest to use templating engine for building web
-   pages.&nbsp;  Write semantic templates and dna.js will dynamically generate
-   DOM elements from data supplied by JSON objects.</p>
-<p>
-   The project is open source and available for free.&nbsp;  The code is hosted on
-   <a href="https://github.com/dnajs/dna.js">GitHub</a> and is
-   <a href="license.html">dual-licensed</a> under the The MIT License (MIT) and GNU General
-   Public License (GPLv3).
-</p>
-<div id=social-buttons></div>
+   <p>
+      dna.js is the world's easiest to use templating engine for building web
+      pages.&nbsp;  Write semantic templates and dna.js will dynamically generate
+      DOM elements from data supplied by JSON objects.</p>
+   <p>
+      The project is open source and available for free.&nbsp;  The code is hosted on
+      <a href="https://github.com/dnajs/dna.js">GitHub</a> and is
+      <a href="license.html">dual-licensed</a> under the The MIT License (MIT) and GNU General
+      Public License (GPLv3).
+   </p>
+   <div id=social-buttons></div>
 
-<h3 id=todo>Obligatory Todo Application</h3>
-<div class=push-right>
-   <a href="http://commons.wikimedia.org/wiki/File:Task.svg" class="plain external-site">
-      <img class=side-image src="graphics/icon-todo-app.png" alt="Todo icon">
-   </a>
-</div>
-<p>
-   Every framework must have a todo application, so here's the dna.js one:<br>
-   <span class=indent>
-      <a href="http://jsfiddle.net/<!--#echo var="todo" -->/" class=external-site>
-         jsfiddle.net/<!--#echo var="todo" --></a>
-   </span>
-</p>
-<p>
-   The core of the todo application is less than 10 lines of JavaScript and it
-   includes add a task, complete a task with style change, delete a task, and
-   smooth animation effects.
-</p>
+   <h3 id=todo>Obligatory Todo Application</h3>
+   <div class=push-right>
+      <a href="http://commons.wikimedia.org/wiki/File:Task.svg" class="plain external-site">
+         <img class=side-image src="graphics/icon-todo-app.png" alt="Todo icon">
+      </a>
+   </div>
+   <p>
+      Every framework must have a todo application, so here's the dna.js one:<br>
+      <span class=indent>
+         <a href="http://jsfiddle.net/<!--#echo var="todo" -->/" class=external-site>
+            jsfiddle.net/<!--#echo var="todo" --></a>
+      </span>
+   </p>
+   <p>
+      The core of the todo application is less than 10 lines of JavaScript and it
+      includes add a task, complete a task with style change, delete a task, and
+      smooth animation effects.
+   </p>
 
-<h3 id=example>Bookstore Example</h3>
-<p>
-   Designate DNA templates with the <code>dna-template</code> class, and put the templates
-   directly into the HTML of your web page.&nbsp;  Use the element's ID to indicate the name
-   of the template.&nbsp;  Enclose data fields in DNA strands (double tildes).
-</p>
-<div class=code-caption>HTML for <code>book</code> template</div>
+   <h3 id=example>Bookstore Example</h3>
+   <p>
+      Designate DNA templates with the <code>dna-template</code> class, and put the templates
+      directly into the HTML of your web page.&nbsp;  Use the element's ID to indicate the name
+      of the template.&nbsp;  Enclose data fields in DNA strands (double tildes).
+   </p>
+   <div class=code-caption>HTML for <code>book</code> template</div>
 <pre><code class=language-markup>
 &lt;h1&gt;Featured Books&lt;/h1&gt;
 &lt;div id=book class=dna_template&gt;
@@ -64,21 +66,21 @@
    &lt;div&gt;Author: &lt;span&gt;~~author~~&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
-<p>
-   Then call the <code>dna.clone()</code> function to insert a copy of the
-   template into the DOM.&nbsp;  The supplied JSON data object will be used to
-   populate the fields of the template.
-</p>
-<div class=code-caption>JavaScript call to add <code>book</code> node</div>
+   <p>
+      Then call the <code>dna.clone()</code> function to insert a copy of the
+      template into the DOM.&nbsp;  The supplied JSON data object will be used to
+      populate the fields of the template.
+   </p>
+   <div class=code-caption>JavaScript call to add <code>book</code> node</div>
 <pre><code class=language-javascript>
 dna.clone('book', { title: 'The DOM', author: 'Jan' });
 </code></pre>
-<p>
-   The new element is a DNA clone, and it is placed into the DOM where the template was
-   located.&nbsp;  The original template is detached from the DOM and kept for additional
-   cloning.
-</p>
-<div class=code-caption>Resulting HTML with DNA clone</div>
+   <p>
+      The new element is a DNA clone, and it is placed into the DOM where the template was
+      located.&nbsp;  The original template is detached from the DOM and kept for additional
+      cloning.
+   </p>
+   <div class=code-caption>Resulting HTML with DNA clone</div>
 <pre><code class=language-markup>
 &lt;h1&gt;Featured Books&lt;/h1&gt;
 &lt;div class=book&gt;
@@ -86,98 +88,100 @@ dna.clone('book', { title: 'The DOM', author: 'Jan' });
    &lt;div&gt;Author: &lt;span&gt;Jan&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
-<p>
-Clones can alternatively be generated by providing a URL to a REST resource.
-</p>
-<div class=code-caption>JavaScript call to load data from a REST call</div>
+   <p>
+      Clones can alternatively be generated by providing a URL to a REST resource.
+   </p>
+   <div class=code-caption>JavaScript call to load data from a REST call</div>
 <pre><code class=language-javascript>
 dna.load('book', 'http://dnajs.org/rest/book/3');
 </code></pre>
 
-<h3 id=try>Try It Out</h3>
-<p>
-Click "Add a Book" to trigger an event that calls the
-<code>dna.clone()</code> function.&nbsp;  Click "Clear List" to call the
-<code>dna.clone()</code> function, which deletes all the clones previously
-created from the template.
-</p>
-<div class=featured-books>
-   <h2>Featured Books</h2>
-   <div class=buttons>
-      <button id=action-books-add>Add a Book<div class=bubble-help>dna.clone('book', { title: 'The DOM', author: 'Jan' });</div></button>
-      <button id=action-books-clear>Clear List<div class=bubble-help>dna.empty('book');</div></button>
-   </div>
-   <div id=book class=dna-template>
-      <div>Title:  <span>~~title~~</span></div>
-      <div>Author: <span>~~author~~</span></div>
-   </div>
-</div>
-To see all the pieces running together, check out the standalone example:
-<p class=indent>
-    <button class=jump-click data-url="hello-world.html">View Source</button>
-</p>
-
-<h3 id=philosophy>Philosophy</h3>
-Templating should be lightweight, clean, and simple:
-<ol>
-   <li>No HTML in JavaScript code</li>
-   <li>Templates are real HTML that
-      <a href="http://validator.w3.org/" class=external-site>validate</a></li>
-   <li>Templates can be in-place (no need for separate template files)</li>
-   <li>Iteration is done with <a href="manual.html#data-sub-template">data arrays</a> not messy
-      template for loops</li>
-   <li><a href="http://techdem.centerkey.com/2013/02/lazy-setup-50x-javascript-performance.html"
-      class=external-site>Zero setup</a> until data is pushed (can be after page load)</li>
-   <li>No serialization or deserialization (no need to call the <code>.html()</code> function)</li>
-   <li>Declaring callbacks using simple HTML attributes is far more cohesive and semantically
-      meaningful than programmatically binding with JavaScript code</li>
-</ol>
-<p>
-   The more transparent a JavaScript templating solution is, the less impact it
-   will have on your workflow for building websites.&nbsp;  Templates with dna.js
-   don't just look like HTML, they are HTML (and they validate).
-</p>
-<p>
-   JavaScript is easier to write, quicker to read, and more compact if it is
-   focused on handling data not generating HTML.&nbsp;  Traditional web
-   frameworks, such as Grails, PHP, and Rails, already handle HTML.&nbsp;
-   Generating HTML from both the web framework and a client-side HTML templating
-   engine makes the HTML cumbersome to manage and style.
-</p>
-
-<h3 id=feedback>Feedback</h3>
-Post your question to the <a href="forum.html">public forum</a> so everyone benefits from
-the answer.&nbsp;  Otherwise, use the form below.
-<form method=post>
-   <div class=perfect>
-      <h1>Send Us a Message</h1>
-      <label><span>Message:</span>
-         <textarea name=message rows=3 cols=30></textarea></label>
-      <label><span>Name:</span>
-         <input name=name size=20></label>
-      <label><span>E-Mail:</span>
-         <input name=email size=25></label>
-      <p><button type=submit>Submit</button></p>
-      <p class=note>Powered by
-         <a href="http://www.centerkey.com/php/">PERFECT</a></p>
-   </div>
-</form>
-<p class=subtle-note>
-   All the fields are optional.&nbsp;  However, if you want a response, make
-   sure to provide your e-mail address.
-</p>
-
-<div id=gateway-footer>
-   <a rel=license class=external-site
-      href="http://creativecommons.org/licenses/by-sa/3.0/us/"><img
-      alt="Creative Commons License"
-      src="http://creativecommons.org/images/public/somerights20.png">
-      <div class=bubble-help>
-         Content on this web site is licensed under<br>
-         the Creative Commons Attribution-Share<br>
-         Alike 3.0 United States License.
+   <h3 id=try>Try It Out</h3>
+   <p>
+      Click "Add a Book" to trigger an event that calls the
+      <code>dna.clone()</code> function.&nbsp;  Click "Clear List" to call the
+      <code>dna.clone()</code> function, which deletes all the clones previously
+      created from the template.
+   </p>
+   <div class=featured-books>
+      <h2>Featured Books</h2>
+      <div class=buttons>
+         <button id=action-books-add>Add a Book<span class=bubble-help>dna.clone('book', { title: 'The DOM', author: 'Jan' });</span></button>
+         <button id=action-books-clear>Clear List<span class=bubble-help>dna.empty('book');</span></button>
       </div>
+      <div id=book class=dna-template>
+         <div>Title:  <span>~~title~~</span></div>
+         <div>Author: <span>~~author~~</span></div>
+      </div>
+   </div>
+   To see all the pieces running together, check out the standalone example:
+   <p class=indent>
+       <button class=jump-click data-url="hello-world.html">View Source</button>
+   </p>
+
+   <h3 id=philosophy>Philosophy</h3>
+   Templating should be lightweight, clean, and simple:
+   <ol>
+      <li>No HTML in JavaScript code</li>
+      <li>Templates are real HTML that
+         <a href="http://validator.w3.org/" class=external-site>validate</a></li>
+      <li>Templates can be in-place (no need for separate template files)</li>
+      <li>Iteration is done with <a href="manual.html#data-sub-template">data arrays</a> not messy
+         template for loops</li>
+      <li><a href="http://techdem.centerkey.com/2013/02/lazy-setup-50x-javascript-performance.html"
+         class=external-site>Zero setup</a> until data is pushed (can be after page load)</li>
+      <li>No serialization or deserialization (no need to call the <code>.html()</code> function)</li>
+      <li>Declaring callbacks using simple HTML attributes is far more cohesive and semantically
+         meaningful than programmatically binding with JavaScript code</li>
+   </ol>
+   <p>
+      The more transparent a JavaScript templating solution is, the less impact it
+      will have on your workflow for building websites.&nbsp;  Templates with dna.js
+      don't just look like HTML, they are HTML (and they validate).
+   </p>
+   <p>
+      JavaScript is easier to write, quicker to read, and more compact if it is
+      focused on handling data not generating HTML.&nbsp;  Traditional web
+      frameworks, such as Grails, PHP, and Rails, already handle HTML.&nbsp;
+      Generating HTML from both the web framework and a client-side HTML templating
+      engine makes the HTML cumbersome to manage and style.
+   </p>
+
+   <h3 id=feedback>Feedback</h3>
+   Post your question to the <a href="forum.html">public forum</a> so everyone benefits from
+   the answer.&nbsp;  Otherwise, use the form below.
+   <form method=post>
+      <div class=perfect>
+         <h1>Send Us a Message</h1>
+         <label><span>Message:</span>
+            <textarea name=message rows=3 cols=30></textarea></label>
+         <label><span>Name:</span>
+            <input name=name size=20></label>
+         <label><span>E-Mail:</span>
+            <input name=email size=25></label>
+         <p><button type=submit>Submit</button></p>
+         <p class=note>Powered by
+            <a href="http://www.centerkey.com/php/">PERFECT</a></p>
+      </div>
+   </form>
+   <p class=subtle-note>
+      All the fields are optional.&nbsp;  However, if you want a response, make
+      sure to provide your e-mail address.
+   </p>
+
+   <div id=gateway-footer>
+      <a rel=license class=external-site
+         href="http://creativecommons.org/licenses/by-sa/3.0/us/"><img
+         alt="Creative Commons License"
+         src="http://creativecommons.org/images/public/somerights20.png">
+         <div class=bubble-help>
+            Content on this web site is licensed under<br>
+            the Creative Commons Attribution-Share<br>
+            Alike 3.0 United States License.
+         </div>
       </a>
-</div>
+   </div>
+
+</article>
 
 <!--#include file="~end.fhtml" -->

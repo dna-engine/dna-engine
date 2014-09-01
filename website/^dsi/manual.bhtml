@@ -1,11 +1,14 @@
 <!--#set var="title" value="Documentation" -->
 <!--#include file="~begin.fhtml" -->
 
+<article>
+
 <p>
    See the <a href=".#example">Bookstore Example</a> for an overview of using dna.js
    Template Cloner.&nbsp;  For richer examples, view the HTML source of the
    <a href="test-cases.html">Test Cases</a>.
 </p>
+
 <div class=toc>
    <h2>Contents:</h2>
    <ol>
@@ -40,7 +43,7 @@
             <li><a href="#api-bye">dna.bye()</a></li>
             <li><a href="#api-register-initializer">dna.registerInitializer()</a></li>
             <li><a href="#api-clear-initializers">dna.clearInitializers()</a></li>
-            <li><a href="#api-info">dna.info()</li>
+            <li><a href="#api-info">dna.info()</a></li>
          </ol>
       </li>
       <li><a href="#loop">Looping</a>
@@ -689,17 +692,15 @@ dna.clone('book', books);
       event is passed into the callback function as the first parameter, and the event object is
       passed in as the second parameter.
    </p>
-   <p>
-      Element attributes for supported events:<code>
-      <ol>
-         <li>data-dna-click</li>
-         <li>data-dna-change</li>
-         <li>data-dna-key-up</li>
-         <li>data-dna-key-down</li>
-         <li>data-dna-key-press</li>
-         <li>data-dna-enter-key</li>
-      </ol></code>
-   </p>
+   Element attributes for supported events:
+   <ol>
+      <li><code>data-dna-click</code></li>
+      <li><code>data-dna-change</code></li>
+      <li><code>data-dna-key-up</code></li>
+      <li><code>data-dna-key-down</code></li>
+      <li><code>data-dna-key-press</code></li>
+      <li><code>data-dna-enter-key</code></li>
+   </ol>
    <div class=code-caption>Example</div>
 <pre><code class=language-markup>
 Click:  &lt;button data-dna-click=showMsg     value=1&gt;1&lt;/button&gt;&lt;br&gt;
@@ -1156,4 +1157,5 @@ dna.util.value({ cart: { items: 7 }}, 'cart.items');  //7
 </code></pre>
 </section>
 
+</article>
 <!--#include file="~end.fhtml" -->
