@@ -386,7 +386,7 @@ $(test07.run);
       <div class=book-list>
          <div id=t08-book class=dna-template>
             <div>Title:   <span>~~title~~</span></div>
-            <div>Authors: <span data-dna-array=~~authors~~> *<span data-dna-init=test08.init>~~[value]~~</span></span></div>
+            <div>Authors: <span data-dna-array=~~authors~~> *<span data-dna-setup=test08.init>~~[value]~~</span></span></div>
             <div>Score:   <span>~~score~~</span></div>
             <div>On Sale: <span>~~sale~~</span></div>
          </div>
@@ -759,11 +759,11 @@ $(test14.run);
    <p>Events</p>
    <fieldset>
       <legend>Actual</legend>
-      <p class=dna-init data-dna-init=dna.ui.deleteElem>DELETE ME!</p>
-      <section data-dna-init=dna.ui.deleteElem class=surrounded></section>
+      <p class=dna-setup data-dna-setup=dna.ui.deleteElem>DELETE ME!</p>
+      <section data-dna-setup=dna.ui.deleteElem class=surrounded></section>
       <hr>
       <div class=book-list>
-         <div id=t15-book class=dna-template data-dna-init=test15.init>
+         <div id=t15-book class=dna-template data-dna-setup=test15.init>
             <div class=surrounded><span class=count>~~[count]~~</span>: <span>~~[value]~~</span></div>
             <button class=1 data-dna-click=dna.bye>Bye 1</button>
             <button class=2>Bye 2</button>
@@ -830,7 +830,7 @@ var test15 = {
       dna.getClone(getClone(7).find('span:last')).remove();  //nuke 7th (remove w/sub-node)
       getClone(6).each(dna.bye);                             //nuke 6th (bye w/jQuery loop)
 		var box = $('.t15-book').closest('fieldset').find('section');
-		var foreigners = $('<hr><hr data-dna-init=fadeOut><hr class=surrounded>').appendTo(box);
+		var foreigners = $('<hr><hr data-dna-setup=fadeOut><hr class=surrounded>').appendTo(box);
 		dna.events.runInitializers(foreigners);
 		dna.clearInitializers();
       }

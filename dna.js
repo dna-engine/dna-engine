@@ -360,19 +360,19 @@ dna.store = {
 
 dna.events = {
    initializers: [],  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
-   onLoadInit: function(root, data) {
+   elementSetup: function(root, data) {
       // Example (outside of template):
-      //    <p class=dna-init data-dna-init=app.cart.setup>
+      //    <p class=dna-setup data-dna-setup=app.cart.setup>
       // Example (within template):
-      //    <select data-dna-init=app.dropDown.setup>
-      function init() { dna.util.apply($(this).data('dna-init'), [$(this), data]); }
-      var selector = '[data-dna-init]';
-      var elems = root ? root.find(selector).addBack(selector) : $('.dna-init');
-      return elems.each(init).addClass('dna-initialized');
+      //    <select data-dna-setup=app.dropDown.setup>
+      function setup() { dna.util.apply($(this).data('dna-setup'), [$(this), data]); }
+      var selector = '[data-dna-setup]';
+      var elems = root ? root.find(selector).addBack(selector) : $('.dna-setup');
+      return elems.each(setup).addClass('dna-initialized');
       },
    runInitializers: function(elem, data) {
-      // Executes both the data-dna-init functions and the registered initializers
-      dna.events.onLoadInit(elem, data);
+      // Executes both the data-dna-setup functions and the registered initializers
+      dna.events.elementSetup(elem, data);
       function init() { dna.util.apply(this.func, [(this.selector ?
          elem.find(this.selector).addBack(this.selector) : elem).addClass('dna-initialized')]
             .concat(this.params)); }
@@ -400,7 +400,7 @@ dna.events = {
          .keyup(dna.events.handleEnterKey)
          .keydown(dna.events.handle)
          .keypress(dna.events.handle);
-      dna.events.onLoadInit();
+      dna.events.elementSetup();
       }
    };
 
