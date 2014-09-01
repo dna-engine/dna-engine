@@ -7,7 +7,7 @@
    <a href="test-cases.html">Test Cases</a>.
 </p>
 <div class=toc>
-   <header>Contents:</header>
+   <h2>Contents:</h2>
    <ol>
       <li><a href="#terms-requirements">Terms and System Requirements</a></li>
       <li><a href="#setup">Setup</a>
@@ -52,7 +52,7 @@
       </li>
       <li><a href="#event">Events and Callbacks</a>
          <ol>
-            <li><a href="#event-init-callback">Initialization Callback</a></li>
+            <li><a href="#event-element-setup">Element Setup</a></li>
             <li><a href="#event-user">Click, Change, and Key Events</a></li>
             <li><a href="#event-initializers">Initializers</a></li>
             <li><a href="#event-callback-option">Callback Option</a></li>
@@ -137,7 +137,7 @@
 .dna-template { display: none; }
 </code></pre>
    <p>
-      Note that the first call to <code>dna.clone()</code> detaches the template
+      <b>Note:</b> The first call to <code>dna.clone()</code> detaches the template
       from the DOM, so the above line of CSS is technically not required if you
       always call <code>dna.clone()</code> before the web page is displayed.
    </p>
@@ -150,7 +150,7 @@
       <code><a href="https://raw.github.com/dnajs/dna.js/current/dna.min.js" class=external-site>dna.min.js</a></code>
       file (or the
       <code><a href="https://raw.github.com/dnajs/dna.js/current/dna.js" class=external-site>dna.js</a></code>
-      uncompressed version) and include it in your website.&nbsp;
+      uncompressed version) from GitHub and include it in your website.&nbsp;
       <!--#echo var="name" --> requires jQuery.
    </p>
    <p>
@@ -167,7 +167,7 @@
 </code></pre>
    <p>
       For experimentation and development, you can <a href="dna.js">link</a> directly to:<br>
-         <code class=indent>http://dnajs.org/dna.js</code>
+      <code class=indent>http://dnajs.org/dna.js</code>
    </p>
 </section>
 
@@ -327,6 +327,9 @@ dna.clone('book', { title: 'The DOM', author: 'Bo' });
 <!--  dna.cloneSubTemplate()  -->
 <section id=api-clone-sub-template>
    <h4>dna.cloneSubTemplate(holderClone, arrayField, data, options)</h4>
+   <p>
+      ...TBD...
+   </p>
 </section>
 
 <!--  dna.load()  -->
@@ -514,17 +517,25 @@ dna.destroy(clone, { fade: true });
 <!--  dna.bye()  -->
 <section id=api-bye>
    <h4>dna.bye(elemOrEventOrIndex)</h4>
-...
+   <p>
+      ...TBD...
+   </p>
 </section>
 
 <!--  dna.registerInitializer()  -->
 <section id=api-register-initializer>
    <h4>dna.registerInitializer(func, options)</h4>
+   <p>
+      ...TBD...
+   </p>
 </section>
 
 <!--  dna.clearInitializers()  -->
 <section id=api-clear-initializers>
    <h4>dna.clearInitializers()</h4>
+   <p>
+      ...TBD...
+   </p>
 </section>
 
 <!--  dna.info()  -->
@@ -662,8 +673,8 @@ dna.clone('book', books);
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=event>Events and Callbacks</h3>
 
-<section id=event-element-init>
-   <h4>Element Initialization</h4>
+<section id=event-element-setup>
+   <h4>Element Setup</h4>
    <p>
       ...
    </p>
@@ -822,14 +833,25 @@ dna.clone('book', book);
       data field means true.
    </p>
    <p>
-      Use the <code>data-dna-false</code> attribute to indicate that a DOM
+      Use the <code>data-dna-falsey</code> attribute to indicate that a DOM
       element should only be included if the value* of the specified
       data field means false.
    </p>
+   <table>
+      <thead>
+         <tr><th>Attribute</th><th>Value</th><th>Logic</th></tr>
+      </thead>
+      <tbody>
+         <tr><td><code>data-dna-require</code></td><td>DNA Field</td><td>Show element only if specified field has a value</td></tr>
+         <tr><td><code>data-dna-missing</code></td><td>DNA Field</td><td>Show element only if specified field has no value</td></tr>
+         <tr><td><code>data-dna-truthy</code></td><td>DNA Field</td><td>Show element only if specified field means true*</td></tr>
+         <tr><td><code>data-dna-falsey</code></td><td>DNA Field</td><td>Show element only if specified field means false*</td></tr>
+      </tbody>
+   </table>
    <p>
-      *<small><b>Note:</b> Regular JavaScript evaluation determines truthy
+      *<b>Note:</b> Regular JavaScript evaluation determines truthy
       and falsey calculations with the addition that empty arrays plus the
-      strings "false", "F", and "0" are all considered falsey.</small>
+      strings "false", "F", and "0" are all considered falsey.
       <!--
       false, undefined, null, NaN, 0, "0", "" (empty string), [] (empty array), "false" (case insensitive), "f", and "F".
       -->
