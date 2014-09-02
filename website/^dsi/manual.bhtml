@@ -320,10 +320,10 @@
 <!--  dna.clone()  -->
 <section id=api-clone>
    <h4>dna.clone(name, data [, options])</h4>
-   <div class=api-description>
+   <p class=api-description>
       Generates a copy of the template and populates the fields, attributes, and
       classes from the supplied data.
-   </div>
+   </p>
    <div class=api-parameters>
       Parameters:
       <ul>
@@ -352,19 +352,40 @@ dna.clone('book', { title: 'The DOM', author: 'Bo' });
 
 <!--  dna.cloneSubTemplate()  -->
 <section id=api-clone-sub-template>
-   <h4>dna.cloneSubTemplate(holderClone, arrayField, data, options)</h4>
-   <p>
-      ...TBD...
+   <h4>dna.cloneSubTemplate(holderClone, arrayField, data[, options])</h4>
+   <p class=api-description>
+      ...TBD...  see: <a href="#loop-sub-templates">sub-template array loops</a>
    </p>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>holderClone</b> (jQuery Element):</label>
+            Clone that contains the sub-template array loop.
+         </li>
+         <li>
+            <label><b>arrayField</b> (String):</label>
+            Name of DNA field for array.
+         </li>
+         <li>
+            <label><b>data</b> (Object or Array of Objects):</label>
+            ...
+         </li>
+         <li>
+            <label><b>options</b> (Object):</label>
+            ...
+         </li>
+      </ul>
+   </div>
 </section>
 
 <!--  dna.load()  -->
 <section id=api-load>
    <h4>dna.load(name, url [, options])</h4>
-   <div class=api-description>
+   <p class=api-description>
       Makes a GET request to the url and then generates a copy of the template
       and populates the fields, attributes, and classes from the JSON response.
-   </div>
+   </p>
    <div class=api-parameters>
       Parameters:
       <ul>
@@ -402,9 +423,9 @@ dna.load('book', 'http://dnajs.org/rest/book/3');
 <!--  dna.getModel()  -->
 <section id=api-get-model>
    <h4>dna.getModel(clone)</h4>
-   <div class=api-description>
+   <p class=api-description>
       Returns the underlying data of the clone.
-   </div>
+   </p>
    <div class=api-parameters>
       Parameters:
       <ul>
@@ -428,9 +449,9 @@ dna.mutate(clone);
 <!--  dna.empty()  -->
 <section id=api-empty>
    <h4>dna.empty(name[, options])</h4>
-   <div class=api-description>
+   <p class=api-description>
       Deletes all clones generated from the template.
-   </div>
+   </p>
    <div class=api-parameters>
       Parameters:
       <ul>
@@ -464,9 +485,9 @@ dna.empty('book', { fade: true });
 <!--  dna.mutate()  -->
 <section id=api-mutate>
    <h4>dna.mutate(clone[, data[, options]])</h4>
-   <div class=api-description>
+   <p class=api-description>
       Updates an existing clone with new data.
-   </div>
+   </p>
    <div class=api-parameters>
       Parameters:
       <ul>
@@ -495,14 +516,26 @@ dna.mutate(clone, { title: 'The DOM 2' });
 <!--  dna.mutateAll()  -->
 <section id=api-mutate-all>
    <h4>dna.mutateAll(name)</h4>
+   <p class=api-description>
+      Updates all the clones of the specified template.
+   </p>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>name</b> (String):</label>
+            Template name.
+         </li>
+      </ul>
+   </div>
 </section>
 
 <!--  dna.destroy()  -->
 <section id=api-destroy>
    <h4>dna.destroy(clone[, options])</h4>
-   <div class=api-description>
+   <p class=api-description>
       Removes an existing clone from the DOM.
-   </div>
+   </p>
    <div class=api-parameters>
       Parameters:
       <ul>
@@ -533,43 +566,118 @@ dna.destroy(clone, { fade: true });
 <!--  dna.getClone()  -->
 <section id=api-get-clone>
    <h4>dna.getClone(elem)</h4>
+   <p class=api-description>
+      Returns the clone that contains the specified element.
+   </p>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>elem</b> (jQuery Element):</label>
+            Any element with the clone or even the clone itself.
+         </li>
+      </ul>
+   </div>
 </section>
 
 <!--  dna.getClones()  -->
 <section id=api-get-clones>
    <h4>dna.getClones(name)</h4>
+   <p class=api-description>
+      Returns an array of all the existing clones for the given template.
+   </p>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>name</b> (String):</label>
+            Template name.
+         </li>
+      </ul>
+   </div>
 </section>
 
 <!--  dna.bye()  -->
 <section id=api-bye>
    <h4>dna.bye(elemOrEventOrIndex)</h4>
-   <p>
-      ...TBD...
+   <p class=api-description>
+      Removes a clone.
    </p>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>elemOrEventOrIndex</b> (jQuery Object, Event, or Index):</label>
+            Reference to a jQuery element.
+         </li>
+      </ul>
+   </div>
 </section>
 
 <!--  dna.registerInitializer()  -->
 <section id=api-register-initializer>
-   <h4>dna.registerInitializer(func, options)</h4>
-   <p>
+   <h4>dna.registerInitializer(callback, options)</h4>
+   <p class=api-description>
       ...TBD...
    </p>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>callback</b> (String or Function):</label>
+            String name of a function or an actual function.
+         </li>
+         <li>
+            <label><b>options</b> (Object):</label>
+            ...
+         </li>
+      </ul>
+   </div>
+   <div class=code-caption>Example JavaScript</div>
+<pre><code class=language-javascript>
+// Line below replaces:  $('.comment-form').validate();
+dna.registerInitializer('validate', { selector: '.comment-form' });
+</code></pre>
+   <p>
+      ...
+   </p>
+   <div class=code-caption>Example JavaScript</div>
+<pre><code class=language-javascript>
+var app = {
+   highlight: function(elem) {
+      elem.css('background-color', 'gold');
+      },
+   setup: function() {
+      dna.registerInitializer(app.highlight);  //highlight clones
+      dna.registerInitializer('qtip', { selector: '.tooltip' });
+      dna.registerInitializer('css',  //roomy always gets space
+         { selector: '.roomy', params: ['padding', '10px'] });
+      // Line above replaces:  $('.roomy').css('padding', '10px');
+      }
+   };
+$(app.setup);
+</code></pre>
 </section>
 
 <!--  dna.clearInitializers()  -->
 <section id=api-clear-initializers>
    <h4>dna.clearInitializers()</h4>
-   <p>
-      ...TBD...
+   <p class=api-description>
+      Deletes all initializers.
    </p>
+   <div class=code-caption>Example JavaScript</div>
+<pre><code class=language-javascript>
+dna.registerInitializer('bootstrapSwitch', '.switch');
+dna.clearInitializers();  //undoes previous line
+</code></pre>
 </section>
 
 <!--  dna.info()  -->
 <section id=api-info>
    <h4>dna.info()</h4>
-   <div class=api-description>
+   <p class=api-description>
       Logs information to the browser console.
-   </div>
+   </p>
    <div class=code-caption>Example JavaScript</div>
 <pre><code class=language-javascript>
 dna.info();
@@ -702,7 +810,7 @@ dna.clone('book', books);
 <section id=event-element-setup>
    <h4>Element Setup</h4>
    <p>
-      ...
+      ...TBD...
    </p>
 </section>
 
@@ -764,7 +872,7 @@ Submit: &lt;input  data-dna-enter-key=showMsg value=6&gt;&lt;br&gt;
 <section id=event-initializers>
    <h4>Initializers</h4>
    <p>
-      ...
+      ...TBD...
    </p>
 </section>
 
@@ -843,23 +951,10 @@ dna.clone('book', book);
 <section id=structure-thimblerig>
    <h4>Thimblerig (conditional hide and seek logic)</h4>
    <p>
-      Use the <code>data-dna-require</code> attribute to indicate that a DOM
-      element should only be included if the specified data field has a value.
-   </p>
-   <p>
-      Use the <code>data-dna-missing</code> attribute to indicate that a DOM
-      element should only be included if the specified data field does not have
-      a value.
-   </p>
-   <p>
-      Use the <code>data-dna-truthy</code> attribute to indicate that a DOM
-      element should only be included if the value* of the specified
-      data field means true.
-   </p>
-   <p>
-      Use the <code>data-dna-falsey</code> attribute to indicate that a DOM
-      element should only be included if the value* of the specified
-      data field means false.
+      Instead of writing JavaScript to show and hide DOM elements, use an attribute to declare
+      whether the element should be shown or hidden.&nbsp;  dna.js supports four
+      conditionals &mdash; two for the existence of a field and two for the "real" truth of a
+      field.
    </p>
    <table>
       <thead>
@@ -872,14 +967,6 @@ dna.clone('book', book);
          <tr><td><code>data-dna-falsey</code></td><td>DNA Field</td><td>Show element only if specified field means false*</td></tr>
       </tbody>
    </table>
-   <p>
-      *<b>Note:</b> Regular JavaScript evaluation determines truthy
-      and falsey calculations with the addition that empty arrays plus the
-      strings "false", "F", and "0" are all considered falsey.
-      <!--
-      false, undefined, null, NaN, 0, "0", "" (empty string), [] (empty array), "false" (case insensitive), "f", and "F".
-      -->
-   </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
 &lt;div id=book class=dna_template&gt;
@@ -889,8 +976,11 @@ dna.clone('book', book);
 </code></pre>
    <div class=code-caption>Example JavaScript</div>
 <pre><code class=language-javascript>
-dna.clone('book', { author: 'Bo', title: 'The DOM' });
-dna.clone('book', { author: 'Jan' });
+var books = [
+   { author: 'Bo', title: 'The DOM' },
+   { author: 'Jan' }
+   ];
+dna.clone('book', books);
 </code></pre>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
@@ -904,6 +994,56 @@ dna.clone('book', { author: 'Jan' });
 &lt;/div&gt;
 </code></pre>
    <!-- End: Result  -->
+   <h5 id=real-truth>Real Truth</h5>
+   <p>
+      dna.js evaluates if a data field is <code>true</code> or <code>false</code> based on rules
+      designed to match the boolean meaning of data as it would be stored in a database or how the
+      data would be interpreted in a business sense.&nbsp; For example, the string
+      <code>'FALSE'</code> is evaluated to the boolean <code>false</code> when determining its
+      "real" truth.
+   </p>
+   <table>
+      <thead>
+         <tr><th>Evaluate</th><th>Examples</th></tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td>Truthy</td>
+            <td>
+               <code>true</code>, <code>7</code>, <code>'7'</code>, <code>[5]</code>,
+               <code>'t'</code>, <code>'T'</code>, <code>'TRue'</code>, <code>{}</code>,
+               <code>'Colbert'</code>
+            </td>
+         </tr>
+         <tr>
+            <td>Falsey</td>
+            <td>
+               <code>false</code>, <code>0</code>, <code>'0'</code>, <code>[]</code>,
+               <code>'f'</code>, <code>'F'</code>, <code>'faLSE'</code>, <code>''</code>,
+               <code>null</code>, <code>undefined</code>, <code>NaN</code>
+            </td>
+         </tr>
+      </tbody>
+   </table>
+   <h5 id=transient-field>Transient Fields</h5>
+   <p>
+      Compact and maintainable code can be written by basing conditionals on transient data fields.
+   </p>
+   <div class=code-caption>Example HTML</div>
+<pre><code class=language-markup>
+&lt;p class=warning data-dna-truthy=__overdue__&gt;Invoice past due!&lt;/p&gt;
+</code></pre>
+   <div class=code-caption>Example JavaScript</div>
+<pre><code class=language-javascript>
+var invoice = { amount: 125.00, dueDate: 'April 3, 2015' },
+invoice.overdue = new Date(invoice.dueDate).getTime() < Date.now();
+dna.clone('invoice', invoice);
+</code></pre>
+   <p>
+      In the above example, the <code>invoice</code> data object has an <code>amount</code> field
+      and a <code>dueDate</code> field.&nbsp;  The past due warning is displayed if the boolean
+      field <code>overdue</code>, which is calculated on the fly, is set to <code>true</code>.
+   </p>
 </section>
 
 <section id=structure-nested-template>
@@ -951,9 +1091,9 @@ dna.clone('book', { author: 'Jan' });
 <!--  dna.ui.deleteElem()  -->
 <section id=ui-delete-elem>
    <h4>dna.ui.deleteElem(elemOrEventOrIndex)</h4>
-   <div class=api-description>
+   <p class=api-description>
       A flexible function for removing a jQuery element.
-   </div>
+   </p>
    <div class=api-parameters>
       Parameters:
       <ul>
@@ -976,9 +1116,9 @@ dna.ui.deleteElem(('.box').first());  //removes first box
    <h4>dna.ui.slideFadeIn(elem[, callback])</h4>
    <h4>dna.ui.slideFadeOut(elem[, callback])</h4>
    <h4>dna.ui.slideFadeToggle(elem[, callback])</h4>
-   <div class=api-description>
+   <p class=api-description>
       Various functions to apply the smooth slide plus fade effect.
-   </div>
+   </p>
    <div class=api-parameters>
       Parameters:
       <ul>
@@ -1002,10 +1142,10 @@ dna.ui.slideFadeIn($('.box').first());  //shows the box
 <!--  dna.ui.slidingFlasher()  -->
 <section id=ui-sliding-flasher>
    <h4>dna.ui.slidingFlasher(elem[, callback])</h4>
-   <div class=api-description>
+   <p class=api-description>
       Uses a smooth slide down plus fade in effect on an element if it is hidden or a smooth fade in
       flash if the element is already visible &mdash;  intended to display an error message.
-   </div>
+   </p>
    <div class=api-parameters>
       Parameters:
       <ul>
@@ -1031,10 +1171,10 @@ dna.ui.slidingFlasher(elem);  //pulse
 <!--  dna.ui.toElem()  -->
 <section id=ui-to-elem>
    <h4>dna.ui.toElem(elemOrEventOrIndex, that)</h4>
-   <div class=api-description>
+   <p class=api-description>
       A flexible way to get the jQuery element whether it is passed in directly, the target of an
       event, or comes from the jQuery context.
-   </div>
+   </p>
    <div class=api-parameters>
       Parameters:
       <ul>
@@ -1050,7 +1190,9 @@ dna.ui.slidingFlasher(elem);  //pulse
    </div>
    <div class=code-caption>Example JavaScript</div>
 <pre><code class=language-javascript>
-function logFadeDone(e) { console.log('Gone:', dna.ui.toElem(e, this)); }
+function logFadeDone(e) {
+   console.log('Element faded out:', dna.ui.toElem(e, this));
+   }
 $('.box').last().fadeOut(logFadeDone);
 </code></pre>
 </section>
@@ -1058,9 +1200,9 @@ $('.box').last().fadeOut(logFadeDone);
 <!--  dna.util.apply()  -->
 <section id=util-apply>
    <h4>dna.util.apply(func, params)</h4>
-   <div class=api-description>
+   <p class=api-description>
       Calls a function passing in the provided parameters.
-   </div>
+   </p>
    <div class=api-parameters>
       Parameters:
       <ul>
@@ -1088,11 +1230,11 @@ dna.util.apply('css', [$('h1'), 'color', 'gold']);
 <!--  dna.util.realTruth()  -->
 <section id=util-real-truth>
    <h4>dna.util.realTruth(value)</h4>
-   <div class=api-description>
+   <p class=api-description>
       Looks for the true or false meaning a value.&nbsp;  Whereas JavaScript truthy an falsy is
       more about existence, the "real" truth is for evaluating boolean data as it is often stored
       or transmitted.
-   </div>
+   </p>
    <div class=api-parameters>
       Parameters:
       <ul>
@@ -1115,9 +1257,9 @@ dna.util.realTruth('F');  //false
 <!--  dna.util.toCamel()  -->
 <section id=util-to-camel>
    <h4>dna.util.toCamel(codeStr)</h4>
-   <div class=api-description>
+   <p class=api-description>
       Converts a code made of lowercase letters and dashes into camel case string.
-   </div>
+   </p>
    <div class=api-parameters>
       Parameters:
       <ul>
@@ -1136,9 +1278,9 @@ dna.util.toCamel('ready-set-go');  //'readySetGo'
 <!--  dna.util.toCode()  -->
 <section id=util-to-code>
    <h4>dna.util.toCode(camelCaseStr)</h4>
-   <div class=api-description>
+   <p class=api-description>
       Converts a camel case string to a code made of only lowercase letters and dashes.
-   </div>
+   </p>
    <div class=api-parameters>
       Parameters:
       <ul>
@@ -1157,9 +1299,9 @@ dna.util.toCode('readySetGo');  //'ready-set-go'
 <!--  dna.util.value()  -->
 <section id=util-value>
    <h4>dna.util.value(data, field)</h4>
-   <div class=api-description>
+   <p class=api-description>
       Retrieve a value from a field within an object.
-   </div>
+   </p>
    <div class=api-parameters>
       Parameters:
       <ul>

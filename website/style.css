@@ -75,10 +75,17 @@ h4 {
    color: steelblue;
    margin-bottom: 4px;
    }
+h5 {
+   font-size: 1.1rem
+   }
 section {
    border: 3px solid silver;
    padding: 10px 20px;
    margin-bottom: 20px;
+   }
+table thead th,
+table tbody td {
+   text-align: left;
    }
 dt {
    font-weight: bold;
@@ -148,11 +155,11 @@ p>code, dd>code, td>code {
    }
 
 .toc {
-   font-size: 1.1rem;
    margin-left: 100px;
    margin-bottom: 30px;
    }
 .toc h2 {
+   font-size: 1.2rem;
    text-align: left;
    margin-bottom: 5px;
    }
@@ -164,7 +171,7 @@ p>code, dd>code, td>code {
    }
 .toc >ol {
    list-style-type: upper-alpha;
-   font-size: 1.0rem;
+   font-size: 1.1rem;
    margin-left: 30px;
    }
 .toc >ol >li {

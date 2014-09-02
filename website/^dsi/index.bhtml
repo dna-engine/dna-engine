@@ -106,8 +106,8 @@ dna.load('book', 'http://dnajs.org/rest/book/3');
    <div class=featured-books>
       <h2>Featured Books</h2>
       <div class=buttons>
-         <button id=action-books-add>Add a Book<span class=bubble-help>dna.clone('book', { title: 'The DOM', author: 'Jan' });</span></button>
-         <button id=action-books-clear>Clear List<span class=bubble-help>dna.empty('book');</span></button>
+         <button id=action-books-add>Add a Book<div class=bubble-help>dna.clone('book', { title: 'The DOM', author: 'Jan' });</div></button>
+         <button id=action-books-clear>Clear List<div class=bubble-help>dna.empty('book');</div></button>
       </div>
       <div id=book class=dna-template>
          <div>Title:  <span>~~title~~</span></div>
