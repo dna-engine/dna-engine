@@ -1010,17 +1010,17 @@ dna.clone('book', books);
          <tr>
             <td>Truthy</td>
             <td>
-               <code>true</code>, <code>7</code>, <code>'7'</code>, <code>[5]</code>,
-               <code>'t'</code>, <code>'T'</code>, <code>'TRue'</code>, <code>{}</code>,
-               <code>'Colbert'</code>
+               <code>true</code>, <code>1</code>, <code>'1'</code>, <code>'t'</code>,
+               <code>'T'</code>, <code>'TRue'</code>, <code>'77'</code>, <code>77</code>,
+               <code>[5]</code>, <code>{}</code>, <code>'Colbert'</code>
             </td>
          </tr>
          <tr>
             <td>Falsey</td>
             <td>
-               <code>false</code>, <code>0</code>, <code>'0'</code>, <code>[]</code>,
+               <code>false</code>, <code>0</code>, <code>'0'</code>,
                <code>'f'</code>, <code>'F'</code>, <code>'faLSE'</code>, <code>''</code>,
-               <code>null</code>, <code>undefined</code>, <code>NaN</code>
+               <code>[]</code>, <code>null</code>, <code>undefined</code>, <code>NaN</code>
             </td>
          </tr>
       </tbody>
