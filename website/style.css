@@ -211,7 +211,7 @@ p>code, dd>code, td>code {
 
 .legal-terms {
    white-space: pre-wrap;
-   font-size: 0.9rem;
+   font-size: 1.0rem;
    font-family: monospace;
    background-color: white;
    border: 1px solid silver;
@@ -277,10 +277,6 @@ p>code, dd>code, td>code {
    position: absolute;
    top: 0px;
    right: 0px;
-   opacity: 0.8;
-   }
-#github-banner:hover {
-   opacity: 1.0;
    }
 
 /* Prism */
