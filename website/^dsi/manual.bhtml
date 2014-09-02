@@ -180,7 +180,7 @@
 <section id=html-template>
    <h4>DNA Template</h4>
    <p>
-      The <code>dna-template</code> class signifies a template.&nbsp;  The <code>id</code>
+      Use the class <code>dna-template</code> to indicate a template.&nbsp;  The <code>id</code>
       attribute of the element is the template name.
    </p>
    <div class=code-caption>Example HTML</div>
@@ -245,15 +245,38 @@
 &lt;div class=__type__&gt;
 </code></pre>
    <p>
-      However, the regular attribute technique above wipes out existing classes
-      on the element, so it is generally better to the use the
-      <code>data-dna-class</code> technique, which adds classes and accepts a
-      commas separated list.
+      However, the regular attribute technique above wipes out existing classes on the element, so
+      it is generally better to the use <code>data-dna-class</code> to add a class.
    </p>
-   <div class=code-caption>Example HTML</div>
+   <div class=code-caption>Example HTML (single name)</div>
 <pre><code class=language-markup>
 &lt;div data-dna-class=__type__&gt;
 </code></pre>
+   <p>
+      If there are two or three names (comma separated), the first name is still the data
+      field but the data field is evaluated for truthiness (see
+      <a href="#structure-thimblerig">thimblerig</a>).
+   </p>
+   <div class=code-caption>Example HTML (three names)</div>
+<pre><code class=language-markup>
+&lt;div data-dna-class=__onSale_c_red_highlight_c_no_highlight__&gt;
+</code></pre>
+   <table>
+      <thead>
+         <tr><th>Name</th><th>Use</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+         <tr><td>1st</td><td>DNA Field</td><td>Data for class name or truthiness</td></tr>
+         <tr><td>2nd</td><td>Class name (for true)</td><td>Class added to element for truthy</td></tr>
+         <tr><td>3rd</td><td>Class name (for false)</td><td>Class added to element for falsey</td></tr>
+      </tbody>
+   </table>
+   <p>
+      For "true", the second name is added to the element as a class name while the class
+      for third name, if provided, is
+      removed.&nbsp;  For "false", the third name, if provided, is added to the element as a
+      class name while the class for second name is removed.
+   </p>
 </section>
 
 <section id=html-example>
