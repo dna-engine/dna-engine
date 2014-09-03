@@ -296,16 +296,7 @@ p>code, dd>code, td>code {
    padding: 5px 10px 2px 10px;
    margin: 0px auto;
    }
-.code-body {
-   width: 80%;
-   font-size: 1.0rem;
-   font-weight: normal;
-   background-color: white;
-   border: 3px solid steelblue;
-   padding: 5px 10px;
-   margin: 0px auto;
-   }
-pre[class*=language-] {
+pre[class*=language-], .code-body {
    width: 80%;
    font-size: 0.92rem;
    font-weight: normal;
@@ -313,6 +304,10 @@ pre[class*=language-] {
    border: 3px solid steelblue;
    padding: 0px 0px 15px 15px;
    margin: 0px auto 20px auto;
+   }
+.code-body {
+   font-size: 1.0rem;
+   padding: 5px 10px;
    }
 .full-screen-code .code-caption {
    width: 100%;
