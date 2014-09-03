@@ -312,7 +312,7 @@
    <li><b>dna.getClone</b>(elem)</li>
    <li><b>dna.getClones</b>(name)</li>
    <li><b>dna.bye</b>(elemOrEventOrIndex)</li>
-   <li><b>dna.registerInitializer</b>(func, options)</li>
+   <li><b>dna.registerInitializer</b>(callback, options)</li>
    <li><b>dna.clearInitializers</b>()</li>
    <li><b>dna.info</b>()</li>
 </ol>
@@ -346,37 +346,51 @@
 <pre><code class=language-javascript>
 dna.clone('book', { title: 'The DOM', author: 'Bo' });
 </code></pre>
-   <div class=api-details>
-   </div>
 </section>
 
 <!--  dna.cloneSubTemplate()  -->
 <section id=api-clone-sub-template>
    <h4>dna.cloneSubTemplate(holderClone, arrayField, data[, options])</h4>
    <p class=api-description>
-      ...TBD...  see: <a href="#loop-sub-templates">sub-template array loops</a>
+      Clones a sub-template to append onto an array loop.
    </p>
    <div class=api-parameters>
       Parameters:
       <ul>
          <li>
             <label><b>holderClone</b> (jQuery Element):</label>
-            Clone that contains the sub-template array loop.
+            Clone element that contains the sub-template array loop.
          </li>
          <li>
             <label><b>arrayField</b> (String):</label>
-            Name of DNA field for array.
+            Name of data field for an array loop.
          </li>
          <li>
-            <label><b>data</b> (Object or Array of Objects):</label>
-            ...
+            <label><b>data</b> (Object, String, Number, Boolean, or Array):</label>
+            Data to be used for populating the sub-template fields when cloning the
+            sub-template.&nbsp;  If data is an array, the length of the array is the number of
+            clones to be generated.
          </li>
          <li>
-            <label><b>options</b> (Object):</label>
-            ...
+            <label><b>options</b> (Object) <i>[optional]</i>:</label>
+            <ul>
+               <li>
+                  <label><b>fade</b> (Boolean) &mdash;</label>
+                  Use the jQuery <code>.fadeOut()</code> effect (default: <b>false</b>).
+               </li>
+            </ul>
          </li>
       </ul>
    </div>
+   <div class=code-caption>Example JavaScript</div>
+<pre><code class=language-javascript>
+var book = { title: 'Interwebz', chapters: ['ARPANET', 'TCP/IP'] };
+var clone = dna.clone('book', book);
+dna.cloneSubTemplate(clone, 'chapters', 'CERN');  //append a chapter
+</code></pre>
+   <p>
+      See the <a href="#loop-sub-templates">Sub-templates (array loops)</a> section for details.
+   </p>
 </section>
 
 <!--  dna.load()  -->
@@ -408,16 +422,14 @@ dna.clone('book', { title: 'The DOM', author: 'Bo' });
 <pre><code class=language-javascript>
 dna.load('book', 'http://dnajs.org/rest/book/3');
 </code></pre>
-   <div class=api-details>
-      <p>
-         The <code>dna.load()</code> method will not create a clone if the REST
-         call returns an <code>error</code> field equal to <code>true</code>.
-      </p>
-      <p>
-         For <a href="http://dnajs.org/rest/book/7" class=external-site>example</a>:<br>
-         <code class=indent>{ "error": true, "message": "Resource not found" }</code>
-      </p>
-   </div>
+   <p>
+      The <code>dna.load()</code> method will not create a clone if the REST
+      call returns an <code>error</code> field equal to <code>true</code>.
+   </p>
+   <p>
+      For <a href="http://dnajs.org/rest/book/7" class=external-site>example</a>:<br>
+      <code class=indent>{ "error": true, "message": "Resource not found" }</code>
+   </p>
 </section>
 
 <!--  dna.getModel()  -->
@@ -442,8 +454,6 @@ var clone = dna.clone('book', book);
 dna.getModel(clone).title = 'The DOM II';
 dna.mutate(clone);
 </code></pre>
-   <div class=api-details>
-   </div>
 </section>
 
 <!--  dna.empty()  -->
@@ -474,12 +484,10 @@ dna.mutate(clone);
 <pre><code class=language-javascript>
 dna.empty('book', { fade: true });
 </code></pre>
-   <div class=api-details>
-      <p>
-         The <code>dna.empty()</code> method does not delete sub-clones
-         generated from nested templates.
-      </p>
-   </div>
+   <p>
+      The <code>dna.empty()</code> method does not delete sub-clones
+      generated from nested templates.
+   </p>
 </section>
 
 <!--  dna.mutate()  -->
@@ -496,10 +504,19 @@ dna.empty('book', { fade: true });
             An element returned from a call to the <code>dna.clone()</code> method.
          </li>
          <li>
-            <label><b>data</b> (Object):</label>
+            <label><b>data</b> (Object) <i>[optional]</i>:</label>
             Object with fields to be used in updating the clone.&nbsp;
             Only fields contained in the <code>data</code> paramater are
             modified.
+         </li>
+         <li>
+            <label><b>options</b> (Object) <i>[optional]</i>:</label>
+            <ul>
+               <li>
+                  <label><b>html</b> (Boolean) &mdash;</label>
+                  Inject data as HTML rather than unformatted text (default: <b>false</b>).
+               </li>
+            </ul>
          </li>
       </ul>
    </div>
@@ -507,10 +524,8 @@ dna.empty('book', { fade: true });
 <pre><code class=language-javascript>
 var book = { title: 'The DOM', author: 'Bo' };
 var clone = dna.clone('book', book);
-dna.mutate(clone, { title: 'The DOM 2' });
+dna.mutate(clone, { title: 'The DOM II' });
 </code></pre>
-   <div class=api-details>
-   </div>
 </section>
 
 <!--  dna.mutateAll()  -->
@@ -528,6 +543,14 @@ dna.mutate(clone, { title: 'The DOM 2' });
          </li>
       </ul>
    </div>
+   <div class=code-caption>Example JavaScript</div>
+<pre><code class=language-javascript>
+var clone1 = dna.clone('book', { title: 'The DOM' });
+var clone2 = dna.clone('book', { title: 'Styling CSS' });
+dna.getModel(clone1).title = 'The DOM II';    //modified title
+dna.getModel(clone2).title = 'Styling CSS3';  //modified title
+dna.mutateAll('book');  //displays modified titles
+</code></pre>
 </section>
 
 <!--  dna.destroy()  -->
@@ -559,8 +582,6 @@ dna.mutate(clone, { title: 'The DOM 2' });
 var clone = dna.clone('book', book);
 dna.destroy(clone, { fade: true });
 </code></pre>
-   <div class=api-details>
-   </div>
 </section>
 
 <!--  dna.getClone()  -->
@@ -616,9 +637,10 @@ dna.destroy(clone, { fade: true });
 
 <!--  dna.registerInitializer()  -->
 <section id=api-register-initializer>
-   <h4>dna.registerInitializer(callback, options)</h4>
+   <h4>dna.registerInitializer(callback[, options])</h4>
    <p class=api-description>
-      ...TBD...
+       Adds a callback to the list of initializers that are run on clone elements (the callback is
+       also first run on the document if a selector is provided).
    </p>
    <div class=api-parameters>
       Parameters:
@@ -628,8 +650,13 @@ dna.destroy(clone, { fade: true });
             String name of a function or an actual function.
          </li>
          <li>
-            <label><b>options</b> (Object):</label>
-            ...
+            <label><b>options</b> (Object) <i>[optional]</i>:</label>
+            <ul>
+               <li>
+                  <label><b>selector</b> (String) &mdash;</label>
+                  CSS selector (default: none).
+               </li>
+            </ul>
          </li>
       </ul>
    </div>
@@ -639,24 +666,8 @@ dna.destroy(clone, { fade: true });
 dna.registerInitializer('validate', { selector: '.comment-form' });
 </code></pre>
    <p>
-      ...
+      See the <a href="#event-initializers">Initializers</a> section for details.
    </p>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var app = {
-   highlight: function(elem) {
-      elem.css('background-color', 'gold');
-      },
-   setup: function() {
-      dna.registerInitializer(app.highlight);  //highlight clones
-      dna.registerInitializer('qtip', { selector: '.tooltip' });
-      dna.registerInitializer('css',  //roomy always gets space
-         { selector: '.roomy', params: ['padding', '10px'] });
-      // Line above replaces:  $('.roomy').css('padding', '10px');
-      }
-   };
-$(app.setup);
-</code></pre>
 </section>
 
 <!--  dna.clearInitializers()  -->
@@ -670,6 +681,9 @@ $(app.setup);
 dna.registerInitializer('bootstrapSwitch', '.switch');
 dna.clearInitializers();  //undoes previous line
 </code></pre>
+   <p>
+      See the <a href="#event-initializers">Initializers</a> section for details.
+   </p>
 </section>
 
 <!--  dna.info()  -->
@@ -682,13 +696,11 @@ dna.clearInitializers();  //undoes previous line
 <pre><code class=language-javascript>
 dna.info();
 </code></pre>
-   <div class=api-details>
-      <p>
-         The <code>dna.info()</code> method is intended to be called manually
-         from the console to see which templates have been detected and
-         compiled.
-      </p>
-   </div>
+   <p>
+      The <code>dna.info()</code> method is intended to be called manually
+      from the console to see which templates have been detected and
+      compiled.
+   </p>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -874,6 +886,22 @@ Submit: &lt;input  data-dna-enter-key=showMsg value=6&gt;&lt;br&gt;
    <p>
       ...TBD...
    </p>
+   <div class=code-caption>Example JavaScript</div>
+<pre><code class=language-javascript>
+var app = {
+   highlight: function(elem) {
+      elem.css('background-color', 'gold');
+      },
+   setup: function() {
+      dna.registerInitializer(app.highlight);  //highlight clones
+      dna.registerInitializer('qtip', { selector: '.tooltip' });
+      dna.registerInitializer('css',  //roomy always gets space
+         { selector: '.roomy', params: ['padding', '10px'] });
+      // Line above replaces:  $('.roomy').css('padding', '10px');
+      }
+   };
+$(app.setup);
+</code></pre>
 </section>
 
 <section id=event-callback-option>
