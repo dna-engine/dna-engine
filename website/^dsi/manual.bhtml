@@ -844,6 +844,16 @@ var app = {
       }
    };
 </code></pre>
+   <p>
+      The callback can also be used outside of a template to initialize an element on page load,
+      but you must add the <code>dna-setup</code> class.
+   </p>
+   <div class=code-caption>Example HTML</div>
+<pre><code class=language-markup>
+&lt;div class=dna_setup data-dna-setup=app_d_blink&gt;
+   &lt;span&gt;This text will blink on page load!&lt;span&gt;
+&lt;/div&gt;
+</code></pre>
 </section>
 
 <section id=event-user>
