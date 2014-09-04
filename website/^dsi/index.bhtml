@@ -1,4 +1,4 @@
-<!--#set var="title" value="DOM Templating Engine for jQuery" -->
+<!--#set var="title" value="World's Easiest to Use Templating Engine" -->
 <!--#include file="~begin.fhtml" -->
 
 <article>
@@ -22,9 +22,10 @@
    </div>
 
    <p>
-      dna.js is the world's easiest to use templating engine for building web
-      pages.&nbsp;  Write semantic templates and dna.js will dynamically generate
-      DOM elements from data supplied by JSON objects.</p>
+      dna.js is a DOM templating engine for jQuery that enables developers to rapidly build
+      maintainable web pages.&nbsp;  You write semantic templates and then dna.js converts your
+      JSON data into dynamically generated DOM elements.
+   </p>
    <p>
       The project is open source and available for free.&nbsp;  The code is hosted on
       <a href="https://github.com/dnajs/dna.js">GitHub</a> and is
@@ -33,17 +34,17 @@
    </p>
    <div id=social-buttons></div>
 
-   <h3 id=todo>Obligatory Todo Application</h3>
+   <h3 id=todo>Obligatory To-Do Application</h3>
    <div class=push-right>
       <a href="http://commons.wikimedia.org/wiki/File:Task.svg" class="plain external-site">
          <img class=side-image src="graphics/icon-todo-app.png" alt="Todo icon">
       </a>
    </div>
    <p>
-      Every framework must have a todo application, so here's the dna.js one:<br>
+      Every framework must have a to-do application, so here's the dna.js one:<br>
       <span class=indent>
-         <a href="http://jsfiddle.net/<!--#echo var="todo" -->/" class=external-site>
-            jsfiddle.net/<!--#echo var="todo" --></a>
+         <a href="http://jsfiddle.net/<!--#echo var="jsFiddleTodo" -->/" class=external-site>
+            jsfiddle.net/<!--#echo var="jsFiddleTodo" --></a>
       </span>
    </p>
    <p>
@@ -126,12 +127,13 @@ dna.load('book', 'http://dnajs.org/rest/book/3');
       <li>Templates are real HTML that
          <a href="http://validator.w3.org/" class=external-site>validate</a></li>
       <li>Templates can be in-place (no need for separate template files)</li>
-      <li>Iteration is done with <a href="manual.html#data-sub-template">data arrays</a> not messy
+      <li>Iteration is done with <a href="manual.html#loop-templates">data arrays</a> not messy
          template for loops</li>
       <li><a href="http://techdem.centerkey.com/2013/02/lazy-setup-50x-javascript-performance.html"
          class=external-site>Zero setup</a> until data is pushed (can be after page load)</li>
       <li>No serialization or deserialization (no need to call the <code>.html()</code> function)</li>
-      <li>Declaring callbacks using simple HTML attributes is far more cohesive and semantically
+      <li>Enable JavaScript to be void of boilerplate code and anonymous functions</li>
+      <li>Declaring callbacks using simple HTML attributes is more cohesive and semantically
          meaningful than programmatically binding with JavaScript code</li>
    </ol>
    <p>

@@ -5,8 +5,9 @@
 
    <p>
       The code below is a bare bones, standalone web page with the all CSS and
-      JavaScript (including loading jQuery and dna.js) to demostrate dna.js Template
-      Cloner in action.
+      JavaScript (including loading jQuery and dna.js) to demonstrate
+      <!--#echo var="name" -->
+      in action.
    </p>
    <p>
       Each call to <code>dna.clone()</code> creates a new element from the
@@ -68,8 +69,8 @@
    <p>
       Experiment with the code at:<br>
       <span class=indent>
-         <a href="http://jsfiddle.net/<!--#echo var="jsfiddle" -->/" class=external-site>
-            jsfiddle.net/<!--#echo var="jsfiddle" --></a>
+         <a href="http://jsfiddle.net/<!--#echo var="jsFiddleBooks" -->/" class=external-site>
+            jsfiddle.net/<!--#echo var="jsFiddleBooks" --></a>
       </span>
    </p>
 
