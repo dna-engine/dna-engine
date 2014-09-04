@@ -37,7 +37,7 @@
    <h3 id=todo>Obligatory To-Do Application</h3>
    <div class=push-right>
       <a href="http://commons.wikimedia.org/wiki/File:Task.svg" class="plain external-site">
-         <img class=side-image src="graphics/icon-todo-app.png" alt="Todo icon">
+         <img class=side-image src="graphics/icon-todo-app.png" alt="To-do icon">
       </a>
    </div>
    <p>
@@ -48,7 +48,7 @@
       </span>
    </p>
    <p>
-      The core of the todo application is less than 10 lines of JavaScript and it
+      The core of the to-do application is less than 10 lines of JavaScript and it
       includes add a task, complete a task with style change, delete a task, and
       smooth animation effects.
    </p>

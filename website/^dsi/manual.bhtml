@@ -822,8 +822,28 @@ dna.clone('book', books);
 <section id=event-element-setup>
    <h4>Element Setup</h4>
    <p>
-      ...TBD...
+      Use the <code>data-dna-setup</code> attribute to declare a callback function for a
+      template.&nbsp;  Cloning the template triggers a callback for each new clone, and the clone
+      element is passed into the function.
    </p>
+   <p>
+      In the example below, each new book clone will be passed into the <code>app.blink()</code>
+      function, causing the element to fade in a couple times as if it's blinking at the user.
+   </p>
+   <div class=code-caption>Example HTML</div>
+<pre><code class=language-markup>
+&lt;div id=book class=dna_template data-dna-setup=app_d_blink&gt;
+   &lt;span&gt;~~title~~&lt;span&gt;
+&lt;/div&gt;
+</code></pre>
+   <div class=code-caption>Example JavaScript</div>
+<pre><code class=language-javascript>
+var app = {
+   blink: function(elem) {
+      elem.fadeOut().fadeIn().fadeOut().fadeIn();
+      }
+   };
+</code></pre>
 </section>
 
 <section id=event-user>
