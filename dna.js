@@ -1,4 +1,4 @@
-// dna.js Template Cloner ~~ v0.2.8
+// dna.js Template Cloner ~~ v0.2.9
 // MIT/GPLv3 ~~ dnajs.org/license.html
 // Copyright (c) 2013-2014 Center Key Software and other contributors
 
@@ -113,7 +113,7 @@ var dna = {
       },
    info: function() {
       var names = Object.keys(dna.store.templates);
-      console.log('~~ dns.js v0.2.8 ~~');
+      console.log('~~ dns.js v0.2.9 ~~');
       console.log('templates:', names.length);
       console.log('names:', names);
       console.log('store:', dna.store.templates);
@@ -333,7 +333,7 @@ dna.store = {
             clones:    0
             };
          dna.store.templates[name] = template;
-         elem.removeClass('dna-template').addClass('dna-clone').addClass(name).detach().show();
+         elem.removeClass('dna-template').addClass('dna-clone').addClass(name).detach();
          }
       function prepLoop() {
          // Pre (sub-template array loops -- data-dna-array):
@@ -392,7 +392,6 @@ dna.events = {
       return event.which === 13 ? dna.events.runner($(event.target), 'enter-key', event) : null;
       },
    setup: function() {
-      $('.dna-template').hide();
       $(document)
          .click(dna.events.handle)
          .change(dna.events.handle)
