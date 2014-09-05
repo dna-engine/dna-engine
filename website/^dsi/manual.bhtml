@@ -57,7 +57,7 @@
          <ol>
             <li><a href="#event-element-setup">Element Setup</a></li>
             <li><a href="#event-user">Click, Change, and Key Events</a></li>
-            <li><a href="#event-initializers">Initializers</a></li>
+            <li><a href="#event-initializer">Initializers</a></li>
             <li><a href="#event-callback-option">Callback Option</a></li>
          </ol>
       </li>
@@ -72,7 +72,7 @@
    </ol>
 </div>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- =========================================================================================== -->
 <h3 id=terms-requirements>Terms and System Requirements</h3>
 <h4 id=terms>Terms</h4>
 <dl>
@@ -126,9 +126,10 @@
    </dd>
 </dl>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- =========================================================================================== -->
 <h3 id=setup>Setup</h3>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=setup-css>
    <h4>CSS</h4>
    <p>
@@ -146,6 +147,7 @@
    </p>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=setup-js>
    <h4>JavaScript Libraries</h4>
    <p>
@@ -174,9 +176,10 @@
    </p>
 </section>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- =========================================================================================== -->
 <h3 id=html>HTML &mdash; Classes and Attributes</h3>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=html-template>
    <h4>DNA Template</h4>
    <p>
@@ -189,6 +192,7 @@
 </code></pre>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=html-field>
    <h4>DNA Field</h4>
    <p>
@@ -210,6 +214,7 @@
 </code></pre>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=html-attr>
    <h4>DNA Attribute</h4>
    <p>
@@ -235,6 +240,7 @@
    </p>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=html-class>
    <h4>DNA Class</h4>
    <p>
@@ -279,6 +285,7 @@
    </p>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=html-example>
    <h4>Ensemble</h4>
    <p>
@@ -297,7 +304,7 @@
 </code></pre>
 </section>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- =========================================================================================== -->
 <h3 id=api>JavaScript API &mdash; Calling DNA</h3>
 <h5>API Overview</h5>
 <ol>
@@ -317,6 +324,7 @@
    <li><b>dna.info</b>()</li>
 </ol>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.clone()  -->
 <section id=api-clone>
    <h4>dna.clone(name, data [, options])</h4>
@@ -348,6 +356,7 @@ dna.clone('book', { title: 'The DOM', author: 'Bo' });
 </code></pre>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.cloneSubTemplate()  -->
 <section id=api-clone-sub-template>
    <h4>dna.cloneSubTemplate(holderClone, arrayField, data[, options])</h4>
@@ -393,6 +402,7 @@ dna.cloneSubTemplate(clone, 'chapters', 'CERN');  //append a chapter
    </p>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.load()  -->
 <section id=api-load>
    <h4>dna.load(name, url [, options])</h4>
@@ -432,6 +442,7 @@ dna.load('book', 'http://dnajs.org/rest/book/3');
    </p>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.getModel()  -->
 <section id=api-get-model>
    <h4>dna.getModel(clone)</h4>
@@ -456,6 +467,7 @@ dna.mutate(clone);
 </code></pre>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.empty()  -->
 <section id=api-empty>
    <h4>dna.empty(name[, options])</h4>
@@ -490,6 +502,7 @@ dna.empty('book', { fade: true });
    </p>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.mutate()  -->
 <section id=api-mutate>
    <h4>dna.mutate(clone[, data[, options]])</h4>
@@ -528,6 +541,7 @@ dna.mutate(clone, { title: 'The DOM II' });
 </code></pre>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.mutateAll()  -->
 <section id=api-mutate-all>
    <h4>dna.mutateAll(name)</h4>
@@ -553,6 +567,7 @@ dna.mutateAll('book');  //displays modified titles
 </code></pre>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.destroy()  -->
 <section id=api-destroy>
    <h4>dna.destroy(clone[, options])</h4>
@@ -584,6 +599,7 @@ dna.destroy(clone, { fade: true });
 </code></pre>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.getClone()  -->
 <section id=api-get-clone>
    <h4>dna.getClone(elem)</h4>
@@ -601,6 +617,7 @@ dna.destroy(clone, { fade: true });
    </div>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.getClones()  -->
 <section id=api-get-clones>
    <h4>dna.getClones(name)</h4>
@@ -618,6 +635,7 @@ dna.destroy(clone, { fade: true });
    </div>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.bye()  -->
 <section id=api-bye>
    <h4>dna.bye(elemOrEventOrIndex)</h4>
@@ -635,6 +653,7 @@ dna.destroy(clone, { fade: true });
    </div>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.registerInitializer()  -->
 <section id=api-register-initializer>
    <h4>dna.registerInitializer(callback[, options])</h4>
@@ -666,10 +685,11 @@ dna.destroy(clone, { fade: true });
 dna.registerInitializer('validate', { selector: '.comment-form' });
 </code></pre>
    <p>
-      See the <a href="#event-initializers">Initializers</a> section for details.
+      See the <a href="#event-initializer">Initializers</a> section for details.
    </p>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.clearInitializers()  -->
 <section id=api-clear-initializers>
    <h4>dna.clearInitializers()</h4>
@@ -682,10 +702,11 @@ dna.registerInitializer('bootstrapSwitch', '.switch');
 dna.clearInitializers();  //undoes previous line
 </code></pre>
    <p>
-      See the <a href="#event-initializers">Initializers</a> section for details.
+      See the <a href="#event-initializer">Initializers</a> section for details.
    </p>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.info()  -->
 <section id=api-info>
    <h4>dna.info()</h4>
@@ -703,9 +724,10 @@ dna.info();
    </p>
 </section>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- =========================================================================================== -->
 <h3 id=loop>Looping</h3>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=loop-templates>
    <h4>Template Array Loops</h4>
    <p>
@@ -731,6 +753,7 @@ dna.clone('book', books);
    <!-- End: Result  -->
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=loop-sub-templates>
    <h4>Sub-templates (array loops)</h4>
    <p>
@@ -784,6 +807,7 @@ dna.clone('book', books);
    <!-- End: Result  -->
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=loop-primitives>
    <h4>Arrays of Primitives (strings, numbers, booleans)</h4>
    <p>
@@ -816,14 +840,15 @@ dna.clone('book', books);
    <!-- End: Result  -->
 </section>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- =========================================================================================== -->
 <h3 id=event>Events and Callbacks</h3>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=event-element-setup>
    <h4>Element Setup</h4>
    <p>
       Use the <code>data-dna-setup</code> attribute to declare a callback function for a
-      template.&nbsp;  Cloning the template triggers a callback for each new clone, and the clone
+      template.&nbsp;  Cloning the template triggers the callback for each new clone, and the clone
       element is passed into the function.
    </p>
    <p>
@@ -854,8 +879,15 @@ var app = {
    &lt;span&gt;This text will blink on page load!&lt;span&gt;
 &lt;/div&gt;
 </code></pre>
+   <p>
+      <b>Note:</b> Element setup callbacks perform a similar function as
+      <a href="#event-initializer">initializers</a>, but element setup is specific and an
+      initializer is general.&nbsp;  For example, an initializer is appropriate for configuring all
+      elements that have tooltips.
+   </p>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=event-user>
    <h4>Click, Change, and Key Events</h4>
    <p>
@@ -911,7 +943,8 @@ Submit: &lt;input  data-dna-enter-key=showMsg value=6&gt;&lt;br&gt;
    <!-- End: Result  -->
 </section>
 
-<section id=event-initializers>
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=event-initializer>
    <h4>Initializers</h4>
    <p>
       ...TBD...
@@ -932,8 +965,15 @@ var app = {
    };
 $(app.setup);
 </code></pre>
+   <p>
+      <b>Note:</b> Initializers perform a similar function as
+      <a href="#event-element-setup">element setup callbacks</a> (<code>data-dna-setup</code>), but
+      an initializer is general and element setup is specific.&nbsp;  For example, an initializer
+      is appropriate for configuring all elements that have tooltips.
+   </p>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=event-callback-option>
    <h4>Callbacks Functions</h4>
    <p>
@@ -972,9 +1012,10 @@ dna.clone('book', book, options);
    </p>
 </section>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- =========================================================================================== -->
 <h3 id=structure>Structures and Conditional Logic</h3>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=structure-nested-object>
    <h4>Object Dot Notation (nested objects)</h4>
    <p>
@@ -1006,6 +1047,7 @@ dna.clone('book', book);
    <!-- End: Result  -->
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=structure-thimblerig>
    <h4>Thimblerig (conditional hide and seek logic)</h4>
    <p>
@@ -1104,6 +1146,7 @@ dna.clone('invoice', invoice);
    </p>
 </section>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=structure-nested-template>
    <h4>Nested Templates</h4>
    <p>
@@ -1122,7 +1165,7 @@ dna.clone('invoice', invoice);
 
 </section>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- =========================================================================================== -->
 <h3 id=util>Utilities</h3>
 <p>
    The utility functions built into dna.js are available to be called directly in the event that
@@ -1147,6 +1190,7 @@ dna.clone('invoice', invoice);
 </ol>
 
 <!--  dna.ui.deleteElem()  -->
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=ui-delete-elem>
    <h4>dna.ui.deleteElem(elemOrEventOrIndex)</h4>
    <p class=api-description>
@@ -1169,6 +1213,7 @@ dna.ui.deleteElem(('.box').first());  //removes first box
 </section>
 
 <!--  dna.ui.slideFade()  -->
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=ui-slide-fade>
    <h4>dna.ui.slideFadeDelete(elem)</h4>
    <h4>dna.ui.slideFadeIn(elem[, callback])</h4>
@@ -1198,6 +1243,7 @@ dna.ui.slideFadeIn($('.box').first());  //shows the box
 </section>
 
 <!--  dna.ui.slidingFlasher()  -->
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=ui-sliding-flasher>
    <h4>dna.ui.slidingFlasher(elem[, callback])</h4>
    <p class=api-description>
@@ -1227,6 +1273,7 @@ dna.ui.slidingFlasher(elem);  //pulse
 </section>
 
 <!--  dna.ui.toElem()  -->
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=ui-to-elem>
    <h4>dna.ui.toElem(elemOrEventOrIndex, that)</h4>
    <p class=api-description>
@@ -1256,6 +1303,7 @@ $('.box').last().fadeOut(logFadeDone);
 </section>
 
 <!--  dna.util.apply()  -->
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=util-apply>
    <h4>dna.util.apply(func, params)</h4>
    <p class=api-description>
@@ -1286,6 +1334,7 @@ dna.util.apply('css', [$('h1'), 'color', 'gold']);
 </section>
 
 <!--  dna.util.realTruth()  -->
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=util-real-truth>
    <h4>dna.util.realTruth(value)</h4>
    <p class=api-description>
@@ -1313,6 +1362,7 @@ dna.util.realTruth('F');  //false
 </section>
 
 <!--  dna.util.toCamel()  -->
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=util-to-camel>
    <h4>dna.util.toCamel(codeStr)</h4>
    <p class=api-description>
@@ -1334,6 +1384,7 @@ dna.util.toCamel('ready-set-go');  //'readySetGo'
 </section>
 
 <!--  dna.util.toCode()  -->
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=util-to-code>
    <h4>dna.util.toCode(camelCaseStr)</h4>
    <p class=api-description>
@@ -1355,6 +1406,7 @@ dna.util.toCode('readySetGo');  //'ready-set-go'
 </section>
 
 <!--  dna.util.value()  -->
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=util-value>
    <h4>dna.util.value(data, field)</h4>
    <p class=api-description>
