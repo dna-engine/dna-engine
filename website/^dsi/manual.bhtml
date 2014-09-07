@@ -58,7 +58,7 @@
             <li><a href="#event-element-setup">Element Setup</a></li>
             <li><a href="#event-user">Click, Change, and Key Events</a></li>
             <li><a href="#event-initializer">Initializers</a></li>
-            <li><a href="#event-callback-option">Callback Option</a></li>
+            <li><a href="#event-callback-option">Callback Options</a></li>
          </ol>
       </li>
       <li><a href="#structure">Structures and Conditional Logic</a>
@@ -252,37 +252,69 @@
 </code></pre>
    <p>
       However, the regular attribute technique above wipes out existing classes on the element, so
-      it is generally better to the use <code>data-dna-class</code> to add a class.
+      it is generally better to the use the <code>data-dna-class</code> attribute to add a class.
    </p>
-   <div class=code-caption>Example HTML (single name)</div>
+   <div class=code-caption>Example HTML (simple data field name)</div>
 <pre><code class=language-markup>
 &lt;div data-dna-class=__type__&gt;
 </code></pre>
    <p>
-      If there are two or three names (comma separated), the first name is still the data
-      field but the data field is evaluated for truthiness (see
-      <a href="#structure-thimblerig">thimblerig</a>).
+      If there are two or three names (comma separated), the first name is still the name of the
+      data field but the data field is evaluated for <a href="#real-truth">"real" truth</a>.
    </p>
    <div class=code-caption>Example HTML (three names)</div>
 <pre><code class=language-markup>
 &lt;div data-dna-class=__onSale_c_red_highlight_c_no_highlight__&gt;
 </code></pre>
+   <p>
+      For true, the second name is added to the element as a class name while the class
+      for third name, if provided, is removed.&nbsp;  For false, the third name, if provided, is
+      added to the element as a class name while the class for second name is removed.
+   </p>
    <table>
       <thead>
          <tr><th>Name</th><th>Use</th><th>Description</th></tr>
       </thead>
       <tbody>
-         <tr><td>1st</td><td>DNA Field</td><td>Data for class name or truthiness</td></tr>
-         <tr><td>2nd</td><td>Class name (for true)</td><td>Class added to element for truthy</td></tr>
-         <tr><td>3rd</td><td>Class name (for false)</td><td>Class added to element for falsey</td></tr>
+         <tr><td>1st</td><td>Data field name</td><td>Data for class name or truthiness</td></tr>
+         <tr><td>2nd</td><td>Class name (for true)</td><td>Class added to element for true</td></tr>
+         <tr><td>3rd</td><td>Class name (for false)</td><td>Class added to element for false</td></tr>
       </tbody>
    </table>
    <p>
-      For "true", the second name is added to the element as a class name while the class
-      for third name, if provided, is
-      removed.&nbsp;  For "false", the third name, if provided, is added to the element as a
-      class name while the class for second name is removed.
+      Continuing with the example of the <code>onSale</code> data field, the code below would
+      result in the first book containing an element with the class <code>red-highlight</code> and
+      the second book containing an element with the class <code>no-highlight</code>.
    </p>
+   <div class=code-caption>Example</div>
+<pre><code class=language-markup>
+&lt;div id=book class=dna_template&gt;
+   &lt;span data-dna-class=__onSale_c_red_highlight_c_no_highlight__&gt;
+      ~~title~~
+   &lt;/span&gt;
+&lt;/div&gt;
+&lt;script&gt;
+   var books = [
+      { title: 'The DOM',     onSale: true },
+      { title: 'Styling CSS', onSale: false }
+      ];
+   dna.clone('book', books);
+&lt;/script&gt;
+</code></pre>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <div class=code-caption>Resulting HTML</div>
+<pre><code class=language-markup>
+&lt;div class=book&gt;
+   &lt;span class=red_highlight&gt;The DOM&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class=book&gt;
+   &lt;span class=no_highlight&gt;Styling CSS&lt;/span&gt;
+&lt;/div&gt;
+</code></pre>
+   <!-- End: Result  -->
+
+
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -611,10 +643,40 @@ dna.destroy(clone, { fade: true });
       <ul>
          <li>
             <label><b>elem</b> (jQuery Element):</label>
-            Any element with the clone or even the clone itself.
+            Any element within the clone or even the clone itself.
          </li>
       </ul>
    </div>
+   <div class=code-caption>Example</div>
+<pre><code class=language-markup>
+&lt;div id=book class=dna_template&gt;
+   &lt;p&gt;~~title~~&lt;/p&gt;
+   &lt;button data-dna-click=setFavorite&gt;I Like&lt;/button&gt;
+&lt;/div&gt;
+&lt;script&gt;
+   function setFavorite(buttonElem) {
+      dna.getClone(buttonElem).addClass('favorite');
+      }
+   dna.clone('book', { title: 'Go JavaScript!' });
+&lt;/script&gt;
+</code></pre>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <div class=code-caption>Resulting HTML (before clicking button)</div>
+<pre><code class=language-markup>
+&lt;div class=book&gt;
+   &lt;p&gt;Go JavaScript!&lt;/p&gt;
+   &lt;button&gt;I Like&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+   <div class=code-caption>Resulting HTML (after clicking button)</div>
+<pre><code class=language-markup>
+&lt;div class="book favorite"&gt;
+   &lt;p&gt;Go JavaScript!&lt;/p&gt;
+   &lt;button&gt;I Like&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+   <!-- End: Result  -->
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -988,9 +1050,9 @@ $(app.setup);
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=event-callback-option>
-   <h4>Callbacks Functions</h4>
+   <h4>Callback Options</h4>
    <p>
-      Once the cloning is completed, the <code>callback</code> function is
+      Once cloning is completed, the <code>callback</code> function is
       executed and passed the clone element plus the data that was injected
       into the clone.
    </p>
@@ -1019,9 +1081,9 @@ dna.clone('book', book, options);
 </code></pre>
    <!-- End: Result  -->
    <p>
-      <b>Note:</b> It is generally easier to use the <code>data-dna-init</code>
-      <a href="#event-element-init">attribute</a> to declare the callback function
-      than to use the <code>callback</code> option.
+      <b>Note:</b> It is almost always cleaner and easier to declare an
+      <a href="#event-element-setup">element setup callback</a> (<code>data-dna-setup</code>) than
+      to pass in a function with the <code>callback</code> option.
    </p>
 </section>
 
@@ -1032,8 +1094,8 @@ dna.clone('book', book, options);
 <section id=structure-nested-object>
    <h4>Object Dot Notation (nested objects)</h4>
    <p>
-      Use JavaScript object dot notation in DNA fields to reference data fields
-      of nested object literals.
+      Use JavaScript object dot notation in field names to reference data fields
+      of nested objects.
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
