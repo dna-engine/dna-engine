@@ -2,7 +2,7 @@
 
 /* Bookstore */
 .featured-books {
-   width: 300px;
+   width: 60%;
    background-color: whitesmoke;
    border: 1px solid black;
    box-shadow: 2px 2px 0.1em 0.1em silver;
@@ -10,6 +10,7 @@
    margin: 0px auto 20px auto;
    }
 .featured-books h2 {
+   text-align: center;
    margin-bottom: 5px;
    }
 .featured-books .buttons {
@@ -92,7 +93,6 @@ dt {
    }
 p>code, dd>code, td>code {
    font-weight: bold;
-   white-space: nowrap;
    }
 #logo {
    float: left;
@@ -369,4 +369,32 @@ ul.navigation-bar li a:hover {
    background-color: transparent;
    color: dimgray;
    border-color: dimgray;
+   }
+
+/* Mobile */
+@media handheld, screen and (max-device-width: 480px) {
+   html {
+      background: none;
+      font-size: 200%;
+      }
+   body {
+      width: 100%;
+      }
+   button {
+      font-size: 1.0rem;
+      }
+   .code-caption,
+   .code-body,
+   pre[class*=language-],
+   section .code-caption,
+   section pre[class*=language-] {
+      width: 100%;
+      }
+   pre[class*=language-],
+   .code-body {
+      font-size: 0.5rem;
+      }
+   #github-banner {
+      display: none;
+      }
    }
