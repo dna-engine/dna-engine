@@ -72,7 +72,7 @@
    </ol>
 </div>
 
-<!-- =========================================================================================== -->
+<!--*********************************************************************************************-->
 <h3 id=terms-requirements>Terms and System Requirements</h3>
 <h4 id=terms>Terms</h4>
 <dl>
@@ -126,7 +126,7 @@
    </dd>
 </dl>
 
-<!-- =========================================================================================== -->
+<!--*********************************************************************************************-->
 <h3 id=setup>Setup</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -176,7 +176,7 @@
    </p>
 </section>
 
-<!-- =========================================================================================== -->
+<!--*********************************************************************************************-->
 <h3 id=html>HTML &mdash; Classes and Attributes</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -304,7 +304,7 @@
 </code></pre>
 </section>
 
-<!-- =========================================================================================== -->
+<!--*********************************************************************************************-->
 <h3 id=api>JavaScript API &mdash; Calling DNA</h3>
 <h5>API Overview</h5>
 <ol>
@@ -658,8 +658,7 @@ dna.destroy(clone, { fade: true });
 <section id=api-register-initializer>
    <h4>dna.registerInitializer(callback[, options])</h4>
    <p class=api-description>
-       Adds a callback to the list of initializers that are run on clone elements (the callback is
-       also first run on the document if a selector is provided).
+       Adds a callback function to the list of initializers that are run on all DOM elements.
    </p>
    <div class=api-parameters>
       Parameters:
@@ -724,7 +723,7 @@ dna.info();
    </p>
 </section>
 
-<!-- =========================================================================================== -->
+<!--*********************************************************************************************-->
 <h3 id=loop>Looping</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -840,7 +839,7 @@ dna.clone('book', books);
    <!-- End: Result  -->
 </section>
 
-<!-- =========================================================================================== -->
+<!--*********************************************************************************************-->
 <h3 id=event>Events and Callbacks</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -882,8 +881,9 @@ var app = {
    <p>
       <b>Note:</b> Element setup callbacks perform a similar function as
       <a href="#event-initializer">initializers</a>, but element setup is specific and an
-      initializer is general.&nbsp;  For example, an initializer is appropriate for configuring all
-      elements that have tooltips.
+      initializer is general.&nbsp;  For example, element setup is appropriate for initiating a
+      REST call to retrieve additional data for the element while an initializer is appropriate for
+      configuring all elements that have tooltips.
    </p>
 </section>
 
@@ -947,8 +947,20 @@ Submit: &lt;input  data-dna-enter-key=showMsg value=6&gt;&lt;br&gt;
 <section id=event-initializer>
    <h4>Initializers</h4>
    <p>
-      ...TBD...
+      On a static webpage where all the HTML is sent in a single HTTP response, any needed element
+      initialization can be done one time just after page load.&nbsp;  For example, the line
+      <code>$('.tooltip').qtip();</code> could be used to setup all tooltips.&nbsp;  Cloning with
+      dna.js creates elements and adds them to the DOM after the page is loaded, and those new
+      elements also need to be initialized.
    </p>
+   <p>
+      When you register your initializer functions, dna.js ensures all elements are setup even if
+      the elements are added to the DOM via cloning after the page is loaded.
+   </p>
+
+    (the
+       function is also first run on the document if a selector is provided)
+
    <div class=code-caption>Example JavaScript</div>
 <pre><code class=language-javascript>
 var app = {
@@ -969,7 +981,8 @@ $(app.setup);
       <b>Note:</b> Initializers perform a similar function as
       <a href="#event-element-setup">element setup callbacks</a> (<code>data-dna-setup</code>), but
       an initializer is general and element setup is specific.&nbsp;  For example, an initializer
-      is appropriate for configuring all elements that have tooltips.
+      is appropriate for configuring all elements that have tooltips while element setup is
+      appropriate for initiating a REST call to retrieve additional data for the element.
    </p>
 </section>
 
@@ -1012,7 +1025,7 @@ dna.clone('book', book, options);
    </p>
 </section>
 
-<!-- =========================================================================================== -->
+<!--*********************************************************************************************-->
 <h3 id=structure>Structures and Conditional Logic</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -1136,7 +1149,7 @@ dna.clone('book', books);
    <div class=code-caption>Example JavaScript</div>
 <pre><code class=language-javascript>
 var invoice = { amount: 125.00, dueDate: 'April 3, 2015' },
-invoice.overdue = new Date(invoice.dueDate).getTime() < Date.now();
+invoice.overdue = new Date(invoice.dueDate).getTime() &lt; Date.now();
 dna.clone('invoice', invoice);
 </code></pre>
    <p>
@@ -1165,7 +1178,7 @@ dna.clone('invoice', invoice);
 
 </section>
 
-<!-- =========================================================================================== -->
+<!--*********************************************************************************************-->
 <h3 id=util>Utilities</h3>
 <p>
    The utility functions built into dna.js are available to be called directly in the event that
@@ -1189,8 +1202,8 @@ dna.clone('invoice', invoice);
    <li><b>dna.util.value</b>(data, field)</li>
 </ol>
 
-<!--  dna.ui.deleteElem()  -->
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.ui.deleteElem()  -->
 <section id=ui-delete-elem>
    <h4>dna.ui.deleteElem(elemOrEventOrIndex)</h4>
    <p class=api-description>
@@ -1212,8 +1225,8 @@ dna.ui.deleteElem(('.box').first());  //removes first box
 </code></pre>
 </section>
 
-<!--  dna.ui.slideFade()  -->
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.ui.slideFade()  -->
 <section id=ui-slide-fade>
    <h4>dna.ui.slideFadeDelete(elem)</h4>
    <h4>dna.ui.slideFadeIn(elem[, callback])</h4>
@@ -1242,8 +1255,8 @@ dna.ui.slideFadeIn($('.box').first());  //shows the box
 </code></pre>
 </section>
 
-<!--  dna.ui.slidingFlasher()  -->
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.ui.slidingFlasher()  -->
 <section id=ui-sliding-flasher>
    <h4>dna.ui.slidingFlasher(elem[, callback])</h4>
    <p class=api-description>
@@ -1272,8 +1285,8 @@ dna.ui.slidingFlasher(elem);  //pulse
 </code></pre>
 </section>
 
-<!--  dna.ui.toElem()  -->
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.ui.toElem()  -->
 <section id=ui-to-elem>
    <h4>dna.ui.toElem(elemOrEventOrIndex, that)</h4>
    <p class=api-description>
@@ -1302,8 +1315,8 @@ $('.box').last().fadeOut(logFadeDone);
 </code></pre>
 </section>
 
-<!--  dna.util.apply()  -->
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.util.apply()  -->
 <section id=util-apply>
    <h4>dna.util.apply(func, params)</h4>
    <p class=api-description>
@@ -1333,8 +1346,8 @@ dna.util.apply('css', [$('h1'), 'color', 'gold']);
 </code></pre>
 </section>
 
-<!--  dna.util.realTruth()  -->
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.util.realTruth()  -->
 <section id=util-real-truth>
    <h4>dna.util.realTruth(value)</h4>
    <p class=api-description>
@@ -1383,8 +1396,8 @@ dna.util.toCamel('ready-set-go');  //'readySetGo'
 </code></pre>
 </section>
 
-<!--  dna.util.toCode()  -->
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.util.toCode()  -->
 <section id=util-to-code>
    <h4>dna.util.toCode(camelCaseStr)</h4>
    <p class=api-description>
@@ -1405,8 +1418,8 @@ dna.util.toCode('readySetGo');  //'ready-set-go'
 </code></pre>
 </section>
 
-<!--  dna.util.value()  -->
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.util.value()  -->
 <section id=util-value>
    <h4>dna.util.value(data, field)</h4>
    <p class=api-description>
