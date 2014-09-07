@@ -18,22 +18,18 @@ app.bookstore = {
       dna.clone('book', app.bookstore.books[lucky], { fade: true });
       },
    setup: function() {
-   	if ($('.featured-books').length) {
-         $('#action-books-clear').click(app.bookstore.clear);
-         $('#action-books-add').click(app.bookstore.feelLucky);
-         dna.clone('book', { title: 'The DOM', author: 'Jan' });
-         }
+      dna.clone('book', { title: 'The DOM', author: 'Jan' });
       }
    };
 
 app.nav = {
    setup: function() {
-		var current = $('.navigation-bar a')
-		   .filter('[href="' + window.location.pathname.split('/').pop() + '"]')
-		   .closest('li');
-		if (!current.length)
-			current = $('.navigation-bar li').first();
-		current.addClass('current');
+      var current = $('.navigation-bar a')
+         .filter('[href="' + window.location.pathname.split('/').pop() + '"]')
+         .closest('li');
+      if (!current.length)
+         current = $('.navigation-bar li').first();
+      current.addClass('current');
       }
    };
 

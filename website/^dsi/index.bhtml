@@ -22,8 +22,8 @@
    </div>
 
    <p>
-      dna.js is a DOM templating engine for jQuery that enables developers to rapidly build
-      maintainable web pages.&nbsp;  You write semantic templates and then dna.js converts your
+      dna.js is a user interface library for jQuery that enables developers to rapidly build
+      maintainable websites.&nbsp;  You write semantic templates and then dna.js converts your
       JSON data into dynamically generated DOM elements.
    </p>
    <p>
@@ -104,11 +104,18 @@ dna.load('book', 'http://dnajs.org/rest/book/3');
       <code>dna.clone()</code> function, which deletes all the clones previously
       created from the template.
    </p>
-   <div class=featured-books>
+   <div class=featured-books data-dna-setup=app.bookstore.setup>
       <h2>Featured Books</h2>
       <div class=buttons>
-         <button id=action-books-add>Add a Book<div class=bubble-help>dna.clone('book', { title: 'The DOM', author: 'Jan' });</div></button>
-         <button id=action-books-clear>Clear List<div class=bubble-help>dna.empty('book');</div></button>
+         <button data-dna-click=app.bookstore.feelLucky>
+            Add a Book
+            <div class=bubble-help>dna.clone('book', { title: 'The DOM', author: 'Jan' });</div>
+         </button>
+         &nbsp;
+         <button data-dna-click=app.bookstore.clear>
+            Clear List
+            <div class=bubble-help>dna.empty('book');</div>
+         </button>
       </div>
       <div id=book class=dna-template>
          <div>Title:  <span>~~title~~</span></div>
@@ -121,6 +128,12 @@ dna.load('book', 'http://dnajs.org/rest/book/3');
    </p>
 
    <h3 id=philosophy>Philosophy</h3>
+   <p>
+      Backbone.js, AngularJS, and React are all powerful, but they require a fair a amount of
+      technical expertise just to get started.&nbsp;  The HTML and JavaScript to create websites
+      using dna.js will be familiar to any web developer, enabling the developer to be productive
+      on the first day of using dna.js.
+   </p>
    Templating should be lightweight, clean, and simple:
    <ol>
       <li>No HTML in JavaScript code</li>
