@@ -1058,6 +1058,12 @@ var app = {
          </tr>
       </tbody>
    </table>
+   <p>
+      If the registered initializer function is a method on the jQuery element, dna.js will execute
+      the method on the element and use the <code>params</code> option for the parameters.&nbsp;
+      Otherwise, the element is passed into the function as the first parameter with the
+      <code>params</code> supplied as additional parameters.
+   </p>
    <div class=code-caption>Example JavaScript</div>
 <pre><code class=language-javascript>
 var app = {
@@ -1082,9 +1088,9 @@ $(app.setup);
       appropriate for making a REST call to retrieve additional data for the element.
    </p>
    <p>
-      <b>Note 2:</b> In the event that you dynamically add elements to the DOM without using
-      dna.js, you can directly run the initializers by passing the root element of the new elements
-      into: <code>dna.events.runInitializers(root);</code>
+      <b>Note 2:</b> In the event that your application dynamically adds elements to the DOM
+      without using dna.js, it may be necessary to explicitly run the initializers by passing the
+      root element of new elements into: <code>dna.events.runInitializers(root);</code>
    </p>
 </section>
 
