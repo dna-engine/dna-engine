@@ -495,7 +495,7 @@ dna.load('book', 'http://dnajs.org/rest/book/3');
 var book = { title: 'The DOM', author: 'Bo' };
 var clone = dna.clone('book', book);
 dna.getModel(clone).title = 'The DOM II';
-dna.mutate(clone);
+dna.mutate(clone);  //updates ui (DOM element) with new title
 </code></pre>
 </section>
 
@@ -569,7 +569,8 @@ dna.empty('book', { fade: true });
 <pre><code class=language-javascript>
 var book = { title: 'The DOM', author: 'Bo' };
 var clone = dna.clone('book', book);
-dna.mutate(clone, { title: 'The DOM II' });
+dna.getModel(clone).title = 'The DOM II';
+dna.mutate(clone);  //updates ui (DOM element) with new title
 </code></pre>
 </section>
 
@@ -595,7 +596,7 @@ var clone1 = dna.clone('book', { title: 'The DOM' });
 var clone2 = dna.clone('book', { title: 'Styling CSS' });
 dna.getModel(clone1).title = 'The DOM II';    //modified title
 dna.getModel(clone2).title = 'Styling CSS3';  //modified title
-dna.mutateAll('book');  //displays modified titles
+dna.mutateAll('book');  //updates ui (DOM elements) with new titles
 </code></pre>
 </section>
 
@@ -695,6 +696,10 @@ dna.destroy(clone, { fade: true });
          </li>
       </ul>
    </div>
+   <div class=code-caption>Example JavaScript</div>
+<pre><code class=language-javascript>
+dna.getClones('book');
+</code></pre>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -702,7 +707,8 @@ dna.destroy(clone, { fade: true });
 <section id=api-bye>
    <h4>dna.bye(elemOrEventOrIndex)</h4>
    <p class=api-description>
-      Removes a clone.
+      Removes a clone when called as an event callback, from a jQuery loop, or directly as
+      function with the clone as the parameter.
    </p>
    <div class=api-parameters>
       Parameters:
@@ -713,6 +719,22 @@ dna.destroy(clone, { fade: true });
          </li>
       </ul>
    </div>
+   <div class=code-caption>Example (event callback)</div>
+<pre><code class=language-markup>
+&lt;div id=book class=dna_template&gt;
+   &lt;p&gt;~~title~~&lt;/p&gt;
+   &lt;button data-dna-click=dna_d_bye&gt;Delete Book&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+   <div class=code-caption>Example (jQuery loop)</div>
+<pre><code class=language-javascript>
+$('.book.favorite').each(dna.bye);  //deletes all "favorite" books
+</code></pre>
+   <div class=code-caption>Example (direct function call)</div>
+<pre><code class=language-javascript>
+var clone = dna.clone('book', { title: 'The DOM' });
+dna.bye(clone);  //deletes 'The DOM'
+</code></pre>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
