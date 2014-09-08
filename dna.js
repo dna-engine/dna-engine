@@ -278,7 +278,7 @@ dna.compile = {
       },
    getDataField: function(elem, type) {
       // Example:
-      //    <p dna-array=~~tags~~>, 'array'  ==>  'tags'
+      //    <p data-dna-array=~~tags~~>, 'array'  ==>  'tags'
       return $.trim(elem.data('dna-' + type).replace(dna.compile.regexDnaBasePairs, ''));
       },
    subTemplateName: function(holder, arrayField) {  //holder can be element or template name
