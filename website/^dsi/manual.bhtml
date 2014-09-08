@@ -992,12 +992,12 @@ var app = {
    </ol>
    <div class=code-caption>Example</div>
 <pre><code class=language-markup>
-Click:  &lt;button data-dna-click=showMsg     value=1&gt;1&lt;/button&gt;&lt;br&gt;
-Change: &lt;input  data-dna-change=showMsg    value=2&gt;&lt;br&gt;
-Up:     &lt;input  data-dna-key-up=showMsg    value=3&gt;&lt;br&gt;
-Down:   &lt;input  data-dna-key-down=showMsg  value=4&gt;&lt;br&gt;
-Press:  &lt;input  data-dna-key-press=showMsg value=5&gt;&lt;br&gt;
-Submit: &lt;input  data-dna-enter-key=showMsg value=6&gt;&lt;br&gt;
+&lt;p&gt;Click:  &lt;button data-dna-click=showMsg     value=1&gt;1&lt;/button&gt;&lt;/p&gt;
+&lt;p&gt;Change: &lt;input  data-dna-change=showMsg    value=2&gt;&lt;/p&gt;
+&lt;p&gt;Up:     &lt;input  data-dna-key-up=showMsg    value=3&gt;&lt;/p&gt;
+&lt;p&gt;Down:   &lt;input  data-dna-key-down=showMsg  value=4&gt;&lt;/p&gt;
+&lt;p&gt;Press:  &lt;input  data-dna-key-press=showMsg value=5&gt;&lt;/p&gt;
+&lt;p&gt;Submit: &lt;input  data-dna-enter-key=showMsg value=6&gt;&lt;/p&gt;
 &lt;p id=message&gt;&lt;/p&gt;
 &lt;script&gt;
    function showMsg(elem, event) {
@@ -1010,12 +1010,12 @@ Submit: &lt;input  data-dna-enter-key=showMsg value=6&gt;&lt;br&gt;
    <div class=down-arrow></div>
    <div class=code-caption>Result (interactive)</div>
    <div class=code-body>
-      Click:  <button data-dna-click=showMsg     value=1>1</button><br>
-      Change: <input  data-dna-change=showMsg    value=2><br>
-      Up:     <input  data-dna-key-up=showMsg    value=3><br>
-      Down:   <input  data-dna-key-down=showMsg  value=4><br>
-      Press:  <input  data-dna-key-press=showMsg value=5><br>
-      Submit: <input  data-dna-enter-key=showMsg value=6><br>
+      <p>Click:  <button data-dna-click=showMsg     value=1>1</button></p>
+      <p>Change: <input  data-dna-change=showMsg    value=2></p>
+      <p>Up:     <input  data-dna-key-up=showMsg    value=3></p>
+      <p>Down:   <input  data-dna-key-down=showMsg  value=4></p>
+      <p>Press:  <input  data-dna-key-press=showMsg value=5></p>
+      <p>Submit: <input  data-dna-enter-key=showMsg value=6></p>
       <p id=message></p>
       <script>
          function showMsg(elem, event) {
@@ -1038,13 +1038,26 @@ Submit: &lt;input  data-dna-enter-key=showMsg value=6&gt;&lt;br&gt;
       elements also need to be initialized.
    </p>
    <p>
-      When you register your initializer functions, dna.js ensures all elements are setup even if
+      When you register your initializer functions, dna.js ensures DOM elements are setup even if
       the elements are added to the DOM via cloning after the page is loaded.
    </p>
-
-    (the
-       function is also first run on the document if a selector is provided)
-
+   <table>
+      <thead>
+         <tr><th>Selector</th><th>Example</th><th>Initializer</th></tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td>Yes</td>
+            <td><code>{ selector: '.tooltip' }</code></td>
+            <td>Immediately run on selected elements (example: <code>$('.tooltip')</code>) and then on new clones</td>
+         </tr>
+         <tr>
+            <td>No</td>
+            <td>n/a</td>
+            <td>Only run on new clones</td>
+         </tr>
+      </tbody>
+   </table>
    <div class=code-caption>Example JavaScript</div>
 <pre><code class=language-javascript>
 var app = {
@@ -1062,11 +1075,16 @@ var app = {
 $(app.setup);
 </code></pre>
    <p>
-      <b>Note:</b> Initializers perform a similar function as
+      <b>Note 1:</b> Initializers perform a similar function as
       <a href="#event-element-setup">element setup callbacks</a> (<code>data-dna-setup</code>), but
       an initializer is general and element setup is specific.&nbsp;  For example, an initializer
       is appropriate for configuring all elements that have tooltips while element setup is
-      appropriate for initiating a REST call to retrieve additional data for the element.
+      appropriate for making a REST call to retrieve additional data for the element.
+   </p>
+   <p>
+      <b>Note 2:</b> In the event that you dynamically add elements to the DOM without using
+      dna.js, you can directly run the initializers by passing the root element of the new elements
+      into: <code>dna.events.runInitializers(root);</code>
    </p>
 </section>
 
@@ -1150,8 +1168,8 @@ dna.clone('book', book);
    <p>
       Instead of writing JavaScript to show and hide DOM elements, use an attribute to declare
       whether the element should be shown or hidden.&nbsp;  dna.js supports four
-      conditionals &mdash; two for the existence of a field and two for the "real" truth of a
-      field.
+      conditionals &mdash; two for the existence of a field and two for the
+      <a href="#real-truth">"real" truth</a> of a field.
    </p>
    <table>
       <thead>
@@ -1435,9 +1453,9 @@ dna.util.apply('css', [$('h1'), 'color', 'gold']);
 <section id=util-real-truth>
    <h4>dna.util.realTruth(value)</h4>
    <p class=api-description>
-      Looks for the true or false meaning a value.&nbsp;  Whereas JavaScript truthy an falsy is
-      more about existence, the "real" truth is for evaluating boolean data as it is often stored
-      or transmitted.
+      Return the <a href="#real-truth">"real" truth</a> of a value.&nbsp;  Whereas JavaScript
+      truthy an falsy is more about existence, the "real" truth is for evaluating boolean data as
+      it is stored in databases or transmitted in REST calls.
    </p>
    <div class=api-parameters>
       Parameters:
@@ -1452,10 +1470,6 @@ dna.util.apply('css', [$('h1'), 'color', 'gold']);
 <pre><code class=language-javascript>
 dna.util.realTruth('F');  //false
 </code></pre>
-   <p>
-      Example true values:  <code>true</code>, <code>1</code>, <code>'1'</code>, <code>[5]</code>, <code>'t'</code>, <code>'T'</code>, <code>'TRue'</code>, <code>{}</code>, <code>'Colbert'</code><br>
-      Example false values: <code>false</code>, <code>0</code>, <code>'0'</code>, <code>[]</code>, <code>'f'</code>, <code>'F'</code>, <code>'faLSE'</code>, <code>null</code>, <code>undefined</code>
-   </p>
 </section>
 
 <!--  dna.util.toCamel()  -->
@@ -1525,7 +1539,8 @@ dna.util.toCode('readySetGo');  //'ready-set-go'
    </div>
    <div class=code-caption>Example JavaScript</div>
 <pre><code class=language-javascript>
-dna.util.value({ cart: { items: 7 }}, 'cart.items');  //7
+var data = { cart: { items: 7 } };
+var count = dna.util.value(data, 'cart.items');  //7
 </code></pre>
 </section>
 
