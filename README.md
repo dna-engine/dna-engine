@@ -8,7 +8,9 @@ dna.js is the world's easiest to use DOM templating engine.
 Current release: **v0.2.9**
 
 ### 1. Bookstore Example
-Designate DNA templates with the `dna-template` class, and put the templates directly into the HTML of your web page.&nbsp;  Use the element's `id` to indicate the name of the template.&nbsp;  Enclose data fields in double tildes `~~` (a.k.a. DNA strands).
+Designate DNA templates with the `dna-template` class, and put the templates directly into the HTML
+of your web page.&nbsp;  Use the element's `id` to indicate the name of the template.&nbsp;
+Enclose data fields in double tildes `~~` (a.k.a. DNA strands).
 
 #### a) HTML for book template
     <h1>Featured Books</h1>
@@ -17,12 +19,14 @@ Designate DNA templates with the `dna-template` class, and put the templates dir
        <div>Author: <span>~~author~~</span></div>
     </div>
 
-Then call the `dna.clone()` function to insert a copy of the template into the DOM.&nbsp;  The supplied JSON data object will be used to populate the fields of the template.
+Then call the `dna.clone()` function to insert a copy of the template into the DOM.&nbsp;  The
+supplied JSON data object will be used to populate the fields of the template.
 
 #### b) JavaScript call to add book node
     dna.clone('book', { title: 'The DOM', author: 'Jan' });
 
-The new element is a DNA clone, and it is appended to the template's parent element (the original template is detached from the DOM and kept for additional cloning).
+The new element is a DNA clone, and it is appended to the template's parent element (the original
+template is detached from the DOM and kept for additional cloning).
 
 #### c) Resulting HTML with DNA clone
     <h1>Featured Books</h1>

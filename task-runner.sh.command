@@ -15,13 +15,25 @@ cd $(dirname $0)
 pwd
 echo
 if [ -z $(which npm) ]; then
-   echo "*** npm not found ***\nInstall Node.js to get npm\n"
    open "http://nodejs.org/download/"
+   echo "*********************"
+   echo "*** npm not found ***"
+   echo "Install Node.js to get npm"
+   echo "*********************"
+   exit
    fi
 if [ -z $(which grunt) ]; then
-   echo "*** grunt not found ***\nTo install Grunt:\n   $ sudo npm install -g grunt-cli\n"
+   echo "***********************"
+   echo "*** grunt not found ***"
+   echo "To install Grunt:"
+   echo "   $ sudo npm install -g grunt-cli"
+   echo "***********************"
+   exit
    fi
+echo "Node:"
+node --version
 npm install
+echo
 echo "Grunt:"
 which grunt
 ls -l Gruntfile.js
@@ -46,21 +58,23 @@ echo
 if [ "$versionLocal" != "$versionRemote" ]
    then
       status="LOCAL VERSION NOT CHECKED IN"
-      echo "***** Action Required *****"
+      echo "***********************"
+      echo "*** Action Required ***"
       echo "Check in local version number with commit comment:"
       echo "   Version number updated for next release"
       echo "then rerun:"
       echo "   $(pwd)/task-runner.sh.command"
-      echo "***************************"
+      echo "***********************"
       echo
    elif [ "$versionRemote" == "$versionReleased" ]; then
       status="RELEASED"
-      echo "***** Action Required *****"
+      echo "***********************"
+      echo "*** Action Required ***"
       echo "This version has already been released -- increment version number in:"
       echo "   $(pwd)/package.json"
       echo "then rerun:"
       echo "   $(pwd)/task-runner.sh.command"
-      echo "***************************"
+      echo "***********************"
       echo
    else
       status="NOT RELEASED (in development)"

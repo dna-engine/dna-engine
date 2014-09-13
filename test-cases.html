@@ -17,7 +17,8 @@
    label           { display: block; }
    #mode           { display: inline-block; width: 75px; }
    .push-right     { float: right; }
-   .test-case      { display: inline-block; vertical-align: top; border: 1px solid silver; padding: 10px; margin: 0px 20px 20px 0px; }
+   .test-case      { display: inline-block; vertical-align: top; border: 1px solid silver;
+                     padding: 10px; margin: 0px 20px 20px 0px; }
    fieldset        { float: left; width: 200px; border: 1px solid silver; }
    legend          { border: 1px solid silver; padding: 0px 10px; }
    .dna-template   { display: none; }
@@ -26,7 +27,7 @@
    .dna-clone img  { width: 120px; }
    .color-change   { background-color: lightsteelblue; }
    .color-change2  { background-color: gold; }
-   #back           { background-color: honeydew; }
+   #back,
    #back-expected  { background-color: honeydew; }
    .border-change  { border: 2px solid darkorange; }
    .border-change2 { border: 2px solid darkslateblue; }
@@ -114,7 +115,9 @@ $(test01.run);
       <div class=book-list>
          <div id="t02-book" class="dna-template">
             <div data-dna-class="class">Title: <span>{{title}}</span></div>
-            <div data-dna-class=~~sale,wow,color-change~~>Author: <span data-dna-class=~~sale,color-change~~>{{author}}</span></div>
+            <div data-dna-class=~~sale,wow,color-change~~>
+               Author: <span data-dna-class=~~sale,color-change~~>{{author}}</span>
+            </div>
          </div>
       </div>
    </fieldset>
@@ -221,7 +224,11 @@ $(test03.run);
 var test04 = {
    run: function() {
       console.log('Test Case: #04');
-      var book = { title: '<b>Text</b>&bull;', author: 'Lee', image: 'http://dnajs.org/graphics/dnajs-logo.png' };
+      var book = {
+         title:  '<b>Text</b>&bull;',
+         author: 'Lee',
+         image:  'http://dnajs.org/graphics/dnajs-logo.png'
+         };
       dna.clone('t04-book', book);
       }
    };
@@ -307,7 +314,12 @@ $(test05.run);
 var test06 = {
    run: function() {
       console.log('Test Case: #06');
-      var bouquin = { title: 'Les Attributs', info: { isbn: 123 }, language: 'fr', extra: 'border-change' };
+      var bouquin = {
+         title:    'Les Attributs',
+         info:     { isbn: 123 },
+         language: 'fr',
+         extra:    'border-change'
+         };
       dna.clone('t06-book', bouquin);
       $('#123').find('[lang=fr]').addClass('color-change2');
       }
@@ -370,7 +382,7 @@ var test07 = {
       dna.clone('t07-book', book1);
       var clone = dna.clone('t07-book', book2);
       var chapters = [{ header: 'Preface' }, { header: 'Index' }]
-      dna.clone('t07-book-chapter', chapters, { container: clone }).addClass('color-change');;
+      dna.clone('t07-book-chapter', chapters, { container: clone }).addClass('color-change');
       dna.clone('t07-book', book3);
       }
    };
@@ -386,7 +398,9 @@ $(test07.run);
       <div class=book-list>
          <div id=t08-book class=dna-template>
             <div>Title:   <span>~~title~~</span></div>
-            <div>Authors: <span data-dna-array=~~authors~~> *<span data-dna-setup=test08.init>~~[value]~~</span></span></div>
+            <div>Authors: <span data-dna-array=~~authors~~>
+               *<span data-dna-setup=test08.init>~~[value]~~</span></span>
+            </div>
             <div>Score:   <span>~~score~~</span></div>
             <div>On Sale: <span>~~sale~~</span></div>
          </div>
@@ -397,13 +411,17 @@ $(test07.run);
       <div class=book-list>
          <div class=dna-clone>
             <div>Title:   <span>The New DOM</span></div>
-            <div>Authors: <span> *<span class=color-change>Jan II</span></span><span> *<span class=color-change>Bo</span></span></div>
+            <div>Authors: <span> *<span class=color-change>Jan II</span></span><span>
+               *<span class=color-change>Bo</span></span>
+            </div>
             <div>Score:   <span>81</span></div>
             <div>On Sale: <span>true</span></div>
          </div>
          <div class="dna-clone border-change">
             <div>Title:   <span>Howdy HTML5</span></div>
-            <div>Authors: <span> *<span class=color-change>Ed II</span></span></div>
+            <div>Authors: <span>
+               *<span class=color-change>Ed II</span></span>
+            </div>
             <div>Score:   <span>97</span></div>
             <div>On Sale: <span>false</span></div>
          </div>
@@ -496,7 +514,7 @@ $(test09.run);
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone
-               style="height: 60px; color: white; background-image: url(http://dnajs.org/graphics/dnajs-logo.png); background-size: 80px;">
+            style="height: 60px; color: white; background-image: url(http://dnajs.org/graphics/dnajs-logo.png); background-size: 80px;">
             <div>Background</div>
          </div>
       </div>
@@ -764,7 +782,9 @@ $(test14.run);
       <hr>
       <div class=book-list>
          <div id=t15-book class=dna-template data-dna-setup=test15.init>
-            <div class=surrounded><span class=count>~~[count]~~</span>: <span>~~[value]~~</span></div>
+            <div class=surrounded>
+               <span class=count>~~[count]~~</span>: <span>~~[value]~~</span>
+            </div>
             <button class=1 data-dna-click=dna.bye>Bye 1</button>
             <button class=2>Bye 2</button>
             <button class=3 data-dna-click=test15.bye>Bye 3</button>
@@ -780,13 +800,17 @@ $(test14.run);
       <hr>
       <div class=book-list>
          <div class="dna-clone color-change border-change2">
-            <div class=border-change style="color: white; padding: 10px;"><span class=count>3</span>: <span>Howdy HTML5</span></div>
+            <div class=border-change style="color: white; padding: 10px;">
+               <span class=count>3</span>: <span>Howdy HTML5</span>
+            </div>
             <button>Bye 1</button>
             <button>Bye 2</button>
             <button>Bye 3</button>
          </div>
          <div class="dna-clone color-change border-change2">
-            <div class=border-change style="color: white; padding: 10px;"><span>5</span>: <span>Styling CSS3</span></div>
+            <div class=border-change style="color: white; padding: 10px;">
+               <span>5</span>: <span>Styling CSS3</span>
+            </div>
             <button>Bye 1</button>
             <button>Bye 2</button>
             <button>Bye 3</button>
@@ -818,7 +842,8 @@ var test15 = {
 		dna.registerInitializer('css', { selector: '.surrounded', params: { color: 'white' } });
 		dna.registerInitializer('css', { selector: '.surrounded', params: ['padding', '10px'] });
 		dna.registerInitializer(test15.surround2);  //apply to each clone
-      dna.clone('t15-book', ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE']);
+      var titles = ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE'];
+      dna.clone('t15-book', titles);
       $('.t15-book button.2').click(dna.bye);  //add handler
       function getClone(count) {
          return $('.t15-book .count:contains(' + count + ')').closest('.dna-clone');
@@ -862,7 +887,8 @@ $(test15.run);
             </div>
             Purpose:
             <select>
-               <option data-dna-array=~~purposes~~ value=~~code~~ data-dna-prop-selected=~~set~~>~~name~~</option>
+               <option data-dna-array=~~purposes~~ value=~~code~~
+                  data-dna-prop-selected=~~set~~>~~name~~</option>
             </select>
          </div>
       </div>
@@ -907,12 +933,20 @@ $(test15.run);
 var test16 = {
    run: function() {
       console.log('Test Case: #16');
-      var book = {
-         title:    'The DOM',
-         options:  [{ code: 'fast', name: 'Overnight', set: true }, { code: 'gift', name: 'Gift', set: false }],
-         cover:    [{ code: 'soft', name: 'Paperback', reject: 0, set: 1 }, { code: 'hard', name: 'Hardcover', reject: 1, set: 0}],
-         purposes: [{ code: 'work', name: 'Business', set: 'F' }, { code: 'fun', name: 'Personal', set: 'T' }, {code: 'edu', name: 'School', set: 'F'}]
-         };
+      var options = [
+         { code: 'fast', name: 'Overnight', set: true },
+         { code: 'gift', name: 'Gift',      set: false }
+         ];
+      var cover = [
+         { code: 'soft', name: 'Paperback', reject: 0, set: 1 },
+         { code: 'hard', name: 'Hardcover', reject: 1, set: 0 }
+         ];
+      var purposes = [
+         { code: 'work', name: 'Business', set: 'F' },
+         { code: 'fun',  name: 'Personal', set: 'T' },
+         { code: 'edu',  name: 'School',   set: 'F' }
+         ];
+      var book = { title: 'The DOM', options: options, cover: cover, purposes: purposes };
       dna.clone('t16-book', book);
       }
    };
