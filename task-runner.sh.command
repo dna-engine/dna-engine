@@ -51,9 +51,9 @@ versionRemote=v$(curl --silent $package | grep '"version":' | awk -F'"' '{print 
 versionReleased=$(git tag | tail -1)
 echo
 echo "Versions:"
-echo "   $versionLocal (local)"
-echo "   $versionRemote (checked in)"
-echo "   $versionReleased (released)"
+echo "$versionLocal (local)"
+echo "$versionRemote (checked in)"
+echo "$versionReleased (released)"
 echo
 if [ "$versionLocal" != "$versionRemote" ]
    then
