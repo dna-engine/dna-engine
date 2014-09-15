@@ -53,11 +53,11 @@ var dna = {
       function getModelArray() {
          var model = [];
          dna.getClones(nameOrClone).each(
-            function() { model.push($(this).data('dna-model')); });
+            function() { model.push($(this).data().dnaModel); });
          return model;
          }
       return nameOrClone instanceof jQuery ?
-         dna.getClone(nameOrClone).data('dna-model') : getModelArray();
+         dna.getClone(nameOrClone).data().dnaModel : getModelArray();
       },
    empty: function(name, options) {
       var settings = { fade: false };
@@ -475,7 +475,8 @@ dna.core = {
          }
       clone.find('.dna-array').remove();
       clone.find('.dna-nucleotide').addBack('.dna-nucleotide').each(process);
-      return clone.data('dna-model', data);
+      clone.data().dnaModel = data;
+      return clone
       },
    replicate: function(template, data, count, settings) {  //make and setup the clone
       var clone = template.elem.clone(true, true);
