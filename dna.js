@@ -31,7 +31,7 @@ var dna = {
       var list = data instanceof Array ? data : [data];
       var clones = $();
       for (var i = 0; i < list.length; i++)
-         clones = clones.add(dna.core.replicate(template, list[i], i + 1, settings));
+         clones = clones.add(dna.core.replicate(template, list[i], i, settings));
       return clones;
       },
    cloneSubTemplate: function(holderClone, arrayField, data, options) {
@@ -407,11 +407,11 @@ dna.events = {
 $(dna.events.setup);
 
 dna.core = {
-   inject: function(clone, data, count, settings) {
+   inject: function(clone, data, index, settings) {
       // Inserts data into clone and runs rules
       function injectField(elem, field) {
          var value = typeof data === 'object' ? dna.util.value(data, field) :
-            field === '[count]' ? count : field === '[value]' ? data : null;
+            field === '[count]' ? index + 1 : field === '[value]' ? data : null;
          var printableTypes = ['string', 'number', 'boolean'];
          function printable(value) { return $.inArray(typeof value, printableTypes) !== -1; }
          if (printable(value))
@@ -476,12 +476,12 @@ dna.core = {
       clone.find('.dna-array').remove();
       clone.find('.dna-nucleotide').addBack('.dna-nucleotide').each(process);
       clone.data().dnaModel = data;
-      return clone
+      return clone;
       },
-   replicate: function(template, data, count, settings) {  //make and setup the clone
+   replicate: function(template, data, index, settings) {  //make and setup the clone
       var clone = template.elem.clone(true, true);
       template.clones++;
-      dna.core.inject(clone, data, count, settings);
+      dna.core.inject(clone, data, index, settings);
       var selector = '.dna-contains-' + template.name;
       var container = settings.container ?
          settings.container.find(selector).addBack(selector) : template.container;
