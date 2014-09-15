@@ -624,6 +624,8 @@ $(test11.run);
             <div>Title:  <span>The DOM</span></div>
             Authors:
             <span>
+               <span class=dna-clone> (1) <span>Bo I</span> </span>
+               <span class=dna-clone> (2) <span>Bo II</span> </span>
             </span>
          </div>
          <div class=dna-clone>
@@ -682,6 +684,8 @@ var test12 = {
       var book2 = { title: 'Howdy HTML5',  authors: authors, chapters: chapters };
       var book3 = { title: 'Styling CSS3', authors: [],      chapters: [] };
       dna.clone('t12-book', [book1, book2, book3, book1]);
+      dna.cloneSubTemplate(dna.getClones('t12-book').first(), 'authors', 'Bo I');
+      dna.cloneSubTemplate(dna.getClones('t12-book').first(), 'authors', 'Bo II');
       var clone = dna.mutate($('.t12-book').last(), book2);
       dna.cloneSubTemplate(clone, 'chapters', { header: 'Bio', type: 'back' });
       dna.cloneSubTemplate(clone, 'chapters', moreChapters);

@@ -341,7 +341,8 @@ dna.store = {
          // Post (elem):
          //    data().dnaRules.template='{NAME}-{FIELD}-instance'
          // Post (container)
-         //    class=dna-nucleotide + data().dnaRules.loop={ name: '{NAME}-{FIELD}-instance', field: 'field' }
+         //    class=dna-nucleotide +
+         //       data().dnaRules.loop={ name: '{NAME}-{FIELD}-instance', field: 'field' }
          var elem = $(this);
          var field = elem.data().dnaRules.array;
          var sub = dna.compile.subTemplateName(name, field);
@@ -447,6 +448,8 @@ dna.core = {
          var dataArray = dna.util.value(data, loop.field);
          if (dataArray)
             dna.clone(loop.name, dataArray, { container: elem });
+         else
+            data[loop.field] = [];
          }
       function process() {
          var elem = $(this);
