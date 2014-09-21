@@ -12,14 +12,14 @@
    body            { font-family: sans-serif; margin: 30px; }
    h1, h3          { margin: 0px 0px 5px 0px; }
    h2              { margin: 0px; }
-   p               { margin: 0px; }
+   p               { margin: 0px 0px 3px 0px; }
    button          { cursor: pointer; }
    label           { display: block; }
    #mode           { display: inline-block; width: 75px; }
    .push-right     { float: right; }
    .test-case      { display: inline-block; vertical-align: top; border: 1px solid silver;
                      padding: 10px; margin: 0px 20px 20px 0px; }
-   fieldset        { float: left; width: 200px; border: 1px solid silver; }
+   fieldset        { float: left; width: 200px; border: 1px solid silver; padding-bottom: 0px; }
    legend          { border: 1px solid silver; padding: 0px 10px; }
    .dna-template   { display: none; }
    .dna-clone      { background-color: darkseagreen; }
@@ -395,11 +395,34 @@ $(test07.run);
    <p>Add 2 items and mutate</p>
    <fieldset>
       <legend>Actual</legend>
+      <p>
+         Authors (1):
+         <span id=t08-book-authors1 class=dna-template>
+            <span>~~[value]~~</span><span
+            class=dna-separator>, </span><span class=dna-last-separator> and </span>
+         </span>
+      </p>
+      <p>
+         Authors (2):
+         <span id=t08-book-authors2 class=dna-template>
+            <span>~~[value]~~</span><span
+            class=dna-separator>, </span><span class=dna-last-separator> and </span>
+         </span>
+      </p>
+      <p>
+         Authors (3):
+         <span id=t08-book-authors3 class=dna-template>
+            <span>~~[value]~~</span><span
+            class=dna-separator>, </span><span class=dna-last-separator> and </span>
+         </span>
+      </p>
       <div class=book-list>
          <div id=t08-book class=dna-template>
             <div>Title:   <span>~~title~~</span></div>
-            <div>Authors: <span data-dna-array=~~authors~~>
-               *<span data-dna-setup=test08.init>~~[value]~~</span></span>
+            <div>Authors:
+               <span data-dna-array=~~authors~~>
+                  *<span data-dna-setup=test08.init>~~[value]~~</span>
+               </span>
             </div>
             <div>Score:   <span>~~score~~</span></div>
             <div>On Sale: <span>~~sale~~</span></div>
@@ -408,6 +431,21 @@ $(test07.run);
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
+      <p>
+         Authors (1):
+         <span class=dna-clone>Jan</span>
+      </p>
+      <p>
+         Authors (2):
+         <span class=dna-clone>Jan and </span>
+         <span class=dna-clone>Bo</span>
+      </p>
+      <p>
+         Authors (3):
+         <span class=dna-clone>Jan, </span>
+         <span class=dna-clone>Bo and </span>
+         <span class=dna-clone>Ed</span>
+      </p>
       <div class=book-list>
          <div class=dna-clone>
             <div>Title:   <span>The New DOM</span></div>
@@ -419,8 +457,7 @@ $(test07.run);
          </div>
          <div class="dna-clone border-change">
             <div>Title:   <span>Howdy HTML5</span></div>
-            <div>Authors: <span>
-               *<span class=color-change>Ed II</span></span>
+            <div>Authors: <span> *<span class=color-change>Ed II</span></span>
             </div>
             <div>Score:   <span>97</span></div>
             <div>On Sale: <span>false</span></div>
@@ -435,6 +472,9 @@ var test08 = {
    	},
    run: function() {
       console.log('Test Case: #08');
+      dna.clone('t08-book-authors1', ['Jan']);
+      dna.clone('t08-book-authors2', ['Jan', 'Bo']);
+      dna.clone('t08-book-authors3', ['Jan', 'Bo', 'Ed']);
       var book1 = { title: 'The DOM',     authors: ['Jan'],          score: 77, sale: false };
       var book2 = { title: 'The New DOM', authors: ['Jan II', 'Bo'], score: 81, sale: true };
       var book3 = { title: 'Howdy HTML5', authors: ['Ed'],           score: 92, sale: false };
@@ -459,8 +499,10 @@ $(test08.run);
    <h3>Test Case: #09</h3>
    <p>
       Add 2 items
-      (<a href="http://dnajs.org/rest/book/1" onclick="this.target='_target';">book 1</a> &amp;
-      <a href="http://dnajs.org/rest/book/2" onclick="this.target='_target';">book 2</a>)
+      (<span><span id=rest-link class=dna-template>
+         <a href=~~[value]~~ onclick="this.target='_blank';">book <span>~~[count]~~</span></a>
+         <span class=dna-separator>and</span>
+      </span></span>)
       loaded from REST call
    </p>
    <fieldset>
@@ -490,6 +532,7 @@ $(test08.run);
 var test09 = {
    run: function() {
       console.log('Test Case: #09');
+      dna.clone('rest-link', ['http://dnajs.org/rest/book/1', 'http://dnajs.org/rest/book/2']);
       dna.load('t09-book', 'http://dnajs.org/rest/book/1');
       dna.load('t09-book', 'http://dnajs.org/rest/book/2');
       dna.load('t09-book', 'http://dnajs.org/rest/book/7');  //test call to missing resource
