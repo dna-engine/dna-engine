@@ -479,6 +479,12 @@ dna.core = {
       return clone;
       },
    replicate: function(template, data, index, settings) {  //make and setup the clone
+      function addSeparators() {
+         var clones = container.children('.' + template.name);
+         clones.find('.dna-separator').show().end().last().find('.dna-separator').hide();
+         clones.find('.dna-last-separator').hide().end().eq(-2).find('.dna-last-separator').show()
+            .closest('.dna-clone').find('.dna-separator').hide();
+         }
       var clone = template.elem.clone(true, true);
       template.clones++;
       dna.core.inject(clone, data, index, settings);
@@ -486,6 +492,8 @@ dna.core = {
       var container = settings.container ?
          settings.container.find(selector).addBack(selector) : template.container;
       container[settings.top ? 'prepend' : 'append'](clone);
+      if (true || template.hasSeparators)  //TODO: optimize by during hasSeparators during compile
+         addSeparators();
       dna.events.runInitializers(clone, data);
       if (settings.callback)
          settings.callback(clone, data);
