@@ -492,7 +492,7 @@ dna.core = {
       var container = settings.container ?
          settings.container.find(selector).addBack(selector) : template.container;
       container[settings.top ? 'prepend' : 'append'](clone);
-      if (true || template.hasSeparators)  //TODO: optimize by during hasSeparators during compile
+      if (true || template.hasSeparators)  //TODO: optimize by setting hasSeparators during compile
          addSeparators();
       dna.events.runInitializers(clone, data);
       if (settings.callback)
