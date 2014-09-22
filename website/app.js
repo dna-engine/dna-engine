@@ -1,8 +1,7 @@
 // Center Key Software  ~  www.centerkey.com
 // License: http://en.wikipedia.org/wiki/WTFPL
 
-if (!app)
-   var app = {};
+var app = {};
 
 app.bookstore = {
    books: [
@@ -33,7 +32,7 @@ app.nav = {
       }
    };
 
-app.manual = {
+app.documenation = {
    setup: function() {
       function addOutlineNumber(elemIndex) {
          var letter = String.fromCharCode('A'.charCodeAt() + elemIndex);
@@ -47,8 +46,7 @@ app.manual = {
 app.start = {
    go: function() {
       app.nav.setup();
-      app.bookstore.setup();
-      app.manual.setup();
+      app.documenation.setup();
       }
    };
 

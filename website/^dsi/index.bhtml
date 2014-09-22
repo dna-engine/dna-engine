@@ -104,7 +104,7 @@ dna.load('book', 'http://dnajs.org/rest/book/3');
       <code>dna.clone()</code> function, which deletes all the clones previously
       created from the template.
    </p>
-   <div class=featured-books data-dna-setup=app.bookstore.setup>
+   <div class="featured-books dna-setup" data-dna-setup=app.bookstore.setup>
       <h2>Featured Books</h2>
       <div class=buttons>
          <button data-dna-click=app.bookstore.feelLucky>
