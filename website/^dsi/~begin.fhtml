@@ -14,7 +14,7 @@
 <!--#set var="name"          value="dna.js Template Cloner"                    -->
 <!--#set var="copyright"     value="Copyright (c) 2013-2014"                   -->
 <!--#set var="authors"       value="Center Key Software and other contributors"-->
-<!--#set var="release"       value="v0.2.9 (beta)"                             -->
+<!--#set var="release"       value="v0.3.0 (beta)"                             -->
 <!--#set var="size"          value="9 kb"                                      -->
 <!--#set var="jsFiddleBooks" value="03gwe66z"                                  -->
 <!--#set var="jsFiddleTodo"  value="w60g19h4"                                  -->
