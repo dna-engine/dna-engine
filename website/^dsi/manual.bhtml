@@ -255,8 +255,8 @@
 &lt;input type=checkbox data-prop-checked=__isExpress__&gt; Overnight
 </code></pre>
    <p>
-      Properties are set by prefixing <code>data-prop-</code> to the property
-      name.
+      Valid data attributes for setting a property are <code>data-prop-checked</code>,
+      <code>data-prop-selected</code>, and <code>data-prop-deleted</code>.
    </p>
 </section>
 
