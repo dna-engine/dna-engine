@@ -212,15 +212,15 @@ dna.compile = {
    // Pre-compile  Example                           Post-compile class + data().dnaRules
    // -----------  --------------------------------  ------------------------------------
    // templates    <p id=ad class=dna-template>      class=dna-clone
-   // arrays       <p data-array=~~tags~~>       class=dna-nucleotide + array='tags'
+   // arrays       <p data-array=~~tags~~>           class=dna-nucleotide + array='tags'
    // fields       <p>~~tag~~</p>                    class=dna-nucleotide + text='tag'
    // attributes   <p id=~~num~~>                    class=dna-nucleotide + attrs=['id', ['', 'num', '']]
-   // rules        <p data-truthy=~~on~~>        class=dna-nucleotide + truthy='on'
-   // attr rules   <p data-attr-src=~~url~~>     class=dna-nucleotide + attrs=['src', ['', 'url', '']]
+   // rules        <p data-truthy=~~on~~>            class=dna-nucleotide + truthy='on'
+   // attr rules   <p data-attr-src=~~url~~>         class=dna-nucleotide + attrs=['src', ['', 'url', '']]
    // prop rules   <input data-prop-checked=~~on~~>  class=dna-nucleotide + props=['checked', 'on']
    //
-   // Rules                                          data().dnaRules
-   // ---------------------------------------------  ---------------
+   // Rules                                      data().dnaRules
+   // -----------------------------------------  ---------------
    // data-class=~~field,name-true,name-false~~  class=['field','name-true','name-false']
    // data-attr-{NAME}=pre~~field~~post          attrs=['{NAME}', ['pre', 'field', 'post']]
    // data-prop-{NAME}=pre~~field~~post          props=['{NAME}', 'field']
@@ -252,8 +252,8 @@ dna.compile = {
    propsAndAttrs: function() {
       // Examples:
       //    <option data-prop-selected=~~set~~>  ==>  <option class=dna-nucleotide + data-dnaRules={ props: ['selected', 'set'] }>
-      //    <p id=~~num~~>                 ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['id', ['', 'num', '']] }>
-      //    <p data-attr-src=~~url~~>  ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['src', ['', 'url', '']] }>
+      //    <p id=~~num~~>                       ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['id', ['', 'num', '']] }>
+      //    <p data-attr-src=~~url~~>            ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['src', ['', 'url', '']] }>
       var elem = $(this);
       var props = [];
       var attrs = [];
@@ -366,7 +366,7 @@ dna.events = {
       //    <p class=dna-setup data-setup=app.cart.setup>
       // Example (within template):
       //    <select data-setup=app.dropDown.setup>
-      function setup() { dna.util.apply($(this).data('setup'), [$(this), data]); }
+      function setup() { dna.util.apply($(this).data().setup, [$(this), data]); }
       var selector = '[data-setup]';
       var elems = root ? root.find(selector).addBack(selector) : $('.dna-setup');
       return elems.each(setup).addClass('dna-initialized');
