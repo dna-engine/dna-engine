@@ -114,9 +114,9 @@ $(test01.run);
       <legend>Actual</legend>
       <div class=book-list>
          <div id="t02-book" class="dna-template">
-            <div data-dna-class="class">Title: <span>{{title}}</span></div>
-            <div data-dna-class=~~sale,wow,color-change~~>
-               Author: <span data-dna-class=~~sale,color-change~~>{{author}}</span>
+            <div data-class="class">Title: <span>{{title}}</span></div>
+            <div data-class=~~sale,wow,color-change~~>
+               Author: <span data-class=~~sale,color-change~~>{{author}}</span>
             </div>
          </div>
       </div>
@@ -205,7 +205,7 @@ $(test03.run);
          <div id=t04-book class=dna-template>
             <div>Title:  <span>~~title~~</span></div>
             <div>Author: <span>~~author~~</span></div>
-            <div>Cover: <img data-dna-attr-src=~~image~~ src="" alt="Cover"></div>
+            <div>Cover: <img data-attr-src=~~image~~ src="" alt="Cover"></div>
          </div>
       </div>
    </fieldset>
@@ -292,8 +292,8 @@ $(test05.run);
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
-         <div id=t06-book class=dna-template data-dna-class=~~extra~~>
-            <div id=~~info.isbn~~ data-dna-class=~~language,color-change,do-not-apply-this-class~~>
+         <div id=t06-book class=dna-template data-class=~~extra~~>
+            <div id=~~info.isbn~~ data-class=~~language,color-change,do-not-apply-this-class~~>
                Title: <span data-lang=~~language~~ lang=~~language~~>~~title~~</span>
             </div>
          </div>
@@ -420,8 +420,8 @@ $(test07.run);
          <div id=t08-book class=dna-template>
             <div>Title:   <span>~~title~~</span></div>
             <div>Authors:
-               <span data-dna-array=~~authors~~>
-                  *<span data-dna-setup=test08.init>~~[value]~~</span>
+               <span data-array=~~authors~~>
+                  *<span data-setup=test08.init>~~[value]~~</span>
                </span>
             </div>
             <div>Score:   <span>~~score~~</span></div>
@@ -588,15 +588,15 @@ $(test10.run);
       <div class=book-list>
          <div id=t11-book class=dna-template>
             <div>Title:
-               <span data-dna-require=~~title~~>~~title~~</span>
-               <span data-dna-missing=~~title~~><i>[Gone with the Wind]</i></span>
+               <span data-require=~~title~~>~~title~~</span>
+               <span data-missing=~~title~~><i>[Gone with the Wind]</i></span>
             </div>
-            <div data-dna-require=~~author~~>Author: <span>~~author~~</span></div>
-            <div data-dna-missing=~~author~~><i>[no author]</i></div>
-            <div data-dna-truthy=~~available~~>Available</div>
-            <div data-dna-falsey=~~available~~>Out of stock</div>
-            <div data-dna-truthy=~~onSale~~>ON SALE!</div>
-            <div data-dna-falsey=~~onSale~~>Regular price</div>
+            <div data-require=~~author~~>Author: <span>~~author~~</span></div>
+            <div data-missing=~~author~~><i>[no author]</i></div>
+            <div data-truthy=~~available~~>Available</div>
+            <div data-falsey=~~available~~>Out of stock</div>
+            <div data-truthy=~~onSale~~>ON SALE!</div>
+            <div data-falsey=~~onSale~~>Regular price</div>
          </div>
       </div>
    </fieldset>
@@ -648,13 +648,13 @@ $(test11.run);
             </div>
             Authors:
             <span>
-               <span data-dna-array=~~authors~~>
+               <span data-array=~~authors~~>
                   (<span>~~[count]~~</span>)
                   <span>~~[value]~~</span>
                </span>
             </span>
-            <div class=color-change data-dna-array=~~chapters~~>
-               <span data-dna-class=~~type~~ data-type=~~type~~>~~type~~</span>:
+            <div class=color-change data-array=~~chapters~~>
+               <span data-class=~~type~~ data-type=~~type~~>~~type~~</span>:
                <span id=~~type~~>~~header~~</span>
             </div>
          </div>
@@ -824,17 +824,17 @@ $(test14.run);
    <p>Events</p>
    <fieldset>
       <legend>Actual</legend>
-      <p class=dna-setup data-dna-setup=dna.ui.deleteElem>DELETE ME!</p>
-      <section data-dna-setup=dna.ui.deleteElem class=surrounded></section>
+      <p class=dna-setup data-setup=dna.ui.deleteElem>DELETE ME!</p>
+      <section data-setup=dna.ui.deleteElem class=surrounded></section>
       <hr>
       <div class=book-list>
-         <div id=t15-book class=dna-template data-dna-setup=test15.init>
+         <div id=t15-book class=dna-template data-setup=test15.init>
             <div class=surrounded>
                <span class=count>~~[count]~~</span>: <span>~~[value]~~</span>
             </div>
-            <button class=1 data-dna-click=dna.bye>Bye 1</button>
+            <button class=1 data-click=dna.bye>Bye 1</button>
             <button class=2>Bye 2</button>
-            <button class=3 data-dna-click=test15.bye>Bye 3</button>
+            <button class=3 data-click=test15.bye>Bye 3</button>
          </div>
       </div>
    </fieldset>
@@ -895,14 +895,14 @@ var test15 = {
       function getClone(count) {
          return $('.t15-book .count:contains(' + count + ')').closest('.dna-clone');
          }
-      getClone(1).find('button.1').click();                  //nuke 1st (bye w/data-dna-click)
+      getClone(1).find('button.1').click();                  //nuke 1st (bye w/data-click)
       getClone(2).find('button.2').click();                  //nuke 2nd (bye w/event handler)
       getClone(8).find('button.3').click();                  //nuke 8th (remove w/dna click callback)
       dna.bye(getClone(4));                                  //nuke 4th (bye w/jQuery elem)
       dna.getClone(getClone(7).find('span:last')).remove();  //nuke 7th (remove w/sub-node)
       getClone(6).each(dna.bye);                             //nuke 6th (bye w/jQuery loop)
 		var box = $('.t15-book').closest('fieldset').find('section');
-		var foreigners = $('<hr><hr data-dna-setup=fadeOut><hr class=surrounded>').appendTo(box);
+		var foreigners = $('<hr><hr data-setup=fadeOut><hr class=surrounded>').appendTo(box);
 		dna.events.runInitializers(foreigners);
 		dna.clearInitializers();
       }
@@ -920,22 +920,22 @@ $(test15.run);
          <div id=t16-book class=dna-template>
             Book: <span>~~title~~</span>
             <div>
-               <label data-dna-array=~~options~~>
-                  <input type=checkbox value=~~code~~ data-dna-prop-checked=~~set~~>
+               <label data-array=~~options~~>
+                  <input type=checkbox value=~~code~~ data-prop-checked=~~set~~>
                   <span>~~name~~</span>
                </label>
             </div>
             <div>
-               <label data-dna-array=~~cover~~>
+               <label data-array=~~cover~~>
                   <input type=radio value=~~code~~ name=cover
-                     data-dna-prop-disabled=~~reject~~ data-dna-prop-checked=~~set~~>
+                     data-prop-disabled=~~reject~~ data-prop-checked=~~set~~>
                   <span>~~name~~</span>
                </label>
             </div>
             Purpose:
             <select>
-               <option data-dna-array=~~purposes~~ value=~~code~~
-                  data-dna-prop-selected=~~set~~>~~name~~</option>
+               <option data-array=~~purposes~~ value=~~code~~
+                  data-prop-selected=~~set~~>~~name~~</option>
             </select>
          </div>
       </div>
