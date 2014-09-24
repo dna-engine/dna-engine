@@ -1,4 +1,4 @@
-// dna.js Template Cloner ~~ v0.3.0
+// dna.js Template Cloner ~~ v0.3.1
 // MIT/GPLv3 ~~ dnajs.org/license.html
 // Copyright (c) 2013-2014 Center Key Software and other contributors
 
@@ -113,7 +113,7 @@ var dna = {
       },
    info: function() {
       var names = Object.keys(dna.store.templates);
-      console.log('~~ dns.js v0.3.0 ~~');
+      console.log('~~ dns.js v0.3.1 ~~');
       console.log('templates:', names.length);
       console.log('names:', names);
       console.log('store:', dna.store.templates);
