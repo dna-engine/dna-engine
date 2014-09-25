@@ -15,7 +15,7 @@
 <!--#set var="copyright"     value="Copyright (c) 2013-2014"                   -->
 <!--#set var="authors"       value="Center Key Software and other contributors"-->
 <!--#set var="release"       value="v0.3.0 (beta)"                             -->
-<!--#set var="size"          value="9 kb"                                      -->
+<!--#set var="size"          value="10 kb"                                     -->
 <!--#set var="jsFiddleBooks" value="us4jwk7d"                                  -->
 <!--#set var="jsFiddleTodo"  value="kpk1q33a"                                  -->
 
@@ -36,9 +36,12 @@
 
 <header>
    <nav>
-      <ul class=navigation-bar>
+      <ul>
          <li><a class=plain href=".">Home</a></li>
          <li><a class=plain href="hello-world.html">Example</a></li>
+         <!--
+         <li><a class=plain href="tutorial.html">Quick Start</a></li>
+         -->
          <li><a class=plain href="manual.html">Documentation</a></li>
          <li><a class=plain href="forum.html">Forum</a></li>
          <li><a class=plain href="license.html">License</a></li>

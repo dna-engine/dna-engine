@@ -1,0 +1,58 @@
+<!--#set var="title" value="Quick Stark Tutorial" -->
+<!--#include file="~begin.fhtml" -->
+
+<article>
+
+<p>
+   Follow the steps below to build a ...
+</p>
+
+<!--*********************************************************************************************-->
+<h3 id=step1>Step 1</h3>
+   <p>
+      Bla, bla, bla...
+   </p>
+   <div class=code-caption>Example HTML</div>
+<pre><code class=language-markup>
+&lt;div id=book class=dna_template&gt;~~title~~&lt;/div&gt;
+</code></pre>
+   <div class=code-caption>Example JavaScript</div>
+<pre><code class=language-javascript>
+var books = [{ title: 'The DOM' }, { title: 'Interwebz' }];
+dna.clone('book', books);
+</code></pre>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <div class=code-caption>Resulting HTML</div>
+<pre><code class=language-markup>
+&lt;div class=book&gt;The DOM&lt;/div&gt;
+&lt;div class=book&gt;Interwebz&lt;/div&gt;
+</code></pre>
+   <!-- End: Result  -->
+
+<!--*********************************************************************************************-->
+<h3 id=step2>Step 2</h3>
+   <p>
+      Bla, bla, bla...
+   </p>
+   <div class=code-caption>Example HTML</div>
+<pre><code class=language-markup>
+&lt;div id=book class=dna_template&gt;~~title~~&lt;/div&gt;
+</code></pre>
+   <div class=code-caption>Example JavaScript</div>
+<pre><code class=language-javascript>
+var books = [{ title: 'The DOM' }, { title: 'Interwebz' }];
+dna.clone('book', books);
+</code></pre>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <div class=code-caption>Resulting HTML</div>
+<pre><code class=language-markup>
+&lt;div class=book&gt;The DOM&lt;/div&gt;
+&lt;div class=book&gt;Interwebz&lt;/div&gt;
+</code></pre>
+   <!-- End: Result  -->
+
+</article>
+
+<!--#include file="~end.fhtml" -->

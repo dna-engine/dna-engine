@@ -42,7 +42,8 @@
       </a>
    </div>
    <p>
-      Looking at a simple to-do application is a good way to get a quick understanding of library.<br>
+      Looking under the hood of a simple to-do application is a good way to get a quick
+      understanding of a library.<br>
    </p>
    <p>
       dna.js to-do application:<br>
