@@ -1602,7 +1602,7 @@ var count = dna.util.value(data, 'cart.items');  //7
 </section>
 
 <!--*********************************************************************************************-->
-<h3 id=reserved>Lists of DNA Classes and Data Attributes</h3>
+<h3 id=reserved>Index of DNA Classes and Data Attributes</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=reserved-classes>
@@ -1621,21 +1621,21 @@ var count = dna.util.value(data, 'cart.items');  //7
    <ol>
       <li><a href="#loop-sub-templates">  <code>data-array</code></a>:         Mark an element as a sub-template array loop</li>
       <li><a href="#html-attr">           <code>data-attr-{NAME}</code></a>:   Set value of an element attribute</li>
+      <li><a href="#event-user">          <code>data-change</code></a>:        Execute callback on change event</li>
       <li><a href="#html-class">          <code>data-class</code></a>:         Add a class to the element</li>
       <li><a href="#event-user">          <code>data-click</code></a>:         Execute callback on click event</li>
-      <li><a href="#event-user">          <code>data-change</code></a>:        Execute callback on change event</li>
       <li><a href="#event-user">          <code>data-enter-key</code></a>:     Execute callback on enter key event</li>
       <li><a href="#structure-thimblerig"><code>data-falsey</code></a>:        Show element only if field evaluates to false</li>
-      <li><a href="#event-user">          <code>data-key-up</code></a>:        Execute callback on key up event</li>
       <li><a href="#event-user">          <code>data-key-down</code></a>:      Execute callback on key down event</li>
       <li><a href="#event-user">          <code>data-key-press</code></a>:     Execute callback on key press event</li>
+      <li><a href="#event-user">          <code>data-key-up</code></a>:        Execute callback on key up event</li>
       <li><a href="#structure-thimblerig"><code>data-missing</code></a>:       Show element only if field us not defined</li>
       <li><a href="#html-prop">           <code>data-prop-checked</code></a>:  Enable or disable "checked" property</li>
-      <li><a href="#html-prop">           <code>data-prop-selected</code></a>: Enable or disable "selected" property</li>
       <li><a href="#html-prop">           <code>data-prop-disabled</code></a>: Enable or disable "disabled" property</li>
-      <li><a href="#structure-thimblerig"><code>data-truthy</code></a>:        Show element only if field evaluates to true</li>
+      <li><a href="#html-prop">           <code>data-prop-selected</code></a>: Enable or disable "selected" property</li>
       <li><a href="#structure-thimblerig"><code>data-required</code></a>:      Show element only if field exists</li>
       <li><a href="#event-element-setup"> <code>data-setup</code></a>:         Execute callback when clone is created</li>
+      <li><a href="#structure-thimblerig"><code>data-truthy</code></a>:        Show element only if field evaluates to true</li>
    </ol>
 </section>
 

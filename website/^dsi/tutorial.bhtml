@@ -5,6 +5,16 @@
 
 <p>
    Follow the steps below to build a ...
+   https://developers.google.com/maps/documentation/webservices/
+   http://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal
+   http://maps.googleapis.com/maps/api/elevation/json?locations=39.7391536,-104.9847034
+
+   https://developers.google.com/books/docs/v1/getting_started
+
+   https://www.googleapis.com/books/v1/volumes?q=quilting
+   ...
+   http://books.google.com/googlebooks/images/poweredby.png
+
 </p>
 
 <!--*********************************************************************************************-->
