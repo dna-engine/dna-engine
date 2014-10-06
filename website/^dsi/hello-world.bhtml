@@ -16,45 +16,45 @@
    </p>
 
    <h3 id=code>Bookstore Code</h3>
-   <div class=full-screen-code>
-      <div class=code-caption>bookstore.html</div>
-<pre><code class=language-markup>
-&lt;!doctype html&gt;
-&lt;!-- - - - - - - - - - - - - - - - --&gt;
-&lt;!--  Bookstore                    --&gt;
-&lt;!--  dnajs.org/hello-world.html   --&gt;
-&lt;!-- - - - - - - - - - - - - - - - --&gt;
-&lt;html&gt;
-&lt;head&gt;
-&lt;meta charset=utf-8&gt;
-&lt;title&gt;Bookstore&lt;/title&gt;
-&lt;style&gt;
-   body          { font-family: sans-serif; margin: 30px; }
-   .book-list    { width: 250px; }
-   .book         { background-color: pink; padding: 10px; margin-bottom: 15px; }
-   .dna-template { display: none; }
-&lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
+   <figure class=full-screen-code>
+      <figcaption>bookstore.html</figcaption>
+      <pre><code class=language-html>
+         &lt;!doctype html&gt;
+         &lt;!-- - - - - - - - - - - - - - - - --&gt;
+         &lt;!--  Bookstore                    --&gt;
+         &lt;!--  dnajs.org/hello-world.html   --&gt;
+         &lt;!-- - - - - - - - - - - - - - - - --&gt;
+         &lt;html&gt;
+         &lt;head&gt;
+         &lt;meta charset=utf-8&gt;
+         &lt;title&gt;Bookstore&lt;/title&gt;
+         &lt;style&gt;
+            body          { font-family: sans-serif; margin: 30px; }
+            .book-list    { width: 250px; }
+            .book         { background-color: pink; padding: 10px; margin-bottom: 15px; }
+            .dna-template { display: none; }
+         &lt;/style&gt;
+         &lt;/head&gt;
+         &lt;body&gt;
 
-&lt;h1&gt;Bookstore&lt;/h1&gt;
-&lt;div class=book-list&gt;
-   &lt;div id=book class=dna-template&gt;
-      &lt;div&gt;Title:  &lt;span&gt;~~title~~&lt;/span&gt;&lt;/div&gt;
-      &lt;div&gt;Author: &lt;span&gt;~~author~~&lt;/span&gt;&lt;/div&gt;
-   &lt;/div&gt;
-&lt;/div&gt;
+         &lt;h1&gt;Bookstore&lt;/h1&gt;
+         &lt;div class=book-list&gt;
+            &lt;div id=book class=dna-template&gt;
+               &lt;div&gt;Title:  &lt;span&gt;~~title~~&lt;/span&gt;&lt;/div&gt;
+               &lt;div&gt;Author: &lt;span&gt;~~author~~&lt;/span&gt;&lt;/div&gt;
+            &lt;/div&gt;
+         &lt;/div&gt;
 
-&lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;http://dnajs.org/dna.js&quot;&gt;&lt;/script&gt;
-&lt;script&gt;
-   dna.clone('book', { title: 'The DOM',     author: 'Jan' });
-   dna.clone('book', { title: 'Howdy HTML5', author: 'Ed' });
-&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-   </div>
+         &lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+         &lt;script src=&quot;http://dnajs.org/dna.js&quot;&gt;&lt;/script&gt;
+         &lt;script&gt;
+            dna.clone('book', { title: 'The DOM',     author: 'Jan' });
+            dna.clone('book', { title: 'Howdy HTML5', author: 'Ed' });
+         &lt;/script&gt;
+         &lt;/body&gt;
+         &lt;/html&gt;
+      </code></pre>
+   </figure>
 
    <h3 id=page>Bookstore Web Page</h3>
    <p class=image-frame>

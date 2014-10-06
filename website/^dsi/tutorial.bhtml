@@ -22,22 +22,28 @@
    <p>
       Bla, bla, bla...
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;div id=book class=dna_template&gt;~~title~~&lt;/div&gt;
-</code></pre>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var books = [{ title: 'The DOM' }, { title: 'Interwebz' }];
-dna.clone('book', books);
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna_template&gt;~~title~~&lt;/div&gt;
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var books = [{ title: 'The DOM' }, { title: 'Interwebz' }];
+         dna.clone('book', books);
+      </code></pre>
+   </figure>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
-   <div class=code-caption>Resulting HTML</div>
-<pre><code class=language-markup>
-&lt;div class=book&gt;The DOM&lt;/div&gt;
-&lt;div class=book&gt;Interwebz&lt;/div&gt;
-</code></pre>
+   <figure>
+      <figcaption>Resulting HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=book&gt;The DOM&lt;/div&gt;
+         &lt;div class=book&gt;Interwebz&lt;/div&gt;
+      </code></pre>
+   </figure>
    <!-- End: Result  -->
 
 <!--*********************************************************************************************-->
@@ -45,22 +51,28 @@ dna.clone('book', books);
    <p>
       Bla, bla, bla...
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;div id=book class=dna_template&gt;~~title~~&lt;/div&gt;
-</code></pre>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var books = [{ title: 'The DOM' }, { title: 'Interwebz' }];
-dna.clone('book', books);
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna_template&gt;~~title~~&lt;/div&gt;
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var books = [{ title: 'The DOM' }, { title: 'Interwebz' }];
+         dna.clone('book', books);
+      </code></pre>
+   </figure>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
-   <div class=code-caption>Resulting HTML</div>
-<pre><code class=language-markup>
-&lt;div class=book&gt;The DOM&lt;/div&gt;
-&lt;div class=book&gt;Interwebz&lt;/div&gt;
-</code></pre>
+   <figure>
+      <figcaption>Resulting HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=book&gt;The DOM&lt;/div&gt;
+         &lt;div class=book&gt;Interwebz&lt;/div&gt;
+      </code></pre>
+   </figure>
    <!-- End: Result  -->
 
 </article>

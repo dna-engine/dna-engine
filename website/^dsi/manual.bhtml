@@ -139,10 +139,12 @@
       Add the following line to your website's CSS so the DNA templates are not
       displayed in the browser.
    </p>
-   <div class=code-caption>CSS to hide templates</div>
-<pre><code class=language-css>
-.dna-template { display: none; }
-</code></pre>
+   <figure>
+      <figcaption>CSS to hide templates</figcaption>
+      <pre><code class=language-css>
+         .dna-template { display: none; }
+      </code></pre>
+   </figure>
    <p>
       <b>Note:</b> The first call to <code>dna.clone()</code> detaches the template
       from the DOM, so the above line of CSS is technically not required if you
@@ -164,15 +166,17 @@
    <p>
       Example of loading jQuery, dna.js, and your JavaScript web application:
    </p>
-   <div class=code-caption>Load libraries</div>
-<pre><code class=language-markup>
-...
-&lt;script src=&quot;js/jquery.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;js/dna.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;js/your-app.js&quot;&gt;&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+   <figure>
+      <figcaption>Load libraries</figcaption>
+      <pre><code class=language-html>
+         ...
+         &lt;script src=&quot;js/jquery.min.js&quot;&gt;&lt;/script&gt;
+         &lt;script src=&quot;js/dna.min.js&quot;&gt;&lt;/script&gt;
+         &lt;script src=&quot;js/your-app.js&quot;&gt;&lt;/script&gt;
+         &lt;/body&gt;
+         &lt;/html&gt;
+      </code></pre>
+   </figure>
    <p>
       For experimentation and development, you can <a href="dna.js">link</a> directly to:<br>
       <code class=indent>http://dnajs.org/dna.js</code>
@@ -189,10 +193,12 @@
       Use the class <code>dna-template</code> to indicate a template.&nbsp;  The <code>id</code>
       attribute of the element is the template name.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;div id=book class=dna-template&gt;
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna-template&gt;
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -202,19 +208,23 @@
       Enclose data field names in double tildes.&nbsp;  Each field takes up the entire
       text part of the HTML node.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;span&gt;~~title~~&lt;/span&gt;
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;span&gt;~~title~~&lt;/span&gt;
+      </code></pre>
+   </figure>
    <p>
       The field name referes to the field in the data object.&nbsp;  If the data
       is a simple literal (string, number, or boolean) rather than an object,
       use the special name <code>[value]</code> for the field.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;span&gt;~~[value]~~&lt;/span&gt;
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;span&gt;~~[value]~~&lt;/span&gt;
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -223,18 +233,22 @@
    <p>
       Attributes are set using the same notation as fields.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;div id=~~code~~&gt;
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=~~code~~&gt;
+      </code></pre>
+   </figure>
    <p>
       Attributes can also be set by prefixing <code>data-attr-</code> to the attribute
       name.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;img data-attr-src=~~url~~ alt="Profile avatar"&gt;
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;img data-attr-src=~~url~~ alt="Profile avatar"&gt;
+      </code></pre>
+   </figure>
    <p>
       The prefixing technique enables setting the <code>src</code> attribute for an
       <code>img</code> node without causing the browser to fetch the image until the
@@ -249,11 +263,14 @@
    <p>
       Properties are enabled or disabled based on the value of the specified data field.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;input type=checkbox data-prop-checked=~~isGift~~&gt; Gift Wrap&lt;br&gt;
-&lt;input type=checkbox data-prop-checked=~~isExpress~~&gt; Overnight
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;input type=checkbox data-prop-checked=~~isGift~~&gt; Gift Wrap&lt;br&gt;
+         &lt;input type=checkbox data-prop-checked=~~isExpress~~&gt; Overnight
+      </code></pre>
+   </figure>
+   </figure>
    <p>
       Valid data attributes for setting a property are <code>data-prop-checked</code>,
       <code>data-prop-selected</code>, and <code>data-prop-deleted</code>.
@@ -266,26 +283,32 @@
    <p>
       A class can be set just like other attributes.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;div class=~~type~~&gt;
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=~~type~~&gt;
+      </code></pre>
+   </figure>
    <p>
       However, the regular attribute technique above wipes out existing classes on the element, so
       it is generally better to the use the <code>data-class</code> attribute to add a class.
    </p>
-   <div class=code-caption>Example HTML (simple data field name)</div>
-<pre><code class=language-markup>
-   &lt;div data-class=~~type~~&gt;
-</code></pre>
+   <figure>
+      <figcaption>Example HTML (simple data field name)</figcaption>
+      <pre><code class=language-html>
+         &lt;div data-class=~~type~~&gt;
+      </code></pre>
+   </figure>
    <p>
       If there are two or three names (comma separated), the first name is still the name of the
       data field but the data field is evaluated for <a href="#real-truth">"real" truth</a>.
    </p>
-   <div class=code-caption>Example HTML (three names)</div>
-<pre><code class=language-markup>
-&lt;div data-class=~~onSale,red-highlight,no-highlight~~&gt;
-</code></pre>
+   <figure>
+      <figcaption>Example HTML (three names)</figcaption>
+      <pre><code class=language-html>
+         &lt;div data-class=~~onSale,red-highlight,no-highlight~~&gt;
+      </code></pre>
+   </figure>
    <p>
       For true, the second name is added to the element as a class name while the class
       for third name, if provided, is removed.&nbsp;  For false, the third name, if provided, is
@@ -306,32 +329,36 @@
       result in the first book containing an element with the class <code>red-highlight</code> and
       the second book containing an element with the class <code>no-highlight</code>.
    </p>
-   <div class=code-caption>Example</div>
-<pre><code class=language-markup>
-&lt;div id=book class=dna-template&gt;
-   &lt;span data-class=~~onSale,red-highlight,no-highlight~~&gt;
-      ~~title~~
-   &lt;/span&gt;
-&lt;/div&gt;
-&lt;script&gt;
-   var books = [
-      { title: 'The DOM',     onSale: true },
-      { title: 'Styling CSS', onSale: false }
-      ];
-   dna.clone('book', books);
-&lt;/script&gt;
-</code></pre>
+   <figure>
+      <figcaption>Example</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna-template&gt;
+            &lt;span data-class=~~onSale,red-highlight,no-highlight~~&gt;
+               ~~title~~
+            &lt;/span&gt;
+         &lt;/div&gt;
+         &lt;script&gt;
+            var books = [
+               { title: 'The DOM',     onSale: true },
+               { title: 'Styling CSS', onSale: false }
+               ];
+            dna.clone('book', books);
+         &lt;/script&gt;
+      </code></pre>
+   </figure>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
-   <div class=code-caption>Resulting HTML</div>
-<pre><code class=language-markup>
-&lt;div class=book&gt;
-   &lt;span class=red-highlight&gt;The DOM&lt;/span&gt;
-&lt;/div&gt;
-&lt;div class=book&gt;
-   &lt;span class=no-highlight&gt;Styling CSS&lt;/span&gt;
-&lt;/div&gt;
-</code></pre>
+   <figure>
+      <figcaption>Resulting HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=book&gt;
+            &lt;span class=red-highlight&gt;The DOM&lt;/span&gt;
+         &lt;/div&gt;
+         &lt;div class=book&gt;
+            &lt;span class=no-highlight&gt;Styling CSS&lt;/span&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
    <!-- End: Result  -->
 
 
@@ -343,17 +370,19 @@
    <p>
       Below is an example of a completed template.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;div id=book class=dna-template&gt;
-   &lt;div id=~~code~~&gt;
-      Title: &lt;span&gt;~~title~~&lt;/span&gt;
-   &lt;/div&gt;
-   &lt;div data-class=~~type~~&gt;
-      Author: &lt;span&gt;~~author~~&lt;/span&gt;
-   &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna-template&gt;
+            &lt;div id=~~code~~&gt;
+               Title: &lt;span&gt;~~title~~&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div data-class=~~type~~&gt;
+               Author: &lt;span&gt;~~author~~&lt;/span&gt;
+            &lt;/div&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
 </section>
 
 <!--*********************************************************************************************-->
@@ -402,10 +431,12 @@
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-dna.clone('book', { title: 'The DOM', author: 'Bo' });
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         dna.clone('book', { title: 'The DOM', author: 'Bo' });
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -443,12 +474,14 @@ dna.clone('book', { title: 'The DOM', author: 'Bo' });
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var book = { title: 'Interwebz', chapters: ['ARPANET', 'TCP/IP'] };
-var clone = dna.clone('book', book);
-dna.cloneSubTemplate(clone, 'chapters', 'CERN');  //append a chapter
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var book = { title: 'Interwebz', chapters: ['ARPANET', 'TCP/IP'] };
+         var clone = dna.clone('book', book);
+         dna.cloneSubTemplate(clone, 'chapters', 'CERN');  //append a chapter
+      </code></pre>
+   </figure>
    <p>
       See the <a href="#loop-sub-templates">Sub-templates (array loops)</a> section for details.
    </p>
@@ -480,10 +513,12 @@ dna.cloneSubTemplate(clone, 'chapters', 'CERN');  //append a chapter
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-dna.load('book', 'http://dnajs.org/rest/book/3');
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         dna.load('book', 'http://dnajs.org/rest/book/3');
+      </code></pre>
+   </figure>
    <p>
       The <code>dna.load()</code> method will not create a clone if the REST
       call returns an <code>error</code> field equal to <code>true</code>.
@@ -510,13 +545,15 @@ dna.load('book', 'http://dnajs.org/rest/book/3');
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var book = { title: 'The DOM', author: 'Bo' };
-var clone = dna.clone('book', book);
-dna.getModel(clone).title = 'The DOM II';
-dna.mutate(clone);  //updates ui (DOM element) with new title
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var book = { title: 'The DOM', author: 'Bo' };
+         var clone = dna.clone('book', book);
+         dna.getModel(clone).title = 'The DOM II';
+         dna.mutate(clone);  //updates ui (DOM element) with new title
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -544,10 +581,12 @@ dna.mutate(clone);  //updates ui (DOM element) with new title
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-dna.empty('book', { fade: true });
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         dna.empty('book', { fade: true });
+      </code></pre>
+   </figure>
    <p>
       The <code>dna.empty()</code> method does not delete sub-clones
       generated from nested templates.
@@ -585,13 +624,15 @@ dna.empty('book', { fade: true });
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var book = { title: 'The DOM', author: 'Bo' };
-var clone = dna.clone('book', book);
-dna.getModel(clone).title = 'The DOM II';
-dna.mutate(clone);  //updates ui (DOM element) with new title
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var book = { title: 'The DOM', author: 'Bo' };
+         var clone = dna.clone('book', book);
+         dna.getModel(clone).title = 'The DOM II';
+         dna.mutate(clone);  //updates ui (DOM element) with new title
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -610,14 +651,16 @@ dna.mutate(clone);  //updates ui (DOM element) with new title
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var clone1 = dna.clone('book', { title: 'The DOM' });
-var clone2 = dna.clone('book', { title: 'Styling CSS' });
-dna.getModel(clone1).title = 'The DOM II';    //modified title
-dna.getModel(clone2).title = 'Styling CSS3';  //modified title
-dna.mutateAll('book');  //updates ui (DOM elements) with new titles
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var clone1 = dna.clone('book', { title: 'The DOM' });
+         var clone2 = dna.clone('book', { title: 'Styling CSS' });
+         dna.getModel(clone1).title = 'The DOM II';    //modified title
+         dna.getModel(clone2).title = 'Styling CSS3';  //modified title
+         dna.mutateAll('book');  //updates ui (DOM elements) with new titles
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -645,11 +688,13 @@ dna.mutateAll('book');  //updates ui (DOM elements) with new titles
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var clone = dna.clone('book', book);
-dna.destroy(clone, { fade: true });
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var clone = dna.clone('book', book);
+         dna.destroy(clone, { fade: true });
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -668,35 +713,41 @@ dna.destroy(clone, { fade: true });
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example</div>
-<pre><code class=language-markup>
-&lt;div id=book class=dna-template&gt;
-   &lt;p&gt;~~title~~&lt;/p&gt;
-   &lt;button data-click=setFavorite&gt;I Like&lt;/button&gt;
-&lt;/div&gt;
-&lt;script&gt;
-   function setFavorite(buttonElem) {
-      dna.getClone(buttonElem).addClass('favorite');
-      }
-   dna.clone('book', { title: 'Go JavaScript!' });
-&lt;/script&gt;
-</code></pre>
+   <figure>
+      <figcaption>Example</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna-template&gt;
+            &lt;p&gt;~~title~~&lt;/p&gt;
+            &lt;button data-click=setFavorite&gt;I Like&lt;/button&gt;
+         &lt;/div&gt;
+         &lt;script&gt;
+            function setFavorite(buttonElem) {
+               dna.getClone(buttonElem).addClass('favorite');
+               }
+            dna.clone('book', { title: 'Go JavaScript!' });
+         &lt;/script&gt;
+      </code></pre>
+   </figure>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
-   <div class=code-caption>Resulting HTML (before clicking button)</div>
-<pre><code class=language-markup>
-&lt;div class=book&gt;
-   &lt;p&gt;Go JavaScript!&lt;/p&gt;
-   &lt;button&gt;I Like&lt;/button&gt;
-&lt;/div&gt;
-</code></pre>
-   <div class=code-caption>Resulting HTML (after clicking button)</div>
-<pre><code class=language-markup>
-&lt;div class="book favorite"&gt;
-   &lt;p&gt;Go JavaScript!&lt;/p&gt;
-   &lt;button&gt;I Like&lt;/button&gt;
-&lt;/div&gt;
-</code></pre>
+   <figure>
+      <figcaption>Resulting HTML (before clicking button)</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=book&gt;
+            &lt;p&gt;Go JavaScript!&lt;/p&gt;
+            &lt;button&gt;I Like&lt;/button&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Resulting HTML (after clicking button)</figcaption>
+      <pre><code class=language-html>
+         &lt;div class="book favorite"&gt;
+            &lt;p&gt;Go JavaScript!&lt;/p&gt;
+            &lt;button&gt;I Like&lt;/button&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
    <!-- End: Result  -->
 </section>
 
@@ -716,10 +767,12 @@ dna.destroy(clone, { fade: true });
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-dna.getClones('book');
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         dna.getClones('book');
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -739,22 +792,28 @@ dna.getClones('book');
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example (event callback)</div>
-<pre><code class=language-markup>
-&lt;div id=book class=dna-template&gt;
-   &lt;p&gt;~~title~~&lt;/p&gt;
-   &lt;button data-click=dna.bye&gt;Delete Book&lt;/button&gt;
-&lt;/div&gt;
-</code></pre>
-   <div class=code-caption>Example (jQuery loop)</div>
-<pre><code class=language-javascript>
-$('.book.favorite').each(dna.bye);  //deletes all "favorite" books
-</code></pre>
-   <div class=code-caption>Example (direct function call)</div>
-<pre><code class=language-javascript>
-var clone = dna.clone('book', { title: 'The DOM' });
-dna.bye(clone);  //deletes 'The DOM'
-</code></pre>
+   <figure>
+      <figcaption>Example (event callback)</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna-template&gt;
+            &lt;p&gt;~~title~~&lt;/p&gt;
+            &lt;button data-click=dna.bye&gt;Delete Book&lt;/button&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example (jQuery loop)</figcaption>
+      <pre><code class=language-javascript>
+         $('.book.favorite').each(dna.bye);  //deletes all "favorite" books
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example (direct function call)</figcaption>
+      <pre><code class=language-javascript>
+         var clone = dna.clone('book', { title: 'The DOM' });
+         dna.bye(clone);  //deletes 'The DOM'
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -782,11 +841,13 @@ dna.bye(clone);  //deletes 'The DOM'
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-// Line below replaces:  $('.comment-form').validate();
-dna.registerInitializer('validate', { selector: '.comment-form' });
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         // Line below replaces:  $('.comment-form').validate();
+         dna.registerInitializer('validate', { selector: '.comment-form' });
+      </code></pre>
+   </figure>
    <p>
       See the <a href="#event-initializer">Initializers</a> section for details.
    </p>
@@ -799,11 +860,13 @@ dna.registerInitializer('validate', { selector: '.comment-form' });
    <p class=api-description>
       Deletes all initializers.
    </p>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-dna.registerInitializer('bootstrapSwitch', '.switch');
-dna.clearInitializers();  //undoes previous line
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         dna.registerInitializer('bootstrapSwitch', '.switch');
+         dna.clearInitializers();  //undoes previous line
+      </code></pre>
+   </figure>
    <p>
       See the <a href="#event-initializer">Initializers</a> section for details.
    </p>
@@ -816,10 +879,12 @@ dna.clearInitializers();  //undoes previous line
    <p class=api-description>
       Logs information to the browser console.
    </p>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-dna.info();
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         dna.info();
+      </code></pre>
+   </figure>
    <p>
       The <code>dna.info()</code> method is intended to be called manually
       from the console to see which templates have been detected and
@@ -837,22 +902,28 @@ dna.info();
       Pass in a single object to create one clone.&nbsp;  Pass in an array of
       objects to create multiple clones.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;div id=book class=dna-template&gt;~~title~~&lt;/div&gt;
-</code></pre>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var books = [{ title: 'The DOM' }, { title: 'Interwebz' }];
-dna.clone('book', books);
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna-template&gt;~~title~~&lt;/div&gt;
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var books = [{ title: 'The DOM' }, { title: 'Interwebz' }];
+         dna.clone('book', books);
+      </code></pre>
+   </figure>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
-   <div class=code-caption>Resulting HTML</div>
-<pre><code class=language-markup>
-&lt;div class=book&gt;The DOM&lt;/div&gt;
-&lt;div class=book&gt;Interwebz&lt;/div&gt;
-</code></pre>
+   <figure>
+      <figcaption>Resulting HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=book&gt;The DOM&lt;/div&gt;
+         &lt;div class=book&gt;Interwebz&lt;/div&gt;
+      </code></pre>
+   </figure>
    <!-- End: Result  -->
 </section>
 
@@ -864,50 +935,56 @@ dna.clone('book', books);
       for data fields that are arrays.&nbsp;  Each element of the array will
       generate a clone of the sub-template.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;div id=book class=dna-template&gt;
-   Book: &lt;span&gt;~~title~~&lt;/span&gt; by
-   &lt;span&gt;
-      &lt;span data-array=~~authors~~&gt;~~[value]~~&lt;/span&gt;
-   &lt;/span&gt;
-   &lt;div&gt;
-      &lt;div data-array=~~chapters~~&gt;
-         Chapter: &lt;span&gt;~~header~~&lt;/span&gt;
-      &lt;/div&gt;
-   &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var book = {
-   title:    'Interwebz',
-   authors:  ['Ed', 'Jake', 'Abby'],
-   chapters: [header: 'ARPANET', header: 'TCP/IP']
-   };
-dna.clone('book', book);
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna-template&gt;
+            Book: &lt;span&gt;~~title~~&lt;/span&gt; by
+            &lt;span&gt;
+               &lt;span data-array=~~authors~~&gt;~~[value]~~&lt;/span&gt;
+            &lt;/span&gt;
+            &lt;div&gt;
+               &lt;div data-array=~~chapters~~&gt;
+                  Chapter: &lt;span&gt;~~header~~&lt;/span&gt;
+               &lt;/div&gt;
+            &lt;/div&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var book = {
+            title:    'Interwebz',
+            authors:  ['Ed', 'Jake', 'Abby'],
+            chapters: [header: 'ARPANET', header: 'TCP/IP']
+            };
+         dna.clone('book', book);
+      </code></pre>
+   </figure>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
-   <div class=code-caption>Resulting HTML</div>
-<pre><code class=language-markup>
-&lt;div class=book&gt;
-   Book: &lt;span&gt;Interwebz&lt;/span&gt; by
-   &lt;span&gt;
-      &lt;span&gt;Ed&lt;/span&gt;
-      &lt;span&gt;Jake&lt;/span&gt;
-      &lt;span&gt;Abby&lt;/span&gt;
-   &lt;/span&gt;
-   &lt;div&gt;
-      &lt;div&gt;
-         Chapter: &lt;span&gt;ARPANET&lt;/span&gt;
-      &lt;/div&gt;
-      &lt;div&gt;
-         Chapter: &lt;span&gt;TCP/IP&lt;/span&gt;
-      &lt;/div&gt;
-   &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
+   <figure>
+      <figcaption>Resulting HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=book&gt;
+            Book: &lt;span&gt;Interwebz&lt;/span&gt; by
+            &lt;span&gt;
+               &lt;span&gt;Ed&lt;/span&gt;
+               &lt;span&gt;Jake&lt;/span&gt;
+               &lt;span&gt;Abby&lt;/span&gt;
+            &lt;/span&gt;
+            &lt;div&gt;
+               &lt;div&gt;
+                  Chapter: &lt;span&gt;ARPANET&lt;/span&gt;
+               &lt;/div&gt;
+               &lt;div&gt;
+                  Chapter: &lt;span&gt;TCP/IP&lt;/span&gt;
+               &lt;/div&gt;
+            &lt;/div&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
    <!-- End: Result  -->
 </section>
 
@@ -919,28 +996,34 @@ dna.clone('book', book);
       from an array of primitives.&nbsp;  The special field <code>[count]</code>
       is the value's index number in the array plus 1.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;div id=book class=dna-template&gt;
-   &lt;span&gt;~~[count]~~&lt;span&gt;. &lt;span&gt;~~[value]~~&lt;span&gt;
-&lt;/div&gt;
-</code></pre>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var books = ['The DOM', 'Interwebz'];
-dna.clone('book', books);
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna-template&gt;
+            &lt;span&gt;~~[count]~~&lt;span&gt;. &lt;span&gt;~~[value]~~&lt;span&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var books = ['The DOM', 'Interwebz'];
+         dna.clone('book', books);
+      </code></pre>
+   </figure>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
-   <div class=code-caption>Resulting HTML</div>
-<pre><code class=language-markup>
-&lt;div class=book&gt;
-   &lt;span&gt;1&lt;/span&gt;. &lt;span&gt;The DOM&lt;/span&gt;
-&lt;/div&gt;
-&lt;div class=book&gt;
-   &lt;span&gt;2&lt;/span&gt;. &lt;span&gt;Interwebz&lt;/span&gt;
-&lt;/div&gt;
-</code></pre>
+   <figure>
+      <figcaption>Resulting HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=book&gt;
+            &lt;span&gt;1&lt;/span&gt;. &lt;span&gt;The DOM&lt;/span&gt;
+         &lt;/div&gt;
+         &lt;div class=book&gt;
+            &lt;span&gt;2&lt;/span&gt;. &lt;span&gt;Interwebz&lt;/span&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
    <!-- End: Result  -->
 </section>
 
@@ -950,23 +1033,27 @@ dna.clone('book', books);
    <p>
       Classes <code>dna-separator</code> and <code>dna-separator-last</code>...
    </p>
-   <div class=code-caption>Example</div>
-<pre><code class=language-markup>
-&lt;b&gt;Authors:&lt;/b&gt;
-&lt;span id=author class=dna-template&gt;
-   &lt;span&gt;~~name~~&lt;/span&gt;&lt;span class=dna-separator&gt;, &lt;/span&gt;
-&lt;/span&gt;
-&lt;script&gt;
-   var authors = [{ name: 'Ed' }, { name: 'Bo'}, { name: 'Abby' }];
-   dna.clone('author', authors);
-&lt;/script&gt;
-</code></pre>
+   <figure>
+      <figcaption>Example</figcaption>
+      <pre><code class=language-html>
+         &lt;b&gt;Authors:&lt;/b&gt;
+         &lt;span id=author class=dna-template&gt;
+            &lt;span&gt;~~name~~&lt;/span&gt;&lt;span class=dna-separator&gt;, &lt;/span&gt;
+         &lt;/span&gt;
+         &lt;script&gt;
+            var authors = [{ name: 'Ed' }, { name: 'Bo'}, { name: 'Abby' }];
+            dna.clone('author', authors);
+         &lt;/script&gt;
+      </code></pre>
+   </figure>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
-   <div class=code-caption>Result</div>
-   <div class=code-body>
-      <b>Authors:</b> Ed, Jake, Abby
-   </div>
+   <figure>
+      <figcaption>Result</figcaption>
+      <div>
+         <b>Authors:</b> Ed, Jake, Abby
+      </div>
+   </figure>
    <!-- End: Result  -->
 </section>
 
@@ -985,30 +1072,36 @@ dna.clone('book', books);
       In the example below, each new book clone will be passed into the <code>app.blink()</code>
       function, causing the element to fade in a couple times as if it's blinking at the user.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;div id=book class=dna-template data-setup=app.blink&gt;
-   &lt;span&gt;~~title~~&lt;span&gt;
-&lt;/div&gt;
-</code></pre>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var app = {
-   blink: function(elem) {
-      elem.fadeOut().fadeIn().fadeOut().fadeIn();
-      }
-   };
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna-template data-setup=app.blink&gt;
+            &lt;span&gt;~~title~~&lt;span&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var app = {
+            blink: function(elem) {
+               elem.fadeOut().fadeIn().fadeOut().fadeIn();
+               }
+            };
+      </code></pre>
+   </figure>
    <p>
       The callback can also be used outside of a template to initialize an element on page load,
       but you must add the <code>dna-setup</code> class.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;div class=dna-setup data-setup=app.blink&gt;
-   &lt;span&gt;This text will blink on page load!&lt;span&gt;
-&lt;/div&gt;
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=dna-setup data-setup=app.blink&gt;
+            &lt;span&gt;This text will blink on page load!&lt;span&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
    <p>
       <b>Note:</b> Element setup callbacks perform a similar function as
       <a href="#event-initializer">initializers</a>, but element setup is specific and an
@@ -1037,25 +1130,28 @@ var app = {
       <li><code>data-key-press</code></li>
       <li><code>data-enter-key</code></li>
    </ol>
-   <div class=code-caption>Example</div>
-<pre><code class=language-markup>
-&lt;p&gt;Click:  &lt;button data-click=showMsg     value=1&gt;1&lt;/button&gt;&lt;/p&gt;
-&lt;p&gt;Change: &lt;input  data-change=showMsg    value=2&gt;&lt;/p&gt;
-&lt;p&gt;Up:     &lt;input  data-key-up=showMsg    value=3&gt;&lt;/p&gt;
-&lt;p&gt;Down:   &lt;input  data-key-down=showMsg  value=4&gt;&lt;/p&gt;
-&lt;p&gt;Press:  &lt;input  data-key-press=showMsg value=5&gt;&lt;/p&gt;
-&lt;p&gt;Submit: &lt;input  data-enter-key=showMsg value=6&gt;&lt;/p&gt;
-&lt;p id=message&gt;&lt;/p&gt;
-&lt;script&gt;
-   function showMsg(elem, event) {
-      var msg = 'Value: "' + elem.val() + '", Event: ' + event.type;
-      $('#message').text(msg).stop().hide().fadeIn();
-      }
-&lt;/script&gt;
-</code></pre>
+   <figure>
+      <figcaption>Example</figcaption>
+      <pre><code class=language-html>
+         &lt;p&gt;Click:  &lt;button data-click=showMsg     value=1&gt;1&lt;/button&gt;&lt;/p&gt;
+         &lt;p&gt;Change: &lt;input  data-change=showMsg    value=2&gt;&lt;/p&gt;
+         &lt;p&gt;Up:     &lt;input  data-key-up=showMsg    value=3&gt;&lt;/p&gt;
+         &lt;p&gt;Down:   &lt;input  data-key-down=showMsg  value=4&gt;&lt;/p&gt;
+         &lt;p&gt;Press:  &lt;input  data-key-press=showMsg value=5&gt;&lt;/p&gt;
+         &lt;p&gt;Submit: &lt;input  data-enter-key=showMsg value=6&gt;&lt;/p&gt;
+         &lt;p id=message&gt;&lt;/p&gt;
+         &lt;script&gt;
+            function showMsg(elem, event) {
+               var msg = 'Value: "' + elem.val() + '", Event: ' + event.type;
+               $('#message').text(msg).stop().hide().fadeIn();
+               }
+         &lt;/script&gt;
+      </code></pre>
+   </figure>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
-   <div class=code-caption>Result (interactive)</div>
+   <figure>
+      <figcaption>Result (interactive)</div>
    <div class=code-body>
       <p>Click:  <button data-click=showMsg     value=1>1</button></p>
       <p>Change: <input  data-change=showMsg    value=2></p>
@@ -1111,22 +1207,24 @@ var app = {
       Otherwise, the element is passed into the function as the first parameter with the
       <code>params</code> supplied as additional parameters.
    </p>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var app = {
-   highlight: function(elem) {
-      elem.css('background-color', 'gold');
-      },
-   setup: function() {
-      dna.registerInitializer(app.highlight);  //highlight clones
-      dna.registerInitializer('qtip', { selector: '.tooltip' });
-      dna.registerInitializer('css',  //roomy always gets space
-         { selector: '.roomy', params: ['padding', '10px'] });
-      // Line above replaces:  $('.roomy').css('padding', '10px');
-      }
-   };
-$(app.setup);
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var app = {
+            highlight: function(elem) {
+               elem.css('background-color', 'gold');
+               },
+            setup: function() {
+               dna.registerInitializer(app.highlight);  //highlight clones
+               dna.registerInitializer('qtip', { selector: '.tooltip' });
+               dna.registerInitializer('css',  //roomy always gets space
+                  { selector: '.roomy', params: ['padding', '10px'] });
+               // Line above replaces:  $('.roomy').css('padding', '10px');
+               }
+            };
+         $(app.setup);
+      </code></pre>
+   </figure>
    <p>
       <b>Note 1:</b> Initializers perform a similar function as
       <a href="#event-element-setup">element setup callbacks</a> (<code>data-setup</code>), but
@@ -1149,29 +1247,35 @@ $(app.setup);
       executed and passed the clone element plus the data that was injected
       into the clone.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;div id=book class=dna-template&gt;
-   ~~title~~
-&lt;/div&gt;
-</code></pre>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-function applyBkgnd(elem, data) {
-   elem.css('background-image', data.cover);
-   };
-var options = { fade: true, callback: applyBkgnd };
-var book = { title: 'Taskmaster', cover: 'url(cover.png)' };
-dna.clone('book', book, options);
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna-template&gt;
+            ~~title~~
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         function applyBkgnd(elem, data) {
+            elem.css('background-image', data.cover);
+            };
+         var options = { fade: true, callback: applyBkgnd };
+         var book = { title: 'Taskmaster', cover: 'url(cover.png)' };
+         dna.clone('book', book, options);
+      </code></pre>
+   </figure>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
-   <div class=code-caption>Resulting HTML</div>
-<pre><code class=language-markup>
-&lt;div class=book style="background-image: url(cover.png);"&gt;
-   Taskmaster
-&lt;/div&gt;
-</code></pre>
+   <figure>
+      <figcaption>Resulting HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=book style="background-image: url(cover.png);"&gt;
+            Taskmaster
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
    <!-- End: Result  -->
    <p>
       <b>Note:</b> It is almost always cleaner and easier to declare an
@@ -1190,28 +1294,34 @@ dna.clone('book', book, options);
       Use JavaScript object dot notation in field names to reference data fields
       of nested objects.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;div id=book class=dna-template&gt;
-   First Name: &lt;span&gt;~~author.first~~&lt;/span&gt;
-&lt;/div&gt;
-</code></pre>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var book = {
-   title: 'The DOM',
-   author: { first: 'Bo', last: 'Smith' }
-   };
-dna.clone('book', book);
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna-template&gt;
+            First Name: &lt;span&gt;~~author.first~~&lt;/span&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var book = {
+            title: 'The DOM',
+            author: { first: 'Bo', last: 'Smith' }
+            };
+         dna.clone('book', book);
+      </code></pre>
+   </figure>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
-   <div class=code-caption>Resulting HTML</div>
-<pre><code class=language-markup>
-&lt;div class=book&gt;
-   First Name: &lt;span&gt;Bo&lt;/span&gt;
-&lt;/div&gt;
-</code></pre>
+   <figure>
+      <figcaption>Resulting HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=book&gt;
+            First Name: &lt;span&gt;Bo&lt;/span&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
    <!-- End: Result  -->
 </section>
 
@@ -1235,32 +1345,38 @@ dna.clone('book', book);
          <tr><td><code>data-falsey</code></td><td>DNA Field</td><td>Show element only if specified field means false*</td></tr>
       </tbody>
    </table>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;div id=book class=dna-template&gt;
-   &lt;span data-require=~~title~~&gt;~~title~~&lt;/span&gt;
-   &lt;span data-missing=~~title~~&gt;[not found]&lt;/span&gt;
-&lt;/div&gt;
-</code></pre>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var books = [
-   { author: 'Bo', title: 'The DOM' },
-   { author: 'Jan' }
-   ];
-dna.clone('book', books);
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna-template&gt;
+            &lt;span data-require=~~title~~&gt;~~title~~&lt;/span&gt;
+            &lt;span data-missing=~~title~~&gt;[not found]&lt;/span&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var books = [
+            { author: 'Bo', title: 'The DOM' },
+            { author: 'Jan' }
+            ];
+         dna.clone('book', books);
+      </code></pre>
+   </figure>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
-   <div class=code-caption>Resulting HTML</div>
-<pre><code class=language-markup>
-&lt;div class=book&gt;
-   &lt;span&gt;The DOM&lt;/span&gt;
-&lt;/div&gt;
-&lt;div class=book&gt;
-   &lt;span&gt;[not found]&lt;/span&gt;
-&lt;/div&gt;
-</code></pre>
+   <figure>
+      <figcaption>Resulting HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=book&gt;
+            &lt;span&gt;The DOM&lt;/span&gt;
+         &lt;/div&gt;
+         &lt;div class=book&gt;
+            &lt;span&gt;[not found]&lt;/span&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
    <!-- End: Result  -->
    <h5 id=real-truth>Real Truth</h5>
    <p>
@@ -1297,16 +1413,20 @@ dna.clone('book', books);
    <p>
       Compact and maintainable code can be written by basing conditionals on transient data fields.
    </p>
-   <div class=code-caption>Example HTML</div>
-<pre><code class=language-markup>
-&lt;p class=warning data-truthy=~~overdue~~&gt;Invoice past due!&lt;/p&gt;
-</code></pre>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var invoice = { amount: 125.00, dueDate: 'April 3, 2015' },
-invoice.overdue = new Date(invoice.dueDate).getTime() &lt; Date.now();
-dna.clone('invoice', invoice);
-</code></pre>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;p class=warning data-truthy=~~overdue~~&gt;Invoice past due!&lt;/p&gt;
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var invoice = { amount: 125.00, dueDate: 'April 3, 2015' },
+         invoice.overdue = new Date(invoice.dueDate).getTime() &lt; Date.now();
+         dna.clone('invoice', invoice);
+      </code></pre>
+   </figure>
    <p>
       In the above example, the <code>invoice</code> data object has an <code>amount</code> field
       and a <code>dueDate</code> field.&nbsp;  The past due warning is displayed if the boolean
@@ -1377,11 +1497,13 @@ dna.clone('invoice', invoice);
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-$('.box').last().fadeOut(dna.ui.deleteElem);  //removes last box
-dna.ui.deleteElem(('.box').first());  //removes first box
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         $('.box').last().fadeOut(dna.ui.deleteElem);  //removes last box
+         dna.ui.deleteElem(('.box').first());  //removes first box
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -1407,11 +1529,13 @@ dna.ui.deleteElem(('.box').first());  //removes first box
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-dna.ui.slideFadeDelete($('.box').last());  //removes the last box
-dna.ui.slideFadeIn($('.box').first());  //shows the box
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         dna.ui.slideFadeDelete($('.box').last());  //removes the last box
+         dna.ui.slideFadeIn($('.box').first());  //shows the box
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -1435,13 +1559,15 @@ dna.ui.slideFadeIn($('.box').first());  //shows the box
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var elem = $('#msg').text('Error!');
-dna.ui.slidingFlasher(elem);  //slide down
-...
-dna.ui.slidingFlasher(elem);  //pulse
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var elem = $('#msg').text('Error!');
+         dna.ui.slidingFlasher(elem);  //slide down
+         ...
+         dna.ui.slidingFlasher(elem);  //pulse
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -1465,13 +1591,15 @@ dna.ui.slidingFlasher(elem);  //pulse
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-function logFadeDone(e) {
-   console.log('Element faded out:', dna.ui.toElem(e, this));
-   }
-$('.box').last().fadeOut(logFadeDone);
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         function logFadeDone(e) {
+            console.log('Element faded out:', dna.ui.toElem(e, this));
+            }
+         $('.box').last().fadeOut(logFadeDone);
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -1495,14 +1623,16 @@ $('.box').last().fadeOut(logFadeDone);
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-dna.util.apply('app.cart.buy', 7);      //app.cart.buy(7);
-dna.util.apply(Math.max, [7, 21, -3]);  //21;
-dna.util.apply('fadeIn', $('h1'));      //$('h1').fadeIn();
-dna.util.apply('css', [$('h1'), { color: 'red' }]);
-dna.util.apply('css', [$('h1'), 'color', 'gold']);
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         dna.util.apply('app.cart.buy', 7);      //app.cart.buy(7);
+         dna.util.apply(Math.max, [7, 21, -3]);  //21;
+         dna.util.apply('fadeIn', $('h1'));      //$('h1').fadeIn();
+         dna.util.apply('css', [$('h1'), { color: 'red' }]);
+         dna.util.apply('css', [$('h1'), 'color', 'gold']);
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -1523,10 +1653,12 @@ dna.util.apply('css', [$('h1'), 'color', 'gold']);
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-dna.util.realTruth('F');  //false
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         dna.util.realTruth('F');  //false
+      </code></pre>
+   </figure>
 </section>
 
 <!--  dna.util.toCamel()  -->
@@ -1545,10 +1677,12 @@ dna.util.realTruth('F');  //false
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-dna.util.toCamel('ready-set-go');  //'readySetGo'
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         dna.util.toCamel('ready-set-go');  //'readySetGo'
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -1567,10 +1701,12 @@ dna.util.toCamel('ready-set-go');  //'readySetGo'
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-dna.util.toCode('readySetGo');  //'ready-set-go'
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+            dna.util.toCode('readySetGo');  //'ready-set-go'
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -1594,11 +1730,13 @@ dna.util.toCode('readySetGo');  //'ready-set-go'
          </li>
       </ul>
    </div>
-   <div class=code-caption>Example JavaScript</div>
-<pre><code class=language-javascript>
-var data = { cart: { items: 7 } };
-var count = dna.util.value(data, 'cart.items');  //7
-</code></pre>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var data = { cart: { items: 7 } };
+         var count = dna.util.value(data, 'cart.items');  //7
+      </code></pre>
+   </figure>
 </section>
 
 <!--*********************************************************************************************-->
