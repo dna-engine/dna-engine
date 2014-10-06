@@ -33,7 +33,7 @@ echo
 
 # Put files into web server folder
 target="../../../dnajs.org"
-[ $(whoami) == "dem" ] && target="../../../../Sites/centerkey.com/www.dnajs.org"
+[ $(whoami) == "dpilafian" ] && target="../../../../Sites/centerkey.com/www.dnajs.org"
 mkdir -p "$target"
 target=$(cd "$target"; pwd)
 echo "Target: $target"

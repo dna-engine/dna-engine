@@ -191,7 +191,7 @@
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-&lt;div id=book class=dna_template&gt;
+&lt;div id=book class=dna-template&gt;
 </code></pre>
 </section>
 
@@ -225,7 +225,7 @@
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-&lt;div id=__code__&gt;
+&lt;div id=~~code~~&gt;
 </code></pre>
    <p>
       Attributes can also be set by prefixing <code>data-attr-</code> to the attribute
@@ -233,7 +233,7 @@
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-&lt;img data-attr-src=__url__ alt="Profile avatar"&gt;
+&lt;img data-attr-src=~~url~~ alt="Profile avatar"&gt;
 </code></pre>
    <p>
       The prefixing technique enables setting the <code>src</code> attribute for an
@@ -251,8 +251,8 @@
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-&lt;input type=checkbox data-prop-checked=__isGift__&gt; Gift Wrap&lt;br&gt;
-&lt;input type=checkbox data-prop-checked=__isExpress__&gt; Overnight
+&lt;input type=checkbox data-prop-checked=~~isGift~~&gt; Gift Wrap&lt;br&gt;
+&lt;input type=checkbox data-prop-checked=~~isExpress~~&gt; Overnight
 </code></pre>
    <p>
       Valid data attributes for setting a property are <code>data-prop-checked</code>,
@@ -268,7 +268,7 @@
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-&lt;div class=__type__&gt;
+&lt;div class=~~type~~&gt;
 </code></pre>
    <p>
       However, the regular attribute technique above wipes out existing classes on the element, so
@@ -276,7 +276,7 @@
    </p>
    <div class=code-caption>Example HTML (simple data field name)</div>
 <pre><code class=language-markup>
-&lt;div data-class=__type__&gt;
+   &lt;div data-class=~~type~~&gt;
 </code></pre>
    <p>
       If there are two or three names (comma separated), the first name is still the name of the
@@ -284,7 +284,7 @@
    </p>
    <div class=code-caption>Example HTML (three names)</div>
 <pre><code class=language-markup>
-&lt;div data-class=__onSale_c_red_highlight_c_no_highlight__&gt;
+&lt;div data-class=~~onSale,red-highlight,no-highlight~~&gt;
 </code></pre>
    <p>
       For true, the second name is added to the element as a class name while the class
@@ -308,8 +308,8 @@
    </p>
    <div class=code-caption>Example</div>
 <pre><code class=language-markup>
-&lt;div id=book class=dna_template&gt;
-   &lt;span data-class=__onSale_c_red_highlight_c_no_highlight__&gt;
+&lt;div id=book class=dna-template&gt;
+   &lt;span data-class=~~onSale,red-highlight,no-highlight~~&gt;
       ~~title~~
    &lt;/span&gt;
 &lt;/div&gt;
@@ -326,10 +326,10 @@
    <div class=code-caption>Resulting HTML</div>
 <pre><code class=language-markup>
 &lt;div class=book&gt;
-   &lt;span class=red_highlight&gt;The DOM&lt;/span&gt;
+   &lt;span class=red-highlight&gt;The DOM&lt;/span&gt;
 &lt;/div&gt;
 &lt;div class=book&gt;
-   &lt;span class=no_highlight&gt;Styling CSS&lt;/span&gt;
+   &lt;span class=no-highlight&gt;Styling CSS&lt;/span&gt;
 &lt;/div&gt;
 </code></pre>
    <!-- End: Result  -->
@@ -345,11 +345,11 @@
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-&lt;div id=book class=dna_template&gt;
-   &lt;div id=__code__&gt;
+&lt;div id=book class=dna-template&gt;
+   &lt;div id=~~code~~&gt;
       Title: &lt;span&gt;~~title~~&lt;/span&gt;
    &lt;/div&gt;
-   &lt;div data-class=__type__&gt;
+   &lt;div data-class=~~type~~&gt;
       Author: &lt;span&gt;~~author~~&lt;/span&gt;
    &lt;/div&gt;
 &lt;/div&gt;
@@ -670,7 +670,7 @@ dna.destroy(clone, { fade: true });
    </div>
    <div class=code-caption>Example</div>
 <pre><code class=language-markup>
-&lt;div id=book class=dna_template&gt;
+&lt;div id=book class=dna-template&gt;
    &lt;p&gt;~~title~~&lt;/p&gt;
    &lt;button data-click=setFavorite&gt;I Like&lt;/button&gt;
 &lt;/div&gt;
@@ -741,9 +741,9 @@ dna.getClones('book');
    </div>
    <div class=code-caption>Example (event callback)</div>
 <pre><code class=language-markup>
-&lt;div id=book class=dna_template&gt;
+&lt;div id=book class=dna-template&gt;
    &lt;p&gt;~~title~~&lt;/p&gt;
-   &lt;button data-click=dna_d_bye&gt;Delete Book&lt;/button&gt;
+   &lt;button data-click=dna.bye&gt;Delete Book&lt;/button&gt;
 &lt;/div&gt;
 </code></pre>
    <div class=code-caption>Example (jQuery loop)</div>
@@ -839,7 +839,7 @@ dna.info();
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-&lt;div id=book class=dna_template&gt;~~title~~&lt;/div&gt;
+&lt;div id=book class=dna-template&gt;~~title~~&lt;/div&gt;
 </code></pre>
    <div class=code-caption>Example JavaScript</div>
 <pre><code class=language-javascript>
@@ -866,13 +866,13 @@ dna.clone('book', books);
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-&lt;div id=book class=dna_template&gt;
+&lt;div id=book class=dna-template&gt;
    Book: &lt;span&gt;~~title~~&lt;/span&gt; by
    &lt;span&gt;
-      &lt;span data-array=__authors__&gt;~~[value]~~&lt;/span&gt;
+      &lt;span data-array=~~authors~~&gt;~~[value]~~&lt;/span&gt;
    &lt;/span&gt;
    &lt;div&gt;
-      &lt;div data-array=__chapters__&gt;
+      &lt;div data-array=~~chapters~~&gt;
          Chapter: &lt;span&gt;~~header~~&lt;/span&gt;
       &lt;/div&gt;
    &lt;/div&gt;
@@ -921,7 +921,7 @@ dna.clone('book', book);
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-&lt;div id=book class=dna_template&gt;
+&lt;div id=book class=dna-template&gt;
    &lt;span&gt;~~[count]~~&lt;span&gt;. &lt;span&gt;~~[value]~~&lt;span&gt;
 &lt;/div&gt;
 </code></pre>
@@ -953,8 +953,8 @@ dna.clone('book', books);
    <div class=code-caption>Example</div>
 <pre><code class=language-markup>
 &lt;b&gt;Authors:&lt;/b&gt;
-&lt;span id=author class=dna_template&gt;
-   &lt;span&gt;~~name~~&lt;/span&gt;&lt;span class=dna_separator&gt;, &lt;/span&gt;
+&lt;span id=author class=dna-template&gt;
+   &lt;span&gt;~~name~~&lt;/span&gt;&lt;span class=dna-separator&gt;, &lt;/span&gt;
 &lt;/span&gt;
 &lt;script&gt;
    var authors = [{ name: 'Ed' }, { name: 'Bo'}, { name: 'Abby' }];
@@ -987,7 +987,7 @@ dna.clone('book', books);
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-&lt;div id=book class=dna_template data-setup=app_d_blink&gt;
+&lt;div id=book class=dna-template data-setup=app.blink&gt;
    &lt;span&gt;~~title~~&lt;span&gt;
 &lt;/div&gt;
 </code></pre>
@@ -1005,7 +1005,7 @@ var app = {
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-&lt;div class=dna_setup data-setup=app_d_blink&gt;
+&lt;div class=dna-setup data-setup=app.blink&gt;
    &lt;span&gt;This text will blink on page load!&lt;span&gt;
 &lt;/div&gt;
 </code></pre>
@@ -1151,7 +1151,7 @@ $(app.setup);
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-&lt;div id=book class=dna_template&gt;
+&lt;div id=book class=dna-template&gt;
    ~~title~~
 &lt;/div&gt;
 </code></pre>
@@ -1192,7 +1192,7 @@ dna.clone('book', book, options);
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-&lt;div id=book class=dna_template&gt;
+&lt;div id=book class=dna-template&gt;
    First Name: &lt;span&gt;~~author.first~~&lt;/span&gt;
 &lt;/div&gt;
 </code></pre>
@@ -1237,9 +1237,9 @@ dna.clone('book', book);
    </table>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-&lt;div id=book class=dna_template&gt;
-   &lt;span data-require=__title__&gt;~~title~~&lt;/span&gt;
-   &lt;span data-missing=__title__&gt;[not found]&lt;/span&gt;
+&lt;div id=book class=dna-template&gt;
+   &lt;span data-require=~~title~~&gt;~~title~~&lt;/span&gt;
+   &lt;span data-missing=~~title~~&gt;[not found]&lt;/span&gt;
 &lt;/div&gt;
 </code></pre>
    <div class=code-caption>Example JavaScript</div>
@@ -1299,7 +1299,7 @@ dna.clone('book', books);
    </p>
    <div class=code-caption>Example HTML</div>
 <pre><code class=language-markup>
-&lt;p class=warning data-truthy=__overdue__&gt;Invoice past due!&lt;/p&gt;
+&lt;p class=warning data-truthy=~~overdue~~&gt;Invoice past due!&lt;/p&gt;
 </code></pre>
    <div class=code-caption>Example JavaScript</div>
 <pre><code class=language-javascript>

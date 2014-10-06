@@ -5,9 +5,9 @@
    </a>
 </footer>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="http://www.centerkey.com/files/prism/prism.js"></script>
-<script src="http://www.centerkey.com/files/prism/prism-fix.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js"></script>
+<script src="http://www.centerkey.com/files/hljs-enhance/hljs-enhance.js"></script>
 <script src="http://www.centerkey.com/js/library.js"></script>
 <script src="dna.min.js"></script>
 <script src="app.js"></script>

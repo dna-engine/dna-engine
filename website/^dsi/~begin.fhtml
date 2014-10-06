@@ -29,7 +29,8 @@
    <link rel=icon             href="graphics/bookmark.png">
    <link rel=apple-touch-icon href="graphics/dnajs-logo.png">
    <link rel=stylesheet       href="http://www.centerkey.com/css/reset.css">
-   <link rel=stylesheet       href="http://www.centerkey.com/files/prism/prism.css">
+   <link rel=stylesheet       href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/docco.min.css">
+   <link rel=stylesheet       href="http://www.centerkey.com/files/hljs-enhance/hljs-enhance.css">
    <link rel=stylesheet       href="style.css">
 </head>
 <body>

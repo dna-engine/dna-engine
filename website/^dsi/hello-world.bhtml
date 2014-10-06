@@ -38,8 +38,8 @@
 &lt;body&gt;
 
 &lt;h1&gt;Bookstore&lt;/h1&gt;
-&lt;div class=book_list&gt;
-   &lt;div id=book class=dna_template&gt;
+&lt;div class=book-list&gt;
+   &lt;div id=book class=dna-template&gt;
       &lt;div&gt;Title:  &lt;span&gt;~~title~~&lt;/span&gt;&lt;/div&gt;
       &lt;div&gt;Author: &lt;span&gt;~~author~~&lt;/span&gt;&lt;/div&gt;
    &lt;/div&gt;
