@@ -23,11 +23,11 @@ app.bookstore = {
 
 app.nav = {
    setup: function() {
-      var current = $('.navigation-bar a')
+      var current = $('header nav a')
          .filter('[href="' + window.location.pathname.split('/').pop() + '"]')
          .closest('li');
       if (!current.length)
-         current = $('.navigation-bar li').first();
+         current = $('header nav li').first();
       current.addClass('current');
       }
    };

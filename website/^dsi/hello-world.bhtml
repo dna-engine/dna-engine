@@ -45,7 +45,7 @@
             &lt;/div&gt;
          &lt;/div&gt;
 
-         &lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+         &lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js&quot;&gt;&lt;/script&gt;
          &lt;script src=&quot;http://dnajs.org/dna.js&quot;&gt;&lt;/script&gt;
          &lt;script&gt;
             dna.clone('book', { title: 'The DOM',     author: 'Jan' });
