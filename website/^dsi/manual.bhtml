@@ -1048,7 +1048,7 @@
    </figure>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
-   <figure>
+   <figure class=hljs-enhance>
       <figcaption>Result</figcaption>
       <div>
          <b>Authors:</b> Ed, Jake, Abby
@@ -1150,23 +1150,24 @@
    </figure>
    <!-- Start: Result  -->
    <div class=down-arrow></div>
-   <figure>
-      <figcaption>Result (interactive)</div>
-   <div class=code-body>
-      <p>Click:  <button data-click=showMsg     value=1>1</button></p>
-      <p>Change: <input  data-change=showMsg    value=2></p>
-      <p>Up:     <input  data-key-up=showMsg    value=3></p>
-      <p>Down:   <input  data-key-down=showMsg  value=4></p>
-      <p>Press:  <input  data-key-press=showMsg value=5></p>
-      <p>Submit: <input  data-enter-key=showMsg value=6></p>
-      <p id=message></p>
-      <script>
-         function showMsg(elem, event) {
-            var msg = 'Value: "' + elem.val() + '", Event: ' + event.type;
-            $('#message').text(msg).stop().hide().fadeIn();
-            }
-      </script>
-   </div>
+   <figure class=hljs-enhance>
+      <figcaption>Result (interactive)</figcaption>
+      <div>
+         <p>Click:  <button data-click=showMsg     value=1>1</button></p>
+         <p>Change: <input  data-change=showMsg    value=2></p>
+         <p>Up:     <input  data-key-up=showMsg    value=3></p>
+         <p>Down:   <input  data-key-down=showMsg  value=4></p>
+         <p>Press:  <input  data-key-press=showMsg value=5></p>
+         <p>Submit: <input  data-enter-key=showMsg value=6></p>
+         <p id=message></p>
+         <script>
+            function showMsg(elem, event) {
+               var msg = 'Value: "' + elem.val() + '", Event: ' + event.type;
+               $('#message').text(msg).stop().hide().fadeIn();
+               }
+         </script>
+      </div>
+   </figure>
    <!-- End: Result  -->
 </section>
 
