@@ -270,7 +270,6 @@
          &lt;input type=checkbox data-prop-checked=~~isExpress~~&gt; Overnight
       </code></pre>
    </figure>
-   </figure>
    <p>
       Valid data attributes for setting a property are <code>data-prop-checked</code>,
       <code>data-prop-selected</code>, and <code>data-prop-deleted</code>.
