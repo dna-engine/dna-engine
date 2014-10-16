@@ -478,7 +478,7 @@
       <pre><code class=language-javascript>
          var book = { title: 'Interwebz', chapters: ['ARPANET', 'TCP/IP'] };
          var clone = dna.clone('book', book);
-         dna.cloneSubTemplate(clone, 'chapters', 'CERN');  //append a chapter
+         dna.cloneSubTemplate(clone, 'chapters', 'CERN');  //append chapter
       </code></pre>
    </figure>
    <p>
@@ -657,7 +657,7 @@
          var clone2 = dna.clone('book', { title: 'Styling CSS' });
          dna.getModel(clone1).title = 'The DOM II';    //modified title
          dna.getModel(clone2).title = 'Styling CSS3';  //modified title
-         dna.mutateAll('book');  //updates ui (DOM elements) with new titles
+         dna.mutateAll('book');  //updates ui with new titles
       </code></pre>
    </figure>
 </section>
@@ -694,6 +694,10 @@
          dna.destroy(clone, { fade: true });
       </code></pre>
    </figure>
+   <p>
+      <b>Note:</b> If the only option being set is <code>fade</code> to <code>true</code>, it is
+      simpler to user the <a href="#api-bye"><code>dna.by()</code></a> convenience method.
+   </p>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -779,8 +783,9 @@
 <section id=api-bye>
    <h4>dna.bye(elemOrEventOrIndex)</h4>
    <p class=api-description>
-      Removes a clone when called as an event callback, from a jQuery loop, or directly as
-      function with the clone as the parameter.
+      Performs a <a href="#ui-slide-fade">sliding fade out effect</a> on the clone and then
+      removes the element.&nbsp;  The function can be called: 1) as an event callback, 2) from a
+      jQuery loop, or 3) directly as function with the clone as the parameter.
    </p>
    <div class=api-parameters>
       Parameters:
@@ -792,7 +797,7 @@
       </ul>
    </div>
    <figure>
-      <figcaption>Example (event callback)</figcaption>
+      <figcaption>Example 1: event callback</figcaption>
       <pre><code class=language-html>
          &lt;div id=book class=dna-template&gt;
             &lt;p&gt;~~title~~&lt;/p&gt;
@@ -801,13 +806,13 @@
       </code></pre>
    </figure>
    <figure>
-      <figcaption>Example (jQuery loop)</figcaption>
+      <figcaption>Example 2: jQuery loop</figcaption>
       <pre><code class=language-javascript>
-         $('.book.favorite').each(dna.bye);  //deletes all "favorite" books
+         $('.book.favorite').each(dna.bye);  //deletes all favorite books
       </code></pre>
    </figure>
    <figure>
-      <figcaption>Example (direct function call)</figcaption>
+      <figcaption>Example 3: direct function call</figcaption>
       <pre><code class=language-javascript>
          var clone = dna.clone('book', { title: 'The DOM' });
          dna.bye(clone);  //deletes 'The DOM'
@@ -1422,14 +1427,14 @@
    <figure>
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
-         var invoice = { amount: 125.00, dueDate: 'April 3, 2015' },
-         invoice.overdue = new Date(invoice.dueDate).getTime() &lt; Date.now();
+         var invoice = { amount: 125.00, due: 'April 3, 2015' },
+         invoice.overdue = new Date(invoice.due).getTime() &lt; Date.now();
          dna.clone('invoice', invoice);
       </code></pre>
    </figure>
    <p>
       In the above example, the <code>invoice</code> data object has an <code>amount</code> field
-      and a <code>dueDate</code> field.&nbsp;  The past due warning is displayed if the boolean
+      and a <code>due</code> field.&nbsp;  The past due warning is displayed if the boolean
       field <code>overdue</code>, which is calculated on the fly, is set to <code>true</code>.
    </p>
    <p>
