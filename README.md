@@ -35,7 +35,7 @@ template is detached from the DOM and kept for additional cloning).
 #### c) Resulting HTML with DNA clone
 ```html
 <h1>Featured Books</h1>
-   <div class=book>
+<div class=book>
    <div>Title:  <span>The DOM</span></div>
    <div>Author: <span>Jan</span></div>
 </div>
