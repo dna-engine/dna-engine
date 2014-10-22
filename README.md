@@ -13,11 +13,13 @@ of your web page.&nbsp;  Use the element's `id` to indicate the name of the temp
 Enclose data fields in double tildes `~~` (a.k.a. DNA strands).
 
 #### a) HTML for book template
-    <h1>Featured Books</h1>
-    <div id=book class=dna-template>
-       <div>Title:  <span>~~title~~</span></div>
-       <div>Author: <span>~~author~~</span></div>
-    </div>
+```html
+<h1>Featured Books</h1>
+<div id=book class=dna-template>
+   <div>Title:  <span>~~title~~</span></div>
+   <div>Author: <span>~~author~~</span></div>
+</div>
+```
 
 Then call the `dna.clone()` function to insert a copy of the template into the DOM.&nbsp;  The
 supplied JSON data object will be used to populate the fields of the template.
