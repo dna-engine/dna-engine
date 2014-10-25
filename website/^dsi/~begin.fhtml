@@ -14,7 +14,7 @@
 <!--#set var="name"          value="dna.js Template Cloner"                    -->
 <!--#set var="copyright"     value="Copyright (c) 2013-2014"                   -->
 <!--#set var="authors"       value="Center Key Software and other contributors"-->
-<!--#set var="release"       value="v0.3.0 (beta)"                             -->
+<!--#set var="release"       value="v0.3.0"                                    -->
 <!--#set var="size"          value="10 kb"                                     -->
 <!--#set var="jsFiddleBooks" value="us4jwk7d"                                  -->
 <!--#set var="jsFiddleTodo"  value="kpk1q33a"                                  -->
@@ -22,8 +22,8 @@
 <html>
 <head>
    <meta charset=utf-8>
-   <title><!--#echo var="name" --> &bull; <!--#echo var="title" --></title>
-   <!--#if file="$DOCUMENT_NAME=file-not-found.bhtml" -->
+   <title><!--#echo var="name"--> &bull; <!--#echo var="title"--></title>
+   <!--#if file="$DOCUMENT_NAME=file-not-found.bhtml"-->
    <base href="http://dnajs.org/">
    <!--#endif -->
    <link rel=icon             href="graphics/bookmark.png">
@@ -48,8 +48,8 @@
          <li><a class=plain href="license.html">License</a></li>
       </ul>
    </nav>
-   <h1><!--#echo var="name" --></h1>
-   <h2><!--#echo var="title" --></h2>
+   <h1><!--#echo var="name"--></h1>
+   <h2><!--#echo var="title"--></h2>
    <div id=logo>
       <a href="http://dnajs.org">
          <img src="graphics/dnajs-logo.png" alt="Logo">

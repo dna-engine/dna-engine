@@ -1,5 +1,5 @@
-<!--#set var="title" value="World's Easiest to Use Templating Engine" -->
-<!--#include file="~begin.fhtml" -->
+<!--#set var="title" value="World's Easiest to Use Templating Engine"-->
+<!--#include file="~begin.fhtml"-->
 
 <article>
 
@@ -7,7 +7,7 @@
       <a href="https://raw.github.com/dnajs/dna.js/current/dna.min.js" class=external-site>
          <div class=snazzy-button>
             <img src="graphics/icon-download.png" alt="Download"> Download dna.min.js
-            <div><!--#echo var="release" -->, <!--#echo var="size" --></div>
+            <div><!--#echo var="release"--> (<!--#echo var="size"-->)</div>
          </div>
       </a>
       <p class=alt-link>
@@ -17,7 +17,7 @@
       </p>
       <div id=news>
          <h4>News</h4>
-         <!--#include file="~news.fhtml" -->
+         <!--#include file="~news.fhtml"-->
       </div>
    </div>
 
@@ -48,8 +48,8 @@
    <p>
       dna.js to-do application:<br>
       <span class=indent>
-         <a href="http://jsfiddle.net/<!--#echo var="jsFiddleTodo" -->/" class=external-site>
-            jsfiddle.net/<!--#echo var="jsFiddleTodo" --></a>
+         <a href="http://jsfiddle.net/<!--#echo var="jsFiddleTodo"-->/" class=external-site>
+            jsfiddle.net/<!--#echo var="jsFiddleTodo"--></a>
       </span>
    </p>
    <p>
@@ -218,4 +218,4 @@
 
 </article>
 
-<!--#include file="~end.fhtml" -->
+<!--#include file="~end.fhtml"-->

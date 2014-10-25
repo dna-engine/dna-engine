@@ -1,5 +1,5 @@
-<!--#set var="title" value="Quick Stark Tutorial" -->
-<!--#include file="~begin.fhtml" -->
+<!--#set var="title" value="Quick Stark Tutorial"-->
+<!--#include file="~begin.fhtml"-->
 
 <article>
 
@@ -77,4 +77,4 @@
 
 </article>
 
-<!--#include file="~end.fhtml" -->
+<!--#include file="~end.fhtml"-->
