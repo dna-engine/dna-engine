@@ -1,0 +1,5 @@
+<li>
+   <label><b>field</b> (String):</label>
+   Name of a field within the data object (supports object dot notation for nested
+   objects).
+</li>

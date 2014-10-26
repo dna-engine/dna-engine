@@ -1,0 +1,4 @@
+<li>
+   <label><b>holderClone</b> (jQuery Element):</label>
+   Clone element that contains the sub-template array loop.
+</li>

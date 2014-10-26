@@ -1,0 +1,6 @@
+<li>
+   <label><b>data</b> (Object, String, Number, Boolean, or Array) <i>[optional]</i>:</label>
+   Data to be used for populating the template fields when cloning the
+   template.&nbsp;  If <code>data</code> is an array, the length of the
+   array is the number of clones to be generated.
+</li>

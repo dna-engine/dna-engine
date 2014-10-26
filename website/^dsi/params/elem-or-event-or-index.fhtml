@@ -1,0 +1,4 @@
+<li>
+   <label><b>elemOrEventOrIndex</b> (jQuery Object, Event, or Index):</label>
+   Reference to a jQuery element.
+</li>

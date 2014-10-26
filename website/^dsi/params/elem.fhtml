@@ -1,0 +1,4 @@
+<li>
+   <label><b>elem</b> (jQuery Element):</label>
+   Any element within the clone or even the clone itself.
+</li>

@@ -415,16 +415,8 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>name</b> (String):</label>
-            Name of the template to clone.
-         </li>
-         <li>
-            <label><b>data</b> (Object, String, Number, Boolean, or Array) <i>[optional]</i>:</label>
-            Data to be used for populating the template fields when cloning the
-            template.&nbsp;  If <code>data</code> is an array, the length of the
-            array is the number of clones to be generated.
-         </li>
+         <!--#include file="params/name.fhtml"-->
+         <!--#include file="params/data.fhtml"-->
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
@@ -456,27 +448,13 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>holderClone</b> (jQuery Element):</label>
-            Clone element that contains the sub-template array loop.
-         </li>
-         <li>
-            <label><b>arrayField</b> (String):</label>
-            Name of data field for an array loop.
-         </li>
-         <li>
-            <label><b>data</b> (Object, String, Number, Boolean, or Array):</label>
-            Data to be used for populating the sub-template fields when cloning the
-            sub-template.&nbsp;  If data is an array, the length of the array is the number of
-            clones to be generated.
-         </li>
+         <!--#include file="params/holder-clone.fhtml"-->
+         <!--#include file="params/array-field.fhtml"-->
+         <!--#include file="params/data.fhtml"-->
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <li>
-                  <label><b>fade</b> (Boolean) &mdash;</label>
-                  Use the jQuery <code>.fadeOut()</code> effect (default: <b>false</b>).
-               </li>
+               <!--#include file="options/fade.fhtml"-->
             </ul>
          </li>
       </ul>
@@ -505,16 +483,8 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>name</b> (String):</label>
-            Name of the template to clone.
-         </li>
-         <li>
-            <label><b>url</b> (String):</label>
-            URL of a REST call that returns data as JSON text
-            (<code>Content-Type: application/json</code>).&nbsp;  See the
-            <code>data</code> field for the <code>dna.clone()</code> method.
-         </li>
+         <!--#include file="params/name.fhtml"-->
+         <!--#include file="params/url.fhtml"-->
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
@@ -554,10 +524,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>clone</b> (jQuery Element):</label>
-            An element returned from a call to the <code>dna.clone()</code> method.
-         </li>
+         <!--#include file="params/clone.fhtml"-->
       </ul>
    </div>
    <figure>
@@ -581,17 +548,11 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>name</b> (String):</label>
-            Name of the template to clone.
-         </li>
+         <!--#include file="params/name.fhtml"-->
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <li>
-                  <label><b>fade</b> (Boolean) &mdash;</label>
-                  Use the jQuery <code>.fadeOut()</code> effect (default: <b>false</b>).
-               </li>
+               <!--#include file="options/fade.fhtml"-->
             </ul>
          </li>
       </ul>
@@ -618,23 +579,12 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>clone</b> (jQuery Element):</label>
-            An element returned from a call to the <code>dna.clone()</code> method.
-         </li>
-         <li>
-            <label><b>data</b> (Object) <i>[optional]</i>:</label>
-            Object with fields to be used in updating the clone.&nbsp;
-            Only fields contained in the <code>data</code> paramater are
-            modified.
-         </li>
+         <!--#include file="params/clone.fhtml"-->
+         <!--#include file="params/data(update).fhtml"-->
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <li>
-                  <label><b>html</b> (Boolean) &mdash;</label>
-                  Inject data as HTML rather than unformatted text (default: <b>false</b>).
-               </li>
+               <!--#include file="options/html.fhtml"-->
             </ul>
          </li>
       </ul>
@@ -660,10 +610,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>name</b> (String):</label>
-            Template name.
-         </li>
+         <!--#include file="params/name.fhtml"-->
       </ul>
    </div>
    <figure>
@@ -688,24 +635,12 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>clone</b> (jQuery Element):</label>
-            An element returned from a call to the <code>dna.clone()</code> method.
-         </li>
+         <!--#include file="params/clone.fhtml"-->
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <li>
-                  <label><b>fade</b> (Boolean) &mdash;</label>
-                  Use the jQuery <code>.fadeOut()</code> effect (default: <b>false</b>).
-               </li>
-               <li>
-                  <label><b>mainClone</b> (Boolean) &mdash;</label>
-                  If <code>true</code>, ignore
-                  <a href="#loop-sub-templates">sub-clones</a> and only search
-                  for the clone generated from the main template
-                  (default: <b>false</b>).
-               </li>
+               <!--#include file="options/fade.fhtml"-->
+               <!--#include file="options/main-clone.fhtml"-->
             </ul>
          </li>
       </ul>
@@ -719,7 +654,7 @@
    </figure>
    <p>
       <b>Note:</b> If the only option being set is <code>fade</code> to <code>true</code>, it is
-      simpler to user the <a href="#api-bye"><code>dna.by()</code></a> convenience method.
+      simpler to user the <code><a href="#api-bye">dna.bye()</a></code> convenience method.
    </p>
 </section>
 
@@ -734,20 +669,11 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>elem</b> (jQuery Element):</label>
-            Any element within the clone or even the clone itself.
-         </li>
+         <!--#include file="params/elem.fhtml"-->
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <li>
-                  <label><b>mainClone</b> (Boolean) &mdash;</label>
-                  If <code>true</code>, ignore
-                  <a href="#loop-sub-templates">sub-clones</a> and only search
-                  for the clone generated from the main template
-                  (default: <b>false</b>).
-               </li>
+               <!--#include file="options/main-clone.fhtml"-->
             </ul>
          </li>
       </ul>
@@ -800,10 +726,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>name</b> (String):</label>
-            Template name.
-         </li>
+         <!--#include file="params/name.fhtml"-->
       </ul>
    </div>
    <figure>
@@ -826,10 +749,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>elemOrEventOrIndex</b> (jQuery Object, Event, or Index):</label>
-            Reference to a jQuery element.
-         </li>
+         <!--#include file="params/elem-or-event-or-index.fhtml"-->
       </ul>
    </div>
    <figure>
@@ -866,17 +786,11 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>callback</b> (String or Function):</label>
-            String name of a function or an actual function.
-         </li>
+         <!--#include file="params/callback.fhtml"-->
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <li>
-                  <label><b>selector</b> (String) &mdash;</label>
-                  CSS selector (default: none).
-               </li>
+               <!--#include file="options/selector.fhtml"-->
             </ul>
          </li>
       </ul>
@@ -1532,17 +1446,19 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>elemOrEventOrIndex</b> (jQuery Object, Event, or Index):</label>
-            Reference to a jQuery element.
-         </li>
+         <!--#include file="params/elem-or-event-or-index.fhtml"-->
       </ul>
    </div>
    <figure>
-      <figcaption>Example JavaScript</figcaption>
+      <figcaption>Example 1: direct function call</figcaption>
       <pre><code class=language-javascript>
-         $('.box').last().fadeOut(dna.ui.deleteElem);  //removes last box
-         dna.ui.deleteElem(('.box').first());  //removes first box
+         dna.ui.deleteElem($('.box:first'));  //removes first box
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example 2: jQuery callback</figcaption>
+      <pre><code class=language-javascript>
+         $('.box:last').fadeOut(dna.ui.deleteElem);  //removes last box
       </code></pre>
    </figure>
 </section>
@@ -1560,14 +1476,8 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>elem</b> (jQuery Object):</label>
-            Element to be faded in or faded out.
-         </li>
-         <li>
-            <label><b>callback</b> (String or Function):</label>
-            String name of a function or an actual function.
-         </li>
+         <!--#include file="params/elem.fhtml"-->
+         <!--#include file="params/callback.fhtml"-->
       </ul>
    </div>
    <figure>
@@ -1590,14 +1500,8 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>elem</b> (jQuery Object):</label>
-            Element to be displayed.
-         </li>
-         <li>
-            <label><b>callback</b> (String or Function):</label>
-            String name of a function or an actual function.
-         </li>
+         <!--#include file="params/elem.fhtml"-->
+         <!--#include file="params/callback.fhtml"-->
       </ul>
    </div>
    <figure>
@@ -1622,14 +1526,8 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>elemOrEventOrIndex</b> (jQuery Object, Event, or Index):</label>
-            Reference to a jQuery element.
-         </li>
-         <li>
-            <label><b>that</b> (this):</label>
-            <code>this</code>.
-         </li>
+         <!--#include file="params/elem-or-event-or-index.fhtml"-->
+         <!--#include file="params/that.fhtml"-->
       </ul>
    </div>
    <figure>
@@ -1653,15 +1551,8 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>func</b> (String or Function):</label>
-            String name of a function or an actual function.
-         </li>
-         <li>
-            <label><b>params</b> (anything or Array):</label>
-            A single value to pass into the function or an array of values where each element in
-            the array is a parameter passed into the function.
-         </li>
+         <!--#include file="params/func.fhtml"-->
+         <!--#include file="params/params.fhtml"-->
       </ul>
    </div>
    <figure>
@@ -1688,10 +1579,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>value</b> (anything):</label>
-            Whatever you want to interrogate.
-         </li>
+         <!--#include file="params/value.fhtml"-->
       </ul>
    </div>
    <figure>
@@ -1712,10 +1600,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>codeStr</b> (String):</label>
-            A string made of lowercase letters and dashes.
-         </li>
+         <!--#include file="params/code-str.fhtml"-->
       </ul>
    </div>
    <figure>
@@ -1736,10 +1621,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>camelCaseStr</b> (String):</label>
-            A camel case string.
-         </li>
+         <!--#include file="params/camel-case-str.fhtml"-->
       </ul>
    </div>
    <figure>
@@ -1760,15 +1642,8 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <li>
-            <label><b>data</b> (Object):</label>
-            Object with fields containing data.
-         </li>
-         <li>
-            <label><b>field</b> (String):</label>
-            Name of a field within the data object (supports object dot notation for nested
-            objects).
-         </li>
+         <!--#include file="params/data(object).fhtml"-->
+         <!--#include file="params/field.fhtml"-->
       </ul>
    </div>
    <figure>
