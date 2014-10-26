@@ -91,7 +91,7 @@ var dna = {
       return settings.fade ? dna.ui.slideFadeDelete(clone) : clone.remove();
       },
    getClone: function(elem, options) {
-      var selector = options && options.mainClone ? '.dna-clone:not(.dna-subclone)' : '.dna-clone';
+      var selector = options && options.main ? '.dna-clone:not(.dna-subclone)' : '.dna-clone';
       return elem instanceof jQuery ? elem.closest(selector) : $();
       },
    getClones: function(name) {

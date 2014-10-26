@@ -732,7 +732,7 @@ var test12 = {
       dna.cloneSubTemplate(clone, 'chapters', { header: 'Bio', type: 'back' });
       dna.cloneSubTemplate(clone, 'chapters', moreChapters);
       var elem = $('.t12-book').find(':contains(Bio 2)');
-      dna.destroy(elem, { mainClone: false });
+      dna.destroy(elem, { main: false });
       clone.toggleClass('border-change', dna.getModel(clone).chapters.length === 4);
       }
    };

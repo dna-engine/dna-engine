@@ -640,7 +640,7 @@
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
                <!--#include file="options/fade.fhtml"-->
-               <!--#include file="options/main-clone.fhtml"-->
+               <!--#include file="options/main.fhtml"-->
             </ul>
          </li>
       </ul>
@@ -673,7 +673,7 @@
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <!--#include file="options/main-clone.fhtml"-->
+               <!--#include file="options/main.fhtml"-->
             </ul>
          </li>
       </ul>
