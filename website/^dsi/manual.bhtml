@@ -396,7 +396,7 @@
    <li><b>dna.mutate</b>(clone, data, options)</li>
    <li><b>dna.mutateAll</b>(name)</li>
    <li><b>dna.destroy</b>(clone, options)</li>
-   <li><b>dna.getClone</b>(elem)</li>
+   <li><b>dna.getClone</b>(elem, options)</li>
    <li><b>dna.getClones</b>(name)</li>
    <li><b>dna.bye</b>(elemOrEventOrIndex)</li>
    <li><b>dna.registerInitializer</b>(callback, options)</li>
@@ -683,6 +683,13 @@
                   <label><b>fade</b> (Boolean) &mdash;</label>
                   Use the jQuery <code>.fadeOut()</code> effect (default: <b>false</b>).
                </li>
+               <li>
+                  <label><b>mainClone</b> (Boolean) &mdash;</label>
+                  If <code>true</code>, ignore
+                  <a href="#loop-sub-templates">sub-clones</a> and only search
+                  for the clone generated from the main template
+                  (default: <b>false</b>).
+               </li>
             </ul>
          </li>
       </ul>
@@ -703,9 +710,10 @@
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.getClone()  -->
 <section id=api-get-clone>
-   <h4>dna.getClone(elem)</h4>
+   <h4>dna.getClone(elem[, options])</h4>
    <p class=api-description>
-      Returns the clone that contains the specified element.
+      Returns the clone (or <a href="#loop-sub-templates">sub-clone</a>) for the
+      specified element.
    </p>
    <div class=api-parameters>
       Parameters:
@@ -713,6 +721,18 @@
          <li>
             <label><b>elem</b> (jQuery Element):</label>
             Any element within the clone or even the clone itself.
+         </li>
+         <li>
+            <label><b>options</b> (Object) <i>[optional]</i>:</label>
+            <ul>
+               <li>
+                  <label><b>mainClone</b> (Boolean) &mdash;</label>
+                  If <code>true</code>, ignore
+                  <a href="#loop-sub-templates">sub-clones</a> and only search
+                  for the clone generated from the main template
+                  (default: <b>false</b>).
+               </li>
+            </ul>
          </li>
       </ul>
    </div>
@@ -937,7 +957,7 @@
    <p>
       Use the <code>data-array</code> attribute to create a sub-template
       for data fields that are arrays.&nbsp;  Each element of the array will
-      generate a clone of the sub-template.
+      clone the sub-template to generate a sub-clone within the main clone.
    </p>
    <figure>
       <figcaption>Example HTML</figcaption>

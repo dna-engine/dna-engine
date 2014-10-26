@@ -81,17 +81,18 @@ var dna = {
    destroy: function(clone, options) {
       var settings = { fade: false };
       $.extend(settings, options);
-      clone = dna.getClone(clone);
+      clone = dna.getClone(clone, options);
       function removeArrayItem(holder, field) {
          var arrayClones = holder.children('.' + dna.compile.subTemplateName(holder, field));
          dna.getModel(holder)[field].splice(arrayClones.index(clone), 1);
          }
-      if (clone.hasClass('dna-array'))
+      if (clone.hasClass('dna-subclone'))
          removeArrayItem(clone.parent(), clone.data().dnaRules.array);
       return settings.fade ? dna.ui.slideFadeDelete(clone) : clone.remove();
       },
-   getClone: function(elem) {
-      return elem instanceof jQuery ? elem.closest('.dna-clone') : $();
+   getClone: function(elem, options) {
+      var selector = options && options.mainClone ? '.dna-clone:not(.dna-subclone)' : '.dna-clone';
+      return elem instanceof jQuery ? elem.closest(selector) : $();
       },
    getClones: function(name) {
       return dna.store.getTemplate(name).container.children().filter('.dna-clone');
@@ -305,7 +306,7 @@ dna.compile = {
       elem.find('.dna-template').addBack().each(saveName).removeAttr('id');
       var elems = elem.find('*').addBack();
       elems.filter(dna.compile.isDnaField).each(dna.compile.field);
-      dna.compile.rules(elems, 'array').addClass('dna-array');
+      dna.compile.rules(elems, 'array').addClass('dna-subclone');
       dna.compile.rules(elems, 'class', true);
       dna.compile.rules(elems, 'require');
       dna.compile.rules(elems, 'missing');
@@ -337,7 +338,7 @@ dna.store = {
          }
       function prepLoop() {
          // Pre (sub-template array loops -- data-array):
-         //    class=dna-array data().dnaRules.array='field'
+         //    class=dna-subclone data().dnaRules.array='field'
          // Post (elem):
          //    data().dnaRules.template='{NAME}-{FIELD}-instance'
          // Post (container)
@@ -351,7 +352,7 @@ dna.store = {
          elem.data().dnaRules.template = sub;
          }
       elem.find('.dna-template').addBack().each(move);
-      elem.find('.dna-array').each(prepLoop).each(move);
+      elem.find('.dna-subclone').each(prepLoop).each(move);
       return dna.store.templates[name];
       },
    getTemplate: function(name) {
@@ -473,7 +474,7 @@ dna.core = {
          if (dnaRules.loop)
             processLoop(elem, dnaRules.loop);
          }
-      clone.find('.dna-array').remove();
+      clone.find('.dna-subclone').remove();
       clone.find('.dna-nucleotide').addBack('.dna-nucleotide').each(process);
       clone.data().dnaModel = data;
       return clone;
