@@ -82,7 +82,7 @@ header h2 {
    margin-bottom: 20px;
    }
 h3 {
-	clear: both;
+   clear: both;
    font-size: 1.2rem;
    text-align: center;
    color: steelblue;
@@ -130,7 +130,7 @@ td>code {
    }
 #logo img:hover {
    opacity: 0.9;
-	}
+   }
 .side-image {
    height: 100px;
    }

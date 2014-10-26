@@ -78,7 +78,7 @@ if [ "$versionLocal" != "$versionRemote" ]
       echo
    else
       status="NOT RELEASED (in development)"
-	fi
+   fi
 echo "Status: $status"
 echo
 echo "To release this version:"

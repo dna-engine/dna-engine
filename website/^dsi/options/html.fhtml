@@ -1,7 +1,7 @@
 <li>
-	<label><b>html</b> (Boolean) &mdash;</label>
-	Inject data as <a href="https://api.jquery.com/html/" class=external-site>HTML</a>
-	rather than the default
-	<a href="https://api.jquery.com/text/" class=external-site>text</a>
-	(default: <b>false</b>).
+   <label><b>html</b> (Boolean) &mdash;</label>
+   Inject data as <a href="https://api.jquery.com/html/" class=external-site>HTML</a>
+   rather than the default
+   <a href="https://api.jquery.com/text/" class=external-site>text</a>
+   (default: <b>false</b>).
 </li>

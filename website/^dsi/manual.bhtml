@@ -420,12 +420,12 @@
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-            	<!--#include file="options/fade.fhtml"-->
-            	<!--#include file="options/top.fhtml"-->
-            	<!--#include file="options/html.fhtml"-->
-            	<!--#include file="options/empty.fhtml"-->
-            	<!--#include file="options/holder.fhtml"-->
-            	<!--#include file="options/callback.fhtml"-->
+               <!--#include file="options/fade.fhtml"-->
+               <!--#include file="options/top.fhtml"-->
+               <!--#include file="options/html.fhtml"-->
+               <!--#include file="options/empty.fhtml"-->
+               <!--#include file="options/holder.fhtml"-->
+               <!--#include file="options/callback.fhtml"-->
             </ul>
          </li>
       </ul>
@@ -488,12 +488,12 @@
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-            	<!--#include file="options/fade.fhtml"-->
-            	<!--#include file="options/top.fhtml"-->
-            	<!--#include file="options/html.fhtml"-->
-            	<!--#include file="options/empty.fhtml"-->
-            	<!--#include file="options/holder.fhtml"-->
-            	<!--#include file="options/callback.fhtml"-->
+               <!--#include file="options/fade.fhtml"-->
+               <!--#include file="options/top.fhtml"-->
+               <!--#include file="options/html.fhtml"-->
+               <!--#include file="options/empty.fhtml"-->
+               <!--#include file="options/holder.fhtml"-->
+               <!--#include file="options/callback.fhtml"-->
             </ul>
          </li>
       </ul>

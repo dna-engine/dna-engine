@@ -1,4 +1,4 @@
 <li>
-	<label><b>empty</b> (Boolean) &mdash;</label>
-	Clear out existing clones first (default: <b>false</b>).
+   <label><b>empty</b> (Boolean) &mdash;</label>
+   Clear out existing clones first (default: <b>false</b>).
 </li>

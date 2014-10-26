@@ -467,8 +467,8 @@ $(test07.run);
 <script>
 var test08 = {
    init: function(elem) {
-   	elem.addClass('color-change');
-   	},
+      elem.addClass('color-change');
+      },
    run: function() {
       console.log('Test Case: #08');
       dna.clone('t08-book-authors1', ['Jan']);
@@ -840,8 +840,8 @@ $(test14.run);
    <fieldset>
       <legend>Expected</legend>
       <section class=border-change style="color: white; padding: 10px;">
-      	<hr class=border-change2>
-      	<hr class=border-change2 style="color: white; padding: 10px;">
+         <hr class=border-change2>
+         <hr class=border-change2 style="color: white; padding: 10px;">
       </section>
       <hr>
       <div class=book-list>
@@ -868,26 +868,26 @@ $(test14.run);
 <script>
 var test15 = {
    init: function(elem) {
-   	elem.addClass('color-change');
-   	},
+      elem.addClass('color-change');
+      },
    surround: function(elem) {
-   	elem.addClass('border-change');
-   	function addHr() { $('.test-case').eq(15-1).find('fieldset').first().append('<hr>'); }
-   	elem.each(addHr);  //exactly 9 times (1 <section> + 8 clones + 1 <hr>)
-   	},
+      elem.addClass('border-change');
+      function addHr() { $('.test-case').eq(15-1).find('fieldset').first().append('<hr>'); }
+      elem.each(addHr);  //exactly 9 times (1 <section> + 8 clones + 1 <hr>)
+      },
    surround2: function(elem) {
-   	elem.addClass('border-change2');
-   	},
+      elem.addClass('border-change2');
+      },
    bye: function(elem, e) {
-   	if (e.type === 'click')
-   		dna.bye(elem);
-   	},
+      if (e.type === 'click')
+         dna.bye(elem);
+      },
    run: function() {
       console.log('Test Case: #15');
-		dna.registerInitializer('test15.surround', { selector: '.surrounded' });
-		dna.registerInitializer('css', { selector: '.surrounded', params: { color: 'white' } });
-		dna.registerInitializer('css', { selector: '.surrounded', params: ['padding', '10px'] });
-		dna.registerInitializer(test15.surround2);  //apply to each clone
+      dna.registerInitializer('test15.surround', { selector: '.surrounded' });
+      dna.registerInitializer('css', { selector: '.surrounded', params: { color: 'white' } });
+      dna.registerInitializer('css', { selector: '.surrounded', params: ['padding', '10px'] });
+      dna.registerInitializer(test15.surround2);  //apply to each clone
       var titles = ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE'];
       dna.clone('t15-book', titles);
       $('.t15-book button.2').click(dna.bye);  //add handler
@@ -900,10 +900,10 @@ var test15 = {
       dna.bye(getClone(4));                                  //nuke 4th (bye w/jQuery elem)
       dna.getClone(getClone(7).find('span:last')).remove();  //nuke 7th (remove w/sub-node)
       getClone(6).each(dna.bye);                             //nuke 6th (bye w/jQuery loop)
-		var box = $('.t15-book').closest('fieldset').find('section');
-		var foreigners = $('<hr><hr data-setup=fadeOut><hr class=surrounded>').appendTo(box);
-		dna.events.runInitializers(foreigners);
-		dna.clearInitializers();
+      var box = $('.t15-book').closest('fieldset').find('section');
+      var foreigners = $('<hr><hr data-setup=fadeOut><hr class=surrounded>').appendTo(box);
+      dna.events.runInitializers(foreigners);
+      dna.clearInitializers();
       }
    };
 $(test15.run);

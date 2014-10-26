@@ -1,4 +1,4 @@
 <li>
-	<label><b>top</b> (Boolean) &mdash;</label>
-	Prepend new clone element (default: <b>false</b>).
+   <label><b>top</b> (Boolean) &mdash;</label>
+   Prepend new clone element (default: <b>false</b>).
 </li>
