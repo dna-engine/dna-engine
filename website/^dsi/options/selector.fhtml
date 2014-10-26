@@ -1,0 +1,4 @@
+<li>
+   <label><b>selector</b> (String) &mdash;</label>
+   CSS selector (default: none).
+</li>

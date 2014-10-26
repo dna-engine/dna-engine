@@ -426,7 +426,15 @@
             array is the number of clones to be generated.
          </li>
          <li>
-            <!--#include file="~parameters.fhtml"-->
+            <label><b>options</b> (Object) <i>[optional]</i>:</label>
+            <ul>
+            	<!--#include file="options/fade.fhtml"-->
+            	<!--#include file="options/top.fhtml"-->
+            	<!--#include file="options/html.fhtml"-->
+            	<!--#include file="options/empty.fhtml"-->
+            	<!--#include file="options/holder.fhtml"-->
+            	<!--#include file="options/callback.fhtml"-->
+            </ul>
          </li>
       </ul>
    </div>
@@ -508,7 +516,15 @@
             <code>data</code> field for the <code>dna.clone()</code> method.
          </li>
          <li>
-            <!--#include file="~parameters.fhtml"-->
+            <label><b>options</b> (Object) <i>[optional]</i>:</label>
+            <ul>
+            	<!--#include file="options/fade.fhtml"-->
+            	<!--#include file="options/top.fhtml"-->
+            	<!--#include file="options/html.fhtml"-->
+            	<!--#include file="options/empty.fhtml"-->
+            	<!--#include file="options/holder.fhtml"-->
+            	<!--#include file="options/callback.fhtml"-->
+            </ul>
          </li>
       </ul>
    </div>

@@ -1,0 +1,7 @@
+<li>
+   <label><b>mainClone</b> (Boolean) &mdash;</label>
+   If <code>true</code>, ignore
+   <a href="#loop-sub-templates">sub-clones</a> and only search
+   for the clone generated from the main template
+   (default: <b>false</b>).
+</li>

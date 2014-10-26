@@ -1,0 +1,5 @@
+<li>
+	<label><b>holder</b> (jQuery Element) &mdash;</label>
+	Container to move clone into when using nested templates
+	(default: <b>null</b>).
+</li>
