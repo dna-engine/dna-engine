@@ -985,17 +985,19 @@
 <section id=loop-separators>
    <h4>Separators</h4>
    <p>
-      Classes <code>dna-separator</code> and <code>dna-separator-last</code>...
+      Use the <code>data-separator</code> and <code>data-last-separator</code> attributes to insert
+      text between clones.&nbsp;  For example, this feature can put commas and the word "and"
+      between authors in list.&nbsp;  The separators can be used together or individually.
    </p>
    <figure>
       <figcaption>Example</figcaption>
       <pre><code class=language-html>
          &lt;b&gt;Authors:&lt;/b&gt;
-         &lt;span id=author class=dna-template&gt;
-            &lt;span&gt;~~name~~&lt;/span&gt;&lt;span class=dna-separator&gt;, &lt;/span&gt;
+         &lt;span id=author class=dna-template data-separator=", "&gt;
+            &lt;span&gt;~~name~~&lt;/span&gt;
          &lt;/span&gt;
          &lt;script&gt;
-            var authors = [{ name: 'Ed' }, { name: 'Bo'}, { name: 'Abby' }];
+            var authors = [{ name: 'Ed' }, { name: 'Bo'}, { name: 'Jan' }];
             dna.clone('author', authors);
          &lt;/script&gt;
       </code></pre>
@@ -1005,7 +1007,30 @@
    <figure class=hljs-enhance>
       <figcaption>Result</figcaption>
       <div>
-         <b>Authors:</b> Ed, Jake, Abby
+         <b>Authors:</b> Ed, Bo, Jan
+      </div>
+   </figure>
+   <!-- End: Result  -->
+   <p>
+      <b>Note:</b> For more advanced control, use the classes
+      <code>dna-separator</code> and <code>dna-last-separator</code> on elements within the template.
+   </p>
+   <figure>
+      <figcaption>Example using explicite separtor nodes</figcaption>
+      <pre><code class=language-html>
+         &lt;b&gt;Authors:&lt;/b&gt;
+         &lt;span id=author class=dna-template&gt;
+            &lt;span&gt;~~name~~&lt;/span&gt;&lt;span class=dna-separator&gt;,&lt;/span&gt;
+            &lt;span class=dna-last-separator&gt;and&lt;/span&gt;
+         &lt;/span&gt;
+      </code></pre>
+   </figure>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <figure class=hljs-enhance>
+      <figcaption>Result</figcaption>
+      <div>
+         <b>Authors:</b> Ed, Bo and Jan
       </div>
    </figure>
    <!-- End: Result  -->

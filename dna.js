@@ -86,12 +86,12 @@ var dna = {
          var arrayClones = holder.children('.' + dna.compile.subTemplateName(holder, field));
          dna.getModel(holder)[field].splice(arrayClones.index(clone), 1);
          }
-      if (clone.hasClass('dna-subclone'))
+      if (clone.hasClass('dna-sub-clone'))
          removeArrayItem(clone.parent(), clone.data().dnaRules.array);
       return settings.fade ? dna.ui.slideFadeDelete(clone) : clone.remove();
       },
    getClone: function(elem, options) {
-      var selector = options && options.main ? '.dna-clone:not(.dna-subclone)' : '.dna-clone';
+      var selector = options && options.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone';
       return elem instanceof jQuery ? elem.closest(selector) : $();
       },
    getClones: function(name) {
@@ -298,7 +298,23 @@ dna.compile = {
          }
       return elems.filter('[data-' + type + ']').each(add).removeAttr('data-' + type);
       },
-   template: function(name) {  //prepare template to be cloned
+   separators: function(elem) {
+      // Convert: data-separator=", "  ==>  <span class=dna-separator>, </span>
+      function isWhitespaceNode() { return this.nodeType === 3 && !/\S/.test(this.nodeValue); }
+      function append(templateElem, text, className) {
+         if (text) {
+            templateElem.contents().last().filter(isWhitespaceNode).remove();
+            templateElem.append($('<span>').addClass(className).html(text));
+            }
+         }
+      function processTemplate() {
+         var templateElem = $(this);
+         append(templateElem, templateElem.data().separator,     'dna-separator');
+         append(templateElem, templateElem.data().lastSeparator, 'dna-last-separator');
+         }
+      elem.find('.dna-template, .dna-sub-clone').addBack().each(processTemplate);
+      },
+   template: function(name) {  //prepare and stash template so it can be cloned
       var elem = $('#' + name);
       if (!elem.length)
          dna.core.berserk('Template not found: ' + name);
@@ -306,13 +322,14 @@ dna.compile = {
       elem.find('.dna-template').addBack().each(saveName).removeAttr('id');
       var elems = elem.find('*').addBack();
       elems.filter(dna.compile.isDnaField).each(dna.compile.field);
-      dna.compile.rules(elems, 'array').addClass('dna-subclone');
+      dna.compile.rules(elems, 'array').addClass('dna-sub-clone');
       dna.compile.rules(elems, 'class', true);
       dna.compile.rules(elems, 'require');
       dna.compile.rules(elems, 'missing');
       dna.compile.rules(elems, 'truthy');
       dna.compile.rules(elems, 'falsey');
       elems.each(dna.compile.propsAndAttrs);
+      dna.compile.separators(elem);
       return dna.store.stash(elem);
       }
    };
@@ -326,19 +343,20 @@ dna.store = {
          var elem = $(this);
          var name = elem.data().dnaRules.template;
          var template = {
-            name:      name,
-            elem:      elem,
-            container: elem.parent().addClass('dna-container').addClass('dna-contains-' + name),
-            nested:    elem.parent().closest('.dna-clone').length !== 0,
-            index:     elem.index(),
-            clones:    0
+            name:       name,
+            elem:       elem,
+            container:  elem.parent().addClass('dna-container').addClass('dna-contains-' + name),
+            nested:     elem.parent().closest('.dna-clone').length !== 0,
+            separators: elem.find('.dna-separator, .dna-last-separator').length,
+            index:      elem.index(),
+            clones:     0
             };
          dna.store.templates[name] = template;
          elem.removeClass('dna-template').addClass('dna-clone').addClass(name).detach();
          }
       function prepLoop() {
          // Pre (sub-template array loops -- data-array):
-         //    class=dna-subclone data().dnaRules.array='field'
+         //    class=dna-sub-clone data().dnaRules.array='field'
          // Post (elem):
          //    data().dnaRules.template='{NAME}-{FIELD}-instance'
          // Post (container)
@@ -352,7 +370,7 @@ dna.store = {
          elem.data().dnaRules.template = sub;
          }
       elem.find('.dna-template').addBack().each(move);
-      elem.find('.dna-subclone').each(prepLoop).each(move);
+      elem.find('.dna-sub-clone').each(prepLoop).each(move);
       return dna.store.templates[name];
       },
    getTemplate: function(name) {
@@ -474,13 +492,13 @@ dna.core = {
          if (dnaRules.loop)
             processLoop(elem, dnaRules.loop);
          }
-      clone.find('.dna-subclone').remove();
+      clone.find('.dna-sub-clone').remove();
       clone.find('.dna-nucleotide').addBack('.dna-nucleotide').each(process);
       clone.data().dnaModel = data;
       return clone;
       },
    replicate: function(template, data, index, settings) {  //make and setup the clone
-      function addSeparators() {
+      function displaySeparators() {
          var clones = container.children('.' + template.name);
          clones.find('.dna-separator').show().end().last().find('.dna-separator').hide();
          clones.find('.dna-last-separator').hide().end().eq(-2).find('.dna-last-separator').show()
@@ -493,8 +511,8 @@ dna.core = {
       var container = settings.container ?
          settings.container.find(selector).addBack(selector) : template.container;
       container[settings.top ? 'prepend' : 'append'](clone);
-      if (true || template.hasSeparators)  //TODO: optimize by setting hasSeparators during compile
-         addSeparators();
+      if (template.separators)
+         displaySeparators();
       dna.events.runInitializers(clone, data);
       if (settings.callback)
          settings.callback(clone, data);
