@@ -644,7 +644,7 @@ $(test11.run);
             </div>
             Authors:
             <span>
-               <span data-array=~~authors~~>
+               <span data-array=~~authors~~ data-author=~~[value]~~>
                   (<span>~~[count]~~</span>)
                   <span>~~[value]~~</span>
                </span>
@@ -663,8 +663,8 @@ $(test11.run);
             <div>Title:  <span>The DOM</span></div>
             Authors:
             <span>
-               <span class=dna-clone> (1) <span>Bo I</span> </span>
-               <span class=dna-clone> (2) <span>Bo II</span> </span>
+               <span class=dna-clone data-author="Bo I"> (1) <span>Bo I</span> </span>
+               <span class=dna-clone data-author="Bo II"> (2) <span>Bo II</span> </span>
             </span>
          </div>
          <div class=dna-clone>
@@ -672,7 +672,7 @@ $(test11.run);
             Authors:
             <span>
                <span class=dna-clone> (1) <span>Ed</span> </span>
-               <span class=dna-clone> (2) <span>Jake</span> </span>
+               <span class="dna-clone color-change2"> (2) <span>Jake</span> </span>
                <span class=dna-clone> (3) <span>Abby</span> </span>
             </span>
             <div class="dna-clone color-change"><span data-type=front>front</span>:
@@ -691,7 +691,7 @@ $(test11.run);
             Authors:
             <span>
                <span class=dna-clone> (1) <span>Ed</span> </span>
-               <span class=dna-clone> (2) <span>Jake</span> </span>
+               <span class="dna-clone color-change2"> (2) <span>Jake</span> </span>
                <span class=dna-clone> (3) <span>Abby</span> </span>
             </span>
             <div class="dna-clone color-change"><span data-type=front>front</span>:
@@ -731,6 +731,7 @@ var test12 = {
       var elem = $('.t12-book').find(':contains(Bio 2)');
       dna.destroy(elem, { main: false });
       clone.toggleClass('border-change', dna.getModel(clone).chapters.length === 4);
+      $('.t12-book').find('[data-author=Jake]').addClass('color-change2');
       }
    };
 $(test12.run);
