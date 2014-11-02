@@ -953,7 +953,7 @@
    <figure>
       <figcaption>Example HTML</figcaption>
       <pre><code class=language-html>
-         &lt;div id=book class=dna-template&gt;
+         &lt;div id=book class=dna-template data-title=~~[value]~~&gt;
             &lt;span&gt;~~[count]~~&lt;span&gt;. &lt;span&gt;~~[value]~~&lt;span&gt;
          &lt;/div&gt;
       </code></pre>
@@ -970,10 +970,10 @@
    <figure>
       <figcaption>Resulting HTML</figcaption>
       <pre><code class=language-html>
-         &lt;div class=book&gt;
+         &lt;div class=book data-title="The DOM"&gt;
             &lt;span&gt;1&lt;/span&gt;. &lt;span&gt;The DOM&lt;/span&gt;
          &lt;/div&gt;
-         &lt;div class=book&gt;
+         &lt;div class=book data-title="Interwebz"&gt;
             &lt;span&gt;2&lt;/span&gt;. &lt;span&gt;Interwebz&lt;/span&gt;
          &lt;/div&gt;
       </code></pre>
@@ -985,9 +985,10 @@
 <section id=loop-separators>
    <h4>Separators</h4>
    <p>
-      Use the <code>data-separator</code> and <code>data-last-separator</code> attributes to insert
-      text between clones.&nbsp;  For example, this feature can put commas and the word "and"
-      between authors in list.&nbsp;  The separators can be used together or individually.
+      Use the <code>data-separator</code> and <code>data-last-separator</code> attributes to
+      insert text between clones.&nbsp;  For example, this feature can put commas and the word
+      "and" between authors in a list.&nbsp;  The two types of separators can be used together
+      or individually.
    </p>
    <figure>
       <figcaption>Example</figcaption>

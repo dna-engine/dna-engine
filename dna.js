@@ -255,20 +255,28 @@ dna.compile = {
       //    <option data-prop-selected=~~set~~>  ==>  <option class=dna-nucleotide + data-dnaRules={ props: ['selected', 'set'] }>
       //    <p id=~~num~~>                       ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['id', ['', 'num', '']] }>
       //    <p data-attr-src=~~url~~>            ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['src', ['', 'url', '']] }>
+      //    <p data-tag=~~[value]~~>             ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['data-tag', ['', true, '']] }>
       var elem = $(this);
       var props = [];
       var attrs = [];
       var names = [];
+      function compileProp(key, value) {
+         props.push(key.replace(/^data-prop-/, ''),
+            value.replace(dna.compile.regexDnaBasePairs, ''));
+         names.push(key);
+         }
+      function compileAttr(key, value) {
+         var parts = value.split(dna.compile.regexDnaBasePair);
+         if (parts[1] === '[value]')
+            parts[1] = true;
+         attrs.push(key.replace(/^data-attr-/, ''), parts);
+         names.push(key);
+         }
       function compile() {
          if ((/^data-prop-/).test(this.name))
-            props.push(this.name.replace(/^data-prop-/, ''),
-               this.value.replace(dna.compile.regexDnaBasePairs, ''));
+            compileProp(this.name, this.value);
          else if (this.value.split(dna.compile.regexDnaBasePair).length === 3)
-            attrs.push(this.name.replace(/^data-attr-/, ''),
-               this.value.split(dna.compile.regexDnaBasePair));
-         else
-            return;
-         names.push(this.name);
+            compileAttr(this.name, this.value);
          }
       $.each(elem.get(0).attributes, compile);
       if (props.length > 0)
@@ -283,7 +291,8 @@ dna.compile = {
       return $.trim(elem.data(type).replace(dna.compile.regexDnaBasePairs, ''));
       },
    subTemplateName: function(holder, arrayField) {  //holder can be element or template name
-      // Example: subTemplateName('book', 'authors') ==> 'book-authors-instance'
+      // Example:
+      //    subTemplateName('book', 'authors') ==> 'book-authors-instance'
       var mainTemplateName = holder instanceof jQuery ?
          dna.getClone(holder).data().dnaRules.template : holder;
       return mainTemplateName + '-' + arrayField + '-instance';
@@ -440,13 +449,14 @@ dna.core = {
          for (var x = 0; x < props.length / 2; x++)
             elem.prop(props[x*2], dna.util.realTruth(dna.util.value(data, props[x*2 + 1])));
          }
-      function injectAttrs(elem, attrs) {
-         for (var x = 0; x < attrs.length / 2; x++) {
-            var attr = attrs[x*2];
-            var parts = attrs[x*2 + 1];  //ex: 'J~~code.num~~' --> ['J', 'code.num', '']
-            var value = [parts[0], dna.util.value(data, parts[1]), parts[2]].join('');
-            elem.attr(attr, value);
-            if (attr === 'value')
+      function injectAttrs(elem, attrs) {  //example attrs: ['data-tag', ['', 'tag', '']]
+         for (var attr = 0; attr < attrs.length / 2; attr++) {  //each attr has a key and parts
+            var key = attrs[attr*2];
+            var parts = attrs[attr*2 + 1];  //example: 'J~~code.num~~' --> ['J', 'code.num', '']
+            var core = parts[1] === true ? data : dna.util.value(data, parts[1]);
+            var value = [parts[0], core, parts[2]].join('');
+            elem.attr(key, value);
+            if (key === 'value')  //set elem val for input fields (example: <input value=~~tag~~>)
                elem.val(value);
             }
          }

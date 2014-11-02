@@ -38,6 +38,7 @@ body {
    border-left: 1px solid steelblue;
    border-right: 1px solid steelblue;
    padding: 20px 50px 50px 50px;
+   margin: 0px auto;
    box-shadow: 0px 0px 2.0em 0.0em white;
    }
 nav {
