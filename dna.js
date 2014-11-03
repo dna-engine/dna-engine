@@ -1,4 +1,4 @@
-// dna.js Template Cloner ~~ v0.3.2
+// dna.js Template Cloner ~~ v0.3.1
 // MIT/GPLv3 ~~ dnajs.org/license.html
 // Copyright (c) 2013-2014 Center Key Software and other contributors
 
@@ -114,7 +114,7 @@ var dna = {
       },
    info: function() {
       var names = Object.keys(dna.store.templates);
-      console.log('~~ dns.js v0.3.2 ~~');
+      console.log('~~ dns.js v0.3.1 ~~');
       console.log('templates:', names.length);
       console.log('names:', names);
       console.log('store:', dna.store.templates);
@@ -445,8 +445,8 @@ dna.core = {
          if (printable(value))
             elem = settings.html ? elem.html(value) : elem.text(value);
          }
-      function injectProps(elem, props) {  // Example props:  ['selected', 'set']
-         for (var prop = 0; prop < props.length/2; prop++)
+      function injectProps(elem, props) {  //example props: ['selected', 'set']
+         for (var prop = 0; prop < props.length/2; prop++)  //each prop has a key and a field name
             elem.prop(props[prop*2], dna.util.realTruth(dna.util.value(data, props[prop*2 + 1])));
          }
       function injectAttrs(elem, attrs) {  //example attrs: ['data-tag', ['', 'tag', '']]
