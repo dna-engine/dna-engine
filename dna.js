@@ -445,9 +445,9 @@ dna.core = {
          if (printable(value))
             elem = settings.html ? elem.html(value) : elem.text(value);
          }
-      function injectProps(elem, props) {
-         for (var x = 0; x < props.length / 2; x++)
-            elem.prop(props[x*2], dna.util.realTruth(dna.util.value(data, props[x*2 + 1])));
+      function injectProps(elem, props) {  // Example props:  ['selected', 'set']
+         for (var prop = 0; prop < props.length/2; prop++)
+            elem.prop(props[prop*2], dna.util.realTruth(dna.util.value(data, props[prop*2 + 1])));
          }
       function injectAttrs(elem, attrs) {  //example attrs: ['data-tag', ['', 'tag', '']]
          for (var attr = 0; attr < attrs.length / 2; attr++) {  //each attr has a key and parts
