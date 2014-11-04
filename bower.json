@@ -5,7 +5,6 @@
    "ignore":   [
       ".gitignore",
       "bower.json",
-      "dna.jquery.json",
       "package.json",
       "task-runner.sh.command",
       "test-cases.html",

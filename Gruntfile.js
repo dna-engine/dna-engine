@@ -14,7 +14,7 @@ module.exports = function(grunt) {
             },
          release: {
             options: { prefix: versionPatterns },
-            src: ['bower.json', 'dna.jquery.json', 'README.md', 'website/^dsi/~begin.fhtml'],
+            src: ['bower.json', 'README.md', 'website/^dsi/~begin.fhtml'],
             },
          },
       jshint: {

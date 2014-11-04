@@ -22,9 +22,9 @@
    </div>
 
    <p>
-      dna.js is a user interface library for jQuery that enables developers to rapidly build
-      maintainable websites.&nbsp;  You write semantic templates and then dna.js converts your
-      JSON data into dynamically generated DOM elements.
+      dna.js is a user interface templating library for jQuery that enables developers to rapidly
+      build maintainable websites.&nbsp;  You write semantic templates and then dna.js converts
+      your JSON data into dynamically generated DOM elements.
    </p>
    <p>
       The project is open source and available for free.&nbsp;  The code is hosted on
