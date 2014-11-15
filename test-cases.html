@@ -113,21 +113,25 @@ $(test01.run);
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
+         <hr>
          <div id="t02-book" class="dna-template">
             <div data-class="class">Title: <span>{{title}}</span></div>
             <div data-class=~~sale,wow,color-change~~>
                Author: <span data-class=~~sale,color-change~~>{{author}}</span>
             </div>
          </div>
+         <hr>
       </div>
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
       <div class=book-list>
+         <hr>
          <div class=dna-clone>
             <div class=color-change>Title: <span class=color-change2>The One</span></div>
             <div class=color-change>Author: <span>Lee</span></div>
          </div>
+         <hr>
       </div>
    </fieldset>
 </div>
