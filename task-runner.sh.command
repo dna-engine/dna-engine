@@ -89,10 +89,10 @@ echo "   *** Check in local changes with the comment:"
 echo "      Release $versionLocal"
 echo
 if [ -n "$(git status --short)" ]; then
-   echo "   *** Check in local changes ***"
+   echo "   *** After local changes checked in, tag release:"
    fi
 echo "   cd $(pwd)"
-echo "   git tag -a $versionRemote -m \"Beta release\""
+echo "   git tag -af $versionRemote -m \"Beta release\""
 echo "   git tag -af current -m \"Current stable release\""
 echo "   git remote -v"
 echo "   git push origin --tags --force"
