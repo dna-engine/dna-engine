@@ -358,6 +358,8 @@ dna.store = {
             nested:     elem.parent().closest('.dna-clone').length !== 0,
             separators: elem.find('.dna-separator, .dna-last-separator').length,
             index:      elem.index(),
+            elemsAbove: elem.index() > 0,
+            elemsBelow: elem.nextAll().length > 0,
             clones:     0
             };
          dna.store.templates[name] = template;
@@ -520,7 +522,15 @@ dna.core = {
       var selector = '.dna-contains-' + template.name;
       var container = settings.container ?
          settings.container.find(selector).addBack(selector) : template.container;
-      container[settings.top ? 'prepend' : 'append'](clone);
+      if (settings.top && !template.elemsAbove)
+         container.prepend(clone);
+      else if (!settings.top && !template.elemsBelow)
+         container.append(clone);
+      else if (settings.top)
+         container.children().eq(template.index - 1).after(clone);
+      else
+         container.children().eq(template.index +
+            container.children().filter('.dna-clone').length).before(clone);
       if (template.separators)
          displaySeparators();
       dna.events.runInitializers(clone, data);
