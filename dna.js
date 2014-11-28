@@ -49,15 +49,15 @@ var dna = {
       function processJson(data) { dna.core.unload(name, data, options); }
       return $.getJSON(url, processJson);
       },
-   getModel: function(nameOrClone) {
-      function getModelArray() {
+   getModel: function(elemOrName) {
+      function getModelArray(name) {
          var model = [];
-         dna.getClones(nameOrClone).each(
-            function() { model.push($(this).data().dnaModel); });
+         function addToModel() { model.push($(this).data().dnaModel); }
+         dna.getClones(name).each(addToModel);
          return model;
          }
-      return nameOrClone instanceof jQuery ?
-         dna.getClone(nameOrClone).data().dnaModel : getModelArray();
+      return elemOrName instanceof jQuery ?
+         dna.getClone(elemOrName).data('dnaModel') : getModelArray(elemOrName);
       },
    empty: function(name, options) {
       var settings = { fade: false };
