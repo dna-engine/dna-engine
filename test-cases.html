@@ -925,7 +925,7 @@ $(test15.run);
       <legend>Actual</legend>
       <div class=book-list>
          <div id=t16-book class=dna-template>
-            Book: <span>~~title~~</span>
+            Title: <input value=~~title~~>
             <div>
                <label data-array=~~options~~>
                   <input type=checkbox value=~~code~~ data-prop-checked=~~set~~>
@@ -951,7 +951,7 @@ $(test15.run);
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone>
-            Book: <span>The DOM</span>
+            Title: <input value="The DOM!" class=border-change>
             <div>
                <label>
                   <input type=checkbox value=fast checked>
@@ -1000,7 +1000,11 @@ var test16 = {
          { code: 'edu',  name: 'School',   set: 'F' }
          ];
       var book = { title: 'The DOM', options: options, cover: cover, purposes: purposes };
-      dna.clone('t16-book', book);
+      var clone = dna.clone('t16-book', book);
+      var elem
+      elem = clone.find('input:text');
+      elem.val('The DOM!').trigger('change');  //simulate user input
+      elem.addClass(dna.getModel(elem).title === 'The DOM!' ? 'border-change' : 'color-change');
       }
    };
 $(test16.run);
