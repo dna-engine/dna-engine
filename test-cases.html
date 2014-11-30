@@ -932,6 +932,7 @@ $(test15.run);
                   <span>~~name~~</span>
                </label>
             </div>
+            Cover:
             <div>
                <label data-array=~~cover~~>
                   <input type=radio value=~~code~~ name=cover
@@ -957,19 +958,28 @@ $(test15.run);
                   <input type=checkbox value=fast checked>
                   <span>Overnight</span>
                </label>
+               <label class=border-change>
+                  <input type=checkbox value=social checked>
+                  <span>Social share</span>
+               </label>
                <label>
                   <input type=checkbox value=gift>
                   <span>Gift</span>
                </label>
             </div>
+            Cover:
             <div>
                <label>
-                  <input type=radio value=soft name=cover-expected checked>
+                  <input type=radio value=soft name=cover-expected>
                   <span>Paperback</span>
                </label>
-               <label>
-                  <input type=radio value=hard name=cover-expected disabled>
+               <label class=border-change>
+                  <input type=radio value=hard name=cover-expected checked>
                   <span>Hardcover</span>
+               </label>
+               <label>
+                  <input type=radio value=ebook name=cover-expected disabled>
+                  <span>Digital</span>
                </label>
             </div>
             Purpose:
@@ -984,15 +994,30 @@ $(test15.run);
 </div>
 <script>
 var test16 = {
+   simulateUserInputText: function(elem) {
+      elem.val('The DOM!').trigger('change');
+      elem.addClass(dna.getModel(elem).title === 'The DOM!' ? 'border-change' : 'color-change');
+      },
+   simulateUserInputCheckbox: function(elem) {
+      elem.click();  //check "Social Share" box
+      elem.parent().addClass(dna.getModel(elem).options[1].set ? 'border-change' : 'color-change');
+      },
+   simulateUserInputRadioButton: function(elem) {
+      console.log(100, elem, dna.getModel(elem), elem.parent());
+      elem.click();  //select "Hardcover" option
+      elem.parent().addClass(dna.getModel(elem).cover[1].set ? 'border-change' : 'color-change');
+      },
    run: function() {
       console.log('Test Case: #16');
       var options = [
-         { code: 'fast', name: 'Overnight', set: true },
-         { code: 'gift', name: 'Gift',      set: false }
+         { code: 'fast',  name: 'Overnight',    set: true },
+         { code: 'share', name: 'Social Share', set: false },
+         { code: 'gift',  name: 'Gift',         set: false }
          ];
       var cover = [
-         { code: 'soft', name: 'Paperback', reject: 0, set: 1 },
-         { code: 'hard', name: 'Hardcover', reject: 1, set: 0 }
+         { code: 'soft',  name: 'Paperback', reject: 0, set: 1 },
+         { code: 'hard',  name: 'Hardcover', reject: 0, set: 0 },
+         { code: 'ebook', name: 'Digital',   reject: 1, set: 0 }
          ];
       var purposes = [
          { code: 'work', name: 'Business', set: 'F' },
@@ -1001,10 +1026,10 @@ var test16 = {
          ];
       var book = { title: 'The DOM', options: options, cover: cover, purposes: purposes };
       var clone = dna.clone('t16-book', book);
-      var elem
-      elem = clone.find('input:text');
-      elem.val('The DOM!').trigger('change');  //simulate user input
-      elem.addClass(dna.getModel(elem).title === 'The DOM!' ? 'border-change' : 'color-change');
+      test16.simulateUserInputText(clone.find('input:text'));
+      console.log(5, clone, clone.find('input[value=social]'));
+      test16.simulateUserInputCheckbox(clone.find('input[value=share]'));
+      test16.simulateUserInputRadioButton(clone.find('input[value=hard]'));
       }
    };
 $(test16.run);
