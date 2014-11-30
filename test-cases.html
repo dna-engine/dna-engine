@@ -983,7 +983,7 @@ $(test15.run);
                </label>
             </div>
             Purpose:
-            <select>
+            <select class=border-change>
                <option value=work>Business</option>
                <option value=fun selected>Personal</option>
                <option value=edu>School</option>
@@ -995,7 +995,7 @@ $(test15.run);
 <script>
 var test16 = {
    simulateUserInputText: function(elem) {
-      elem.val('The DOM!').trigger('change');
+      elem.val('The DOM!').change();
       elem.addClass(dna.getModel(elem).title === 'The DOM!' ? 'border-change' : 'color-change');
       },
    simulateUserInputCheckbox: function(elem) {
@@ -1003,8 +1003,13 @@ var test16 = {
       elem.parent().addClass(dna.getModel(elem).options[1].set ? 'border-change' : 'color-change');
       },
    simulateUserInputRadioButton: function(elem) {
-      console.log(100, elem, dna.getModel(elem), elem.parent());
-      elem.click();  //select "Hardcover" option
+      if (elem.closest('div').find('input:checked').val() === 'soft')  //"Paperback" selected
+         elem.click();  //select "Hardcover"
+      elem.parent().addClass(dna.getModel(elem).cover[1].set ? 'border-change' : 'color-change');
+      },
+   simulateUserInputDropDown: function(elem) {
+      if (elem.parent().val() === 'edu')  //"School" selected
+         elem.parent().val('fun').change();  //select "Personal"
       elem.parent().addClass(dna.getModel(elem).cover[1].set ? 'border-change' : 'color-change');
       },
    run: function() {
@@ -1021,15 +1026,15 @@ var test16 = {
          ];
       var purposes = [
          { code: 'work', name: 'Business', set: 'F' },
-         { code: 'fun',  name: 'Personal', set: 'T' },
-         { code: 'edu',  name: 'School',   set: 'F' }
+         { code: 'fun',  name: 'Personal', set: 'F' },
+         { code: 'edu',  name: 'School',   set: 'T' }
          ];
       var book = { title: 'The DOM', options: options, cover: cover, purposes: purposes };
       var clone = dna.clone('t16-book', book);
       test16.simulateUserInputText(clone.find('input:text'));
-      console.log(5, clone, clone.find('input[value=social]'));
       test16.simulateUserInputCheckbox(clone.find('input[value=share]'));
       test16.simulateUserInputRadioButton(clone.find('input[value=hard]'));
+      test16.simulateUserInputDropDown(clone.find('option[value=fun]'));
       }
    };
 $(test16.run);
