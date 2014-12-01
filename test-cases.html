@@ -934,7 +934,7 @@ $(test15.run);
             </div>
             Cover:
             <div>
-               <label data-array=~~cover~~>
+               <label data-array=~~cover~~ data-input-name=cover> <!-- TBD grouping feature -->
                   <input type=radio value=~~code~~ name=cover
                      data-prop-disabled=~~reject~~ data-prop-checked=~~set~~>
                   <span>~~name~~</span>
@@ -1005,12 +1005,13 @@ var test16 = {
    simulateUserInputRadioButton: function(elem) {
       if (elem.closest('div').find('input:checked').val() === 'soft')  //"Paperback" selected
          elem.click();  //select "Hardcover"
-      elem.parent().addClass(dna.getModel(elem).cover[1].set ? 'border-change' : 'color-change');
+      elem.parent().addClass(dna.getModel(elem).cover[1].set === true ? 'border-change' : 'color-change');
       },
    simulateUserInputDropDown: function(elem) {
       if (elem.parent().val() === 'edu')  //"School" selected
          elem.parent().val('fun').change();  //select "Personal"
-      elem.parent().addClass(dna.getModel(elem).cover[1].set ? 'border-change' : 'color-change');
+      var options = dna.getModel(elem).purposes;
+      elem.parent().addClass(options[1].set === true && options[2].set === false ? 'border-change' : 'color-change');
       },
    run: function() {
       console.log('Test Case: #16');

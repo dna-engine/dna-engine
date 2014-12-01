@@ -1,4 +1,4 @@
-// dna.js Template Cloner ~~ v0.3.2
+// dna.js Template Cloner ~~ v0.3.3
 // MIT/GPLv3 ~~ dnajs.org/license.html
 // Copyright (c) 2013-2014 Center Key Software and other contributors
 
@@ -91,7 +91,9 @@ var dna = {
       return settings.fade ? dna.ui.slideFadeDelete(clone) : clone.remove();
       },
    getClone: function(elem, options) {
-      var selector = options && options.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone';
+      var settings = { main: true };
+      $.extend(settings, options);
+      var selector = settings.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone';
       return elem instanceof jQuery ? elem.closest(selector) : $();
       },
    getClones: function(name) {
@@ -114,7 +116,7 @@ var dna = {
       },
    info: function() {
       var names = Object.keys(dna.store.templates);
-      console.log('~~ dns.js v0.3.2 ~~');
+      console.log('~~ dns.js v0.3.3 ~~');
       console.log('templates:', names.length);
       console.log('names:', names);
       console.log('store:', dna.store.templates);
@@ -261,9 +263,14 @@ dna.compile = {
       var attrs = [];
       var names = [];
       function compileProp(key, value) {
-         props.push(key.replace(/^data-prop-/, ''),
-            value.replace(dna.compile.regexDnaBasePairs, ''));
          names.push(key);
+         key = key.replace(/^data-prop-/, '').toLowerCase();
+         value = value.replace(dna.compile.regexDnaBasePairs, '');
+         props.push(key, value);
+         if (key === 'checked' && elem.is('input'))
+            elem.addClass('dna-update-model').data().dnaField = value;
+         else if (key === 'selected' && elem.is('option'))
+            elem.parent().addClass('dna-update-model').end().data().dnaField = value;
          }
       function compileAttr(key, value) {
          var parts = value.split(dna.compile.regexDnaBasePair);
@@ -271,6 +278,8 @@ dna.compile = {
             parts[1] = true;
          attrs.push(key.replace(/^data-attr-/, ''), parts);
          names.push(key);
+         if (key === 'value' && elem.is('input:text') && parts[0] === '' && parts[2] === '')
+            elem.addClass('dna-update-model').data().dnaField = parts[1];
          }
       function compile() {
          if ((/^data-prop-/).test(this.name))
@@ -417,7 +426,29 @@ dna.events = {
       return dna.util.apply(elem.data(type), [elem, event]);
       },
    handle: function(event) {
-      return dna.events.runner($(event.target), event.type.replace('key', 'key-'), event);
+      var target = $(event.target);
+      function updateModel(elem, calc) {
+         var model = dna.getModel(elem);
+         var field = elem.data().dnaField;
+         var subClone = elem.closest('.dna-sub-clone');
+         var data = subClone.data();
+         var dataObj = data ? model[data.dnaRules.array][subClone.index('.' + data.dnaRules.template)] : model;
+         dataObj[field] = calc(elem);
+         }
+      function getValue(elem) { return elem.val(); }
+      function isChecked(elem) { return elem.is(':checked'); }
+      function updateOption() { updateModel($(this), isChecked); }
+      if (target.hasClass('dna-update-model')) {
+         if (target.is('input:text'))
+            updateModel(target, getValue);
+         else if (target.is('input:checkbox'))
+            updateModel(target, isChecked);
+         else if (target.is('input:radio'))
+            $('input:radio[name=' + target.attr('name') + ']').each(updateOption);
+         else if (target.is('select'))
+            target.find('option').each(updateOption);
+         }
+      return dna.events.runner(target, event.type.replace('key', 'key-'), event);
       },
    handleEnterKey: function(event) {
       return event.which === 13 ? dna.events.runner($(event.target), 'enter-key', event) : null;
