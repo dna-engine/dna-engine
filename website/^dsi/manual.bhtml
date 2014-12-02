@@ -59,6 +59,7 @@
          <ol>
             <li><a href="#event-element-setup">Element Setup</a></li>
             <li><a href="#event-user">Click, Change, and Key Events</a></li>
+            <li><a href="#event-update-model">Data Model Updating on Field Updates</a></li>
             <li><a href="#event-initializer">Initializers</a></li>
             <li><a href="#event-callback-option">Callback Options</a></li>
          </ol>
@@ -1149,6 +1150,104 @@
       </div>
    </figure>
    <!-- End: Result  -->
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=event-update-model>
+   <h4>Data Model Updating on Field Updates</h4>
+   <p>
+      The clone's data model is updated when a user edits or changes an input field.
+   </p>
+   <table>
+      <thead>
+         <tr><th>Input Field</th><th>Example</th></tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td><a href="#html-attr">text</a></td>
+            <td><code>&lt;input value=~~title~~&gt;</code></td>
+         </tr>
+         <tr>
+            <td><a href="#html-prop">checkbox</a></td>
+            <td><code>&lt;input type=checkbox data-prop-checked=~~set~~&gt;</code></td>
+         </tr>
+         <tr>
+            <td><a href="#html-prop">radio button</a></td>
+            <td><code>&lt;input type=radio name=cover data-prop-checked=~~set~~&gt;</code></td>
+         </tr>
+         <tr>
+            <td><a href="#html-prop">drop-down</a></td>
+            <td><code>&lt;option data-prop-selected=~~set~~&gt;</code></td>
+         </tr>
+      </tbody>
+   </table>
+   <p>
+      The example below uses <a href="#event-user">event bindings</a> to call a function that
+      reads the data model with <a href="#api-get-model">dna.getModel()</a>.
+   </p>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;h2&gt;Book Information&lt;/h2&gt;
+         &lt;div id=book class=dna-template&gt;
+            Title: &lt;input value=~~title~~ data-key-up=bookInfo.update&gt;
+            ebook: &lt;input type=checkbox data-prop-checked=~~ebook~~
+               data-change=bookInfo.update&gt;
+         &lt;/div&gt;
+         &lt;div&gt;Data: &lt;code id=data&gt;&lt;/code&gt;&lt;/div&gt;
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var bookInfo = {
+            update: function(elem) {
+               var data = JSON.stringify(dna.getModel(elem));
+               $('#data').text(data).hide().fadeIn();
+               },
+            setup: function() {
+               var book = { title: 'Styling CSS', ebook: true };
+               dna.clone('book', book);
+               }
+            };
+         $(bookInfo.setup);
+      </code></pre>
+   </figure>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <figure class=hljs-enhance>
+      <figcaption>Update data model (interactive)</figcaption>
+      <div>
+         <h2>Book Information</h2>
+         <div id=book class=dna-template>
+            Title: <input value=~~title~~ data-key-up=bookInfo.update>
+            ebook: <input type=checkbox data-prop-checked=~~ebook~~
+               data-change=bookInfo.update>
+         </div>
+         <br>
+         <div>Data: <code id=data></code></div>
+         <script>
+         var bookInfo = {
+            update: function(elem) {
+               var data = JSON.stringify(dna.getModel(elem));
+               $('#data').text(data).hide().fadeIn();
+               },
+            setup: function() {
+               var book = { title: 'Styling CSS', ebook: true };
+               dna.clone('book', book);
+               }
+            };
+         $(bookInfo.setup);
+         </script>
+      </div>
+   </figure>
+   <!-- End: Result  -->
+   <p>
+      <b>Note:</b> While the original data used to clone the template may contain
+      <a href="#real-truth">truthy</a> values, the <code>boolean</code> values
+      updated in the data model will be set to actual <code>true</code> or
+      <code>false</code>.
+   </p>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
