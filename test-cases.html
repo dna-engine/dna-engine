@@ -994,23 +994,17 @@ $(test15.run);
 </div>
 <script>
 var test16 = {
-   simulateUserInputText: function(elem) {
-      elem.val('The DOM!').change();
-      elem.addClass(dna.getModel(elem).title === 'The DOM!' ? 'border-change' : 'color-change');
+   simulateUserInputText: function(elem, text) {
+      elem.val(text).change();
+      elem.addClass(dna.getModel(elem).title === text ? 'border-change' : 'color-change');
       },
-   simulateUserInputCheckbox: function(elem) {
-      elem.click();  //check "Social Share" box
-      elem.parent().addClass(dna.getModel(elem).options[1].set ? 'border-change' : 'color-change');
-      },
-   simulateUserInputRadioButton: function(elem) {
-      if (elem.closest('div').find('input:checked').val() === 'soft')  //"Paperback" selected
-         elem.click();  //select "Hardcover"
-      elem.parent().addClass(dna.getModel(elem).cover[1].set === true ? 'border-change' : 'color-change');
+   simulateUserInputClick: function(elem) {
+      elem.click();
+      elem.parent().addClass(dna.getModel(elem).set === true ? 'border-change' : 'color-change');
       },
    simulateUserInputDropDown: function(elem) {
-      if (elem.parent().val() === 'edu')  //"School" selected
-         elem.parent().val('fun').change();  //select "Personal"
-      var options = dna.getModel(elem).purposes;
+      elem.parent().val(elem.val()).change();  //select "Personal"
+      var options = dna.getModel(elem, { main: true}).purposes;
       elem.parent().addClass(options[1].set === true && options[2].set === false ? 'border-change' : 'color-change');
       },
    run: function() {
@@ -1032,10 +1026,12 @@ var test16 = {
          ];
       var book = { title: 'The DOM', options: options, cover: cover, purposes: purposes };
       var clone = dna.clone('t16-book', book);
-      test16.simulateUserInputText(clone.find('input:text'));
-      test16.simulateUserInputCheckbox(clone.find('input[value=share]'));
-      test16.simulateUserInputRadioButton(clone.find('input[value=hard]'));
-      test16.simulateUserInputDropDown(clone.find('option[value=fun]'));
+      test16.simulateUserInputText(clone.find('input:text'), 'The DOM!');
+      test16.simulateUserInputClick(clone.find('input[value=share]'));
+      if (clone.find('input[name=cover]:checked').val() === 'soft')  //expect "Paperback" selected
+         test16.simulateUserInputClick(clone.find('input[value=hard]'));  //change to "Hardcover"
+      if (clone.find('select').val() === 'edu')  //expect "School" selected
+         test16.simulateUserInputDropDown(clone.find('option[value=fun]'));  //change to "Personal"
       }
    };
 $(test16.run);

@@ -1,4 +1,4 @@
-// dna.js Template Cloner ~~ v0.3.4
+// dna.js Template Cloner ~~ v0.3.3
 // MIT/GPLv3 ~~ dnajs.org/license.html
 // Copyright (c) 2013-2014 Center Key Software and other contributors
 
@@ -20,9 +20,9 @@ var dna = {
    //    dna.info()
    // See: http://dnajs.org/manual.html#api
    clone: function(name, data, options) {
-      var settings = { fade: false, top: false, container: null, empty: false,
-         html: false, callback: null };
-      $.extend(settings, options);
+      var settings = $.extend(
+         { fade: false, top: false, container: null, empty: false, html: false, callback: null },
+         options);
       var template = dna.store.getTemplate(name);
       if (template.nested && !settings.container)
          dna.core.berserk('Container missing for nested template: ' + name);
@@ -37,8 +37,7 @@ var dna = {
    cloneSubTemplate: function(holderClone, arrayField, data, options) {
       var name = dna.compile.subTemplateName(holderClone, arrayField);
       var selector = '.dna-contains-' + name;
-      var settings = { container: holderClone.find(selector).addBack(selector) };
-      $.extend(settings, options);
+      var settings = $.extend({ container: holderClone.find(selector).addBack(selector) }, options);
       dna.clone(name, data, settings);
       var array = dna.getModel(holderClone)[arrayField];
       function append() { array.push(this); }
@@ -49,25 +48,25 @@ var dna = {
       function processJson(data) { dna.core.unload(name, data, options); }
       return $.getJSON(url, processJson);
       },
-   getModel: function(elemOrName) {
-      function getModelArray(name) {
+   getModel: function(elemOrName, options) {
+      function getOneModel(elem) {
+         return dna.getClone(elem, options).data('dnaModel');
+         }
+      function getAllModels(name) {
          var model = [];
-         function addToModel() { model.push($(this).data().dnaModel); }
+         function addToModel() { model.push(dna.getModel($(this))); }
          dna.getClones(name).each(addToModel);
          return model;
          }
-      return elemOrName instanceof jQuery ?
-         dna.getClone(elemOrName).data('dnaModel') : getModelArray(elemOrName);
+      return (elemOrName instanceof jQuery ? getOneModel : getAllModels)(elemOrName);
       },
    empty: function(name, options) {
-      var settings = { fade: false };
-      $.extend(settings, options);
+      var settings = $.extend({ fade: false }, options);
       var clones = dna.store.getTemplate(name).container.find('.dna-clone');
       return settings.fade ? dna.ui.slideFadeDelete(clones) : clones.remove();
       },
    mutate: function(clone, data, options) {
-      var settings = { html: false };
-      $.extend(settings, options);
+      var settings = $.extend({ html: false }, options);
       clone = dna.getClone(clone);
       if (!data)
          data = dna.getModel(clone);
@@ -79,8 +78,7 @@ var dna = {
       return dna.getClones(name).each(mutate);
       },
    destroy: function(clone, options) {
-      var settings = { fade: false };
-      $.extend(settings, options);
+      var settings = $.extend({ fade: false }, options);
       clone = dna.getClone(clone, options);
       function removeArrayItem(holder, field) {
          var arrayClones = holder.children('.' + dna.compile.subTemplateName(holder, field));
@@ -91,8 +89,7 @@ var dna = {
       return settings.fade ? dna.ui.slideFadeDelete(clone) : clone.remove();
       },
    getClone: function(elem, options) {
-      var settings = { main: true };
-      $.extend(settings, options);
+      var settings = $.extend({ main: false }, options);
       var selector = settings.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone';
       return elem instanceof jQuery ? elem.closest(selector) : $();
       },
@@ -103,8 +100,7 @@ var dna = {
       return dna.destroy(dna.ui.toElem(elemOrEventOrIndex, this), { fade: true });
       },
    registerInitializer: function(func, options) {
-      var settings = { onDocumentLoad: true };
-      $.extend(settings, options);
+      var settings = $.extend({ onDocumentLoad: true }, options);
       if (settings.onDocumentLoad)
          dna.util.apply(func, [settings.selector ? $(settings.selector).not('.dna-template ' +
             settings.selector).addClass('dna-initialized') : $(document)].concat(settings.params));
@@ -116,7 +112,7 @@ var dna = {
       },
    info: function() {
       var names = Object.keys(dna.store.templates);
-      console.log('~~ dns.js v0.3.4 ~~');
+      console.log('~~ dns.js v0.3.3 ~~');
       console.log('templates:', names.length);
       console.log('names:', names);
       console.log('store:', dna.store.templates);
@@ -427,14 +423,7 @@ dna.events = {
       },
    handle: function(event) {
       var target = $(event.target);
-      function updateModel(elem, calc) {
-         var model = dna.getModel(elem);
-         var field = elem.data().dnaField;
-         var subClone = elem.closest('.dna-sub-clone');
-         var data = subClone.data();
-         var dataObj = data ? model[data.dnaRules.array][subClone.index('.' + data.dnaRules.template)] : model;
-         dataObj[field] = calc(elem);
-         }
+      function updateModel(elem, calc) { dna.getModel(elem)[elem.data().dnaField] = calc(elem); }
       function getValue(elem) { return elem.val(); }
       function isChecked(elem) { return elem.is(':checked'); }
       function updateOption() { updateModel($(this), isChecked); }

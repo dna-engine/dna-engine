@@ -1,6 +1,6 @@
 {
    "name":         "dna.js",
-   "version":      "0.3.4",
+   "version":      "0.3.3",
    "description":  "User interface templating library for jQuery that enables developers to rapidly build maintainable websites.",
    "keywords":     ["jquery-plugin", "template", "clone", "html", "dom", "json"],
    "homepage":     "https://github.com/dnajs/dna.js",

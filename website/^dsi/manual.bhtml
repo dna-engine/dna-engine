@@ -743,9 +743,9 @@
 <section id=api-bye>
    <h4>dna.bye(elemOrEventOrIndex)</h4>
    <p class=api-description>
-      Performs a <a href="#ui-slide-fade">sliding fade out effect</a> on the clone and then
-      removes the element.&nbsp;  The function can be called: 1) as an event callback, 2) from a
-      jQuery loop, or 3) directly as function with the clone as the parameter.
+      Performs a <a href="#ui-slide-fade">sliding fade out effect</a> on the clone
+      and then removes the element.&nbsp;  The function can be called: 1) as an event callback,
+      2) from a jQuery loop, or 3) directly with the clone as the parameter.
    </p>
    <div class=api-parameters>
       Parameters:
@@ -775,6 +775,13 @@
          dna.bye(clone);  //deletes 'The DOM'
       </code></pre>
    </figure>
+   <p>
+      <b>Note 1:</b> The element identifying the clone can be a sub-element within the clone or the
+      clone itslef.
+   </p>
+   <p>
+      <b>Note 2:</b> The clone to be removed can be either a main clone or a sub-clone.
+   </p>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
