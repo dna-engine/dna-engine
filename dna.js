@@ -81,12 +81,11 @@ var dna = {
    destroy: function(clone, options) {
       var settings = $.extend({ fade: false }, options);
       clone = dna.getClone(clone, options);
-      function removeArrayItem(holder, field) {
-         var arrayClones = holder.children('.' + dna.compile.subTemplateName(holder, field));
-         dna.getModel(holder)[field].splice(arrayClones.index(clone), 1);
+      function removeArrayItem(field) {
+         dna.getModel(clone.parent())[field].splice(dna.getIndex(clone), 1);
          }
       if (clone.hasClass('dna-sub-clone'))
-         removeArrayItem(clone.parent(), clone.data().dnaRules.array);
+         removeArrayItem(clone.data().dnaRules.array);
       return settings.fade ? dna.ui.slideFadeDelete(clone) : clone.remove();
       },
    getClone: function(elem, options) {
