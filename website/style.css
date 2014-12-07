@@ -373,15 +373,24 @@ figure.full-screen-code pre code {
       }
    body {
       width: 100%;
+      max-width: none;
+      margin 0px;
       }
    button {
       font-size: 1.0rem;
       }
+   section p code {
+      white-space: wrap;
+      font-size: 0.5rem;
+      /*
+      background-color: gold;
+      */
+      }
    figure.hljs-enhance {
-      width: 100%;
+      width: 100% !important;
       }
    figure.hljs-enhance pre code {
-      font-size: 0.5rem;
+      font-size: 1.0rem;
       }
    #github-banner {
       display: none;
