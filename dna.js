@@ -14,6 +14,7 @@ var dna = {
    //    dna.destroy()
    //    dna.getClone()
    //    dna.getClones()
+   //    dna.getIndex()
    //    dna.bye()
    //    dna.registerInitializer()
    //    dna.clearInitializers()
@@ -95,6 +96,10 @@ var dna = {
       },
    getClones: function(name) {
       return dna.store.getTemplate(name).container.children().filter('.dna-clone');
+      },
+   getIndex: function(elem, options) {
+      var clone = dna.getClone(elem, options);
+      return clone.parent().children('.dna-clone').index(clone);
       },
    bye: function(elemOrEventOrIndex) {
       return dna.destroy(dna.ui.toElem(elemOrEventOrIndex, this), { fade: true });
