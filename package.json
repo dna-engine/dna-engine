@@ -1,13 +1,13 @@
 {
-   "name":         "dna.js",
-   "version":      "0.3.3",
-   "description":  "User interface templating library for jQuery that enables developers to rapidly build maintainable websites.",
-   "keywords":     ["jquery-plugin", "template", "clone", "html", "dom", "json"],
+   "name":         "DNAjs",
+   "version":      "0.3.4",
+   "description":  "DNAjs is a user interface templating library for jQuery enabling developers to rapidly build maintainable websites.",
+   "keywords":     ["jquery-plugin", "templating", "engine", "clone", "html", "dom", "json", "ui"],
    "homepage":     "https://github.com/dnajs/dna.js",
    "docs":         "http://dnajs.org/manual.html",
    "bugs":         "https://github.com/dnajs/dna.js/issues",
    "author":       { "name": "Center Key", "url": "http://www.centerkey.com" },
-   "repository":   { "type": "git", "url":  "https://github.com/dnajs/dna.js.git" },
+   "repository":   { "type": "git", "url": "https://github.com/dnajs/dna.js.git" },
    "dependencies": { "jquery": ">=1.8" },
    "devDependencies": {
       "grunt":                "~0.4.5",

@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
    var versionPatterns = '(~~ v)|(js v)|(release: \\*\\*v)|("version":\\s*")|(value="v)';
    // Examples:
-   //    dna.js Template Cloner ~~ v1.0.0
+   //    DNAjs Template Cloner ~~ v1.0.0
    //    "version":  "1.0.0",
    //    Current release: **v1.0.0**
    //    value="v1.0.0 (beta)"

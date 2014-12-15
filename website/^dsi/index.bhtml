@@ -1,4 +1,4 @@
-<!--#set var="title" value="World's Easiest to Use Templating Engine"-->
+<!--#set var="title" value="World's Easiest to Use JavaScript Templating Engine"-->
 <!--#include file="~begin.fhtml"-->
 
 <article>
@@ -22,9 +22,9 @@
    </div>
 
    <p>
-      dna.js is a user interface templating library for jQuery that enables developers to rapidly
-      build maintainable websites.&nbsp;  You write semantic templates and then dna.js converts
-      your JSON data into dynamically generated DOM elements.
+      <!--#echo var="description"-->&nbsp;
+      You write semantic templates and then DNAjs converts your JSON data into dynamically
+      generated DOM elements.
    </p>
    <p>
       The project is open source and available for free.&nbsp;  The code is hosted on
@@ -35,26 +35,26 @@
    <div id=social-buttons></div>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <h3 id=todo>To-Do Application</h3>
+   <h3 id=todo>To-Do List Application</h3>
    <div class=push-right>
-      <a href="http://commons.wikimedia.org/wiki/File:Task.svg" class="plain external-site">
-         <img class=side-image src="graphics/icon-todo-app.png" alt="To-do icon">
+      <a href="http://jsfiddle.net/<!--#echo var="jsFiddleTodo"-->/" class=external-site>
+         <img class=side-image src="graphics/icon-todo-app.png" alt="To-do list application screenshot">
       </a>
    </div>
    <p>
-      Looking under the hood of a simple to-do application is a good way to get a quick
-      understanding of a library.<br>
+      Looking under the hood of a simple to-do list application is a good way to quickly
+      understand a library.<br>
    </p>
    <p>
-      dna.js to-do application:<br>
+      Fiddle with the DNAjs to-do list application at:<br>
       <span class=indent>
          <a href="http://jsfiddle.net/<!--#echo var="jsFiddleTodo"-->/" class=external-site>
             jsfiddle.net/<!--#echo var="jsFiddleTodo"--></a>
       </span>
    </p>
    <p>
-      The core of the to-do application is less than 10 lines of JavaScript and it
-      includes add a task, complete a task with style change, delete a task, and
+      The core of the to-do list application is not even <b>10 lines of JavaScript</b>, yet the
+      application includes add a task, complete a task with style change, delete a task, and
       smooth animation effects.
    </p>
 
@@ -148,8 +148,8 @@
    <p>
       Backbone.js, AngularJS, and React are all powerful, but they require a fair a amount of
       technical expertise just to get started.&nbsp;  The HTML and JavaScript to create websites
-      using dna.js will be familiar to any web developer, enabling the developer to be productive
-      on the first day of using dna.js.
+      using DNAjs will be familiar to any web developer, enabling the developer to be productive
+      on the first day of using DNAjs.
    </p>
    Templating should be lightweight, clean, and simple:
    <ol>
@@ -168,7 +168,7 @@
    </ol>
    <p>
       The more transparent a JavaScript templating solution is, the less impact it
-      will have on your workflow for building websites.&nbsp;  Templates with dna.js
+      will have on your workflow for building websites.&nbsp;  Templates with DNAjs
       don't just look like HTML, they are HTML (and they validate).
    </p>
    <p>

@@ -37,23 +37,23 @@ body {
    background-color: rgba(255,255,255,0.9);
    border-left: 1px solid steelblue;
    border-right: 1px solid steelblue;
-   padding: 20px 50px 50px 50px;
+   padding: 20px 50px 30px 50px;
    margin: 0px auto;
    box-shadow: 0px 0px 2.0em 0.0em white;
    }
-nav {
+header nav {
    text-align: center;
    }
-nav ul {
+header nav ul {
    display: inline-block;
    list-style-type: none;
    padding: 0px;
    margin: 0px 0px 20px 0px;
    }
-nav ul li {
+header nav ul li {
    display: table-cell;
    }
-nav ul li a {
+header nav ul li a {
    display: inline-block;
    text-decoration: none;
    font-weight: bold;
@@ -64,8 +64,8 @@ nav ul li a {
    margin: 0px 10px;
    outline: none;
    }
-nav ul li.current a,
-nav ul li a:hover {
+header nav ul li.current a,
+header nav ul li a:hover {
    background-color: transparent;
    color: dimgray;
    border-color: dimgray;
@@ -82,6 +82,16 @@ header h2 {
    text-align: center;
    margin-bottom: 20px;
    }
+footer {
+   padding: 50px 0px 0px 0px;
+   }
+footer .tag-line {
+   font-size: 0.6rem;
+   font-style: italic;
+   color: slategray;
+   }
+
+/* Style */
 h3 {
    clear: both;
    font-size: 1.2rem;
@@ -133,7 +143,7 @@ td>code {
    opacity: 0.9;
    }
 .side-image {
-   height: 100px;
+   height: 160px;
    }
 
 .gateway-sidebar {
