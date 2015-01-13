@@ -526,6 +526,12 @@
       Parameters:
       <ul>
          <!--#include file="params/clone.fhtml"-->
+         <li>
+            <label><b>options</b> (Object) <i>[optional]</i>:</label>
+            <ul>
+               <!--#include file="options/main.fhtml"-->
+            </ul>
+         </li>
       </ul>
    </div>
    <figure>

@@ -13,7 +13,7 @@
 <!-- - - - - - - - - - - - - -->
 <!--#set var="name"          value="DNAjs Template Cloner"                     -->
 <!--#set var="tagLine"       value="World's Easiest to Use JavaScript Templating Engine" -->
-<!--#set var="description"   value="DNAjs is a user interface templating library for jQuery enabling developers to rapidly build maintainable websites." -->
+<!--#set var="description"   value="DNAjs is a user interface templating library for jQuery enabling developers to rapidly build maintainable applications." -->
 <!--#set var="copyright"     value="Copyright (c) 2013-2014"                   -->
 <!--#set var="authors"       value="Center Key Software and other contributors"-->
 <!--#set var="release"       value="v0.3.3"                                    -->
