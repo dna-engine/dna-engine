@@ -504,7 +504,7 @@ dna.core = {
       function processLoop(elem, loop) {
          var dataArray = dna.util.value(data, loop.field);
          if (dataArray)
-            dna.clone(loop.name, dataArray, { container: elem });
+            dna.clone(loop.name, dataArray, { container: elem, html: settings.html });
          else
             data[loop.field] = [];
          }

@@ -686,7 +686,7 @@ $(test11.run);
                <span class=dna-clone> (3) <span>Abby</span> </span>
             </span>
             <div class="dna-clone color-change"><span data-type=front>front</span>:
-            <span id=front-expected>Preface</span></div>
+            <span id=front-expected>Preface &amp;star;</span></div>
             <div class="dna-clone color-change"><span data-type=back>back</span>:
             <span id=back-expected>Index</span></div>
          </div>
@@ -705,7 +705,7 @@ $(test11.run);
                <span class=dna-clone> (3) <span>Abby</span> </span>
             </span>
             <div class="dna-clone color-change"><span data-type=front>front</span>:
-            <span id=front-expected>Preface</span></div>
+            <span id=front-expected>Preface &star;</span></div>
             <div class="dna-clone color-change"><span data-type=back>back</span>:
             <span id=back-expected>Index</span></div>
             <div class="dna-clone color-change"><span data-type=back>back</span>:
@@ -721,7 +721,7 @@ var test12 = {
    run: function() {
       console.log('Test Case: #12');
       var chapters = [
-         { header: 'Preface', type: 'front' },
+         { header: 'Preface &star;', type: 'front' },
          { header: 'Index',   type: 'back' }
          ];
       var moreChapters = [
@@ -732,13 +732,13 @@ var test12 = {
       var book1 = { title: 'The DOM' };
       var book2 = { title: 'Howdy HTML5',  authors: authors, chapters: chapters };
       var book3 = { title: 'Styling CSS3', authors: [],      chapters: [] };
-      dna.clone('t12-book', [book1, book2, book3, book1]);
+      dna.clone('t12-book', [book1, book2, book3, book1], { html: false });
       dna.cloneSubTemplate(dna.getClones('t12-book').first(), 'authors', 'Bo I');
       dna.cloneSubTemplate(dna.getClones('t12-book').first(), 'authors', 'Bo II');
       $('.t12-book').first().toggleClass('border-change', $('.t12-book').first().data().title === 'The DOM');
       var elem = $('.t12-book').first().find('.t12-book-authors-instance').last();
       elem.addClass(elem.data().author === 'Bo II' ? 'color-change' : 'color-change2');
-      var clone = dna.mutate($('.t12-book').last(), book2);
+      var clone = dna.mutate($('.t12-book').last(), book2, { html: true });
       dna.cloneSubTemplate(clone, 'chapters', { header: 'Bio', type: 'back' });
       dna.cloneSubTemplate(clone, 'chapters', moreChapters);
       dna.destroy($('.t12-book').find(':contains(Bio 2)'), { main: false });
