@@ -648,7 +648,7 @@ $(test11.run);
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
-         <div id=t12-book class=dna-template>
+         <div id=t12-book class=dna-template data-title=~~title~~>
             <div>
                Title: <span>~~title~~</span>
             </div>
@@ -669,12 +669,12 @@ $(test11.run);
    <fieldset>
       <legend>Expected</legend>
       <div class=book-list>
-         <div class=dna-clone>
+         <div class="dna-clone border-change" data-title="The DOM">
             <div>Title:  <span>The DOM</span></div>
             Authors:
             <span>
-               <span class=dna-clone data-author="Bo I"> (1) <span>Bo I</span> </span>
-               <span class=dna-clone data-author="Bo II"> (2) <span>Bo II</span> </span>
+               <span class=dna-clone                data-author="Bo I"> (1) <span>Bo I</span> </span>
+               <span class="dna-clone color-change" data-author="Bo II"> (2) <span>Bo II</span> </span>
             </span>
          </div>
          <div class=dna-clone>
@@ -735,11 +735,13 @@ var test12 = {
       dna.clone('t12-book', [book1, book2, book3, book1]);
       dna.cloneSubTemplate(dna.getClones('t12-book').first(), 'authors', 'Bo I');
       dna.cloneSubTemplate(dna.getClones('t12-book').first(), 'authors', 'Bo II');
+      $('.t12-book').first().toggleClass('border-change', $('.t12-book').first().data().title === 'The DOM');
+      var elem = $('.t12-book').first().find('.t12-book-authors-instance').last();
+      elem.addClass(elem.data().author === 'Bo II' ? 'color-change' : 'color-change2');
       var clone = dna.mutate($('.t12-book').last(), book2);
       dna.cloneSubTemplate(clone, 'chapters', { header: 'Bio', type: 'back' });
       dna.cloneSubTemplate(clone, 'chapters', moreChapters);
-      var elem = $('.t12-book').find(':contains(Bio 2)');
-      dna.destroy(elem, { main: false });
+      dna.destroy($('.t12-book').find(':contains(Bio 2)'), { main: false });
       clone.toggleClass('border-change', dna.getModel(clone).chapters.length === 4);
       $('.t12-book').find('[data-author=Jake]').addClass('color-change2');
       }

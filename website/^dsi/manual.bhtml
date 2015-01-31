@@ -925,7 +925,7 @@
          var book = {
             title:    'Interwebz',
             authors:  ['Ed', 'Jake', 'Abby'],
-            chapters: [header: 'ARPANET', header: 'TCP/IP']
+            chapters: { header: 'ARPANET', header: 'TCP/IP' }
             };
          dna.clone('book', book);
       </code></pre>
