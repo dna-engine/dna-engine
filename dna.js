@@ -68,7 +68,7 @@ var dna = {
       },
    mutate: function(clone, data, options) {
       var settings = $.extend({ html: false }, options);
-      clone = dna.getClone(clone);
+      clone = dna.getClone(clone, options);
       if (!data)
          data = dna.getModel(clone);
       dna.core.inject(clone, data, null, settings);

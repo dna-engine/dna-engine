@@ -591,6 +591,7 @@
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
+               <!--#include file="options/main.fhtml"-->
                <!--#include file="options/html.fhtml"-->
             </ul>
          </li>
