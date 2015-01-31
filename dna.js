@@ -482,6 +482,8 @@ dna.core = {
             var core = parts[1] === true ? data : dna.util.value(data, parts[1]);
             var value = [parts[0], core, parts[2]].join('');
             elem.attr(key, value);
+            if (/^data-./.test(key))
+               elem.data(key.substring(5), value);
             if (key === 'value')  //set elem val for input fields (example: <input value=~~tag~~>)
                elem.val(value);
             }
