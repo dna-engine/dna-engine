@@ -1040,6 +1040,66 @@ $(test16.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class=test-case>
+   <h3>Test Case: #17</h3>
+   <p>Reusable component</p>
+   <fieldset>
+      <legend>Actual</legend>
+      <!--  Component: start -->
+      <div class=bookshelf data-on-load=bookshelf.setup>
+         <h2>Bookshelf</h2>
+         <div id=t17-book class=dna-template>
+            <div>Title: <span>~~title~~</span></div>
+            <div>Author: <span>~~author~~</span></div>
+         </div>
+         <style>
+            .bookshelf {
+               background-color: gainsboro;
+               padding: 15px;
+               }
+         </style>
+         <script>
+            var bookshelf = {
+               booksUrl: 'http://dnajs.org/rest/book/list/',
+               setup: function(elem) {
+                  function handle(data) { dna.clone('t17-book', data); }
+                  $.getJSON(bookshelf.booksUrl, handle);
+                  }
+               };
+         </script>
+      </div>
+      <!--  Component: end -->
+   </fieldset>
+   <fieldset>
+      <legend>Expected</legend>
+      <div class=bookshelf>
+         <h2>Bookshelf</h2>
+         <div class=dna-clone>
+            <div>Title:  <span>Go JavaScript</span></div>
+            <div>Author: <span>Jake</span></div>
+         </div>
+         <div class=dna-clone>
+            <div>Title:  <span>Styling CSS</span></div>
+            <div>Author: <span>Abby</span></div>
+         </div>
+         <div class=dna-clone>
+            <div>Title:  <span>Howdy HTML5</span></div>
+            <div>Author: <span>Ed</span></div>
+         </div>
+      </div>
+   </fieldset>
+</div>
+<script>
+var test17 = {
+   run: function() {
+      console.log('Test Case: #17');
+      // Nothing to do as component knows how to initialize itself.
+      }
+   };
+$(test17.run);
+</script>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <script>$(testing.summary);</script>
 </body>
 </html>
