@@ -57,11 +57,12 @@
       </li>
       <li><a href="#event">Events and Callbacks</a>
          <ol>
-            <li><a href="#event-element-setup">Element Setup</a></li>
+            <li><a href="#event-element-callback">Element Callback</a></li>
             <li><a href="#event-user">Click, Change, and Key Events</a></li>
             <li><a href="#event-update-model">Data Model Updating on Field Updates</a></li>
             <li><a href="#event-initializer">Initializers</a></li>
             <li><a href="#event-callback-option">Callback Options</a></li>
+            <li><a href="#event-on-load">On Load Functions</a></li>
          </ol>
       </li>
       <li><a href="#structure">Structures and Conditional Logic</a>
@@ -69,6 +70,12 @@
             <li><a href="#structure-nested-object">Object Dot Notation (nested objects)</a></li>
             <li><a href="#structure-thimblerig">Thimblerig (conditional hide and seek logic)</a></li>
             <li><a href="#structure-nested-template">Nested Templates</a></li>
+         </ol>
+      </li>
+      <li><a href="#components">Making Reusable Components</a>
+         <ol>
+            <li><a href="#define">Defining a Component</a></li>
+            <li><a href="#insert">Inserting a Component</a></li>
          </ol>
       </li>
       <li><a href="#util">Utilities</a></li>
@@ -147,9 +154,10 @@
       </code></pre>
    </figure>
    <p>
-      <b>Note:</b> The first call to <code>dna.clone()</code> detaches the template
-      from the DOM, so the above line of CSS is technically not required if you
-      always call <code>dna.clone()</code> before the web page is displayed.
+      <b>Note:</b>
+      The first call to <code>dna.clone()</code> detaches the template from the DOM, so the above
+      line of CSS is technically not required if you always call <code>dna.clone()</code> before
+      the web page is displayed.
    </p>
 </section>
 
@@ -661,8 +669,9 @@
       </code></pre>
    </figure>
    <p>
-      <b>Note:</b> If the only option being set is <code>fade</code> to <code>true</code>, it is
-      simpler to user the <code><a href="#api-bye">dna.bye()</a></code> convenience method.
+      <b>Note:</b>
+      If the only option being set is <code>fade</code> to <code>true</code>, it is simpler to user
+      the <code><a href="#api-bye">dna.bye()</a></code> convenience method.
    </p>
 </section>
 
@@ -783,11 +792,12 @@
       </code></pre>
    </figure>
    <p>
-      <b>Note 1:</b> The element identifying the clone can be a sub-element within the clone or the
-      clone itslef.
+      <b>Note 1:</b>
+      The element identifying the clone can be a sub-element within the clone or the clone itslef.
    </p>
    <p>
-      <b>Note 2:</b> The clone to be removed can be either a main clone or a sub-clone.
+      <b>Note 2:</b>
+      The clone to be removed can be either a main clone or a sub-clone.
    </p>
 </section>
 
@@ -1028,11 +1038,12 @@
    </figure>
    <!-- End: Result  -->
    <p>
-      <b>Note:</b> For more advanced control, use the classes
-      <code>dna-separator</code> and <code>dna-last-separator</code> on elements within the template.
+      <b>Note:</b>
+      For more advanced control, use the classes <code>dna-separator</code> and
+      <code>dna-last-separator</code> on elements within the template.
    </p>
    <figure>
-      <figcaption>Example using explicite separtor nodes</figcaption>
+      <figcaption>Example using explicit separator nodes</figcaption>
       <pre><code class=language-html>
          &lt;b&gt;Authors:&lt;/b&gt;
          &lt;span id=author class=dna-template&gt;
@@ -1056,53 +1067,41 @@
 <h3 id=event>Events and Callbacks</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
-<section id=event-element-setup>
-   <h4>Element Setup</h4>
+<section id=event-element-callback>
+   <h4>Element Callback</h4>
    <p>
-      Use the <code>data-setup</code> attribute to declare a callback function for a
+      Use the <code>data-callback</code> attribute to declare a callback function for a
       template.&nbsp;  Cloning the template triggers the callback for each new clone, and the clone
       element is passed into the function.
    </p>
    <p>
-      In the example below, each new book clone will be passed into the <code>app.blink()</code>
-      function, causing the element to fade in a couple times as if it's blinking at the user.
+      In the example below, the <code>span</code> node of each new book clone will be passed into
+      the <code>blink()</code> function, causing the title to fade in a couple times as if it's
+      blinking at the user.
    </p>
    <figure>
       <figcaption>Example HTML</figcaption>
       <pre><code class=language-html>
-         &lt;div id=book class=dna-template data-setup=app.blink&gt;
-            &lt;span&gt;~~title~~&lt;span&gt;
+         &lt;div id=book class=dna-template&gt;
+            &lt;span data-callback=blink&gt;~~title~~&lt;span&gt;
          &lt;/div&gt;
       </code></pre>
    </figure>
    <figure>
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
-         var app = {
-            blink: function(elem) {
-               elem.fadeOut().fadeIn().fadeOut().fadeIn();
-               }
-            };
+         function blink(elem) {
+            elem.fadeOut().fadeIn().fadeOut().fadeIn();
+            }
       </code></pre>
    </figure>
    <p>
-      The callback can also be used outside of a template to initialize an element on page load,
-      but you must add the <code>dna-setup</code> class.
-   </p>
-   <figure>
-      <figcaption>Example HTML</figcaption>
-      <pre><code class=language-html>
-         &lt;div class=dna-setup data-setup=app.blink&gt;
-            &lt;span&gt;This text will blink on page load!&lt;span&gt;
-         &lt;/div&gt;
-      </code></pre>
-   </figure>
-   <p>
-      <b>Note:</b> Element setup callbacks perform a similar function as
-      <a href="#event-initializer">initializers</a>, but element setup is specific and an
-      initializer is general.&nbsp;  For example, element setup is appropriate for initiating a
-      REST call to retrieve additional data for the element while an initializer is appropriate for
-      configuring all elements that have tooltips.
+      <b>Note:</b>
+      Element callbacks perform a similar function as
+      <a href="#event-initializer">initializers</a>, but an element callback is specific and an
+      initializer is general.&nbsp;  For example, a element callback is appropriate for an
+      animation or initiating a REST call to retrieve additional data for the element while an
+      initializer is appropriate for configuring tooltips that occur in any element.
    </p>
 </section>
 
@@ -1208,7 +1207,7 @@
             ebook: &lt;input type=checkbox data-prop-checked=~~ebook~~
                data-change=bookInfo.update&gt;
          &lt;/div&gt;
-         &lt;div&gt;Data: &lt;code id=data&gt;&lt;/code&gt;&lt;/div&gt;
+         &lt;div&gt;Data: &lt;code id=data&gt;[YOUR MOVE]&lt;/code&gt;&lt;/div&gt;
       </code></pre>
    </figure>
    <figure>
@@ -1239,7 +1238,7 @@
                data-change=bookInfo.update>
          </div>
          <br>
-         <div>Data: <code id=data></code></div>
+         <div>Data: <code id=data>[YOUR MOVE]</code></div>
          <script>
          var bookInfo = {
             update: function(elem) {
@@ -1257,10 +1256,10 @@
    </figure>
    <!-- End: Result  -->
    <p>
-      <b>Note:</b> While the original data used to clone the template may contain
-      <a href="#real-truth">truthy</a> values, the <code>boolean</code> values
-      updated in the data model will be set to actual <code>true</code> or
-      <code>false</code>.
+      <b>Note:</b>
+      While the original data used to clone the template may contain
+      <a href="#real-truth">truthy</a> values, the <code>boolean</code> values updated in the data
+      model will be set to actual <code>true</code> or <code>false</code>.
    </p>
 </section>
 
@@ -1305,31 +1304,34 @@
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
          var app = {
-            highlight: function(elem) {
-               elem.css('background-color', 'gold');
-               },
             setup: function() {
-               dna.registerInitializer(app.highlight);  //highlight clones
+               function highlight(elem) {
+                  elem.css('background-color', 'gold');
+                  }
+               dna.registerInitializer(highlight);
+               // Above line highlights all clones
                dna.registerInitializer('qtip', { selector: '.tooltip' });
-               dna.registerInitializer('css',  //roomy always gets space
-                  { selector: '.roomy', params: ['padding', '10px'] });
-               // Line above replaces:  $('.roomy').css('padding', '10px');
+               // Above line replaces:  $('.tooltip').qtip();
+               var opts = { selector: '.gap', params: ['padding', '8px'] }
+               dna.registerInitializer('css', opts);
+               // Above line replaces:  $('.gap').css('padding', '8px');
                }
             };
          $(app.setup);
       </code></pre>
    </figure>
    <p>
-      <b>Note 1:</b> Initializers perform a similar function as
-      <a href="#event-element-setup">element setup callbacks</a> (<code>data-setup</code>), but
-      an initializer is general and element setup is specific.&nbsp;  For example, an initializer
-      is appropriate for configuring all elements that have tooltips while element setup is
-      appropriate for making a REST call to retrieve additional data for the element.
+      <b>Note 1:</b>
+      Initializers perform a similar function as <a href="#event-element-callback">element
+      callbacks</a> (<code>data-callback</code>), but an initializer is general to all clones and
+      an element callback is specific to clones of one template.&nbsp;  For example, an initializer
+      is appropriate for configuring tooltips that can occur in any clone.
    </p>
    <p>
-      <b>Note 2:</b> In the event that your application dynamically adds elements to the DOM
-      without using DNAjs, it may be necessary to explicitly run the initializers by passing the
-      root element of new elements into: <code>dna.events.runInitializers(root);</code>
+      <b>Note 2:</b>
+      In the event that your application dynamically adds elements to the DOM without using DNAjs,
+      it may be necessary to explicitly run the initializers by passing the root element of new
+      elements into: <code>dna.events.runInitializers(root);</code>
    </p>
 </section>
 
@@ -1372,9 +1374,18 @@
    </figure>
    <!-- End: Result  -->
    <p>
-      <b>Note:</b> It is almost always cleaner and easier to declare an
-      <a href="#event-element-setup">element setup callback</a> (<code>data-setup</code>) than
-      to pass in a function with the <code>callback</code> option.
+      <b>Note:</b>
+      It is almost always cleaner and easier to declare an
+      <a href="#event-element-callback">element callback</a> (<code>data-callback</code>) than to
+      pass in a function with the <code>callback</code> option.
+   </p>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=event-on-load>
+   <h4>On Load Functions</h4>
+   <p>
+      TBD...
    </p>
 </section>
 
@@ -1527,8 +1538,9 @@
       field <code>overdue</code>, which is calculated on the fly, is set to <code>true</code>.
    </p>
    <p>
-      <b>Note:</b> Similar to thimblerigs, <a href="#loop-separators">separators</a> are used to
-      hide and show a delimiter between clones, such as a comma to separate names of authors.
+      <b>Note:</b>
+      Similar to thimblerigs, <a href="#loop-separators">separators</a> are used to hide and show a
+      delimiter between clones, such as a comma to separate names of authors.
    </p>
 </section>
 
@@ -1549,6 +1561,61 @@
       is the better solution.
    </p>
 
+</section>
+
+<!--*********************************************************************************************-->
+<h3 id=components>Making Reusable Components</h3>
+<p>
+   Components...
+</p>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=define>
+   <h4>Defining a Component</h4>
+   <p>
+      ...
+   </p>
+   <figure>
+      <figcaption>...</figcaption>
+      <pre><code class=language-html>
+         ...
+      </code></pre>
+   </figure>
+   <p>
+      <b>Note:</b>
+      ...
+   </p>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=insert>
+   <h4>Inserting a Component</h4>
+   <p>
+      Download the
+      <code><a href="https://raw.github.com/dnajs/dna.js/current/dna.min.js" class=external-site>dna.min.js</a></code>
+      file (or the uncompressed
+      <code><a href="https://raw.github.com/dnajs/dna.js/current/dna.js" class=external-site>dna.js</a></code>
+      version) from GitHub and include it in your website.&nbsp;
+      <!--#echo var="name"--> requires jQuery.
+   </p>
+   <p>
+      Example of loading jQuery, DNAjs, and your JavaScript web application:
+   </p>
+   <figure>
+      <figcaption>Load libraries</figcaption>
+      <pre><code class=language-html>
+         ...
+         &lt;script src=&quot;js/jquery.min.js&quot;&gt;&lt;/script&gt;
+         &lt;script src=&quot;js/dna.min.js&quot;&gt;&lt;/script&gt;
+         &lt;script src=&quot;js/your-app.js&quot;&gt;&lt;/script&gt;
+         &lt;/body&gt;
+         &lt;/html&gt;
+      </code></pre>
+   </figure>
+   <p>
+      For experimentation and development, you can <a href="dna.js">link</a> directly to:<br>
+      <code class=indent>&lt;script src=&quot;http://dnajs.org/dna.js&quot;&gt;&lt;/script&gt;</code>
+   </p>
 </section>
 
 <!--*********************************************************************************************-->
@@ -1803,7 +1870,6 @@
    <ol>
       <li><a href="#loop-separators">    <code>dna-separator</code></a>:      Mark element as a separator for multiple clones</li>
       <li><a href="#loop-separators">    <code>dna-separator-last</code></a>: Mark element as the last separator</li>
-      <li><a href="#event-element-setup"><code>dna-setup</code></a>:          Enable setup callback outside of a template</li>
       <li><a href="#html-template">      <code>dna-template</code></a>:       Mark an element as a template</li>
    </ol>
 </section>
@@ -1812,23 +1878,24 @@
 <section id=reserved-attributes>
    <h4>DNA Data Attributes</h4>
    <ol>
-      <li><a href="#loop-sub-templates">  <code>data-array</code></a>:         Mark an element as a sub-template array loop</li>
-      <li><a href="#html-attr">           <code>data-attr-{NAME}</code></a>:   Set value of an element attribute</li>
-      <li><a href="#event-user">          <code>data-change</code></a>:        Execute callback on change event</li>
-      <li><a href="#html-class">          <code>data-class</code></a>:         Add a class to the element</li>
-      <li><a href="#event-user">          <code>data-click</code></a>:         Execute callback on click event</li>
-      <li><a href="#event-user">          <code>data-enter-key</code></a>:     Execute callback on enter key event</li>
-      <li><a href="#structure-thimblerig"><code>data-falsey</code></a>:        Show element only if field evaluates to false</li>
-      <li><a href="#event-user">          <code>data-key-down</code></a>:      Execute callback on key down event</li>
-      <li><a href="#event-user">          <code>data-key-press</code></a>:     Execute callback on key press event</li>
-      <li><a href="#event-user">          <code>data-key-up</code></a>:        Execute callback on key up event</li>
-      <li><a href="#structure-thimblerig"><code>data-missing</code></a>:       Show element only if field us not defined</li>
-      <li><a href="#html-prop">           <code>data-prop-checked</code></a>:  Enable or disable "checked" property</li>
-      <li><a href="#html-prop">           <code>data-prop-disabled</code></a>: Enable or disable "disabled" property</li>
-      <li><a href="#html-prop">           <code>data-prop-selected</code></a>: Enable or disable "selected" property</li>
-      <li><a href="#structure-thimblerig"><code>data-required</code></a>:      Show element only if field exists</li>
-      <li><a href="#event-element-setup"> <code>data-setup</code></a>:         Execute callback when clone is created</li>
-      <li><a href="#structure-thimblerig"><code>data-truthy</code></a>:        Show element only if field evaluates to true</li>
+      <li><a href="#loop-sub-templates">    <code>data-array</code></a>:         Mark an element as a sub-template array loop</li>
+      <li><a href="#html-attr">             <code>data-attr-{NAME}</code></a>:   Set value of an element attribute</li>
+      <li><a href="#event-user">            <code>data-change</code></a>:        Execute callback on change event</li>
+      <li><a href="#html-class">            <code>data-class</code></a>:         Add a class to the element</li>
+      <li><a href="#event-user">            <code>data-click</code></a>:         Execute callback on click event</li>
+      <li><a href="#event-user">            <code>data-enter-key</code></a>:     Execute callback on enter key event</li>
+      <li><a href="#structure-thimblerig">  <code>data-falsey</code></a>:        Show element only if field evaluates to false</li>
+      <li><a href="#event-user">            <code>data-key-down</code></a>:      Execute callback on key down event</li>
+      <li><a href="#event-user">            <code>data-key-press</code></a>:     Execute callback on key press event</li>
+      <li><a href="#event-user">            <code>data-key-up</code></a>:        Execute callback on key up event</li>
+      <li><a href="#structure-thimblerig">  <code>data-missing</code></a>:       Show element only if field us not defined</li>
+      <li><a href="#event-on-load">         <code>data-on-load</code></a>:       Pass element into function after HTML is loaded</li>
+      <li><a href="#html-prop">             <code>data-prop-checked</code></a>:  Enable or disable "checked" property</li>
+      <li><a href="#html-prop">             <code>data-prop-disabled</code></a>: Enable or disable "disabled" property</li>
+      <li><a href="#html-prop">             <code>data-prop-selected</code></a>: Enable or disable "selected" property</li>
+      <li><a href="#structure-thimblerig">  <code>data-required</code></a>:      Show element only if field exists</li>
+      <li><a href="#event-element-callback"><code>data-callback</code></a>:      Pass element into function when clone is created</li>
+      <li><a href="#structure-thimblerig">  <code>data-truthy</code></a>:        Show element only if field evaluates to true</li>
    </ol>
 </section>
 
