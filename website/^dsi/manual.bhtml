@@ -1385,8 +1385,23 @@
 <section id=event-on-load>
    <h4>On Load Functions</h4>
    <p>
-      TBD...
+      Use the <code>data-on-load</code> attribute to initiate a callback function after the
+      document is ready.&nbsp;  The element with the <code>data-on-load</code> attribute is passed
+      into on load function once the HTML is loaded.
    </p>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;p data-on-load=blink&gt;
+            This paragraph will blink on page load!
+         &lt;/p&gt;
+         &lt;script&gt;
+            function blink(elem) {
+               elem.fadeOut().fadeIn().fadeOut().fadeIn();
+               }
+         &lt;/script&gt;
+      </code></pre>
+   </figure>
 </section>
 
 <!--*********************************************************************************************-->
@@ -1417,7 +1432,7 @@
          dna.clone('book', book);
       </code></pre>
    </figure>
-   <!-- Start: Result  -->
+   <!-- Start: Result -->
    <div class=down-arrow></div>
    <figure>
       <figcaption>Resulting HTML</figcaption>
@@ -1427,7 +1442,7 @@
          &lt;/div&gt;
       </code></pre>
    </figure>
-   <!-- End: Result  -->
+   <!-- End: Result -->
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -1565,57 +1580,87 @@
 
 <!--*********************************************************************************************-->
 <h3 id=components>Making Reusable Components</h3>
-<p>
-   Components...
-</p>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=define>
    <h4>Defining a Component</h4>
    <p>
-      ...
+      A reusable component can be created using an <a href="event-on-load">on load function</a>
+      (<code>data-on-load</code>) to make a REST call that gets data for a template.
    </p>
    <figure>
-      <figcaption>...</figcaption>
+      <figcaption>Bookshelf Component</figcaption>
       <pre><code class=language-html>
-         ...
+         &lt;div class=bookshelf data-on-load=bookshelf.setup&gt;
+            &lt;h2&gt;Bookshelf&lt;/h2&gt;
+            &lt;div id=bookshelf-book class=dna-template&gt;
+               &lt;div&gt;Title: &lt;span&gt;~~title~~&lt;/span&gt;&lt;/div&gt;
+               &lt;div&gt;Author: &lt;span&gt;~~author~~&lt;/span&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;style&gt;
+               .bookshelf {
+                  background-color: gainsboro;
+                  padding: 15px;
+                  }
+            &lt;/style&gt;
+            &lt;script&gt;
+               var bookshelf = {
+                  booksUrl: 'http://dnajs.org/rest/book/list/',
+                  setup: function(elem) {
+                     function handle(data) { dna.clone('bookshelf-book', data); }
+                     $.getJSON(bookshelf.booksUrl, handle);
+                     }
+                  };
+            &lt;/script&gt;
+         &lt;/div&gt;
       </code></pre>
    </figure>
-   <p>
-      <b>Note:</b>
-      ...
-   </p>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <figure class=hljs-enhance>
+      <figcaption>Result (interactive)</figcaption>
+      <div>
+         <!--  Component: start -->
+         <div class=bookshelf data-on-load=bookshelf.setup>
+            <h2>Bookshelf</h2>
+            <div id=bookshelf-book class=dna-template>
+               <div>Title: <span>~~title~~</span></div>
+               <div>Author: <span>~~author~~</span></div>
+            </div>
+            <style>
+               .bookshelf {
+                  background-color: gainsboro;
+                  padding: 15px;
+                  }
+            </style>
+            <script>
+               var bookshelf = {
+                  booksUrl: 'http://dnajs.org/rest/book/list/',
+                  setup: function(elem) {
+                     function handle(data) { dna.clone('bookshelf-book', data); }
+                     $.getJSON(bookshelf.booksUrl, handle);
+                     }
+                  };
+            </script>
+         </div>
+         <!--  Component: end -->
+      </div>
+   </figure>
+   <!-- End: Result  -->
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=insert>
    <h4>Inserting a Component</h4>
    <p>
-      Download the
-      <code><a href="https://raw.github.com/dnajs/dna.js/current/dna.min.js" class=external-site>dna.min.js</a></code>
-      file (or the uncompressed
-      <code><a href="https://raw.github.com/dnajs/dna.js/current/dna.js" class=external-site>dna.js</a></code>
-      version) from GitHub and include it in your website.&nbsp;
-      <!--#echo var="name"--> requires jQuery.
-   </p>
-   <p>
-      Example of loading jQuery, DNAjs, and your JavaScript web application:
+      Examples...
    </p>
    <figure>
-      <figcaption>Load libraries</figcaption>
+      <figcaption>Grails GSP</figcaption>
       <pre><code class=language-html>
-         ...
-         &lt;script src=&quot;js/jquery.min.js&quot;&gt;&lt;/script&gt;
-         &lt;script src=&quot;js/dna.min.js&quot;&gt;&lt;/script&gt;
-         &lt;script src=&quot;js/your-app.js&quot;&gt;&lt;/script&gt;
-         &lt;/body&gt;
-         &lt;/html&gt;
+         &lt;g:render template=&quot;/components/bookshelf&quot; /&gt;
       </code></pre>
    </figure>
-   <p>
-      For experimentation and development, you can <a href="dna.js">link</a> directly to:<br>
-      <code class=indent>&lt;script src=&quot;http://dnajs.org/dna.js&quot;&gt;&lt;/script&gt;</code>
-   </p>
 </section>
 
 <!--*********************************************************************************************-->

@@ -1060,7 +1060,7 @@ $(test16.run);
          </style>
          <script>
             var bookshelf = {
-               booksUrl: 'http://dnajs.org/rest/book/list/',
+               booksUrl: 'http://dnajs.org/rest/book/list',
                setup: function(elem) {
                   function handle(data) { dna.clone('t17-book', data); }
                   $.getJSON(bookshelf.booksUrl, handle);
