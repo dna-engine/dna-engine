@@ -116,7 +116,7 @@ var dna = {
       },
    info: function() {
       var names = Object.keys(dna.store.templates);
-      console.log('~~ dns.js v0.3.4 ~~');
+      console.log('~~ DNAjs v0.3.4 ~~');
       console.log('templates:', names.length);
       console.log('names:', names);
       console.log('store:', dna.store.templates);
@@ -221,6 +221,7 @@ dna.compile = {
    // rules        <p data-truthy=~~on~~>            class=dna-nucleotide + truthy='on'
    // attr rules   <p data-attr-src=~~url~~>         class=dna-nucleotide + attrs=['src', ['', 'url', '']]
    // prop rules   <input data-prop-checked=~~on~~>  class=dna-nucleotide + props=['checked', 'on']
+   // callbacks    <p data-callback=app.configure>   class=dna-nucleotide + callback='app.configure'
    //
    // Rules                                      data().dnaRules
    // -----------------------------------------  ---------------
@@ -231,6 +232,7 @@ dna.compile = {
    // data-missing=~~field~~                     missing='field'
    // data-truthy=~~field~~                      truthy='field'
    // data-falsey=~~field~~                      falsey='field'
+   // data-callback=func                         callback='func'
    //
    regexDnaField: /^[\s]*(~~|\{\{).*(~~|\}\})[\s]*$/,  //example: ~~title~~
    regexDnaBasePair: /~~|{{|}}/,  //matches the '~~' string
@@ -282,7 +284,7 @@ dna.compile = {
             elem.addClass('dna-update-model').data().dnaField = parts[1];
          }
       function compile() {
-         if ((/^data-prop-/).test(this.name))
+         if (/^data-prop-/.test(this.name))
             compileProp(this.name, this.value);
          else if (this.value.split(dna.compile.regexDnaBasePair).length === 3)
             compileAttr(this.name, this.value);
@@ -292,6 +294,8 @@ dna.compile = {
          dna.compile.setupNucleotide(elem).data().dnaRules.props = props;
       if (attrs.length > 0)
          dna.compile.setupNucleotide(elem).data().dnaRules.attrs = attrs;
+      if (elem.data().callback)
+         dna.compile.setupNucleotide(elem).data().dnaRules.callback = elem.data().callback;
       return elem.removeAttr(names.join(' '));
       },
    getDataField: function(elem, type) {
@@ -401,21 +405,20 @@ dna.store = {
 dna.events = {
    initializers: [],  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
    elementSetup: function(root, data) {
-      // Example (outside of template):
-      //    <p class=dna-setup data-setup=app.cart.setup>
-      // Example (within template):
-      //    <select data-setup=app.dropDown.setup>
-      function setup() { dna.util.apply($(this).data().setup, [$(this), data]); }
-      var selector = '[data-setup]';
-      var elems = root ? root.find(selector).addBack(selector) : $('.dna-setup');
-      return elems.each(setup).addClass('dna-initialized');
+      // Example:
+      //    <p data-on-load=app.cart.setup>
+      function setup() { dna.util.apply($(this).data().onLoad, [$(this), data]); }
+      var selector = '[data-on-load]';
+      var elems = root ? root.find(selector).addBack(selector) : $(selector);
+      return elems.not('.dna-initialized').each(setup).addClass('dna-initialized');
       },
    runInitializers: function(elem, data) {
-      // Executes both the data-setup functions and the registered initializers
+      // Executes data-on-load and data-callback functions plus registered initializers
       dna.events.elementSetup(elem, data);
-      function init() { dna.util.apply(this.func, [(this.selector ?
-         elem.find(this.selector).addBack(this.selector) : elem).addClass('dna-initialized')]
-            .concat(this.params)); }
+      function init() {
+         var elems = this.selector ? elem.find(this.selector).addBack(this.selector) : elem;
+         dna.util.apply(this.func, [elems.addClass('dna-initialized')].concat(this.params));
+         }
       $.each(dna.events.initializers, init);
       return elem;
       },
@@ -529,6 +532,8 @@ dna.core = {
             elem.toggle(!dna.util.realTruth(dna.util.value(data, dnaRules.falsey)));
          if (dnaRules.loop)
             processLoop(elem, dnaRules.loop);
+         if (dnaRules.callback)
+            dna.util.apply(dnaRules.callback, elem);  //TODO: dnaRules.callback(elem);
          }
       clone.find('.dna-sub-clone').remove();
       clone.find('.dna-nucleotide').addBack('.dna-nucleotide').each(process);

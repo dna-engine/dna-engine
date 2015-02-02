@@ -1,13 +1,13 @@
 <!doctype html>
 <!-- - - - - - - - - - - - - - - -->
-<!--  dna.js                     -->
+<!--  DNAjs                      -->
 <!--  Test Cases                 -->
 <!--  dnajs.org/test-cases.html  -->
 <!-- - - - - - - - - - - - - - - -->
 <html>
 <head>
 <meta charset=utf-8>
-<title>dna.js &bull; Test Cases</title>
+<title>DNAs &bull; Test Cases</title>
 <style>
    body            { font-family: sans-serif; margin: 30px; }
    h1, h3          { margin: 0px 0px 5px 0px; }
@@ -58,7 +58,7 @@ testing.setup();
 <div class=push-right>
    <a href="http://dnajs.org/">dnajs.org</a>
 </div>
-<h1>dna.js Template Cloner</h1>
+<h1>DNAjs Template Cloner</h1>
 <h2>Test Cases</h2>
 <p><span id=mode></span> &mdash; <a id=switch href="test-cases.html">switch</a></p>
 <br>
@@ -427,7 +427,7 @@ $(test07.run);
             <div>Title:   <span>~~title~~</span></div>
             <div>Authors:
                <span data-array=~~authors~~>
-                  *<span data-setup=test08.init>~~[value]~~</span>
+                  *<span data-callback=test08.configure>~~[value]~~</span>
                </span>
             </div>
             <div>Score:   <span>~~score~~</span></div>
@@ -473,7 +473,7 @@ $(test07.run);
 </div>
 <script>
 var test08 = {
-   init: function(elem) {
+   configure: function(elem) {
       elem.addClass('color-change');
       },
    run: function() {
@@ -833,11 +833,11 @@ $(test14.run);
    <p>Events</p>
    <fieldset>
       <legend>Actual</legend>
-      <p class=dna-setup data-setup=dna.ui.deleteElem>DELETE ME!</p>
-      <section data-setup=dna.ui.deleteElem class=surrounded></section>
+      <p data-on-load=dna.ui.deleteElem>DELETE ME!</p>
+      <section class=surrounded></section>
       <hr>
       <div class=book-list>
-         <div id=t15-book class=dna-template data-setup=test15.init>
+         <div id=t15-book class=dna-template data-callback=test15.configure>
             <div class=surrounded>
                <span class=count>~~[count]~~</span>: <span>~~[value]~~</span>
             </div>
@@ -877,7 +877,7 @@ $(test14.run);
 </div>
 <script>
 var test15 = {
-   init: function(elem) {
+   configure: function(elem) {
       elem.addClass('color-change');
       },
    surround: function(elem) {
@@ -911,7 +911,7 @@ var test15 = {
       dna.getClone(getClone(7).find('span:last')).remove();  //nuke 7th (remove w/sub-node)
       getClone(6).each(dna.bye);                             //nuke 6th (bye w/jQuery loop)
       var box = $('.t15-book').closest('fieldset').find('section');
-      var foreigners = $('<hr><hr data-setup=fadeOut><hr class=surrounded>').appendTo(box);
+      var foreigners = $('<hr><hr data-on-load=fadeOut><hr class=surrounded>').appendTo(box);
       dna.events.runInitializers(foreigners);
       dna.clearInitializers();
       }
