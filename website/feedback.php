@@ -16,7 +16,7 @@
 // Configuration Settings
 $SendFrom =    builderFull("dna.js Feedback", "feedback", "dnajs", "org");
 $SendTo =      builder("dem", "dnajs", "org");
-$SubjectLine = "dna.js Feedback Submission";
+$SubjectLine = "DNAjs Feedback Submission";
 $ThanksURL =   "thanks.html";  //confirmation page
 $MsgBody =     "http://dnajs.org\n";
 

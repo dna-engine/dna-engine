@@ -1,16 +1,16 @@
 #!/bin/sh
-############################
-#  Task Runner             #
-#  dna.js Template Cloner  #
-############################
+###########################
+#  Task Runner            #
+#  DNAjs Template Cloner  #
+###########################
 
 # To make this file runnable:
 #    $ chmod +x task-runner.sh.command
 
 package=https://raw.githubusercontent.com/dnajs/dna.js/master/package.json
 echo
-echo "dna.js Task Runner"
-echo "=================="
+echo "DNAjs Task Runner"
+echo "================="
 cd $(dirname $0)
 pwd
 echo

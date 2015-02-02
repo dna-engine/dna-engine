@@ -1,5 +1,5 @@
 {
-   "name":     "dna.js",
+   "name":     "DNAjs",
    "version":  "0.3.3",
    "main":     ["dna.js", "dna.min.js"],
    "ignore":   [

@@ -22,7 +22,7 @@ module.exports = function(grunt) {
          },
       uglify: {
          options: {
-            banner: '//dna.js v<%=pkg.version%> ~~ dnajs.org/license.html\n'
+            banner: '//DNAjs v<%=pkg.version%> ~~ dnajs.org/license.html\n'
             },
          build: {
             src:  'dna.js',

@@ -1,8 +1,9 @@
 #!/bin/sh
 
-#######################
-#  dnajs.org website  #
-#######################
+######################
+#  DNAjs Website     #
+#  http://dnajs.org  #
+######################
 
 releasedFolder=https://raw.githubusercontent.com/dnajs/dna.js/current
 webServerFolder=~/Dropbox/Sites/centerkey.com/www.dnajs.org
@@ -38,7 +39,7 @@ cp -v bookstore.html style.css app.js feedback.php favicon.ico "$target"
 cp -R graphics rest "$target"
 echo
 
-# Download dna.js code
+# Download DNAjs code
 cd "$target"
 curl --remote-name --silent $releasedFolder/dna.js
 curl --remote-name --silent $releasedFolder/dna.min.js
