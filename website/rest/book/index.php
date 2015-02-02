@@ -1,15 +1,11 @@
 <?php
-// dna.js
+// DNAjs
 
 // Request
 $id = basename($_SERVER["REQUEST_URI"]);
 
 // Resource
-$books = array(
-   array("title" => "Go JavaScript", "author" => "Jake"),
-   array("title" => "Styling CSS3",  "author" => "Abby"),
-   array("title" => "Howdy HTML5",   "author" => "Ed")
-   );
+include('books.php');
 if ($id > 0 && $id <= count($books))
    $resource = $books[$id - 1];
 else
