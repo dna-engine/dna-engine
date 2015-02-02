@@ -17,7 +17,7 @@
 <!--#set var="description"   value="DNAjs is a user interface templating library for jQuery enabling developers to rapidly build maintainable applications." -->
 <!--#set var="copyright"     value="Copyright (c) 2013-2015"                   -->
 <!--#set var="authors"       value="Center Key Software and other contributors"-->
-<!--#set var="release"       value="v0.3.3"                                    -->
+<!--#set var="release"       value="v0.3.4"                                    -->
 <!--#set var="size"          value="11 kb"                                     -->
 <!--#set var="jsFiddleBooks" value="us4jwk7d"                                  -->
 <!--#set var="jsFiddleTodo"  value="kpk1q33a"                                  -->
