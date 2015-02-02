@@ -1,5 +1,5 @@
 {
-   "name":         "DNAjs",
+   "name":         "dna.js",
    "version":      "0.3.4",
    "description":  "DNAjs is a user interface templating library for jQuery enabling developers to rapidly build maintainable web applications.",
    "keywords":     ["jquery-plugin", "templating", "engine", "clone", "html", "dom", "json", "ui"],

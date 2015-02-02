@@ -1925,6 +1925,7 @@
    <ol>
       <li><a href="#loop-sub-templates">    <code>data-array</code></a>:         Mark an element as a sub-template array loop</li>
       <li><a href="#html-attr">             <code>data-attr-{NAME}</code></a>:   Set value of an element attribute</li>
+      <li><a href="#event-element-callback"><code>data-callback</code></a>:      Pass element into function when clone is created</li>
       <li><a href="#event-user">            <code>data-change</code></a>:        Execute callback on change event</li>
       <li><a href="#html-class">            <code>data-class</code></a>:         Add a class to the element</li>
       <li><a href="#event-user">            <code>data-click</code></a>:         Execute callback on click event</li>
@@ -1939,7 +1940,6 @@
       <li><a href="#html-prop">             <code>data-prop-disabled</code></a>: Enable or disable "disabled" property</li>
       <li><a href="#html-prop">             <code>data-prop-selected</code></a>: Enable or disable "selected" property</li>
       <li><a href="#structure-thimblerig">  <code>data-required</code></a>:      Show element only if field exists</li>
-      <li><a href="#event-element-callback"><code>data-callback</code></a>:      Pass element into function when clone is created</li>
       <li><a href="#structure-thimblerig">  <code>data-truthy</code></a>:        Show element only if field evaluates to true</li>
    </ol>
 </section>
