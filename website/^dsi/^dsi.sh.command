@@ -28,7 +28,7 @@ echo
 
 # Put web files into "httpdocs" folder
 targetFolder=../httpdocs
-rm -r $targetFolder
+rm -rf $targetFolder
 mkdir $targetFolder
 target=$(cd $targetFolder; pwd)
 echo "Target:"

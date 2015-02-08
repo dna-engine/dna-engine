@@ -13,15 +13,15 @@
 <!--  MIT/GPLv3              -->
 <!-- - - - - - - - - - - - - -->
 <!--#set var="name"          value="DNAjs Template Cloner"                     -->
-<!--#set var="tagLine"       value="World's Easiest to Use JavaScript Templating Engine" -->
-<!--#set var="description"   value="DNAjs is a user interface templating library for jQuery enabling developers to rapidly build maintainable applications." -->
+<!--#set var="title"         value="An Uncomplicated User Interface Library"   -->
+<!--#set var="description"   value="DNAjs is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable applications." -->
 <!--#set var="copyright"     value="Copyright (c) 2013-2015"                   -->
 <!--#set var="authors"       value="Center Key Software and other contributors"-->
 <!--#set var="release"       value="v0.3.4"                                    -->
 <!--#set var="size"          value="12 kb"                                     -->
 <!--#set var="jsFiddleBooks" value="us4jwk7d"                                  -->
 <!--#set var="jsFiddleTodo"  value="kpk1q33a"                                  -->
-<!-- Note: Keep #description and #tagLine updated in: package.json, READ.md, and index.bhtml -->
+<!-- Note: Keep #title and #description updated in: package.json and READ.md -->
 
 <html>
 <head>

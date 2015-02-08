@@ -1,9 +1,9 @@
 DNAjs Template Cloner
 =====================
-World's Easiest to Use JavaScript Templating Engine
+An Uncomplicated User Interface Library
 ---------------------------------------------------
 
-DNAjs is a user interface templating library for jQuery enabling developers to rapidly build maintainable web applications.
+DNAjs is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable applications.
 
 Current release: **v0.3.4**
 
