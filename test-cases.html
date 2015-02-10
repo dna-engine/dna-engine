@@ -146,7 +146,7 @@ var test02 = {
       dna.empty('t02-book');
       var titleElem = dna.clone('t02-book', book1).find('span').first();
       titleElem.addClass('color-change2');
-      dna.mutate(titleElem, book3);
+      dna.refresh(titleElem, book3);
       }
    };
 $(test02.run);
@@ -401,7 +401,7 @@ $(test07.run);
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <div class=test-case>
    <h3>Test Case: #08</h3>
-   <p>Add 2 items and mutate</p>
+   <p>Add 2 items and refresh</p>
    <fieldset>
       <legend>Actual</legend>
       <p>
@@ -487,13 +487,13 @@ var test08 = {
       //clone #1
       var clone1 = dna.clone('t08-book', book1);
       var modelOk = dna.getModel(clone1).title === book1.title;  //test initial model
-      dna.mutate(clone1, book2);
+      dna.refresh(clone1, book2);
       //clone #2
       var clone2 = dna.clone('t08-book', book3);
       dna.getModel(clone2).authors = ['Ed II'];
       dna.getModel(clone2).score = 97;
-      dna.mutateAll('t08-book');
-      modelOk = modelOk && dna.getModel('t08-book')[1].score === 97;  //test mutated model
+      dna.refreshAll('t08-book');
+      modelOk = modelOk && dna.getModel('t08-book')[1].score === 97;  //test refreshd model
       clone2.addClass(modelOk ? 'border-change' : 'color-change');
       }
    };
@@ -738,7 +738,7 @@ var test12 = {
       $('.t12-book').first().toggleClass('border-change', $('.t12-book').first().data().title === 'The DOM');
       var elem = $('.t12-book').first().find('.t12-book-authors-instance').last();
       elem.addClass(elem.data().author === 'Bo II' ? 'color-change' : 'color-change2');
-      var clone = dna.mutate($('.t12-book').last(), book2, { html: true });
+      var clone = dna.refresh($('.t12-book').last(), book2, { html: true });
       dna.cloneSubTemplate(clone, 'chapters', { header: 'Bio', type: 'back' });
       dna.cloneSubTemplate(clone, 'chapters', moreChapters);
       dna.destroy($('.t12-book').find(':contains(Bio 2)'), { main: false });

@@ -9,8 +9,8 @@ var dna = {
    //    dna.load()
    //    dna.getModel()
    //    dna.empty()
-   //    dna.mutate()
-   //    dna.mutateAll()
+   //    dna.refresh()
+   //    dna.refreshAll()
    //    dna.destroy()
    //    dna.getClone()
    //    dna.getClones()
@@ -66,7 +66,7 @@ var dna = {
       var clones = dna.store.getTemplate(name).container.find('.dna-clone');
       return settings.fade ? dna.ui.slideFadeDelete(clones) : clones.remove();
       },
-   mutate: function(clone, data, options) {
+   refresh: function(clone, data, options) {
       var settings = $.extend({ html: false }, options);
       clone = dna.getClone(clone, options);
       if (!data)
@@ -74,9 +74,12 @@ var dna = {
       dna.core.inject(clone, data, null, settings);
       return clone;
       },
-   mutateAll: function(name) {
-      function mutate() { dna.mutate($(this)); }
-      return dna.getClones(name).each(mutate);
+   refreshAll: function(name) {
+      function refresh() { dna.refresh($(this)); }
+      return dna.getClones(name).each(refresh);
+      },
+   mutate: function(clone, data, options) {  //DEPRECATED
+      return dna.refresh(clone, data, options);
       },
    destroy: function(clone, options) {
       var settings = $.extend({ fade: false }, options);

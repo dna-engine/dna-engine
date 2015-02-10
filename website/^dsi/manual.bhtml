@@ -36,8 +36,8 @@
             <li><a href="#api-load">dna.load()</a></li>
             <li><a href="#api-get-model">dna.getModel()</a></li>
             <li><a href="#api-empty">dna.empty()</a></li>
-            <li><a href="#api-mutate">dna.mutate()</a></li>
-            <li><a href="#api-mutate-all">dna.mutateAll()</a></li>
+            <li><a href="#api-refresh">dna.refresh()</a></li>
+            <li><a href="#api-refresh-all">dna.refreshAll()</a></li>
             <li><a href="#api-destroy">dna.destroy()</a></li>
             <li><a href="#api-get-clone">dna.getClone()</a></li>
             <li><a href="#api-get-clones">dna.getClones()</a></li>
@@ -402,8 +402,8 @@
    <li><b>dna.load</b>(name, url, options)</li>
    <li><b>dna.getModel</b>(nameOrClone)</li>
    <li><b>dna.empty</b>(name, options)</li>
-   <li><b>dna.mutate</b>(clone, data, options)</li>
-   <li><b>dna.mutateAll</b>(name)</li>
+   <li><b>dna.refresh</b>(clone, data, options)</li>
+   <li><b>dna.refreshAll</b>(name)</li>
    <li><b>dna.destroy</b>(clone, options)</li>
    <li><b>dna.getClone</b>(elem, options)</li>
    <li><b>dna.getClones</b>(name)</li>
@@ -548,7 +548,7 @@
          var book = { title: 'The DOM', author: 'Bo' };
          var clone = dna.clone('book', book);
          dna.getModel(clone).title = 'The DOM II';
-         dna.mutate(clone);  //updates ui (DOM element) with new title
+         dna.refresh(clone);  //updates ui (DOM element) with new title
       </code></pre>
    </figure>
 </section>
@@ -585,9 +585,9 @@
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
-<!--  dna.mutate()  -->
-<section id=api-mutate>
-   <h4>dna.mutate(clone[, data[, options]])</h4>
+<!--  dna.refresh()  -->
+<section id=api-refresh>
+   <h4>dna.refresh(clone[, data[, options]])</h4>
    <p class=api-description>
       Updates an existing clone with new data.
    </p>
@@ -611,15 +611,15 @@
          var book = { title: 'The DOM', author: 'Bo' };
          var clone = dna.clone('book', book);
          dna.getModel(clone).title = 'The DOM II';
-         dna.mutate(clone);  //updates ui (DOM element) with new title
+         dna.refresh(clone);  //updates ui (DOM element) with new title
       </code></pre>
    </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
-<!--  dna.mutateAll()  -->
-<section id=api-mutate-all>
-   <h4>dna.mutateAll(name)</h4>
+<!--  dna.refreshAll()  -->
+<section id=api-refresh-all>
+   <h4>dna.refreshAll(name)</h4>
    <p class=api-description>
       Updates all the clones of the specified template.
    </p>
@@ -636,7 +636,7 @@
          var clone2 = dna.clone('book', { title: 'Styling CSS' });
          dna.getModel(clone1).title = 'The DOM II';    //modified title
          dna.getModel(clone2).title = 'Styling CSS3';  //modified title
-         dna.mutateAll('book');  //updates ui with new titles
+         dna.refreshAll('book');  //updates ui with new titles
       </code></pre>
    </figure>
 </section>
