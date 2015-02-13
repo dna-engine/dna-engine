@@ -1,6 +1,9 @@
-module.exports = function(grunt) {
+// DNAjs Template Cloner
+// Grunt configuration and tasks
+
+function gruntRunner(grunt) {
    var versionPatterns = '(~~ v)|(js v)|(release: \\*\\*v)|("version":\\s*")|(value="v)';
-   // Examples:
+   // Example lines with pattern:
    //    DNAjs Template Cloner ~~ v1.0.0
    //    "version":  "1.0.0",
    //    Current release: **v1.0.0**
@@ -30,9 +33,9 @@ module.exports = function(grunt) {
             }
          }
       });
-   grunt.loadNpmTasks('grunt-version');
-   grunt.loadNpmTasks('grunt-contrib-jshint');
-   grunt.loadNpmTasks('grunt-contrib-uglify');
+   require('load-grunt-tasks')(grunt);
    grunt.registerTask('default', ['version:dev', 'jshint', 'uglify']);
    grunt.registerTask('release', ['version:release']);
-   };
+   }
+
+module.exports = gruntRunner;

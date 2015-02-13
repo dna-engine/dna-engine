@@ -1,7 +1,8 @@
 {
-   "name":     "DNAjs",
+   "name":     "dna.js",
    "version":  "0.3.4",
    "main":     ["dna.js", "dna.min.js"],
+   "keywords": ["clone", "dnajs", "dom", "engine", "html", "jquery", "json", "templating", "ui"],
    "ignore":   [
       ".gitignore",
       "bower.json",
