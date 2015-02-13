@@ -24,11 +24,14 @@
    </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="http://dnajs.org/dna.js"></script>
 <script>
-   dna.clone('book', { title: 'The DOM',     author: 'Jan' });
-   dna.clone('book', { title: 'Howdy HTML5', author: 'Ed' });
+   var books = [
+      { title: 'The DOM',     author: 'Jan' },
+      { title: 'Howdy HTML5', author: 'Ed' }
+      ];
+   dna.clone('book', books);
 </script>
 </body>
 </html>

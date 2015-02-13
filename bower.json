@@ -1,9 +1,10 @@
 {
-   "name":     "dna.js",
-   "version":  "0.3.4",
-   "main":     ["dna.js", "dna.min.js"],
-   "keywords": ["clone", "dnajs", "dom", "engine", "html", "jquery", "json", "templating", "ui"],
-   "ignore":   [
+   "name":         "dna.js",
+   "version":      "0.3.4",
+   "main":         ["dna.js", "dna.min.js"],
+   "keywords":     ["clone", "dnajs", "dom", "engine", "html", "jquery", "json", "templating", "ui"],
+   "dependencies": { "jquery": ">=1.8" },
+   "ignore": [
       ".gitignore",
       "bower.json",
       "package.json",
