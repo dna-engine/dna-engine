@@ -381,12 +381,13 @@ figure.full-screen-code pre code {
 @media handheld, screen and (max-device-width: 480px) {
    html {
       background: none;
-      font-size: 200%;
+      background-color: ghostwhite;
+      font-size: 240%;
       }
    body {
       width: 100%;
       max-width: none;
-      margin 0px;
+      margin: 0px;
       }
    button {
       font-size: 1.0rem;
@@ -394,9 +395,6 @@ figure.full-screen-code pre code {
    section p code {
       white-space: wrap;
       font-size: 0.5rem;
-      /*
-      background-color: gold;
-      */
       }
    figure.hljs-enhance {
       width: 100% !important;
