@@ -1,6 +1,7 @@
 {
    "name":         "dna.js",
    "version":      "0.3.4",
+   "description":  "An uncomplicated user interface library",
    "main":         ["dna.js", "dna.min.js"],
    "keywords":     ["clone", "dnajs", "dom", "engine", "html", "jquery", "json", "templating", "ui"],
    "dependencies": { "jquery": ">=1.8" },
