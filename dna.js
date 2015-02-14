@@ -167,7 +167,7 @@ dna.util = {
          result = func.apply(elem, args);
       else if (elem && elem[func])
          result = elem[func](args[1], args[2], args[3]);
-      else if (func === '' || $.inArray(typeof func, ['number', 'boolean']) !== -1)
+      else if (func === '' || { number: true, boolean: true}[typeof func])
          dna.core.berserk('Invalid callback function: ' + func);
       else if (typeof func === 'string' && func.length > 0)
          contextApply(window, func.split('.'));
