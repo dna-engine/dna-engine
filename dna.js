@@ -471,9 +471,8 @@ dna.core = {
       function injectField(elem, field) {
          var value = typeof data === 'object' ? dna.util.value(data, field) :
             field === '[count]' ? index + 1 : field === '[value]' ? data : null;
-         var printableTypes = ['string', 'number', 'boolean'];
-         function printable(value) { return $.inArray(typeof value, printableTypes) !== -1; }
-         if (printable(value))
+         var printable = { string: true, number: true, boolean: true };
+         if (printable[typeof value])
             elem = settings.html ? elem.html(value) : elem.text(value);
          }
       function injectProps(elem, props) {  //example props: ['selected', 'set']
