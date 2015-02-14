@@ -402,7 +402,7 @@
    <li><b>dna.load</b>(name, url, options)</li>
    <li><b>dna.getModel</b>(nameOrClone)</li>
    <li><b>dna.empty</b>(name, options)</li>
-   <li><b>dna.refresh</b>(clone, data, options)</li>
+   <li><b>dna.refresh</b>(clone, options)</li>
    <li><b>dna.refreshAll</b>(name)</li>
    <li><b>dna.destroy</b>(clone, options)</li>
    <li><b>dna.getClone</b>(elem, options)</li>
@@ -587,18 +587,18 @@
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.refresh()  -->
 <section id=api-refresh>
-   <h4>dna.refresh(clone[, data[, options]])</h4>
+   <h4>dna.refresh(clone[, options])</h4>
    <p class=api-description>
-      Updates an existing clone with new data.
+      Updates an existing cloneto to reflect any changes to the data model.
    </p>
    <div class=api-parameters>
       Parameters:
       <ul>
          <!--#include file="params/clone.fhtml"-->
-         <!--#include file="params/data(update).fhtml"-->
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
+               <!--#include file="options/data.fhtml"-->
                <!--#include file="options/main.fhtml"-->
                <!--#include file="options/html.fhtml"-->
             </ul>

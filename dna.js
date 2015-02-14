@@ -66,20 +66,19 @@ var dna = {
       var clones = dna.store.getTemplate(name).container.find('.dna-clone');
       return settings.fade ? dna.ui.slideFadeDelete(clones) : clones.remove();
       },
-   refresh: function(clone, data, options) {
+   refresh: function(clone, options) {
       var settings = $.extend({ html: false }, options);
-      clone = dna.getClone(clone, options);
-      if (!data)
-         data = dna.getModel(clone);
-      dna.core.inject(clone, data, null, settings);
-      return clone;
+      var elem = dna.getClone(clone, options);
+      var data = settings.data ? settings.data : dna.getModel(elem);
+      dna.core.inject(elem, data, null, settings);
+      return elem;
       },
    refreshAll: function(name) {
-      function refresh() { dna.refresh($(this)); }
-      return dna.getClones(name).each(refresh);
+      function refreshOne() { dna.refresh($(this)); }
+      return dna.getClones(name).each(refreshOne);
       },
    mutate: function(clone, data, options) {  //DEPRECATED
-      return dna.refresh(clone, data, options);
+      return dna.refresh(clone, $.extend({ data: data }, options));
       },
    destroy: function(clone, options) {
       var settings = $.extend({ fade: false }, options);
@@ -433,15 +432,15 @@ dna.events = {
       },
    handle: function(event) {
       var target = $(event.target);
-      function updateModel(elem, calc) { dna.getModel(elem)[elem.data().dnaField] = calc(elem); }
+      function updateField(elem, calc) { dna.getModel(elem)[elem.data().dnaField] = calc(elem); }
       function getValue(elem) { return elem.val(); }
       function isChecked(elem) { return elem.is(':checked'); }
-      function updateOption() { updateModel($(this), isChecked); }
-      if (target.hasClass('dna-update-model')) {
+      function updateOption() { updateField($(this), isChecked); }
+      function updateModel() {
          if (target.is('input:text'))
-            updateModel(target, getValue);
+            updateField(target, getValue);
          else if (target.is('input:checkbox'))
-            updateModel(target, isChecked);
+            updateField(target, isChecked);
          else if (target.is('input:radio'))
             $('input:radio[name=' + target.attr('name') + ']').each(updateOption);
          else if (target.is('select'))
@@ -490,7 +489,7 @@ dna.core = {
             elem.attr(key, value);
             if (/^data-./.test(key))
                elem.data(key.substring(5), value);
-            if (key === 'value')  //set elem val for input fields (example: <input value=~~tag~~>)
+            if (key === 'value' && value !== elem.val())  //set elem val for input fields (example: <input value=~~tag~~>)
                elem.val(value);
             }
          }
@@ -536,7 +535,7 @@ dna.core = {
          if (dnaRules.loop)
             processLoop(elem, dnaRules.loop);
          if (dnaRules.callback)
-            dna.util.apply(dnaRules.callback, elem);  //TODO: dnaRules.callback(elem);
+            dna.util.apply(dnaRules.callback, elem);
          }
       clone.find('.dna-sub-clone').remove();
       clone.find('.dna-nucleotide').addBack('.dna-nucleotide').each(process);

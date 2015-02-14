@@ -1,6 +1,0 @@
-<li>
-   <label><b>data</b> (Object) <i>[optional]</i>:</label>
-   Object with fields to be used in updating the clone.&nbsp;
-   Only fields contained in the <code>data</code> paramater are
-   modified.
-</li>
