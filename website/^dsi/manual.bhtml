@@ -17,6 +17,7 @@
          <ol>
             <li><a href="#setup-css">CSS</a></li>
             <li><a href="#setup-js">JavaScript Libraries</a></li>
+            <li><a href="#setup-rails">Rails Assets</a></li>
          </ol>
       </li>
       <li><a href="#html">HTML &mdash; Classes and Attributes</a>
@@ -189,7 +190,34 @@
    <p>
       For experimentation and development, you can <a href="dna.js">link</a> directly to:<br>
       <code class=indent>&lt;script src=&quot;http://dnajs.org/dna.js&quot;&gt;&lt;/script&gt;</code>
+      or<br>
+      <code class=indent>&lt;script src=&quot;http://dnajs.org/dna.min.js&quot;&gt;&lt;/script&gt;</code>
    </p>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=setup-rails>
+   <h4>Rails Assets</h4>
+   <p>
+      Rails projects can download DNAjs directly from the
+      <a href="https://rails-assets.org" class=external-site>Rails Assets</a>
+      repository.
+   </p>
+   <figure>
+      <figcaption>Gemfile</figcaption>
+      <pre><code class=language-ruby>
+         source &quot;https://rails-assets.org&quot; do
+            gem &quot;rails-assets-dna.js&quot;
+         end
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>applicaton.js</figcaption>
+      <pre><code class=language-javascript>
+         //= require jquery2
+         //= require dna.js
+      </code></pre>
+   </figure>
 </section>
 
 <!--*********************************************************************************************-->
