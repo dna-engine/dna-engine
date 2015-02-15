@@ -32,7 +32,7 @@
    .border-change  { border: 2px solid darkorange; }
    .border-change2 { border: 2px solid darkslateblue; }
 </style>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
 var testing = {
    summary: function() {
@@ -48,7 +48,7 @@ var testing = {
       var dna =    '<script src=dna.js>';
       var dnaMin = '<script src=dna.min.js>';
       $('head').append($(location.search == '?min' ? dnaMin : dna ));
-      console.log('~~ dna.js Test Cases ~~');
+      console.log('~~ DNAjs Test Cases ~~');
       }
    };
 testing.setup();
@@ -146,7 +146,7 @@ var test02 = {
       dna.empty('t02-book');
       var titleElem = dna.clone('t02-book', book1).find('span').first();
       titleElem.addClass('color-change2');
-      dna.refresh(titleElem, book3);
+      dna.refresh(titleElem, { data: book3 });
       }
    };
 $(test02.run);
@@ -487,13 +487,13 @@ var test08 = {
       //clone #1
       var clone1 = dna.clone('t08-book', book1);
       var modelOk = dna.getModel(clone1).title === book1.title;  //test initial model
-      dna.refresh(clone1, book2);
+      dna.refresh(clone1, { data: book2 });
       //clone #2
       var clone2 = dna.clone('t08-book', book3);
       dna.getModel(clone2).authors = ['Ed II'];
       dna.getModel(clone2).score = 97;
       dna.refreshAll('t08-book');
-      modelOk = modelOk && dna.getModel('t08-book')[1].score === 97;  //test refreshd model
+      modelOk = modelOk && dna.getModel('t08-book')[1].score === 97;  //test updated model
       clone2.addClass(modelOk ? 'border-change' : 'color-change');
       }
    };
@@ -738,7 +738,7 @@ var test12 = {
       $('.t12-book').first().toggleClass('border-change', $('.t12-book').first().data().title === 'The DOM');
       var elem = $('.t12-book').first().find('.t12-book-authors-instance').last();
       elem.addClass(elem.data().author === 'Bo II' ? 'color-change' : 'color-change2');
-      var clone = dna.refresh($('.t12-book').last(), book2, { html: true });
+      var clone = dna.refresh($('.t12-book').last(), { data: book2, html: true });
       dna.cloneSubTemplate(clone, 'chapters', { header: 'Bio', type: 'back' });
       dna.cloneSubTemplate(clone, 'chapters', moreChapters);
       dna.destroy($('.t12-book').find(':contains(Bio 2)'), { main: false });
@@ -927,18 +927,19 @@ $(test15.run);
       <legend>Actual</legend>
       <div class=book-list>
          <div id=t16-book class=dna-template>
-            Title: <input value=~~title~~>
+            <p>Title: <input value=~~title~~></p>
+            Options:
             <div>
-               <label data-array=~~options~~>
+               <label data-array=~~options~~ data-class=~~set,border-change,border-change2~~>
                   <input type=checkbox value=~~code~~ data-prop-checked=~~set~~>
                   <span>~~name~~</span>
                </label>
             </div>
             Cover:
             <div>
-               <label data-array=~~cover~~ data-input-name=cover> <!-- TBD grouping feature -->
+               <label data-array=~~cover~~ data-input-name=cover data-class=~~set,border-change~~>
                   <input type=radio value=~~code~~ name=cover
-                     data-prop-disabled=~~reject~~ data-prop-checked=~~set~~>
+                     data-prop-disabled=~~unavailable~~ data-prop-checked=~~set~~>
                   <span>~~name~~</span>
                </label>
             </div>
@@ -954,18 +955,19 @@ $(test15.run);
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone>
-            Title: <input value="The DOM!" class=border-change>
+            <p>Title: <input value="The DOM!" class=border-change></p>
+            Options:
             <div>
-               <label>
+               <label class=border-change>
                   <input type=checkbox value=fast checked>
                   <span>Overnight</span>
                </label>
-               <label class=border-change>
-                  <input type=checkbox value=social checked>
+               <label class=border-change2>
+                  <input type=checkbox value=share>
                   <span>Social share</span>
                </label>
-               <label>
-                  <input type=checkbox value=gift>
+               <label class=border-change>
+                  <input type=checkbox value=gift checked>
                   <span>Gift</span>
                </label>
             </div>
@@ -996,44 +998,35 @@ $(test15.run);
 </div>
 <script>
 var test16 = {
-   simulateUserInputText: function(elem, text) {
-      elem.val(text).change();
-      elem.addClass(dna.getModel(elem).title === text ? 'border-change' : 'color-change');
-      },
-   simulateUserInputClick: function(elem) {
-      elem.click();
-      elem.parent().addClass(dna.getModel(elem).set === true ? 'border-change' : 'color-change');
-      },
-   simulateUserInputDropDown: function(elem) {
-      elem.parent().val(elem.val()).change();  //select "Personal"
-      var options = dna.getModel(elem, { main: true}).purposes;
-      elem.parent().addClass(options[1].set === true && options[2].set === false ? 'border-change' : 'color-change');
-      },
    run: function() {
       console.log('Test Case: #16');
       var options = [
-         { code: 'fast',  name: 'Overnight',    set: true },
+         { code: 'fast',  name: 'Overnight',    set: true },  //selected
          { code: 'share', name: 'Social Share', set: false },
          { code: 'gift',  name: 'Gift',         set: false }
          ];
       var cover = [
-         { code: 'soft',  name: 'Paperback', reject: 0, set: 1 },
-         { code: 'hard',  name: 'Hardcover', reject: 0, set: 0 },
-         { code: 'ebook', name: 'Digital',   reject: 1, set: 0 }
+         { code: 'soft',  name: 'Paperback', unavailable: 0, set: 1 },  //selected
+         { code: 'hard',  name: 'Hardcover', unavailable: 0, set: 0 },
+         { code: 'ebook', name: 'Digital',   unavailable: 1, set: 0 }
          ];
       var purposes = [
          { code: 'work', name: 'Business', set: 'F' },
          { code: 'fun',  name: 'Personal', set: 'F' },
-         { code: 'edu',  name: 'School',   set: 'T' }
+         { code: 'edu',  name: 'School',   set: 'T' }  //selected
          ];
       var book = { title: 'The DOM', options: options, cover: cover, purposes: purposes };
       var clone = dna.clone('t16-book', book);
-      test16.simulateUserInputText(clone.find('input:text'), 'The DOM!');
-      test16.simulateUserInputClick(clone.find('input[value=share]'));
+      var titleElem = clone.find('input:text').val('The DOM!').change();  //simulate user edit
+      titleElem.toggleClass('border-change', book.title === 'The DOM!');
+      if (clone.find('input[value=fast]').prop('checked'))  //expect "Overnight" selected
+         clone.find('input[value=gift]').click();  //also select "Gift" option
       if (clone.find('input[name=cover]:checked').val() === 'soft')  //expect "Paperback" selected
-         test16.simulateUserInputClick(clone.find('input[value=hard]'));  //change to "Hardcover"
-      if (clone.find('select').val() === 'edu')  //expect "School" selected
-         test16.simulateUserInputDropDown(clone.find('option[value=fun]'));  //change to "Personal"
+         clone.find('input[value=hard]').prop('checked', true).click();  //change to "Hardcover"
+      var purposeElem = clone.find('select');
+      if (purposeElem.val() === 'edu')  //expect "School" selected
+         purposeElem.val('fun').change();  //change to "Personal"
+      purposeElem.toggleClass('border-change', book.purposes[1].set === true);
       }
    };
 $(test16.run);

@@ -70,12 +70,11 @@ var dna = {
       var settings = $.extend({ html: false }, options);
       var elem = dna.getClone(clone, options);
       var data = settings.data ? settings.data : dna.getModel(elem);
-      dna.core.inject(elem, data, null, settings);
-      return elem;
+      return dna.core.inject(elem, data, null, settings);
       },
    refreshAll: function(name) {
-      function refreshOne() { dna.refresh($(this)); }
-      return dna.getClones(name).each(refreshOne);
+      function refresh() { dna.refresh($(this)); }
+      return dna.getClones(name).each(refresh);
       },
    mutate: function(clone, data, options) {  //DEPRECATED
       return dna.refresh(clone, $.extend({ data: data }, options));
@@ -425,7 +424,7 @@ dna.events = {
       return elem;
       },
    runner: function(elem, type, event) {
-      // Finds elements for given type and executes callback passing in the element and the event
+      // Finds elements for given event type and executes callback passing in the element and event
       // Types: click|change|key-up|key-down|key-press|enter-key
       elem = elem.closest('[data-' + type + ']');
       return dna.util.apply(elem.data(type), [elem, event]);
@@ -437,6 +436,11 @@ dna.events = {
       function isChecked(elem) { return elem.is(':checked'); }
       function updateOption() { updateField($(this), isChecked); }
       function updateModel() {
+         var mainClone = dna.getClone(target, { main: true });
+         if (mainClone.length === 0) {  //TODO: figure out why some events are captured on the template instead of the clone
+            //console.log('Error -- event not on clone:', event.timeStamp, event.type, target);
+            return;
+            }
          if (target.is('input:text'))
             updateField(target, getValue);
          else if (target.is('input:checkbox'))
@@ -445,7 +449,10 @@ dna.events = {
             $('input:radio[name=' + target.attr('name') + ']').each(updateOption);
          else if (target.is('select'))
             target.find('option').each(updateOption);
+         dna.refresh(mainClone);
          }
+      if (target.hasClass('dna-update-model'))
+         updateModel();
       return dna.events.runner(target, event.type.replace('key', 'key-'), event);
       },
    handleEnterKey: function(event) {
