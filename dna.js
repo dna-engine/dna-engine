@@ -215,14 +215,15 @@ dna.ui = {
 dna.compile = {
    // Pre-compile  Example                           Post-compile class + data().dnaRules
    // -----------  --------------------------------  ------------------------------------
-   // templates    <p id=ad class=dna-template>      class=dna-clone
-   // arrays       <p data-array=~~tags~~>           class=dna-nucleotide + array='tags'
-   // fields       <p>~~tag~~</p>                    class=dna-nucleotide + text='tag'
-   // attributes   <p id=~~num~~>                    class=dna-nucleotide + attrs=['id', ['', 'num', '']]
-   // rules        <p data-truthy=~~on~~>            class=dna-nucleotide + truthy='on'
-   // attr rules   <p data-attr-src=~~url~~>         class=dna-nucleotide + attrs=['src', ['', 'url', '']]
-   // prop rules   <input data-prop-checked=~~on~~>  class=dna-nucleotide + props=['checked', 'on']
-   // callbacks    <p data-callback=app.configure>   class=dna-nucleotide + callback='app.configure'
+   // template     <p id=ad class=dna-template>      class=dna-clone
+   // array        <p data-array=~~tags~~>           class=dna-nucleotide + array='tags'
+   // field        <p>~~tag~~</p>                    class=dna-nucleotide + text='tag'
+   // attribute    <p id=~~num~~>                    class=dna-nucleotide + attrs=['id', ['', 'num', '']]
+   // rule         <p data-truthy=~~on~~>            class=dna-nucleotide + truthy='on'
+   // attr rule    <p data-attr-src=~~url~~>         class=dna-nucleotide + attrs=['src', ['', 'url', '']]
+   // prop rule    <input data-prop-checked=~~on~~>  class=dna-nucleotide + props=['checked', 'on']
+   // transform    <p data-transform=app.enhance>    class=dna-nucleotide + transform='app.enhance'
+   // callback     <p data-callback=app.configure>   class=dna-nucleotide + callback='app.configure'
    //
    // Rules                                      data().dnaRules
    // -----------------------------------------  ---------------
@@ -233,6 +234,7 @@ dna.compile = {
    // data-missing=~~field~~                     missing='field'
    // data-truthy=~~field~~                      truthy='field'
    // data-falsey=~~field~~                      falsey='field'
+   // data-transform=func                        transform='func'
    // data-callback=func                         callback='func'
    //
    regexDnaField: /^[\s]*(~~|\{\{).*(~~|\}\})[\s]*$/,  //example: ~~title~~
@@ -295,6 +297,8 @@ dna.compile = {
          dna.compile.setupNucleotide(elem).data().dnaRules.props = props;
       if (attrs.length > 0)
          dna.compile.setupNucleotide(elem).data().dnaRules.attrs = attrs;
+      if (elem.data().transform)  //TODO: Determine if it's better to process only at top-level of clone
+         dna.compile.setupNucleotide(elem).data().dnaRules.transform = elem.data().transform;
       if (elem.data().callback)
          dna.compile.setupNucleotide(elem).data().dnaRules.callback = elem.data().callback;
       return elem.removeAttr(names.join(' '));
@@ -522,6 +526,8 @@ dna.core = {
       function process() {
          var elem = $(this);
          var dnaRules = elem.data().dnaRules;
+         if (dnaRules.transform)
+            dna.util.apply(dnaRules.transform, data);
          if (dnaRules.text)
             injectField(elem, dnaRules.text);
          if (dnaRules.props)

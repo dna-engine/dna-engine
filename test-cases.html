@@ -250,9 +250,10 @@ $(test04.run);
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
-         <div id=t05-book class=dna-template>
+         <div id=t05-book class=dna-template data-transform=test05.generateCode>
             <div>Title:  <span>~~title~~</span></div>
             <div>Author: <span>~~author~~</span></div>
+            <div>Code:   <span>~~code~~</span></div>
          </div>
          <hr>
       </div>
@@ -263,18 +264,22 @@ $(test04.run);
          <div class=dna-clone>
             <div>Title:  <span>1st</span></div>
             <div>Author: <span>Lee</span></div>
+            <div>Code:   <span>11</span></div>
          </div>
          <div class=dna-clone>
             <div>Title:  <span>2st</span></div>
             <div>Author: <span>Jan</span></div>
+            <div>Code:   <span>9</span></div>
          </div>
          <div class="dna-clone color-change">
             <div>Title:  <span>1st</span></div>
             <div>Author: <span>Lee</span></div>
+            <div>Code:   <span>11</span></div>
          </div>
          <div class="dna-clone color-change">
             <div>Title:  <span>2st</span></div>
             <div>Author: <span>Jan</span></div>
+            <div>Code:   <span>9</span></div>
          </div>
          <hr>
       </div>
@@ -282,10 +287,13 @@ $(test04.run);
 </div>
 <script>
 var test05 = {
+   generateCode: function(data) {
+      data.code = data.author.charCodeAt(0) % 13;
+      },
    run: function() {
       console.log('Test Case: #05');
-      var book1 = { title: '1st', author: 'Lee' };
-      var book2 = { title: '2nd', author: 'Jan' };
+      var book1 = { title: '1st', author: 'Lee' };  //code: 11
+      var book2 = { title: '2nd', author: 'Jan' };  //code: 9
       dna.clone('t05-book', [book1, book2]).addClass('color-change');
       dna.clone('t05-book', [book1, book2], { empty: true });
       dna.clone('t05-book', [book1, book2]).addClass('color-change');

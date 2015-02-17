@@ -58,6 +58,7 @@
       </li>
       <li><a href="#event">Events and Callbacks</a>
          <ol>
+            <li><a href="#event-transform">Data Model Transform</a></li>
             <li><a href="#event-element-callback">Element Callback</a></li>
             <li><a href="#event-user">Click, Change, and Key Events</a></li>
             <li><a href="#event-update-model">Data Model Updating on Field Updates</a></li>
@@ -396,8 +397,6 @@
       </code></pre>
    </figure>
    <!-- End: Result  -->
-
-
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -1093,6 +1092,53 @@
 
 <!--*********************************************************************************************-->
 <h3 id=event>Events and Callbacks</h3>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=event-transform>
+   <h4>Data Model Transformer</h4>
+   <p>
+      The FINAL chapter in keeping JavaScript out of HTML is here.&nbsp;
+      Transformers (<code>data-tranform</code>) are the holy grail of semantic templates, enabling
+      you to cleanly organize your business logic in JavaScript instead creating hidious HTML.
+   </p>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna-template data-transform=enhanceBook&gt;
+            &lt;span&gt;~~title~~&lt;/span&gt;
+            &lt;img src="star.png" alt="Star" data-truthy=~~displayStar~~&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         function enhanceBook(data) {
+            data.displayStar = data.rating > 3;  //good books get a star
+            }
+         var books = [
+            { title: 'The DOM',   rating: 2 },
+            { title: 'Interwebz', rating: 5 }
+            ];
+         dna.clone('book', books);
+      </code></pre>
+   </figure>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <figure>
+      <figcaption>Resulting HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=book&gt;
+            &lt;span&gt;The DOM&lt;/span&gt;
+         &lt;/div&gt;
+         &lt;div class=book&gt;
+            &lt;span&gt;Interwebz&lt;/span&gt;
+            &lt;img src="star.png" alt="Star"&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <!-- End: Result  -->
+</section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=event-element-callback>
