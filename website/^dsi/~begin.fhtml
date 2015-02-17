@@ -19,8 +19,8 @@
 <!--#set var="authors"       value="Center Key Software and other contributors"-->
 <!--#set var="release"       value="v0.3.5"                                    -->
 <!--#set var="size"          value="12 kb"                                     -->
-<!--#set var="jsFiddleBooks" value="us4jwk7d"                                  -->
-<!--#set var="jsFiddleTodo"  value="opp3wcrb"                                  -->
+<!--#set var="jsFiddleBooks" value="L9p44b1g"                                  -->
+<!--#set var="jsFiddleTodo"  value="ourh2yyb"                                  -->
 <!--Note: Keep #title and #description updated in: package.json, bower.json, and READ.md -->
 
 <html>
