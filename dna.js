@@ -212,6 +212,79 @@ dna.ui = {
       }
    };
 
+dna.pageToken = {
+   // Page specific (url path) key/value temporary storage
+   put: function(key, value) {
+      // Example:
+      //   dna.pageToken.put('favorite', 7);  //saves 7
+      sessionStorage[key + window.location.pathname] = JSON.stringify(value);
+      return value;
+      },
+   get: function(key, defaultValue) {
+      // Example:
+      //   dna.pageToken.get('favorite', 0);  //returns 0 if not set
+      var value = sessionStorage[key + window.location.pathname];
+      return value === undefined ? defaultValue : JSON.parse(value);
+      }
+   };
+
+dna.panels = {
+   // Each click of a menu item displays its corresponding panel and passes the panel
+   // element to the callback.
+   // Usage:
+   //    <ul id={ID} class=dna-menu data-callback=app.displayPanel>
+   //       <li>See X1</li>
+   //       <li>See X2</li>
+   //    </ul>
+   //    <div id={ID}-panels class=dna-panels>
+   //       <section data-hash=x1>The X1</section>
+   //       <section data-hash=x2>The X2</section>
+   //    </div>
+   // Leave out the "data-hash" attribute to disable updating of the location bar.
+   display: function(menu, loc) {  //shows the panel at the given index (loc)
+      var panels, panel;
+      var root = '#' + menu.attr('id') + '-panels';
+      loc = Math.max(0, Math.min(loc, menu.children().length - 1));
+      menu.children().removeClass('selected').eq(loc).addClass('selected');
+      panels = $(root).children().hide().removeClass('displayed');
+      panel = panels.eq(loc).fadeIn().addClass('displayed');
+      function saveState() {
+         dna.pageToken.put(root, loc);
+         window.history.pushState(null, null, '#' + panel.data().hash);
+         }
+      if (panel.data().hash)
+         saveState();
+      dna.util.apply(menu.data().callback, panel);
+      },
+   rotate: function(event) {  //moves to the selected panel
+      var item = $(event.target).closest('.menu-item');
+      dna.panels.display(item.parent(), item.index());
+      },
+   getCurrentPanel: function(name) {
+      var root = '#' + name + '-panels';
+      return $(root).children(':visible');
+      },
+   refresh: function(name) {  //refreshes the currently displayed panel
+      var menu = $('#' + name);
+      var loc = dna.panels.getCurrentPanel(name).index();
+      dna.panels.display(menu, loc);
+      },
+   init: function() {
+      var menu = $(this);
+      var root = '#' + menu.attr('id') + '-panels';
+      var hash = window.location.hash.substring(1);
+      function findPanelLoc() { return $(root).children('[data-hash=' + hash + ']').index(); }
+      var loc = hash && $(root).first().data().hash ? findPanelLoc() : dna.pageToken.get(root, 0);
+      dna.panels.display(menu, loc);
+      },
+   setup: function() {
+      $('.dna-menu').each(dna.panels.init).children().addClass('menu-item');
+      $('.dna-panels').children().addClass('panel');
+      $(document).on('click', '.dna-menu >.menu-item', dna.panels.rotate);
+      }
+   };
+$(dna.panels.setup);
+
 dna.compile = {
    // Pre-compile  Example                           Post-compile class + data().dnaRules
    // -----------  --------------------------------  ------------------------------------
@@ -473,7 +546,6 @@ dna.events = {
       dna.events.elementSetup();
       }
    };
-
 $(dna.events.setup);
 
 dna.core = {

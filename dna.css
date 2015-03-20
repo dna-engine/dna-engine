@@ -1,2 +1,7 @@
 /* DNAjs Template Cloner ~~ dnajs.org/license.html */
-.dna-template { display: none; }
+.dna-template, .dna-panels >* {
+   display: none;
+   }
+.dna-menu >* {
+   cursor: pointer;
+   }

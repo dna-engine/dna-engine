@@ -8,6 +8,7 @@
 <head>
 <meta charset=utf-8>
 <title>DNAs &bull; Test Cases</title>
+<link rel=stylesheet href="dna.css">
 <style>
    body            { font-family: sans-serif; margin: 30px; }
    h1, h3          { margin: 0px 0px 5px 0px; }
@@ -21,7 +22,6 @@
                      padding: 10px; margin: 0px 20px 20px 0px; }
    fieldset        { float: left; width: 200px; border: 1px solid silver; padding-bottom: 0px; }
    legend          { border: 1px solid silver; padding: 0px 10px; }
-   .dna-template   { display: none; }
    .dna-clone      { background-color: darkseagreen; }
    div.dna-clone   { padding: 10px; margin-bottom: 15px; }
    .dna-clone img  { width: 120px; }
@@ -1101,6 +1101,37 @@ var test17 = {
       }
    };
 $(test17.run);
+</script>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<div class=test-case>
+   <h3>Test Case: #18</h3>
+   <p>Panels</p>
+   <fieldset>
+      <legend>Actual</legend>
+      <ul id=t18-books class=dna-menu data-callback=test18.displayPanel>
+         <li>See X1</li>
+         <li>See X2</li>
+      </ul>
+      <div id=t18-books-panels class=dna-panels>
+      <section data-hash=x1>The X1</section>
+      <section data-hash=x2>The X2</section>
+      </div>
+   </fieldset>
+   <fieldset>
+      <legend>Expected</legend>
+   </fieldset>
+</div>
+<script>
+var test18 = {
+   displayPanel: function(elem) {
+      console.log(elem);
+      },
+   run: function() {
+      console.log('Test Case: #18');
+      }
+   };
+$(test18.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
