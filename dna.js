@@ -133,7 +133,7 @@ dna.util = {
       },
    toCode: function(camelCaseStr) {  //example: 'readySetGo' ==> 'ready-set-go'
       function dash(word) { return '-' + word.toLowerCase(); }
-      return ('' + camelCaseStr).replace(/([A-Z])/g, dash).replace(/\s|^-/g, '');
+      return ('' + camelCaseStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
       },
    value: function(data, field) {  //example: dna.util.value({ a: { b: 7 }}, 'a.b'); ==> 7
       if (typeof field === 'string')
