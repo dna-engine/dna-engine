@@ -5,7 +5,7 @@
 
    <p>
       The code below is a bare bones, standalone web page with the all CSS and
-      JavaScript (including loading jQuery and DNAjs) to demonstrate
+      JavaScript (including loading jQuery and dna.js) to demonstrate
       <!--#echo var="name"-->
       in action.
    </p>

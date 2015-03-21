@@ -1,15 +1,15 @@
 #!/bin/sh
-###########################
-#  Task Runner            #
-#  DNAjs Template Cloner  #
-###########################
+############################
+#  Task Runner             #
+#  dna.js Template Cloner  #
+############################
 
 # To make this file runnable:
 #    $ chmod +x task-runner.sh.command
 
 package=https://raw.githubusercontent.com/dnajs/dna.js/master/package.json
 echo
-echo "DNAjs Task Runner"
+echo "dna.js Task Runner"
 echo "================="
 cd $(dirname $0)
 pwd
@@ -64,6 +64,7 @@ if [ "$versionLocal" != "$versionRemote" ]
       echo "   Version number updated for next release"
       echo "then rerun:"
       echo "   $(pwd)/task-runner.sh.command"
+      echo "(you may need to wait and rerun again so GitHub has time to update):"
       echo "***********************"
       echo
    elif [ "$versionRemote" == "$versionReleased" ]; then

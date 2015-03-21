@@ -1,10 +1,10 @@
-// DNAjs Template Cloner
+// dna.js Template Cloner
 // Grunt configuration and tasks
 
 function gruntRunner(grunt) {
    var versionPatterns = '(~~ v)|(js v)|(release: \\*\\*v)|("version":\\s*")|(value="v)';
    // Example lines with pattern:
-   //    DNAjs Template Cloner ~~ v1.0.0
+   //    dna.js Template Cloner ~~ v1.0.0
    //    "version":  "1.0.0",
    //    Current release: **v1.0.0**
    //    value="v1.0.0 (beta)"
@@ -25,7 +25,7 @@ function gruntRunner(grunt) {
          },
       uglify: {
          options: {
-            banner: '//DNAjs v<%=pkg.version%> ~~ dnajs.org/license.html\n'
+            banner: '//dna.js v<%=pkg.version%> ~~ dnajs.org/license.html\n'
             },
          build: {
             src:  'dna.js',

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ######################
-#  DNAjs Website     #
+#  dna.js Website     #
 #  http://dnajs.org  #
 ######################
 
@@ -39,7 +39,7 @@ cp -v bookstore.html style.css app.js feedback.php favicon.ico "$target"
 cp -R graphics rest "$target"
 echo
 
-# Download DNAjs code
+# Download dna.js code
 cd "$target"
 curl --remote-name --silent $releasedFolder/dna.js
 curl --remote-name --silent $releasedFolder/dna.min.js

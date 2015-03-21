@@ -6,7 +6,7 @@
       The web page you are trying to access is not available.&nbsp;
       The link you followed is either outdated or incorrect.
    </p>
-   <button class=jump-click data-url="http://dnajs.org">Back to DNAjs Home</button>
+   <button class=jump-click data-url="http://dnajs.org">Back to dna.js Home</button>
 </article>
 
 <!--#include file="~end.fhtml"-->

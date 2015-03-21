@@ -1,5 +1,5 @@
 <?php
-// DNAjs
+// dna.js
 
 // Resources
 include('../book-data.php');

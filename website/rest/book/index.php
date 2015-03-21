@@ -1,5 +1,5 @@
 <?php
-// DNAjs
+// dna.js
 
 // Request
 $id = basename($_SERVER["REQUEST_URI"]);

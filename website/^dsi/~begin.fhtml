@@ -7,18 +7,18 @@
    `-!-' `-!-"   `-!-' `-!-'   `-!-' `-
 
 -->
-<!-- - - - - - - - - - - - - -->
-<!--  DNAjs Template Cloner  -->
-<!--  http://dnajs.org       -->
-<!--  MIT/GPLv3              -->
-<!-- - - - - - - - - - - - - -->
-<!--#set var="name"          value="DNAjs Template Cloner"                     -->
+<!-- - - - - - - - - - - - - - -->
+<!--  dna.js Template Cloner   -->
+<!--  http://dnajs.org         -->
+<!--  MIT/GPLv3                -->
+<!-- - - - - - - - - - - - - - -->
+<!--#set var="name"          value="dna.js Template Cloner"                     -->
 <!--#set var="title"         value="An Uncomplicated User Interface Library"   -->
-<!--#set var="description"   value="DNAjs is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable web applications." -->
+<!--#set var="description"   value="dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable web applications." -->
 <!--#set var="copyright"     value="Copyright (c) 2013-2015"                   -->
 <!--#set var="authors"       value="Center Key Software and other contributors"-->
 <!--#set var="release"       value="v0.3.5"                                    -->
-<!--#set var="size"          value="12 kb"                                     -->
+<!--#set var="size"          value="13 kb"                                     -->
 <!--#set var="jsFiddleBooks" value="L9p44b1g"                                  -->
 <!--#set var="jsFiddleTodo"  value="ourh2yyb"                                  -->
 <!--Note: Keep #title and #description updated in: package.json, bower.json, and READ.md -->
@@ -26,6 +26,7 @@
 <html>
 <head>
    <meta charset=utf-8>
+   <meta name=apple-mobile-web-app-title content="dna.js">
    <title><!--#echo var="name"--> &bull; <!--#echo var="title"--></title>
    <!--#if file="$DOCUMENT_NAME=file-not-found.bhtml"-->
    <base href="http://dnajs.org/">
