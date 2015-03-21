@@ -3,7 +3,7 @@ dna.js Template Cloner
 An Uncomplicated User Interface Library
 ---------------------------------------------------
 
-dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable web applications.
+dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications.
 
 Current release: **v0.3.5**
 

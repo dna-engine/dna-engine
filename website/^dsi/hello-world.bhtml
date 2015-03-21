@@ -28,11 +28,11 @@
          &lt;head&gt;
          &lt;meta charset=utf-8&gt;
          &lt;title&gt;Bookstore&lt;/title&gt;
+         &lt;link rel=stylesheet href="http://dnajs.org/dna.css"&gt;
          &lt;style&gt;
-            body          { font-family: sans-serif; margin: 30px; }
-            .book-list    { width: 250px; }
-            .book         { background-color: pink; padding: 10px; margin-bottom: 15px; }
-            .dna-template { display: none; }
+            body       { font-family: sans-serif; margin: 30px; }
+            .book-list { width: 250px; }
+            .book      { background-color: pink; padding: 10px; margin-bottom: 15px; }
          &lt;/style&gt;
          &lt;/head&gt;
          &lt;body&gt;

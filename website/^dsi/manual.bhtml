@@ -4,7 +4,7 @@
 <article>
 
 <p>
-   See the <a href=".#example">Bookstore Example</a> for an overview of using DNAjs
+   See the <a href=".#example">Bookstore Example</a> for an overview of using dna.js
    Template Cloner.&nbsp;  For richer examples, view the HTML source of the
    <a href="test-cases.html">Test Cases</a>.
 </p>
@@ -80,7 +80,8 @@
             <li><a href="#insert">Inserting a Component</a></li>
          </ol>
       </li>
-      <li><a href="#util">Utilities</a></li>
+      <li><a href="#panels">Panels (UI Tabs)</a></li>
+      <li><a href="#utils">Utilities</a></li>
       <li><a href="#reserved">Index of DNA Classes and Data Attributes</a></li>
    </ol>
 </div>
@@ -127,13 +128,13 @@
 <dl>
    <dt>Web Browsers:</dt>
    <dd>
-      DNAjs supports Chrome, Internet Exploder, Firefox, Opera, and Safari.
+      dna.js supports Chrome, Internet Exploder, Firefox, Opera, and Safari.
    </dd>
 </dl>
 <dl>
    <dt>Versions:</dt>
    <dd>
-      DNAjs requires jQuery 1.8 or above, and it has the same system requirements
+      dna.js requires jQuery 1.8 or above, and it has the same system requirements
       and <a href="http://jquery.com/browser-support/" class=external-site>browser
       support</a> as the version of jQuery you use.
    </dd>
@@ -175,7 +176,7 @@
       <!--#echo var="name"--> requires jQuery.
    </p>
    <p>
-      Example of loading jQuery, DNAjs, and your JavaScript web application:
+      Example of loading jQuery, dna.js, and your JavaScript web application:
    </p>
    <figure>
       <figcaption>Load libraries</figcaption>
@@ -200,7 +201,7 @@
 <section id=setup-rails>
    <h4>Rails Assets</h4>
    <p>
-      Rails projects can download DNAjs directly from the
+      Rails projects can download dna.js directly from the
       <a href="https://rails-assets.org" class=external-site>Rails Assets</a>
       repository.
    </p>
@@ -1099,7 +1100,7 @@
    <p>
       The FINAL chapter in keeping JavaScript out of HTML is here.&nbsp;
       Transformers (<code>data-tranform</code>) are the holy grail of semantic templates, enabling
-      you to cleanly organize your business logic in JavaScript instead creating hidious HTML.
+      you to cleanly organize your business logic in JavaScript instead creating hideous HTML.
    </p>
    <figure>
       <figcaption>Example HTML</figcaption>
@@ -1183,7 +1184,7 @@
 <section id=event-user>
    <h4>Click, Change, and Key Events</h4>
    <p>
-      Event bindings in DNAjs are done with data attributes directly on DOM elements that need
+      Event bindings in dna.js are done with data attributes directly on DOM elements that need
       to trigger callbacks.&nbsp;  The value assigned to the attribute is the name of the
       function to be called when the event occurs.&nbsp;  The jQuery element which triggered the
       event is passed into the callback function as the first parameter, and the event object is
@@ -1344,11 +1345,11 @@
       On a static webpage where all the HTML is sent in a single HTTP response, any needed element
       initialization can be done one time just after page load.&nbsp;  For example, the line
       <code>$('.tooltip').qtip();</code> could be used to setup all tooltips.&nbsp;  Cloning with
-      DNAjs creates elements and adds them to the DOM after the page is loaded, and those new
+      dna.js creates elements and adds them to the DOM after the page is loaded, and those new
       elements also need to be initialized.
    </p>
    <p>
-      When you register your initializer functions, DNAjs ensures DOM elements are setup even if
+      When you register your initializer functions, dna.js ensures DOM elements are setup even if
       the elements are added to the DOM via cloning after the page is loaded.
    </p>
    <table>
@@ -1369,7 +1370,7 @@
       </tbody>
    </table>
    <p>
-      If the registered initializer function is a method on the jQuery element, DNAjs will execute
+      If the registered initializer function is a method on the jQuery element, dna.js will execute
       the method on the element and use the <code>params</code> option for the parameters.&nbsp;
       Otherwise, the element is passed into the function as the first parameter with the
       <code>params</code> supplied as additional parameters.
@@ -1403,7 +1404,7 @@
    </p>
    <p>
       <b>Note 2:</b>
-      In the event that your application dynamically adds elements to the DOM without using DNAjs,
+      In the event that your application dynamically adds elements to the DOM without using dna.js,
       it may be necessary to explicitly run the initializers by passing the root element of new
       elements into: <code>dna.events.runInitializers(root);</code>
    </p>
@@ -1524,7 +1525,7 @@
    <h4>Thimblerig (conditional hide and seek logic)</h4>
    <p>
       Instead of writing JavaScript to show and hide DOM elements, use an attribute to declare
-      whether the element should be shown or hidden.&nbsp;  DNAjs supports four
+      whether the element should be shown or hidden.&nbsp;  dna.js supports four
       conditionals &mdash; two for the existence of a field and two for the
       <a href="#real-truth">"real" truth</a> of a field.
    </p>
@@ -1574,7 +1575,7 @@
    <!-- End: Result  -->
    <h5 id=real-truth>Real Truth</h5>
    <p>
-      DNAjs evaluates if a data field is <code>true</code> or <code>false</code> based on rules
+      dna.js evaluates if a data field is <code>true</code> or <code>false</code> based on rules
       designed to match the boolean meaning of data as it would be stored in a database or how the
       data would be interpreted in a business sense.&nbsp; For example, the string
       <code>'FALSE'</code> is evaluated to the boolean <code>false</code> when determining its
@@ -1737,14 +1738,29 @@
    </figure>
 </section>
 
+
+
 <!--*********************************************************************************************-->
-<h3 id=util>Utilities</h3>
+<h3 id=panels>Panels (UI Tabs)</h3>
 <p>
-   The utility functions built into DNAjs are available to be called directly in the event that
+   Panels are content elements associated with menu items.&nbsp;
+   When the user clicks a menu item, the corresponding panel is displayed (faded in) and the panel
+   element is passed to the callback.&nbsp;
+   Think of dna.js panels as a minimalistic implemntation of jQuery UI tabs stripped of all styling.
+</p>
+
+<!--*********************************************************************************************-->
+<h3 id=utils>Utilities</h3>
+<p>
+   The utility functions built into dna.js are available to be called directly in the event that
    they might be generally useful.
 </p>
 <h5>Utility Functions Overview</h5>
 <ol>
+   <li>
+      <b>dna.pageToke.get</b>(key, value)<br>
+      <b>dna.pageToke.put</b>(key, defaultValue)<br>
+   </li>
    <li><b>dna.ui.deleteElem</b>(elemOrEventOrIndex)</li>
    <li>
       <b>dna.ui.slideFadeDelete</b>(elem)<br>
@@ -1760,6 +1776,45 @@
    <li><b>dna.util.toCode</b>(camelCaseStr)</li>
    <li><b>dna.util.value</b>(data, field)</li>
 </ol>
+
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.pageToken.get()  -->
+<!--  dna.pageToken.put()  -->
+<section id=page-token>
+   <h4>dna.pageToken.get(key, defaultValue)</h4>
+   <h4>dna.pageToken.put(key, value)</h4>
+   <p class=api-description>
+      A simple key/value store specific to the page (URL path) that is cleared out when the user's
+      browser session ends.
+   </p>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <li>
+            <label><b>key</b> (String or Number):</label>
+            Identifier to lookup data.
+         </li>
+         <li>
+            <label><b>value</b> (anything):</label>
+            Data to store.
+         </li>
+         <li>
+            <label><b>defaultValue</b> (anything):</label>
+            Data to return if the page token is not found.
+         </li>
+      </ul>
+   </div>
+   <figure>
+      <figcaption>Example: direct function call</figcaption>
+      <pre><code class=language-javascript>
+         var a = dna.pageToken.get('favorite', 0);  //a == 0
+         dna.pageToken.put('favorite', 7);
+         var b = dna.pageToken.get('favorite', 0);  //b == 7
+      </code></pre>
+   </figure>
+</section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.ui.deleteElem()  -->

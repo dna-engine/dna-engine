@@ -41,6 +41,7 @@ echo
 
 # Download dna.js code
 cd "$target"
+curl --remote-name --silent $releasedFolder/dna.css
 curl --remote-name --silent $releasedFolder/dna.js
 curl --remote-name --silent $releasedFolder/dna.min.js
 curl --remote-name --silent $releasedFolder/test-cases.html
