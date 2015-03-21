@@ -33,6 +33,8 @@ var dna = {
       var clones = $();
       for (var i = 0; i < list.length; i++)
          clones = clones.add(dna.core.replicate(template, list[i], i, settings));
+      if (clones.first().closest('.dna-menu, .dna-panels').length)
+         dna.panels.refresh();
       return clones;
       },
    cloneSubTemplate: function(holderClone, arrayField, data, options) {
@@ -241,15 +243,21 @@ dna.panels = {
    //       <section data-hash=x2>The X2</section>
    //    </div>
    // Leave out the "data-hash" attribute to disable updating of the location bar.
+   key: function(menu) {
+      return '#' + menu.attr('id') + '-panels';
+      },
    display: function(menu, loc) {  //shows the panel at the given index (loc)
+      console.log('display!');
       var panels, panel;
-      var root = '#' + menu.attr('id') + '-panels';
+      var key = dna.panels.key(menu);
+      if (loc === undefined)
+         loc = dna.pageToken.get(key, 0);
       loc = Math.max(0, Math.min(loc, menu.children().length - 1));
       menu.children().removeClass('selected').eq(loc).addClass('selected');
-      panels = $(root).children().hide().removeClass('displayed');
+      panels = $(key).children().hide().removeClass('displayed');
       panel = panels.eq(loc).fadeIn().addClass('displayed');
       function saveState() {
-         dna.pageToken.put(root, loc);
+         dna.pageToken.put(key, loc);
          window.history.pushState(null, null, '#' + panel.data().hash);
          }
       if (panel.data().hash)
@@ -260,26 +268,27 @@ dna.panels = {
       var item = $(event.target).closest('.menu-item');
       dna.panels.display(item.parent(), item.index());
       },
-   getCurrentPanel: function(name) {
-      var root = '#' + name + '-panels';
-      return $(root).children(':visible');
-      },
-   refresh: function(name) {  //refreshes the currently displayed panel
-      var menu = $('#' + name);
-      var loc = dna.panels.getCurrentPanel(name).index();
-      dna.panels.display(menu, loc);
+   reload: function(name) {  //refreshes the currently displayed panel
+      dna.panels.display($('#' + name));
       },
    init: function() {
       var menu = $(this);
-      var root = '#' + menu.attr('id') + '-panels';
+      var key = dna.panels.key(menu);
+      var panels = $(key).children().addClass('panel');
       var hash = window.location.hash.substring(1);
-      function findPanelLoc() { return $(root).children('[data-hash=' + hash + ']').index(); }
-      var loc = hash && $(root).first().data().hash ? findPanelLoc() : dna.pageToken.get(root, 0);
-      dna.panels.display(menu, loc);
+      menu.children().addClass('menu-item');
+      function findPanelLoc() { return panels.filter('[data-hash=' + hash + ']').index(); }
+      function partOfTemplate(elems) { return elems.first().closest('.dna-template').length > 0; }
+      if (!partOfTemplate(panels) && !partOfTemplate(menu.children())) {
+         var loc = hash && panels.first().data().hash ? findPanelLoc() : dna.pageToken.get(key, 0);
+         dna.panels.display(menu, loc);
+         }
+      },
+   refresh: function() {
+      $('.dna-menu').each(dna.panels.init);
       },
    setup: function() {
-      $('.dna-menu').each(dna.panels.init).children().addClass('menu-item');
-      $('.dna-panels').children().addClass('panel');
+      dna.panels.refresh();
       $(document).on('click', '.dna-menu >.menu-item', dna.panels.rotate);
       }
    };

@@ -35,6 +35,11 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
 var testing = {
+   catalog: [
+      { title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en' },
+      { title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr' },
+      { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 }
+      ],
    summary: function() {
       var mode = $('head script[src^=dna]').attr('src');
       $('#mode').text(mode);
@@ -1109,26 +1114,49 @@ $(test17.run);
    <p>Panels</p>
    <fieldset>
       <legend>Actual</legend>
-      <ul id=t18-books class=dna-menu data-callback=test18.displayPanel>
-         <li>See X1</li>
-         <li>See X2</li>
-      </ul>
+      <ol id=t18-books class=dna-menu data-callback=test18.displayPanel>
+         <li id=t18-book-title class=dna-template>~~title~~</li>
+      </ol>
       <div id=t18-books-panels class=dna-panels>
-      <section data-hash=x1>The X1</section>
-      <section data-hash=x2>The X2</section>
+         <section id=t18-book class=dna-template data-hash=~~code~~ data-transform=test18.enhance>
+            <p>~~title~~</p>
+            <p>~~author~~</p>
+            <p>~~displayPrice~~</p>
+            <p data-truthy=sale>On SALE</p>
+         </section>
       </div>
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
+      <ol>
+         <li class=dna-clone>The DOM</li>
+         <li class=dna-clone>Styling CSS3</li>
+         <li class=dna-clone>Howdy HTML5</li>
+      </ol>
+      <div>
+         <section class="dna-clone border-change" data-hash=styling-css3>
+            <p>Styling CSS3</p>
+            <p>Abby</p>
+            <p>$19.99</p>
+            <p>On SALE</p>
+         </section>
+      </div>
    </fieldset>
 </div>
 <script>
 var test18 = {
+   enhance: function(data) {
+      data.code = dna.util.toCode(data.title);
+      data.displayPrice = '$' + (data.price / 100).toFixed(2);
+      },
    displayPanel: function(elem) {
-      console.log(elem);
+      elem.addClass('border-change');
       },
    run: function() {
       console.log('Test Case: #18');
+      dna.clone('t18-book-title', testing.catalog);
+      dna.clone('t18-book', testing.catalog);
+      $('#t18-books .menu-item:contains(Styling CSS3)').click();
       }
    };
 $(test18.run);
