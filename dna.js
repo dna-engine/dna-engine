@@ -247,7 +247,6 @@ dna.panels = {
       return '#' + menu.attr('id') + '-panels';
       },
    display: function(menu, loc) {  //shows the panel at the given index (loc)
-      console.log('display!');
       var panels, panel;
       var key = dna.panels.key(menu);
       if (loc === undefined)

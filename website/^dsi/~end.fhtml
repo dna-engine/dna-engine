@@ -9,7 +9,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js"></script>
 <script src="http://www.centerkey.com/files/hljs-enhance/hljs-enhance.js"></script>
 <script src="http://www.centerkey.com/js/library.js"></script>
-<script src="dna.min.js"></script>
+<script src="dna.js"></script>
 <script src="app.js"></script>
 <!--  DSI Generated: <!--#echo var="LAST_MODIFIED"--> -->
 </body>

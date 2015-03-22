@@ -1749,6 +1749,162 @@
    Think of dna.js panels as a minimalistic implemntation of jQuery UI tabs stripped of all styling.
 </p>
 
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=panels-simple>
+   <h4>Simple panels</h4>
+   <p>
+      The example below displays information the author selected by the user.
+   </p>
+   <figure>
+      <figcaption>Example CSS</figcaption>
+      <pre><code class=language-css>
+         .author-widget .dna-menu {
+            list-style-type: none;
+            }
+         .author-widget .menu-item {
+            display: inline-block;
+            background-color: goldenrod;
+            border: 2px solid silver;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin: 10px;
+            }
+         .author-widget .menu-item.selected,
+         .author-widget .menu-item:hover {
+            border-color: dimgray;
+            }
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=author-widget&gt;
+            &lt;h2&gt;Author Information&lt;/h2&gt;
+            Select:
+            &lt;ul id=author-info class=dna-menu&gt;
+               &lt;li&gt;Jake&lt;/li&gt;
+               &lt;li&gt;Abby&lt;/li&gt;
+               &lt;li&gt;Ed&lt;/li&gt;
+            &lt;/ul&gt;
+            &lt;div id=author-info-panels class=dna-panels&gt;
+               &lt;div&gt;
+                  &lt;p&gt;Name: Jake&lt;/p&gt;
+                  &lt;p&gt;Publisher: O'Reilly&lt;/p&gt;
+                  &lt;p&gt;Agent: William and Associates&lt;/p&gt;
+               &lt;/div&gt;
+               &lt;div&gt;
+                  &lt;p&gt;Name: Abby&lt;/p&gt;
+                  &lt;p&gt;Publisher: Addison-Wesley&lt;/p&gt;
+                  &lt;p&gt;Agent: Pro Reps&lt;/p&gt;
+               &lt;/div&gt;
+               &lt;div&gt;
+                  &lt;p&gt;Name: Ed&lt;/p&gt;
+                  &lt;p&gt;Publisher: ASM International&lt;/p&gt;
+                  &lt;p&gt;Agent: Feven&lt;/p&gt;
+               &lt;/div&gt;
+            &lt;/div&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <figure class=hljs-enhance>
+      <figcaption>Result (interactive)</figcaption>
+      <div>
+         <div class=author-widget>
+            <style>
+               .author-widget .dna-menu {
+                  list-style-type: none;
+                  }
+               .author-widget .menu-item {
+                  display: inline-block;
+                  background-color: goldenrod;
+                  border: 2px solid silver;
+                  border-radius: 5px;
+                  padding: 5px 10px;
+                  margin: 10px;
+                  }
+               .author-widget .menu-item.selected,
+               .author-widget .menu-item:hover {
+                  border-color: dimgray;
+                  }
+            </style>
+            <h2>Author Information</h2>
+            Select:
+            <ul id=author-info class=dna-menu>
+               <li>Jake</li>
+               <li>Abby</li>
+               <li>Ed</li>
+            </ul>
+            <div id=author-info-panels class=dna-panels>
+               <div>
+                  <p>Name: Jake</p>
+                  <p>Publisher: O'Reilly</p>
+                  <p>Agent: William and Associates</p>
+               </div>
+               <div>
+                  <p>Name: Abby</p>
+                  <p>Publisher: Addison-Wesley</p>
+                  <p>Agent: Pro Reps</p>
+               </div>
+               <div>
+                  <p>Name: Ed</p>
+                  <p>Publisher: ASM International</p>
+                  <p>Agent: Feven</p>
+               </div>
+            </div>
+         </div>
+      </div>
+   </figure>
+   <!-- End: Result  -->
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=panels-template>
+   <h4>Template driven panels</h4>
+   <p>
+      ...
+   </p>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         ...
+      </code></pre>
+   </figure>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <figure class=hljs-enhance>
+      <figcaption>Result (interactive)</figcaption>
+      <div>
+         <div class=book-catalog-widget>
+            <h2>Book Catalog</h2>
+            <div id=book-catalog class=dna-menu>
+               <button>Book 1</button>
+               <button>Book 2</button>
+            </ul>
+            <div id=book-catalog-panels class=dna-panels>
+               <section>
+                  <p>Book 1</p>
+               </section>
+               <section>
+                  <p>Book 2</p>
+               </section>
+            </div>
+            <script>
+               //https://books.google.com/books?id=RLG21IfQDckC&printsec=frontcover&img=1&zoom=1
+               var bookCatalog = [
+                  { id: 'RLG21IfQDckC', title: 'Designing Apps' },
+                  { id: '_xB0PyT9Y24C', title: 'CSS3 Guide' },
+                  { id: 'PXa2bby0oQ0C', title: 'The Good Parts' },
+                  { id: '4x6Gj_0UHMsC', title: 'Pro jQuery' }
+                  ];
+            </script>
+         </div>
+      </div>
+   </figure>
+   <!-- End: Result  -->
+</section>
+
 <!--*********************************************************************************************-->
 <h3 id=utils>Utilities</h3>
 <p>
