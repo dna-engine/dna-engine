@@ -80,7 +80,12 @@
             <li><a href="#insert">Inserting a Component</a></li>
          </ol>
       </li>
-      <li><a href="#panels">Panels (UI Tabs)</a></li>
+      <li><a href="#panels">Panels (UI Tabs)</a>
+         <ol>
+            <li><a href="#panels-example">Example</a></li>
+            <li><a href="#panels-template">Template-Driven Panels</a></li>
+         </ol>
+      </li>
       <li><a href="#utils">Utilities</a></li>
       <li><a href="#reserved">Index of DNA Classes and Data Attributes</a></li>
    </ol>
@@ -214,7 +219,7 @@
       </code></pre>
    </figure>
    <figure>
-      <figcaption>applicaton.js</figcaption>
+      <figcaption>application.js</figcaption>
       <pre><code class=language-javascript>
          //= require jquery2
          //= require dna.js
@@ -1007,7 +1012,7 @@
       <figcaption>Example HTML</figcaption>
       <pre><code class=language-html>
          &lt;div id=book class=dna-template data-title=~~[value]~~&gt;
-            &lt;span&gt;~~[count]~~&lt;span&gt;. &lt;span&gt;~~[value]~~&lt;span&gt;
+            &lt;span&gt;~~[count]~~&lt;/span&gt;. &lt;span&gt;~~[value]~~&lt;/span&gt;
          &lt;/div&gt;
       </code></pre>
    </figure>
@@ -1746,14 +1751,15 @@
    Panels are content elements associated with menu items.&nbsp;
    When the user clicks a menu item, the corresponding panel is displayed (faded in) and the panel
    element is passed to the callback.&nbsp;
-   Think of dna.js panels as a minimalistic implemntation of jQuery UI tabs stripped of all styling.
+   Think of dna.js panels as a minimalistic implementation of jQuery UI tabs stripped of all
+   styling.
 </p>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
-<section id=panels-simple>
-   <h4>Simple panels</h4>
+<section id=panels-example>
+   <h4>Example</h4>
    <p>
-      The example below displays information the author selected by the user.
+      The example below displays information for the author selected by the user.
    </p>
    <figure>
       <figcaption>Example CSS</figcaption>
@@ -1763,7 +1769,7 @@
             }
          .author-widget .menu-item {
             display: inline-block;
-            background-color: goldenrod;
+            background-color: lightskyblue;
             border: 2px solid silver;
             border-radius: 5px;
             padding: 5px 10px;
@@ -1811,6 +1817,11 @@
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
       <div>
+         <style>
+            .author-widget .panel {
+               margin-right: 15px;
+               }
+         </style>
          <div class=author-widget>
             <style>
                .author-widget .dna-menu {
@@ -1818,7 +1829,7 @@
                   }
                .author-widget .menu-item {
                   display: inline-block;
-                  background-color: goldenrod;
+                  background-color: lightskyblue;
                   border: 2px solid silver;
                   border-radius: 5px;
                   padding: 5px 10px;
@@ -1837,21 +1848,21 @@
                <li>Ed</li>
             </ul>
             <div id=author-info-panels class=dna-panels>
-               <div>
+               <section>
                   <p>Name: Jake</p>
                   <p>Publisher: O'Reilly</p>
                   <p>Agent: William and Associates</p>
-               </div>
-               <div>
+               </section>
+               <section>
                   <p>Name: Abby</p>
                   <p>Publisher: Addison-Wesley</p>
                   <p>Agent: Pro Reps</p>
-               </div>
-               <div>
+               </section>
+               <section>
                   <p>Name: Ed</p>
                   <p>Publisher: ASM International</p>
                   <p>Agent: Feven</p>
-               </div>
+               </section>
             </div>
          </div>
       </div>
@@ -1861,14 +1872,47 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=panels-template>
-   <h4>Template driven panels</h4>
+   <h4>Template-Driven Panels</h4>
    <p>
-      ...
+      The example below uses templates to build the menu and the panels.
    </p>
    <figure>
       <figcaption>Example HTML</figcaption>
       <pre><code class=language-html>
-         ...
+         &lt;div class=book-catalog-widget&gt;
+            &lt;h2&gt;Book Catalog&lt;/h2&gt;
+            &lt;div id=book-catalog class=dna-menu&gt;
+               &lt;button id=book-menu-item class=dna-template&gt;
+                  ~~[count]~~
+               &lt;/button&gt;
+            &lt;/div&gt;
+            &lt;section id=book-catalog-panels class=dna-panels&gt;
+               &lt;div id=book-panel class=dna-template
+                     data-transform=bookCatalog.addCover&gt;
+                  &lt;h4&gt;~~title~~&lt;/h4&gt;
+                  &lt;img data-attr-src=~~cover~~ alt=&quot;Cover&quot;&gt;
+               &lt;/div&gt;
+            &lt;/section&gt;
+            &lt;script&gt;
+               var bookCatalog = {
+                  data: [
+                     { id: &#39;RLG21IfQDckC&#39;, title: &#39;Designing Apps&#39; },
+                     { id: &#39;_xB0PyT9Y24C&#39;, title: &#39;CSS3 Guide&#39; },
+                     { id: &#39;PXa2bby0oQ0C&#39;, title: &#39;The Good Parts&#39; },
+                     { id: &#39;4x6Gj_0UHMsC&#39;, title: &#39;Pro jQuery&#39; }
+                     ],
+                  addCover: function(data) {
+                     data.cover = &#39;https://books.google.com/books?id=&#39; +
+                        data.id + &#39;&amp;printsec=frontcover&amp;img=1&amp;zoom=1&#39;;
+                     },
+                  setup: function() {
+                     dna.clone(&#39;book-menu-item&#39;, bookCatalog.data);
+                     dna.clone(&#39;book-panel&#39;,     bookCatalog.data);
+                     }
+                  };
+               $(bookCatalog.setup);
+            &lt;/script&gt;
+         &lt;/div&gt;
       </code></pre>
    </figure>
    <!-- Start: Result  -->
@@ -1876,28 +1920,46 @@
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
       <div>
+         <style>
+            .book-catalog-widget .dna-menu {
+               margin-bottom: 10px;
+               }
+            .book-catalog-widget .dna-menu button {
+               margin-right: 15px;
+               }
+            .book-catalog-widget .dna-panels {
+               margin-right: 15px;
+               }
+         </style>
          <div class=book-catalog-widget>
             <h2>Book Catalog</h2>
             <div id=book-catalog class=dna-menu>
-               <button>Book 1</button>
-               <button>Book 2</button>
-            </ul>
-            <div id=book-catalog-panels class=dna-panels>
-               <section>
-                  <p>Book 1</p>
-               </section>
-               <section>
-                  <p>Book 2</p>
-               </section>
+               <button id=book-menu-item class=dna-template>~~[count]~~</button>
             </div>
+            <section id=book-catalog-panels class=dna-panels>
+               <div id=book-panel class=dna-template data-transform=bookCatalog.addCover>
+                  <h4>~~title~~</h4>
+                  <img data-attr-src=~~cover~~ alt="Cover">
+               </div>
+            </section>
             <script>
-               //https://books.google.com/books?id=RLG21IfQDckC&printsec=frontcover&img=1&zoom=1
-               var bookCatalog = [
-                  { id: 'RLG21IfQDckC', title: 'Designing Apps' },
-                  { id: '_xB0PyT9Y24C', title: 'CSS3 Guide' },
-                  { id: 'PXa2bby0oQ0C', title: 'The Good Parts' },
-                  { id: '4x6Gj_0UHMsC', title: 'Pro jQuery' }
-                  ];
+               var bookCatalog = {
+                  data: [
+                     { id: 'RLG21IfQDckC', title: 'Designing Apps' },
+                     { id: '_xB0PyT9Y24C', title: 'CSS3 Guide' },
+                     { id: 'PXa2bby0oQ0C', title: 'The Good Parts' },
+                     { id: '4x6Gj_0UHMsC', title: 'Pro jQuery' }
+                     ],
+                  addCover: function(data) {
+                     data.cover = 'https://books.google.com/books?id=' +
+                        data.id + '&printsec=frontcover&img=1&zoom=1';
+                     },
+                  setup: function() {
+                     dna.clone('book-menu-item', bookCatalog.data);
+                     dna.clone('book-panel',     bookCatalog.data);
+                     }
+                  };
+               $(bookCatalog.setup);
             </script>
          </div>
       </div>
@@ -2198,6 +2260,8 @@
 <section id=reserved-classes>
    <h4>DNA Classes</h4>
    <ol>
+      <li><a href="#panels">             <code>dna-menu</code></a>:           Mark element as container for panel menu items</li>
+      <li><a href="#panels">             <code>dna-panels</code></a>:         Mark element as container for panels</li>
       <li><a href="#loop-separators">    <code>dna-separator</code></a>:      Mark element as a separator for multiple clones</li>
       <li><a href="#loop-separators">    <code>dna-separator-last</code></a>: Mark element as the last separator</li>
       <li><a href="#html-template">      <code>dna-template</code></a>:       Mark an element as a template</li>
@@ -2211,20 +2275,21 @@
       <li><a href="#loop-sub-templates">    <code>data-array</code></a>:         Mark an element as a sub-template array loop</li>
       <li><a href="#html-attr">             <code>data-attr-{NAME}</code></a>:   Set value of an element attribute</li>
       <li><a href="#event-element-callback"><code>data-callback</code></a>:      Pass element into function when clone is created</li>
-      <li><a href="#event-user">            <code>data-change</code></a>:        Execute callback on change event</li>
+      <li><a href="#event-user">            <code>data-change</code></a>:        Callback to run on change event</li>
       <li><a href="#html-class">            <code>data-class</code></a>:         Add a class to the element</li>
-      <li><a href="#event-user">            <code>data-click</code></a>:         Execute callback on click event</li>
-      <li><a href="#event-user">            <code>data-enter-key</code></a>:     Execute callback on enter key event</li>
+      <li><a href="#event-user">            <code>data-click</code></a>:         Callback to run on click event</li>
+      <li><a href="#event-user">            <code>data-enter-key</code></a>:     Callback to run on enter key event</li>
       <li><a href="#structure-thimblerig">  <code>data-falsey</code></a>:        Show element only if field evaluates to false</li>
-      <li><a href="#event-user">            <code>data-key-down</code></a>:      Execute callback on key down event</li>
-      <li><a href="#event-user">            <code>data-key-press</code></a>:     Execute callback on key press event</li>
-      <li><a href="#event-user">            <code>data-key-up</code></a>:        Execute callback on key up event</li>
+      <li><a href="#event-user">            <code>data-key-down</code></a>:      Callback to run on key down event</li>
+      <li><a href="#event-user">            <code>data-key-press</code></a>:     Callback to run on key press event</li>
+      <li><a href="#event-user">            <code>data-key-up</code></a>:        Callback to run on key up event</li>
       <li><a href="#structure-thimblerig">  <code>data-missing</code></a>:       Show element only if field us not defined</li>
       <li><a href="#event-on-load">         <code>data-on-load</code></a>:       Pass element into function after HTML is loaded</li>
       <li><a href="#html-prop">             <code>data-prop-checked</code></a>:  Enable or disable "checked" property</li>
       <li><a href="#html-prop">             <code>data-prop-disabled</code></a>: Enable or disable "disabled" property</li>
       <li><a href="#html-prop">             <code>data-prop-selected</code></a>: Enable or disable "selected" property</li>
       <li><a href="#structure-thimblerig">  <code>data-required</code></a>:      Show element only if field exists</li>
+      <li><a href="#event-transform">       <code>data-tranform</code></a>:      Callback to enhance data immediately before cloning</li>
       <li><a href="#structure-thimblerig">  <code>data-truthy</code></a>:        Show element only if field evaluates to true</li>
    </ol>
 </section>
