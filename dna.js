@@ -560,8 +560,8 @@ dna.core = {
    inject: function(clone, data, index, settings) {
       // Inserts data into clone and runs rules
       function injectField(elem, field) {
-         var value = typeof data === 'object' ? dna.util.value(data, field) :
-            field === '[count]' ? index + 1 : field === '[value]' ? data : null;
+         var value = field === '[count]' ? index + 1 : field === '[value]' ? data :
+            dna.util.value(data, field);
          var printable = { string: true, number: true, boolean: true };
          if (printable[typeof value])
             elem = settings.html ? elem.html(value) : elem.text(value);
