@@ -34,6 +34,7 @@
          <ol>
             <li><a href="#api-clone">dna.clone()</a></li>
             <li><a href="#api-clone-sub-template">dna.cloneSubTemplate()</a></li>
+            <li><a href="#api-create">dna.createTemplate()</a></li>
             <li><a href="#api-load">dna.load()</a></li>
             <li><a href="#api-get-model">dna.getModel()</a></li>
             <li><a href="#api-empty">dna.empty()</a></li>
@@ -512,6 +513,49 @@
    <p>
       See the <a href="#loop-sub-templates">Sub-templates (array loops)</a> section for details.
    </p>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.createTemplate()  -->
+<section id=api-create>
+   <h4>dna.createTemplate(name, html, holder)</h4>
+   <p class=api-description>
+      Generates a template from an HTML string.
+   </p>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <!--#include file="params/name.fhtml"-->
+         <!--#include file="params/html.fhtml"-->
+         <!--#include file="params/holder.fhtml"-->
+      </ul>
+   </div>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         var books = [
+            { title: 'The DOM' },
+            { title: 'New JavaScript!' },
+            { title: 'Styling CSS3' }
+            ];
+         var html = '&lt;li&gt;~~title~~&lt;/li&gt;';
+         dna.createTemplate('book', html, $('ol#book-list'));
+         dna.clone('book', books);
+      </code></pre>
+   </figure>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <figure>
+      <figcaption>Resulting HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;ol id=book-list&gt;
+            &lt;li class=book&gt;The Dom&lt;/li&gt;
+            &lt;li class=book&gt;New JavaScript!&lt;/li&gt;
+            &lt;li class=book&gt;Styling CSS3&lt;/li&gt;
+         &lt;/ol&gt;
+      </code></pre>
+   </figure>
+   <!-- End: Result  -->
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -1927,6 +1971,10 @@
             .book-catalog-widget .dna-menu button {
                margin-right: 15px;
                }
+            .book-catalog-widget .dna-menu button:hover,
+            .book-catalog-widget .dna-menu button.selected {
+               box-shadow: 0px 0px 0.6em deepskyblue;
+               }
             .book-catalog-widget .dna-panels {
                margin-right: 15px;
                }
@@ -1934,10 +1982,13 @@
          <div class=book-catalog-widget>
             <h2>Book Catalog</h2>
             <div id=book-catalog class=dna-menu>
-               <button id=book-menu-item class=dna-template>~~[count]~~</button>
+               <button id=book-menu-item class=dna-template>
+                  ~~[count]~~
+               </button>
             </div>
             <section id=book-catalog-panels class=dna-panels>
-               <div id=book-panel class=dna-template data-transform=bookCatalog.addCover>
+               <div id=book-panel class=dna-template data-hash=~~id~~
+                     data-transform=bookCatalog.addCover>
                   <h4>~~title~~</h4>
                   <img data-attr-src=~~cover~~ alt="Cover">
                </div>
@@ -2288,7 +2339,7 @@
       <li><a href="#html-prop">             <code>data-prop-checked</code></a>:  Enable or disable "checked" property</li>
       <li><a href="#html-prop">             <code>data-prop-disabled</code></a>: Enable or disable "disabled" property</li>
       <li><a href="#html-prop">             <code>data-prop-selected</code></a>: Enable or disable "selected" property</li>
-      <li><a href="#structure-thimblerig">  <code>data-required</code></a>:      Show element only if field exists</li>
+      <li><a href="#structure-thimblerig">  <code>data-require</code></a>:       Show element only if field exists</li>
       <li><a href="#event-transform">       <code>data-tranform</code></a>:      Callback to enhance data immediately before cloning</li>
       <li><a href="#structure-thimblerig">  <code>data-truthy</code></a>:        Show element only if field evaluates to true</li>
    </ol>

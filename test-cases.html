@@ -254,14 +254,7 @@ $(test04.run);
    <p>Add 2 items in an array twice</p>
    <fieldset>
       <legend>Actual</legend>
-      <div class=book-list>
-         <div id=t05-book class=dna-template data-transform=test05.generateCode>
-            <div>Title:  <span>~~title~~</span></div>
-            <div>Author: <span>~~author~~</span></div>
-            <div>Code:   <span>~~code~~</span></div>
-         </div>
-         <hr>
-      </div>
+      <div class=book-list id=t05-book-list></div>
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
@@ -286,17 +279,23 @@ $(test04.run);
             <div>Author: <span>Jan</span></div>
             <div>Code:   <span>9</span></div>
          </div>
-         <hr>
       </div>
    </fieldset>
 </div>
 <script>
 var test05 = {
+   html:
+      '<div data-transform=test05.generateCode>' +
+      '   <div>Title:  <span>~~title~~</span></div>' +
+      '   <div>Author: <span>~~author~~</span></div>' +
+      '   <div>Code:   <span>~~code~~</span></div>' +
+      '</div>',
    generateCode: function(data) {
       data.code = data.author.charCodeAt(0) % 13;
       },
    run: function() {
       console.log('Test Case: #05');
+      dna.createTemplate('t05-book', test05.html, $('#t05-book-list'));
       var book1 = { title: '1st', author: 'Lee' };  //code: 11
       var book2 = { title: '2nd', author: 'Jan' };  //code: 9
       dna.clone('t05-book', [book1, book2]).addClass('color-change');

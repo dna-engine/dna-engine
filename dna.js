@@ -6,6 +6,7 @@ var dna = {
    // API:
    //    dna.clone()
    //    dna.cloneSubTemplate()
+   //    dna.createTemplate()
    //    dna.load()
    //    dna.getModel()
    //    dna.empty()
@@ -46,6 +47,10 @@ var dna = {
       function append() { array.push(this); }
       $.each(data instanceof Array ? data : [data], append);
       return holderClone;
+      },
+   createTemplate: function(name, html, holder) {
+      $(html).attr('id', name).addClass('dna-template').appendTo(holder);
+      return dna.store.getTemplate(name);
       },
    load: function(name, url, options) {
       function processJson(data) { dna.core.unload(name, data, options); }

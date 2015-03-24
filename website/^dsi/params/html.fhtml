@@ -1,0 +1,6 @@
+<li>
+   <label><b>html</b> (String):</label>
+   HTML string representation of a template.&nbsp;  The <code>html</code> represents a template
+   with exactly one node at its root.&nbsp;  No <code>id</code> or <code>class</code> attributes
+   are required.
+</li>
