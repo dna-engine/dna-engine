@@ -535,7 +535,7 @@
       <pre><code class=language-javascript>
          var books = [
             { title: 'The DOM' },
-            { title: 'New JavaScript!' },
+            { title: 'Go JavaScript!' },
             { title: 'Styling CSS3' }
             ];
          var html = '&lt;li&gt;~~title~~&lt;/li&gt;';
@@ -550,7 +550,7 @@
       <pre><code class=language-html>
          &lt;ol id=book-list&gt;
             &lt;li class=book&gt;The Dom&lt;/li&gt;
-            &lt;li class=book&gt;New JavaScript!&lt;/li&gt;
+            &lt;li class=book&gt;Go JavaScript!&lt;/li&gt;
             &lt;li class=book&gt;Styling CSS3&lt;/li&gt;
          &lt;/ol&gt;
       </code></pre>
