@@ -17,7 +17,7 @@
 <!--#set var="description"   value="dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications." -->
 <!--#set var="copyright"     value="Copyright (c) 2013-2015"                   -->
 <!--#set var="authors"       value="Center Key Software and other contributors"-->
-<!--#set var="release"       value="v0.3.6"                                    -->
+<!--#set var="release"       value="v0.3.7"                                    -->
 <!--#set var="size"          value="13 kb"                                     -->
 <!--#set var="jsFiddleBooks" value="L9p44b1g"                                  -->
 <!--#set var="jsFiddleTodo"  value="ourh2yyb"                                  -->
