@@ -1,12 +1,12 @@
 #!/bin/sh
 
 ######################
-#  dna.js Website     #
+#  dna.js Website    #
 #  http://dnajs.org  #
 ######################
 
 releasedFolder=https://raw.githubusercontent.com/dnajs/dna.js/current
-webServerFolder=~/Dropbox/Sites/centerkey.com/www.dnajs.org
+webServerFolder=~/Dropbox/Documents/Sites/centerkey.com/www.dnajs.org
 webServerUrl=http://localhost/centerkey.com/www.dnajs.org/
 
 echo

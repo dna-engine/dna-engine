@@ -1751,7 +1751,7 @@
                <div>Title: <span>~~title~~</span></div>
                <div>Author: <span>~~author~~</span></div>
             </div>
-            <style>
+            <style scoped>
                .bookshelf {
                   background-color: gainsboro;
                   padding: 15px;
@@ -1803,7 +1803,7 @@
 <section id=panels-example>
    <h4>Example</h4>
    <p>
-      The example below displays information for the author selected by the user.
+      The interactive example below displays information for the user selected author.
    </p>
    <figure>
       <figcaption>Example CSS</figcaption>
@@ -1861,13 +1861,13 @@
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
       <div>
-         <style>
+         <style scoped>
             .author-widget .panel {
                margin-right: 15px;
                }
          </style>
          <div class=author-widget>
-            <style>
+            <style scoped>
                .author-widget .dna-menu {
                   list-style-type: none;
                   }
@@ -1918,7 +1918,9 @@
 <section id=panels-template>
    <h4>Template-Driven Panels</h4>
    <p>
-      The example below uses templates to build the menu and the panels.
+      The interactive example below uses templates to build the menu and the panels.&nbsp;
+      It includes use of the <code>data-hash</code> panel attribute to update the URL, making it
+      possible to link to and bookmark the panel.
    </p>
    <figure>
       <figcaption>Example HTML</figcaption>
@@ -1931,7 +1933,7 @@
                &lt;/button&gt;
             &lt;/div&gt;
             &lt;section id=book-catalog-panels class=dna-panels&gt;
-               &lt;div id=book-panel class=dna-template
+               &lt;div id=book-panel class=dna-template data-hash=~~id~~
                      data-transform=bookCatalog.addCover&gt;
                   &lt;h4&gt;~~title~~&lt;/h4&gt;
                   &lt;img data-attr-src=~~cover~~ alt=&quot;Cover&quot;&gt;
@@ -1964,7 +1966,7 @@
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
       <div>
-         <style>
+         <style scoped>
             .book-catalog-widget .dna-menu {
                margin-bottom: 10px;
                }

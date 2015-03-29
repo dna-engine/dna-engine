@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset=utf-8>
-<title>DNAs &bull; Test Cases</title>
+<title>dna.js &bull; Test Cases</title>
 <link rel=stylesheet href="dna.css">
 <style>
    body            { font-family: sans-serif; margin: 30px; }
@@ -518,7 +518,7 @@ $(test08.run);
    <p>
       Add 2 items
       (<span><span id=rest-link class=dna-template>
-         <a href=~~[value]~~ onclick="this.target='_blank';">book <span>~~[count]~~</span></a>
+         <a href="~~[value]~~" onclick="this.target='_blank'">book <span>~~[count]~~</span></a>
          <span class=dna-separator>and</span>
       </span></span>)
       loaded from REST call
@@ -1059,7 +1059,7 @@ $(test16.run);
             <div>Title: <span>~~title~~</span></div>
             <div>Author: <span>~~author~~</span></div>
          </div>
-         <style>
+         <style scoped>
             .bookshelf {
                background-color: gainsboro;
                padding: 15px;
@@ -1124,6 +1124,38 @@ $(test17.run);
             <p data-truthy=sale>On SALE</p>
          </section>
       </div>
+      <hr>
+      <h3>Categories</h3>
+      <ul id=t18-category class=dna-menu>
+         <li><div>Web</div>
+            <ul>
+               <li><div>Technologies</div>
+                  <ol>
+                     <li class=menu-item>HTML</li>
+                     <li class=menu-item>CSS</li>
+                  </ol>
+               </li>
+               <li><div>Organizations</div>
+                  <ol>
+                     <li class=menu-item>W3C</li>
+                  </ol>
+               </li>
+            </ul>
+         </li>
+         <li><div>Networking</div>
+            <ol>
+               <li class=menu-item>Protocols</li>
+               <li class=menu-item>Equipment</li>
+            </ol>
+         </li>
+      </ul>
+      <div id=t18-category-panels class=dna-panels>
+         <p>HTML!</p>
+         <p>CSS!</p>
+         <p>W3C!</p>
+         <p>Protocals!</p>
+         <p>Equipment!</p>
+      </div>
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
@@ -1139,6 +1171,34 @@ $(test17.run);
             <p>$19.99</p>
             <p>On SALE</p>
          </section>
+      </div>
+      <hr>
+      <h3>Categories</h3>
+      <ul>
+         <li><div>Web</div>
+            <ul>
+               <li><div>Technologies</div>
+                  <ol>
+                     <li>HTML</li>
+                     <li>CSS</li>
+                  </ol>
+               </li>
+               <li><div>Organizations</div>
+                  <ol>
+                     <li>W3C</li>
+                  </ol>
+               </li>
+            </ul>
+         </li>
+         <li><div>Networking</div>
+            <ol>
+               <li>Protocols</li>
+               <li>Equipment</li>
+            </ol>
+         </li>
+      </ul>
+      <div>
+         <p>W3C!</p>
       </div>
    </fieldset>
 </div>
@@ -1156,6 +1216,8 @@ var test18 = {
       dna.clone('t18-book-title', testing.catalog);
       dna.clone('t18-book', testing.catalog);
       $('#t18-books .menu-item:contains(Styling CSS3)').click();
+      function postRenderClick() { $('#t18-category .menu-item:contains(W3C)').click(); }
+      window.setTimeout(postRenderClick, 1000);
       }
    };
 $(test18.run);

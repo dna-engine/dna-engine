@@ -254,46 +254,49 @@ dna.panels = {
    display: function(menu, loc) {  //shows the panel at the given index (loc)
       var panels, panel;
       var key = dna.panels.key(menu);
+      var menuItems = menu.find('.menu-item');
       if (loc === undefined)
          loc = dna.pageToken.get(key, 0);
-      loc = Math.max(0, Math.min(loc, menu.children().length - 1));
-      menu.children().removeClass('selected').eq(loc).addClass('selected');
+      loc = Math.max(0, Math.min(loc, menuItems.length - 1));
+      menuItems.removeClass('selected').eq(loc).addClass('selected');
       panels = $(key).children().hide().removeClass('displayed');
       panel = panels.eq(loc).fadeIn().addClass('displayed');
       function saveState() {
          dna.pageToken.put(key, loc);
-         window.history.pushState(null, null, '#' + panel.data().hash);
+         if (panel.data().hash)
+            window.history.pushState(null, null, '#' + panel.data().hash);
          }
-      if (panel.data().hash)
-         saveState();
+      saveState();
       dna.util.apply(menu.data().callback, panel);
       },
    rotate: function(event) {  //moves to the selected panel
       var item = $(event.target).closest('.menu-item');
-      dna.panels.display(item.parent(), item.index());
+      var menu = item.closest('.dna-menu');
+      dna.panels.display(menu, menu.find('.menu-item').index(item));
       },
    reload: function(name) {  //refreshes the currently displayed panel
       dna.panels.display($('#' + name));
       },
-   init: function() {
-      var menu = $(this);
-      var key = dna.panels.key(menu);
-      var panels = $(key).children().addClass('panel');
-      var hash = window.location.hash.substring(1);
-      menu.children().addClass('menu-item');
-      function findPanelLoc() { return panels.filter('[data-hash=' + hash + ']').index(); }
-      function partOfTemplate(elems) { return elems.first().closest('.dna-template').length > 0; }
-      if (!partOfTemplate(panels) && !partOfTemplate(menu.children())) {
-         var loc = hash && panels.first().data().hash ? findPanelLoc() : dna.pageToken.get(key, 0);
-         dna.panels.display(menu, loc);
-         }
-      },
    refresh: function() {
-      $('.dna-menu').each(dna.panels.init);
+      var hash = window.location.hash.substring(1);
+      function findPanelLoc(panels) { return panels.filter('[data-hash=' + hash + ']').index(); }
+      function partOfTemplate(elems) { return elems.first().closest('.dna-template').length > 0; }
+      function init() {
+         var menu = $(this);
+         var key = dna.panels.key(menu);
+         var panels = $(key).children().addClass('panel');
+         if (menu.find('.menu-item').length === 0)
+            menu.children().addClass('menu-item');
+         if (!partOfTemplate(panels) && !partOfTemplate(menu.children())) {
+            var loc = hash && panels.first().data().hash ? findPanelLoc(panels) : dna.pageToken.get(key, 0);
+            dna.panels.display(menu, loc);
+            }
+         }
+      $('.dna-menu').each(init);
       },
    setup: function() {
       dna.panels.refresh();
-      $(document).on('click', '.dna-menu >.menu-item', dna.panels.rotate);
+      $(document).on('click', '.dna-menu .menu-item', dna.panels.rotate);
       }
    };
 $(dna.panels.setup);

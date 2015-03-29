@@ -2,6 +2,6 @@
 .dna-template, .dna-panels >* {
    display: none;
    }
-[data-click], .dna-menu >* {
+[data-click], .dna-menu .menu-item {
    cursor: pointer;
    }
