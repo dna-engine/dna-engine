@@ -13,10 +13,10 @@
    <h2>Contents:</h2>
    <ol>
       <li><a href="#terms-requirements">Terms and System Requirements</a></li>
-      <li><a href="#setup">Setup</a>
+      <li><a href="#setup">Setup JS and CSS Assets</a>
          <ol>
-            <li><a href="#setup-css">CSS</a></li>
-            <li><a href="#setup-js">JavaScript Libraries</a></li>
+            <li><a href="#setup-cdn">CDN</a></li>
+            <li><a href="#setup-bower">Install with Bower</a></li>
             <li><a href="#setup-rails">Rails Assets</a></li>
          </ol>
       </li>
@@ -147,60 +147,45 @@
 </dl>
 
 <!--*********************************************************************************************-->
-<h3 id=setup>Setup</h3>
+<h3 id=setup>Setup JS and CSS Assets</h3>
+<p>
+   Get started by including the JavaScript and CSS files into your project.
+</p>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
-<section id=setup-css>
-   <h4>CSS</h4>
+<section id=setup-cdn>
+   <h4>CDN</h4>
    <p>
-      Add the following line to your website's CSS so the DNA templates are not
-      displayed in the browser.
+      The <a href="http://www.jsdelivr.com/#!dna.js" class=external-site>jsDelivr CDN</a>
+      makes it easy to get started.
    </p>
    <figure>
-      <figcaption>CSS to hide templates</figcaption>
-      <pre><code class=language-css>
-         .dna-template { display: none; }
+      <figcaption>Load CSS file</figcaption>
+      <pre><code class=language-html>
+         &lt;link rel=stylesheet href=&quot;https://cdn.jsdelivr.net/dna.js/<!--#echo var="release"-->/dna.css&quot;&gt;
       </code></pre>
    </figure>
-   <p>
-      <b>Note:</b>
-      The first call to <code>dna.clone()</code> detaches the template from the DOM, so the above
-      line of CSS is technically not required if you always call <code>dna.clone()</code> before
-      the web page is displayed.
-   </p>
+   <figure>
+      <figcaption>Load JavaScript libraries</figcaption>
+      <pre><code class=language-html>
+         &lt;script src=&quot;https://cdn.jsdelivr.net/jquery/latest/jquery.min.js&quot;&gt;&lt;/script&gt;
+         &lt;script src=&quot;https://cdn.jsdelivr.net/dna.js/<!--#echo var="release"-->/dna.min.js&quot;&gt;&lt;/script&gt;
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
-<section id=setup-js>
-   <h4>JavaScript Libraries</h4>
+<section id=setup-bower>
+   <h4>Install with Bower</h4>
    <p>
-      Download the
-      <code><a href="https://raw.github.com/dnajs/dna.js/current/dna.min.js" class=external-site>dna.min.js</a></code>
-      file (or the uncompressed
-      <code><a href="https://raw.github.com/dnajs/dna.js/current/dna.js" class=external-site>dna.js</a></code>
-      version) from GitHub and include it in your website.&nbsp;
-      <!--#echo var="name"--> requires jQuery.
-   </p>
-   <p>
-      Example of loading jQuery, dna.js, and your JavaScript web application:
+      Bower can also download the asseets into your project's <code>bower_components</code> folder.
    </p>
    <figure>
-      <figcaption>Load libraries</figcaption>
-      <pre><code class=language-html>
-         ...
-         &lt;script src=&quot;js/jquery.min.js&quot;&gt;&lt;/script&gt;
-         &lt;script src=&quot;js/dna.min.js&quot;&gt;&lt;/script&gt;
-         &lt;script src=&quot;js/your-app.js&quot;&gt;&lt;/script&gt;
-         &lt;/body&gt;
-         &lt;/html&gt;
+      <figcaption>Bower</figcaption>
+      <pre><code class=language-bash>
+         $ bower install dna.js
       </code></pre>
    </figure>
-   <p>
-      For experimentation and development, you can <a href="dna.js">link</a> directly to:<br>
-      <code class=indent>&lt;script src=&quot;http://dnajs.org/dna.js&quot;&gt;&lt;/script&gt;</code>
-      or<br>
-      <code class=indent>&lt;script src=&quot;http://dnajs.org/dna.min.js&quot;&gt;&lt;/script&gt;</code>
-   </p>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -217,6 +202,12 @@
          source &quot;https://rails-assets.org&quot; do
             gem &quot;rails-assets-dna.js&quot;
          end
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>application.css</figcaption>
+      <pre><code class=language-css>
+         @import "dna.js";
       </code></pre>
    </figure>
    <figure>

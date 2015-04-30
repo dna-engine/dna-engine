@@ -1,13 +1,13 @@
 <div>
+   <header>April 30, 2015</header>
+   <p>dna.js is now available on the
+   <a href="http://www.jsdelivr.com/#!dna.js" class=external-site>jsDelivr CDN</a>.</p>
+</div>
+<div>
    <header>February 17, 2015</header>
    <p>Release 0.3.5 introduces transformers... the
    <a href="manual.html#event-transform">FINAL chapter</a>
    in keeping your JS from polluting your HTML.</p>
-</div>
-<div>
-   <header>July 21, 2014</header>
-   <p>Release 0.2.1 has a new velvety smooth slide+fade effect and adds support
-   for direct access to the data model and convenient event binding.</p>
 </div>
 
 <!-- - - - - - - - - - - - - - - -->
@@ -15,6 +15,11 @@
 <div class=reveal-target data-reveal=more-news>
 <!-- - - - - - - - - - - - - - - -->
 
+<div>
+   <header>July 21, 2014</header>
+   <p>Release 0.2.1 has a new velvety smooth slide+fade effect and adds support
+   for direct access to the data model and convenient event binding.</p>
+</div>
 <div>
    <header>July 7, 2014</header>
    <p>Release 0.1.6 adds support for mutating values in

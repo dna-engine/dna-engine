@@ -6,7 +6,7 @@
       <a href="https://raw.github.com/dnajs/dna.js/current/dna.min.js" class=external-site>
          <div class=snazzy-button>
             <img src="graphics/icon-download.png" alt="Download"> Download dna.min.js
-            <div><!--#echo var="release"--> (<!--#echo var="size"-->)</div>
+            <div>v<!--#echo var="release"--> (<!--#echo var="size"-->)</div>
          </div>
       </a>
       <p class=alt-link>
