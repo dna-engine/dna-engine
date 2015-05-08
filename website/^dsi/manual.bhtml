@@ -2020,8 +2020,8 @@
 <h5>Utility Functions Overview</h5>
 <ol>
    <li>
-      <b>dna.pageToke.get</b>(key, value)<br>
-      <b>dna.pageToke.put</b>(key, defaultValue)<br>
+      <b>dna.pageToken.get</b>(key, value)<br>
+      <b>dna.pageToken.put</b>(key, defaultValue)<br>
    </li>
    <li><b>dna.ui.deleteElem</b>(elemOrEventOrIndex)</li>
    <li>
