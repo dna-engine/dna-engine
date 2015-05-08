@@ -178,7 +178,7 @@
 <section id=setup-bower>
    <h4>Install with Bower</h4>
    <p>
-      Bower can also download the asseets into your project's <code>bower_components</code> folder.
+      Bower can also download the assets to your project's <code>bower_components</code> folder.
    </p>
    <figure>
       <figcaption>Bower</figcaption>
@@ -657,7 +657,7 @@
 <section id=api-refresh>
    <h4>dna.refresh(clone[, options])</h4>
    <p class=api-description>
-      Updates an existing cloneto to reflect any changes to the data model.
+      Updates an existing clone to reflect changes to the data model.
    </p>
    <div class=api-parameters>
       Parameters:
