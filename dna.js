@@ -133,6 +133,42 @@ var dna = {
       }
    };
 
+dna.array = {
+   find: function(array, code) {
+      function found(obj) { return obj.code === code; }
+      var objs = array.filter(found);
+      return objs.length ? objs[0] : null;
+      },
+   last: function(array) {
+      // Example:
+      //    library.array([3, 21, 7]) === 7;
+      return array && array.length ? array[array.length - 1] : undefined;
+      },
+   toMap: function(array, key) {
+      // Converts an array of objects into a hash map
+      //    var array = [{code: 'a', word: 'Ant'}, {code: 'b', word: 'Bat'}];
+      //    library.array.toMap(array, 'code').b.word === 'Bat';
+      var map = {};
+      function addObj(obj) { map[obj[key]] = obj; }
+      array.forEach(addObj);
+      return map;
+      }
+   };
+
+dna.browser = {
+	getUrlVariables: function() {
+		// Example:
+		//   http://example.com?lang=jp&code=7  ==>  { lang: 'jp', code: 7 }
+		var vars = {};
+		function addToVars(pair) { vars[pair.split('=')[0]] = pair.split('=')[1]; }
+		location.search.substring(1).split('&').forEach(addToVars);
+		return vars;
+      },
+   getHash: function() {
+      return window.location.hash.substring(1);
+      }
+   };
+
 dna.util = {
    toCamel: function(codeStr) {  //example: 'ready-set-go' ==> 'readySetGo'
       function hump(match, char) { return char.toUpperCase(); }
