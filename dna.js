@@ -251,7 +251,7 @@ dna.panels = {
    key: function(menu) {
       return '#' + menu.attr('id') + '-panels';
       },
-   display: function(menu, loc) {  //shows the panel at the given index (loc)
+   display: function(menu, loc, updateUrl) {  //shows the panel at the given index (loc)
       var panels, panel;
       var key = dna.panels.key(menu);
       var menuItems = menu.find('.menu-item');
@@ -263,7 +263,7 @@ dna.panels = {
       panel = panels.eq(loc).fadeIn().addClass('displayed');
       function saveState() {
          dna.pageToken.put(key, loc);
-         if (panel.data().hash)
+         if (updateUrl && panel.data().hash)
             window.history.pushState(null, null, '#' + panel.data().hash);
          }
       saveState();
@@ -272,13 +272,13 @@ dna.panels = {
    rotate: function(event) {  //moves to the selected panel
       var item = $(event.target).closest('.menu-item');
       var menu = item.closest('.dna-menu');
-      dna.panels.display(menu, menu.find('.menu-item').index(item));
+      dna.panels.display(menu, menu.find('.menu-item').index(item), true);
       },
    reload: function(name) {  //refreshes the currently displayed panel
       dna.panels.display($('#' + name));
       },
    refresh: function() {
-      var hash = window.location.hash.substring(1);
+      var hash = dna.browser.getHash();
       function findPanelLoc(panels) { return panels.filter('[data-hash=' + hash + ']').index(); }
       function partOfTemplate(elems) { return elems.first().closest('.dna-template').length > 0; }
       function init() {
