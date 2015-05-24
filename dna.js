@@ -156,13 +156,13 @@ dna.array = {
    };
 
 dna.browser = {
-	getUrlVariables: function() {
-		// Example:
-		//   http://example.com?lang=jp&code=7  ==>  { lang: 'jp', code: 7 }
-		var vars = {};
-		function addToVars(pair) { vars[pair.split('=')[0]] = pair.split('=')[1]; }
-		location.search.substring(1).split('&').forEach(addToVars);
-		return vars;
+   getUrlVariables: function() {
+      // Example:
+      //   http://example.com?lang=jp&code=7  ==>  { lang: 'jp', code: 7 }
+      var vars = {};
+      function addToVars(pair) { vars[pair.split('=')[0]] = pair.split('=')[1]; }
+      location.search.substring(1).split('&').forEach(addToVars);
+      return vars;
       },
    getHash: function() {
       return window.location.hash.substring(1);
@@ -587,6 +587,12 @@ dna.events = {
    handleEnterKey: function(event) {
       return event.which === 13 ? dna.events.runner($(event.target), 'enter-key', event) : null;
       },
+   jumpToUrlSetup: function() {
+      // Usage:
+      //    <button data-href="/">Home</button>
+      function jump() { window.location = $(this).data().href; }
+      $(document).on('click', '[data-href]', jump);
+      },
    setup: function() {
       $(document)
          .click(dna.events.handle)
@@ -595,6 +601,7 @@ dna.events = {
          .keyup(dna.events.handleEnterKey)
          .keydown(dna.events.handle)
          .keypress(dna.events.handle);
+      dna.events.jumpToUrlSetup();
       dna.events.elementSetup();
       }
    };

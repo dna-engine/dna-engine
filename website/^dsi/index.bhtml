@@ -139,7 +139,7 @@
    </div>
    To see all the pieces running together, check out the standalone example:
    <p class=indent>
-       <button class=jump-click data-url="hello-world.html">View Source</button>
+       <button data-href="hello-world.html">View Source</button>
    </p>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

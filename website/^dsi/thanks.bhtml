@@ -4,7 +4,7 @@
 <article>
    <p><b>Your message has been sent.</b></p>
    <p>Thanks.</p>
-   <p><button class=jump-click data-url=".">&laquo; Back to Home Page</button></p>
+   <p><button data-href=".">&laquo; Back to Home Page</button></p>
 </article>
 
 <!--#include file="~end.fhtml"-->

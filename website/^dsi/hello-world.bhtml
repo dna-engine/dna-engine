@@ -61,11 +61,11 @@
 
    <h3 id=page>Bookstore Web Page</h3>
    <p class=image-frame>
-      <img class=popup-click data-url="bookstore.html" src="graphics/bookstore.png"
+      <img class=popup-click data-href="bookstore.html" src="graphics/bookstore.png"
          alt="Screenshot">
    </p>
    <p class=align-centered>
-       <button class=popup-click data-url="bookstore.html">Open Web Page</button>
+       <button class=popup-click data-href="bookstore.html">Open Web Page</button>
    </p>
 
    <h3 id=jsfiddle>Bookstore on jsFiddle</h3>

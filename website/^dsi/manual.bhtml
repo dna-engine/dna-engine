@@ -62,6 +62,7 @@
             <li><a href="#event-transform">Data Model Transformer</a></li>
             <li><a href="#event-element-callback">Element Callback</a></li>
             <li><a href="#event-user">Click, Change, and Key Events</a></li>
+            <li><a href="#event-jump">Jump to page (URL)</a></li>
             <li><a href="#event-update-model">Data Model Updating on Field Updates</a></li>
             <li><a href="#event-initializer">Initializers</a></li>
             <li><a href="#event-callback-option">Callback Options</a></li>
@@ -1281,6 +1282,30 @@
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=event-jump>
+   <h4>Jump to page (URL)</h4>
+   <p>
+      Similar to the <code>&lt;a&gt;</code> anchor tag, the <code>data-href</code> attribute
+      redirects the browser to the specified URL when the user clicks the element.
+   </p>
+   <figure>
+      <figcaption>Example</figcaption>
+      <pre><code class=language-html>
+         &lt;button data-href="google.com/search?q=dna.js"&gt;Google&lt;/button&gt;
+      </code></pre>
+   </figure>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <figure class=hljs-enhance>
+      <figcaption>Result (interactive)</figcaption>
+      <div>
+         <button data-href="google.com/search?q=dna.js">Google</button>
+      </div>
+   </figure>
+   <!-- End: Result  -->
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=event-update-model>
    <h4>Data Model Updating on Field Updates</h4>
    <p>
@@ -2019,6 +2044,11 @@
 </p>
 <h5>Utility Functions Overview</h5>
 <ol>
+   <li><b>dna.array.find</b>(array, code)</li>
+   <li><b>dna.array.last</b>(array)</li>
+   <li><b>dna.array.toMap</b>(array, key)</li>
+   <li><b>dna.browsergetUrlVariables</b>()</li>
+   <li><b>dna.browser.getHash</b>()</li>
    <li>
       <b>dna.pageToken.get</b>(key, value)<br>
       <b>dna.pageToken.put</b>(key, defaultValue)<br>
@@ -2324,6 +2354,7 @@
       <li><a href="#event-user">            <code>data-click</code></a>:         Callback to run on click event</li>
       <li><a href="#event-user">            <code>data-enter-key</code></a>:     Callback to run on enter key event</li>
       <li><a href="#structure-thimblerig">  <code>data-falsey</code></a>:        Show element only if field evaluates to false</li>
+      <li><a href="#event-jump">            <code>data-href</code></a>:          Jumps to the URL (like the &lt;a&gt; link)</li>
       <li><a href="#event-user">            <code>data-key-down</code></a>:      Callback to run on key down event</li>
       <li><a href="#event-user">            <code>data-key-press</code></a>:     Callback to run on key press event</li>
       <li><a href="#event-user">            <code>data-key-up</code></a>:        Callback to run on key up event</li>
