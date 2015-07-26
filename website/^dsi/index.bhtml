@@ -179,26 +179,12 @@
    </p>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <h3 id=feedback>Feedback</h3>
-   Post your question to the <a href="forum.html">public forum</a> so everyone benefits from
-   the answer.&nbsp;  Otherwise, use the form below.
-   <form method=post>
-      <div class=perfect>
-         <h1>Send Us a Message</h1>
-         <label><span>Message:</span>
-            <textarea name=message rows=3 cols=30></textarea></label>
-         <label><span>Name:</span>
-            <input name=name size=20></label>
-         <label><span>E-Mail:</span>
-            <input name=email size=25></label>
-         <p><button type=submit>Submit</button></p>
-         <p class=note>Powered by
-            <a href="http://www.centerkey.com/php/">PERFECT</a></p>
-      </div>
-   </form>
-   <p class=subtle-note>
-      All the fields are optional.&nbsp;  However, if you want a response, make
-      sure to provide your e-mail address.
+   <h3 id=feedback>Issues</h3>
+   <p>
+      Submit bugs and feature requests at:<br>
+      <span class=indent>
+         <a href="https://github.com/dnajs/dna.js/issues">github.com/dnajs/dna.js/issues</a>
+      </span>
    </p>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

@@ -2048,7 +2048,6 @@
    <li><b>dna.array.last</b>(array)</li>
    <li><b>dna.array.toMap</b>(array, key)</li>
    <li><b>dna.browsergetUrlVariables</b>()</li>
-   <li><b>dna.browser.getHash</b>()</li>
    <li>
       <b>dna.pageToken.get</b>(key, value)<br>
       <b>dna.pageToken.put</b>(key, defaultValue)<br>
