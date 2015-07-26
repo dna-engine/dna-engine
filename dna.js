@@ -156,16 +156,13 @@ dna.array = {
    };
 
 dna.browser = {
-   getUrlVariables: function() {
+   getParams: function() {
       // Example:
       //   http://example.com?lang=jp&code=7  ==>  { lang: 'jp', code: 7 }
-      var vars = {};
-      function addToVars(pair) { vars[pair.split('=')[0]] = pair.split('=')[1]; }
-      location.search.substring(1).split('&').forEach(addToVars);
-      return vars;
-      },
-   getHash: function() {
-      return window.location.hash.substring(1);
+      var params = {};
+      function addParam(pair) { params[pair.split('=')[0]] = pair.split('=')[1]; }
+      window.location.search.slice(1).split('&').forEach(addParam);
+      return params;
       }
    };
 
@@ -314,7 +311,7 @@ dna.panels = {
       dna.panels.display($('#' + name));
       },
    refresh: function() {
-      var hash = dna.browser.getHash();
+      var hash = window.location.hash.slice(1);
       function findPanelLoc(panels) { return panels.filter('[data-hash=' + hash + ']').index(); }
       function partOfTemplate(elems) { return elems.first().closest('.dna-template').length > 0; }
       function init() {
@@ -587,7 +584,7 @@ dna.events = {
    handleEnterKey: function(event) {
       return event.which === 13 ? dna.events.runner($(event.target), 'enter-key', event) : null;
       },
-   jumpToUrlSetup: function() {
+   setupJumpToUrl: function() {
       // Usage:
       //    <button data-href="/">Home</button>
       function jump() { window.location = $(this).data().href; }
@@ -601,7 +598,7 @@ dna.events = {
          .keyup(dna.events.handleEnterKey)
          .keydown(dna.events.handle)
          .keypress(dna.events.handle);
-      dna.events.jumpToUrlSetup();
+      dna.events.setupJumpToUrl();
       dna.events.elementSetup();
       }
    };
