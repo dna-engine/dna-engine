@@ -8,28 +8,31 @@
 #    $ chmod +x task-runner.sh.command
 
 package=https://raw.githubusercontent.com/dnajs/dna.js/master/package.json
+
+needNode() {
+   echo "*******************************"
+   echo "Need install Node.js to get npm"
+   echo "*******************************"
+   open "http://nodejs.org/download/"
+   exit
+   }
+
+needGrunt() {
+   echo "**********************************"
+   echo "Need to install Grunt:            "
+   echo "   $ sudo npm install -g grunt-cli"
+   echo "**********************************"
+   exit
+   }
+
 echo
 echo "dna.js Task Runner"
 echo "================="
 cd $(dirname $0)
 pwd
 echo
-if [ -z $(which npm) ]; then
-   open "http://nodejs.org/download/"
-   echo "*********************"
-   echo "*** npm not found ***"
-   echo "Install Node.js to get npm"
-   echo "*********************"
-   exit
-   fi
-if [ -z $(which grunt) ]; then
-   echo "***********************"
-   echo "*** grunt not found ***"
-   echo "To install Grunt:"
-   echo "   $ sudo npm install -g grunt-cli"
-   echo "***********************"
-   exit
-   fi
+which npm || needNode
+which grunt || needGrunt
 echo "Node:"
 node --version
 npm install

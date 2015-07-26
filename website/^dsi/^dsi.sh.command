@@ -5,7 +5,7 @@
 #  http://dnajs.org  #
 ######################
 
-releasedFolder=https://raw.githubusercontent.com/dnajs/dna.js/current
+releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/current
 webServerFolder=~/Dropbox/Documents/Sites/centerkey.com/www.dnajs.org
 webServerUrl=http://localhost/centerkey.com/www.dnajs.org/
 
@@ -22,7 +22,7 @@ echo "Release Version: $versionReleased"
 echo "HTML Version:    $versionHtml"
 
 # Build HTML files (run DSI templating)
-[ ! -f dsi.jar ] && curl -O http://www.centerkey.com/dsi/download/dsi.jar
+[ ! -f dsi.jar ] && curl --remote-name http://www.centerkey.com/dsi/download/dsi.jar
 java -jar dsi.jar
 echo
 
@@ -41,21 +41,24 @@ echo
 
 # Download dna.js code
 cd "$target"
-curl --remote-name --silent $releasedFolder/dna.css
-curl --remote-name --silent $releasedFolder/dna.js
-curl --remote-name --silent $releasedFolder/dna.min.js
-curl --remote-name --silent $releasedFolder/test-cases.html
+curl --remote-name --silent $releasedOrigin/dna.css
+curl --remote-name --silent $releasedOrigin/dna.js
+curl --remote-name --silent $releasedOrigin/dna.min.js
+curl --remote-name --silent $releasedOrigin/test-cases.html
 
 # List files
 echo "Website:"
 pwd
 ls -l
 url="$target/index.html"
-if [ -d $webServerFolder ]; then
+updateWebServer() {
    echo $webServerFolder
    cp -R * $webServerFolder
+   cp ../../dna.js  $webServerFolder/dna.snapshot.js
+   cp ../../dna.css $webServerFolder/dna.snapshot.css
    url=$webServerUrl
-   fi
+   }
+[ -d $webServerFolder ] && updateWebServer
 echo "Opening -> $url"
 open $url
 echo
