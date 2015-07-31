@@ -34,6 +34,7 @@ var dna = {
       var clones = $();
       for (var i = 0; i < list.length; i++)
          clones = clones.add(dna.core.replicate(template, list[i], i, settings));
+      dna.placeholder.setup();  //TODO: optimize
       if (clones.first().closest('.dna-menu, .dna-panels').length)
          dna.panels.refresh();
       return clones;
@@ -71,7 +72,7 @@ var dna = {
    empty: function(name, options) {
       var settings = $.extend({ fade: false }, options);
       var clones = dna.store.getTemplate(name).container.find('.dna-clone');
-      return settings.fade ? dna.ui.slideFadeDelete(clones) : clones.remove();
+      return settings.fade ? dna.ui.slideFadeDelete(clones) : dna.core.remove(clones);
       },
    refresh: function(clone, options) {
       var settings = $.extend({ html: false }, options);
@@ -94,7 +95,7 @@ var dna = {
          }
       if (clone.hasClass('dna-sub-clone'))
          removeArrayItem(clone.data().dnaRules.array);
-      return settings.fade ? dna.ui.slideFadeDelete(clone) : clone.remove();
+      return settings.fade ? dna.ui.slideFadeDelete(clone) : dna.core.remove(clone);
       },
    getClone: function(elem, options) {
       var settings = $.extend({ main: false }, options);
@@ -227,7 +228,9 @@ dna.ui = {
          elemOrEventOrIndex ? $(elemOrEventOrIndex.target) : $(that);
       },
    deleteElem: function(elemOrEventOrIndex) {  //example: $('.box').fadeOut(dna.ui.deleteElem);
-      return dna.ui.toElem(elemOrEventOrIndex, this).remove();
+      var elem = dna.ui.toElem(elemOrEventOrIndex, this);
+      dna.core.remove(elem);
+      return elem;
       },
    slideFade: function(elem, callback, show) {
       var obscure = { opacity: 0.0, transition: 'opacity 0s ease 0s' };
@@ -258,6 +261,17 @@ dna.ui = {
       return elem.is(':hidden') ? dna.ui.slideFadeIn(elem, callback) : elem.hide().fadeIn();
       }
    };
+
+dna.placeholder = {  //TODO: optimize
+   setup: function() {
+      function fade() {
+         var elem = $(this).stop();
+         return dna.getClones(elem.data().placeholder).length ? elem.fadeOut() : elem.fadeIn();
+         }
+      $('[data-placeholder]').each(fade);
+      }
+   };
+$(dna.placeholder.setup);
 
 dna.pageToken = {
    // Page specific (url path) key/value temporary storage
@@ -723,6 +737,11 @@ dna.core = {
    unload: function(name, data, options) {  //use rest data to make clone
       if (!data.error)
          dna.clone(name, data, options);
+      },
+   remove: function(clone) {  //TODO: optimize
+      clone.remove();
+      dna.placeholder.setup();
+      return clone;
       },
    berserk: function(message) {  //oops, file a tps report
       throw 'dna.js error -> ' + message;

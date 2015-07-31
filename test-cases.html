@@ -812,6 +812,8 @@ $(test13.run);
             Book #<span>~~[count]~~</span>: <span>~~[value]~~</span>
          </div>
       </div>
+      <div id=t14-book-placeholder class=dna-template></div>
+      <div data-placeholder=t14-book-placeholder><i>Placeholder</i></div>
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
@@ -826,6 +828,7 @@ $(test13.run);
             Book #<span>3</span>: <span>Styling CSS3</span>
          </div>
       </div>
+      <div><i>Placeholder</i></div>
    </fieldset>
 </div>
 <script>
@@ -858,6 +861,7 @@ $(test14.run);
             <button class=3 data-click=test15.bye>Bye 3</button>
          </div>
       </div>
+      <div data-placeholder=t15-book>No more clones!</div>
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
