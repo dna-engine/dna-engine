@@ -188,6 +188,13 @@ dna.util = {
       function emptyArray() { return value instanceof Array && value.length === 0; }
       return value ? !emptyArray() && !falseyStr() : false;
       },
+   printf: function(format) {
+      // Usage:
+      //    dna.util.printf('%s: %s', 'Lives', 3) === 'Lives: 3';
+      var values = Array.prototype.slice.call(arguments, 1);
+      function insert(str, val) { return str.replace(/%s/, val); }
+      return values.reduce(insert, format);
+      },
    apply: function(func, params) {  //calls func (string name or actual function) passing in params
       // Example: dna.util.apply('app.cart.buy', 7); ==> app.cart.buy(7);
       var args = [].concat(params);
