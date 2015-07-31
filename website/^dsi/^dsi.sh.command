@@ -22,7 +22,7 @@ echo "Release Version: $versionReleased"
 echo "HTML Version:    $versionHtml"
 
 # Build HTML files (run DSI templating)
-[ ! -f dsi.jar ] && curl --remote-name http://www.centerkey.com/dsi/download/dsi.jar
+[ ! -f dsi.jar ] && curl --remote-name http://centerkey.com/dsi/download/dsi.jar
 java -jar dsi.jar
 echo
 

@@ -2,12 +2,13 @@
    "name":         "dna.js",
    "version":      "0.3.9",
    "description":  "An uncomplicated user interface library",
+   "license":      "(MIT OR GPL-3.0)",
    "keywords":     ["clone", "dna.js", "dom", "engine", "html", "jquery", "json", "templating", "ui"],
    "homepage":     "https://github.com/dnajs/dna.js",
    "docs":         "http://dnajs.org/manual.html",
    "bugs":         "https://github.com/dnajs/dna.js/issues",
-   "author":       { "name": "Center Key", "url": "http://www.centerkey.com" },
-   "repository":   { "type": "git", "url": "https://github.com/dnajs/dna.js.git" },
+   "author":       { "name": "Center Key", "url": "http://centerkey.com" },
+   "repository":   { "type": "git",        "url": "https://github.com/dnajs/dna.js.git" },
    "dependencies": { "jquery": ">=1.8" },
    "devDependencies": {
       "grunt":                "~0.4.5",
@@ -15,9 +16,5 @@
       "grunt-contrib-jshint": "~0.11.2",
       "grunt-contrib-uglify": "~0.9.1",
       "load-grunt-tasks":     "~3.2.0"
-      },
-   "licenses": [
-      { "type": "MIT",   "url":  "http://dnajs.org/license.html" },
-      { "type": "GPLv3", "url":  "http://dnajs.org/license.html" }
-      ]
+      }
 }
