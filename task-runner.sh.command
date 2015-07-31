@@ -10,9 +10,9 @@
 package=https://raw.githubusercontent.com/dnajs/dna.js/master/package.json
 
 needNode() {
-   echo "*******************************"
-   echo "Need install Node.js to get npm"
-   echo "*******************************"
+   echo "**********************************"
+   echo "Need to install Node.js to get npm"
+   echo "**********************************"
    open "http://nodejs.org/download/"
    exit
    }
