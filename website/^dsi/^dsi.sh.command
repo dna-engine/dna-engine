@@ -35,7 +35,8 @@ echo "Target:"
 echo $target
 mv -v *.html "$target"
 cd ..
-cp -v *.html *.css *.js *.php favicon.ico "$target"
+cp -v *.html *.css *.js "$target"
+cp -v graphics/bookmark.ico "$target/favicon.ico"
 cp -R graphics rest "$target"
 echo
 
