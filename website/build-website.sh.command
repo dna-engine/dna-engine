@@ -16,7 +16,6 @@ websiteFolder=$(dirname $0)
 
 # Set release version and build HTML files (run DSI templating)
 cd $websiteFolder/dsi
-pwd
 versionReleased=$(git tag | tail -1)
 versionHtml=$(grep "var=.release." ~begin.fhtml | awk -F'["]' '{print $4}')
 echo "Release Version: $versionReleased"
@@ -44,6 +43,7 @@ curl --remote-name --silent $releasedOrigin/dna.min.js
 curl --remote-name --silent $releasedOrigin/test-cases.html
 
 # List files
+cd $websiteFolder/httpdocs
 echo "Website:"
 pwd
 url="$target/index.html"
@@ -55,7 +55,5 @@ updateWebServer() {
    url=$webServerUrl
    }
 [ -d $webServerFolder ] && updateWebServer
-echo "Opening -> $url"
+echo "Opening --> $url"
 open $url
-echo
-echo "~~~~~~~~~"
