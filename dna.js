@@ -570,56 +570,57 @@ dna.events = {
       $.each(dna.events.initializers, init);
       return elem;
       },
-   runner: function(elem, type, event) {
-      // Finds elements for given event type and executes callback passing in the element and event
-      // Types: click|change|key-up|key-down|key-press|enter-key
-      elem = elem.closest('[data-' + type + ']');
-      return dna.util.apply(elem.data(type), [elem, event]);
-      },
-   handle: function(event) {
-      var target = $(event.target);
-      function updateField(elem, calc) { dna.getModel(elem)[elem.data().dnaField] = calc(elem); }
-      function getValue(elem) { return elem.val(); }
-      function isChecked(elem) { return elem.is(':checked'); }
-      function updateOption() { updateField($(this), isChecked); }
-      function updateModel() {
-         var mainClone = dna.getClone(target, { main: true });
-         if (mainClone.length === 0) {  //TODO: figure out why some events are captured on the template instead of the clone
-            //console.log('Error -- event not on clone:', event.timeStamp, event.type, target);
-            return;
-            }
-         if (target.is('input:text'))
-            updateField(target, getValue);
-         else if (target.is('input:checkbox'))
-            updateField(target, isChecked);
-         else if (target.is('input:radio'))
-            $('input:radio[name=' + target.attr('name') + ']').each(updateOption);
-         else if (target.is('select'))
-            target.find('option').each(updateOption);
-         dna.refresh(mainClone);
-         }
-      if (target.hasClass('dna-update-model'))
-         updateModel();
-      return dna.events.runner(target, event.type.replace('key', 'key-'), event);
-      },
-   handleEnterKey: function(event) {
-      return event.which === 13 ? dna.events.runner($(event.target), 'enter-key', event) : null;
-      },
-   setupJumpToUrl: function() {
-      // Usage:
-      //    <button data-href="/">Home</button>
-      function jump() { window.location = $(this).data().href; }
-      $(document).on('click', '[data-href]', jump);
-      },
    setup: function() {
+      function runner(elem, type, event) {
+         // Finds elements for given event type and executes callback passing in the element and event
+         // Types: click|change|key-up|key-down|key-press|enter-key
+         elem = elem.closest('[data-' + type + ']');
+         return dna.util.apply(elem.data(type), [elem, event]);
+         }
+      function handle(event) {
+         var target = $(event.target);
+         function updateField(elem, calc) { dna.getModel(elem)[elem.data().dnaField] = calc(elem); }
+         function getValue(elem) { return elem.val(); }
+         function isChecked(elem) { return elem.is(':checked'); }
+         function updateOption() { updateField($(this), isChecked); }
+         function updateModel() {
+            var mainClone = dna.getClone(target, { main: true });
+            if (mainClone.length === 0) {  //TODO: figure out why some events are captured on the template instead of the clone
+               //console.log('Error -- event not on clone:', event.timeStamp, event.type, target);
+               return;
+               }
+            if (target.is('input:text'))
+               updateField(target, getValue);
+            else if (target.is('input:checkbox'))
+               updateField(target, isChecked);
+            else if (target.is('input:radio'))
+               $('input:radio[name=' + target.attr('name') + ']').each(updateOption);
+            else if (target.is('select'))
+               target.find('option').each(updateOption);
+            dna.refresh(mainClone);
+            }
+         if (target.hasClass('dna-update-model'))
+            updateModel();
+         return runner(target, event.type.replace('key', 'key-'), event);
+         }
+      function handleEnterKey(event) {
+         if (event.which === 13)
+            runner($(event.target), 'enter-key', event);
+         }
+      function setupJumpToUrl() {
+         // Usage:
+         //    <button data-href="/">Home</button>
+         function jump() { window.location = $(this).data().href; }
+         $(document).on('click', '[data-href]', jump);
+         }
       $(document)
-         .click(dna.events.handle)
-         .change(dna.events.handle)
-         .keyup(dna.events.handle)
-         .keyup(dna.events.handleEnterKey)
-         .keydown(dna.events.handle)
-         .keypress(dna.events.handle);
-      dna.events.setupJumpToUrl();
+         .click(handle)
+         .change(handle)
+         .keyup(handle)
+         .keyup(handleEnterKey)
+         .keydown(handle)
+         .keypress(handle);
+      setupJumpToUrl();
       dna.events.elementSetup();
       }
    };
