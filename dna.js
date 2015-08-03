@@ -601,11 +601,32 @@ dna.events = {
             }
          if (target.hasClass('dna-update-model'))
             updateModel();
-         return runner(target, event.type.replace('key', 'key-'), event);
+         runner(target, event.type.replace('key', 'key-'), event);
          }
       function handleEnterKey(event) {
          if (event.which === 13)
             runner($(event.target), 'enter-key', event);
+         }
+      function handleSmartUpdate(event) {
+         var defaultThrottle = 2000;  //default 2 second delay between callbacks
+         var elem = $(event.target);
+         var data = elem.data();
+         function smartUpdate() {
+            function doCallback() {
+               data.dnaLastUpdated = Date.now();
+               data.dnaTimeoutId = undefined;
+               runner(elem, 'smart-update', event);
+               }
+            var throttle = data.smartThrottle ? Number(data.smartThrottle) : defaultThrottle;
+            data.dnaLastValue = elem.val();
+            if (!data.dnaTimeoutId)
+               if (Date.now() < data.dnaLastUpdated + throttle)
+                  data.dnaTimeoutId = window.setTimeout(doCallback, throttle);
+               else
+                  doCallback();
+            }
+         if (data.smartUpdate && elem.val() !== data.dnaLastValue)
+            smartUpdate();
          }
       function setupJumpToUrl() {
          // Usage:
@@ -618,6 +639,7 @@ dna.events = {
          .change(handle)
          .keyup(handle)
          .keyup(handleEnterKey)
+         .keyup(handleSmartUpdate)
          .keydown(handle)
          .keypress(handle);
       setupJumpToUrl();

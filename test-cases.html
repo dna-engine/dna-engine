@@ -964,6 +964,8 @@ $(test15.run);
                <option data-array=~~purposes~~ value=~~code~~
                   data-prop-selected=~~set~~>~~name~~</option>
             </select>
+            Note:
+            <p><input data-smart-update=test16.submit data-smart-throttle=5000></p>
          </div>
       </div>
    </fieldset>
@@ -1008,12 +1010,22 @@ $(test15.run);
                <option value=fun selected>Personal</option>
                <option value=edu>School</option>
             </select>
+            Note:
+            <p><input value="Leave package at door."></p>
          </div>
       </div>
    </fieldset>
 </div>
 <script>
 var test16 = {
+   start: Date.now(),
+   submit: function(elem) {
+      console.log(Date.now() - test16.start, elem.val());
+      },
+   smartUpdate: function() {
+      //TODO: Simulate typing "Leave package at door."
+      $('.t16-book input[data-smart-update="test16.submit"]').val('View console, type here.');
+      },
    run: function() {
       console.log('Test Case: #16');
       var options = [
@@ -1033,7 +1045,7 @@ var test16 = {
          ];
       var book = { title: 'The DOM', options: options, cover: cover, purposes: purposes };
       var clone = dna.clone('t16-book', book);
-      var titleElem = clone.find('input:text').val('The DOM!').change();  //simulate user edit
+      var titleElem = clone.find('input:text').first().val('The DOM!').change();  //simulate user edit
       titleElem.toggleClass('border-change', book.title === 'The DOM!');
       if (clone.find('input[value=fast]').prop('checked'))  //expect "Overnight" selected
          clone.find('input[value=gift]').click();  //also select "Gift" option
@@ -1043,6 +1055,7 @@ var test16 = {
       if (purposeElem.val() === 'edu')  //expect "School" selected
          purposeElem.val('fun').change();  //change to "Personal"
       purposeElem.toggleClass('border-change', book.purposes[1].set === true);
+      window.setTimeout(test16.smartUpdate, 3000);  //delay to let all other tests complete
       }
    };
 $(test16.run);
