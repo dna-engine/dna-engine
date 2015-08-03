@@ -1,6 +1,6 @@
 {
    "name":         "dna.js",
-   "version":      "0.3.9",
+   "version":      "0.4.0",
    "description":  "An uncomplicated user interface library",
    "main":         ["dna.css", "dna.js"],
    "keywords":     ["clone", "dna.js", "dom", "engine", "html", "jquery", "json", "templating", "ui"],

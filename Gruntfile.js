@@ -17,7 +17,7 @@ function gruntRunner(grunt) {
             },
          release: {
             options: { prefix: versionPatterns },
-            src: ['bower.json', 'README.md', 'website/^dsi/~begin.fhtml'],
+            src: ['bower.json', 'README.md', 'website/dsi/~begin.fhtml'],
             },
          },
       jshint: {

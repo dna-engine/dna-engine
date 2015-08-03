@@ -88,7 +88,7 @@ echo
 echo "To release this version:"
 echo "   cd $(pwd)"
 echo "   grunt release"
-echo "   website/^dsi/^dsi.sh.command"
+echo "   website/build-website.sh.command"
 echo "   *** Check in local changes with the comment:"
 echo "      Release $versionLocal"
 echo

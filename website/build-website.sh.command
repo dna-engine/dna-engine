@@ -12,7 +12,8 @@ webServerUrl=http://localhost/centerkey.com/www.dnajs.org/
 echo
 echo "dnajs.org"
 echo "~~~~~~~~~"
-websiteFolder=$(dirname $0)
+cd $(dirname $0)
+websiteFolder=$(pwd)
 
 # Set release version and build HTML files (run DSI templating)
 cd $websiteFolder/dsi
