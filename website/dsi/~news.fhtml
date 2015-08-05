@@ -1,4 +1,10 @@
 <div>
+   <header>August 3, 2015</header>
+   <p>Release 0.4.0 introduces
+   <a href="http://jsfiddle.net/7uL75a72/" class=external-site><i>smart updates</i></a>
+   for throttling REST calls with live editing.</p>
+</div>
+<div>
    <header>April 30, 2015</header>
    <p>dna.js is now available on the
    <a href="http://www.jsdelivr.com/#!dna.js" class=external-site>jsDelivr CDN</a>.</p>

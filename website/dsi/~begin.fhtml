@@ -18,10 +18,11 @@
 <!--#set var="copyright"     value="Copyright (c) 2013-2015"                   -->
 <!--#set var="authors"       value="Center Key Software and other contributors"-->
 <!--#set var="release"       value="0.4.0"                                     -->
-<!--#set var="size"          value="13 kb"                                     -->
-<!--#set var="jsFiddleBooks" value="L9p44b1g"                                  -->
-<!--#set var="jsFiddleTodo"  value="ourh2yyb"                                  -->
-<!--Note: Keep #title and #description updated in: package.json, bower.json, and READ.md -->
+<!--#set var="size"          value="14 kb"                                     -->
+<!--#set var="jsFiddleBooks" value="qyp9kbam"                                  -->
+<!--#set var="jsFiddleTodo"  value="5z6bn76w"                                  -->
+<!--Note 1: Keep #title and #description updated in: package.json, bower.json, and README.md -->
+<!--Note 2: Keep #jsFiddleTodo updated in: README.md -->
 
 <html>
 <head>
@@ -35,9 +36,9 @@
    <link rel=apple-touch-icon href="graphics/dnajs-logo.png">
    <link rel=stylesheet       href="http://centerkey.com/css/reset.css">
    <link rel=stylesheet       href="http://centerkey.com/files/hljs-enhance/hljs-enhance.css">
-   <link rel=stylesheet       href="https://cdn.jsdelivr.net/dna.js/latest/dna.css">
+   <link rel=stylesheet       href="https://cdn.jsdelivr.net/dna.js/0/dna.css">
    <link rel=stylesheet       href="style.css">
-   <script src="https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/jquery/2/jquery.min.js"></script>
 </head>
 <body>
 

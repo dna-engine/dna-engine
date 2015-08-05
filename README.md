@@ -50,6 +50,6 @@ dna.load('book', 'http://dnajs.org/rest/book/3');
 
 ### 2. Additional Information
 * [dnajs.org](http://dnajs.org) &mdash; (see the "Try It Out" section for a live example)
-* [Sample To-Do Application (jsfiddle)](http://jsfiddle.net/w60g19h4/)
+* [Sample To-Do Application (jsfiddle)](http://jsfiddle.net/5z6bn76w/)
 * [Documentation](http://dnajs.org/manual.html)
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)

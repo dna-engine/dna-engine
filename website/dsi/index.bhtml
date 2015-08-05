@@ -181,7 +181,7 @@
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <h3 id=feedback>Issues</h3>
    <p>
-      Submit bugs and feature requests at:<br>
+      Submit bugs, feature requests, and questions at:<br>
       <span class=indent>
          <a href="https://github.com/dnajs/dna.js/issues">github.com/dnajs/dna.js/issues</a>
       </span>

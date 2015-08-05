@@ -47,7 +47,7 @@ curl --remote-name --silent $releasedOrigin/test-cases.html
 cd $websiteFolder/httpdocs
 echo "Website:"
 pwd
-url="$target/index.html"
+url=index.html
 updateWebServer() {
    echo $webServerFolder
    cp -R * $webServerFolder
