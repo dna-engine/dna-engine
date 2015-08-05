@@ -163,14 +163,14 @@
    <figure>
       <figcaption>Load CSS file</figcaption>
       <pre><code class=language-html>
-         &lt;link rel=stylesheet href=&quot;https://cdn.jsdelivr.net/dna.js/<!--#echo var="release"-->/dna.css&quot;&gt;
+         &lt;link rel=stylesheet href=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.css&quot;&gt;
       </code></pre>
    </figure>
    <figure>
       <figcaption>Load JavaScript libraries</figcaption>
       <pre><code class=language-html>
-         &lt;script src=&quot;https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js&quot;&gt;&lt;/script&gt;
-         &lt;script src=&quot;https://cdn.jsdelivr.net/dna.js/<!--#echo var="release"-->/dna.min.js&quot;&gt;&lt;/script&gt;
+         &lt;script src=&quot;https://cdn.jsdelivr.net/jquery/2/jquery.min.js&quot;&gt;&lt;/script&gt;
+         &lt;script src=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.min.js&quot;&gt;&lt;/script&gt;
       </code></pre>
    </figure>
 </section>

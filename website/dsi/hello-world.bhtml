@@ -28,7 +28,7 @@
          &lt;head&gt;
          &lt;meta charset=utf-8&gt;
          &lt;title&gt;Bookstore&lt;/title&gt;
-         &lt;link rel=stylesheet href="https://cdn.jsdelivr.net/dna.js/latest/dna.css"&gt;
+         &lt;link rel=stylesheet href="https://cdn.jsdelivr.net/dna.js/0/dna.css"&gt;
          &lt;style&gt;
             body       { font-family: sans-serif; margin: 30px; }
             .book-list { width: 250px; }
@@ -45,8 +45,8 @@
             &lt;/div&gt;
          &lt;/div&gt;
 
-         &lt;script src=&quot;https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js&quot;&gt;&lt;/script&gt;
-         &lt;script src=&quot;https://cdn.jsdelivr.net/dna.js/latest/dna.min.js&quot;&gt;&lt;/script&gt;
+         &lt;script src=&quot;https://cdn.jsdelivr.net/jquery/2/jquery.min.js&quot;&gt;&lt;/script&gt;
+         &lt;script src=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.min.js&quot;&gt;&lt;/script&gt;
          &lt;script&gt;
             var books = [
                { title: 'The DOM',     author: 'Jan' },
@@ -61,11 +61,11 @@
 
    <h3 id=page>Bookstore Web Page</h3>
    <p class=image-frame>
-      <img class=popup-click data-href="bookstore.html" src="graphics/bookstore.png"
+      <img class=popup-click data-url="bookstore.html" src="graphics/bookstore.png"
          alt="Screenshot">
    </p>
    <p class=align-centered>
-       <button class=popup-click data-href="bookstore.html">Open Web Page</button>
+       <button class=popup-click data-url="bookstore.html">Open Web Page</button>
    </p>
 
    <h3 id=jsfiddle>Bookstore on jsFiddle</h3>
