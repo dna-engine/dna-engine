@@ -1291,7 +1291,7 @@
    <figure>
       <figcaption>Example</figcaption>
       <pre><code class=language-html>
-         &lt;button data-href="google.com/search?q=dna.js"&gt;Google&lt;/button&gt;
+         &lt;button data-href="license.html"&gt;View License&lt;/button&gt;
       </code></pre>
    </figure>
    <!-- Start: Result  -->
@@ -1299,7 +1299,7 @@
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
       <div>
-         <button data-href="google.com/search?q=dna.js">Google</button>
+         <button data-href="license.html">View License</button>
       </div>
    </figure>
    <!-- End: Result  -->
@@ -1542,6 +1542,11 @@
          &lt;/script&gt;
       </code></pre>
    </figure>
+   <p>
+      The <code>data-on-load</code> attribute can be used in conjunction with the
+      <a href="#ui-focus"><code>dna.ui.focus</code></a> function to auto-focus on an input
+      element.
+   </p>
 </section>
 
 <!--*********************************************************************************************-->
@@ -2053,6 +2058,7 @@
       <b>dna.pageToken.put</b>(key, defaultValue)<br>
    </li>
    <li><b>dna.ui.deleteElem</b>(elemOrEventOrIndex)</li>
+   <li><b>dna.ui.focus</b>(elem)</li>
    <li>
       <b>dna.ui.slideFadeDelete</b>(elem)<br>
       <b>dna.ui.slideFadeIn</b>(elem, callback)<br>
@@ -2135,6 +2141,30 @@
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.ui.focus()  -->
+<section id=ui-focus>
+   <h4>dna.ui.focus(elem)</h4>
+   <p class=api-description>
+      Sets focus on the element.
+   </p>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <!--#include file="params/elem-simple.fhtml"-->
+      </ul>
+   </div>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;label&gt;
+            &lt;span&gt;Start typing:&lt;/span&gt;
+            &lt;input data-on-load=dna.ui.focus&gt;
+         &lt;/label&gt;
+      </code></pre>
+   </figure>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.ui.slideFade()  -->
 <section id=ui-slide-fade>
    <h4>dna.ui.slideFadeDelete(elem)</h4>
@@ -2166,7 +2196,7 @@
    <h4>dna.ui.slidingFlasher(elem[, callback])</h4>
    <p class=api-description>
       Uses a smooth slide down plus fade in effect on an element if it is hidden or a smooth fade in
-      flash if the element is already visible &mdash;  intended to display an error message.
+      flash if the element is already visible &mdash; intended to display an error message.
    </p>
    <div class=api-parameters>
       Parameters:

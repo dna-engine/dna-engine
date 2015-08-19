@@ -1024,7 +1024,8 @@ var test16 = {
       },
    smartUpdate: function() {
       //TODO: Simulate typing "Leave package at door."
-      $('.t16-book input[data-smart-update="test16.submit"]').val('View console, type here.');
+      var inputElem = $('.t16-book input[data-smart-update="test16.submit"]');
+      dna.ui.focus(inputElem).val('View console, type here.');
       },
    run: function() {
       console.log('Test Case: #16');

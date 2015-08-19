@@ -259,6 +259,9 @@ dna.ui = {
       },
    slidingFlasher: function(elem, callback) {
       return elem.is(':hidden') ? dna.ui.slideFadeIn(elem, callback) : elem.hide().fadeIn();
+      },
+   focus: function(elem) {
+      return elem.focus();
       }
    };
 
