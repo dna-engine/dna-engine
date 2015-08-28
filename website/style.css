@@ -145,7 +145,10 @@ td>code {
    opacity: 0.9;
    }
 .side-image {
-   height: 160px;
+   width: 260px;
+   background-color: white;
+   border: 1px solid silver;
+   padding: 15px;
    }
 
 .gateway-sidebar {

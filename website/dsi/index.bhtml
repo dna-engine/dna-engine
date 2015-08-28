@@ -143,6 +143,25 @@
    </p>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <h3 id=todo>Live Model</h3>
+   <div class=push-right>
+      <a href="http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/" class=external-site>
+         <img class=side-image src="graphics/icon-live-model.png" alt="Live model screenshot">
+      </a>
+   </div>
+   <p>
+      dna.js keeps track of the data model (the "M" in MVC) and updates the UI as the user changes
+      the model.<br>
+   </p>
+   <p>
+      Interact with the live model at:<br>
+      <span class=indent>
+         <a href="http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/" class=external-site>
+            jsfiddle.net/<!--#echo var="jsFiddleLiveModel"--></a>
+      </span>
+   </p>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <h3 id=philosophy>Philosophy</h3>
    <p>
       Backbone.js, AngularJS, and React are all powerful, but they require a fair a amount of
