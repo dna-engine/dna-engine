@@ -13,7 +13,7 @@ function gruntRunner(grunt) {
       version: {
          dev: {
             options: { prefix: versionPatterns },
-            src: ['dna.js'],
+            src: ['dna.js', 'dna.css'],
             },
          release: {
             options: { prefix: versionPatterns },
