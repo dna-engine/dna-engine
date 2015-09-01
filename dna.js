@@ -540,7 +540,7 @@ dna.store = {
          var elem = $(this);
          var field = elem.data().dnaRules.array;
          var sub = dna.compile.subTemplateName(name, field);
-         dna.compile.setupNucleotide(elem.parent()).data().dnaRules.loop =
+         dna.compile.setupNucleotide(elem.parent().addClass('dna-array')).data().dnaRules.loop =
             { name: sub, field: field };
          elem.data().dnaRules.template = sub;
          }
@@ -592,7 +592,7 @@ dna.events = {
                //console.log('Error -- event not on clone:', event.timeStamp, event.type, target);
                return;
                }
-            if (target.is('input:text'))
+            if (target.is('input:text'))  //TODO: what about input:email, input:password, etc.
                updateField(target, getValue);
             else if (target.is('input:checkbox'))
                updateField(target, isChecked);
@@ -693,10 +693,20 @@ dna.core = {
          }
       function processLoop(elem, loop) {
          var dataArray = dna.util.value(data, loop.field);
-         if (dataArray)
+         var subClones = elem.children('.' + dna.compile.subTemplateName(elem, loop.field));
+         function injectSubClone(index) {
+            dna.core.inject($(this), dataArray[index], index, settings);
+            }
+         function rebuildSubClones() {
+            subClones.remove();
             dna.clone(loop.name, dataArray, { container: elem, html: settings.html });
-         else
+            }
+         if (!dataArray)
             data[loop.field] = [];
+         else if (dataArray.length === subClones.length)
+            subClones.each(injectSubClone);
+         else
+            rebuildSubClones();
          }
       function process() {
          var elem = $(this);
@@ -724,8 +734,12 @@ dna.core = {
          if (dnaRules.callback)
             dna.util.apply(dnaRules.callback, elem);
          }
-      clone.find('.dna-sub-clone').remove();
-      clone.find('.dna-nucleotide').addBack('.dna-nucleotide').each(process);
+      function dig(elems) {
+         elems.filter('.dna-nucleotide').each(process);
+         if (elems.length)
+            dig(elems.children().not('.dna-sub-clone'));
+         }
+      dig(clone);
       clone.data().dnaModel = data;
       return clone;
       },
