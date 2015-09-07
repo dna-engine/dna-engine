@@ -693,7 +693,7 @@ dna.core = {
          }
       function processLoop(elem, loop) {
          var dataArray = dna.util.value(data, loop.field);
-         var subClones = elem.children('.' + dna.compile.subTemplateName(elem, loop.field));
+         var subClones = elem.children('.' + loop.name);
          function injectSubClone(index) {
             dna.core.inject($(this), dataArray[index], index, settings);
             }
