@@ -84,9 +84,6 @@ var dna = {
       function refresh() { dna.refresh($(this)); }
       return dna.getClones(name).each(refresh);
       },
-   mutate: function(clone, data, options) {  //DEPRECATED
-      return dna.refresh(clone, $.extend({ data: data }, options));
-      },
    destroy: function(clone, options) {
       var settings = $.extend({ fade: false }, options);
       clone = dna.getClone(clone, options);
