@@ -365,6 +365,7 @@ dna.compile = {
    // rule         <p data-truthy=~~on~~>            class=dna-nucleotide + truthy='on'
    // attr rule    <p data-attr-src=~~url~~>         class=dna-nucleotide + attrs=['src', ['', 'url', '']]
    // prop rule    <input data-prop-checked=~~on~~>  class=dna-nucleotide + props=['checked', 'on']
+   // select rule  <select data-option=~~day~~>      class=dna-nucleotide + option='day'
    // transform    <p data-transform=app.enhance>    class=dna-nucleotide + transform='app.enhance'
    // callback     <p data-callback=app.configure>   class=dna-nucleotide + callback='app.configure'
    //
@@ -373,6 +374,7 @@ dna.compile = {
    // data-class=~~field,name-true,name-false~~  class=['field','name-true','name-false']
    // data-attr-{NAME}=pre~~field~~post          attrs=['{NAME}', ['pre', 'field', 'post']]
    // data-prop-{NAME}=pre~~field~~post          props=['{NAME}', 'field']
+   // data-option=~~field~~                      option='field'
    // data-require=~~field~~                     require='field'
    // data-missing=~~field~~                     missing='field'
    // data-truthy=~~field~~                      truthy='field'
@@ -499,6 +501,7 @@ dna.compile = {
       dna.compile.rules(elems, 'missing');
       dna.compile.rules(elems, 'truthy');
       dna.compile.rules(elems, 'falsey');
+      dna.compile.rules(elems.filter('select'), 'option').addClass('dna-update-model');
       elems.each(dna.compile.propsAndAttrs);
       dna.compile.separators(elem);
       return dna.store.stash(elem);
@@ -580,7 +583,9 @@ dna.events = {
          }
       function handle(event) {
          var target = $(event.target);
-         function updateField(elem, calc) { dna.getModel(elem)[elem.data().dnaField] = calc(elem); }
+         function updateField(elem, calc) {
+            dna.getModel(elem)[elem.data().dnaRules.option || elem.data().dnaField] = calc(elem);
+            }
          function getValue(elem) { return elem.val(); }
          function isChecked(elem) { return elem.is(':checked'); }
          function updateOption() { updateField($(this), isChecked); }
@@ -594,7 +599,7 @@ dna.events = {
                updateField(target, isChecked);
             else if (target.is('input:radio'))
                $('input:radio[name=' + target.attr('name') + ']').each(updateOption);
-            else if (target.is('input'))
+            else if (target.is('input') || target.data().dnaRules.option)
                updateField(target, getValue);
             else if (target.is('select'))
                target.find('option').each(updateOption);
@@ -717,6 +722,8 @@ dna.core = {
             injectProps(elem, dnaRules.props);
          if (dnaRules.attrs)
             injectAttrs(elem, dnaRules.attrs);
+         if (dnaRules.option)
+            elem.val(dna.util.value(data, dnaRules.option));
          if (dnaRules.class)
             injectClass(elem, dnaRules.class);
          if (dnaRules.require)

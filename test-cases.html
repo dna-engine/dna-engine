@@ -965,6 +965,14 @@ $(test15.run);
                <option data-array=~~purposes~~ value=~~code~~
                   data-prop-selected=~~set~~>~~name~~</option>
             </select>
+            <div>
+               <select data-option=~~category~~>
+                  <option value=art>Art</option>
+                  <option value=computers>Computers</option>
+                  <option value=nature>Nature</option>
+               </select>
+               <code>~~category~~</code>
+            </div>
             Tags:
             <p>
                <span data-array=~~tags~~ class=in-a-row>
@@ -1029,6 +1037,14 @@ $(test15.run);
                <option value=fun selected>Personal</option>
                <option value=edu>School</option>
             </select>
+            <div>
+               <select>
+                  <option value=art>Art</option>
+                  <option value=computers selected>Computers</option>
+                  <option value=nature>Nature</option>
+               </select>
+               <code>computers</code>
+            </div>
             Tags:
             <p>
                <span class=in-a-row>
@@ -1085,6 +1101,7 @@ var test16 = {
          options:  options,
          cover:    cover,
          purposes: purposes,
+         category: 'computers',
          tags:     [{ code: 'tech' }, { code: 'color' }],
          secret:   'Signed!',
          note:     'Award winning'
@@ -1096,7 +1113,7 @@ var test16 = {
          clone.find('input[value=gift]').click();  //also select "Gift" option
       if (clone.find('input[name=cover]:checked').val() === 'soft')  //expect "Paperback" selected
          clone.find('input[value=hard]').prop('checked', true).click();  //change to "Hardcover"
-      var purposeElem = clone.find('select');
+      var purposeElem = clone.find('select').first();
       if (purposeElem.val() === 'edu')  //expect "School" selected
          purposeElem.val('fun').change();  //change to "Personal"
       purposeElem.toggleClass('border-change', book.purposes[1].set === true);
