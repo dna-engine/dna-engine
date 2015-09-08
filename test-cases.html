@@ -968,8 +968,15 @@ $(test15.run);
             Tags:
             <p>
                <span data-array=~~tags~~ class=in-a-row>
-                  <input value=~~code~~ size=10>
+                  <input value=~~code~~ size=10 type=email>
                   <code>~~code~~</code>
+               </span>
+            </p>
+            Secret:
+            <p>
+               <span class=in-a-row>
+                  <input value=~~secret~~ size=10 type=password>
+                  <code>~~secret~~</code>
                </span>
             </p>
             Note:
@@ -1025,12 +1032,19 @@ $(test15.run);
             Tags:
             <p>
                <span class=in-a-row>
-                  <input value=tech size=10>
+                  <input value=tech size=10 type=email>
                   <code>tech</code>
                </span>
                <span class=in-a-row>
-                  <input value=color size=10>
+                  <input value=color size=10 type=email>
                   <code>color</code>
+               </span>
+            </p>
+            Secret:
+            <p>
+               <span class=in-a-row>
+                  <input value="Signed!" size=10 type=password>
+                  <code>Signed!</code>
                </span>
             </p>
             Note:
@@ -1072,6 +1086,7 @@ var test16 = {
          cover:    cover,
          purposes: purposes,
          tags:     [{ code: 'tech' }, { code: 'color' }],
+         secret:   'Signed!',
          note:     'Award winning'
          };
       var clone = dna.clone('t16-book', book);

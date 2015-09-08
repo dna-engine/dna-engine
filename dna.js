@@ -426,7 +426,8 @@ dna.compile = {
             parts[1] = true;
          attrs.push(key.replace(/^data-attr-/, ''), parts);
          names.push(key);
-         if (key === 'value' && elem.is('input:text') && parts[0] === '' && parts[2] === '')
+         var textInput = 'input:not(:checkbox, :radio)';
+         if (key === 'value' && elem.is(textInput) && parts[0] === '' && parts[2] === '')
             elem.addClass('dna-update-model').data().dnaField = parts[1];
          }
       function compile() {
@@ -589,12 +590,12 @@ dna.events = {
                //console.log('Error -- event not on clone:', event.timeStamp, event.type, target);
                return;
                }
-            if (target.is('input:text'))  //TODO: what about input:email, input:password, etc.
-               updateField(target, getValue);
-            else if (target.is('input:checkbox'))
+            if (target.is('input:checkbox'))
                updateField(target, isChecked);
             else if (target.is('input:radio'))
                $('input:radio[name=' + target.attr('name') + ']').each(updateOption);
+            else if (target.is('input'))
+               updateField(target, getValue);
             else if (target.is('select'))
                target.find('option').each(updateOption);
             dna.refresh(mainClone);
