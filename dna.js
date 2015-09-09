@@ -681,6 +681,10 @@ dna.core = {
                elem.val(value);
             }
          }
+      function injectDropDown(elem, value) {
+         if (value !== null)
+            elem.val(value);
+         }
       function injectClass(elem, classList) {
          // classList = ['field', 'class-true', 'class-false']
          var value = dna.util.value(data, classList[0]);
@@ -723,7 +727,7 @@ dna.core = {
          if (dnaRules.attrs)
             injectAttrs(elem, dnaRules.attrs);
          if (dnaRules.option)
-            elem.val(dna.util.value(data, dnaRules.option));
+            injectDropDown(elem, dna.util.value(data, dnaRules.option))
          if (dnaRules.class)
             injectClass(elem, dnaRules.class);
          if (dnaRules.require)
