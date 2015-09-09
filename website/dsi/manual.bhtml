@@ -26,6 +26,7 @@
             <li><a href="#html-field">DNA Field</a></li>
             <li><a href="#html-attr">DNA Attribute</a></li>
             <li><a href="#html-prop">DNA Property</a></li>
+            <li><a href="#html-option">DNA Select Option</a></li>
             <li><a href="#html-class">DNA Class</a></li>
             <li><a href="#html-example">Ensemble</a></li>
          </ol>
@@ -89,7 +90,7 @@
          </ol>
       </li>
       <li><a href="#utils">Utilities</a></li>
-      <li><a href="#reserved">Index of DNA Classes and Data Attributes</a></li>
+      <li><a href="#reserved">Index of Classes and Attributes</a></li>
    </ol>
 </div>
 
@@ -179,7 +180,8 @@
 <section id=setup-bower>
    <h4>Install with Bower</h4>
    <p>
-      Bower can also download the assets to your project's <code>bower_components</code> folder.
+      <a href="http://bower.io/search/?q=dna.js" class=external-site>Bower</a>
+      can also download the assets to your project's <code>bower_components</code> folder.
    </p>
    <figure>
       <figcaption>Bower</figcaption>
@@ -310,6 +312,32 @@
    <p>
       Valid data attributes for setting a property are <code>data-prop-checked</code>,
       <code>data-prop-selected</code>, and <code>data-prop-deleted</code>.
+   </p>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=html-option>
+   <h4>DNA Select Option</h4>
+   <p>
+      The <code>option</code> of <code>select</code> drop-downs is set based on the value
+      of the specified data field matching the <code>value</code> attribute of the
+      <code>option</code> element.
+   </p>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;select data-option=~~category~~&gt;
+            &lt;option selected disabled&gt;Select category&lt;/option&gt;
+            &lt;option value=art&gt;Arts and humanities&lt;/option&gt;
+            &lt;option value=sci&gt;Science&lt;/option&gt;
+            &lt;option value=med&gt;Medical&lt;/option&gt;
+         &lt;/select&gt;
+      </code></pre>
+   </figure>
+   <p>
+      The <a href="#event-user"><code>data-change</code></a> attribute can be used in combination
+      with the <code>data-option</code> attribute to fire a callback that gets the current data
+      model whenever the user selects a new drop-down option.
    </p>
 </section>
 
@@ -959,7 +987,10 @@
    <figure>
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
-         var books = [{ title: 'The DOM' }, { title: 'Interwebz' }];
+         var books = [
+            { title: 'The DOM' },
+            { title: 'Interwebz' }
+            ];
          dna.clone('book', books);
       </code></pre>
    </figure>
@@ -1329,8 +1360,8 @@
             <td><code>&lt;input type=radio name=cover data-prop-checked=~~set~~&gt;</code></td>
          </tr>
          <tr>
-            <td><a href="#html-prop">drop-down</a></td>
-            <td><code>&lt;option data-prop-selected=~~set~~&gt;</code></td>
+            <td><a href="#html-option">drop-down</a></td>
+            <td><code>&lt;select data-option=~~category~~&gt;</code></td>
          </tr>
       </tbody>
    </table>
@@ -2357,7 +2388,7 @@
 </section>
 
 <!--*********************************************************************************************-->
-<h3 id=reserved>Index of DNA Classes and Data Attributes</h3>
+<h3 id=reserved>Index of Classes and Attributes</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=reserved-classes>
@@ -2389,6 +2420,7 @@
       <li><a href="#event-user">            <code>data-key-up</code></a>:        Callback to run on key up event</li>
       <li><a href="#structure-thimblerig">  <code>data-missing</code></a>:       Show element only if field us not defined</li>
       <li><a href="#event-on-load">         <code>data-on-load</code></a>:       Pass element into function after HTML is loaded</li>
+      <li><a href="#html-option">           <code>data-option</code></a>:        Set option in a select drop-down</li>
       <li><a href="#html-prop">             <code>data-prop-checked</code></a>:  Enable or disable "checked" property</li>
       <li><a href="#html-prop">             <code>data-prop-disabled</code></a>: Enable or disable "disabled" property</li>
       <li><a href="#html-prop">             <code>data-prop-selected</code></a>: Enable or disable "selected" property</li>
