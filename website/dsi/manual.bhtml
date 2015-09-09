@@ -58,11 +58,12 @@
             <li><a href="#loop-separators">Separators</a></li>
          </ol>
       </li>
-      <li><a href="#event">Events and Callbacks</a>
+      <li><a href="#event">Events, Callbacks, and Forms</a>
          <ol>
             <li><a href="#event-transform">Data Model Transformer</a></li>
             <li><a href="#event-element-callback">Element Callback</a></li>
             <li><a href="#event-user">Click, Change, and Key Events</a></li>
+            <li><a href="#event-smart">Smart Update</a></li>
             <li><a href="#event-jump">Jump to page (URL)</a></li>
             <li><a href="#event-update-model">Data Model Updating on Field Updates</a></li>
             <li><a href="#event-initializer">Initializers</a></li>
@@ -1164,7 +1165,7 @@
 </section>
 
 <!--*********************************************************************************************-->
-<h3 id=event>Events and Callbacks</h3>
+<h3 id=event>Events, Callbacks, and Forms</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=event-transform>
@@ -1310,6 +1311,60 @@
       </div>
    </figure>
    <!-- End: Result  -->
+   <p>
+      <b>Note:</b>
+      For text <code>input</code>, <a href="#event-smart">data-smart-update</a>
+   </p>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=event-smart>
+   <h4>Smart Update</h4>
+   <p>
+      Smart update callbacks are run only when a user changes the actual value of a text
+      <code>input</code>, and the calls are throttled to be at least two seconds apart.
+   </p>
+   <p>
+      The <code>data-smart-update</code> attribute sets the callback, and the
+      <code>data-smart-throttle</code> attribute sets the throttle rate in milliseconds to
+      override the 2000 millisecond default.
+   </p>
+   <figure>
+      <figcaption>Example</figcaption>
+      <pre><code class=language-html>
+         &lt;input data-smart-update=logNow placeholder="Type here"&gt;
+         &lt;div id=log-message class=dna-template&gt;
+            &lt;code&gt;~~message~~&lt;/code&gt;
+         &lt;/div&gt;
+         &lt;script&gt;
+            function logNow(elem) {
+               var message = Date.now() + ': ' + elem.val();
+               dna.clone('log-message', { message: message });
+               }
+         &lt;/script&gt;
+      </code></pre>
+   </figure>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <figure class=hljs-enhance>
+      <figcaption>Result (interactive)</figcaption>
+      <div>
+         <input data-smart-update=logNow placeholder="Type here">
+         <div id=log-message class=dna-template>
+            <code>~~message~~</code>
+         </div>
+         <script>
+            function logNow(elem) {
+               var message = Date.now() + ': ' + elem.val();
+               dna.clone('log-message', { message: message });
+               }
+         </script>
+      </div>
+   </figure>
+   <!-- End: Result  -->
+   <p>
+      jsFiddle: <a href="http://jsfiddle.net/mnuL4r0e/" class=external-site><i>Smart update</i></a>
+   </p>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -2406,27 +2461,29 @@
 <section id=reserved-attributes>
    <h4>DNA Data Attributes</h4>
    <ol>
-      <li><a href="#loop-sub-templates">    <code>data-array</code></a>:         Mark an element as a sub-template array loop</li>
-      <li><a href="#html-attr">             <code>data-attr-{NAME}</code></a>:   Set value of an element attribute</li>
-      <li><a href="#event-element-callback"><code>data-callback</code></a>:      Pass element into function when clone is created</li>
-      <li><a href="#event-user">            <code>data-change</code></a>:        Callback to run on change event</li>
-      <li><a href="#html-class">            <code>data-class</code></a>:         Add a class to the element</li>
-      <li><a href="#event-user">            <code>data-click</code></a>:         Callback to run on click event</li>
-      <li><a href="#event-user">            <code>data-enter-key</code></a>:     Callback to run on enter key event</li>
-      <li><a href="#structure-thimblerig">  <code>data-falsey</code></a>:        Show element only if field evaluates to false</li>
-      <li><a href="#event-jump">            <code>data-href</code></a>:          Jumps to the URL (like the &lt;a&gt; link)</li>
-      <li><a href="#event-user">            <code>data-key-down</code></a>:      Callback to run on key down event</li>
-      <li><a href="#event-user">            <code>data-key-press</code></a>:     Callback to run on key press event</li>
-      <li><a href="#event-user">            <code>data-key-up</code></a>:        Callback to run on key up event</li>
-      <li><a href="#structure-thimblerig">  <code>data-missing</code></a>:       Show element only if field us not defined</li>
-      <li><a href="#event-on-load">         <code>data-on-load</code></a>:       Pass element into function after HTML is loaded</li>
-      <li><a href="#html-option">           <code>data-option</code></a>:        Set option in a select drop-down</li>
-      <li><a href="#html-prop">             <code>data-prop-checked</code></a>:  Enable or disable "checked" property</li>
-      <li><a href="#html-prop">             <code>data-prop-disabled</code></a>: Enable or disable "disabled" property</li>
-      <li><a href="#html-prop">             <code>data-prop-selected</code></a>: Enable or disable "selected" property</li>
-      <li><a href="#structure-thimblerig">  <code>data-require</code></a>:       Show element only if field exists</li>
-      <li><a href="#event-transform">       <code>data-tranform</code></a>:      Callback to enhance data immediately before cloning</li>
-      <li><a href="#structure-thimblerig">  <code>data-truthy</code></a>:        Show element only if field evaluates to true</li>
+      <li><a href="#loop-sub-templates">    <code>data-array</code></a>:          Mark an element as a sub-template array loop</li>
+      <li><a href="#html-attr">             <code>data-attr-{NAME}</code></a>:    Set value of an element attribute</li>
+      <li><a href="#event-element-callback"><code>data-callback</code></a>:       Pass element into function when clone is created</li>
+      <li><a href="#event-user">            <code>data-change</code></a>:         Callback to run on change event</li>
+      <li><a href="#html-class">            <code>data-class</code></a>:          Add a class to the element</li>
+      <li><a href="#event-user">            <code>data-click</code></a>:          Callback to run on click event</li>
+      <li><a href="#event-user">            <code>data-enter-key</code></a>:      Callback to run on enter key event</li>
+      <li><a href="#structure-thimblerig">  <code>data-falsey</code></a>:         Show element only if field evaluates to false</li>
+      <li><a href="#event-jump">            <code>data-href</code></a>:           Jumps to the URL (like the &lt;a&gt; link)</li>
+      <li><a href="#event-user">            <code>data-key-down</code></a>:       Callback to run on key down event</li>
+      <li><a href="#event-user">            <code>data-key-press</code></a>:      Callback to run on key press event</li>
+      <li><a href="#event-user">            <code>data-key-up</code></a>:         Callback to run on key up event</li>
+      <li><a href="#structure-thimblerig">  <code>data-missing</code></a>:        Show element only if field us not defined</li>
+      <li><a href="#event-on-load">         <code>data-on-load</code></a>:        Pass element into function after HTML is loaded</li>
+      <li><a href="#html-option">           <code>data-option</code></a>:         Set option in a select drop-down</li>
+      <li><a href="#html-prop">             <code>data-prop-checked</code></a>:   Enable or disable "checked" property</li>
+      <li><a href="#html-prop">             <code>data-prop-disabled</code></a>:  Enable or disable "disabled" property</li>
+      <li><a href="#html-prop">             <code>data-prop-selected</code></a>:  Enable or disable "selected" property</li>
+      <li><a href="#structure-thimblerig">  <code>data-require</code></a>:        Show element only if field exists</li>
+      <li><a href="#event-smart">           <code>data-smart-throttle</code></a>: Delay (milliseconds) between smart update callbacks</li>
+      <li><a href="#event-smart">           <code>data-smart-update</code></a>:   Throttled callback to run on change of an input value</li>
+      <li><a href="#event-transform">       <code>data-tranform</code></a>:       Callback to enhance data immediately before cloning</li>
+      <li><a href="#structure-thimblerig">  <code>data-truthy</code></a>:         Show element only if field evaluates to true</li>
    </ol>
 </section>
 
