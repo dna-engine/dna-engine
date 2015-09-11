@@ -74,6 +74,7 @@
       <li><a href="#structure">Structures and Conditional Logic</a>
          <ol>
             <li><a href="#structure-nested-object">Object Dot Notation (nested objects)</a></li>
+            <li><a href="#structure-placeholder">Template Placeholder</a></li>
             <li><a href="#structure-thimblerig">Thimblerig (conditional hide and seek logic)</a></li>
             <li><a href="#structure-nested-template">Nested Templates</a></li>
          </ol>
@@ -1677,6 +1678,29 @@
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=structure-placeholder>
+   <h4>Template Placeholder</h4>
+   <p>
+      A template placeholder is only shown when its corresponding template is empty (has zero
+      clones).&nbsp;  The <code>data-placeholder</code> attribute specifies the name of the
+      template.
+   </p>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=books&gt;
+            &lt;p id=book class=dna-template&gt;~~title~~&lt;/p&gt;
+         &lt;/div&gt;
+         &lt;div data-placeholder=book&gt;No books&lt;/div&gt;
+      </code></pre>
+   </figure>
+   <p>
+      The "No books" message is displayed until at least one book is cloned, and the message will
+      be re-displayed if all the book clones are <a href="#api-empty">removed</a>.
+   </p>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=structure-thimblerig>
    <h4>Thimblerig (conditional hide and seek logic)</h4>
    <p>
@@ -2476,6 +2500,7 @@
       <li><a href="#structure-thimblerig">  <code>data-missing</code></a>:        Show element only if field us not defined</li>
       <li><a href="#event-on-load">         <code>data-on-load</code></a>:        Pass element into function after HTML is loaded</li>
       <li><a href="#html-option">           <code>data-option</code></a>:         Set option in a select drop-down</li>
+      <li><a href="#html-placeholder">      <code>data-placeholder</code></a>:    Show element only if named template is empty</li>
       <li><a href="#html-prop">             <code>data-prop-checked</code></a>:   Enable or disable "checked" property</li>
       <li><a href="#html-prop">             <code>data-prop-disabled</code></a>:  Enable or disable "disabled" property</li>
       <li><a href="#html-prop">             <code>data-prop-selected</code></a>:  Enable or disable "selected" property</li>
