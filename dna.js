@@ -583,9 +583,8 @@ dna.events = {
          }
       function handle(event) {
          var target = $(event.target);
-         function updateField(elem, calc) {
-            dna.getModel(elem)[elem.data().dnaRules.option || elem.data().dnaField] = calc(elem);
-            }
+         function field(data) { return (data.dnaRules && data.dnaRules.option) || data.dnaField; }
+         function updateField(elem, calc) { dna.getModel(elem)[field(elem.data())] = calc(elem); }
          function getValue(elem) { return elem.val(); }
          function isChecked(elem) { return elem.is(':checked'); }
          function updateOption() { updateField($(this), isChecked); }
@@ -727,7 +726,7 @@ dna.core = {
          if (dnaRules.attrs)
             injectAttrs(elem, dnaRules.attrs);
          if (dnaRules.option)
-            injectDropDown(elem, dna.util.value(data, dnaRules.option))
+            injectDropDown(elem, dna.util.value(data, dnaRules.option));
          if (dnaRules.class)
             injectClass(elem, dnaRules.class);
          if (dnaRules.require)
