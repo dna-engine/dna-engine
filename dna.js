@@ -725,8 +725,6 @@ dna.core = {
             injectProps(elem, dnaRules.props);
          if (dnaRules.attrs)
             injectAttrs(elem, dnaRules.attrs);
-         if (dnaRules.option)
-            injectDropDown(elem, dna.util.value(data, dnaRules.option));
          if (dnaRules.class)
             injectClass(elem, dnaRules.class);
          if (dnaRules.require)
@@ -739,6 +737,8 @@ dna.core = {
             elem.toggle(!dna.util.realTruth(dna.util.value(data, dnaRules.falsey)));
          if (dnaRules.loop)
             processLoop(elem, dnaRules.loop);
+         if (dnaRules.option)
+            injectDropDown(elem, dna.util.value(data, dnaRules.option));
          if (dnaRules.callback)
             dna.util.apply(dnaRules.callback, elem);
          }
