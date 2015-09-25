@@ -106,3 +106,6 @@ echo "   https://github.com/dnajs/dna.js/wiki/Release-Notes"
 echo
 open test-cases.html
 echo "=================="
+echo "To test in Chrome, quit browser and run:"
+echo "open '/Applications/Google Chrome.app' --args --allow-file-access-from-files $(pwd)/test-cases.html"
+echo
