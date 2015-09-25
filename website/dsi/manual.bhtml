@@ -152,6 +152,11 @@
 
 <!--*********************************************************************************************-->
 <h3 id=setup>Setup JS and CSS Assets</h3>
+         <ol>
+            <li><a href="#setup-cdn">CDN</a></li>
+            <li><a href="#setup-bower">Install with Bower</a></li>
+            <li><a href="#setup-rails">Rails Assets</a></li>
+         </ol>
 <p>
    Get started by including the JavaScript and CSS files into your project.
 </p>
@@ -1847,22 +1852,24 @@
       <figcaption>Bookshelf Component</figcaption>
       <pre><code class=language-html>
          &lt;div class=bookshelf data-on-load=bookshelf.setup&gt;
-            &lt;h2&gt;Bookshelf&lt;/h2&gt;
-            &lt;div id=bookshelf-book class=dna-template&gt;
-               &lt;div&gt;Title: &lt;span&gt;~~title~~&lt;/span&gt;&lt;/div&gt;
-               &lt;div&gt;Author: &lt;span&gt;~~author~~&lt;/span&gt;&lt;/div&gt;
-            &lt;/div&gt;
-            &lt;style&gt;
-               .bookshelf {
-                  background-color: gainsboro;
-                  padding: 15px;
+            &lt;style scoped&gt;
+               .bookshelf .my-book {
+                  display: inline-block;
+                  background-color: plum;
+                  padding: 5px 15px;
+                  margin: 5px;
                   }
             &lt;/style&gt;
+            &lt;h2&gt;Bookshelf&lt;/h2&gt;
+            &lt;div id=my-book class=dna-template&gt;
+               &lt;div&gt;Title: &lt;b&gt;~~title~~&lt;/b&gt;&lt;/div&gt;
+               &lt;div&gt;Author: &lt;b&gt;~~author~~&lt;/b&gt;&lt;/div&gt;
+            &lt;/div&gt;
             &lt;script&gt;
                var bookshelf = {
                   booksUrl: 'http://dnajs.org/rest/book/list/',
                   setup: function(elem) {
-                     function handle(data) { dna.clone('bookshelf-book', data); }
+                     function handle(data) { dna.clone('my-book', data); }
                      $.getJSON(bookshelf.booksUrl, handle);
                      }
                   };
@@ -1877,22 +1884,24 @@
       <div>
          <!--  Component: start -->
          <div class=bookshelf data-on-load=bookshelf.setup>
-            <h2>Bookshelf</h2>
-            <div id=bookshelf-book class=dna-template>
-               <div>Title: <span>~~title~~</span></div>
-               <div>Author: <span>~~author~~</span></div>
-            </div>
             <style scoped>
-               .bookshelf {
-                  background-color: gainsboro;
-                  padding: 15px;
+               .bookshelf .my-book {
+                  display: inline-block;
+                  background-color: plum;
+                  padding: 5px 15px;
+                  margin: 5px;
                   }
             </style>
+            <h2>Bookshelf</h2>
+            <div id=my-book class=dna-template>
+               <div>Title: <b>~~title~~</b></div>
+               <div>Author: <b>~~author~~</b></div>
+            </div>
             <script>
                var bookshelf = {
                   booksUrl: 'http://dnajs.org/rest/book/list/',
                   setup: function(elem) {
-                     function handle(data) { dna.clone('bookshelf-book', data); }
+                     function handle(data) { dna.clone('my-book', data); }
                      $.getJSON(bookshelf.booksUrl, handle);
                      }
                   };
