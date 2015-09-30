@@ -16,7 +16,7 @@
    p               { margin: 0px 0px 3px 0px; }
    button          { cursor: pointer; }
    label           { display: block; }
-   #mode           { display: inline-block; width: 75px; }
+   #file-name      { display: inline-block; width: 75px; }
    .push-right     { float: right; }
    .in-a-row       { display: inline-block; }
    .test-case      { display: inline-block; vertical-align: top; border: 1px solid silver;
@@ -33,32 +33,6 @@
    .border-change  { border: 2px solid darkorange; }
    .border-change2 { border: 2px solid darkslateblue; }
 </style>
-<script src="https://cdn.jsdelivr.net/jquery/2/jquery.min.js"></script>
-<script>
-var testing = {
-   catalog: [
-      { title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en' },
-      { title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr' },
-      { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 }
-      ],
-   summary: function() {
-      var mode = $('head script[src^=dna]').attr('src');
-      $('#mode').text(mode);
-      if (mode == 'dna.js')
-         $('#switch').attr('href', '?min');
-      console.log('');
-      dna.info();
-      console.log('');
-      },
-   setup: function() {
-      var dna =    '<script src=dna.js>';
-      var dnaMin = '<script src=dna.min.js>';
-      $('head').append($(location.search == '?min' ? dnaMin : dna ));
-      console.log('~~ dna.js Test Cases ~~');
-      }
-   };
-testing.setup();
-</script>
 </head>
 <body>
 <div class=push-right>
@@ -66,7 +40,7 @@ testing.setup();
 </div>
 <h1>dna.js Template Cloner</h1>
 <h2>Test Cases</h2>
-<p><span id=mode></span> &mdash; <a id=switch href="test-cases.html">switch</a></p>
+<p><span id=file-name></span> &mdash; <a id=switch href="test-cases.html">switch</a></p>
 <br>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -109,7 +83,6 @@ var test01 = {
       dna.destroy(clone);
       }
    };
-$(test01.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -155,7 +128,6 @@ var test02 = {
       dna.refresh(titleElem, { data: book3 });
       }
    };
-$(test02.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -206,7 +178,6 @@ var test03 = {
       dna.clone('t03-book', book3, options);
       }
    };
-$(test03.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -246,7 +217,6 @@ var test04 = {
       dna.clone('t04-book', book);
       }
    };
-$(test04.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -304,7 +274,6 @@ var test05 = {
       dna.clone('t05-book', [book1, book2]).addClass('color-change');
       }
    };
-$(test05.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -346,7 +315,6 @@ var test06 = {
       $('#123').find('[lang=fr]').addClass('color-change2');
       }
    };
-$(test06.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -408,7 +376,6 @@ var test07 = {
       dna.clone('t07-book', book3);
       }
    };
-$(test07.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -510,7 +477,6 @@ var test08 = {
       clone2.addClass(modelOk ? 'border-change' : 'color-change');
       }
    };
-$(test08.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -557,7 +523,6 @@ var test09 = {
       dna.load('t09-book', 'http://dnajs.org/rest/book/7');  //test call to missing resource
       }
    };
-$(test09.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -595,7 +560,6 @@ var test10 = {
       dna.clone('t10-book', book, options);
       }
    };
-$(test10.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -651,7 +615,6 @@ var test11 = {
       dna.clone('t11-book', book2);
       }
    };
-$(test11.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -759,7 +722,6 @@ var test12 = {
       $('.t12-book').find('[data-author=Jake]').addClass('color-change2');
       }
    };
-$(test12.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -799,7 +761,6 @@ var test13 = {
          { html: true });
       }
    };
-$(test13.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -840,7 +801,6 @@ var test14 = {
       dna.clone('t14-book', books);
       }
    };
-$(test14.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -849,7 +809,6 @@ $(test14.run);
    <p>Events</p>
    <fieldset>
       <legend>Actual</legend>
-      <p data-on-load=dna.ui.deleteElem>DELETE ME!</p>
       <section class=surrounded></section>
       <hr>
       <div class=book-list>
@@ -933,7 +892,6 @@ var test15 = {
       dna.clearInitializers();
       }
    };
-$(test15.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -976,7 +934,7 @@ $(test15.run);
             Tags:
             <p>
                <span data-array=~~tags~~ class=in-a-row>
-                  <input value=~~code~~ size=10 type=email>
+                  <input value=~~code~~ size=10>
                   <code>~~code~~</code>
                </span>
             </p>
@@ -1048,11 +1006,11 @@ $(test15.run);
             Tags:
             <p>
                <span class=in-a-row>
-                  <input value=tech size=10 type=email>
+                  <input value=tech size=10>
                   <code>tech</code>
                </span>
                <span class=in-a-row>
-                  <input value=color size=10 type=email>
+                  <input value=color size=10>
                   <code>color</code>
                </span>
             </p>
@@ -1119,7 +1077,6 @@ var test16 = {
       purposeElem.toggleClass('border-change', book.purposes[1].set === true);
       }
    };
-$(test16.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1132,17 +1089,17 @@ $(test16.run);
       <legend>Actual</legend>
       <!--  Component: start -->
       <div class=bookshelf data-on-load=bookshelf.setup>
-         <h2>Bookshelf</h2>
-         <div id=t17-book class=dna-template>
-            <div>Title: <span>~~title~~</span></div>
-            <div>Author: <span>~~author~~</span></div>
-         </div>
          <style scoped>
             .bookshelf {
                background-color: gainsboro;
                padding: 15px;
                }
          </style>
+         <h2>Bookshelf</h2>
+         <div id=t17-book class=dna-template>
+            <div>Title: <span>~~title~~</span></div>
+            <div>Author: <span>~~author~~</span></div>
+         </div>
          <script>
             var bookshelf = {
                booksUrl: 'http://dnajs.org/rest/book/list',
@@ -1182,7 +1139,6 @@ var test17 = {
       // Nothing to do as component knows how to initialize itself.
       }
    };
-$(test17.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1298,10 +1254,44 @@ var test18 = {
       window.setTimeout(postRenderClick, 1000);
       }
    };
-$(test18.run);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<script>$(testing.summary);</script>
+
+<script src="https://cdn.jsdelivr.net/jquery/2/jquery.min.js"></script>
+<script>
+var testing = {
+   minified: null,
+   fileName: null,
+   catalog: [
+      { title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en' },
+      { title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr' },
+      { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 }
+      ],
+   summary: function() {
+      $('#file-name').text(testing.fileName);
+      if (!testing.minified)
+         $('#switch').attr('href', '?minified');
+      console.log('');
+      dna.info();
+      console.log('');
+      },
+   setup: function() {
+      testing.minified = location.search === '?minified';
+      testing.fileName = testing.minified ? 'dna.min.js' : 'dna.js';
+      $.holdReady(true);
+      function runTests() {
+         $.holdReady(false);
+         var numTests = $('script').length - 2;
+         console.log('~~ dna.js Test Cases ~~');
+         for (var t = 1; t < numTests; t++)
+            window['test' + ('0' + t).slice(-2)].run();
+         testing.summary();
+         }
+      $.getScript(testing.fileName, runTests);
+      }
+   };
+testing.setup();
+</script>
 </body>
 </html>
