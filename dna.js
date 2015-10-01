@@ -504,6 +504,7 @@ dna.compile = {
       dna.compile.rules(elems.filter('select'), 'option').addClass('dna-update-model');
       elems.each(dna.compile.propsAndAttrs);
       dna.compile.separators(elem);
+      elem.find('input[data-type=date]').attr('type', 'date');
       return dna.store.stash(elem);
       }
    };
