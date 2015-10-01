@@ -945,6 +945,8 @@ var test15 = {
                   <code>~~secret~~</code>
                </span>
             </p>
+            Published:
+            <p><input type=date value=~~pubDate~~></p>
             Note:
             <p>
                <input data-smart-update=test16.submit data-smart-throttle=5000 value=~~note~~><br>
@@ -1021,6 +1023,8 @@ var test15 = {
                   <code>Signed!</code>
                </span>
             </p>
+            Published:
+            <p><input type=date value=2014-06-22></p>
             Note:
             <p>
                <input value="Award winning"><br>
@@ -1062,6 +1066,7 @@ var test16 = {
          category: 'computers',
          tags:     [{ code: 'tech' }, { code: 'color' }],
          secret:   'Signed!',
+         pubDate:  '2014-06-22',
          note:     'Award winning'
          };
       var clone = dna.clone('t16-book', book);
