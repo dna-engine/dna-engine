@@ -1,11 +1,6 @@
 <?php
 // dna.js
-
-// Resources
-include('../book-data.php');
-
-// Response
-header("Access-Control-Allow-Origin: *");
-header("Content-type: application/json");
+include('../includes/book-data.php');
+include('../includes/headers.php');
 echo json_encode($books);
 ?>
