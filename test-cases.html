@@ -949,6 +949,10 @@ var test15 = {
             <p>
                <input data-attr-type=date value=~~pubDate~~>
             </p>
+            Cover Color:
+            <p>
+               <input data-attr-type=color value=~~coverColor~~>
+            </p>
             Note:
             <p>
                <input data-smart-update=test16.submit data-smart-throttle=5000 value=~~note~~><br>
@@ -1029,6 +1033,10 @@ var test15 = {
             <p>
                <input type=date value=2014-06-22>
             </p>
+            Cover Color:
+            <p>
+               <input type=color value=#DAA520>
+            </p>
             Note:
             <p>
                <input value="Award winning"><br>
@@ -1071,6 +1079,7 @@ var test16 = {
          tags:     [{ code: 'tech' }, { code: 'color' }],
          secret:   'Signed!',
          pubDate:  '2014-06-22',
+         coverColor: '#DAA520',
          note:     'Award winning'
          };
       var clone = dna.clone('t16-book', book);
