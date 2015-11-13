@@ -5,7 +5,7 @@ An uncomplicated user interface library
 
 dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications.
 
-Current release: **v0.4.1**
+Current release: **v0.4.2**
 
 ### 1. Bookstore Example
 Designate DNA templates with the `dna-template` class, and put the templates directly into the HTML
