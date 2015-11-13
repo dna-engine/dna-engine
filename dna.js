@@ -638,9 +638,10 @@ dna.events = {
             smartUpdate();
          }
       function setupJumpToUrl() {
-         // Usage:
-         //    <button data-href="/">Home</button>
-         function jump() { window.location = $(this).data().href; }
+         // Usage ("external-site" is optional):
+         //    <button data-href="/" class=external-site>Home</button>
+         function context(elem) { return elem.hasClass('external-site') ? '_blank' : '_self'; }
+         function jump() { window.open($(this).data().href, context($(this))); }
          $(document).on('click', '[data-href]', jump);
          }
       $(document)
