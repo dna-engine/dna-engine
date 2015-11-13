@@ -29,6 +29,7 @@
             <li><a href="#html-option">DNA Select Option</a></li>
             <li><a href="#html-class">DNA Class</a></li>
             <li><a href="#html-example">Ensemble</a></li>
+            <li><a href="#html-attr-data">DNA Attribute (advanced)</a></li>
          </ol>
       </li>
       <li><a href="#api">JavaScript API</a>
@@ -109,17 +110,12 @@
 <dl>
    <dt>DNA Field:</dt>
    <dd>
-      DNA fields identify where in the template data is to be injected
-      during the cloning process (example: <code>~~author~~</code>).
+      DNA fields identify where in the template data is to be injected during the cloning
+      process.&nbsp;  The name of the DNA field is surrounded by a pair of double tildes
+      (example: <code>~~author~~</code>).
    </dd>
-</dl>
-<dl>
-   <dt>DNA Strand:</dt>
    <dd>
-      A pair of double tildes (<code>~~</code>) used to surround a field name (a.k.a.
-      DNA base pair).&nbsp;
-      Mustache notation with curly braces (<code>{{</code> and <code>}}</code>)
-      is also supported.
+      Mustache notation with curly braces (<code>{{</code> and <code>}}</code>) is also supported.
    </dd>
 </dl>
 <dl>
@@ -286,20 +282,8 @@
       </code></pre>
    </figure>
    <p>
-      Attributes can also be set by prefixing <code>data-attr-</code> to the attribute
-      name.
-   </p>
-   <figure>
-      <figcaption>Example HTML</figcaption>
-      <pre><code class=language-html>
-         &lt;img data-attr-src=~~url~~ alt="Profile avatar"&gt;
-      </code></pre>
-   </figure>
-   <p>
-      The prefixing technique enables setting the <code>src</code> attribute for an
-      <code>img</code> node without causing the browser to fetch the image until the
-      <code>src</code> attribute is actually set.&nbsp;  This technique can also be used to set the
-      <code>id</code> when the regular technique would result in duplicate IDs.
+      <b>Note:</b>
+      See <a href="#html-attr-data">DNA Attribute (advanced)</a> for an alternate way to set the value of an attribute.
    </p>
 </section>
 
@@ -452,6 +436,62 @@
          &lt;/div&gt;
       </code></pre>
    </figure>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=html-attr-data>
+   <h4>DNA Attribute (advanced)</h4>
+   <p>
+      In addition to using <a href="#html-attr">regular templating</a> to set attributes, you can
+      prefix <code>data-attr-</code> to the attribute name.
+   </p>
+   <figure>
+      <figcaption>Example HTML for <code>src</code> attribute</figcaption>
+      <pre><code class=language-html>
+         &lt;img data-attr-src=~~url~~ alt="Profile avatar"&gt;
+      </code></pre>
+   </figure>
+   <p>
+      The prefixing technique enables setting the <code>src</code> attribute for an
+      <code>img</code> element without causing the browser to fetch the image until the
+      <code>src</code> attribute is actually set.&nbsp;  This technique can also be used to set the
+      <code>id</code> when the regular technique would result in duplicate IDs.
+   </p>
+   <p>
+      Similarly, <code>data-attr-type</code> can be used a as a warning free way set HTML5 values
+      for the <code>type</code> attribute on <code>input</code> tags.
+   </p>
+   <figure>
+      <figcaption>Example HTML for <code>date</code> and <code>color</code> fields</figcaption>
+      <pre><code class=language-html>
+         Due date:    &lt;input data-attr-type=date  value=~~dueDate~~&gt;&lt;br&gt;
+         Cover color: &lt;input data-attr-type=color value=~~coverColor~~&gt;
+      </code></pre>
+   </figure>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <figure>
+      <figcaption>Resulting HTML</figcaption>
+      <pre><code class=language-html>
+         Due date:    &lt;input type=date  value=2016-12-31&gt;&lt;br&gt;
+         Cover color: &lt;input type=color value=#DAA520&gt;
+      </code></pre>
+   </figure>
+   <!-- End: Result  -->
+   <p>
+      Setting HTML5 type values with the <code>data-attr-type</code> attribute avoids browser
+      warnings such as:
+   </p>
+   <ul class=wrappable>
+      <li>
+         <code>The specified value "~~dueDate~~" does not conform to the required format,
+         "yyyy-MM-dd".</code>
+      </li>
+      <li>
+         <code>The specified value "~~coverColor~~" does not conform to the required format.  The
+         format is "#rrggbb" where rr, gg, bb are two-digit hexadecimal numbers.</code>
+      </li>
+   </ul>
 </section>
 
 <!--*********************************************************************************************-->
@@ -622,8 +662,8 @@
       call returns an <code>error</code> field equal to <code>true</code>.
    </p>
    <p>
-      For <a href="http://dnajs.org/rest/book/7" class=external-site>example</a>:<br>
-      <code class=indent>{ "error": true, "message": "Resource not found" }</code>
+      For <a href="http://dnajs.org/rest/book/7" class=external-site>example</a>:
+      <code class=block-indent>{ "error": true, "message": "Resource not found" }</code>
    </p>
 </section>
 
@@ -1178,7 +1218,7 @@
    <h4>Data Model Transformer</h4>
    <p>
       The FINAL chapter in keeping JavaScript out of HTML is here.&nbsp;
-      Transformers (<code>data-tranform</code>) are the holy grail of semantic templates, enabling
+      Transformers (<code>data-transform</code>) are the holy grail of semantic templates, enabling
       you to cleanly organize your business logic in JavaScript instead creating hideous HTML.
    </p>
    <figure>
@@ -1395,6 +1435,10 @@
       </div>
    </figure>
    <!-- End: Result  -->
+   <p>
+      Add <code>class=external-site</code> to tell the browser to open the link in a new tab (or
+      window).
+   </p>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -2171,7 +2215,7 @@
    <li><b>dna.array.find</b>(array, code)</li>
    <li><b>dna.array.last</b>(array)</li>
    <li><b>dna.array.toMap</b>(array, key)</li>
-   <li><b>dna.browsergetUrlVariables</b>()</li>
+   <li><b>dna.browser.getParams</b>()</li>
    <li>
       <b>dna.pageToken.get</b>(key, value)<br>
       <b>dna.pageToken.put</b>(key, defaultValue)<br>
@@ -2393,7 +2437,7 @@
    <h4>dna.util.realTruth(value)</h4>
    <p class=api-description>
       Return the <a href="#real-truth">"real" truth</a> of a value.&nbsp;  Whereas JavaScript
-      truthy an falsy is more about existence, the "real" truth is for evaluating boolean data as
+      truthy an falsey is more about existence, the "real" truth is for evaluating boolean data as
       it is stored in databases or transmitted in REST calls.
    </p>
    <div class=api-parameters>
@@ -2502,7 +2546,7 @@
       <li><a href="#event-user">            <code>data-click</code></a>:          Callback to run on click event</li>
       <li><a href="#event-user">            <code>data-enter-key</code></a>:      Callback to run on enter key event</li>
       <li><a href="#structure-thimblerig">  <code>data-falsey</code></a>:         Show element only if field evaluates to false</li>
-      <li><a href="#event-jump">            <code>data-href</code></a>:           Jumps to the URL (like the &lt;a&gt; link)</li>
+      <li><a href="#event-jump">            <code>data-href</code></a>:           Jumps to the URL (like an <code>&lt;a&gt;</code> link)</li>
       <li><a href="#event-user">            <code>data-key-down</code></a>:       Callback to run on key down event</li>
       <li><a href="#event-user">            <code>data-key-press</code></a>:      Callback to run on key press event</li>
       <li><a href="#event-user">            <code>data-key-up</code></a>:         Callback to run on key up event</li>
@@ -2516,7 +2560,7 @@
       <li><a href="#structure-thimblerig">  <code>data-require</code></a>:        Show element only if field exists</li>
       <li><a href="#event-smart">           <code>data-smart-throttle</code></a>: Delay (milliseconds) between smart update callbacks</li>
       <li><a href="#event-smart">           <code>data-smart-update</code></a>:   Throttled callback to run on change of an input value</li>
-      <li><a href="#event-transform">       <code>data-tranform</code></a>:       Callback to enhance data immediately before cloning</li>
+      <li><a href="#event-transform">       <code>data-transform</code></a>:      Callback to enhance data immediately before cloning</li>
       <li><a href="#structure-thimblerig">  <code>data-truthy</code></a>:         Show element only if field evaluates to true</li>
    </ol>
 </section>
