@@ -10,7 +10,7 @@ Current release: **v0.4.1**
 ### 1. Bookstore Example
 Designate DNA templates with the `dna-template` class, and put the templates directly into the HTML
 of your web page.&nbsp;  Use the element's `id` to indicate the name of the template.&nbsp;
-Enclose data fields in double tildes `~~` (a.k.a. DNA strands).
+Enclose data fields in double tildes `~~`.
 
 #### a) HTML for book template
 ```html

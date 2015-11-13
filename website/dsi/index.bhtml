@@ -2,23 +2,26 @@
 
 <article>
 
-   <div class=gateway-sidebar>
-      <a href="https://raw.github.com/dnajs/dna.js/current/dna.min.js" class=external-site>
-         <div class=snazzy-button>
-            <img src="graphics/icon-download.png" alt="Download"> Download dna.min.js
-            <div>v<!--#echo var="release"--> (<!--#echo var="size"-->)</div>
-         </div>
-      </a>
-      <p class=alt-link>
-         Non-minified version:
-         <a href="https://raw.github.com/dnajs/dna.js/current/dna.js"
-            class=external-site>Download dna.js</a>
-      </p>
-      <div id=news>
-         <h4>News</h4>
+   <aside>
+      <section>
+         <h2>Download v<!--#echo var="release"--></h2>
+         <p>
+            <button data-href="https://raw.github.com/dnajs/dna.js/current/dna.min.js" class=external-site>
+               <i class="fa fa-download"></i> dna.min.js (<!--#echo var="size"-->)
+            </button>
+         </p>
+         <p>
+            <button data-href="https://raw.github.com/dnajs/dna.js/current/dna.css" class=external-site>
+               <i class="fa fa-download"></i> dna.css (1kb)
+            </button>
+         </p>
+         (or simply use the <a href="manual.html#setup-cdn">jsDelivr CDN</a>)
+      </section>
+      <section>
+         <h2>News</h2>
          <!--#include file="~news.fhtml"-->
-      </div>
-   </div>
+      </section>
+   </aside>
 
    <p>
       <!--#echo var="description"-->&nbsp;
@@ -45,10 +48,11 @@
       understand a library.<br>
    </p>
    <p>
-      Fiddle with the dna.js to-do list application at:<br>
-      <span class=indent>
-         <a href="http://jsfiddle.net/<!--#echo var="jsFiddleTodo"-->/" class=external-site>
-            jsfiddle.net/<!--#echo var="jsFiddleTodo"--></a>
+      Fiddle with the dna.js to-do list application at:
+      <span class=block-indent>
+         <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleTodo"-->/" class=external-site>
+            jsfiddle.net/<!--#echo var="jsFiddleTodo"-->
+         </button>
       </span>
    </p>
    <p>
@@ -62,8 +66,7 @@
    <p>
       Designate HTML elements as DNA templates with the <code>dna-template</code> class, and put
       the templates directly into the HTML of your web page.&nbsp;  Use each element's ID to
-      indicate the name of the template.&nbsp;  Enclose data fields in DNA strands (double
-      tildes).
+      indicate the name of the template.&nbsp;  Enclose data field names in double tildes.
    </p>
    <figure>
       <figcaption>HTML for <code>book</code> template</figcaption>
@@ -138,8 +141,8 @@
       </div>
    </div>
    To see all the pieces running together, check out the standalone example:
-   <p class=indent>
-       <button data-href="hello-world.html">View Source</button>
+   <p class=block-indent>
+      <button data-href="hello-world.html">View Source</button>
    </p>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -154,10 +157,11 @@
       the model.<br>
    </p>
    <p>
-      Interact with the live model at:<br>
-      <span class=indent>
-         <a href="http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/" class=external-site>
-            jsfiddle.net/<!--#echo var="jsFiddleLiveModel"--></a>
+      Interact with the live model at:
+      <span class=block-indent>
+         <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/" class=external-site>
+            jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->
+         </button>
       </span>
    </p>
 
@@ -200,8 +204,8 @@
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <h3 id=feedback>Issues</h3>
    <p>
-      Submit bugs, feature requests, and questions at:<br>
-      <span class=indent>
+      Submit bugs, feature requests, and questions at:
+      <span class=block-indent>
          <a href="https://github.com/dnajs/dna.js/issues">github.com/dnajs/dna.js/issues</a>
       </span>
    </p>

@@ -4,7 +4,7 @@
 
 /* Bookstore */
 .featured-books {
-   width: 60%;
+   width: 70%;
    background-color: whitesmoke;
    border: 1px solid black;
    box-shadow: 2px 2px 0.1em 0.1em silver;
@@ -41,7 +41,6 @@ body {
    border-right: 1px solid steelblue;
    padding: 20px 50px 30px 50px;
    margin: 0px auto;
-   box-shadow: 0px 0px 2.0em 0.0em white;
    }
 header nav {
    text-align: center;
@@ -93,6 +92,37 @@ footer .tag-line {
    color: slategray;
    }
 
+/* Sidear */
+aside {
+   float: right;
+   width: 325px;
+   margin-left: 40px;
+   }
+aside section {
+   font-size: 0.8rem;
+   background-color: gainsboro;
+   border: 1px solid dimgray;
+   border-radius: 2px;
+   padding: 5px 15px;
+   margin-bottom: 30px;
+   }
+aside section h2 {
+   font-size: 1.0rem;
+   font-weight: bold;
+   text-align: center;
+   }
+aside section header {
+   display: inline-block;
+   font-size: 0.8rem;
+   color: white;
+   background-color: gray;
+   padding: 3px 10px;
+   margin-bottom: 3px;
+   }
+aside section:first-child {
+   text-align: center;
+   }
+
 /* Style */
 h3 {
    clear: both;
@@ -129,11 +159,31 @@ table tbody td {
 dt {
    font-weight: bold;
    }
-p>code,
-dd>code,
-td>code {
+p >code,
+dd >code,
+td >code {
    font-weight: bold;
    }
+
+button {
+   font-size: 1.2rem;
+   font-weight: bold;
+   border: none;
+   border-radius: 0.2em;
+   color: white;
+   background-color: cornflowerblue;
+   padding: 0.6em 1.2em;
+   transition: background-color 0.4s;
+   }
+button:hover {
+   background-color: royalblue;
+   }
+button i.fa {
+   vertical-align: middle;
+   font-size: 120%;
+   padding-right: 0.2em;
+   }
+
 #logo {
    float: left;
    margin: 2px 15px 5px 0px;
@@ -151,40 +201,8 @@ td>code {
    padding: 15px;
    }
 
-.gateway-sidebar {
-   float: right;
-   width: 325px;
-   margin-left: 40px;
-   }
-.gateway-sidebar .alt-link {
-   text-align: right;
-   font-size: 0.7rem;
-   margin: 15px 0px 20px 0px;
-   }
 #social-buttons {
    margin: 20px 0px;
-   }
-#news {
-   font-size: 0.8rem;
-   background-color: gainsboro;
-   border: 1px solid dimgray;
-   border-radius: 2px;
-   padding: 5px 15px;
-   margin-bottom: 30px;
-   }
-#news h4 {
-   font-size: 0.9rem;
-   font-weight: bold;
-   text-align: center;
-   color: dimgray;
-   }
-#news header {
-   display: inline-block;
-   font-size: 0.8rem;
-   color: white;
-   background-color: gray;
-   padding: 3px 10px;
-   margin-bottom: 3px;
    }
 .reveal-action {
    font-size: 0.8rem;
@@ -259,6 +277,10 @@ td>code {
    left: -190px;
    }
 
+.wrappable code {
+   white-space: normal;
+   }
+
 .legal-terms {
    white-space: pre-wrap;
    font-size: 1.0rem;
@@ -270,29 +292,6 @@ td>code {
 #gateway-footer {
    text-align: center;
    margin-top: 60px;
-   }
-
-/* Tools */
-.snazzy-button {
-   text-align: center;
-   font-size: 1.2rem;
-   font-weight: bold;
-   color: gray;
-   background-color: lightskyblue;
-   border: 1px solid dimgray;
-   border-radius: 10px;
-   padding: 10px 25px;
-   box-shadow: 0px 0px 0.5em 0.3em lightcyan;
-   }
-.snazzy-button img {
-   height: 20px;
-   }
-.snazzy-button div {
-   font-size: 0.7rem;
-   }
-.snazzy-button:hover {
-   background-color: #8CD3FF;
-   box-shadow: 0px 0px 0.5em 0.4em lightcyan;
    }
 
 .subtle-note {
@@ -359,7 +358,7 @@ figure.full-screen-code pre code {
    }
 
 /* Reveal Action */
-.reveal-action       {
+.reveal-action {
    color: steelblue;
    }
 .reveal-action:hover {
@@ -392,8 +391,14 @@ figure.full-screen-code pre code {
       max-width: none;
       margin: 0px;
       }
+   header h1 {
+      font-size: 1.8rem;
+      }
+   aside {
+      width: 425px;
+      }
    button {
-      font-size: 1.0rem;
+      font-size: 0.8rem;
       }
    section p code {
       white-space: wrap;
@@ -403,7 +408,13 @@ figure.full-screen-code pre code {
       width: 100% !important;
       }
    figure.hljs-enhance pre code {
-      font-size: 1.0rem;
+      font-size: 0.7rem;
+      }
+   .api-parameters ul ul li {
+      margin-left: 0px;
+      }
+   .api-parameters ul ul li label {
+      position: static;
       }
    #github-banner {
       display: none;
