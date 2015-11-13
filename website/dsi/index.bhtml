@@ -12,7 +12,7 @@
          </p>
          <p>
             <button data-href="https://raw.github.com/dnajs/dna.js/current/dna.css" class=external-site>
-               <i class="fa fa-download"></i> dna.css (1kb)
+               <i class="fa fa-download"></i> dna.css (1 kb)
             </button>
          </p>
          (or simply use the <a href="manual.html#setup-cdn">jsDelivr CDN</a>)
