@@ -166,13 +166,14 @@ td >code {
    }
 
 button {
-   font-size: 1.2rem;
+   font-size: 1.1rem;
    font-weight: bold;
    border: none;
    border-radius: 0.2em;
    color: white;
    background-color: cornflowerblue;
    padding: 0.6em 1.2em;
+   outline: none;
    transition: background-color 0.4s;
    }
 button:hover {
@@ -380,7 +381,7 @@ figure.full-screen-code pre code {
    }
 
 /* Mobile */
-@media handheld, screen and (max-device-width: 480px) {
+@media only screen and (max-device-width: 480px) {
    html {
       background: none;
       background-color: ghostwhite;
