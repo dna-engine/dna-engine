@@ -15,6 +15,7 @@
       <li><a href="#setup">Setup JS and CSS Assets</a>
          <ol>
             <li><a href="#setup-cdn">CDN</a></li>
+            <li><a href="#setup-npm">Install with NPM</a></li>
             <li><a href="#setup-bower">Install with Bower</a></li>
             <li><a href="#setup-rails">Rails Assets</a></li>
          </ol>
@@ -143,11 +144,12 @@
 
 <!--*********************************************************************************************-->
 <h3 id=setup>Setup JS and CSS Assets</h3>
-         <ol>
-            <li><a href="#setup-cdn">CDN</a></li>
-            <li><a href="#setup-bower">Install with Bower</a></li>
-            <li><a href="#setup-rails">Rails Assets</a></li>
-         </ol>
+<ol>
+   <li><a href="#setup-cdn">CDN</a></li>
+   <li><a href="#setup-npm">Install with NPM</a></li>
+   <li><a href="#setup-bower">Install with Bower</a></li>
+   <li><a href="#setup-rails">Rails Assets</a></li>
+</ol>
 <p>
    Get started by including the JavaScript and CSS files into your project.
 </p>
@@ -172,6 +174,25 @@
          &lt;script src=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.min.js&quot;&gt;&lt;/script&gt;
       </code></pre>
    </figure>
+   <p>
+      Alternatively, you can use one of the methods below to download the dna.js files into a
+      folder in your project.
+   </p>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=setup-npm>
+   <h4>Install with NPM</h4>
+   <p>
+      <a href="https://www.npmjs.com/package/dna.js" class=external-site>NPM</a>
+      can download the assets to your project's <code>node_modules</code> folder.
+   </p>
+   <figure>
+      <figcaption>NPM</figcaption>
+      <pre><code class=language-bash>
+         $ npm install dna.js
+      </code></pre>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -179,7 +200,7 @@
    <h4>Install with Bower</h4>
    <p>
       <a href="http://bower.io/search/?q=dna.js" class=external-site>Bower</a>
-      can also download the assets to your project's <code>bower_components</code> folder.
+      can download the assets to your project's <code>bower_components</code> folder.
    </p>
    <figure>
       <figcaption>Bower</figcaption>

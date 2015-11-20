@@ -31,7 +31,7 @@
    <p>
       The project is open source and available for free.&nbsp;  The code is hosted on
       <a href="https://github.com/dnajs/dna.js">GitHub</a> and is
-      <a href="license.html">dual-licensed</a> under the The MIT License (MIT) and GNU General
+      <a href="license.html">dual-licensed</a> under The MIT License (MIT) and GNU General
       Public License (GPLv3).
    </p>
    <div id=social-buttons></div>
@@ -127,12 +127,12 @@
       <div class=buttons>
          <button data-click=app.bookstore.feelLucky>
             Add a Book
-            <div class=bubble-help>dna.clone('book', { title: 'The DOM', author: 'Jan' });</div>
+            <span class=bubble-help>dna.clone('book', { title: 'The DOM', author: 'Jan' });</span>
          </button>
          &nbsp;
          <button data-click=app.bookstore.clear>
             Clear List
-            <div class=bubble-help>dna.empty('book');</div>
+            <span class=bubble-help>dna.empty('book');</span>
          </button>
       </div>
       <div id=book class=dna-template>
@@ -146,7 +146,7 @@
    </p>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <h3 id=todo>Live Model</h3>
+   <h3 id=live-model>Live Model</h3>
    <div class=push-right>
       <a href="http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/" class=external-site>
          <img class=side-image src="graphics/icon-live-model.png" alt="Live model screenshot">
