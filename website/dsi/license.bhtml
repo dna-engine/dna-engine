@@ -4,9 +4,10 @@
 <article>
 
    <p>
-      <!--#echo var="name"--> is open source and available for free.&nbsp;  The code is
-      dual-licensed under The MIT License (MIT) and the GNU General Public License
-      (GPLv3).&nbsp;  You are free to choose which license is best for you.
+      dna.js is open source and available for free.&nbsp;
+      The code is dual-licensed under The MIT License (MIT) and the GNU General Public
+      License (GPLv3).&nbsp;
+      You are free to choose which license is best for you.
    </p>
    <p>
       If you want to be a contributor, fork the project on

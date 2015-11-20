@@ -1,8 +1,8 @@
 #!/bin/sh
-############################
-#  Task Runner             #
-#  dna.js Template Cloner  #
-############################
+###############################
+#  Task Runner                #
+#  dna.js Semantic Templates  #
+###############################
 
 # To make this file runnable:
 #    $ chmod +x task-runner.sh.command

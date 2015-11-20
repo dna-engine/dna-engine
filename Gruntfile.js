@@ -1,10 +1,10 @@
-// dna.js Template Cloner
+// dna.js Semantic Templates
 // Grunt configuration and tasks
 
 function gruntRunner(grunt) {
    var versionPatterns = '(~~ v)|(js v)|(release: \\*\\*v)|("version":\\s*")|("release"\\s+value=")';
    // Example lines with pattern:
-   //    dna.js Template Cloner ~~ v1.0.0
+   //    dna.js Semantic Templates ~~ v1.0.0
    //    "version":  "1.0.0",
    //    Current release: **v1.0.0**
    //    "release" value="1.0.0 (beta)"

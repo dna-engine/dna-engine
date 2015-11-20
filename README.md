@@ -1,5 +1,5 @@
-dna.js Template Cloner
-=====================
+dna.js Semantic Templates
+=========================
 An uncomplicated user interface library
 ---------------------------------------------------
 
@@ -53,3 +53,8 @@ dna.load('book', 'http://dnajs.org/rest/book/3');
 * [Sample To-Do Application (jsfiddle)](http://jsfiddle.net/5z6bn76w/)
 * [Documentation](http://dnajs.org/manual.html)
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)
+
+---
+dna.js source code is dual-licensed under [MIT/GPLv3](http://dnajs.org/license.html), and the
+description and documentation are licensed under
+[CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0).

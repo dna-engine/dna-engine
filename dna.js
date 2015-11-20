@@ -1,4 +1,4 @@
-// dna.js Template Cloner ~~ v0.4.3
+// dna.js Semantic Templates ~~ v0.4.3
 // MIT/GPLv3 ~~ dnajs.org/license.html
 // Copyright (c) 2013-2015 Center Key Software and other contributors
 
