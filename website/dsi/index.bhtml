@@ -119,7 +119,7 @@
    <p>
       Click "Add a Book" to trigger an event that calls the
       <code>dna.clone()</code> function.&nbsp;  Click "Clear List" to call the
-      <code>dna.clone()</code> function, which deletes all the clones previously
+      <code>dna.empty()</code> function, which deletes all the clones previously
       created from the template.
    </p>
    <div class="featured-books dna-setup" data-setup=app.bookstore.setup>
