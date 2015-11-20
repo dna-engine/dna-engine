@@ -4,9 +4,8 @@
 <article>
 
 <p>
-   See the <a href=".#example">Bookstore Example</a> for an overview of using dna.js
-   Semantic Templates.&nbsp;  For richer examples, view the HTML source of the
-   <a href="test-cases.html">Test Cases</a>.
+   For an overview of using dna.js, see the <a href=".#example">Bookstore Example</a>.&nbsp;
+   For richer examples, view the HTML source of the <a href="test-cases.html">Test Cases</a>.
 </p>
 
 <div class=toc>
@@ -20,16 +19,16 @@
             <li><a href="#setup-rails">Rails Assets</a></li>
          </ol>
       </li>
-      <li><a href="#html">HTML &mdash; Classes and Attributes</a>
+      <li><a href="#html">HTML &mdash; Classes, Fields, Attributes, and Properties</a>
          <ol>
-            <li><a href="#html-template">DNA Template</a></li>
-            <li><a href="#html-field">DNA Field</a></li>
-            <li><a href="#html-attr">DNA Attribute</a></li>
-            <li><a href="#html-prop">DNA Property</a></li>
-            <li><a href="#html-option">DNA Select Option</a></li>
-            <li><a href="#html-class">DNA Class</a></li>
+            <li><a href="#html-template">Template</a></li>
+            <li><a href="#html-field">Data Field</a></li>
+            <li><a href="#html-attr">Element Attribute</a></li>
+            <li><a href="#html-prop">Element Property</a></li>
+            <li><a href="#html-option">Select Option</a></li>
+            <li><a href="#html-class">Class</a></li>
             <li><a href="#html-example">Ensemble</a></li>
-            <li><a href="#html-attr-data">DNA Attribute (advanced)</a></li>
+            <li><a href="#html-attr-data">Element Attribute (advanced)</a></li>
          </ol>
       </li>
       <li><a href="#api">JavaScript API</a>
@@ -93,7 +92,7 @@
          </ol>
       </li>
       <li><a href="#utils">Utilities</a></li>
-      <li><a href="#reserved">Index of Classes and Attributes</a></li>
+      <li><a href="#reserved">Index of Classes and Data Attributes</a></li>
    </ol>
 </div>
 
@@ -101,17 +100,17 @@
 <h3 id=terms-requirements>Terms and System Requirements</h3>
 <h4 id=terms>Terms</h4>
 <dl>
-   <dt>DNA Template:</dt>
+   <dt>Template:</dt>
    <dd>
       An HTML element whose clones will be injected with data from JavaScript
       objects.&nbsp;  The element has the <code>dna-template</code> class.
    </dd>
 </dl>
 <dl>
-   <dt>DNA Field:</dt>
+   <dt>Data Field:</dt>
    <dd>
-      DNA fields identify where in the template data is to be injected during the cloning
-      process.&nbsp;  The name of the DNA field is surrounded by a pair of double tildes
+      Data Fields identify where in the template data is to be injected during the cloning
+      process.&nbsp;  The name of the Data Field is surrounded by a pair of double tildes
       (example: <code>~~author~~</code>).
    </dd>
    <dd>
@@ -119,15 +118,11 @@
    </dd>
 </dl>
 <dl>
-   <dt>DNA Clone:</dt>
+   <dt>Clone:</dt>
    <dd>
-      A DOM element that is made by copying a DNA Template.  The template name
+      A DOM element that is made by copying a template.  The template name
       is added as each clone's class name.
    </dd>
-</dl>
-<dl>
-   <dt>Junk DNA:</dt>
-   <dd>Not permitted in this project.</dd>
 </dl>
 <br>
 <h4 id=requirements>System Requirements</h4>
@@ -226,11 +221,11 @@
 </section>
 
 <!--*********************************************************************************************-->
-<h3 id=html>HTML &mdash; Classes and Attributes</h3>
+<h3 id=html>HTML &mdash; Classes, Fields, Attributes, and Properties</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=html-template>
-   <h4>DNA Template</h4>
+   <h4>Template</h4>
    <p>
       Use the class <code>dna-template</code> to indicate a template.&nbsp;  The <code>id</code>
       attribute of the element is the template name.
@@ -245,7 +240,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=html-field>
-   <h4>DNA Field</h4>
+   <h4>Data Field</h4>
    <p>
       Enclose data field names in double tildes.&nbsp;  Each field takes up the entire
       text part of the HTML node.
@@ -271,7 +266,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=html-attr>
-   <h4>DNA Attribute</h4>
+   <h4>Element Attribute</h4>
    <p>
       Attributes are set using the same notation as fields.
    </p>
@@ -283,13 +278,13 @@
    </figure>
    <p>
       <b>Note:</b>
-      See <a href="#html-attr-data">DNA Attribute (advanced)</a> for an alternate way to set the value of an attribute.
+      See <a href="#html-attr-data">Element Attribute (advanced)</a> for an alternate way to set the value of an attribute.
    </p>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=html-prop>
-   <h4>DNA Property</h4>
+   <h4>Element Property</h4>
    <p>
       Properties are enabled or disabled based on the value of the specified data field.
    </p>
@@ -308,7 +303,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=html-option>
-   <h4>DNA Select Option</h4>
+   <h4>Select Option</h4>
    <p>
       The <code>option</code> of <code>select</code> drop-downs is set based on the value
       of the specified data field matching the <code>value</code> attribute of the
@@ -334,7 +329,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=html-class>
-   <h4>DNA Class</h4>
+   <h4>Class</h4>
    <p>
       A class can be set just like other attributes.
    </p>
@@ -440,7 +435,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=html-attr-data>
-   <h4>DNA Attribute (advanced)</h4>
+   <h4>Element Attribute (advanced)</h4>
    <p>
       In addition to using <a href="#html-attr">regular templating</a> to set attributes, you can
       prefix <code>data-attr-</code> to the attribute name.
@@ -495,7 +490,7 @@
 </section>
 
 <!--*********************************************************************************************-->
-<h3 id=api>JavaScript API &mdash; Calling DNA</h3>
+<h3 id=api>JavaScript API</h3>
 <h5>API Overview</h5>
 <ol>
    <li><b>dna.clone</b>(name, data, options)</li>
@@ -1763,10 +1758,10 @@
          <tr><th>Attribute</th><th>Value</th><th>Logic</th></tr>
       </thead>
       <tbody>
-         <tr><td><code>data-require</code></td><td>DNA Field</td><td>Show element only if specified field has a value</td></tr>
-         <tr><td><code>data-missing</code></td><td>DNA Field</td><td>Show element only if specified field has no value</td></tr>
-         <tr><td><code>data-truthy</code></td><td>DNA Field</td><td>Show element only if specified field means true*</td></tr>
-         <tr><td><code>data-falsey</code></td><td>DNA Field</td><td>Show element only if specified field means false*</td></tr>
+         <tr><td><code>data-require</code></td><td>Data Field</td><td>Show element only if specified field has a value</td></tr>
+         <tr><td><code>data-missing</code></td><td>Data Field</td><td>Show element only if specified field has no value</td></tr>
+         <tr><td><code>data-truthy</code></td><td>Data Field</td><td>Show element only if specified field means true*</td></tr>
+         <tr><td><code>data-falsey</code></td><td>Data Field</td><td>Show element only if specified field means false*</td></tr>
       </tbody>
    </table>
    <figure>
@@ -2520,11 +2515,11 @@
 </section>
 
 <!--*********************************************************************************************-->
-<h3 id=reserved>Index of Classes and Attributes</h3>
+<h3 id=reserved>Index of Classes and Data Attributes</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=reserved-classes>
-   <h4>DNA Classes</h4>
+   <h4>Classes</h4>
    <ol>
       <li><a href="#panels">             <code>dna-menu</code></a>:           Mark element as container for panel menu items</li>
       <li><a href="#panels">             <code>dna-panels</code></a>:         Mark element as container for panels</li>
@@ -2536,7 +2531,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=reserved-attributes>
-   <h4>DNA Data Attributes</h4>
+   <h4>Data Attributes</h4>
    <ol>
       <li><a href="#loop-sub-templates">    <code>data-array</code></a>:          Mark an element as a sub-template array loop</li>
       <li><a href="#html-attr">             <code>data-attr-{NAME}</code></a>:    Set value of an element attribute</li>

@@ -64,7 +64,7 @@
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <h3 id=example>Bookstore Example</h3>
    <p>
-      Designate HTML elements as DNA templates with the <code>dna-template</code> class, and put
+      Designate HTML elements as templates with the <code>dna-template</code> class, and put
       the templates directly into the HTML of your web page.&nbsp;  Use each element's ID to
       indicate the name of the template.&nbsp;  Enclose data field names in double tildes.
    </p>
@@ -90,12 +90,12 @@
       </code></pre>
    </figure>
    <p>
-      The new element is a DNA clone, and it is placed into the DOM where the template was
+      The new element is a clone, and it is placed into the DOM where the template was
       located.&nbsp;  The original template is detached from the DOM and kept for additional
       cloning.
    </p>
    <figure>
-      <figcaption>Resulting HTML with DNA clone</figcaption>
+      <figcaption>Resulting HTML with clone</figcaption>
       <pre><code class=language-html>
          &lt;h1&gt;Featured Books&lt;/h1&gt;
          &lt;div class=book&gt;

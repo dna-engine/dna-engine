@@ -1,14 +1,15 @@
 dna.js Semantic Templates
 =========================
-An uncomplicated user interface library
----------------------------------------------------
+*An uncomplicated user interface library*
+
+---
 
 dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications.
 
 Current release: **v0.4.2**
 
 ### 1. Bookstore Example
-Designate DNA templates with the `dna-template` class, and put the templates directly into the HTML
+Designate templates with the `dna-template` class, and put the templates directly into the HTML
 of your web page.&nbsp;  Use the element's `id` to indicate the name of the template.&nbsp;
 Enclose data fields in double tildes `~~`.
 
@@ -29,10 +30,10 @@ supplied JSON data object will be used to populate the fields of the template.
 dna.clone('book', { title: 'The DOM', author: 'Jan' });
 ```
 
-The new element is a DNA clone, and it is appended to the template's parent element (the original
+The new element is a clone, and it is appended to the template's parent element (the original
 template is detached from the DOM and kept for additional cloning).
 
-#### c) Resulting HTML with DNA clone
+#### c) Resulting HTML with clone
 ```html
 <h1>Featured Books</h1>
 <div class=book>
@@ -54,7 +55,7 @@ dna.load('book', 'http://dnajs.org/rest/book/3');
 * [Documentation](http://dnajs.org/manual.html)
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)
 
----
+===
 dna.js is an open source project dual-licensed under
 [MIT/GPLv3](http://dnajs.org/license.html)
 with the website and documentation licensed under
