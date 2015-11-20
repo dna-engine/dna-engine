@@ -55,6 +55,7 @@ dna.load('book', 'http://dnajs.org/rest/book/3');
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)
 
 ---
-dna.js source code is dual-licensed under [MIT/GPLv3](http://dnajs.org/license.html), and the
-description and documentation are licensed under
+dna.js is an open source project dual-licensed under
+[MIT/GPLv3](http://dnajs.org/license.html)
+with the website and documentation licensed under
 [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0).

@@ -4,6 +4,13 @@
       alt="Fork me on GitHub">
    </a>
    <div class=tag-line><!--#echo var="title"--></div>
+   <a rel=license href="http://creativecommons.org/licenses/by-sa/4.0/" class=external-site>
+      <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png">
+      <span class=bubble-help>
+         This work is licensed under a<br>
+         <i>Creative Commons Attribution-ShareAlike 4.0<br>International License</i>.
+      </span>
+   </a>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/dna.js/0/dna.min.js"></script>
