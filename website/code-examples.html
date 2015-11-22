@@ -25,7 +25,6 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h1>To-do</h1>
-<a href="http://jsfiddle.net/ourh2yyb">jsfiddle.net/ourh2yyb</a>
 <article>
    <input id=task-title data-enter-key=todo.add value="Make hay">
    <button data-click=todo.add>Add Task</button>
@@ -66,7 +65,6 @@ input[type=checkbox], button {
    }
 </style>
 <script>
-// To-do application using dna.js
 var todo = {
    add: function() {  //create task
       var task = { title: $('#task-title').val() };
@@ -87,7 +85,6 @@ $(todo.setup);
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h1>Featured Books</h1>
-<a href="http://jsfiddle.net/L9p44b1g/">jsfiddle.net/L9p44b1g</a>
 <article>
    <h2>Featured Books</h2>
    <button data-click=store.add>Add a Book</button>
@@ -114,25 +111,29 @@ button {
    }
 </style>
 <script>
-// Documentation: dnajs.org/hello-world.html
 var store = {
    books: [
       { title: 'JavaScript!', author: 'Jake' },
       { title: 'CSS3!',       author: 'Abby' },
       { title: 'HTML5!',      author: 'Ed' }
       ],
-   clear: function() {
-      dna.empty('book', { fade: true });
-      },
    add: function() {
       var i = $('.book').length % store.books.length;
-      dna.clone('book', store.books[i], { fade: true });
+      var options = { fade: true };
+      dna.clone('book', store.books[i], options);
+      },
+   clear: function() {
+      dna.empty('book', { fade: true });
       }
    };
 
 $(store.add);
 </script>
 
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<p>
+   <a href="http://dnajs.org/manual.html#index-examples">Index of jsFiddle Examples</a>
+</p>
 
 </body>
 </html>

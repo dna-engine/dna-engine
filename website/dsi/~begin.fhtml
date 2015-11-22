@@ -19,11 +19,14 @@
 <!--#set var="authors"           value="Center Key Software and other contributors"-->
 <!--#set var="release"           value="0.4.2"                                     -->
 <!--#set var="size"              value="14 kb"                                     -->
-<!--#set var="jsFiddleBooks"     value="qyp9kbam"                                  -->
-<!--#set var="jsFiddleTodo"      value="5z6bn76w"                                  -->
-<!--#set var="jsFiddleLiveModel" value="99y98Loe"                                  -->
-<!--Note 1: Keep #title and #description updated in: package.json, bower.json, and README.md -->
-<!--Note 2: Keep #jsFiddleTodo updated in: README.md -->
+<!--Note: Keep #title and #description updated in: package.json, bower.json, and README.md -->
+
+<!-- jsFiddles -->
+<!--#set var="jsFiddleAddABook"     value="3ox4tbzm" -->
+<!--#set var="jsFiddleLiveModel"    value="bupu9scn" -->
+<!--#set var="jsFiddleSmartUpdates" value="0t7Lue3w" -->
+<!--#set var="jsFiddleToDo"         value="3hcoubda" -->
+<!--Note: Keep #jsFiddleToDo updated in: README.md and the examples list in manual.bhtml-->
 
 <html>
 <head>

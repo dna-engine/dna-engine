@@ -2,6 +2,8 @@
 
 <article>
 
+   <h2 class=hide-me>dna.js Semantic Templates</h2>
+
    <aside>
       <section>
          <h2>Download v<!--#echo var="release"--></h2>
@@ -39,7 +41,7 @@
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <h3 id=todo>To-Do List Application</h3>
    <div class=push-right>
-      <a href="http://jsfiddle.net/<!--#echo var="jsFiddleTodo"-->/" class=external-site>
+      <a href="http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/" class=external-site>
          <img class=side-image src="graphics/icon-todo-app.png" alt="To-do list application screenshot">
       </a>
    </div>
@@ -50,8 +52,8 @@
    <p>
       Fiddle with the dna.js to-do list application at:
       <span class=block-indent>
-         <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleTodo"-->/" class=external-site>
-            jsfiddle.net/<!--#echo var="jsFiddleTodo"-->
+         <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/" class=external-site>
+            jsfiddle.net/<!--#echo var="jsFiddleToDo"-->
          </button>
       </span>
    </p>
@@ -176,8 +178,8 @@
    Templating should be lightweight, clean, and simple:
    <ol>
       <li>No HTML in JavaScript code</li>
-      <li>Templates are real HTML that
-         <a href="http://validator.w3.org/" class=external-site>validate</a></li>
+      <li>Templates are real HTML that <a href="https://validator.w3.org/nu/?doc=http://dnajs.org"
+         class=external-site>validate</a></li>
       <li>Templates can be in-place (no need for separate template files)</li>
       <li>Iteration is done with <a href="manual.html#loop-templates">data arrays</a> not messy
          template <code>for</code> loops</li>

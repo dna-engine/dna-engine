@@ -93,7 +93,7 @@
          </ol>
       </li>
       <li><a href="#utils">Utilities</a></li>
-      <li><a href="#reserved">Index of Classes and Data Attributes</a></li>
+      <li><a href="#index">Index</a></li>
    </ol>
 </div>
 
@@ -1425,7 +1425,8 @@
    </figure>
    <!-- End: Result  -->
    <p>
-      jsFiddle: <a href="http://jsfiddle.net/mnuL4r0e/" class=external-site><i>Smart update</i></a>
+      jsFiddle: <a href="http://jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"-->/"
+         class=external-site><i>Smart update</i></a>
    </p>
 </section>
 
@@ -2536,11 +2537,11 @@
 </section>
 
 <!--*********************************************************************************************-->
-<h3 id=reserved>Index of Classes and Data Attributes</h3>
+<h3 id=index>Index</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
-<section id=reserved-classes>
-   <h4>Classes</h4>
+<section id=index-classes>
+   <h4>Index of Classes</h4>
    <ol>
       <li><a href="#panels">             <code>dna-menu</code></a>:           Mark element as container for panel menu items</li>
       <li><a href="#panels">             <code>dna-panels</code></a>:         Mark element as container for panels</li>
@@ -2551,8 +2552,8 @@
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
-<section id=reserved-attributes>
-   <h4>Data Attributes</h4>
+<section id=index-attributes>
+   <h4>Index of Data Attributes</h4>
    <ol>
       <li><a href="#loop-sub-templates">    <code>data-array</code></a>:          Mark an element as a sub-template array loop</li>
       <li><a href="#html-attr">             <code>data-attr-{NAME}</code></a>:    Set value of an element attribute</li>
@@ -2579,6 +2580,22 @@
       <li><a href="#event-transform">       <code>data-transform</code></a>:      Callback to enhance data immediately before cloning</li>
       <li><a href="#structure-thimblerig">  <code>data-truthy</code></a>:         Show element only if field evaluates to true</li>
    </ol>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=index-examples>
+   <h4>Index of jsFiddle Examples</h4>
+   <table>
+      <thead>
+         <tr><th>Example</th><th>Link</th></tr>
+      </thead>
+      <tbody>
+         <tr><td><code>Add a Book</code></td>   <td><a href="http://jsfiddle.net/<!--#echo var="jsFiddleAddABook"-->/"     class=external-site>jsfiddle.net/<!--#echo var="jsFiddleAddABook"--></a></td></tr>
+         <tr><td><code>Live Model</code></td>   <td><a href="http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/"    class=external-site>jsfiddle.net/<!--#echo var="jsFiddleLiveModel"--></a></td></tr>
+         <tr><td><code>Smart Updates</code></td><td><a href="http://jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"-->/" class=external-site>jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"--></a></td></tr>
+         <tr><td><code>To Do</code></td>        <td><a href="http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/"         class=external-site>jsfiddle.net/<!--#echo var="jsFiddleToDo"--></a></td></tr>
+      </tbody>
+   </table>
 </section>
 
 </article>
