@@ -299,7 +299,8 @@
    </figure>
    <p>
       <b>Note:</b>
-      See <a href="#html-attr-data">Element Attribute (advanced)</a> for an alternate way to set the value of an attribute.
+      See <a href="#html-attr-data">Element Attribute (advanced)</a> for alternate ways to set the
+      value of an attribute.
    </p>
 </section>
 
