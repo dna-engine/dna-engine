@@ -6,8 +6,9 @@
 ######################
 
 releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/current
-webServerFolder=~/Dropbox/Documents/Sites/centerkey.com/www.dnajs.org
-webServerUrl=http://localhost/centerkey.com/www.dnajs.org/
+webServerRoot=$(grep ^DocumentRoot /private/etc/apache2/httpd.conf | awk -F\" '{ print $2 }')
+webServerPath="centerkey.com/www.dnajs.org/"
+webServerFolder=$webServerRoot/$webServerPath
 
 echo
 echo "dnajs.org"
@@ -53,7 +54,7 @@ updateWebServer() {
    cp -R * $webServerFolder
    cp ../../dna.js  $webServerFolder/dna.snapshot.js
    cp ../../dna.css $webServerFolder/dna.snapshot.css
-   url=$webServerUrl
+   url=http://localhost/$webServerPath
    }
 [ -d $webServerFolder ] && updateWebServer
 echo "Opening --> $url"
