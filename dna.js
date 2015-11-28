@@ -506,7 +506,7 @@ dna.compile = {
       dna.compile.separators(elem);
       //support html5 values for "type" attribute
       $('input[data-attr-type]').each(function() {
-          $(this).attr('type', $(this).data('attr-type'));
+          $(this).attr('type', $(this).data().attrType);
       });
       return dna.store.stash(elem);
       }
