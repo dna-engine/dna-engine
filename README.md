@@ -1,5 +1,5 @@
-dna.js Semantic Templates
-=========================
+### dna.js Semantic Templates
+
 *An uncomplicated user interface library*
 
 ---
