@@ -112,7 +112,7 @@
    <figure>
       <figcaption>JavaScript call to load data from a REST call</figcaption>
       <pre><code class=language-javascript>
-         dna.load('book', 'http://dnajs.org/rest/book/3');
+         dna.rest.get('book', 'http://dnajs.org/rest/book/3');
       </code></pre>
    </figure>
 

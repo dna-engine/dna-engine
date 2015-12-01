@@ -37,7 +37,7 @@
             <li><a href="#api-clone">dna.clone()</a></li>
             <li><a href="#api-clone-sub-template">dna.cloneSubTemplate()</a></li>
             <li><a href="#api-create">dna.createTemplate()</a></li>
-            <li><a href="#api-load">dna.load()</a></li>
+            <li><a href="#api-rest">dna.rest.get()</a></li>
             <li><a href="#api-get-model">dna.getModel()</a></li>
             <li><a href="#api-empty">dna.empty()</a></li>
             <li><a href="#api-refresh">dna.refresh()</a></li>
@@ -517,7 +517,7 @@
 <ol>
    <li><b>dna.clone</b>(name, data, options)</li>
    <li><b>dna.cloneSubTemplate</b>(holderClone, arrayField, data, options)</li>
-   <li><b>dna.load</b>(name, url, options)</li>
+   <li><b>dna.rest.get</b>(name, url, options)</li>
    <li><b>dna.getModel</b>(nameOrClone)</li>
    <li><b>dna.empty</b>(name, options)</li>
    <li><b>dna.refresh</b>(clone, options)</li>
@@ -643,9 +643,9 @@
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
-<!--  dna.load()  -->
-<section id=api-load>
-   <h4>dna.load(name, url [, options])</h4>
+<!--  dna.rest.get()  -->
+<section id=api-rest>
+   <h4>dna.rest.get(name, url [, options])</h4>
    <p class=api-description>
       Makes a GET request to the url and then generates a copy of the template
       and populates the fields, attributes, and classes from the JSON response.
@@ -671,11 +671,11 @@
    <figure>
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
-         dna.load('book', 'http://dnajs.org/rest/book/3');
+         dna.rest.get('book', 'http://dnajs.org/rest/book/3');
       </code></pre>
    </figure>
    <p>
-      The <code>dna.load()</code> method will not create a clone if the REST
+      The <code>dna.rest.get()</code> method will not create a clone if the REST
       call returns an <code>error</code> field equal to <code>true</code>.
    </p>
    <p>

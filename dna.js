@@ -7,7 +7,7 @@ var dna = {
    //    dna.clone()
    //    dna.cloneSubTemplate()
    //    dna.createTemplate()
-   //    dna.load()
+   //    dna.rest.get()
    //    dna.getModel()
    //    dna.empty()
    //    dna.refresh()
@@ -53,9 +53,14 @@ var dna = {
       $(html).attr('id', name).addClass('dna-template').appendTo(holder);
       return dna.store.getTemplate(name);
       },
-   load: function(name, url, options) {
-      function processJson(data) { dna.core.unload(name, data, options); }
-      return $.getJSON(url, processJson);
+   rest: {
+      get: function(name, url, options) {
+         function processJson(data) {
+            if (!data.error)
+               dna.clone(name, data, options);
+            }
+         return $.getJSON(url, processJson);
+         }
       },
    getModel: function(elemOrName, options) {
       function getOneModel(elem) {
@@ -785,10 +790,6 @@ dna.core = {
       if (settings.fade)
          dna.ui.slideFadeIn(clone);
       return clone;
-      },
-   unload: function(name, data, options) {  //use rest data to make clone
-      if (!data.error)
-         dna.clone(name, data, options);
       },
    remove: function(clone) {  //TODO: optimize
       clone.remove();

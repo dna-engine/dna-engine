@@ -518,9 +518,9 @@ var test09 = {
    run: function() {
       console.log('Test Case: #09');
       dna.clone('rest-link', ['http://dnajs.org/rest/book/1', 'http://dnajs.org/rest/book/2']);
-      dna.load('t09-book', 'http://dnajs.org/rest/book/1');
-      dna.load('t09-book', 'http://dnajs.org/rest/book/2');
-      dna.load('t09-book', 'http://dnajs.org/rest/book/7');  //test call to missing resource
+      dna.rest.get('t09-book', 'http://dnajs.org/rest/book/1');
+      dna.rest.get('t09-book', 'http://dnajs.org/rest/book/2');
+      dna.rest.get('t09-book', 'http://dnajs.org/rest/book/7');  //test call to missing resource
       }
    };
 </script>
