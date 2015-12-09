@@ -1,10 +1,10 @@
 <!--#set var="title" value="Thank You"-->
 <!--#include file="~begin.fhtml"-->
 
-<article>
+<main>
    <p><b>Your message has been sent.</b></p>
    <p>Thanks.</p>
    <p><button data-href=".">&laquo; Back to Home Page</button></p>
-</article>
+</main>
 
 <!--#include file="~end.fhtml"-->

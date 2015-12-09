@@ -1,7 +1,7 @@
 <!--#set var="title" value="Documentation"-->
 <!--#include file="~begin.fhtml"-->
 
-<article>
+<main>
 
 <p>
    For an overview of using dna.js, see the <a href=".#example">Bookstore Example</a>.&nbsp;
@@ -2599,6 +2599,6 @@
    </table>
 </section>
 
-</article>
+</main>
 
 <!--#include file="~end.fhtml"-->

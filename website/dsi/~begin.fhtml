@@ -30,20 +30,20 @@
 
 <html>
 <head>
-   <meta charset=utf-8>
-   <meta name=apple-mobile-web-app-title content="dna.js">
-   <title><!--#echo var="name"--> &bull; <!--#echo var="title"--></title>
-   <!--#if file="$DOCUMENT_NAME=file-not-found.bhtml"-->
-   <base href="http://dnajs.org/">
-   <!--#endif -->
-   <link rel=icon             href="graphics/bookmark.png">
-   <link rel=apple-touch-icon href="graphics/mobile-home-screen.png">
-   <link rel=stylesheet       href="https://cdn.jsdelivr.net/fontawesome/4/css/font-awesome.min.css">
-   <link rel=stylesheet       href="http://centerkey.com/css/reset.css">
-   <link rel=stylesheet       href="http://centerkey.com/files/hljs-enhance/hljs-enhance.css">
-   <link rel=stylesheet       href="https://cdn.jsdelivr.net/dna.js/0/dna.css">
-   <link rel=stylesheet       href="style.css">
-   <script src="https://cdn.jsdelivr.net/jquery/2/jquery.min.js"></script>
+<meta charset=utf-8>
+<meta name=apple-mobile-web-app-title content="dna.js">
+<title><!--#echo var="name"--> &bull; <!--#echo var="title"--></title>
+<!--#if file="$DOCUMENT_NAME=file-not-found.bhtml"-->
+<base href="http://dnajs.org/">
+<!--#endif -->
+<link rel=icon             href="graphics/bookmark.png">
+<link rel=apple-touch-icon href="graphics/mobile-home-screen.png">
+<link rel=stylesheet       href="https://cdn.jsdelivr.net/fontawesome/4/css/font-awesome.min.css">
+<link rel=stylesheet       href="http://centerkey.com/css/reset.css">
+<link rel=stylesheet       href="http://centerkey.com/files/hljs-enhance/hljs-enhance.css">
+<link rel=stylesheet       href="https://cdn.jsdelivr.net/dna.js/0/dna.css">
+<link rel=stylesheet       href="style.css">
+<script src="https://cdn.jsdelivr.net/jquery/2/jquery.min.js"></script>
 </head>
 <body>
 

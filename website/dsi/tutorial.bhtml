@@ -1,7 +1,7 @@
 <!--#set var="title" value="Quick Stark Tutorial"-->
 <!--#include file="~begin.fhtml"-->
 
-<article>
+<main>
 
 <p>
    Follow the steps below to build a ...
@@ -11,7 +11,7 @@
 
    https://developers.google.com/books/docs/v1/getting_started
 
-   https://www.googleapis.com/books/v1/volumes?q=quilting
+   https://www.googleapis.com/books/v1/volumes?q=fireworks
    ...
    http://books.google.com/googlebooks/images/poweredby.png
 
@@ -75,6 +75,6 @@
    </figure>
    <!-- End: Result  -->
 
-</article>
+</main>
 
 <!--#include file="~end.fhtml"-->

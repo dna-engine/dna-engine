@@ -1,7 +1,7 @@
 <!--#set var="title" value="Hello World Example"-->
 <!--#include file="~begin.fhtml"-->
 
-<article>
+<main>
 
    <p>
       The code below is a bare bones, standalone web page with the all CSS and
@@ -78,6 +78,6 @@
       </span>
    </p>
 
-</article>
+</main>
 
 <!--#include file="~end.fhtml"-->

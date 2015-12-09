@@ -1,12 +1,12 @@
 <!--#set var="title" value="404 File Not Found"-->
 <!--#include file="~begin.fhtml"-->
 
-<article>
+<main>
    <p>
       The web page you are trying to access is not available.&nbsp;
       The link you followed is either outdated or incorrect.
    </p>
    <button data-href="http://dnajs.org">Back to dna.js Home</button>
-</article>
+</main>
 
 <!--#include file="~end.fhtml"-->

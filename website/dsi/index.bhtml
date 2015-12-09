@@ -1,6 +1,6 @@
 <!--#include file="~begin.fhtml"-->
 
-<article>
+<main>
 
    <h2 class=hide-me>dna.js Semantic Templates</h2>
 
@@ -211,6 +211,6 @@
       </span>
    </p>
 
-</article>
+</main>
 
 <!--#include file="~end.fhtml"-->
