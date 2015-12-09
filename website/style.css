@@ -84,13 +84,12 @@ header h2 {
    margin-bottom: 20px;
    }
 footer {
-   padding: 25px 0px 0px 0px;
+   padding: 40px 0px 0px 0px;
    }
 footer .tag-line {
    font-size: 0.7rem;
    font-style: italic;
    color: slategray;
-   margin-bottom: 6px;
    }
 
 /* Sidear */
@@ -203,9 +202,6 @@ button i.fa {
    padding: 15px;
    }
 
-#social-buttons {
-   margin: 20px 0px;
-   }
 .reveal-action {
    font-size: 0.8rem;
    }
