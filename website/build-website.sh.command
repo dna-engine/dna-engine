@@ -7,7 +7,7 @@
 
 releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/current
 webServerRoot=$(grep ^DocumentRoot /private/etc/apache2/httpd.conf | awk -F\" '{ print $2 }')
-webServerPath="centerkey.com/www.dnajs.org/"
+webServerPath="centerkey.com/www.dnajs.org"
 webServerFolder=$webServerRoot/$webServerPath
 websiteFolder=$(dirname $0)
 
@@ -52,6 +52,7 @@ listFiles() {
    updateWebServer() {
       echo $webServerFolder
       cp -R * $webServerFolder
+      mv $webServerFolder/placeholder.html $webServerFolder/../www.dnajs.com/index.html
       cp ../../dna.js  $webServerFolder/dna.snapshot.js
       cp ../../dna.css $webServerFolder/dna.snapshot.css
       url=http://localhost/$webServerPath
