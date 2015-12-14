@@ -1,6 +1,6 @@
 // dna.js Semantic Templates ~~ v0.4.3
 // MIT/GPLv3 ~~ dnajs.org/license.html
-// Copyright (c) 2013-2015 Center Key Software and other contributors
+// Copyright (c) 2013-2015 individual contributors
 
 var dna = {
    // API:
@@ -144,13 +144,15 @@ dna.array = {
       },
    last: function(array) {
       // Example:
-      //    library.array([3, 21, 7]) === 7;
+      //    dna.array.last([3, 21, 7]) === 7;
       return array && array.length ? array[array.length - 1] : undefined;
       },
    toMap: function(array, key) {
-      // Converts an array of objects into a hash map
-      //    var array = [{code: 'a', word: 'Ant'}, {code: 'b', word: 'Bat'}];
-      //    library.array.toMap(array, 'code').b.word === 'Bat';
+      // Converts an array of objects into an object literal (hash map)
+      //    var array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
+      //    console.log(dna.array.toMap(array, 'code'));
+      //       --> { a: { word: 'Ant' }, b: { word: 'Bat' }}
+      key = key ? key : 'code';
       var map = {};
       function addObj(obj) { map[obj[key]] = obj; }
       array.forEach(addObj);
@@ -161,7 +163,7 @@ dna.array = {
 dna.browser = {
    getParams: function() {
       // Example:
-      //   http://example.com?lang=jp&code=7  ==>  { lang: 'jp', code: 7 }
+      //    http://example.com?lang=jp&code=7  ==>  { lang: 'jp', code: 7 }
       var params = {};
       function addParam(pair) { params[pair.split('=')[0]] = pair.split('=')[1]; }
       window.location.search.slice(1).split('&').forEach(addParam);
