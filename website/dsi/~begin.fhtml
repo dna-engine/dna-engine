@@ -12,20 +12,20 @@
 <!--  http://dnajs.org           -->
 <!--  MIT/GPLv3                  -->
 <!-- - - - - - - - - - - - - - - -->
-<!--#set var="name"              value="dna.js Semantic Templates"                 -->
-<!--#set var="title"             value="An uncomplicated user interface library"   -->
-<!--#set var="description"       value="dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications." -->
-<!--#set var="copyright"         value="Copyright (c) 2013-2015"                   -->
-<!--#set var="authors"           value="Center Key Software and other contributors"-->
-<!--#set var="release"           value="0.4.2"                                     -->
-<!--#set var="size"              value="14 kb"                                     -->
+<!--#set var="name"        value="dna.js Semantic Templates"                      -->
+<!--#set var="title"       value="An uncomplicated user interface library"        -->
+<!--#set var="description" value="dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications." -->
+<!--#set var="copyright"   value="Copyright (c) 2013-2016 individual contributors"-->
+<!--#set var="release"     value="0.4.2"                                          -->
+<!--#set var="size"        value="14 kb"                                          -->
 <!--Note: Keep #title and #description updated in: package.json, bower.json, and README.md -->
 
 <!-- jsFiddles -->
 <!--#set var="jsFiddleAddABook"     value="3ox4tbzm" -->
+<!--#set var="jsFiddleDataClick"    value="16ytgdwe" -->
 <!--#set var="jsFiddleLiveModel"    value="bupu9scn" -->
 <!--#set var="jsFiddleSmartUpdates" value="0t7Lue3w" -->
-<!--#set var="jsFiddleToDo"         value="3hcoubda" -->
+<!--#set var="jsFiddleToDo"         value="knLa0ou5" -->
 <!--Note: Keep #jsFiddleToDo updated in: README.md and the examples list in manual.bhtml-->
 
 <html>
