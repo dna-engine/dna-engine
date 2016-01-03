@@ -1,6 +1,6 @@
 // dna.js Website
 // MIT/GPLv3 ~~ dnajs.org/license.html
-// Copyright (c) 2013-2015 Center Key Software and other contributors
+// Copyright (c) 2013-2016 individual contributors
 
 var app = {};
 

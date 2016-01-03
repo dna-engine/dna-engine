@@ -49,7 +49,7 @@
       understand a library.<br>
    </p>
    <p>
-      Fiddle with the dna.js to-do list application at:
+      Experiment with the dna.js to-do list application at:
       <span class=block-indent>
          <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/" class=external-site>
             jsfiddle.net/<!--#echo var="jsFiddleToDo"-->
@@ -171,7 +171,7 @@
    <p>
       Backbone.js, AngularJS, and React are all powerful, but they require a fair a amount of
       technical expertise just to get started.&nbsp;  The HTML and JavaScript to create web
-      applications using dna.js will be familiar to any web developer, enabling the developer to be
+      applications using dna.js will be familiar to all web developers, enabling developers to be
       productive on the first day of using dna.js.
    </p>
    Templating should be lightweight, clean, and simple:
@@ -199,7 +199,8 @@
       focused on handling data not generating HTML.&nbsp;  Traditional web
       frameworks, such as Grails, PHP, and Rails, already handle HTML.&nbsp;
       Generating HTML from both the web framework and a client-side HTML templating
-      engine makes the HTML cumbersome to manage and style.
+      engine makes the HTML cumbersome to manage and style.&nbsp;
+      dna.js is all about keeping it simple.
    </p>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
