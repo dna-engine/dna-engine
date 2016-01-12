@@ -1,6 +1,6 @@
 // dna.js Semantic Templates ~~ v0.4.3
 // MIT/GPLv3 ~~ dnajs.org/license.html
-// Copyright (c) 2013-2015 individual contributors
+// Copyright (c) 2013-2016 individual contributors
 
 var dna = {
    // API:
@@ -148,10 +148,10 @@ dna.array = {
       return array && array.length ? array[array.length - 1] : undefined;
       },
    toMap: function(array, key) {
-      // Converts an array of objects into an object literal (hash map)
+      // Converts an array of objects into an object (hash map)
       //    var array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
-      //    console.log(dna.array.toMap(array, 'code'));
-      //       --> { a: { word: 'Ant' }, b: { word: 'Bat' }}
+      //    var map = dna.array.toMap(array, 'code');
+      //       ==> { a: { word: 'Ant' }, b: { word: 'Bat' } }
       key = key ? key : 'code';
       var map = {};
       function addObj(obj) { map[obj[key]] = obj; }
@@ -681,7 +681,7 @@ dna.core = {
       function injectAttrs(elem, attrs) {  //example attrs: ['data-tag', ['', 'tag', '']]
          for (var attr = 0; attr < attrs.length / 2; attr++) {  //each attr has a key and parts
             var key = attrs[attr*2];
-            var parts = attrs[attr*2 + 1];  //example: 'J~~code.num~~' --> ['J', 'code.num', '']
+            var parts = attrs[attr*2 + 1];  //example: 'J~~code.num~~' ==> ['J', 'code.num', '']
             var core = parts[1] === true ? data : dna.util.value(data, parts[1]);
             var value = [parts[0], core, parts[2]].join('');
             elem.attr(key, value);
