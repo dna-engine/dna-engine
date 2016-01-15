@@ -933,7 +933,7 @@ var test15 = {
             </div>
             Tags:
             <p>
-               <span data-array=~~tags~~ class=in-a-row>
+               <span data-array=~~meta.info.tags~~ class=in-a-row>
                   <input value=~~code~~ size=10>
                   <code>~~code~~</code>
                </span>
@@ -1076,7 +1076,7 @@ var test16 = {
          cover:    cover,
          purposes: purposes,
          category: 'computers',
-         tags:     [{ code: 'tech' }, { code: 'color' }],
+         meta:     { info: { tags: [{ code: 'tech' },  { code: 'color' }] }},  //test dot notation
          secret:   'Signed!',
          pubDate:  '2014-06-22',
          coverColor: '#DAA520',

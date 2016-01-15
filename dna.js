@@ -710,7 +710,7 @@ dna.core = {
          }
       function processLoop(elem, loop) {
          var dataArray = dna.util.value(data, loop.field);
-         var subClones = elem.children('.' + loop.name);
+         var subClones = elem.children('.' + loop.name.replace(/[.]/g, '\\.'));
          function injectSubClone(index) {
             dna.core.inject($(this), dataArray[index], index, settings);
             }
@@ -772,7 +772,7 @@ dna.core = {
       var clone = template.elem.clone(true, true);
       template.clones++;
       dna.core.inject(clone, data, index, settings);
-      var selector = '.dna-contains-' + template.name;
+      var selector =  '.dna-contains-' + template.name.replace(/[.]/g, '\\.');
       var container = settings.container ?
          settings.container.find(selector).addBack(selector) : template.container;
       if (settings.top && !template.elemsAbove)
