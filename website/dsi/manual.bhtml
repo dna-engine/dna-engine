@@ -465,14 +465,16 @@
    <figure>
       <figcaption>Example HTML for <code>src</code> attribute</figcaption>
       <pre><code class=language-html>
-         &lt;img data-attr-src=~~url~~ alt="Profile avatar"&gt;
+         &lt;img src=# data-attr-src=~~url~~ alt="Profile avatar"&gt;
       </code></pre>
    </figure>
    <p>
       The prefixing technique enables setting the <code>src</code> attribute for an
       <code>img</code> element without causing the browser to fetch the image until the
-      <code>src</code> attribute is actually set.&nbsp;  This technique can also be used to set the
-      <code>id</code> when the regular technique would result in duplicate IDs.
+      <code>src</code> attribute is actually set (adding <code>src=#</code> ensures the HTML is
+      still valid according to the W3 HTML Validator).&nbsp;
+      This technique can also be used to set the <code>id</code> when the regular technique would
+      result in duplicate IDs.
    </p>
    <p>
       Similarly, <code>data-attr-type</code> can be used a as a warning free way set HTML5 values
@@ -2053,21 +2055,21 @@
                &lt;li&gt;Ed&lt;/li&gt;
             &lt;/ul&gt;
             &lt;div id=author-info-panels class=dna-panels&gt;
-               &lt;div&gt;
-                  &lt;p&gt;Name: Jake&lt;/p&gt;
+               &lt;section&gt;
+                  &lt;h5&gt;Name: Jake&lt;/h5&gt;
                   &lt;p&gt;Publisher: O'Reilly&lt;/p&gt;
                   &lt;p&gt;Agent: William and Associates&lt;/p&gt;
-               &lt;/div&gt;
-               &lt;div&gt;
-                  &lt;p&gt;Name: Abby&lt;/p&gt;
+               &lt;/section&gt;
+               &lt;section&gt;
+                  &lt;h5&gt;Name: Abby&lt;/h5&gt;
                   &lt;p&gt;Publisher: Addison-Wesley&lt;/p&gt;
                   &lt;p&gt;Agent: Pro Reps&lt;/p&gt;
-               &lt;/div&gt;
-               &lt;div&gt;
-                  &lt;p&gt;Name: Ed&lt;/p&gt;
+               &lt;/section&gt;
+               &lt;section&gt;
+                  &lt;h5&gt;Name: Ed&lt;/h5&gt;
                   &lt;p&gt;Publisher: ASM International&lt;/p&gt;
                   &lt;p&gt;Agent: Feven&lt;/p&gt;
-               &lt;/div&gt;
+               &lt;/section&gt;
             &lt;/div&gt;
          &lt;/div&gt;
       </code></pre>
@@ -2109,17 +2111,17 @@
             </ul>
             <div id=author-info-panels class=dna-panels>
                <section>
-                  <p>Name: Jake</p>
+                  <h5>Name: Jake</h5>
                   <p>Publisher: O'Reilly</p>
                   <p>Agent: William and Associates</p>
                </section>
                <section>
-                  <p>Name: Abby</p>
+                  <h5>Name: Abby</h5>
                   <p>Publisher: Addison-Wesley</p>
                   <p>Agent: Pro Reps</p>
                </section>
                <section>
-                  <p>Name: Ed</p>
+                  <h5>Name: Ed</h5>
                   <p>Publisher: ASM International</p>
                   <p>Agent: Feven</p>
                </section>
@@ -2152,7 +2154,7 @@
                &lt;div id=book-panel class=dna-template data-hash=~~id~~
                      data-transform=bookCatalog.addCover&gt;
                   &lt;h4&gt;~~title~~&lt;/h4&gt;
-                  &lt;img data-attr-src=~~cover~~ alt=&quot;Cover&quot;&gt;
+                  &lt;img src=# data-attr-src=~~cover~~ alt=&quot;Cover&quot;&gt;
                &lt;/div&gt;
             &lt;/section&gt;
             &lt;script&gt;
@@ -2208,7 +2210,7 @@
                <div id=book-panel class=dna-template data-hash=~~id~~
                      data-transform=bookCatalog.addCover>
                   <h4>~~title~~</h4>
-                  <img data-attr-src=~~cover~~ alt="Cover">
+                  <img src=# data-attr-src=~~cover~~ alt="Cover">
                </div>
             </section>
             <script>
