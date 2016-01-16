@@ -16,6 +16,8 @@ var dna = {
    //    dna.getClone()
    //    dna.getClones()
    //    dna.getIndex()
+   //    dna.up()
+   //    dna.down()
    //    dna.bye()
    //    dna.registerInitializer()
    //    dna.clearInitializers()
@@ -110,6 +112,12 @@ var dna = {
    getIndex: function(elem, options) {
       var clone = dna.getClone(elem, options);
       return clone.parent().children('.dna-clone').index(clone);
+      },
+   up: function(elemOrEventOrIndex) {
+      return dna.ui.smoothMove(dna.getClone(dna.ui.toElem(elemOrEventOrIndex, this)), true);
+      },
+   down: function(elemOrEventOrIndex) {
+      return dna.ui.smoothMove(dna.getClone(dna.ui.toElem(elemOrEventOrIndex, this)), false);
       },
    bye: function(elemOrEventOrIndex) {
       return dna.destroy(dna.ui.toElem(elemOrEventOrIndex, this), { fade: true });
@@ -263,6 +271,20 @@ dna.ui = {
       },
    slidingFlasher: function(elem, callback) {
       return elem.is(':hidden') ? dna.ui.slideFadeIn(elem, callback) : elem.hide().fadeIn();
+      },
+   smoothMove: function(elem, up) {
+      function move() {
+         var ghostElem = submissiveElem.clone();
+         if (up)
+            elem.after(submissiveElem.hide()).before(ghostElem);
+         else
+            elem.before(submissiveElem.hide()).after(ghostElem);
+         dna.ui.slideFadeIn(submissiveElem);
+         dna.ui.slideFadeDelete(ghostElem);
+         }
+      var submissiveElem = up ? elem.prev() : elem.next();
+      if (submissiveElem.length)
+         move();
       },
    focus: function(elem) {
       return elem.focus();

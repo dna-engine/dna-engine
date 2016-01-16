@@ -46,8 +46,6 @@
    <p><span id=file-name></span> &mdash; <a id=switch href="test-cases.html">switch</a></p>
 </header>
 
-<main>
-
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <section id=t01 class=test-case>
    <h3>Test Case: #01</h3>
@@ -771,11 +769,16 @@ var test13 = {
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <section id=t14 class=test-case>
    <h3>Test Case: #14</h3>
-   <p>Simple array</p>
+   <p>Simple array with rearrange and delete</p>
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
          <div id=t14-book class=dna-template>
+            <div>
+               <button data-click=dna.up>&uarr;</button>
+               <button data-click=dna.down>&darr;</button>
+               <button data-click=dna.bye>&times;</button>
+            </div>
             Book #<span>~~[count]~~</span>: <span>~~[value]~~</span>
          </div>
       </div>
@@ -786,12 +789,27 @@ var test13 = {
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone>
+            <div>
+               <button>&uarr;</button>
+               <button>&darr;</button>
+               <button>&times;</button>
+            </div>
             Book #<span>1</span>: <span>The DOM</span>
          </div>
          <div class=dna-clone>
+            <div>
+               <button>&uarr;</button>
+               <button>&darr;</button>
+               <button>&times;</button>
+            </div>
             Book #<span>2</span>: <span>Howdy HTML5</span>
          </div>
          <div class=dna-clone>
+            <div>
+               <button>&uarr;</button>
+               <button>&darr;</button>
+               <button>&times;</button>
+            </div>
             Book #<span>3</span>: <span>Styling CSS3</span>
          </div>
       </div>
@@ -1278,8 +1296,6 @@ var test18 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-</main>
-
 <footer>
    dna.js
 </footer>

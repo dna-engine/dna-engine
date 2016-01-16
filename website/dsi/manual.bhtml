@@ -45,6 +45,8 @@
             <li><a href="#api-destroy">dna.destroy()</a></li>
             <li><a href="#api-get-clone">dna.getClone()</a></li>
             <li><a href="#api-get-clones">dna.getClones()</a></li>
+            <li><a href="#api-up">dna.up()</a></li>
+            <li><a href="#api-down">dna.down()</a></li>
             <li><a href="#api-bye">dna.bye()</a></li>
             <li><a href="#api-register-initializer">dna.registerInitializer()</a></li>
             <li><a href="#api-clear-initializers">dna.clearInitializers()</a></li>
@@ -527,6 +529,8 @@
    <li><b>dna.destroy</b>(clone, options)</li>
    <li><b>dna.getClone</b>(elem, options)</li>
    <li><b>dna.getClones</b>(name)</li>
+   <li><b>dna.up</b>(elemOrEventOrIndex)</li>
+   <li><b>dna.down</b>(elemOrEventOrIndex)</li>
    <li><b>dna.bye</b>(elemOrEventOrIndex)</li>
    <li><b>dna.registerInitializer</b>(callback, options)</li>
    <li><b>dna.clearInitializers</b>()</li>
@@ -918,6 +922,53 @@
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.up()  -->
+<section id=api-up>
+   <h4>dna.up(elemOrEventOrIndex)</h4>
+   <p class=api-description>
+      Smoothly moves a clone up one slot effectively swapping its position with the previous clone.
+   </p>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <!--#include file="params/elem-or-event-or-index.fhtml"-->
+      </ul>
+   </div>
+   <figure>
+      <figcaption>Example: Event callbacks for up and down</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna-template&gt;
+            &lt;p&gt;~~title~~&lt;/p&gt;
+            &lt;button data-click=dna.up&gt;Move Up&lt;/button&gt;
+            &lt;button data-click=dna.down&gt;Move Down&lt;/button&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <p>
+      Users will be able to interactively rearrange the clones by clicking the <b>Move Up</b> and
+      <b>Move Down</b> buttons.
+   </p>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.down()  -->
+<section id=api-down>
+   <h4>dna.down(elemOrEventOrIndex)</h4>
+   <p class=api-description>
+      Smoothly moves a clone down one slot effectively swapping its position with the next clone.
+   </p>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <!--#include file="params/elem-or-event-or-index.fhtml"-->
+      </ul>
+   </div>
+   <p>
+      See the example for <a href="#api-up">dna.up()</a>.
+   </p>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.bye()  -->
 <section id=api-bye>
    <h4>dna.bye(elemOrEventOrIndex)</h4>
@@ -933,7 +984,7 @@
       </ul>
    </div>
    <figure>
-      <figcaption>Example 1: event callback</figcaption>
+      <figcaption>Example 1: Event callback</figcaption>
       <pre><code class=language-html>
          &lt;div id=book class=dna-template&gt;
             &lt;p&gt;~~title~~&lt;/p&gt;
@@ -948,7 +999,7 @@
       </code></pre>
    </figure>
    <figure>
-      <figcaption>Example 3: direct function call</figcaption>
+      <figcaption>Example 3: Direct function call</figcaption>
       <pre><code class=language-javascript>
          var clone = dna.clone('book', { title: 'The DOM' });
          dna.bye(clone);  //deletes 'The DOM'
@@ -2263,6 +2314,7 @@
       <b>dna.ui.slideFadeToggle</b>(elem, callback)
    </li>
    <li><b>dna.ui.slidingFlasher</b>(elem, callback)</li>
+   <li><b>dna.ui.smoothMove</b>(elem, up)</li>
    <li><b>dna.ui.toElem</b>(elemOrEventOrIndex, that)</li>
    <li><b>dna.util.apply</b>(func, params)</li>
    <li><b>dna.util.realTruth</b>(value)</li>
@@ -2301,7 +2353,7 @@
       </ul>
    </div>
    <figure>
-      <figcaption>Example: direct function call</figcaption>
+      <figcaption>Example using a direct function call</figcaption>
       <pre><code class=language-javascript>
          var a = dna.pageToken.get('favorite', 0);  //a == 0
          dna.pageToken.put('favorite', 7);
@@ -2324,7 +2376,7 @@
       </ul>
    </div>
    <figure>
-      <figcaption>Example 1: direct function call</figcaption>
+      <figcaption>Example 1: Direct function call</figcaption>
       <pre><code class=language-javascript>
          dna.ui.deleteElem($('.box:first'));  //removes first box
       </code></pre>
@@ -2411,6 +2463,37 @@
          dna.ui.slidingFlasher(elem);  //pulse
       </code></pre>
    </figure>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.ui.smoothMove()  -->
+<section id=ui-smooth-move>
+   <h4>dna.ui.smoothMove(elem, up)</h4>
+   <p class=api-description>
+      Uses animation to smoothly slide an element up or down one slot amongst its siblings.
+   </p>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         <!--#include file="params/elem.fhtml"-->
+         <!--#include file="params/up.fhtml"-->
+      </ul>
+   </div>
+   <figure>
+      <figcaption>Example</figcaption>
+      <pre><code class=language-html>
+         &lt;ol&gt;
+            &lt;li&gt;The DOM&lt;/li&gt;
+            &lt;li id=favorite&gt;Go JavaScript!&lt;/li&gt;
+            &lt;li&gt;Styling CSS3&lt;/li&gt;
+         &lt;/ol&gt;
+         &lt;script&gt;dna.ui.smoothMove($('#favorite'), true);&lt;/script&gt;
+      </code></pre>
+   </figure>
+   <p>
+      The book <i>Go JavaScript!</i> will be first on the list after <code>smoothMove()</code> has
+      executed.
+   </p>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->

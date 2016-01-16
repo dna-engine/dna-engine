@@ -1,0 +1,4 @@
+<li>
+   <label><b>up</b> (Boolean):</label>
+   Direction to move element is up (<code>true</code>) or down (<code>false</code>).
+</li>
