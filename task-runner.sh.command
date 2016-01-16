@@ -12,7 +12,7 @@
 #    $ chromium-browser --args --allow-file-access-from-files test-cases.html"
 
 package=https://raw.githubusercontent.com/dnajs/dna.js/master/package.json
-projectHome=$(dirname $0)
+projectHome=$(cd $(dirname $0); pwd)
 
 needNode() {
    echo "**********************************"

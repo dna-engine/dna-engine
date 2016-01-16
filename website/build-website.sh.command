@@ -9,7 +9,7 @@ releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/current
 webServerRoot=$(grep ^DocumentRoot /private/etc/apache2/httpd.conf | awk -F\" '{ print $2 }')
 webServerPath="centerkey.com/www.dnajs.org"
 webServerFolder=$webServerRoot/$webServerPath
-websiteFolder=$(dirname $0)
+websiteFolder=$(cd $(dirname $0); pwd)
 
 buildHtmlFiles() {
    # Set release version and build HTML files (run DSI templating)
