@@ -360,19 +360,6 @@ figure.full-screen-code pre code {
    border-color: steelblue;
    }
 
-/* PERFECT */
-.perfect {
-   border-color: steelblue;
-   margin-top: 20px;
-   }
-.perfect h1 {
-   background-color: steelblue; color: white;
-   }
-.perfect input,
-.perfect textarea {
-   background-color: white;
-   }
-
 /* Mobile */
 @media only screen and (max-device-width: 480px) {
    html {

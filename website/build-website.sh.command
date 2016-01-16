@@ -31,7 +31,6 @@ copyToWebFolder() {
    mkdir  $websiteFolder/httpdocs
    mv -v dsi/*.html            $websiteFolder/httpdocs
    cp -v *.html *.css *.js     $websiteFolder/httpdocs
-   cp -v graphics/bookmark.ico $websiteFolder/httpdocs/favicon.ico
    cp -R graphics rest         $websiteFolder/httpdocs
    echo
    }
