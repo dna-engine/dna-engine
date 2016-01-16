@@ -349,7 +349,8 @@ dna.panels = {
          if (menu.find('.menu-item').length === 0)
             menu.children().addClass('menu-item');
          if (!partOfTemplate(panels) && !partOfTemplate(menu.children())) {
-            var loc = hash && panels.first().data().hash ? findPanelLoc(panels) : dna.pageToken.get(key, 0);
+            var loc = hash && panels.first().data().hash ?
+               findPanelLoc(panels) : dna.pageToken.get(key, 0);
             dna.panels.display(menu, loc);
             }
          }
@@ -644,9 +645,11 @@ dna.events = {
             smartUpdate();
          }
       function setupJumpToUrl() {
-         // Usage ("external-site" is optional):
+         // Usage ("external-site" is optional and can be on a parent element):
          //    <button data-href="/" class=external-site>Home</button>
-         function context(elem) { return elem.hasClass('external-site') ? '_blank' : '_self'; }
+         function context(elem) {
+            return elem.closest('.external-site').length ? '_blank' : '_self';
+            }
          function jump() { window.open($(this).data().href, context($(this))); }
          $(document).on('click', '[data-href]', jump);
          }
