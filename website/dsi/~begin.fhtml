@@ -18,15 +18,17 @@
 <!--#set var="copyright"   value="Copyright (c) 2013-2016 individual contributors"-->
 <!--#set var="release"     value="0.4.3"                                          -->
 <!--#set var="size"        value="14 kb"                                          -->
-<!--Note: Keep #title and #description updated in: package.json, bower.json, and README.md -->
+<!-- Note: Keep #title and #description updated in: package.json, bower.json, and README.md -->
 
 <!-- jsFiddles -->
 <!--#set var="jsFiddleAddABook"     value="3ox4tbzm" -->
+<!--#set var="jsFiddleBookFinder"   value="kycnLazq" -->
 <!--#set var="jsFiddleDataClick"    value="16ytgdwe" -->
 <!--#set var="jsFiddleLiveModel"    value="bupu9scn" -->
 <!--#set var="jsFiddleSmartUpdates" value="0t7Lue3w" -->
-<!--#set var="jsFiddleToDo"         value="rhgxezk6" -->
-<!--Note: Keep #jsFiddleToDo updated in: README.md and the examples list in manual.bhtml-->
+<!--#set var="jsFiddleToDo"         value="dovd6088" -->
+<!-- Note 1: Keep #jsFiddleToDo updated in README.md -->
+<!-- Note 2: Add new fiddles to examples list in manual.bhtml -->
 
 <html>
 <head>
