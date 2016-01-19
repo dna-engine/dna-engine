@@ -25,7 +25,7 @@
 <!--#set var="jsFiddleDataClick"    value="16ytgdwe" -->
 <!--#set var="jsFiddleLiveModel"    value="bupu9scn" -->
 <!--#set var="jsFiddleSmartUpdates" value="0t7Lue3w" -->
-<!--#set var="jsFiddleToDo"         value="knLa0ou5" -->
+<!--#set var="jsFiddleToDo"         value="rhgxezk6" -->
 <!--Note: Keep #jsFiddleToDo updated in: README.md and the examples list in manual.bhtml-->
 
 <html>
@@ -52,9 +52,7 @@
       <ul>
          <li><a class=plain href=".">Home</a></li>
          <li><a class=plain href="hello-world.html">Example</a></li>
-         <!--
-         <li><a class=plain href="tutorial.html">Quick Start</a></li>
-         -->
+         <li><a class=plain href="tutorial.html">Tutorial</a></li>
          <li><a class=plain href="manual.html">Documentation</a></li>
          <li><a class=plain href="license.html">License</a></li>
       </ul>

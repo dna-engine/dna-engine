@@ -1,0 +1,59 @@
+<!doctype html>
+<!-- - - - - - - - - - - - - - - - -->
+<!--  Book Finder                  -->
+<!--  dnajs.org/book-finder.html   -->
+<!-- - - - - - - - - - - - - - - - -->
+<html>
+<head>
+<meta charset=utf-8>
+<title>Book Finder</title>
+<link rel=stylesheet href="https://cdn.jsdelivr.net/dna.js/0/dna.css">
+<style>
+   body       { font-family: sans-serif; margin: 30px; }
+   .book      { display: table; background-color: lightblue;
+                padding: 10px; margin: 10px; }
+   .book img  { width: 80px; margin-right: 10px; }
+   .book >div { display: inline-block; width: 400px;
+                vertical-align: top; }
+</style>
+</head>
+<body>
+
+<main>
+   <h1>Book Finder</h1>
+   <label>
+      Search:
+      <input data-smart-update=findBooks placeholder="Enter terms" autofocus>
+   </label>
+   <!--
+   <button data-click=findBooks>Find</button>
+   -->
+   <img src="http://books.google.com/googlebooks/images/poweredby.png" alt="Google">
+   <div class=books>
+      <div id=book class=dna-template>
+         <img src=# data-attr-src=~~volumeInfo.imageLinks.thumbnail~~ alt="Cover">
+         <div>
+            <b>~~volumeInfo.title~~</b>
+            <p>~~volumeInfo.publisher~~</p>
+            <i>~~saleInfo.listPrice.amount~~</i>
+         </div>
+      </div>
+   </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/jquery/2/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/dna.js/0/dna.min.js"></script>
+<script>
+   function findBooks(elem) {
+      //var terms = $('input').val();
+      var terms = elem.val();
+      console.log(terms);
+      var url = 'https://www.googleapis.com/books/v1/volumes?q=' + terms;
+      function handleResults(data) {
+         dna.clone('book', data.items, { empty: true, fade: true });
+         }
+      $.getJSON(url, handleResults);
+      }
+</script>
+</body>
+</html>

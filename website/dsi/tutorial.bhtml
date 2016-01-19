@@ -1,79 +1,451 @@
-<!--#set var="title" value="Quick Stark Tutorial"-->
+<!--#set var="title" value="Book Finder Tutorial"-->
 <!--#include file="~begin.fhtml"-->
 
 <main>
 
-<p>
-   Follow the steps below to build a ...
-   https://developers.google.com/maps/documentation/webservices/
-   http://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal
-   http://maps.googleapis.com/maps/api/elevation/json?locations=39.7391536,-104.9847034
-
-   https://developers.google.com/books/docs/v1/getting_started
-
-   https://www.googleapis.com/books/v1/volumes?q=fireworks
-   ...
-   http://books.google.com/googlebooks/images/poweredby.png
-
-</p>
-
-<!--*********************************************************************************************-->
-<h3 id=step1>Step 1</h3>
+   <h2>Book Finder Tutorial</h2>
    <p>
-      Bla, bla, bla...
+      Follow the steps below to build an interactive search tool that finds books using JSON data
+      from the
+      <a href="https://developers.google.com/books/docs/v1/getting_started" class=external-site>
+         Google Books APIs</a> REST web service.
    </p>
-   <figure>
-      <figcaption>Example HTML</figcaption>
-      <pre><code class=language-html>
-         &lt;div id=book class=dna_template&gt;~~title~~&lt;/div&gt;
-      </code></pre>
-   </figure>
-   <figure>
-      <figcaption>Example JavaScript</figcaption>
-      <pre><code class=language-javascript>
-         var books = [{ title: 'The DOM' }, { title: 'Interwebz' }];
-         dna.clone('book', books);
-      </code></pre>
-   </figure>
-   <!-- Start: Result  -->
-   <div class=down-arrow></div>
-   <figure>
-      <figcaption>Resulting HTML</figcaption>
-      <pre><code class=language-html>
-         &lt;div class=book&gt;The DOM&lt;/div&gt;
-         &lt;div class=book&gt;Interwebz&lt;/div&gt;
-      </code></pre>
-   </figure>
-   <!-- End: Result  -->
+   <p class=leapfrog>
+      <img src="http://books.google.com/googlebooks/images/poweredby.png" class=push-right
+         alt="Google">
+      Click the link below to view results of searching for "pi":
+      <span class=block-indent>
+         <a href="https://www.googleapis.com/books/v1/volumes?q=pi"
+             class=external-site>https://www.googleapis.com/books/v1/volumes?q=pi</a>
+      </span>
+   </p>
+   <h4>Steps:</h4>
+   <ol>
+      <li><a href="#step1">Create baseline HTML</a></li>
+      <li><a href="#step2">Add search component</a></li>
+      <li><a href="#step3">Add search results component</a></li>
+      <li><a href="#step4">Style search results</a></li>
+      <li><a href="#step5">Define book template</a></li>
+      <li><a href="#step6">Load jQuery and dna.js</a></li>
+      <li><a href="#step7">Wire up search callback</a></li>
+      <li><a href="#step8">Make REST call</a></li>
+      <li><a href="#step9">Smarten up the search field</a></li>
+      <li><a href="#conclusion">Conclusion</a>
+   </ol>
 
-<!--*********************************************************************************************-->
-<h3 id=step2>Step 2</h3>
-   <p>
-      Bla, bla, bla...
-   </p>
-   <figure>
-      <figcaption>Example HTML</figcaption>
-      <pre><code class=language-html>
-         &lt;div id=book class=dna_template&gt;~~title~~&lt;/div&gt;
-      </code></pre>
-   </figure>
-   <figure>
-      <figcaption>Example JavaScript</figcaption>
-      <pre><code class=language-javascript>
-         var books = [{ title: 'The DOM' }, { title: 'Interwebz' }];
-         dna.clone('book', books);
-      </code></pre>
-   </figure>
-   <!-- Start: Result  -->
-   <div class=down-arrow></div>
-   <figure>
-      <figcaption>Resulting HTML</figcaption>
-      <pre><code class=language-html>
-         &lt;div class=book&gt;The DOM&lt;/div&gt;
-         &lt;div class=book&gt;Interwebz&lt;/div&gt;
-      </code></pre>
-   </figure>
-   <!-- End: Result  -->
+   <!--******************************************************************************************-->
+   <h3 id=step1>Step 1: Create baseline HTML</h3>
+   <section>
+      <p>
+         Using your <a href="https://atom.io" class=external-site>favorite code editor</a>, create a
+         simple HTML file named <code>book-finder.html</code> with the content below.
+      </p>
+      <figure>
+         <figcaption>Initial contents for <code>book-finder.html</code></figcaption>
+         <pre><code class=language-html>
+            &lt;!doctype html&gt;
+            &lt;html&gt;
+            &lt;head&gt;
+            &lt;meta charset=utf-8&gt;
+            &lt;title&gt;Book Finder&lt;/title&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+
+            &lt;main&gt;
+               &lt;h1&gt;Book Finder&lt;/h1&gt;
+            &lt;/main&gt;
+
+            &lt;/body&gt;
+            &lt;/html&gt;
+         </code></pre>
+      </figure>
+      <p>
+         Open <code>book-finder.html</code> in your web browser to verify it displays properly.
+      </p>
+   </section>
+
+   <!--******************************************************************************************-->
+   <h3 id=step>Step 2: Add search component</h3>
+   <section>
+      <p>
+         Just after the <code>h1</code> header line, insert the HTML for the search
+         input box and the submit button.
+      </p>
+      <figure>
+         <figcaption>Example HTML</figcaption>
+         <pre><code class=language-html>
+            &lt;main&gt;
+               &lt;h1&gt;Book Finder&lt;/h1&gt;
+               &lt;label&gt;
+                  Search:
+                  &lt;input placeholder=&quot;Enter terms&quot; autofocus&gt;
+               &lt;/label&gt;
+               &lt;button&gt;Find&lt;/button&gt;
+            &lt;/main&gt;
+         </code></pre>
+      </figure>
+      <p>
+         Now we need some HTML to display the search results.
+      </p>
+   </section>
+
+   <!--******************************************************************************************-->
+   <h3 id=step3>Step 3: Add search results component</h3>
+   <section>
+      <p>
+         Just after the search component you added in the previous step, insert a <code>div</code> tag
+         to hold a list of books.&nbsp;  Then add the static HTML for a single book.
+      </p>
+      <figure>
+         <figcaption>HTML for books</figcaption>
+         <pre><code class=language-html>
+            &lt;div class=books&gt;
+               &lt;div class=book&gt;
+                  &lt;img src=&quot;http://dnajs.org/graphics/sample-book-cover.jpg&quot; alt=&quot;Cover&quot;&gt;
+                  &lt;div&gt;
+                     &lt;b&gt;Title&lt;/b&gt;
+                     &lt;p&gt;Publisher&lt;/p&gt;
+                     &lt;i&gt;Price&lt;/i&gt;
+                  &lt;/div&gt;
+               &lt;/div&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <p>
+         If you go to your browser and refresh the <code>book-finder.html</code> page, you'll see the
+         sample book desperately needs some styling.
+      </p>
+   </section>
+
+   <!--******************************************************************************************-->
+   <h3 id=step4>Step 4: Style search results</h3>
+   <section>
+      <p>
+         Add the following lines into the <code>&lt;head&gt;</code> section:
+      </p>
+      <figure>
+         <figcaption>Example HTML</figcaption>
+         <pre><code class=language-html>
+            &lt;style&gt;
+               body       { font-family: sans-serif; margin: 30px; }
+               .book      { display: table; background-color: lightblue;
+                            padding: 10px; margin: 10px; }
+               .book img  { width: 80px; margin-right: 10px; }
+               .book >div { display: inline-block; width: 400px;
+                            vertical-align: top; }
+            &lt;/style&gt;
+         </code></pre>
+      </figure>
+      <p>
+         The <code>book-finder.html</code> page looks better with a little CSS, but it's still
+         completely static.&nbsp;
+         Next we'll turn the static book HTML into a template that can take JSON data.
+      </p>
+   </section>
+
+   <!--******************************************************************************************-->
+   <h3 id=step5>Step 5: Define book template</h3>
+   <section>
+      <p>
+         Before we convert the static book HTML into a data-driven template, we need to know the
+         structure of the data.&nbsp;  Do this by manually examining the results of a
+         <a href="https://www.googleapis.com/books/v1/volumes?q=pi"
+            class=external-site>sample search</a>.
+      </p>
+      <p>
+         Below are the pertinent fields:
+      </p>
+      <figure>
+         <figcaption>Sample Google Books API response</figcaption>
+         <pre><code class=language-json>
+            {
+               "totalItems": 1251,
+               "items": [
+                  {
+                     "id": "10jABQAAQBAJ",
+                     "volumeInfo": {
+                        "title": "A History of Pi",
+                        "publisher": "St. Martin's Griffin",
+                        "imageLinks": {
+                           "smallThumbnail": "http://books.google.com/books/...",
+                           "thumbnail": "http://books.google.com/books/..."
+                        }
+                     },
+                     "saleInfo": {
+                        "listPrice": {
+                           "amount": 9.99
+                        }
+                     }
+                  }
+               ]
+            }
+         </code></pre>
+      </figure>
+      <p>
+         The API returns a single object.&nbsp; The data we want is the list of books, which is the
+         <code>items</code> array.
+      </p>
+      The desired fields from each book are:
+      <ul>
+         <li><code>volumeInfo.imageLinks.thumbnail</code> (cover)</li>
+         <li><code>volumeInfo.title</code> (title)</li>
+         <li><code>volumeInfo.publisher</code> (publisher)</li>
+         <li><code>saleInfo.listPrice.amount</code> (price)</li>
+      </ul>
+      <p>
+         Convert the book HTML into a template by changing the class <code>book</code> to an ID
+         (name of the template) and adding the class <code>dna-template</code>.&nbsp;
+         Also insert the data fields surrounded by double tildes (<code>~~</code>) into the desired
+         spots within the template.
+      </p>
+      <figure>
+         <figcaption>Book template</figcaption>
+         <pre><code class=language-html>
+            &lt;div id=book class=dna-template&gt;
+               &lt;img src=# data-attr-src=~~volumeInfo.imageLinks.thumbnail~~ alt=&quot;Cover&quot;&gt;
+               &lt;div&gt;
+                  &lt;b&gt;~~volumeInfo.title~~&lt;/b&gt;
+                  &lt;p&gt;~~volumeInfo.publisher~~&lt;/p&gt;
+                  &lt;i&gt;~~saleInfo.listPrice.amount~~&lt;/i&gt;
+               &lt;/div&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      </p>
+         <b>Note:</b> Setting the image <code>src</code> attribute to <code>#</code> is
+         <a href="http://stackoverflow.com/a/34834047" class=external-site>valid HTML</a>
+         and denotes that the image is not yet ready to fetch.&nbsp;  The attribute
+         <code>data-attr-src</code> specifies the value for the <code>src</code> attribute.
+      </p>
+      <p>
+         Now it's time to load some libraries that will help us build dynamic features.
+      </p>
+   </section>
+
+   <!--******************************************************************************************-->
+   <h3 id=step6>Step 6: Load jQuery and dna.js</h3>
+   <section>
+      <p>
+         The easiest way to get the necessary CSS and JavaScript libraries is the pull them from a
+         <a href="https://en.wikipedia.org/wiki/Content_delivery_network"
+            class=external-site>CDN</a>.
+      </p>
+      <p>
+         First, add the following line into the <code>&lt;head&gt;</code> section:
+      </p>
+      <figure>
+         <figcaption>CSS link in <code>head</code> section</figcaption>
+         <pre><code class=language-html>
+            &lt;link rel=stylesheet href=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.css&quot;&gt;
+         </code></pre>
+      </figure>
+      <p>
+         Then, add the following two lines just before the closing <code>&lt;/body&gt;</code> tag:
+      </p>
+      <figure>
+         <figcaption>JS link at bottom of the <code>body</code> section</figcaption>
+         <pre><code class=language-html>
+            &lt;script src=&quot;https://cdn.jsdelivr.net/jquery/2/jquery.min.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.min.js&quot;&gt;&lt;/script&gt;
+         </code></pre>
+      </figure>
+      <p>
+         Go to your web browser and reload the <code>book-finder.html</code> page.&nbsp;
+         Verify jQuery and dna.js loaded properly by going into the
+         <a href="http://webmasters.stackexchange.com/questions/8525/how-to-open-the-javascript-console-in-different-browsers"
+            class=external-site>JavaScript console</a>
+         and entering the command:
+         <code>dna.info();</code>
+      </p>
+   </section>
+
+   <!--******************************************************************************************-->
+   <h3 id=step7>Step 7: Wire up search callback</h3>
+   <section>
+      <p>
+         To wire up the "Find" button, we'll use the <code>dna-click</code> attribute.&nbsp;
+         The attribute tells dna.js which function to call when the user clicks the element.
+      </p>
+      <p>
+         First, set the <code>data-click</code> attribute to <code>findBooks</code> on the
+         search component <code>button</code>:
+      </p>
+      <figure>
+         <figcaption>Callback event for button</figcaption>
+         <pre><code class=language-html>
+            &lt;button data-click=findBooks&gt;Find&lt;/button&gt;
+         </code></pre>
+      </figure>
+      <p>
+         Then, define the callback function just before the closing <code>&lt;/body&gt;</code> tag:
+      </p>
+      <figure>
+         <figcaption>Callback event for button</figcaption>
+         <pre><code class=language-html>
+            &lt;script&gt;
+               function findBooks(elem) {
+                  var terms = $('input').val();
+                  console.log(terms);
+                  }
+            &lt;/script&gt;
+         </code></pre>
+      </figure>
+      <p>
+         Verify the click events are firing the callback by viewing the JavaScript console while
+         clicking the "Find" button.
+      </p>
+   </section>
+
+   <!--******************************************************************************************-->
+   <h3 id=step8>Step 8: Make REST call</h3>
+   <section>
+      <p>
+         Immediately after the <code>console.log</code> line, insert the following code:
+      </p>
+      <figure>
+         <figcaption>REST   </figcaption>
+         <pre><code class=language-javascript>
+            var url = 'https://www.googleapis.com/books/v1/volumes?q=' + terms;
+            function handleResults(data) {
+               dna.clone('book', data.items, { empty: true, fade: true });
+               }
+            $.getJSON(url, handleResults);
+         </code></pre>
+      </figure>
+      The code:
+      <ol>
+         <li>Builds the REST URL</li>
+         <li>Invokes jQuery's <a href="http://api.jquery.com/jquery.getjson/"
+            class=external-site>getJSON()</a> function to call the Google Books API</li>
+         <li>Passes the search results data to the
+            <a href="manual.html#api-clone">templating engine</a>.</li>
+      </ol>
+      <p>
+         The options <code>{ empty: true, fade: true }</code> tell dna.js to delete any previous
+         results before displaying the new results and to smoothly fade in the new results.
+      </p>
+      <p>
+         Go to your web browser and give it a whirl by searching for "laser".
+      </p>
+   </section>
+
+   <!--******************************************************************************************-->
+   <h3 id=step9>Step 9: Smarten up the search field</h3>
+   <section>
+      <p>
+         Clicking the "Find" button may be simple, but it makes for an annoying user experience.&nbsp;
+         We can leverage the smart update feature in dna.js to replace the button with automatic
+         searching.
+      <p>
+         Delete the line of HTML for the <code>&lt;button&gt;</code>, and update the
+         <code>&lt;input&gt;</code> tag to be:
+      </p>
+      <figure>
+         <figcaption>Smart update</figcaption>
+         <pre><code class=language-html>
+            &lt;input data-smart-update=findBooks placeholder=&quot;Enter terms&quot; autofocus&gt;
+         </code></pre>
+      </figure>
+      <p>
+         dna.js always passes the event target element into the callback.&nbsp;
+         The callback event now happens on the <code>&lt;input&gt;</code> element, so we can replace
+         the old <code>var terms = $('input').val();</code> line with a more robust line of code:
+      </p>
+      <figure>
+         <figcaption>Smart update</figcaption>
+         <pre><code class=language-javascript>
+            var terms = elem.val();
+         </code></pre>
+      </figure>
+      <p>
+         Hop back to your browser and verify that search results are returned continuously as you type
+         in search terms.
+      </p>
+   </section>
+
+   <!--******************************************************************************************-->
+   <h3 id=conclusion>Conclusion</h3>
+   <section>
+      <p>
+         That's a wrap!
+      </p>
+      <p>
+         Finished version:
+         <span class=block-indent>
+            <button data-href="book-finder.html" class=external-site>book-finder.html</button>
+         </span>
+      </p>
+      <p>
+         Code:
+      </p>
+      <figure>
+         <figcaption><code>book-finder.html</code></figcaption>
+         <pre><code class=language-html>
+            &lt;!doctype html&gt;
+            &lt;html&gt;
+            &lt;head&gt;
+            &lt;meta charset=utf-8&gt;
+            &lt;title&gt;Book Finder&lt;/title&gt;
+            &lt;link rel=stylesheet href=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.css&quot;&gt;
+            &lt;style&gt;
+               body       { font-family: sans-serif; margin: 30px; }
+               .book      { display: table; background-color: lightblue;
+                            padding: 10px; margin: 10px; }
+               .book img  { width: 80px; margin-right: 10px; }
+               .book >div { display: inline-block; width: 400px;
+                            vertical-align: top; }
+            &lt;/style&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+
+            &lt;main&gt;
+               &lt;h1&gt;Book Finder&lt;/h1&gt;
+               &lt;label&gt;
+                  Search:
+                  &lt;input data-smart-update=findBooks placeholder=&quot;Enter terms&quot; autofocus&gt;
+               &lt;/label&gt;
+               &lt;div class=books&gt;
+                  &lt;div id=book class=dna-template&gt;
+                     &lt;img src=# data-attr-src=~~volumeInfo.imageLinks.thumbnail~~ alt=&quot;Cover&quot;&gt;
+                     &lt;div&gt;
+                        &lt;b&gt;~~volumeInfo.title~~&lt;/b&gt;
+                        &lt;p&gt;~~volumeInfo.publisher~~&lt;/p&gt;
+                        &lt;i&gt;~~saleInfo.listPrice.amount~~&lt;/i&gt;
+                     &lt;/div&gt;
+                  &lt;/div&gt;
+               &lt;/div&gt;
+            &lt;/main&gt;
+
+            &lt;script src=&quot;https://cdn.jsdelivr.net/jquery/2/jquery.min.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.min.js&quot;&gt;&lt;/script&gt;
+            &lt;script&gt;
+               function findBooks(elem) {
+                  var terms = elem.val();
+                  console.log(terms);
+                  var url = 'https://www.googleapis.com/books/v1/volumes?q=' + terms;
+                  function handleResults(data) {
+                     dna.clone('book', data.items, { empty: true, fade: true });
+                     }
+                  $.getJSON(url, handleResults);
+                  }
+            &lt;/script&gt;
+            &lt;/body&gt;
+            &lt;/html&gt;
+         </code></pre>
+      </figure>
+      <p>
+         Hungry for more?&nbsp;  Try building something using the
+            <a href="https://developers.google.com/maps/documentation/webservices/"
+               class=external-site>Google Maps APIs Web Services</a>.
+      </p>
+      <p>
+         For example, here's the JSON data for the geographic coordinates of Paris:
+         <span class=block-indent>
+            <a href="https://maps.googleapis.com/maps/api/geocode/json?address=Paris"
+               class=external-site>maps.googleapis.com/maps/api/geocode/json?address=Paris</a>
+         </span>
+      </p>
+   </section>
 
 </main>
 
