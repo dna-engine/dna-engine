@@ -3,6 +3,7 @@
 
 <main>
 
+   <h2>Hello World Bookstore Example</h2>
    <p>
       The code below is a bare bones, standalone web page with the all CSS and
       JavaScript (including loading jQuery and dna.js) to demonstrate

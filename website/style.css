@@ -83,6 +83,11 @@ header h2 {
    text-align: center;
    margin-bottom: 20px;
    }
+main >h2 {
+   font-size: 1.2rem;
+   font-weight: normal;
+   text-transform: uppercase;
+   }
 footer {
    padding: 40px 0px 0px 0px;
    }
@@ -214,7 +219,7 @@ button i.fa {
    }
 
 .toc {
-   margin-left: 100px;
+   clear: both;
    margin-bottom: 30px;
    }
 .toc h2 {

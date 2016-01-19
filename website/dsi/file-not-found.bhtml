@@ -2,6 +2,7 @@
 <!--#include file="~begin.fhtml"-->
 
 <main>
+   <h2>404</h2>
    <p>
       The web page you are trying to access is not available.&nbsp;
       The link you followed is either outdated or incorrect.
