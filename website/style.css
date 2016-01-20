@@ -49,10 +49,9 @@ header nav ul {
    display: inline-block;
    list-style-type: none;
    padding: 0px;
-   margin: 0px 0px 20px 0px;
    }
 header nav ul li {
-   display: table-cell;
+   display: inline-block;
    }
 header nav ul li a {
    display: inline-block;
@@ -62,7 +61,7 @@ header nav ul li a {
    color: darkgray;
    border-bottom: 1px solid darkgray;
    padding: 1px 12px;
-   margin: 0px 10px;
+   margin: 0px 10px 10px 10px;
    outline: none;
    }
 header nav ul li.current a,
@@ -97,10 +96,11 @@ footer .tag-line {
    color: slategray;
    }
 
-/* Sidear */
+/* Sidebar */
 aside {
    float: right;
    width: 325px;
+   max-width: 100%;
    margin-left: 40px;
    }
 aside section {
@@ -148,6 +148,7 @@ h4 {
    letter-spacing: normal;
    color: steelblue;
    margin-bottom: 4px;
+   overflow: scroll;
    }
 h5 {
    font-size: 1.1rem
@@ -170,6 +171,7 @@ td >code {
    font-weight: bold;
    }
 
+/* Flat buttons */
 button {
    font-size: 1.1rem;
    font-weight: bold;
@@ -190,14 +192,19 @@ button i.fa {
    padding-right: 0.2em;
    }
 
-#logo {
+main >p >button {
+   display: block;
+   margin-left: 40px;
+   }
+
+header .logo {
    float: left;
    margin: 2px 15px 5px 0px;
    }
-#logo img {
+header .logo img {
    height: 90px;
    }
-#logo img:hover {
+header .logo img:hover {
    opacity: 0.9;
    }
 .side-image {
@@ -280,7 +287,9 @@ button i.fa {
    left: -190px;
    }
 
-.wrappable code {
+.wrappable code,
+code.wrappable,
+code.block-indent {
    white-space: normal;
    }
 
@@ -303,6 +312,7 @@ button i.fa {
    text-align: center;
    }
 .image-frame img {
+   max-width: 100%;
    border: 3px solid steelblue;
    }
 
@@ -321,10 +331,17 @@ button i.fa {
    }
 
 /* GitHub fork me */
-#github-banner {
+footer #github-banner {
    position: absolute;
    top: 0px;
    right: 0px;
+   }
+footer #github-icon {
+   display: none;
+   position: absolute;
+   top: 5px;
+   right: 5px;
+   font-size: 1.4rem;
    }
 
 /* Highlight.js (hljs-enhance) */
@@ -368,41 +385,62 @@ figure.full-screen-code pre code {
 /* Mobile */
 @media only screen and (max-device-width: 480px) {
    html {
+      font-size: 90%;
       background: none;
       background-color: ghostwhite;
-      font-size: 240%;
       }
    body {
-      width: 100%;
-      max-width: none;
-      margin: 0px;
+      padding: 20px 10px;
       }
    header h1 {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
+      }
+   header h2 {
+      font-size: 1.0rem;
+      }
+   main >h2 {
+      font-size: 1.0rem;
+      }
+   footer #github-banner {
+      display: none;
+      }
+   footer #github-icon {
+      display: block;
       }
    aside {
-      width: 425px;
+      width: 280px;
+      margin: 0px 10px 10px 10px;
       }
-   button {
-      font-size: 0.8rem;
+   aside section {
+      font-size: 1.0rem;
       }
-   section p code {
-      white-space: wrap;
-      font-size: 0.5rem;
+   section table {
+      max-width: 100%;
+      overflow: scroll;
+      }
+   section table th,
+   section table td {
+      padding: 6px 5px;
+      }
+   section table th:first-child,
+   section table td:first-child {
+      padding-left: 0px;
+      }
+   section table th:last-child,
+   section table td:last-child {
+      padding-right: 0px;
+      }
+   .block-indent,
+   p >button {
+      margin-left: 0px;
       }
    figure.hljs-enhance {
       width: 100% !important;
-      }
-   figure.hljs-enhance pre code {
-      font-size: 0.7rem;
       }
    .api-parameters ul ul li {
       margin-left: 0px;
       }
    .api-parameters ul ul li label {
       position: static;
-      }
-   #github-banner {
-      display: none;
       }
    }

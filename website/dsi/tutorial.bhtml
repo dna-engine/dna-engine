@@ -13,7 +13,7 @@
    <p class=leapfrog>
       <img src="http://books.google.com/googlebooks/images/poweredby.png" class=push-right
          alt="Google">
-      Click the link below to view results of searching for "pi":
+      View a sample of the JSON results you will be using:
       <span class=block-indent>
          <a href="https://www.googleapis.com/books/v1/volumes?q=pi"
              class=external-site>https://www.googleapis.com/books/v1/volumes?q=pi</a>
@@ -37,8 +37,8 @@
    <h3 id=step1>Step 1: Create baseline HTML</h3>
    <section>
       <p>
-         Using your <a href="https://atom.io" class=external-site>favorite code editor</a>, create a
-         simple HTML file named <code>book-finder.html</code> with the content below.
+         Using your <a href="https://atom.io" class=external-site>favorite code editor</a>, create
+         a simple HTML file named <code>book-finder.html</code> with the content below.
       </p>
       <figure>
          <figcaption>Initial contents for <code>book-finder.html</code></figcaption>
@@ -211,7 +211,7 @@
             &lt;/div&gt;
          </code></pre>
       </figure>
-      </p>
+      <p>
          <b>Note:</b> Setting the image <code>src</code> attribute to <code>#</code> is
          <a href="http://stackoverflow.com/a/34834047" class=external-site>valid HTML</a>
          and denotes that the image is not yet ready to fetch.&nbsp;  The attribute
@@ -333,9 +333,11 @@
    <h3 id=step9>Step 9: Smarten up the search field</h3>
    <section>
       <p>
-         Clicking the "Find" button may be simple, but it makes for an annoying user experience.&nbsp;
+         Clicking the "Find" button may be simple, but it makes for an cumbersome user
+         experience.&nbsp;
          We can leverage the smart update feature in dna.js to replace the button with automatic
          searching.
+      </p>
       <p>
          Delete the line of HTML for the <code>&lt;button&gt;</code>, and update the
          <code>&lt;input&gt;</code> tag to be:

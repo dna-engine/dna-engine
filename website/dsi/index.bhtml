@@ -50,11 +50,9 @@
    </p>
    <p>
       Experiment with the dna.js to-do list application at:
-      <span class=block-indent>
-         <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/" class=external-site>
-            jsfiddle.net/<!--#echo var="jsFiddleToDo"-->
-         </button>
-      </span>
+      <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/" class=external-site>
+         jsfiddle.net/<!--#echo var="jsFiddleToDo"-->
+      </button>
    </p>
    <p>
       The core of the to-do list application is not even <b>10 lines of JavaScript</b>, yet the
@@ -141,8 +139,8 @@
          <div>Author: <span>~~author~~</span></div>
       </div>
    </div>
-   To see all the pieces running together, check out the standalone example:
-   <p class=block-indent>
+   <p>
+      To see all the pieces running together, check out the standalone example:
       <button data-href="hello-world.html">View Source</button>
    </p>
 
@@ -159,11 +157,9 @@
    </p>
    <p>
       Interact with the live model at:
-      <span class=block-indent>
-         <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/" class=external-site>
-            jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->
-         </button>
-      </span>
+      <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/" class=external-site>
+         jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->
+      </button>
    </p>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

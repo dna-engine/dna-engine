@@ -33,6 +33,7 @@
 <html>
 <head>
 <meta charset=utf-8>
+<meta name=viewport                   content="width=device-width, initial-scale=1">
 <meta name=apple-mobile-web-app-title content="dna.js">
 <title><!--#echo var="name"--> &bull; <!--#echo var="title"--></title>
 <!--#if file="$DOCUMENT_NAME=file-not-found.bhtml"-->
@@ -61,7 +62,7 @@
    </nav>
    <h1><!--#echo var="name"--></h1>
    <h2><!--#echo var="title"--></h2>
-   <div id=logo>
+   <div class=logo>
       <a href="http://dnajs.org">
          <img src="graphics/dnajs-logo.png" alt="Logo">
       </a>

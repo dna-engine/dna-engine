@@ -1435,11 +1435,9 @@
    </p>
    <p>
       Experiment with click events:
-      <span class=block-indent>
-         <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleDataClick"-->/" class=external-site>
-            jsfiddle.net/<!--#echo var="jsFiddleDataClick"-->
-         </button>
-      </span>
+      <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleDataClick"-->/" class=external-site>
+         jsfiddle.net/<!--#echo var="jsFiddleDataClick"-->
+      </button>
    </p>
 
 </section>
@@ -1491,11 +1489,9 @@
    <!-- End: Result  -->
    <p>
       Experiment with smart update events:
-      <span class=block-indent>
-         <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"-->/" class=external-site>
-            jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"-->
-         </button>
-      </span>
+      <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"-->/" class=external-site>
+         jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"-->
+      </button>
    </p>
 </section>
 
@@ -1984,17 +1980,16 @@
          &lt;div class=bookshelf data-on-load=bookshelf.setup&gt;
             &lt;style scoped&gt;
                .bookshelf .my-book {
-                  display: inline-block;
+                  width: 15em;
                   background-color: plum;
                   padding: 5px 15px;
-                  margin: 5px;
                   }
             &lt;/style&gt;
             &lt;h2&gt;Bookshelf&lt;/h2&gt;
-            &lt;div id=my-book class=dna-template&gt;
-               &lt;div&gt;Title: &lt;b&gt;~~title~~&lt;/b&gt;&lt;/div&gt;
-               &lt;div&gt;Author: &lt;b&gt;~~author~~&lt;/b&gt;&lt;/div&gt;
-            &lt;/div&gt;
+            &lt;p id=my-book class=dna-template&gt;
+               &lt;span&gt;Title: &lt;b&gt;~~title~~&lt;/b&gt;&lt;/span&gt;&lt;br&gt;
+               &lt;span&gt;Author: &lt;b&gt;~~author~~&lt;/b&gt;&lt;/span&gt;
+            &lt;/p&gt;
             &lt;script&gt;
                var bookshelf = {
                   booksUrl: 'http://dnajs.org/rest/book/list/',
@@ -2010,23 +2005,22 @@
    <!-- Start: Result  -->
    <div class=down-arrow></div>
    <figure class=hljs-enhance>
-      <figcaption>Result (interactive)</figcaption>
+      <figcaption>Result (with three books loaded from REST call)</figcaption>
       <div>
          <!--  Component: start -->
          <div class=bookshelf data-on-load=bookshelf.setup>
             <style scoped>
                .bookshelf .my-book {
-                  display: inline-block;
+                  width: 15em;
                   background-color: plum;
                   padding: 5px 15px;
-                  margin: 5px;
                   }
             </style>
             <h2>Bookshelf</h2>
-            <div id=my-book class=dna-template>
-               <div>Title: <b>~~title~~</b></div>
-               <div>Author: <b>~~author~~</b></div>
-            </div>
+            <p id=my-book class=dna-template>
+               <span>Title: <b>~~title~~</b></span><br>
+               <span>Author: <b>~~author~~</b></span>
+            </p>
             <script>
                var bookshelf = {
                   booksUrl: 'http://dnajs.org/rest/book/list/',
