@@ -11,8 +11,8 @@
          Google Books APIs</a> REST web service.
    </p>
    <p class=leapfrog>
-      <img src="http://books.google.com/googlebooks/images/poweredby.png" class=push-right
-         alt="Google">
+      <img src=http://books.google.com/googlebooks/images/poweredby.png class=push-right
+         alt=Google>
       View a sample of the JSON results you will be using:
       <span class=block-indent>
          <a href="https://www.googleapis.com/books/v1/volumes?q=pi"
@@ -202,7 +202,7 @@
          <figcaption>Book template</figcaption>
          <pre><code class=language-html>
             &lt;div id=book class=dna-template&gt;
-               &lt;img src=# data-attr-src=~~volumeInfo.imageLinks.thumbnail~~ alt=&quot;Cover&quot;&gt;
+               &lt;img src=~~volumeInfo.imageLinks.thumbnail~~ alt=&quot;Cover&quot;&gt;
                &lt;div&gt;
                   &lt;b&gt;~~volumeInfo.title~~&lt;/b&gt;
                   &lt;p&gt;~~volumeInfo.publisher~~&lt;/p&gt;
@@ -212,10 +212,10 @@
          </code></pre>
       </figure>
       <p>
-         <b>Note:</b> Setting the image <code>src</code> attribute to <code>#</code> is
-         <a href="http://stackoverflow.com/a/34834047" class=external-site>valid HTML</a>
-         and denotes that the image is not yet ready to fetch.&nbsp;  The attribute
-         <code>data-attr-src</code> specifies the value for the <code>src</code> attribute.
+         <b>Note:</b> For a production website, set the image <code>src</code> attribute to
+         <code>#</code> and specify the data field in the <code>data-attr-src</code> attribute.&nbsp;
+         This apparoch maintains
+         <a href="http://stackoverflow.com/a/34834047" class=external-site>valid HTML</a>.
       </p>
       <p>
          Now it's time to load some libraries that will help us build dynamic features.
@@ -245,8 +245,8 @@
       <figure>
          <figcaption>JS link at bottom of the <code>body</code> section</figcaption>
          <pre><code class=language-html>
-            &lt;script src=&quot;https://cdn.jsdelivr.net/jquery/2/jquery.min.js&quot;&gt;&lt;/script&gt;
-            &lt;script src=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.min.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/jquery/2/jquery.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/dna.js/0/dna.min.js&gt;&lt;/script&gt;
          </code></pre>
       </figure>
       <p>
@@ -408,7 +408,7 @@
                &lt;/label&gt;
                &lt;div class=books&gt;
                   &lt;div id=book class=dna-template&gt;
-                     &lt;img src=# data-attr-src=~~volumeInfo.imageLinks.thumbnail~~ alt=&quot;Cover&quot;&gt;
+                     &lt;img src=~~volumeInfo.imageLinks.thumbnail~~ alt=&quot;Cover&quot;&gt;
                      &lt;div&gt;
                         &lt;b&gt;~~volumeInfo.title~~&lt;/b&gt;
                         &lt;p&gt;~~volumeInfo.publisher~~&lt;/p&gt;
@@ -418,8 +418,8 @@
                &lt;/div&gt;
             &lt;/main&gt;
 
-            &lt;script src=&quot;https://cdn.jsdelivr.net/jquery/2/jquery.min.js&quot;&gt;&lt;/script&gt;
-            &lt;script src=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.min.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/jquery/2/jquery.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/dna.js/0/dna.min.js&gt;&lt;/script&gt;
             &lt;script&gt;
                function findBooks(elem) {
                   var terms = elem.val();
