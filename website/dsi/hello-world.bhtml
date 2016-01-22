@@ -29,7 +29,7 @@
          &lt;head&gt;
          &lt;meta charset=utf-8&gt;
          &lt;title&gt;Bookstore&lt;/title&gt;
-         &lt;link rel=stylesheet href="https://cdn.jsdelivr.net/dna.js/0/dna.css"&gt;
+         &lt;link rel=stylesheet href=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.css&quot;&gt;
          &lt;style&gt;
             body       { font-family: sans-serif; margin: 30px; }
             .book-list { width: 250px; }
@@ -62,17 +62,16 @@
 
    <h3 id=page>Bookstore Web Page</h3>
    <p class=image-frame>
-      <img class=popup-click data-url="bookstore.html" src="graphics/bookstore.png"
-         alt="Screenshot">
+      <img class=popup-click data-url=bookstore.html src=graphics/bookstore.png alt=Screenshot>
    </p>
    <div class=align-centered>
-       <button class=popup-click data-url="bookstore.html">Open Web Page</button>
+       <button class=popup-click data-url=bookstore.html>Open Web Page</button>
    </div>
 
    <h3 id=jsfiddle>Bookstore on jsFiddle</h3>
    <p>
       Experiment with the code at:
-      <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleAddABook"-->/" class=external-site>
+      <button data-href=http://jsfiddle.net/<!--#echo var="jsFiddleAddABook"-->/ class=external-site>
          jsfiddle.net/<!--#echo var="jsFiddleAddABook"-->
       </button>
    </p>

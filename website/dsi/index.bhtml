@@ -8,16 +8,16 @@
       <section>
          <h2>Download v<!--#echo var="release"--></h2>
          <p>
-            <button data-href="https://raw.github.com/dnajs/dna.js/current/dna.min.js" class=external-site>
+            <button data-href=https://raw.github.com/dnajs/dna.js/current/dna.min.js class=external-site>
                <i class="fa fa-download"></i> dna.min.js (<!--#echo var="size"-->)
             </button>
          </p>
          <p>
-            <button data-href="https://raw.github.com/dnajs/dna.js/current/dna.css" class=external-site>
+            <button data-href=https://raw.github.com/dnajs/dna.js/current/dna.css class=external-site>
                <i class="fa fa-download"></i> dna.css (1 kb)
             </button>
          </p>
-         (or simply use the <a href="manual.html#setup-cdn">jsDelivr CDN</a>)
+         (or simply use the <a href=manual.html#setup-cdn>jsDelivr CDN</a>)
       </section>
       <section>
          <h2>News</h2>
@@ -32,16 +32,16 @@
    </p>
    <p>
       The project is open source and available for free.&nbsp;  The code is hosted on
-      <a href="https://github.com/dnajs/dna.js">GitHub</a> and is
-      <a href="license.html">dual-licensed</a> under The MIT License (MIT) and GNU General
+      <a href=https://github.com/dnajs/dna.js>GitHub</a> and is
+      <a href=license.html>dual-licensed</a> under The MIT License (MIT) and GNU General
       Public License (GPLv3).
    </p>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <h3 id=todo>To-Do List Application</h3>
    <div class=push-right>
-      <a href="http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/" class=external-site>
-         <img class=side-image src="graphics/icon-todo-app.png" alt="To-do list application screenshot">
+      <a href=http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/ class=external-site>
+         <img class=side-image src=graphics/icon-todo-app.png alt=Screenshot>
       </a>
    </div>
    <p>
@@ -50,7 +50,7 @@
    </p>
    <p>
       Experiment with the dna.js to-do list application at:
-      <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/" class=external-site>
+      <button data-href=http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/ class=external-site>
          jsfiddle.net/<!--#echo var="jsFiddleToDo"-->
       </button>
    </p>
@@ -141,14 +141,14 @@
    </div>
    <p>
       To see all the pieces running together, check out the standalone example:
-      <button data-href="hello-world.html">View Source</button>
+      <button data-href=hello-world.html>View Source</button>
    </p>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <h3 id=live-model>Live Model</h3>
    <div class=push-right>
-      <a href="http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/" class=external-site>
-         <img class=side-image src="graphics/icon-live-model.png" alt="Live model screenshot">
+      <a href=http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/ class=external-site>
+         <img class=side-image src=graphics/icon-live-model.png alt=Screenshot>
       </a>
    </div>
    <p>
@@ -157,7 +157,7 @@
    </p>
    <p>
       Interact with the live model at:
-      <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/" class=external-site>
+      <button data-href=http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/ class=external-site>
          jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->
       </button>
    </p>
@@ -176,9 +176,9 @@
       <li>Templates are real HTML that <a href="https://validator.w3.org/nu/?doc=http://dnajs.org"
          class=external-site>validate</a></li>
       <li>Templates can be in-place (no need for separate template files)</li>
-      <li>Iteration is done with <a href="manual.html#loop-templates">data arrays</a> not messy
+      <li>Iteration is done with <a href=manual.html#loop-templates>data arrays</a> not messy
          template <code>for</code> loops</li>
-      <li><a href="http://techdem.centerkey.com/2013/02/lazy-setup-50x-javascript-performance.html"
+      <li><a href=http://techdem.centerkey.com/2013/02/lazy-setup-50x-javascript-performance.html
          class=external-site>Zero setup</a> until data is pushed (can be after page load)</li>
       <li>No serialization or deserialization (no need to call the <code>.html()</code> function)</li>
       <li>Enable JavaScript to be void of boilerplate code and anonymous functions</li>
@@ -204,7 +204,7 @@
    <p>
       Submit bugs, feature requests, and questions at:
       <span class=block-indent>
-         <a href="https://github.com/dnajs/dna.js/issues">github.com/dnajs/dna.js/issues</a>
+         <a href=https://github.com/dnajs/dna.js/issues>github.com/dnajs/dna.js/issues</a>
       </span>
    </p>
 

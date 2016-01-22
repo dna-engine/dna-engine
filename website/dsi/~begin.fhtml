@@ -37,34 +37,34 @@
 <meta name=apple-mobile-web-app-title content="dna.js">
 <title><!--#echo var="name"--> &bull; <!--#echo var="title"--></title>
 <!--#if file="$DOCUMENT_NAME=file-not-found.bhtml"-->
-<base href="http://dnajs.org/">
+<base href=http://dnajs.org/>
 <!--#endif -->
-<link rel=icon             href="graphics/bookmark.png">
-<link rel=apple-touch-icon href="graphics/mobile-home-screen.png">
-<link rel=stylesheet       href="https://cdn.jsdelivr.net/fontawesome/4/css/font-awesome.min.css">
-<link rel=stylesheet       href="http://centerkey.com/css/reset.css">
-<link rel=stylesheet       href="http://centerkey.com/files/hljs-enhance/hljs-enhance.css">
-<link rel=stylesheet       href="https://cdn.jsdelivr.net/dna.js/0/dna.css">
-<link rel=stylesheet       href="style.css">
-<script src="https://cdn.jsdelivr.net/jquery/2/jquery.min.js"></script>
+<link rel=icon             href=graphics/bookmark.png>
+<link rel=apple-touch-icon href=graphics/mobile-home-screen.png>
+<link rel=stylesheet       href=https://cdn.jsdelivr.net/fontawesome/4/css/font-awesome.min.css>
+<link rel=stylesheet       href=http://centerkey.com/css/reset.css>
+<link rel=stylesheet       href=http://centerkey.com/files/hljs-enhance/hljs-enhance.css>
+<link rel=stylesheet       href=https://cdn.jsdelivr.net/dna.js/0/dna.css>
+<link rel=stylesheet       href=style.css>
+<script src=https://cdn.jsdelivr.net/jquery/2/jquery.min.js></script>
 </head>
 <body>
 
 <header>
    <nav>
       <ul>
-         <li><a class=plain href=".">Home</a></li>
-         <li><a class=plain href="hello-world.html">Example</a></li>
-         <li><a class=plain href="tutorial.html">Tutorial</a></li>
-         <li><a class=plain href="manual.html">Documentation</a></li>
-         <li><a class=plain href="license.html">License</a></li>
+         <li><a class=plain href=.>Home</a></li>
+         <li><a class=plain href=hello-world.html>Example</a></li>
+         <li><a class=plain href=tutorial.html>Tutorial</a></li>
+         <li><a class=plain href=manual.html>Documentation</a></li>
+         <li><a class=plain href=license.html>License</a></li>
       </ul>
    </nav>
    <h1><!--#echo var="name"--></h1>
    <h2><!--#echo var="title"--></h2>
    <div class=logo>
-      <a href="http://dnajs.org">
-         <img src="graphics/dnajs-logo.png" alt="Logo">
+      <a href=http://dnajs.org>
+         <img src=graphics/dnajs-logo.png alt=Logo>
       </a>
    </div>
 </header>

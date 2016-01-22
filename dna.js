@@ -668,7 +668,7 @@ dna.events = {
          }
       function setupJumpToUrl() {
          // Usage ("external-site" is optional and can be on a parent element):
-         //    <button data-href="/" class=external-site>Home</button>
+         //    <button data-href=http://dnajs.org class=external-site>dna.js</button>
          function context(elem) {
             return elem.closest('.external-site').length ? '_blank' : '_self';
             }

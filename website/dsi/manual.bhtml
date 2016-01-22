@@ -5,98 +5,98 @@
 
 <h2>Documentation</h2>
 <p>
-   For an overview of using dna.js, see the <a href=".#example">Bookstore Example</a>.&nbsp;
+   For an overview of using dna.js, see the <a href=.#example>Bookstore Example</a>.&nbsp;
    For richer examples, view the HTML source of the project
-   <a href="test-cases.html">test cases</a>.
+   <a href=test-cases.html>test cases</a>.
 </p>
 <div class=toc>
    <h4>Contents:</h4>
    <ol>
-      <li><a href="#terms-requirements">Terms and System Requirements</a></li>
-      <li><a href="#setup">Setup JS and CSS Assets</a>
+      <li><a href=#terms-requirements>Terms and System Requirements</a></li>
+      <li><a href=#setup>Setup JS and CSS Assets</a>
          <ol>
-            <li><a href="#setup-cdn">CDN</a></li>
-            <li><a href="#setup-npm">Install with NPM</a></li>
-            <li><a href="#setup-bower">Install with Bower</a></li>
-            <li><a href="#setup-rails">Rails Assets</a></li>
+            <li><a href=#setup-cdn>CDN</a></li>
+            <li><a href=#setup-npm>Install with NPM</a></li>
+            <li><a href=#setup-bower>Install with Bower</a></li>
+            <li><a href=#setup-rails>Rails Assets</a></li>
          </ol>
       </li>
-      <li><a href="#html">HTML &mdash; Classes, Fields, Attributes, and Properties</a>
+      <li><a href=#html>HTML &mdash; Classes, Fields, Attributes, and Properties</a>
          <ol>
-            <li><a href="#html-template">Template</a></li>
-            <li><a href="#html-field">Data Field</a></li>
-            <li><a href="#html-attr">Element Attribute</a></li>
-            <li><a href="#html-prop">Element Property</a></li>
-            <li><a href="#html-option">Select Option</a></li>
-            <li><a href="#html-class">Class</a></li>
-            <li><a href="#html-example">Ensemble</a></li>
-            <li><a href="#html-attr-data">Element Attribute (advanced)</a></li>
+            <li><a href=#html-template>Template</a></li>
+            <li><a href=#html-field>Data Field</a></li>
+            <li><a href=#html-attr>Element Attribute</a></li>
+            <li><a href=#html-prop>Element Property</a></li>
+            <li><a href=#html-option>Select Option</a></li>
+            <li><a href=#html-class>Class</a></li>
+            <li><a href=#html-example>Ensemble</a></li>
+            <li><a href=#html-attr-data>Element Attribute (advanced)</a></li>
          </ol>
       </li>
-      <li><a href="#api">JavaScript API</a>
+      <li><a href=#api>JavaScript API</a>
          <ol>
-            <li><a href="#api-clone">dna.clone()</a></li>
-            <li><a href="#api-clone-sub-template">dna.cloneSubTemplate()</a></li>
-            <li><a href="#api-create">dna.createTemplate()</a></li>
-            <li><a href="#api-rest">dna.rest.get()</a></li>
-            <li><a href="#api-get-model">dna.getModel()</a></li>
-            <li><a href="#api-empty">dna.empty()</a></li>
-            <li><a href="#api-refresh">dna.refresh()</a></li>
-            <li><a href="#api-refresh-all">dna.refreshAll()</a></li>
-            <li><a href="#api-destroy">dna.destroy()</a></li>
-            <li><a href="#api-get-clone">dna.getClone()</a></li>
-            <li><a href="#api-get-clones">dna.getClones()</a></li>
-            <li><a href="#api-up">dna.up()</a></li>
-            <li><a href="#api-down">dna.down()</a></li>
-            <li><a href="#api-bye">dna.bye()</a></li>
-            <li><a href="#api-register-initializer">dna.registerInitializer()</a></li>
-            <li><a href="#api-clear-initializers">dna.clearInitializers()</a></li>
-            <li><a href="#api-info">dna.info()</a></li>
+            <li><a href=#api-clone>dna.clone()</a></li>
+            <li><a href=#api-clone-sub-template>dna.cloneSubTemplate()</a></li>
+            <li><a href=#api-create>dna.createTemplate()</a></li>
+            <li><a href=#api-rest>dna.rest.get()</a></li>
+            <li><a href=#api-get-model>dna.getModel()</a></li>
+            <li><a href=#api-empty>dna.empty()</a></li>
+            <li><a href=#api-refresh>dna.refresh()</a></li>
+            <li><a href=#api-refresh-all>dna.refreshAll()</a></li>
+            <li><a href=#api-destroy>dna.destroy()</a></li>
+            <li><a href=#api-get-clone>dna.getClone()</a></li>
+            <li><a href=#api-get-clones>dna.getClones()</a></li>
+            <li><a href=#api-up>dna.up()</a></li>
+            <li><a href=#api-down>dna.down()</a></li>
+            <li><a href=#api-bye>dna.bye()</a></li>
+            <li><a href=#api-register-initializer>dna.registerInitializer()</a></li>
+            <li><a href=#api-clear-initializers>dna.clearInitializers()</a></li>
+            <li><a href=#api-info>dna.info()</a></li>
          </ol>
       </li>
-      <li><a href="#loop">Looping</a>
+      <li><a href=#loop>Looping</a>
          <ol>
-            <li><a href="#loop-templates">Template Array Loops</a></li>
-            <li><a href="#loop-sub-templates">Sub-template Array Loops</a></li>
-            <li><a href="#loop-primitives">Arrays of Primitives (strings, numbers, booleans)</a></li>
-            <li><a href="#loop-separators">Separators</a></li>
+            <li><a href=#loop-templates>Template Array Loops</a></li>
+            <li><a href=#loop-sub-templates>Sub-template Array Loops</a></li>
+            <li><a href=#loop-primitives>Arrays of Primitives (strings, numbers, booleans)</a></li>
+            <li><a href=#loop-separators>Separators</a></li>
          </ol>
       </li>
-      <li><a href="#event">Events, Callbacks, and Forms</a>
+      <li><a href=#event>Events, Callbacks, and Forms</a>
          <ol>
-            <li><a href="#event-transform">Data Model Transformer</a></li>
-            <li><a href="#event-element-callback">Element Callback</a></li>
-            <li><a href="#event-user">Click, Change, and Key Events</a></li>
-            <li><a href="#event-smart">Smart Update</a></li>
-            <li><a href="#event-jump">Jump to page (URL)</a></li>
-            <li><a href="#event-update-model">Data Model Updating on Field Updates</a></li>
-            <li><a href="#event-initializer">Initializers</a></li>
-            <li><a href="#event-callback-option">Callback Options</a></li>
-            <li><a href="#event-on-load">On Load Functions</a></li>
+            <li><a href=#event-transform>Data Model Transformer</a></li>
+            <li><a href=#event-element-callback>Element Callback</a></li>
+            <li><a href=#event-user>Click, Change, and Key Events</a></li>
+            <li><a href=#event-smart>Smart Update</a></li>
+            <li><a href=#event-jump>Jump to page (URL)</a></li>
+            <li><a href=#event-update-model>Data Model Updating on Field Updates</a></li>
+            <li><a href=#event-initializer>Initializers</a></li>
+            <li><a href=#event-callback-option>Callback Options</a></li>
+            <li><a href=#event-on-load>On Load Functions</a></li>
          </ol>
       </li>
-      <li><a href="#structure">Structures and Conditional Logic</a>
+      <li><a href=#structure>Structures and Conditional Logic</a>
          <ol>
-            <li><a href="#structure-nested-object">Object Dot Notation (nested objects)</a></li>
-            <li><a href="#structure-placeholder">Template Placeholder</a></li>
-            <li><a href="#structure-thimblerig">Thimblerig (conditional hide and seek logic)</a></li>
-            <li><a href="#structure-nested-template">Nested Templates</a></li>
+            <li><a href=#structure-nested-object>Object Dot Notation (nested objects)</a></li>
+            <li><a href=#structure-placeholder>Template Placeholder</a></li>
+            <li><a href=#structure-thimblerig>Thimblerig (conditional hide and seek logic)</a></li>
+            <li><a href=#structure-nested-template>Nested Templates</a></li>
          </ol>
       </li>
-      <li><a href="#components">Making Reusable Components</a>
+      <li><a href=#components>Making Reusable Components</a>
          <ol>
-            <li><a href="#define">Defining a Component</a></li>
-            <li><a href="#insert">Inserting a Component</a></li>
+            <li><a href=#define>Defining a Component</a></li>
+            <li><a href=#insert>Inserting a Component</a></li>
          </ol>
       </li>
-      <li><a href="#panels">Panels (UI Tabs)</a>
+      <li><a href=#panels>Panels (UI Tabs)</a>
          <ol>
-            <li><a href="#panels-example">Example</a></li>
-            <li><a href="#panels-template">Template-Driven Panels</a></li>
+            <li><a href=#panels-example>Example</a></li>
+            <li><a href=#panels-template>Template-Driven Panels</a></li>
          </ol>
       </li>
-      <li><a href="#utils">Utilities</a></li>
-      <li><a href="#index">Index</a></li>
+      <li><a href=#utils>Utilities</a></li>
+      <li><a href=#index>Index</a></li>
    </ol>
 </div>
 
@@ -140,7 +140,7 @@
    <dt>Versions:</dt>
    <dd>
       dna.js requires jQuery 1.8 or above, and it has the same system requirements
-      and <a href="http://jquery.com/browser-support/" class=external-site>browser
+      and <a href=http://jquery.com/browser-support/ class=external-site>browser
       support</a> as the version of jQuery you use.
    </dd>
 </dl>
@@ -148,10 +148,10 @@
 <!--*********************************************************************************************-->
 <h3 id=setup>Setup JS and CSS Assets</h3>
 <ol>
-   <li><a href="#setup-cdn">CDN</a></li>
-   <li><a href="#setup-npm">Install with NPM</a></li>
-   <li><a href="#setup-bower">Install with Bower</a></li>
-   <li><a href="#setup-rails">Rails Assets</a></li>
+   <li><a href=#setup-cdn>CDN</a></li>
+   <li><a href=#setup-npm>Install with NPM</a></li>
+   <li><a href=#setup-bower>Install with Bower</a></li>
+   <li><a href=#setup-rails>Rails Assets</a></li>
 </ol>
 <p>
    Get started by including the JavaScript and CSS files into your project.
@@ -161,7 +161,7 @@
 <section id=setup-cdn>
    <h4>CDN</h4>
    <p>
-      The <a href="http://www.jsdelivr.com/#!dna.js" class=external-site>jsDelivr CDN</a>
+      The <a href=http://www.jsdelivr.com/#!dna.js class=external-site>jsDelivr CDN</a>
       makes it easy to get started.
    </p>
    <figure>
@@ -187,7 +187,7 @@
 <section id=setup-npm>
    <h4>Install with NPM</h4>
    <p>
-      <a href="https://www.npmjs.com/package/dna.js" class=external-site>NPM</a>
+      <a href=https://www.npmjs.com/package/dna.js class=external-site>NPM</a>
       can download the assets to your project's <code>node_modules</code> folder.
    </p>
    <figure>
@@ -218,7 +218,7 @@
    <h4>Rails Assets</h4>
    <p>
       Rails projects can download dna.js directly from the
-      <a href="https://rails-assets.org" class=external-site>Rails Assets</a>
+      <a href=https://rails-assets.org class=external-site>Rails Assets</a>
       repository.
    </p>
    <figure>
@@ -302,7 +302,7 @@
    </figure>
    <p>
       <b>Note:</b>
-      See <a href="#html-attr-data">Element Attribute (advanced)</a> for alternate ways to set the
+      See <a href=#html-attr-data>Element Attribute (advanced)</a> for alternate ways to set the
       value of an attribute.
    </p>
 </section>
@@ -346,7 +346,7 @@
       </code></pre>
    </figure>
    <p>
-      The <a href="#event-user"><code>data-change</code></a> attribute can be used in combination
+      The <a href=#event-user><code>data-change</code></a> attribute can be used in combination
       with the <code>data-option</code> attribute to fire a callback that gets the current data
       model whenever the user selects a new drop-down option.
    </p>
@@ -376,7 +376,7 @@
    </figure>
    <p>
       If there are two or three names (comma separated), the first name is still the name of the
-      data field but the data field is evaluated for <a href="#real-truth">"real" truth</a>.
+      data field but the data field is evaluated for <a href=#real-truth>"real" truth</a>.
    </p>
    <figure>
       <figcaption>Example HTML (three names)</figcaption>
@@ -462,13 +462,13 @@
 <section id=html-attr-data>
    <h4>Element Attribute (advanced)</h4>
    <p>
-      In addition to using <a href="#html-attr">regular templating</a> to set attributes, you can
+      In addition to using <a href=#html-attr>regular templating</a> to set attributes, you can
       prefix <code>data-attr-</code> to the attribute name.
    </p>
    <figure>
       <figcaption>Example HTML for <code>src</code> attribute</figcaption>
       <pre><code class=language-html>
-         &lt;img src=# data-attr-src=~~url~~ alt="Profile avatar"&gt;
+         &lt;img src=# data-attr-src=~~url~~ alt=Avatar&gt;
       </code></pre>
    </figure>
    <p>
@@ -602,7 +602,7 @@
       </code></pre>
    </figure>
    <p>
-      See the <a href="#loop-sub-templates">Sub-templates (array loops)</a> section for details.
+      See the <a href=#loop-sub-templates>Sub-templates (array loops)</a> section for details.
    </p>
 </section>
 
@@ -686,7 +686,7 @@
       call returns an <code>error</code> field equal to <code>true</code>.
    </p>
    <p>
-      For <a href="http://dnajs.org/rest/book/7" class=external-site>example</a>:
+      For <a href=http://dnajs.org/rest/book/7 class=external-site>example</a>:
       <code class=block-indent>{ "error": true, "message": "Resource not found" }</code>
    </p>
 </section>
@@ -839,7 +839,7 @@
    <p>
       <b>Note:</b>
       If the only option being set is <code>fade</code> to <code>true</code>, it is simpler to user
-      the <code><a href="#api-bye">dna.bye()</a></code> convenience method.
+      the <code><a href=#api-bye>dna.bye()</a></code> convenience method.
    </p>
 </section>
 
@@ -848,7 +848,7 @@
 <section id=api-get-clone>
    <h4>dna.getClone(elem[, options])</h4>
    <p class=api-description>
-      Returns the clone (or <a href="#loop-sub-templates">sub-clone</a>) for the
+      Returns the clone (or <a href=#loop-sub-templates>sub-clone</a>) for the
       specified element.
    </p>
    <div class=api-parameters>
@@ -965,7 +965,7 @@
       </ul>
    </div>
    <p>
-      See the example for <a href="#api-up">dna.up()</a>.
+      See the example for <a href=#api-up>dna.up()</a>.
    </p>
 </section>
 
@@ -974,7 +974,7 @@
 <section id=api-bye>
    <h4>dna.bye(elemOrEventOrIndex)</h4>
    <p class=api-description>
-      Performs a <a href="#ui-slide-fade">sliding fade out effect</a> on the clone
+      Performs a <a href=#ui-slide-fade>sliding fade out effect</a> on the clone
       and then removes the element.&nbsp;  The function can be called: 1) as an event callback,
       2) from a jQuery loop, or 3) directly with the clone as the parameter.
    </p>
@@ -1043,7 +1043,7 @@
       </code></pre>
    </figure>
    <p>
-      See the <a href="#event-initializer">Initializers</a> section for details.
+      See the <a href=#event-initializer>Initializers</a> section for details.
    </p>
 </section>
 
@@ -1062,7 +1062,7 @@
       </code></pre>
    </figure>
    <p>
-      See the <a href="#event-initializer">Initializers</a> section for details.
+      See the <a href=#event-initializer>Initializers</a> section for details.
    </p>
 </section>
 
@@ -1297,7 +1297,7 @@
       <pre><code class=language-html>
          &lt;div id=book class=dna-template data-transform=enhanceBook&gt;
             &lt;span&gt;~~title~~&lt;/span&gt;
-            &lt;img src="star.png" alt="Star" data-truthy=~~displayStar~~&gt;
+            &lt;img src=star.png alt=Star data-truthy=~~displayStar~~&gt;
          &lt;/div&gt;
       </code></pre>
    </figure>
@@ -1324,7 +1324,7 @@
          &lt;/div&gt;
          &lt;div class=book&gt;
             &lt;span&gt;Interwebz&lt;/span&gt;
-            &lt;img src="star.png" alt="Star"&gt;
+            &lt;img src=star.png alt=Star&gt;
          &lt;/div&gt;
       </code></pre>
    </figure>
@@ -1363,7 +1363,7 @@
    <p>
       <b>Note:</b>
       Element callbacks perform a similar function as
-      <a href="#event-initializer">initializers</a>, but an element callback is specific and an
+      <a href=#event-initializer>initializers</a>, but an element callback is specific and an
       initializer is general.&nbsp;  For example, a element callback is appropriate for an
       animation or initiating a REST call to retrieve additional data for the element while an
       initializer is appropriate for configuring tooltips that occur in any element.
@@ -1431,11 +1431,11 @@
    <p>
       <b>Note:</b>
       For text fields <code>input</code> and <code>textarea</code>, use
-      <a href="#event-smart">data-smart-update</a>.
+      <a href=#event-smart>data-smart-update</a>.
    </p>
    <p>
       Experiment with click events:
-      <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleDataClick"-->/" class=external-site>
+      <button data-href=http://jsfiddle.net/<!--#echo var="jsFiddleDataClick"-->/ class=external-site>
          jsfiddle.net/<!--#echo var="jsFiddleDataClick"-->
       </button>
    </p>
@@ -1489,7 +1489,7 @@
    <!-- End: Result  -->
    <p>
       Experiment with smart update events:
-      <button data-href="http://jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"-->/" class=external-site>
+      <button data-href=http://jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"-->/ class=external-site>
          jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"-->
       </button>
    </p>
@@ -1505,7 +1505,7 @@
    <figure>
       <figcaption>Example</figcaption>
       <pre><code class=language-html>
-         &lt;button data-href="license.html"&gt;View License&lt;/button&gt;
+         &lt;button data-href=license.html"&gt;View License&lt;/button&gt;
       </code></pre>
    </figure>
    <!-- Start: Result  -->
@@ -1513,7 +1513,7 @@
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
       <div>
-         <button data-href="license.html">View License</button>
+         <button data-href=license.html>View License</button>
       </div>
    </figure>
    <!-- End: Result  -->
@@ -1535,26 +1535,26 @@
       </thead>
       <tbody>
          <tr>
-            <td><a href="#html-attr">text</a></td>
+            <td><a href=#html-attr>text</a></td>
             <td><code>&lt;input value=~~title~~&gt;</code></td>
          </tr>
          <tr>
-            <td><a href="#html-prop">checkbox</a></td>
+            <td><a href=#html-prop>checkbox</a></td>
             <td><code>&lt;input type=checkbox data-prop-checked=~~set~~&gt;</code></td>
          </tr>
          <tr>
-            <td><a href="#html-prop">radio button</a></td>
+            <td><a href=#html-prop>radio button</a></td>
             <td><code>&lt;input type=radio name=cover data-prop-checked=~~set~~&gt;</code></td>
          </tr>
          <tr>
-            <td><a href="#html-option">drop-down</a></td>
+            <td><a href=#html-option>drop-down</a></td>
             <td><code>&lt;select data-option=~~category~~&gt;</code></td>
          </tr>
       </tbody>
    </table>
    <p>
-      The example below uses <a href="#event-user">event bindings</a> to call a function that
-      reads the data model with <a href="#api-get-model">dna.getModel()</a>.
+      The example below uses <a href=#event-user>event bindings</a> to call a function that
+      reads the data model with <a href=#api-get-model>dna.getModel()</a>.
    </p>
    <figure>
       <figcaption>Example HTML</figcaption>
@@ -1616,7 +1616,7 @@
    <p>
       <b>Note:</b>
       While the original data used to clone the template may contain
-      <a href="#real-truth">truthy</a> values, the <code>boolean</code> values updated in the data
+      <a href=#real-truth>truthy</a> values, the <code>boolean</code> values updated in the data
       model will be set to actual <code>true</code> or <code>false</code>.
    </p>
 </section>
@@ -1680,7 +1680,7 @@
    </figure>
    <p>
       <b>Note 1:</b>
-      Initializers perform a similar function as <a href="#event-element-callback">element
+      Initializers perform a similar function as <a href=#event-element-callback>element
       callbacks</a> (<code>data-callback</code>), but an initializer is general to all clones and
       an element callback is specific to clones of one template.&nbsp;  For example, an initializer
       is appropriate for configuring tooltips that can occur in any clone.
@@ -1734,7 +1734,7 @@
    <p>
       <b>Note:</b>
       It is almost always cleaner and easier to declare an
-      <a href="#event-element-callback">element callback</a> (<code>data-callback</code>) than to
+      <a href=#event-element-callback>element callback</a> (<code>data-callback</code>) than to
       pass in a function with the <code>callback</code> option.
    </p>
 </section>
@@ -1762,7 +1762,7 @@
    </figure>
    <p>
       The <code>data-on-load</code> attribute can be used in conjunction with the
-      <a href="#ui-focus"><code>dna.ui.focus</code></a> function to auto-focus on an input
+      <a href=#ui-focus><code>dna.ui.focus</code></a> function to auto-focus on an input
       element.
    </p>
 </section>
@@ -1827,7 +1827,7 @@
    </figure>
    <p>
       The "No books" message is displayed until at least one book is cloned, and the message will
-      be re-displayed if all the book clones are <a href="#api-empty">removed</a>.
+      be re-displayed if all the book clones are <a href=#api-empty>removed</a>.
    </p>
 </section>
 
@@ -1838,7 +1838,7 @@
       Instead of writing JavaScript to show and hide DOM elements, use an attribute to declare
       whether the element should be shown or hidden.&nbsp;  dna.js supports four
       conditionals &mdash; two for the existence of a field and two for the
-      <a href="#real-truth">"real" truth</a> of a field.
+      <a href=#real-truth>"real" truth</a> of a field.
    </p>
    <table>
       <thead>
@@ -1940,7 +1940,7 @@
    </p>
    <p>
       <b>Note:</b>
-      Similar to thimblerigs, <a href="#loop-separators">separators</a> are used to hide and show a
+      Similar to thimblerigs, <a href=#loop-separators>separators</a> are used to hide and show a
       delimiter between clones, such as a comma to separate names of authors.
    </p>
 </section>
@@ -1955,10 +1955,10 @@
       passed into <code>dna.clone()</code> when cloning a nested template.
    </p>
    <p>
-      View source for <a href="test-cases.html">test cases #07</a>.
+      View source for <a href=test-cases.html>test cases #07</a>.
    </p>
    <p>
-      In most cases, a simple <a href="#loop-sub-templates">sub-template array loop</a>
+      In most cases, a simple <a href=#loop-sub-templates>sub-template array loop</a>
       is the better solution.
    </p>
 
@@ -1971,7 +1971,7 @@
 <section id=define>
    <h4>Defining a Component</h4>
    <p>
-      A reusable component can be created using an <a href="event-on-load">on load function</a>
+      A reusable component can be created using an <a href=event-on-load>on load function</a>
       (<code>data-on-load</code>) to make a REST call that gets data for a template.
    </p>
    <figure>
@@ -2200,7 +2200,7 @@
                &lt;div id=book-panel class=dna-template data-hash=~~id~~
                      data-transform=bookCatalog.addCover&gt;
                   &lt;h4&gt;~~title~~&lt;/h4&gt;
-                  &lt;img src=# data-attr-src=~~cover~~ alt=&quot;Cover&quot;&gt;
+                  &lt;img src=# data-attr-src=~~cover~~ alt=Cover&gt;
                &lt;/div&gt;
             &lt;/section&gt;
             &lt;script&gt;
@@ -2256,7 +2256,7 @@
                <div id=book-panel class=dna-template data-hash=~~id~~
                      data-transform=bookCatalog.addCover>
                   <h4>~~title~~</h4>
-                  <img src=# data-attr-src=~~cover~~ alt="Cover">
+                  <img src=# data-attr-src=~~cover~~ alt=Cover>
                </div>
             </section>
             <script>
@@ -2548,7 +2548,7 @@
 <section id=util-real-truth>
    <h4>dna.util.realTruth(value)</h4>
    <p class=api-description>
-      Return the <a href="#real-truth">"real" truth</a> of a value.&nbsp;  Whereas JavaScript
+      Return the <a href=#real-truth>"real" truth</a> of a value.&nbsp;  Whereas JavaScript
       truthy an falsey is more about existence, the "real" truth is for evaluating boolean data as
       it is stored in databases or transmitted in REST calls.
    </p>
@@ -2638,11 +2638,11 @@
 <section id=index-classes>
    <h4>Index of Classes</h4>
    <ol>
-      <li><a href="#panels">             <code>dna-menu</code></a>:           Mark element as container for panel menu items</li>
-      <li><a href="#panels">             <code>dna-panels</code></a>:         Mark element as container for panels</li>
-      <li><a href="#loop-separators">    <code>dna-separator</code></a>:      Mark element as a separator for multiple clones</li>
-      <li><a href="#loop-separators">    <code>dna-separator-last</code></a>: Mark element as the last separator</li>
-      <li><a href="#html-template">      <code>dna-template</code></a>:       Mark an element as a template</li>
+      <li><a href=#panels>          <code>dna-menu</code></a>:           Mark element as container for panel menu items</li>
+      <li><a href=#panels>          <code>dna-panels</code></a>:         Mark element as container for panels</li>
+      <li><a href=#loop-separators> <code>dna-separator</code></a>:      Mark element as a separator for multiple clones</li>
+      <li><a href=#loop-separators> <code>dna-separator-last</code></a>: Mark element as the last separator</li>
+      <li><a href=#html-template>   <code>dna-template</code></a>:       Mark an element as a template</li>
    </ol>
 </section>
 
@@ -2650,31 +2650,31 @@
 <section id=index-attributes>
    <h4>Index of Data Attributes</h4>
    <ol>
-      <li><a href="#loop-sub-templates">    <code>data-array</code></a>:          Mark an element as a sub-template array loop</li>
-      <li><a href="#html-attr">             <code>data-attr-{NAME}</code></a>:    Set value of an element attribute</li>
-      <li><a href="#event-element-callback"><code>data-callback</code></a>:       Pass element into function when clone is created</li>
-      <li><a href="#event-user">            <code>data-change</code></a>:         Callback to run on change event</li>
-      <li><a href="#html-class">            <code>data-class</code></a>:          Add a class to the element</li>
-      <li><a href="#event-user">            <code>data-click</code></a>:          Callback to run on click event</li>
-      <li><a href="#event-user">            <code>data-enter-key</code></a>:      Callback to run on enter key event</li>
-      <li><a href="#structure-thimblerig">  <code>data-falsey</code></a>:         Show element only if field evaluates to false</li>
-      <li><a href="#panels">                <code>data-hash</code></a>:           Set name of URL fragment for panel</li>
-      <li><a href="#event-jump">            <code>data-href</code></a>:           Jumps to the URL (like an <code>&lt;a&gt;</code> link)</li>
-      <li><a href="#event-user">            <code>data-key-down</code></a>:       Callback to run on key down event</li>
-      <li><a href="#event-user">            <code>data-key-press</code></a>:      Callback to run on key press event</li>
-      <li><a href="#event-user">            <code>data-key-up</code></a>:         Callback to run on key up event</li>
-      <li><a href="#structure-thimblerig">  <code>data-missing</code></a>:        Show element only if field us not defined</li>
-      <li><a href="#event-on-load">         <code>data-on-load</code></a>:        Pass element into function after HTML is loaded</li>
-      <li><a href="#html-option">           <code>data-option</code></a>:         Set option in a select drop-down</li>
-      <li><a href="#html-placeholder">      <code>data-placeholder</code></a>:    Show element only if named template is empty</li>
-      <li><a href="#html-prop">             <code>data-prop-checked</code></a>:   Enable or disable "checked" property</li>
-      <li><a href="#html-prop">             <code>data-prop-disabled</code></a>:  Enable or disable "disabled" property</li>
-      <li><a href="#html-prop">             <code>data-prop-selected</code></a>:  Enable or disable "selected" property</li>
-      <li><a href="#structure-thimblerig">  <code>data-require</code></a>:        Show element only if field exists</li>
-      <li><a href="#event-smart">           <code>data-smart-throttle</code></a>: Delay (milliseconds) between smart update callbacks</li>
-      <li><a href="#event-smart">           <code>data-smart-update</code></a>:   Throttled callback to run on change of an input value</li>
-      <li><a href="#event-transform">       <code>data-transform</code></a>:      Callback to enhance data immediately before cloning</li>
-      <li><a href="#structure-thimblerig">  <code>data-truthy</code></a>:         Show element only if field evaluates to true</li>
+      <li><a href=#loop-sub-templates>    <code>data-array</code></a>:          Mark an element as a sub-template array loop</li>
+      <li><a href=#html-attr>             <code>data-attr-{NAME}</code></a>:    Set value of an element attribute</li>
+      <li><a href=#event-element-callback><code>data-callback</code></a>:       Pass element into function when clone is created</li>
+      <li><a href=#event-user>            <code>data-change</code></a>:         Callback to run on change event</li>
+      <li><a href=#html-class>            <code>data-class</code></a>:          Add a class to the element</li>
+      <li><a href=#event-user>            <code>data-click</code></a>:          Callback to run on click event</li>
+      <li><a href=#event-user>            <code>data-enter-key</code></a>:      Callback to run on enter key event</li>
+      <li><a href=#structure-thimblerig>  <code>data-falsey</code></a>:         Show element only if field evaluates to false</li>
+      <li><a href=#panels>                <code>data-hash</code></a>:           Set name of URL fragment for panel</li>
+      <li><a href=#event-jump>            <code>data-href</code></a>:           Jumps to the URL (like an <code>&lt;a&gt;</code> link)</li>
+      <li><a href=#event-user>            <code>data-key-down</code></a>:       Callback to run on key down event</li>
+      <li><a href=#event-user>            <code>data-key-press</code></a>:      Callback to run on key press event</li>
+      <li><a href=#event-user>            <code>data-key-up</code></a>:         Callback to run on key up event</li>
+      <li><a href=#structure-thimblerig>  <code>data-missing</code></a>:        Show element only if field us not defined</li>
+      <li><a href=#event-on-load>         <code>data-on-load</code></a>:        Pass element into function after HTML is loaded</li>
+      <li><a href=#html-option>           <code>data-option</code></a>:         Set option in a select drop-down</li>
+      <li><a href=#html-placeholder>      <code>data-placeholder</code></a>:    Show element only if named template is empty</li>
+      <li><a href=#html-prop>             <code>data-prop-checked</code></a>:   Enable or disable "checked" property</li>
+      <li><a href=#html-prop>             <code>data-prop-disabled</code></a>:  Enable or disable "disabled" property</li>
+      <li><a href=#html-prop>             <code>data-prop-selected</code></a>:  Enable or disable "selected" property</li>
+      <li><a href=#structure-thimblerig>  <code>data-require</code></a>:        Show element only if field exists</li>
+      <li><a href=#event-smart>           <code>data-smart-throttle</code></a>: Delay (milliseconds) between smart update callbacks</li>
+      <li><a href=#event-smart>           <code>data-smart-update</code></a>:   Throttled callback to run on change of an input value</li>
+      <li><a href=#event-transform>       <code>data-transform</code></a>:      Callback to enhance data immediately before cloning</li>
+      <li><a href=#structure-thimblerig>  <code>data-truthy</code></a>:         Show element only if field evaluates to true</li>
    </ol>
 </section>
 
@@ -2686,12 +2686,12 @@
          <tr><th>Example</th><th>Link</th></tr>
       </thead>
       <tbody class=external-site>
-         <tr><td><code>Add a Book</code></td>   <td><a href="http://jsfiddle.net/<!--#echo var="jsFiddleAddABook"-->/">    jsfiddle.net/<!--#echo var="jsFiddleAddABook"--></a></td></tr>
-         <tr><td><code>Book Finder</code></td>  <td><a href="http://jsfiddle.net/<!--#echo var="jsFiddleBookFinder"-->/">  jsfiddle.net/<!--#echo var="jsFiddleAddABook"--></a></td></tr>
-         <tr><td><code>Click Events</code></td> <td><a href="http://jsfiddle.net/<!--#echo var="jsFiddleDataClick"-->/">   jsfiddle.net/<!--#echo var="jsFiddleDataClick"--></a></td></tr>
-         <tr><td><code>Live Model</code></td>   <td><a href="http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/">   jsfiddle.net/<!--#echo var="jsFiddleLiveModel"--></a></td></tr>
-         <tr><td><code>Smart Updates</code></td><td><a href="http://jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"-->/">jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"--></a></td></tr>
-         <tr><td><code>To Do</code></td>        <td><a href="http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/">        jsfiddle.net/<!--#echo var="jsFiddleToDo"--></a></td></tr>
+         <tr><td><code>Add a Book</code></td>   <td><a href=http://jsfiddle.net/<!--#echo var="jsFiddleAddABook"-->/>    jsfiddle.net/<!--#echo var="jsFiddleAddABook"--></a></td></tr>
+         <tr><td><code>Book Finder</code></td>  <td><a href=http://jsfiddle.net/<!--#echo var="jsFiddleBookFinder"-->/>  jsfiddle.net/<!--#echo var="jsFiddleAddABook"--></a></td></tr>
+         <tr><td><code>Click Events</code></td> <td><a href=http://jsfiddle.net/<!--#echo var="jsFiddleDataClick"-->/>   jsfiddle.net/<!--#echo var="jsFiddleDataClick"--></a></td></tr>
+         <tr><td><code>Live Model</code></td>   <td><a href=http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/>   jsfiddle.net/<!--#echo var="jsFiddleLiveModel"--></a></td></tr>
+         <tr><td><code>Smart Updates</code></td><td><a href=http://jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"-->/>jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"--></a></td></tr>
+         <tr><td><code>To Do</code></td>        <td><a href=http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/>        jsfiddle.net/<!--#echo var="jsFiddleToDo"--></a></td></tr>
       </tbody>
    </table>
 </section>
