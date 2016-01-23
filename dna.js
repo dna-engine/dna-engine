@@ -824,6 +824,6 @@ dna.core = {
       return clone;
       },
    berserk: function(message) {  //oops, file a tps report
-      throw 'dna.js error -> ' + message;
+      throw new Error('dna.js -> ' + message);
       }
    };
