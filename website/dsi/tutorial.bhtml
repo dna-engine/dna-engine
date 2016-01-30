@@ -160,13 +160,13 @@
          <figcaption>Sample Google Books API response</figcaption>
          <pre><code class=language-json>
             {
-               "totalItems": 1251,
+               "totalItems": 1026,
                "items": [
                   {
-                     "id": "10jABQAAQBAJ",
+                     "id": "YfimjGQIo7gC",
                      "volumeInfo": {
-                        "title": "A History of Pi",
-                        "publisher": "St. Martin's Griffin",
+                        "title": "The Book of Ice",
+                        "publisher": "Subliminal Kid Inc",
                         "imageLinks": {
                            "thumbnail": "http://books.google.com/books/..."
                         }
