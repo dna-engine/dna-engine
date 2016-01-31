@@ -139,7 +139,7 @@
       </figure>
       <p>
          The <code>book-finder.html</code> page looks better with a little CSS, but it's still
-         completely static.&nbsp;
+         completely <a href=book-finder-static.html>static</a>.&nbsp;
          Next we'll turn the static book HTML into a template that can take JSON data.
       </p>
    </section>
