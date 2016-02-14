@@ -1278,7 +1278,7 @@ var test17 = {
 <script>
 var test18 = {
    enhance: function(data) {
-      data.code = dna.util.toCode(data.title);
+      data.code = dna.util.toKebab(data.title);
       data.displayPrice = '$' + (data.price / 100).toFixed(2);
       },
    displayPanel: function(elem) {

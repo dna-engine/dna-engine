@@ -2313,8 +2313,8 @@
    <li><b>dna.ui.toElem</b>(elemOrEventOrIndex, that)</li>
    <li><b>dna.util.apply</b>(func, params)</li>
    <li><b>dna.util.realTruth</b>(value)</li>
-   <li><b>dna.util.toCamel</b>(codeStr)</li>
-   <li><b>dna.util.toCode</b>(camelCaseStr)</li>
+   <li><b>dna.util.toCamel</b>(kebabStr)</li>
+   <li><b>dna.util.toKebab</b>(camelCaseStr)</li>
    <li><b>dna.util.value</b>(data, field)</li>
 </ol>
 
@@ -2569,14 +2569,14 @@
 <!--  dna.util.toCamel()  -->
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=util-to-camel>
-   <h4>dna.util.toCamel(codeStr)</h4>
+   <h4>dna.util.toCamel(kebabStr)</h4>
    <p class=api-description>
-      Converts a code made of lowercase letters and dashes into camel case string.
+      Converts a kebab-case string (a code made of lowercase letters and dashes) to camelCase.
    </p>
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/code-str.fhtml"-->
+         <!--#include file="params/kebab-str.fhtml"-->
       </ul>
    </div>
    <figure>
@@ -2588,11 +2588,11 @@
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
-<!--  dna.util.toCode()  -->
-<section id=util-to-code>
-   <h4>dna.util.toCode(camelCaseStr)</h4>
+<!--  dna.util.toKebab()  -->
+<section id=util-to-kebab>
+   <h4>dna.util.toKebab(camelCaseStr)</h4>
    <p class=api-description>
-      Converts a camel case string to a code made of only lowercase letters and dashes.
+      Converts a camelCase string to kebab-case (a code made of lowercase letters and dashes).
    </p>
    <div class=api-parameters>
       Parameters:
@@ -2603,7 +2603,7 @@
    <figure>
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
-            dna.util.toCode('readySetGo');  //'ready-set-go'
+            dna.util.toKebab('readySetGo');  //'ready-set-go'
       </code></pre>
    </figure>
 </section>
