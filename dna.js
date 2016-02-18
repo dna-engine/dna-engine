@@ -180,14 +180,15 @@ dna.browser = {
    };
 
 dna.util = {
-   toCamel: function(codeStr) {  //example: 'ready-set-go' ==> 'readySetGo'
+   toCamel: function(kebabStr) {  //example: 'ready-set-go' ==> 'readySetGo'
       function hump(match, char) { return char.toUpperCase(); }
-      return ('' + codeStr).replace(/\-(.)/g, hump);
+      return ('' + kebabStr).replace(/\-(.)/g, hump);
       },
-   toCode: function(camelCaseStr) {  //example: 'readySetGo' ==> 'ready-set-go'
+   toKebab: function(camelStr) {  //example: 'readySetGo' ==> 'ready-set-go'
       function dash(word) { return '-' + word.toLowerCase(); }
-      return ('' + camelCaseStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
+      return ('' + camelStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
       },
+   toCode: function(camelStr) { return dna.util.toKebab(camelStr); },  //DEPRECATED
    value: function(data, field) {  //example: dna.util.value({ a: { b: 7 }}, 'a.b'); ==> 7
       if (typeof field === 'string')
          field = field.split('.');

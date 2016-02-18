@@ -1,4 +1,4 @@
 <li>
-   <label><b>kebabStr</b> (String):</label>
+   <label><b>kebabCaseStr</b> (String):</label>
    A string made of lowercase letters and dashes.
 </li>

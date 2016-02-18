@@ -2313,7 +2313,7 @@
    <li><b>dna.ui.toElem</b>(elemOrEventOrIndex, that)</li>
    <li><b>dna.util.apply</b>(func, params)</li>
    <li><b>dna.util.realTruth</b>(value)</li>
-   <li><b>dna.util.toCamel</b>(kebabStr)</li>
+   <li><b>dna.util.toCamel</b>(kebabCaseStr)</li>
    <li><b>dna.util.toKebab</b>(camelCaseStr)</li>
    <li><b>dna.util.value</b>(data, field)</li>
 </ol>
@@ -2569,7 +2569,7 @@
 <!--  dna.util.toCamel()  -->
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=util-to-camel>
-   <h4>dna.util.toCamel(kebabStr)</h4>
+   <h4>dna.util.toCamel(kebabCaseStr)</h4>
    <p class=api-description>
       Converts a kebab-case string (a code made of lowercase letters and dashes) to camelCase.
    </p>
