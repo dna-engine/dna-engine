@@ -3,43 +3,47 @@
 
 <main>
 
-   <h2>Book Finder Tutorial</h2>
+   <h2>REST-driven Search Component Tutorial</h2>
    <p>
-      Follow the steps below to build an interactive search tool that finds books using JSON data
-      from the
+      Follow the steps below to build an interactive book search tool on top of the
       <a href=https://developers.google.com/books/docs/v1/getting_started class=external-site>
-         Google Books APIs</a>
-      REST web service.
+         Google Books API</a>.
    </p>
    <p class=leapfrog>
-      <img src=http://books.google.com/googlebooks/images/poweredby.png class=push-right
-         alt=Google>
+      <img src=http://books.google.com/googlebooks/images/poweredby.png class=push-right alt=Google>
       View a sample of the JSON results you will be using:
       <span class=block-indent>
          <a href="https://www.googleapis.com/books/v1/volumes?q=ice"
              class=external-site>https://www.googleapis.com/books/v1/volumes?q=ice</a>
       </span>
    </p>
-   <h4>Steps:</h4>
-   <ol>
-      <li><a href=#step1>Create baseline HTML</a></li>
-      <li><a href=#step2>Add search component</a></li>
-      <li><a href=#step3>Add search results component</a></li>
-      <li><a href=#step4>Style search results</a></li>
-      <li><a href=#step5>Define book template</a></li>
-      <li><a href=#step6>Load jQuery and dna.js</a></li>
-      <li><a href=#step7>Wire up search callback</a></li>
-      <li><a href=#step8>Make REST call</a></li>
-      <li><a href=#step9>Smarten up the search field</a></li>
-      <li><a href=#conclusion>Conclusion</a>
-   </ol>
+   <aside class=space-above-3x>
+      <div class=video-container data-href=https://youtu.be/juIru5qHZFM>
+         <iframe src=http://www.youtube.com/embed/juIru5qHZFM></iframe>
+      </div>
+   </aside>
+   <div class=push-left>
+      <h4>Steps:</h4>
+      <ol>
+         <li><a href=#step1>Create baseline HTML</a></li>
+         <li><a href=#step2>Add search component</a></li>
+         <li><a href=#step3>Add search results component</a></li>
+         <li><a href=#step4>Style search results</a></li>
+         <li><a href=#step5>Define book template</a></li>
+         <li><a href=#step6>Load jQuery and dna.js</a></li>
+         <li><a href=#step7>Wire up search callback</a></li>
+         <li><a href=#step8>Make REST call</a></li>
+         <li><a href=#step9>Smarten up the search field</a></li>
+         <li><a href=#conclusion>Conclusion</a>
+      </ol>
+   </div>
 
    <!--******************************************************************************************-->
-   <h3 id=step1>Step 1: Create baseline HTML</h3>
+   <h3 id=step1>Step 1: Create baseline HTML</h3>  <!-- TODO: move h3 into section -->
    <section>
       <p>
          Using your <a href=https://atom.io class=external-site>favorite code editor</a>, create
-         a simple HTML file named <code>book-finder.html</code> with the content below.
+         an HTML file named <code>book-finder.html</code> with the content below.
       </p>
       <figure>
          <figcaption>Initial contents for <code>book-finder.html</code></figcaption>
@@ -337,7 +341,7 @@
    <h3 id=step9>Step 9: Smarten up the search field</h3>
    <section>
       <p>
-         Clicking the "Find" button may be simple, but it makes for an cumbersome user
+         Clicking the "Find" button may be simple, but it makes for a cumbersome user
          experience.&nbsp;
          We can leverage the smart update feature in dna.js to replace the button with automatic
          searching.

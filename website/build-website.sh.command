@@ -29,9 +29,9 @@ copyToWebFolder() {
    echo "Target:"
    rm -rf $websiteFolder/httpdocs
    mkdir  $websiteFolder/httpdocs
-   mv -v dsi/*.html            $websiteFolder/httpdocs
-   cp -v *.html *.css *.js     $websiteFolder/httpdocs
-   cp -R graphics rest         $websiteFolder/httpdocs
+   mv -v dsi/*.html              $websiteFolder/httpdocs
+   cp -v *.html *.css *.js *.txt $websiteFolder/httpdocs
+   cp -R graphics rest           $websiteFolder/httpdocs
    echo
    }
 

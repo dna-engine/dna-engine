@@ -35,6 +35,9 @@
 <meta charset=utf-8>
 <meta name=viewport                   content="width=device-width, initial-scale=1">
 <meta name=apple-mobile-web-app-title content="dna.js">
+<!--#if file="$DOCUMENT_NAME=index.bhtml"-->
+<meta name=google-site-verification   content="07GEe8VaEwhbW3EiRmJ_D92sLqgfBEa0zlsvGKFB5rM">
+<!--#endif -->
 <title><!--#echo var="name"--> &bull; <!--#echo var="title"--></title>
 <!--#if file="$DOCUMENT_NAME=file-not-found.bhtml"-->
 <base href=http://dnajs.org/>

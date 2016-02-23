@@ -20,6 +20,11 @@
          (or simply use the <a href=manual.html#setup-cdn>jsDelivr CDN</a>)
       </section>
       <section>
+         <div class=twitter>
+            <a href=https://twitter.com/dna_js class=plain>
+               <i class="fa fa-twitter"></i><br>#dnajs
+            </a>
+         </div>
          <h2>News</h2>
          <!--#include file="~news.fhtml"-->
       </section>
@@ -36,6 +41,11 @@
       <a href=license.html>dual-licensed</a> under The MIT License (MIT) and GNU General
       Public License (GPLv3).
    </p>
+   <div style="max-width: 350px;">
+      <div class=video-container data-href=https://youtu.be/juIru5qHZFM>
+         <iframe src=http://www.youtube.com/embed/juIru5qHZFM></iframe>
+      </div>
+   </div>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <h3 id=todo>To-Do List Application</h3>

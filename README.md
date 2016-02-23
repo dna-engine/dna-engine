@@ -53,6 +53,7 @@ dna.rest.get('book', 'http://dnajs.org/rest/book/3');
 ### 2. Additional Information
 * [dnajs.org](http://dnajs.org) &mdash; (see the "Try It Out" section for a live example)
 * [Sample To-Do Application (jsfiddle)](http://jsfiddle.net/dovd6088/)
+* [REST-driven Search Component (YouTube)](https://youtu.be/juIru5qHZFM)
 * [Documentation](http://dnajs.org/manual.html)
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)
 

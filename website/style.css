@@ -128,7 +128,7 @@ aside section:first-child {
    text-align: center;
    }
 
-/* Style */
+/* General style */
 h3 {
    clear: both;
    font-size: 1.2rem;
@@ -197,6 +197,8 @@ main >p >button {
    margin-left: 40px;
    }
 
+/* Utilities and components */
+
 header .logo {
    float: left;
    margin: 2px 15px 5px 0px;
@@ -223,6 +225,24 @@ header .logo img:hover {
    }
 .link-box p {
    margin: 0pt 0pt 2pt 20pt;
+   }
+
+/* Video container link box */
+.video-container {
+   margin-bottom: 20px;
+   opacity: 0.8;
+   transition: all 0.5s;
+   }
+.video-container iframe {
+   border-color: gray;
+   pointer-events: none;
+   transition: all 0.5s;
+   }
+.video-container:hover {
+   opacity: 1;
+   }
+.video-container:hover iframe {
+   border-color: dimgray;
    }
 
 .toc {
@@ -321,13 +341,32 @@ code.block-indent {
    }
 .down-arrow {
    text-align: center;
-   -webkit-transform: rotate(180deg);
-       -ms-transform: rotate(180deg);
-           transform: rotate(180deg);
+   transform: rotate(180deg);
    font-size: 2.5rem;
    font-weight: bold;
    color: steelblue;
    margin: -10px 0px 10px 0px;
+   }
+
+/* Twitter */
+.twitter {
+   position: relative;
+   text-align: center;
+   }
+.twitter a {
+   position: absolute;
+   top: 0px;
+   right: -8px;
+   font-size: 0.7rem;
+   color: #1da1f2;  /* Twitter blue */
+   }
+.twitter a:hover {
+   color: royalblue;
+   transition: all 0.8s;
+   }
+.twitter a i.fa {
+   font-size: 1.4rem;
+   transition: none;
    }
 
 /* GitHub fork me */
@@ -379,7 +418,6 @@ figure.full-screen-code pre code {
    }
 .reveal-action:hover {
    background-color: steelblue;
-   border-color: steelblue;
    }
 
 /* Mobile */
