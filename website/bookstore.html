@@ -1,23 +1,23 @@
 <!doctype html>
-<!-- - - - - - - - - - - - - - - - -->
-<!--  Bookstore                    -->
-<!--  dnajs.org/hello-world.html   -->
-<!-- - - - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - - -->
+<!-- Bookstore                   -->
+<!-- dnajs.org/hello-world.html  -->
+<!-- - - - - - - - - - - - - - - -->
 <html>
 <head>
 <meta charset=utf-8>
 <title>Bookstore</title>
 <link rel=stylesheet href=https://cdn.jsdelivr.net/dna.js/0/dna.css>
 <style>
-   body       { font-family: sans-serif; margin: 30px; }
-   .book-list { width: 250px; }
-   .book      { background-color: pink; padding: 10px; margin-bottom: 15px; }
+   body   { font-family: sans-serif; margin: 30px; }
+   .books { width: 250px; }
+   .book  { background-color: gold; padding: 10px; margin: 15px; }
 </style>
 </head>
 <body>
 
 <h1>Bookstore</h1>
-<div class=book-list>
+<div class=books>
    <div id=book class=dna-template>
       <div>Title:  <span>~~title~~</span></div>
       <div>Author: <span>~~author~~</span></div>
@@ -28,8 +28,9 @@
 <script src=https://cdn.jsdelivr.net/dna.js/0/dna.min.js></script>
 <script>
    var books = [
-      { title: 'The DOM',     author: 'Jan' },
-      { title: 'Howdy HTML5', author: 'Ed' }
+      { title: 'The DOM',      author: 'Jan' },
+      { title: 'Howdy HTML5',  author: 'Ed' },
+      { title: 'Styling CSS3', author: 'Abby' }
       ];
    dna.clone('book', books);
 </script>

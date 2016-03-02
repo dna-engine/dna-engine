@@ -3,9 +3,16 @@
 
 <main>
 
+<aside>
+   <div class=video-container data-href=https://youtu.be/jMOZOI-UkNI>
+      <iframe src=http://www.youtube.com/embed/jMOZOI-UkNI></iframe>
+   </div>
+</aside>
 <h2>Documentation</h2>
 <p>
-   For an overview of using dna.js, see the <a href=.#example>Bookstore Example</a>.&nbsp;
+   For an overview of using dna.js, see the <a href=.#example>Bookstore Example</a>.
+</p>
+<p>
    For richer examples, view the HTML source of the project
    <a href=test-cases.html>test cases</a>.
 </p>
