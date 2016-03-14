@@ -42,37 +42,30 @@ body {
    padding: 20px 50px 30px 50px;
    margin: 0px auto;
    }
-header nav {
-   text-align: center;
-   }
 header nav ul {
-   display: inline-block;
-   list-style-type: none;
-   padding: 0px;
+   text-align: center;
    }
 header nav ul li {
    display: inline-block;
    }
-header nav ul li a {
+header nav ul li a,
+header nav ul li a:visited {
    display: inline-block;
-   text-decoration: none;
    font-weight: bold;
    font-size: 0.9rem;
    color: darkgray;
    border-bottom: 1px solid darkgray;
    padding: 1px 12px;
    margin: 0px 10px 10px 10px;
-   outline: none;
    }
 header nav ul li.current a,
 header nav ul li a:hover {
-   background-color: transparent;
    color: dimgray;
    border-color: dimgray;
    }
 header h1 {
    font-size: 2.2rem;
-   font-family: 'Chango', sans-serif;
+   font-family: Chango, sans-serif;
    text-align: center;
    color: steelblue;
    margin-bottom: 5px;
@@ -285,6 +278,7 @@ header .logo img:hover {
    margin-bottom: 20px;
    }
 .api-parameters >ul >li {
+   text-indent: 0px;
    border: 1px dotted steelblue;
    padding: 10px;
    margin-bottom: 10px;
@@ -297,6 +291,7 @@ header .logo img:hover {
    }
 .api-parameters ul ul li {
    position: relative;
+   text-indent: 0px;
    padding-bottom: 5px;
    margin-left: 175px;
    }
@@ -352,7 +347,8 @@ code.block-indent {
    position: relative;
    text-align: center;
    }
-.twitter a {
+.twitter a,
+.twitter a:visited {
    position: absolute;
    top: 0px;
    right: -8px;
@@ -361,11 +357,10 @@ code.block-indent {
    }
 .twitter a:hover {
    color: royalblue;
-   transition: all 0.8s;
    }
 .twitter a i.fa {
    font-size: 1.4rem;
-   transition: none;
+   opacity: 1;
    }
 
 /* GitHub fork me */

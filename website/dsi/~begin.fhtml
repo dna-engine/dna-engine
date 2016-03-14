@@ -56,11 +56,11 @@
 <header>
    <nav>
       <ul>
-         <li><a class=plain href=.>Home</a></li>
-         <li><a class=plain href=hello-world.html>Example</a></li>
-         <li><a class=plain href=tutorial.html>Tutorial</a></li>
-         <li><a class=plain href=manual.html>Documentation</a></li>
-         <li><a class=plain href=license.html>License</a></li>
+         <li><a href=.>Home</a></li>
+         <li><a href=hello-world.html>Example</a></li>
+         <li><a href=tutorial.html>Tutorial</a></li>
+         <li><a href=manual.html>Documentation</a></li>
+         <li><a href=license.html>License</a></li>
       </ul>
    </nav>
    <h1><!--#echo var="name"--></h1>
