@@ -188,7 +188,7 @@
       <li>Templates can be in-place (no need for separate template files)</li>
       <li>Iteration is done with <a href=manual.html#loop-templates>data arrays</a> not messy
          template <code>for</code> loops</li>
-      <li><a href=http://techdem.centerkey.com/2013/02/lazy-setup-50x-javascript-performance.html
+      <li><a href=http://blog.centerkey.com/2013/02/lazy-setup-50x-javascript-performance.html
          class=external-site>Zero setup</a> until data is pushed (can be after page load)</li>
       <li>No serialization or deserialization (no need to call the <code>.html()</code> function)</li>
       <li>Enable JavaScript to be void of boilerplate code and anonymous functions</li>

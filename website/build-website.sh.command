@@ -1,9 +1,9 @@
 #!/bin/sh
 
-######################
-#  dna.js Website    #
-#  http://dnajs.org  #
-######################
+####################
+# dna.js Website   #
+# http://dnajs.org #
+####################
 
 releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/current
 webServerRoot=$(grep ^DocumentRoot /private/etc/apache2/httpd.conf | awk -F\" '{ print $2 }')

@@ -35,6 +35,7 @@
          <li><a href=#step8>Make REST call</a></li>
          <li><a href=#step9>Smarten up the search field</a></li>
          <li><a href=#conclusion>Conclusion</a>
+         <li><a href=#comments>Comments</a>
       </ol>
    </div>
 
@@ -70,7 +71,7 @@
    </section>
 
    <!--******************************************************************************************-->
-   <h3 id=step>Step 2: Add search component</h3>
+   <h3 id=step2>Step 2: Add search component</h3>
    <section>
       <p>
          Just after the <code>h1</code> header line, insert the HTML for the search
@@ -455,6 +456,23 @@
                class=external-site>maps.googleapis.com/maps/api/geocode/json?address=Paris</a>
          </span>
       </p>
+   </section>
+
+   <h3 id=comments>Comments</h3>
+   <section>
+      <div id=disqus_thread></div>
+      <script>
+         var disqus_config = function() {
+            this.page.url = 'http://dnajs.org/tutorial.html';
+            this.page.identifier = 'dna.js-tutorial';
+            };
+         (function() {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://dnajs.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+      </script>
    </section>
 
 </main>
