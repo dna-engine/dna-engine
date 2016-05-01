@@ -46,6 +46,7 @@
 <link rel=apple-touch-icon href=graphics/mobile-home-screen.png>
 <link rel=stylesheet       href=https://cdn.jsdelivr.net/fontawesome/4/css/font-awesome.min.css>
 <link rel=stylesheet       href=http://centerkey.com/css/reset.css>
+<link rel=stylesheet       href=https://cdn.jsdelivr.net/highlight.js/9.3/styles/docco.min.css>
 <link rel=stylesheet       href=http://centerkey.com/files/hljs-enhance/hljs-enhance.css>
 <link rel=stylesheet       href=https://cdn.jsdelivr.net/dna.js/0/dna.css>
 <link rel=stylesheet       href=style.css>

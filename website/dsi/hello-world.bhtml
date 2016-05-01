@@ -26,7 +26,7 @@
          &lt;head&gt;
          &lt;meta charset=utf-8&gt;
          &lt;title&gt;Bookstore&lt;/title&gt;
-         &lt;link rel=stylesheet href=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.css&quot;&gt;
+         &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/dna.js/0/dna.css&gt;
          &lt;style&gt;
             body   { font-family: sans-serif; margin: 30px; }
             .books { width: 250px; }
@@ -43,8 +43,8 @@
             &lt;/div&gt;
          &lt;/div&gt;
 
-         &lt;script src=&quot;https://cdn.jsdelivr.net/jquery/2/jquery.min.js&quot;&gt;&lt;/script&gt;
-         &lt;script src=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.min.js&quot;&gt;&lt;/script&gt;
+         &lt;script src=https://cdn.jsdelivr.net/jquery/2/jquery.min.js&gt;&lt;/script&gt;
+         &lt;script src=https://cdn.jsdelivr.net/dna.js/0/dna.min.js&gt;&lt;/script&gt;
          &lt;script&gt;
             var books = [
                { title: 'The DOM',      author: 'Jan' },

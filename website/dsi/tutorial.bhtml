@@ -107,7 +107,7 @@
          <pre><code class=language-html>
             &lt;div class=books&gt;
                &lt;div class=book&gt;
-                  &lt;img src=&quot;http://dnajs.org/graphics/sample-book-cover.jpg&quot; alt=Cover&gt;
+                  &lt;img src=http://dnajs.org/graphics/sample-book-cover.jpg alt=Cover&gt;
                   &lt;div&gt;
                      &lt;b&gt;Title&lt;/b&gt;
                      &lt;p&gt;Publisher&lt;/p&gt;
@@ -241,7 +241,7 @@
       <figure>
          <figcaption>CSS link in <code>head</code> section</figcaption>
          <pre><code class=language-html>
-            &lt;link rel=stylesheet href=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.css&quot;&gt;
+            &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/dna.js/0/dna.css&gt;
          </code></pre>
       </figure>
       <p>
@@ -250,8 +250,8 @@
       <figure>
          <figcaption>JS link at bottom of the <code>body</code> section</figcaption>
          <pre><code class=language-html>
-            &lt;script src=&quot;https://cdn.jsdelivr.net/jquery/2/jquery.min.js&quot;&gt;&lt;/script&gt;
-            &lt;script src=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.min.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/jquery/2/jquery.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/dna.js/0/dna.min.js&gt;&lt;/script&gt;
          </code></pre>
       </figure>
       <p>
@@ -397,7 +397,7 @@
             &lt;head&gt;
             &lt;meta charset=utf-8&gt;
             &lt;title&gt;Book Finder&lt;/title&gt;
-            &lt;link rel=stylesheet href=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.css&quot;&gt;
+            &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/dna.js/0/dna.css&gt;
             &lt;style&gt;
                body       { font-family: sans-serif; margin: 30px; }
                .book      { display: table; background-color: lightblue;
@@ -427,8 +427,8 @@
                &lt;/div&gt;
             &lt;/main&gt;
 
-            &lt;script src=&quot;https://cdn.jsdelivr.net/jquery/2/jquery.min.js&quot;&gt;&lt;/script&gt;
-            &lt;script src=&quot;https://cdn.jsdelivr.net/dna.js/0/dna.min.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/jquery/2/jquery.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/dna.js/0/dna.min.js&gt;&lt;/script&gt;
             &lt;script&gt;
                function findBooks(elem) {
                   var terms = elem.val();
