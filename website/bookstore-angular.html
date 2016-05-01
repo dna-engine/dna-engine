@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>Bookstore</title>
+<style>
+   body   { font-family: sans-serif; margin: 30px; }
+   .books { width: 250px; }
+   .book  { background-color: gold; padding: 10px; margin: 15px; }
+</style>
+</head>
+<body ng-app=Books>
+
+<h1>Bookstore</h1>
+<div class=books ng-controller=BooksController>
+   <div class=book ng-repeat="book in books">
+      <div>Title:  <span>{{book.title}}</span></div>
+      <div>Author: <span>{{book.author}}</span></div>
+   </div>
+</div>
+
+<script src=https://cdn.jsdelivr.net/angularjs/1.5.0/angular.min.js></script>
+<script>
+   var books = [
+      { title: 'The DOM',      author: 'Jan' },
+      { title: 'Howdy HTML5',  author: 'Ed' },
+      { title: 'Styling CSS3', author: 'Abby' }
+      ];
+   angular.module('Books', []);
+   function bookConstructor($scope) {
+      $scope.books = books;
+      }
+   angular.module('Books').controller('BooksController', ['$scope', bookConstructor]);
+</script>
+</body>
+</html>
