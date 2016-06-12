@@ -35,7 +35,7 @@
          <li><a href=#step8>Make REST call</a></li>
          <li><a href=#step9>Smarten up the search field</a></li>
          <li><a href=#conclusion>Conclusion</a>
-         <li><a href=#comments>Comments</a>
+         <li><a href=#comments>Questions and comments</a>
       </ol>
    </div>
 
@@ -458,8 +458,13 @@
       </p>
    </section>
 
-   <h3 id=comments>Comments</h3>
+   <h3 id=comments>Questions and comments</h3>
    <section>
+      <p class=plain>
+         Tweet your question or comment with
+         <a href=https://twitter.com/dna_js class=twitter>#dnajs</a>
+         or post below.
+      </p>
       <div id=disqus_thread></div>
       <script>
          var disqus_config = function() {

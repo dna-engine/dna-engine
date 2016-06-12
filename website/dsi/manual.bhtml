@@ -104,6 +104,7 @@
       </li>
       <li><a href=#utils>Utilities</a></li>
       <li><a href=#index>Index</a></li>
+      <li><a href=#comments>Questions and Comments</a></li>
    </ol>
 </div>
 
@@ -2701,6 +2702,31 @@
          <tr><td><code>To Do</code></td>        <td><a href=http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/>        jsfiddle.net/<!--#echo var="jsFiddleToDo"--></a></td></tr>
       </tbody>
    </table>
+</section>
+
+<!--*********************************************************************************************-->
+<h3 id=comments>Questions and comments</h3>
+<p class=plain>
+   Tweet your question or comment with
+   <a href=https://twitter.com/dna_js class=twitter>#dnajs</a>
+   or post below.
+</p>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section>
+   <div id=disqus_thread></div>
+   <script>
+      var disqus_config = function() {
+         this.page.url = 'http://dnajs.org/manual.html';
+         this.page.identifier = 'dna.js-manual';
+         };
+      (function() {
+         var d = document, s = d.createElement('script');
+         s.src = 'https://dnajs.disqus.com/embed.js';
+         s.setAttribute('data-timestamp', +new Date());
+         (d.head || d.body).appendChild(s);
+         })();
+   </script>
 </section>
 
 </main>

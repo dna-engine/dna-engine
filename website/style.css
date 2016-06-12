@@ -353,14 +353,20 @@ code.block-indent {
    top: 0px;
    right: -8px;
    font-size: 0.7rem;
-   color: #1da1f2;  /* Twitter blue */
-   }
-.twitter a:hover {
-   color: royalblue;
    }
 .twitter a i.fa {
    font-size: 1.4rem;
    opacity: 1;
+   }
+.twitter a,
+.twitter a:visited,
+a.twitter,
+a.twitter:visited {
+   color: #1da1f2;  /* Twitter blue */
+   }
+.twitter a:hover,
+a.twitter:hover {
+   color: royalblue;
    }
 
 /* GitHub fork me */
