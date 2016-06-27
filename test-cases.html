@@ -43,7 +43,7 @@
    <button data-href=http://dnajs.org/>dnajs.org</button>
    <h1>dna.js Semantic Templates</h1>
    <h2>Test Cases</h2>
-   <p><span id=file-name></span> &mdash; <a id=switch href=test-cases.html>switch</a></p>
+   <p><span id=file-name>dna.js</span> &mdash; <a id=switch href=test-cases-min.html>switch</a></p>
 </header>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1074,7 +1074,7 @@ var test15 = {
 var test16 = {
    start: Date.now(),
    submit: function(elem) {
-      console.log(Date.now() - test16.start, elem.val());
+      console.log(Date.now() - test16.start + ': ' + elem.val());
       },
    run: function() {
       console.log('Test Case: #16');
@@ -1287,7 +1287,7 @@ var test18 = {
    run: function() {
       console.log('Test Case: #18');
       dna.clone('t18-book-title', testing.catalog);
-      dna.clone('t18-book', testing.catalog);
+      dna.clone('t18-book',       testing.catalog);
       $('#t18-books .menu-item:contains(Styling CSS3)').click();
       function postRenderClick() { $('#t18-category .menu-item:contains(W3C)').click(); }
       window.setTimeout(postRenderClick, 1000);
@@ -1300,40 +1300,35 @@ var test18 = {
    dna.js
 </footer>
 
-<script src=https://cdn.jsdelivr.net/jquery/2/jquery.min.js></script>
+<script src=https://cdn.jsdelivr.net/jquery/3/jquery.min.js></script>
+<script src=dna.js></script>
 <script>
 var testing = {
-   minified: null,
-   fileName: null,
    catalog: [
       { title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en' },
       { title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr' },
       { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 }
       ],
-   summary: function() {
-      $('#file-name').text(testing.fileName);
-      if (!testing.minified)
-         $('#switch').attr('href', '?minified');
-      console.log('');
-      dna.info();
-      console.log('');
-      },
    setup: function() {
-      testing.minified = location.search === '?minified';
-      testing.fileName = testing.minified ? 'dna.min.js' : 'dna.js';
-      $.holdReady(true);
+      function minifiedMode() {
+         $('#file-name').text('dna.min.js');
+         $('#switch').attr('href', 'test-cases.html');
+         }
+      if (window.location.pathname.endsWith('/test-cases-min.html'))
+         minifiedMode();
       function runTests() {
-         $.holdReady(false);
-         var numTests = $('script').length - 2;
+         var numTests = $('script').length - 3;
          console.log('~~ dna.js Test Cases ~~');
          for (var t = 1; t < numTests; t++)
             window['test' + ('0' + t).slice(-2)].run();
-         testing.summary();
          }
-      $.getScript(testing.fileName, runTests);
+      runTests();
+      console.log('');
+      dna.info();
+      console.log('');
       }
    };
-testing.setup();
+$(testing.setup);
 </script>
 </body>
 </html>

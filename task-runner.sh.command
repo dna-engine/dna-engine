@@ -104,6 +104,7 @@ releaseInstructions() {
 
 runTestCases() {
    cd $projectHome
+   sed s/src=dna.js/src=dna.min.js/ test-cases.html > test-cases-min.html
    open test-cases.html
    echo "~~~~~~~~~~~~~~~~~~"
    echo "To test in Chrome, quit browser and run:"
