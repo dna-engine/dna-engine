@@ -181,7 +181,7 @@
    <figure>
       <figcaption>Load JavaScript libraries</figcaption>
       <pre><code class=language-html>
-         &lt;script src=https://cdn.jsdelivr.net/jquery/2/jquery.min.js&gt;&lt;/script&gt;
+         &lt;script src=https://cdn.jsdelivr.net/jquery/3/jquery.min.js&gt;&lt;/script&gt;
          &lt;script src=https://cdn.jsdelivr.net/dna.js/0/dna.min.js&gt;&lt;/script&gt;
       </code></pre>
    </figure>
