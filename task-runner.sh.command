@@ -18,7 +18,7 @@ needNode() {
    echo "**********************************"
    echo "Need to install Node.js to get npm"
    echo "**********************************"
-   open "http://nodejs.org/download/"
+   open "http://nodejs.org/"
    exit
    }
 
