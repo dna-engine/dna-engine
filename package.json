@@ -11,10 +11,12 @@
    "repository":   { "type": "git",        "url": "https://github.com/dnajs/dna.js.git" },
    "dependencies": { "jquery": ">=1.8" },
    "devDependencies": {
-      "grunt":                "~1.0.0",
-      "grunt-version":        "~1.1.1",
-      "grunt-contrib-jshint": "~1.0.0",
-      "grunt-contrib-uglify": "~1.0.1",
-      "load-grunt-tasks":     "~3.5.0"
+      "gulp":          "~3.9",
+      "gulp-header":   "~1.8",
+      "jshint":        "~2.9",
+      "gulp-jshint":   "~2.0",
+      "gulp-replace":  "~0.5",
+      "gulp-rename":   "~1.2",
+      "gulp-uglify":   "~2.0"
       }
 }

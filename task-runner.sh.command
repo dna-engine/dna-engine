@@ -1,8 +1,8 @@
 #!/bin/sh
-###############################
-#  Task Runner                #
-#  dna.js Semantic Templates  #
-###############################
+#############################
+# Task Runner               #
+# dna.js Semantic Templates #
+#############################
 
 # To make this file runnable:
 #    $ chmod +x task-runner.sh.command
@@ -14,7 +14,7 @@
 package=https://raw.githubusercontent.com/dnajs/dna.js/master/package.json
 projectHome=$(cd $(dirname $0); pwd)
 
-needNode() {
+needNpm() {
    echo "**********************************"
    echo "Need to install Node.js to get npm"
    echo "**********************************"
@@ -22,11 +22,11 @@ needNode() {
    exit
    }
 
-needGrunt() {
-   echo "**********************************"
-   echo "Need to install Grunt:            "
-   echo "   $ sudo npm install -g grunt-cli"
-   echo "**********************************"
+needGulp() {
+   echo "***************************************"
+   echo "Need to install Gulp:                  "
+   echo "   $ sudo npm install --global gulp-cli"
+   echo "***************************************"
    exit
    }
 
@@ -34,17 +34,14 @@ setup() {
    cd $projectHome
    pwd
    echo
-   which npm || needNode
-   which grunt || needGrunt
-   echo "Node:"
-   node --version
+   which npm || needNpm
+   npm --version
    npm install
    echo
-   echo "Grunt:"
-   which grunt
-   ls -l Gruntfile.js
+   which gulp || needGulp
+   gulp --version
    echo
-   grunt
+   gulp
    echo
    echo "Files:"
    ls -l dna*.js
@@ -83,7 +80,7 @@ releaseInstructions() {
    echo
    echo "To release this version:"
    echo "   cd $(pwd)"
-   echo "   grunt release"
+   echo "   gulp release"
    echo "   website/build-website.sh.command"
    echo "   *** Check in local changes with the comment:"
    echo "      Release $versionLocal"
