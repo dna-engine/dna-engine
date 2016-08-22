@@ -308,13 +308,13 @@ dna.pageToken = {
    put: function(key, value) {
       // Example:
       //   dna.pageToken.put('favorite', 7);  //saves 7
-      sessionStorage[key + window.location.pathname] = JSON.stringify(value);
+      window.sessionStorage[key + window.location.pathname] = JSON.stringify(value);
       return value;
       },
    get: function(key, defaultValue) {
       // Example:
       //   dna.pageToken.get('favorite', 0);  //returns 0 if not set
-      var value = sessionStorage[key + window.location.pathname];
+      var value = window.sessionStorage[key + window.location.pathname];
       return value === undefined ? defaultValue : JSON.parse(value);
       }
    };
