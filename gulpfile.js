@@ -1,12 +1,14 @@
 // dna.js Semantic Templates
 // gulp configuration and tasks
 
-var gulp =    require('gulp');
-var header =  require('gulp-header');
-var jshint =  require('gulp-jshint');
-var rename =  require('gulp-rename');
-var uglify =  require('gulp-uglify');
-var replace = require('gulp-replace');
+var gulp =     require('gulp');
+var header =   require('gulp-header');
+var w3cjs =    require('gulp-w3cjs');
+var htmlhint = require('gulp-htmlhint');
+var jshint =   require('gulp-jshint');
+var rename =   require('gulp-rename');
+var uglify =   require('gulp-uglify');
+var replace =  require('gulp-replace');
 
 var pkg = require('./package.json');
 var banner = '//dna.js v' + pkg.version + ' ~~ dnajs.org/license.html\n';
@@ -23,6 +25,9 @@ var versionPatterns = new RegExp('(' + versionPatternStrs.join('|') + ')[0-9.]*'
 var files = {
     html: ['*.html', 'website/*.html', 'website/httpdocs/*.html'],
     js:   ['dna.js', 'gulpfile.js', 'website/*.js']
+    };
+var htmlHintConfig = {
+    'attr-value-double-quotes': false
     };
 var jsHintConfig = {
     undef:  true,
@@ -56,9 +61,20 @@ function runUglify() {
       .pipe(gulp.dest('.'));
    }
 
+function runHtmlChecks() {
+    gulp.src(files.html)
+        .pipe(w3cjs())
+        .pipe(w3cjs.reporter());
+    gulp.src(files.html)
+        .pipe(htmlhint(htmlHintConfig))
+        .pipe(htmlhint.reporter());
+   }
+
 gulp.task('jshint',  runJsHint);
 gulp.task('uglify',  runUglify);
+gulp.task('html',    runHtmlChecks);
 gulp.task('dev',     setVersionNumberDev);
 gulp.task('prod',    setVersionNumberProd);
 gulp.task('default', ['dev', 'jshint', 'uglify']);
 gulp.task('release', ['prod']);
+gulp.task('web',     ['html']);

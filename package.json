@@ -13,6 +13,8 @@
    "devDependencies": {
       "gulp":          "~3.9",
       "gulp-header":   "~1.8",
+      "gulp-w3cjs":    "~1.2",
+      "gulp-htmlhint": "~0.3",
       "jshint":        "~2.9",
       "gulp-jshint":   "~2.0",
       "gulp-replace":  "~0.5",
