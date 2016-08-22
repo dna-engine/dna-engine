@@ -9,6 +9,7 @@ var jshint =   require('gulp-jshint');
 var rename =   require('gulp-rename');
 var uglify =   require('gulp-uglify');
 var replace =  require('gulp-replace');
+var size =     require('gulp-filesize');
 
 var pkg = require('./package.json');
 var banner = '//dna.js v' + pkg.version + ' ~~ dnajs.org/license.html\n';
@@ -59,6 +60,8 @@ function runUglify() {
       .pipe(uglify())
       .pipe(header(banner))
       .pipe(gulp.dest('.'));
+   gulp.src('dna.min.js')
+      .pipe(size());
    }
 
 function runHtmlChecks() {
