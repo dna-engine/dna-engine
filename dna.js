@@ -2,7 +2,7 @@
 // MIT/GPLv3 ~~ dnajs.org/license.html
 // Copyright (c) 2013-2016 individual contributors
 
-var dna = {
+window.dna = {
    // API:
    //    dna.clone()
    //    dna.cloneSubTemplate()
