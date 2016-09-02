@@ -1,28 +1,45 @@
 // dna.js Semantic Templates
 // gulp configuration and tasks
 
-var gulp =     require('gulp');
-var header =   require('gulp-header');
-var w3cjs =    require('gulp-w3cjs');
-var htmlhint = require('gulp-htmlhint');
-var jshint =   require('gulp-jshint');
-var rename =   require('gulp-rename');
-var uglify =   require('gulp-uglify');
-var replace =  require('gulp-replace');
-var size =     require('gulp-filesize');
+var gulp =         require('gulp');
+var fileinclude =  require('gulp-file-include');
+var filesize =     require('gulp-filesize');
+var header =       require('gulp-header');
+var htmlhint =     require('gulp-htmlhint');
+var jshint =       require('gulp-jshint');
+var rename =       require('gulp-rename');
+var replace =      require('gulp-replace');
+var uglify =       require('gulp-uglify');
+var del =          require('del');
 
-var pkg = require('./package.json');
-var banner = '//dna.js v' + pkg.version + ' ~~ dnajs.org/license.html\n';
-
+var context = {
+   pkg:        require('./package.json'),
+   size:       '14 kb',
+   useBaseTag: false,
+   youTube: {
+      intro:    'jMOZOI-UkNI',
+      tutorial: 'juIru5qHZFM'
+      },
+   jsFiddle: {
+      addABook:     '3ox4tbzm',
+      bookFinder:   'kycnLazq',
+      dataClick:    '16ytgdwe',
+      liveModel:    'bupu9scn',
+      smartUpdates: '0t7Lue3w',
+      toDo:         'dovd6088'
+      }
+   };
+context.title = context.pkg.dna.fullName;  //default page title
+context.copyright = context.pkg.dna.copyright.replace('@@currentYear@@', new Date().getFullYear());
+var banner = '//dna.js v' + context.pkg.version + ' ~~ dnajs.org/license.html\n';
 var versionPatternStrs = [
-   'js v',                      //example: /* dna.js v1.0.0 ~~ dnajs.org/license.html */
-   '~~ v',                      //example: // dna.js Semantic Templates ~~ v1.0.0
-   '"version":  "',             //example: "version":  "1.0.0",
-   'Current release: \\*\\*v',  //example: Current release: **v1.0.0**
-   '"release"\\s+value="'       //example: <!--#set var="release" value="1.0.0" -->
+   'js v',                     //example: /* dna.js v1.0.0 ~~ dnajs.org/license.html */
+   '~~ v',                     //example: // dna.js Semantic Templates ~~ v1.0.0
+   '"version":  "',            //example: "version":  "1.0.0",
+   'Current release: \\*\\*v'  //example: Current release: **v1.0.0**
    ];
 var versionPatterns = new RegExp('(' + versionPatternStrs.join('|') + ')[0-9.]*');
-
+var httpdocsFolder = 'website/httpdocs';
 var files = {
     html: ['*.html', 'website/*.html', 'website/httpdocs/*.html'],
     js:   ['dna.js', 'gulpfile.js', 'website/*.js']
@@ -38,13 +55,13 @@ var jsHintConfig = {
 
 function setVersionNumberDev() {
    gulp.src(['dna.js', 'dna.css'])
-      .pipe(replace(versionPatterns, '$1' + pkg.version))
+      .pipe(replace(versionPatterns, '$1' + context.pkg.version))
       .pipe(gulp.dest('.'));
    }
 
 function setVersionNumberProd() {
-   gulp.src(['bower.json', 'README.md', 'website/dsi/~begin.fhtml'])
-      .pipe(replace(versionPatterns, '$1' + pkg.version))
+   gulp.src(['bower.json', 'README.md'])
+      .pipe(replace(versionPatterns, '$1' + context.pkg.version))
       .pipe(gulp.dest('.'));
    }
 
@@ -61,23 +78,28 @@ function runUglify() {
       .pipe(header(banner))
       .pipe(gulp.dest('.'));
    gulp.src('dna.min.js')
-      .pipe(size());
+      .pipe(filesize());
    }
 
-function runHtmlChecks() {
-    gulp.src(files.html)
-        .pipe(w3cjs())
-        .pipe(w3cjs.reporter());
-    gulp.src(files.html)
-        .pipe(htmlhint(htmlHintConfig))
-        .pipe(htmlhint.reporter());
+function cleanWebsite() {
+    return del(httpdocsFolder + '/**');
+    }
+
+function buildWebsite() {
+   gulp.src('website/static/**/*')
+      .pipe(filesize())
+      .pipe(gulp.dest(httpdocsFolder));
+   gulp.src('website/src/*.html')
+      .pipe(fileinclude({ indent: true, context: context }))
+      .pipe(gulp.dest(httpdocsFolder))
+      .pipe(htmlhint(htmlHintConfig))
+      .pipe(htmlhint.reporter());
    }
 
-gulp.task('jshint',  runJsHint);
-gulp.task('uglify',  runUglify);
-gulp.task('html',    runHtmlChecks);
 gulp.task('dev',     setVersionNumberDev);
-gulp.task('prod',    setVersionNumberProd);
-gulp.task('default', ['dev', 'jshint', 'uglify']);
-gulp.task('release', ['prod']);
-gulp.task('web',     ['html']);
+gulp.task('release', setVersionNumberProd);
+gulp.task('jshint',  ['dev'], runJsHint);
+gulp.task('uglify',  ['dev'], runUglify);
+gulp.task('default', ['jshint', 'uglify']);
+gulp.task('clean',   cleanWebsite);
+gulp.task('web',     ['clean'], buildWebsite);

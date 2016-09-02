@@ -1,11 +1,10 @@
-<!--#set var="title" value="Documentation"-->
-<!--#include file="~begin.fhtml"-->
+@@include('templates/page-begin.html', { "title": "Documentation" })
 
 <main>
 
 <aside>
-   <div class=video-container data-href=https://youtu.be/jMOZOI-UkNI>
-      <iframe src=http://www.youtube.com/embed/jMOZOI-UkNI></iframe>
+   <div class=video-container data-href=https://youtu.be/@@youTube.intro>
+      <iframe src=http://www.youtube.com/embed/@@youTube.intro></iframe>
    </div>
 </aside>
 <h2>Documentation</h2>
@@ -557,17 +556,17 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/name.fhtml"-->
-         <!--#include file="params/data.fhtml"-->
+         @@include('templates/params/name.html')
+         @@include('templates/params/data.html')
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <!--#include file="options/fade.fhtml"-->
-               <!--#include file="options/top.fhtml"-->
-               <!--#include file="options/html.fhtml"-->
-               <!--#include file="options/empty.fhtml"-->
-               <!--#include file="options/holder.fhtml"-->
-               <!--#include file="options/callback.fhtml"-->
+               @@include('templates/options/fade.html')
+               @@include('templates/options/top.html')
+               @@include('templates/options/html.html')
+               @@include('templates/options/empty.html')
+               @@include('templates/options/holder.html')
+               @@include('templates/options/callback.html')
             </ul>
          </li>
       </ul>
@@ -590,13 +589,13 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/holder-clone.fhtml"-->
-         <!--#include file="params/array-field.fhtml"-->
-         <!--#include file="params/data.fhtml"-->
+         @@include('templates/params/holder-clone.html')
+         @@include('templates/params/array-field.html')
+         @@include('templates/params/data.html')
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <!--#include file="options/fade.fhtml"-->
+               @@include('templates/options/fade.html')
             </ul>
          </li>
       </ul>
@@ -624,9 +623,9 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/name.fhtml"-->
-         <!--#include file="params/html.fhtml"-->
-         <!--#include file="params/holder.fhtml"-->
+         @@include('templates/params/name.html')
+         @@include('templates/params/html.html')
+         @@include('templates/params/holder.html')
       </ul>
    </div>
    <figure>
@@ -668,17 +667,17 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/name.fhtml"-->
-         <!--#include file="params/url.fhtml"-->
+         @@include('templates/params/name.html')
+         @@include('templates/params/url.html')
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <!--#include file="options/fade.fhtml"-->
-               <!--#include file="options/top.fhtml"-->
-               <!--#include file="options/html.fhtml"-->
-               <!--#include file="options/empty.fhtml"-->
-               <!--#include file="options/holder.fhtml"-->
-               <!--#include file="options/callback.fhtml"-->
+               @@include('templates/options/fade.html')
+               @@include('templates/options/top.html')
+               @@include('templates/options/html.html')
+               @@include('templates/options/empty.html')
+               @@include('templates/options/holder.html')
+               @@include('templates/options/callback.html')
             </ul>
          </li>
       </ul>
@@ -709,11 +708,11 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/clone.fhtml"-->
+         @@include('templates/params/clone.html')
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <!--#include file="options/main.fhtml"-->
+               @@include('templates/options/main.html')
             </ul>
          </li>
       </ul>
@@ -739,11 +738,11 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/name.fhtml"-->
+         @@include('templates/params/name.html')
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <!--#include file="options/fade.fhtml"-->
+               @@include('templates/options/fade.html')
             </ul>
          </li>
       </ul>
@@ -770,13 +769,13 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/clone.fhtml"-->
+         @@include('templates/params/clone.html')
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <!--#include file="options/data.fhtml"-->
-               <!--#include file="options/main.fhtml"-->
-               <!--#include file="options/html.fhtml"-->
+               @@include('templates/options/data.html')
+               @@include('templates/options/main.html')
+               @@include('templates/options/html.html')
             </ul>
          </li>
       </ul>
@@ -802,7 +801,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/name.fhtml"-->
+         @@include('templates/params/name.html')
       </ul>
    </div>
    <figure>
@@ -827,12 +826,12 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/clone.fhtml"-->
+         @@include('templates/params/clone.html')
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <!--#include file="options/fade.fhtml"-->
-               <!--#include file="options/main.fhtml"-->
+               @@include('templates/options/fade.html')
+               @@include('templates/options/main.html')
             </ul>
          </li>
       </ul>
@@ -862,11 +861,11 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/elem.fhtml"-->
+         @@include('templates/params/elem.html')
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <!--#include file="options/main.fhtml"-->
+               @@include('templates/options/main.html')
             </ul>
          </li>
       </ul>
@@ -919,7 +918,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/name.fhtml"-->
+         @@include('templates/params/name.html')
       </ul>
    </div>
    <figure>
@@ -940,7 +939,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/elem-or-event-or-index.fhtml"-->
+         @@include('templates/params/elem-or-event-or-index.html')
       </ul>
    </div>
    <figure>
@@ -969,7 +968,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/elem-or-event-or-index.fhtml"-->
+         @@include('templates/params/elem-or-event-or-index.html')
       </ul>
    </div>
    <p>
@@ -989,7 +988,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/elem-or-event-or-index.fhtml"-->
+         @@include('templates/params/elem-or-event-or-index.html')
       </ul>
    </div>
    <figure>
@@ -1034,11 +1033,11 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/callback.fhtml"-->
+         @@include('templates/params/callback.html')
          <li>
             <label><b>options</b> (Object) <i>[optional]</i>:</label>
             <ul>
-               <!--#include file="options/selector.fhtml"-->
+               @@include('templates/options/selector.html')
             </ul>
          </li>
       </ul>
@@ -1313,7 +1312,7 @@
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
          function enhanceBook(data) {
-            data.displayStar = data.rating > 3;  //good books get a star
+            data.displayStar = data.rating &gt; 3;  //good books get a star
             }
          var books = [
             { title: 'The DOM',   rating: 2 },
@@ -1443,8 +1442,8 @@
    </p>
    <p>
       Experiment with click events:
-      <button data-href=http://jsfiddle.net/<!--#echo var="jsFiddleDataClick"-->/ class=external-site>
-         jsfiddle.net/<!--#echo var="jsFiddleDataClick"-->
+      <button data-href=http://jsfiddle.net/@@jsFiddle.dataClick class=external-site>
+         jsfiddle.net/@@jsFiddle.dataClick
       </button>
    </p>
 
@@ -1497,8 +1496,8 @@
    <!-- End: Result  -->
    <p>
       Experiment with smart update events:
-      <button data-href=http://jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"-->/ class=external-site>
-         jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"-->
+      <button data-href=http://jsfiddle.net/@@jsFiddle.smartUpdates class=external-site>
+         jsfiddle.net/@@jsFiddle.smartUpdates
       </button>
    </p>
 </section>
@@ -1633,7 +1632,7 @@
 <section id=event-initializer>
    <h4>Initializers</h4>
    <p>
-      On a static webpage where all the HTML is sent in a single HTTP response, any needed element
+      On a static page where all the HTML is sent in a single HTTP response, any needed element
       initialization can be done one time just after page load.&nbsp;  For example, the line
       <code>$('.tooltip').qtip();</code> could be used to setup all tooltips.&nbsp;  Cloning with
       dna.js creates elements and adds them to the DOM after the page is loaded, and those new
@@ -2375,7 +2374,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/elem-or-event-or-index.fhtml"-->
+         @@include('templates/params/elem-or-event-or-index.html')
       </ul>
    </div>
    <figure>
@@ -2402,7 +2401,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/elem-simple.fhtml"-->
+         @@include('templates/params/elem-simple.html')
       </ul>
    </div>
    <figure>
@@ -2429,8 +2428,8 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/elem.fhtml"-->
-         <!--#include file="params/callback.fhtml"-->
+         @@include('templates/params/elem.html')
+         @@include('templates/params/callback.html')
       </ul>
    </div>
    <figure>
@@ -2453,8 +2452,8 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/elem.fhtml"-->
-         <!--#include file="params/callback.fhtml"-->
+         @@include('templates/params/elem.html')
+         @@include('templates/params/callback.html')
       </ul>
    </div>
    <figure>
@@ -2478,8 +2477,8 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/elem.fhtml"-->
-         <!--#include file="params/up.fhtml"-->
+         @@include('templates/params/elem.html')
+         @@include('templates/params/up.html')
       </ul>
    </div>
    <figure>
@@ -2510,8 +2509,8 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/elem-or-event-or-index.fhtml"-->
-         <!--#include file="params/that.fhtml"-->
+         @@include('templates/params/elem-or-event-or-index.html')
+         @@include('templates/params/that.html')
       </ul>
    </div>
    <figure>
@@ -2535,8 +2534,8 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/func.fhtml"-->
-         <!--#include file="params/params.fhtml"-->
+         @@include('templates/params/func.html')
+         @@include('templates/params/params.html')
       </ul>
    </div>
    <figure>
@@ -2563,7 +2562,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/value.fhtml"-->
+         @@include('templates/params/value.html')
       </ul>
    </div>
    <figure>
@@ -2584,7 +2583,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/kebab-str.fhtml"-->
+         @@include('templates/params/kebab-str.html')
       </ul>
    </div>
    <figure>
@@ -2605,7 +2604,7 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/camel-case-str.fhtml"-->
+         @@include('templates/params/camel-case-str.html')
       </ul>
    </div>
    <figure>
@@ -2626,8 +2625,8 @@
    <div class=api-parameters>
       Parameters:
       <ul>
-         <!--#include file="params/data(object).fhtml"-->
-         <!--#include file="params/field.fhtml"-->
+         @@include('templates/params/data(object).html')
+         @@include('templates/params/field.html')
       </ul>
    </div>
    <figure>
@@ -2694,12 +2693,12 @@
          <tr><th>Example</th><th>Link</th></tr>
       </thead>
       <tbody class=external-site>
-         <tr><td><code>Add a Book</code></td>   <td><a href=http://jsfiddle.net/<!--#echo var="jsFiddleAddABook"-->/>    jsfiddle.net/<!--#echo var="jsFiddleAddABook"--></a></td></tr>
-         <tr><td><code>Book Finder</code></td>  <td><a href=http://jsfiddle.net/<!--#echo var="jsFiddleBookFinder"-->/>  jsfiddle.net/<!--#echo var="jsFiddleAddABook"--></a></td></tr>
-         <tr><td><code>Click Events</code></td> <td><a href=http://jsfiddle.net/<!--#echo var="jsFiddleDataClick"-->/>   jsfiddle.net/<!--#echo var="jsFiddleDataClick"--></a></td></tr>
-         <tr><td><code>Live Model</code></td>   <td><a href=http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/>   jsfiddle.net/<!--#echo var="jsFiddleLiveModel"--></a></td></tr>
-         <tr><td><code>Smart Updates</code></td><td><a href=http://jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"-->/>jsfiddle.net/<!--#echo var="jsFiddleSmartUpdates"--></a></td></tr>
-         <tr><td><code>To Do</code></td>        <td><a href=http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/>        jsfiddle.net/<!--#echo var="jsFiddleToDo"--></a></td></tr>
+         <tr><td><code>Add a Book</code></td>   <td><a href=http://jsfiddle.net/@@jsFiddle.addABook>    jsfiddle.net/@@jsFiddle.addABook</a></td></tr>
+         <tr><td><code>Book Finder</code></td>  <td><a href=http://jsfiddle.net/@@jsFiddle.bookFinder>  jsfiddle.net/@@jsFiddle.addABook</a></td></tr>
+         <tr><td><code>Click Events</code></td> <td><a href=http://jsfiddle.net/@@jsFiddle.dataClick>   jsfiddle.net/@@jsFiddle.dataClick</a></td></tr>
+         <tr><td><code>Live Model</code></td>   <td><a href=http://jsfiddle.net/@@jsFiddle.liveModel>   jsfiddle.net/@@jsFiddle.liveModel</a></td></tr>
+         <tr><td><code>Smart Updates</code></td><td><a href=http://jsfiddle.net/@@jsFiddle.smartUpdates>jsfiddle.net/@@jsFiddle.smartUpdates</a></td></tr>
+         <tr><td><code>To Do</code></td>        <td><a href=http://jsfiddle.net/@@jsFiddle.toDo>        jsfiddle.net/@@jsFiddle.toDo</a></td></tr>
       </tbody>
    </table>
 </section>
@@ -2731,4 +2730,4 @@
 
 </main>
 
-<!--#include file="~end.fhtml"-->
+@@include('templates/page-end.html')

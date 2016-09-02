@@ -1,5 +1,4 @@
-<!--#set var="title" value="License"-->
-<!--#include file="~begin.fhtml"-->
+@@include('templates/page-begin.html', { "title": "License" })
 
 <main>
 
@@ -13,13 +12,13 @@
    <p>
       If you want to be a contributor, fork the project on
       <a href=https://github.com/dnajs/dna.js>GitHub</a>
-      <a href=https://github.com/dnajs/dna.js><i class="fa fa-github"></i></a>.
+      <a href=https://github.com/dnajs/dna.js><i data-icon=github></i></a>.
    </p>
 
    <h3 id=mit>The MIT License (MIT)</h3>
 <div class=legal-terms>
-<!--#echo var="name"-->
-<!--#echo var="copyright"-->
+@@pkg.dna.fullName
+@@copyright
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -30,8 +29,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
    <h3 id=gpl>GNU General Public License (GPLv3)</h3>
 <div class=legal-terms>
-<!--#echo var="name"-->
-<!--#echo var="copyright"-->
+@@pkg.dna.fullName
+@@copyright
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -49,4 +48,4 @@ along with this program.  If not, see http://www.gnu.org/licenses/.
 
 </main>
 
-<!--#include file="~end.fhtml"-->
+@@include('templates/page-end.html')

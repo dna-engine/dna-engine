@@ -3,7 +3,7 @@
    "version":      "0.4.3",
    "description":  "An uncomplicated user interface library",
    "main":         ["dna.css", "dna.js"],
-   "keywords":     ["clone", "dna.js", "dom", "engine", "html", "jquery", "json", "templating", "ui"],
+   "keywords":     ["clone", "dom", "engine", "html", "jquery", "json", "template", "templating", "ui"],
    "dependencies": { "jquery": ">=1.8" },
    "ignore": [
       ".gitignore",

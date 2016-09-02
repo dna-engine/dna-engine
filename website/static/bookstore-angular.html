@@ -9,11 +9,11 @@
    .book  { background-color: gold; padding: 10px; margin: 15px; }
 </style>
 </head>
-<body ng-app=Books>
+<body data-ng-app=Books>
 
 <h1>Bookstore</h1>
-<div class=books ng-controller=BooksController>
-   <div class=book ng-repeat="book in books">
+<div class=books data-ng-controller=BooksController>
+   <div class=book data-ng-repeat="book in books">
       <div>Title:  <span>{{book.title}}</span></div>
       <div>Author: <span>{{book.author}}</span></div>
    </div>

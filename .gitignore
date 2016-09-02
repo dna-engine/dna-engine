@@ -3,5 +3,7 @@
 # Generated and downloaded files
 /node_modules/
 /test-cases-min.html
-/website/dsi/dsi.jar
 /website/httpdocs/
+
+# Extraneous system files
+.DS_Store

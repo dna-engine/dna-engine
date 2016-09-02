@@ -1,4 +1,4 @@
-<!--#include file="~begin.fhtml"-->
+@@include('templates/page-begin.html')
 
 <main>
 
@@ -6,15 +6,15 @@
 
    <aside>
       <section>
-         <h2>Download v<!--#echo var="release"--></h2>
+         <h2>Download v@@pkg.version</h2>
          <p>
             <button data-href=https://raw.github.com/dnajs/dna.js/current/dna.min.js class=external-site>
-               <i class="fa fa-download"></i> dna.min.js (<!--#echo var="size"-->)
+               <i data-icon=download></i> dna.min.js (@@size)
             </button>
          </p>
          <p>
             <button data-href=https://raw.github.com/dnajs/dna.js/current/dna.css class=external-site>
-               <i class="fa fa-download"></i> dna.css (1 kb)
+               <i data-icon=download></i> dna.css (1 kb)
             </button>
          </p>
          (or simply use the <a href=manual.html#setup-cdn>jsDelivr CDN</a>)
@@ -22,16 +22,16 @@
       <section>
          <div class=twitter>
             <a href=https://twitter.com/dna_js>
-               <i class="fa fa-twitter"></i><br>#dnajs
+               <i data-icon=twitter></i><br>#dnajs
             </a>
          </div>
          <h2>News</h2>
-         <!--#include file="~news.fhtml"-->
+         @@include('templates/news.html')
       </section>
    </aside>
 
    <p>
-      <!--#echo var="description"-->&nbsp;
+      @@pkg.dna.summary&nbsp;
       You write semantic templates and then dna.js converts your JSON data into dynamically
       generated DOM elements.
    </p>
@@ -42,15 +42,15 @@
       Public License (GPLv3).
    </p>
    <div style="max-width: 350px;">
-      <div class=video-container data-href=https://youtu.be/jMOZOI-UkNI>
-         <iframe src=http://www.youtube.com/embed/jMOZOI-UkNI></iframe>
+      <div class=video-container data-href=https://youtu.be/@@youTube.intro>
+         <iframe src=http://www.youtube.com/embed/@@youTube.intro></iframe>
       </div>
    </div>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <h3 id=todo>To-Do List Application</h3>
    <div class=push-right>
-      <a href=http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/ class=external-site>
+      <a href=http://jsfiddle.net/@@jsFiddle.toDo class=external-site>
          <img class=side-image src=graphics/icon-todo-app.png alt=Screenshot>
       </a>
    </div>
@@ -60,8 +60,8 @@
    </p>
    <p>
       Experiment with the dna.js to-do list application at:
-      <button data-href=http://jsfiddle.net/<!--#echo var="jsFiddleToDo"-->/ class=external-site>
-         jsfiddle.net/<!--#echo var="jsFiddleToDo"-->
+      <button data-href=http://jsfiddle.net/@@jsFiddle.toDo class=external-site>
+         jsfiddle.net/@@jsFiddle.toDo
       </button>
    </p>
    <p>
@@ -157,7 +157,7 @@
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <h3 id=live-model>Live Model</h3>
    <div class=push-right>
-      <a href=http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/ class=external-site>
+      <a href=http://jsfiddle.net/@@jsFiddle.liveModel class=external-site>
          <img class=side-image src=graphics/icon-live-model.png alt=Screenshot>
       </a>
    </div>
@@ -167,8 +167,8 @@
    </p>
    <p>
       Interact with the live model at:
-      <button data-href=http://jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->/ class=external-site>
-         jsfiddle.net/<!--#echo var="jsFiddleLiveModel"-->
+      <button data-href=http://jsfiddle.net/@@jsFiddle.liveModel class=external-site>
+         jsfiddle.net/@@jsFiddle.liveModel
       </button>
    </p>
 
@@ -182,16 +182,17 @@
    </p>
    Templating should be lightweight, clean, and simple:
    <ol>
-      <li>No HTML in JavaScript code</li>
-      <li>Templates are real HTML that <a href="https://validator.w3.org/nu/?doc=http://dnajs.org"
+      <li>Be completely web framework agnostic</li>
+      <li>Put no HTML in your JavaScript</li>
+      <li>Templates should be real HTML that <a href="https://validator.w3.org/nu/?doc=http://dnajs.org"
          class=external-site>validate</a></li>
-      <li>Templates can be in-place (no need for separate template files)</li>
-      <li>Iteration is done with <a href=manual.html#loop-templates>data arrays</a> not messy
+      <li>Templates can be inline (no need for separate template files)</li>
+      <li>Iteration is best done with <a href=manual.html#loop-templates>data arrays</a> not messy
          template <code>for</code> loops</li>
       <li><a href=http://blog.centerkey.com/2013/02/lazy-setup-50x-javascript-performance.html
          class=external-site>Zero setup</a> until data is pushed (can be after page load)</li>
-      <li>No serialization or deserialization (no need to call the <code>.html()</code> function)</li>
-      <li>Enable JavaScript to be void of boilerplate code and anonymous functions</li>
+      <li>Stay away from serialization/deserialization (no need to call the <code>.html()</code> function)</li>
+      <li>JavaScript should be void of boilerplate code and anonymous functions</li>
       <li>Declaring callbacks using simple HTML attributes is more cohesive and semantically
          meaningful than programmatically binding with JavaScript code</li>
    </ol>
@@ -203,7 +204,7 @@
    <p>
       JavaScript is easier to write, quicker to read, and more compact if it is
       focused on handling data not generating HTML.&nbsp;  Traditional web
-      frameworks, such as Grails, PHP, and Rails, already handle HTML.&nbsp;
+      frameworks, such as Grails, PHP, Rails, Django, and Flask already handle HTML.&nbsp;
       Generating HTML from both the web framework and a client-side HTML templating
       engine makes the HTML cumbersome to manage and style.&nbsp;
       dna.js is all about keeping it simple.
@@ -220,4 +221,4 @@
 
 </main>
 
-<!--#include file="~end.fhtml"-->
+@@include('templates/page-end.html')

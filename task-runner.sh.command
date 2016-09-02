@@ -105,7 +105,7 @@ runTestCases() {
    open test-cases.html
    echo "~~~~~~~~~~~~~~~~~~"
    echo "To test in Chrome, quit browser and run:"
-   echo "open \"/Applications/Google Chrome.app\" --args --allow-file-access-from-files $(pwd)/test-cases.html"
+   echo "$ open \"/Applications/Google Chrome.app\" --args --allow-file-access-from-files $(pwd)/test-cases.html"
    echo
    }
 

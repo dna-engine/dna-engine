@@ -1,8 +1,6 @@
-<!--#set var="title" value="Book Finder Tutorial"-->
-<!--#include file="~begin.fhtml"-->
+@@include('templates/page-begin.html', { "title": "Book Finder Tutorial" })
 
 <main>
-
    <h2>REST-driven Search Component Tutorial</h2>
    <p>
       Follow the steps below to build an interactive book search tool on top of the
@@ -18,8 +16,8 @@
       </span>
    </p>
    <aside class=space-above-3x>
-      <div class=video-container data-href=https://youtu.be/juIru5qHZFM>
-         <iframe src=http://www.youtube.com/embed/juIru5qHZFM></iframe>
+      <div class=video-container data-href=https://youtu.be/@@youTube.tutorial>
+         <iframe src=http://www.youtube.com/embed/@@youTube.tutorial></iframe>
       </div>
    </aside>
    <div class=push-left>
@@ -34,8 +32,8 @@
          <li><a href=#step7>Wire up search callback</a></li>
          <li><a href=#step8>Make REST call</a></li>
          <li><a href=#step9>Smarten up the search field</a></li>
-         <li><a href=#conclusion>Conclusion</a>
-         <li><a href=#comments>Questions and comments</a>
+         <li><a href=#conclusion>Conclusion</a></li>
+         <li><a href=#comments>Questions and comments</a></li>
       </ol>
    </div>
 
@@ -137,7 +135,7 @@
                .book      { display: table; background-color: lightblue;
                             padding: 10px; margin: 10px; }
                .book img  { width: 80px; margin-right: 10px; }
-               .book >div { display: inline-block; width: 400px;
+               .book &gt;div { display: inline-block; width: 400px;
                             vertical-align: top; }
             &lt;/style&gt;
          </code></pre>
@@ -403,7 +401,7 @@
                .book      { display: table; background-color: lightblue;
                             padding: 10px; margin: 10px; }
                .book img  { width: 80px; margin-right: 10px; }
-               .book >div { display: inline-block; width: 400px;
+               .book &gt;div { display: inline-block; width: 400px;
                             vertical-align: top; }
             &lt;/style&gt;
             &lt;/head&gt;
@@ -482,4 +480,4 @@
 
 </main>
 
-<!--#include file="~end.fhtml"-->
+@@include('templates/page-end.html')
