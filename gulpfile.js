@@ -14,7 +14,7 @@ var del =          require('del');
 
 var context = {
    pkg:        require('./package.json'),
-   size:       '14 kb',
+   size:       '16 kb',
    useBaseTag: false,
    youTube: {
       intro:    'jMOZOI-UkNI',
