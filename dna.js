@@ -1,4 +1,4 @@
-// dna.js Semantic Templates ~~ v0.4.4
+// dna.js Semantic Templates ~~ v0.4.5
 // MIT/GPLv3 ~~ dnajs.org/license.html
 // Copyright (c) 2013-2016 individual contributors
 
