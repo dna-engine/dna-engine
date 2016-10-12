@@ -52,7 +52,7 @@ window.dna = {
       return holderClone;
       },
    createTemplate: function(name, html, holder) {
-      $(html).attr('id', name).addClass('dna-template').appendTo(holder);
+      $(html).attr({ id: name }).addClass('dna-template').appendTo(holder);
       return dna.store.getTemplate(name);
       },
    rest: {
@@ -381,7 +381,7 @@ dna.panels = {
       },
    setup: function() {
       dna.panels.refresh();
-      $(document).on('click', '.dna-menu .menu-item', dna.panels.rotate);
+      $(document).on({ click: dna.panels.rotate }, '.dna-menu .menu-item');
       }
    };
 $(dna.panels.setup);
@@ -536,7 +536,7 @@ dna.compile = {
       elems.each(dna.compile.propsAndAttrs);
       dna.compile.separators(elem);
       //support html5 values for "type" attribute
-      function setTypeAttr() { $(this).attr('type', $(this).data().attrType); }
+      function setTypeAttr() { $(this).attr({ type: $(this).data().attrType }); }
       $('input[data-attr-type]').each(setTypeAttr);
       return dna.store.stash(elem);
       }
@@ -674,7 +674,7 @@ dna.events = {
             return elem.closest('.external-site').length ? '_blank' : '_self';
             }
          function jump() { window.open($(this).data().href, context($(this))); }
-         $(document).on('click', '[data-href]', jump);
+         $(document).on({ click: jump }, '[data-href]');
          }
       $(document)
          .click(handle)
