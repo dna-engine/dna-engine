@@ -3,7 +3,7 @@
 *An uncomplicated user interface library*
 
 ---
-<img align=right src=website/graphics/dnajs-logo.png?raw=true>
+<img src=website/static/graphics/dnajs-logo.png align=right>
 
 dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications.
 
