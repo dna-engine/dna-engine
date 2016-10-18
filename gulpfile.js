@@ -10,12 +10,14 @@ var jshint =       require('gulp-jshint');
 var rename =       require('gulp-rename');
 var replace =      require('gulp-replace');
 var uglify =       require('gulp-uglify');
+//var w3cjs =        require('gulp-w3cjs');
 var del =          require('del');
 
 var context = {
    pkg:        require('./package.json'),
-   size:       '16 kb',
+   webRoot:    '..',
    useBaseTag: false,
+   size:       '16 kb',
    youTube: {
       intro:    'jMOZOI-UkNI',
       tutorial: 'juIru5qHZFM'
@@ -90,8 +92,10 @@ function buildWebsite() {
       .pipe(filesize())
       .pipe(gulp.dest(httpdocsFolder));
    gulp.src('website/src/*.html')
-      .pipe(fileinclude({ indent: true, context: context }))
+      .pipe(fileinclude({ basepath: '@root', indent: true, context: context }))
       .pipe(gulp.dest(httpdocsFolder))
+      // .pipe(w3cjs())   //need to fix: Element “style” not allowed as child
+      // .pipe(w3cjs.reporter())
       .pipe(htmlhint(htmlHintConfig))
       .pipe(htmlhint.reporter());
    }
