@@ -1,5 +1,5 @@
 // dna.js Semantic Templates ~~ v0.4.5
-// MIT/GPLv3 ~~ dnajs.org/license.html
+// MIT/GPLv3 ~~ dnajs.org/license
 // Copyright (c) 2013-2016 individual contributors
 
 window.dna = {
@@ -22,7 +22,7 @@ window.dna = {
    //    dna.registerInitializer()
    //    dna.clearInitializers()
    //    dna.info()
-   // See: http://dnajs.org/manual.html#api
+   // See: http://dnajs.org/docs/#api
    clone: function(name, data, options) {
       var settings = $.extend(
          { fade: false, top: false, container: null, empty: false, html: false, callback: null },
