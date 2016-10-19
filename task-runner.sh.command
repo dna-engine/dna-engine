@@ -5,7 +5,7 @@
 #############################
 
 # To make this file runnable:
-#    $ chmod +x task-runner.sh.command
+#    $ chmod +x *.sh.command
 
 # Note for Ubuntu users:
 #    $ sudo apt-get install chromium-browser

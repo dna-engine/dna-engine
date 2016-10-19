@@ -5,7 +5,7 @@
    "license":      "(MIT OR GPL-3.0)",
    "keywords":     ["clone", "dom", "engine", "html", "jquery", "json", "template", "templating", "ui"],
    "homepage":     "https://github.com/dnajs/dna.js",
-   "docs":         "http://dnajs.org/manual.html",
+   "docs":         "http://dnajs.org/docs",
    "bugs":         "https://github.com/dnajs/dna.js/issues",
    "author":       { "name": "Center Key", "url": "http://centerkey.com" },
    "repository":   { "type": "git",        "url": "https://github.com/dnajs/dna.js.git" },

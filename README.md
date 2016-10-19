@@ -54,11 +54,11 @@ dna.rest.get('book', 'http://dnajs.org/rest/book/3');
 * [dnajs.org](http://dnajs.org) (see the "Try It Out" section for a live example)
 * [Sample To-Do Application](http://jsfiddle.net/dovd6088/) (jsfiddle)
 * [Introduction to dna.js](https://youtu.be/jMOZOI-UkNI) (YouTube)
-* [Documentation](http://dnajs.org/manual.html)
+* [Documentation](http://dnajs.org/docs)
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)
 
 ===
 dna.js is an open source project dual-licensed under
-[MIT/GPLv3](http://dnajs.org/license.html)
+[MIT/GPLv3](http://dnajs.org/license)
 with the website and documentation licensed under
 [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0).

@@ -10,13 +10,12 @@ var jshint =       require('gulp-jshint');
 var rename =       require('gulp-rename');
 var replace =      require('gulp-replace');
 var uglify =       require('gulp-uglify');
-//var w3cjs =        require('gulp-w3cjs');
+var w3cjs =        require('gulp-w3cjs');
 var del =          require('del');
 
 var context = {
    pkg:        require('./package.json'),
    webRoot:    '..',
-   useBaseTag: false,
    size:       '16 kb',
    youTube: {
       intro:    'jMOZOI-UkNI',
@@ -33,9 +32,9 @@ var context = {
    };
 context.title = context.pkg.dna.fullName;  //default page title
 context.copyright = context.pkg.dna.copyright.replace('@@currentYear@@', new Date().getFullYear());
-var banner = '//dna.js v' + context.pkg.version + ' ~~ dnajs.org/license.html\n';
+var banner = '//dna.js v' + context.pkg.version + ' ~~ dnajs.org/license\n';
 var versionPatternStrs = [
-   'js v',                     //example: /* dna.js v1.0.0 ~~ dnajs.org/license.html */
+   'js v',                     //example: /* dna.js v1.0.0 ~~ dnajs.org/license */
    '~~ v',                     //example: // dna.js Semantic Templates ~~ v1.0.0
    '"version":  "',            //example: "version":  "1.0.0",
    'Current release: \\*\\*v'  //example: Current release: **v1.0.0**
@@ -88,16 +87,20 @@ function cleanWebsite() {
     }
 
 function buildWebsite() {
-   gulp.src('website/static/**/*')
-      .pipe(filesize())
+   gulp.src('website/static/**')
       .pipe(gulp.dest(httpdocsFolder));
-   gulp.src('website/src/*.html')
+   gulp.src('website/static/**/*.html')
+      .pipe(w3cjs())
+      .pipe(w3cjs.reporter())
+      .pipe(htmlhint(htmlHintConfig))
+      .pipe(htmlhint.reporter());
+   gulp.src('website/root/**/*.html')
       .pipe(fileinclude({ basepath: '@root', indent: true, context: context }))
-      .pipe(gulp.dest(httpdocsFolder))
       // .pipe(w3cjs())   //need to fix: Element “style” not allowed as child
       // .pipe(w3cjs.reporter())
       .pipe(htmlhint(htmlHintConfig))
-      .pipe(htmlhint.reporter());
+      .pipe(htmlhint.reporter())
+      .pipe(gulp.dest(httpdocsFolder));
    }
 
 gulp.task('dev',     setVersionNumberDev);

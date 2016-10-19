@@ -1,5 +1,5 @@
 // dna.js Website
-// MIT/GPLv3 ~~ dnajs.org/license.html
+// MIT/GPLv3 ~~ dnajs.org/license
 // Copyright (c) 2013-2016 individual contributors
 
 window.app = {};
@@ -39,7 +39,7 @@ app.documenation = {
          var letter = String.fromCharCode('A'.charCodeAt() + elemIndex);
          $(this).text(letter + '. ' + $(this).text());
          }
-      if (window.location.pathname.indexOf('manual.html') !== -1)
+      if (window.location.pathname.indexOf('/docs') !== -1)
          $('h3').each(addOutlineNumber);
       }
    };

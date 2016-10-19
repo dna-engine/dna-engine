@@ -1,4 +1,4 @@
-@@include('website/templates/page-begin.html')
+@@include('website/templates/page-begin.html', { "webRoot": "." })
 
 <main>
 
@@ -17,7 +17,7 @@
                <i data-icon=download></i> dna.css (1 kb)
             </button>
          </p>
-         (or simply use the <a href=manual.html#setup-cdn>jsDelivr CDN</a>)
+         (or simply use the <a href=docs/#setup-cdn>jsDelivr CDN</a>)
       </section>
       <section>
          <div class=twitter>
@@ -26,7 +26,7 @@
             </a>
          </div>
          <h2>News</h2>
-         @@include('website/templates/news.html')
+         @@include('website/templates/news.html', { "webRoot": "." })
       </section>
    </aside>
 
@@ -38,7 +38,7 @@
    <p>
       The project is open source and available for free.&nbsp;  The code is hosted on
       <a href=https://github.com/dnajs/dna.js>GitHub</a> and is
-      <a href=license.html>dual-licensed</a> under The MIT License (MIT) and GNU General
+      <a href=license>dual-licensed</a> under The MIT License (MIT) and GNU General
       Public License (GPLv3).
    </p>
    <div style="max-width: 350px;">
@@ -151,7 +151,7 @@
    </div>
    <p>
       To see all the pieces running together, check out the standalone example:
-      <button data-href=hello-world.html>View Source</button>
+      <button data-href=hello-world>View Source</button>
    </p>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -187,7 +187,7 @@
       <li>Templates should be real HTML that <a href="https://validator.w3.org/nu/?doc=http://dnajs.org"
          class=external-site>validate</a></li>
       <li>Templates can be inline (no need for separate template files)</li>
-      <li>Iteration is best done with <a href=manual.html#loop-templates>data arrays</a> not messy
+      <li>Iteration is best done with <a href=docs/#loop-templates>data arrays</a> not messy
          template <code>for</code> loops</li>
       <li><a href=http://blog.centerkey.com/2013/02/lazy-setup-50x-javascript-performance.html
          class=external-site>Zero setup</a> until data is pushed (can be after page load)</li>
@@ -221,4 +221,4 @@
 
 </main>
 
-@@include('website/templates/page-end.html')
+@@include('website/templates/page-end.html', { "webRoot": "." })

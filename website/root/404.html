@@ -1,4 +1,4 @@
-@@include('website/templates/page-begin.html', { "title": "404 Not Found", "useBaseTag": true })
+@@include('website/templates/page-begin.html', { "title": "404 Not Found", "webRoot": "http://dnajs.org" })
 
 <main>
 
@@ -11,4 +11,4 @@
 
 </main>
 
-@@include('website/templates/page-end.html')
+@@include('website/templates/page-end.html', { "webRoot": "http://dnajs.org" })
