@@ -4,10 +4,12 @@
 <!--  Test Cases                 -->
 <!--  dnajs.org/test-cases.html  -->
 <!-- - - - - - - - - - - - - - - -->
-<html>
+<html lang=en>
 <head>
 <meta charset=utf-8>
+<meta name=viewport content="width=device-width, initial-scale=1">
 <title>dna.js &bull; Test Cases</title>
+<link rel=icon       href=website/static/graphics/bookmark.png>
 <link rel=stylesheet href=dna.css>
 <style>
    body                { font-family: sans-serif; margin: 30px; }
@@ -520,10 +522,10 @@ var test08 = {
 var test09 = {
    run: function() {
       console.log('Test Case: #09');
-      dna.clone('rest-link', ['http://dnajs.org/rest/book/1', 'http://dnajs.org/rest/book/2']);
-      dna.rest.get('t09-book', 'http://dnajs.org/rest/book/1');
-      dna.rest.get('t09-book', 'http://dnajs.org/rest/book/2');
-      dna.rest.get('t09-book', 'http://dnajs.org/rest/book/7');  //test call to missing resource
+      dna.clone('rest-link', ['http://dnajs.org/rest/book/1/', 'http://dnajs.org/rest/book/2/']);
+      dna.rest.get('t09-book', 'http://dnajs.org/rest/book/1/');
+      dna.rest.get('t09-book', 'http://dnajs.org/rest/book/2/');
+      dna.rest.get('t09-book', 'http://dnajs.org/rest/book/7/');  //test call to missing resource
       }
    };
 </script>
@@ -1141,7 +1143,7 @@ var test16 = {
          </div>
          <script>
             var bookshelf = {
-               booksUrl: 'http://dnajs.org/rest/book/list',
+               booksUrl: 'http://dnajs.org/rest/book/list/',
                setup: function(elem) {
                   function handle(data) { dna.clone('t17-book', data); }
                   $.getJSON(bookshelf.booksUrl, handle);
