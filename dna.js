@@ -136,9 +136,9 @@ window.dna = {
    info: function() {
       var names = Object.keys(dna.store.templates);
       console.log('~~ dna.js v0.4.4 ~~');
-      console.log('templates:', names.length);
-      console.log('names:', names);
-      console.log('store:', dna.store.templates);
+      console.log('templates:',    names.length);
+      console.log('names:',        names);
+      console.log('store:',        dna.store.templates);
       console.log('initializers:', dna.events.initializers.length);
       return navigator.appVersion;
       }
@@ -211,8 +211,9 @@ dna.util = {
       },
    apply: function(func, params) {  //calls func (string name or actual function) passing in params
       // Example: dna.util.apply('app.cart.buy', 7); ==> app.cart.buy(7);
-      var args = [].concat(params);
-      var elem = args[0], result;
+      var args = params === undefined ? [] : [].concat(params);
+      var elem = args[0];
+      var result;
       function contextApply(obj, names) {
          if (!obj || (names.length == 1 && typeof obj[names[0]] !== 'function'))
             dna.core.berserk('Callback function not found: ' + func);
@@ -613,7 +614,10 @@ dna.events = {
          // Finds elements for given event type and executes callback passing in the element and event
          // Types: click|change|key-up|key-down|key-press|enter-key
          elem = elem.closest('[data-' + type + ']');
-         return dna.util.apply(elem.data(type), [elem, event]);
+         var fn = elem.data(type);
+         if (type === 'click' && elem.prop('tagName') === 'A' && fn && fn.match(/^dna[.]/))
+            event.preventDefault();
+         return dna.util.apply(fn, [elem, event]);
          }
       function handle(event) {
          var target = $(event.target);
