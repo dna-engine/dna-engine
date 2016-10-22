@@ -26,7 +26,6 @@ info() {
    echo "npm:"
    which npm || needNpm
    npm --version
-   npm install
    echo
    echo "Gulp:"
    which gulp || needGulp

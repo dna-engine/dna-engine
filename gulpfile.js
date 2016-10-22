@@ -1,6 +1,11 @@
 // dna.js Semantic Templates
 // gulp configuration and tasks
 
+// Periodically check dependencies:
+//    $ cd dna.js
+//    $ npm outdated
+//    $ npm update
+
 var gulp =         require('gulp');
 var fileinclude =  require('gulp-file-include');
 var filesize =     require('gulp-filesize');
@@ -74,13 +79,15 @@ function runJsHint() {
 
 function runUglify() {
    gulp.src('dna.js')
-      .pipe(filesize());
-   gulp.src('dna.js')
       .pipe(rename('dna.min.js'))
       .pipe(uglify())
       .pipe(header(banner))
-      .pipe(filesize())
       .pipe(gulp.dest('.'));
+   }
+
+function reportSize() {
+   gulp.src('dna*.js')
+      .pipe(filesize());
    }
 
 function cleanWebsite() {
@@ -108,6 +115,6 @@ gulp.task('dev',     setVersionNumberDev);
 gulp.task('release', setVersionNumberProd);
 gulp.task('jshint',  ['dev'], runJsHint);
 gulp.task('uglify',  ['dev'], runUglify);
-gulp.task('default', ['jshint', 'uglify']);
+gulp.task('default', ['jshint', 'uglify'], reportSize);
 gulp.task('clean',   cleanWebsite);
 gulp.task('web',     ['clean'], buildWebsite);
