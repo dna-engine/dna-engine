@@ -74,12 +74,13 @@ function runJsHint() {
 
 function runUglify() {
    gulp.src('dna.js')
+      .pipe(filesize());
+   gulp.src('dna.js')
       .pipe(rename('dna.min.js'))
       .pipe(uglify())
       .pipe(header(banner))
+      .pipe(filesize())
       .pipe(gulp.dest('.'));
-   gulp.src('dna.min.js')
-      .pipe(filesize());
    }
 
 function cleanWebsite() {

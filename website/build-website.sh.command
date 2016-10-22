@@ -7,31 +7,19 @@
 # To make this file runnable:
 #    $ chmod +x *.sh.command
 
-port=12658
 releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/current
 projectHome=$(cd $(dirname $0)/..; pwd)
-
-info() {
-   cd $projectHome
-   pwd
-   echo
-   which npm
-   npm --version
-   npm install
-   echo
-   which gulp
-   gulp --version
-   echo
-   }
 
 buildHtmlFiles() {
    cd $projectHome
    find . -name ".DS_Store" -delete
    versionReleased=$(git tag | tail -1)
    versionHtml=$(grep --max-count 1 version package.json | awk -F'"' '{print $4}')
-   echo "Release Version: $versionReleased"
-   echo "HTML Version:    v$versionHtml"
+   echo "Versions:"
+   echo "Release: $versionReleased"
+   echo "HTML:    v$versionHtml"
    echo
+   echo "Tasks:"
    gulp web
    echo
    }
@@ -60,36 +48,20 @@ publish() {
    [ -w $publishFolder ] && copyWebFiles
    }
 
-setupWebServer() {
-   cd $projectHome/website
-   process=$(pgrep -lf "SimpleHTTPServer $port")
-   launch() {
-      echo "Launching SimpleHTTPServer:"
-      pwd
-      python -m SimpleHTTPServer $port &> /dev/null &
-      echo
-      }
-   [[ -z "$process" ]] && launch
-   echo "Web Server:"
-   pgrep -lf SimpleHTTPServer
-   echo
-   }
-
 launchBrowser() {
-   url=http://localhost:$port/httpdocs
-   echo "Opening:"
+   url=http://localhost:$port/website/httpdocs
+   echo "Website:"
    echo $url
+   echo
    sleep 2
    open $url
-   echo
    }
 
 echo
 echo "dnajs.org website"
 echo "~~~~~~~~~~~~~~~~~"
-info
+source $projectHome/setup.sh
 buildHtmlFiles
 downloadProjectCode
 publish
-setupWebServer
 launchBrowser

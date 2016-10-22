@@ -7,45 +7,14 @@
 # To make this file runnable:
 #    $ chmod +x *.sh.command
 
-# Note for Ubuntu users:
-#    $ sudo apt-get install chromium-browser
-#    $ chromium-browser --args --allow-file-access-from-files test-cases.html"
-
 package=https://raw.githubusercontent.com/dnajs/dna.js/master/package.json
 projectHome=$(cd $(dirname $0); pwd)
 
-needNpm() {
-   echo "**********************************"
-   echo "Need to install Node.js to get npm"
-   echo "**********************************"
-   open "http://nodejs.org/"
-   exit
-   }
-
-needGulp() {
-   echo "***************************************"
-   echo "Need to install Gulp:                  "
-   echo "   $ sudo npm install --global gulp-cli"
-   echo "***************************************"
-   exit
-   }
-
-setup() {
+runTasks() {
    cd $projectHome
+   echo "Tasks:"
    pwd
-   echo
-   which npm || needNpm
-   npm --version
-   npm install
-   echo
-   which gulp || needGulp
-   gulp --version
-   echo
    gulp
-   echo
-   echo "Files:"
-   ls -l dna*.js
-   echo "dna.min.js -> $(ls -lsh dna.min.js | awk '{print $6}')"
    echo
    }
 
@@ -99,16 +68,6 @@ releaseInstructions() {
    echo
    }
 
-runTestCases() {
-   cd $projectHome
-   sed s/src=dna.js/src=dna.min.js/ test-cases.html > test-cases-min.html
-   open test-cases.html
-   echo "~~~~~~~~~~~~~~~~~~"
-   echo "To test in Chrome, quit browser and run:"
-   echo "$ open \"/Applications/Google Chrome.app\" --args --allow-file-access-from-files $(pwd)/test-cases.html"
-   echo
-   }
-
 getVersions() {
    cd $projectHome
    echo "Local changes:"
@@ -124,10 +83,22 @@ getVersions() {
    echo
    }
 
+runTestCases() {
+   cd $projectHome
+   sed s/src=dna.js/src=dna.min.js/ test-cases.html > test-cases-min.html
+   url=http://localhost:$port/test-cases.html
+   echo "Test cases:"
+   echo $url
+   echo
+   sleep 2
+   open $url
+   }
+
 echo
 echo "dna.js Task Runner"
 echo "~~~~~~~~~~~~~~~~~~"
-setup
+source $projectHome/setup.sh
+runTasks
 getVersions
 releaseInstructions
 runTestCases
