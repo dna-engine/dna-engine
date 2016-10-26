@@ -224,12 +224,12 @@ header .logo img:hover {
 .video-container {
    margin-bottom: 20px;
    opacity: 0.8;
-   transition: all 0.5s;
+   transition: all 0.4s;
    }
 .video-container iframe {
    border-color: gray;
    pointer-events: none;
-   transition: all 0.5s;
+   transition: all 0.4s;
    }
 .video-container:hover {
    opacity: 1;
