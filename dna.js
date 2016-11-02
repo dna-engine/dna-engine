@@ -644,7 +644,7 @@ dna.events = {
             }
          if (target.hasClass('dna-update-model'))
             updateModel();
-         runner(target, event.type.replace('key', 'key-'), event);
+         return runner(target, event.type.replace('key', 'key-'), event);
          }
       function handleEnterKey(event) {
          if (event.which === 13)
