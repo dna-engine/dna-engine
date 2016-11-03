@@ -58,7 +58,7 @@ releaseInstructions() {
       echo "   *** After local changes checked in, tag release:"
       fi
    echo "   cd $(pwd)"
-   echo "   git tag -af $versionRemote -m \"Beta release\""
+   echo "   git tag -af $versionRemote -m \"Stable release\""
    echo "   git tag -af current -m \"Current stable release\""
    echo "   git remote -v"
    echo "   git push origin --tags --force"
