@@ -41,7 +41,7 @@ var banner = '//dna.js v' + context.pkg.version + ' ~~ dnajs.org/license\n';
 var versionPatternStrs = [
    'js v',                     //example: /* dna.js v1.0.0 ~~ dnajs.org/license */
    '~~ v',                     //example: // dna.js Semantic Templates ~~ v1.0.0
-   '"version":  "',            //example: "version":  "1.0.0",
+   '"version":\\s*"',          //example: "version":  "1.0.0",
    'Current release: \\*\\*v'  //example: Current release: **v1.0.0**
    ];
 var versionPatterns = new RegExp('(' + versionPatternStrs.join('|') + ')[0-9.]*');
@@ -68,6 +68,7 @@ function setVersionNumberDev() {
 function setVersionNumberProd() {
    gulp.src(['bower.json', 'README.md'])
       .pipe(replace(versionPatterns, '$1' + context.pkg.version))
+      .pipe(filesize())
       .pipe(gulp.dest('.'));
    }
 
