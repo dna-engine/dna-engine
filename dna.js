@@ -1,4 +1,4 @@
-// dna.js Semantic Templates ~~ v1.0.0
+// dna.js Semantic Templates ~~ v1.1.0
 // MIT/GPLv3 ~~ dnajs.org/license
 // Copyright (c) 2013-2016 individual contributors
 
@@ -135,7 +135,7 @@ window.dna = {
       },
    info: function() {
       var names = Object.keys(dna.store.templates);
-      console.log('~~ dna.js v1.0.0 ~~');
+      console.log('~~ dna.js v1.1.0 ~~');
       console.log('templates:',    names.length);
       console.log('names:',        names);
       console.log('store:',        dna.store.templates);
