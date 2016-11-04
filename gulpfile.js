@@ -44,7 +44,7 @@ var versionPatternStrs = [
    '"version":\\s*"',          //example: "version":  "1.0.0",
    'Current release: \\*\\*v'  //example: Current release: **v1.0.0**
    ];
-var versionPatterns = new RegExp('(' + versionPatternStrs.join('|') + ')[0-9.]*');
+var versionPatterns = new RegExp('(' + versionPatternStrs.join('|') + ')[0-9.]*', 'g');
 var httpdocsFolder = 'website/httpdocs';
 var files = {
     html: ['*.html', 'website/*.html', 'website/httpdocs/*.html'],
@@ -60,16 +60,19 @@ var jsHintConfig = {
     };
 
 function setVersionNumberDev() {
-   gulp.src(['dna.js', 'dna.css'])
-      .pipe(replace(versionPatterns, '$1' + context.pkg.version))
-      .pipe(gulp.dest('.'));
-   }
-
-function setVersionNumberProd() {
-   gulp.src(['bower.json', 'README.md'])
+   var stream = gulp.src(['dna.js', 'dna.css'])
       .pipe(replace(versionPatterns, '$1' + context.pkg.version))
       .pipe(filesize())
       .pipe(gulp.dest('.'));
+   return stream;
+   }
+
+function setVersionNumberProd() {
+   var stream = gulp.src(['bower.json', 'README.md'])
+      .pipe(replace(versionPatterns, '$1' + context.pkg.version))
+      .pipe(filesize())
+      .pipe(gulp.dest('.'));
+   return stream;
    }
 
 function runJsHint() {

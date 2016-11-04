@@ -135,7 +135,7 @@ window.dna = {
       },
    info: function() {
       var names = Object.keys(dna.store.templates);
-      console.log('~~ dna.js v0.4.4 ~~');
+      console.log('~~ dna.js v1.0.0 ~~');
       console.log('templates:',    names.length);
       console.log('names:',        names);
       console.log('store:',        dna.store.templates);
