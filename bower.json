@@ -8,11 +8,12 @@
    "ignore": [
       ".gitignore",
       "bower.json",
+      "gulpfile.js",
       "package.json",
+      "README.md",
+      "setup.sh",
       "task-runner.sh.command",
       "test-cases.html",
-      "gulpfile.js",
-      "README.md",
       "website/"
       ]
 }
