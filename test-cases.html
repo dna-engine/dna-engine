@@ -78,7 +78,7 @@
 <script>
 var test01 = {
    run: function() {
-      console.log('Test Case: #01');
+      console.log('Test #01');
       var book1 = { title: 'The DOM',      author: 'Jan' };
       var book2 = { title: 'Styling CSS3', author: 'Abby' };
       var book3 = { title: 'Howdy HTML5',  author: 'Ed' };
@@ -122,7 +122,7 @@ var test01 = {
 <script>
 var test02 = {
    run: function() {
-      console.log('Test Case: #02');
+      console.log('Test #02');
       var book1 = { title: 'The DOM',     author: 'Jan' };
       var book2 = { title: 'Howdy HTML5', author: 'Ed' };
       var book3 = { title: 'The One',     author: 'Lee', class: 'color-change', sale: false };
@@ -173,7 +173,7 @@ var test02 = {
 <script>
 var test03 = {
    run: function() {
-      console.log('Test Case: #03');
+      console.log('Test #03');
       var book1 = { title: '1<sup>st</sup> &bull;', author: 'Jan' };
       var book2 = { title: '2nd', author: 'Jan' };
       var book3 = { title: '3rd', author: 'Jan' };
@@ -213,7 +213,7 @@ var test03 = {
 <script>
 var test04 = {
    run: function() {
-      console.log('Test Case: #04');
+      console.log('Test #04');
       var book = {
          title:  '<b>Text</b>&bull;',
          author: 'Lee',
@@ -270,7 +270,7 @@ var test05 = {
       data.code = data.author.charCodeAt(0) % 13;
       },
    run: function() {
-      console.log('Test Case: #05');
+      console.log('Test #05');
       dna.createTemplate('t05-book', test05.html, $('#t05-book-list'));
       var book1 = { title: '1st', author: 'Lee' };  //code: 11
       var book2 = { title: '2nd', author: 'Jan' };  //code: 9
@@ -309,7 +309,7 @@ var test05 = {
 <script>
 var test06 = {
    run: function() {
-      console.log('Test Case: #06');
+      console.log('Test #06');
       var bouquin = {
          title:    'Les Attributs',
          info:     { isbn: 123 },
@@ -370,7 +370,7 @@ var test06 = {
 <script>
 var test07 = {
    run: function() {
-      console.log('Test Case: #07');
+      console.log('Test #07');
       var book1 = { author: { name: 'Ed' } };
       var book2 = { author: { name: 'Jan' } };
       var book3 = { author: { name: 'Lee' } };
@@ -462,7 +462,7 @@ var test08 = {
       elem.addClass('color-change');
       },
    run: function() {
-      console.log('Test Case: #08');
+      console.log('Test #08');
       dna.clone('t08-book-authors1', ['Jan']);
       dna.clone('t08-book-authors2', ['Jan', 'Bo']);
       dna.clone('t08-book-authors3', ['Jan', 'Bo', 'Ed']);
@@ -521,7 +521,7 @@ var test08 = {
 <script>
 var test09 = {
    run: function() {
-      console.log('Test Case: #09');
+      console.log('Test #09');
       dna.clone('rest-link', ['http://dnajs.org/rest/book/1/', 'http://dnajs.org/rest/book/2/']);
       dna.rest.get('t09-book', 'http://dnajs.org/rest/book/1/');
       dna.rest.get('t09-book', 'http://dnajs.org/rest/book/2/');
@@ -555,7 +555,7 @@ var test09 = {
 <script>
 var test10 = {
    run: function() {
-      console.log('Test Case: #10');
+      console.log('Test #10');
       var applyBackgnd = function(elem, data) {
          elem.css({ height: '60px', color: 'white',
             'background-image': data.image, 'background-size': '80px' });
@@ -613,7 +613,7 @@ var test10 = {
 <script>
 var test11 = {
    run: function() {
-      console.log('Test Case: #11');
+      console.log('Test #11');
       var book1 = { author: 'Jan',        available: 1, onSale: 'true' };
       var book2 = { title: 'Howdy HTML5', available: 0, onSale: [] };
       dna.clone('t11-book', book1);
@@ -700,7 +700,7 @@ var test11 = {
 <script>
 var test12 = {
    run: function() {
-      console.log('Test Case: #12');
+      console.log('Test #12');
       var chapters = [
          { header: 'Preface &star;', type: 'front' },
          { header: 'Index',          type: 'back' }
@@ -759,7 +759,7 @@ var test12 = {
 <script>
 var test13 = {
    run: function() {
-      console.log('Test Case: #13');
+      console.log('Test #13');
       dna.clone('t13-book', '<script>alert(1);<\/script>');
       dna.clone('t13-book', '<script>alert(2);<\/script>', { html: false });
       dna.clone('t13-book', '<script>$(".t13-book").last().find("span").text(3);<\/script>',
@@ -821,7 +821,7 @@ var test13 = {
 <script>
 var test14 = {
    run: function() {
-      console.log('Test Case: #14');
+      console.log('Test #14');
       var books = ['The DOM', 'Howdy HTML5', 'Styling CSS3'];
       dna.clone('t14-book', books);
       }
@@ -894,7 +894,7 @@ var test15 = {
          dna.bye(elem);
       },
    run: function() {
-      console.log('Test Case: #15');
+      console.log('Test #15');
       dna.registerInitializer('test15.surround', { selector: '.surrounded' });
       dna.registerInitializer('css', { selector: '.surrounded', params: { color: 'white' } });
       dna.registerInitializer('css', { selector: '.surrounded', params: ['padding', '10px'] });
@@ -1079,7 +1079,7 @@ var test16 = {
       console.log(Date.now() - test16.start + ': ' + elem.val());
       },
    run: function() {
-      console.log('Test Case: #16');
+      console.log('Test #16');
       var options = [
          { code: 'fast',  name: 'Overnight',    set: true },  //selected
          { code: 'share', name: 'Social Share', set: false },
@@ -1175,7 +1175,7 @@ var test16 = {
 <script>
 var test17 = {
    run: function() {
-      console.log('Test Case: #17');
+      console.log('Test #17');
       $('#books-data-link').attr('data-href', bookshelf.booksUrl);
       // Nothing to do as component knows how to initialize itself.
       }
@@ -1287,7 +1287,7 @@ var test18 = {
       elem.addClass('border-change');
       },
    run: function() {
-      console.log('Test Case: #18');
+      console.log('Test #18');
       dna.clone('t18-book-title', testing.catalog);
       dna.clone('t18-book',       testing.catalog);
       $('#t18-books .menu-item:contains(Styling CSS3)').click();
@@ -1320,13 +1320,16 @@ var testing = {
          minifiedMode();
       function runTests() {
          var numTests = $('script').length - 3;
-         console.log('~~ dna.js Test Cases ~~');
+         console.log('~~ dna.js ~~');
+         console.log('');
+         console.log('Specifications:');
          for (var t = 1; t < numTests; t++)
             window['test' + ('0' + t).slice(-2)].run();
          }
       runTests();
       console.log('');
-      dna.info();
+      console.log('Report:');
+      console.log(dna.info());
       console.log('');
       }
    };

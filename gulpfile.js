@@ -41,6 +41,7 @@ var banner = '//dna.js v' + context.pkg.version + ' ~~ dnajs.org/license\n';
 var versionPatternStrs = [
    'js v',                     //example: /* dna.js v1.0.0 ~~ dnajs.org/license */
    '~~ v',                     //example: // dna.js Semantic Templates ~~ v1.0.0
+   "version:\\s*'",            //example: version: '1.0.0',
    '"version":\\s*"',          //example: "version":  "1.0.0",
    'Current release: \\*\\*v'  //example: Current release: **v1.0.0**
    ];

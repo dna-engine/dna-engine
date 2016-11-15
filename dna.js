@@ -135,12 +135,15 @@ window.dna = {
       },
    info: function() {
       var names = Object.keys(dna.store.templates);
-      console.log('~~ dna.js v1.1.0 ~~');
-      console.log('templates:',    names.length);
-      console.log('names:',        names);
-      console.log('store:',        dna.store.templates);
-      console.log('initializers:', dna.events.initializers.length);
-      return navigator.appVersion;
+      function addToSum(sum, name) { return sum + dna.store.templates[name].clones; }
+      return {
+         version:      '1.1.0',
+         templates:    names.length,
+         clones:       names.reduce(addToSum, 0),
+         names:        names,
+         store:        dna.store.templates,
+         initializers: dna.events.initializers
+         };
       }
    };
 
