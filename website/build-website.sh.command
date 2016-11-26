@@ -20,6 +20,8 @@ buildHtmlFiles() {
    echo "HTML:    v$versionHtml"
    echo
    echo "Tasks:"
+   pwd
+   echo "To get latest modules --> $ npm update"
    gulp web
    echo
    }
