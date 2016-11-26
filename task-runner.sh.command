@@ -14,6 +14,7 @@ runTasks() {
    cd $projectHome
    echo "Tasks:"
    pwd
+   echo "To get latest modules --> $ npm update"
    gulp
    echo
    }
