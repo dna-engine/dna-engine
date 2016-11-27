@@ -1113,7 +1113,7 @@ var test16 = {
       if (clone.find('input[value=fast]').prop('checked'))  //expect "Overnight" selected
          clone.find('input[value=gift]').click();  //also select "Gift" option
       if (clone.find('input[name=cover]:checked').val() === 'soft')  //expect "Paperback" selected
-         clone.find('input[value=hard]').prop('checked', true).click();  //change to "Hardcover"
+         clone.find('input[value=hard]').prop({ checked: true }).click();  //change to "Hardcover"
       var purposeElem = clone.find('select').first();
       if (purposeElem.val() === 'edu')  //expect "School" selected
          purposeElem.val('fun').change();  //change to "Personal"

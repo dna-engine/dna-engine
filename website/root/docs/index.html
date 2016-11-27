@@ -174,14 +174,14 @@
    <figure>
       <figcaption>Load CSS file</figcaption>
       <pre><code class=language-html>
-         &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/dna.js/1.0/dna.css&gt;
+         &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/dna.js/1.1/dna.css&gt;
       </code></pre>
    </figure>
    <figure>
       <figcaption>Load JavaScript libraries</figcaption>
       <pre><code class=language-html>
          &lt;script src=https://cdn.jsdelivr.net/jquery/3.1/jquery.min.js&gt;&lt;/script&gt;
-         &lt;script src=https://cdn.jsdelivr.net/dna.js/1.0/dna.min.js&gt;&lt;/script&gt;
+         &lt;script src=https://cdn.jsdelivr.net/dna.js/1.1/dna.min.js&gt;&lt;/script&gt;
       </code></pre>
    </figure>
    <p>
@@ -1670,16 +1670,21 @@
       <pre><code class=language-javascript>
          var app = {
             setup: function() {
+
                function highlight(elem) {
-                  elem.css('background-color', 'gold');
+                  elem.css({ backgroundColor: 'gold' });
                   }
+
+               // Highlight each new clone
                dna.registerInitializer(highlight);
-               // Above line highlights all clones
+
+               // Setup tooltips for each new clone:  $('.tooltip').qtip();
                dna.registerInitializer('qtip', { selector: '.tooltip' });
-               // Above line replaces:  $('.tooltip').qtip();
-               var opts = { selector: '.gap', params: ['padding', '8px'] }
-               dna.registerInitializer('css', opts);
-               // Above line replaces:  $('.gap').css('padding', '8px');
+
+               // Style each new clone:  $('.gap').css({ padding: '8px' });
+               var options = { selector: '.gap', params: { padding: '8px' } }
+               dna.registerInitializer('css', options);
+
                }
             };
          $(app.setup);
@@ -1720,7 +1725,7 @@
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
          function applyBkgnd(elem, data) {
-            elem.css('background-image', data.cover);
+            elem.css({ backgroundImage: data.cover });
             };
          var options = { fade: true, callback: applyBkgnd };
          var book = { title: 'Taskmaster', cover: 'url(cover.png)' };
