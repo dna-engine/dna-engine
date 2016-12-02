@@ -57,7 +57,7 @@ var htmlHintConfig = {
 var jsHintConfig = {
     undef:  true,
     unused: true,
-    predef: ['require', 'navigator', 'window', 'document', 'console', '$', 'jQuery', 'app', 'dna']
+    predef: ['require', 'navigator', 'window', 'document', 'console', '$', 'app', 'dna']
     };
 
 function setVersionNumberDev() {

@@ -74,7 +74,7 @@ window.dna = {
          dna.getClones(name).each(addToModel);
          return model;
          }
-      return (elemOrName instanceof jQuery ? getOneModel : getAllModels)(elemOrName);
+      return (elemOrName instanceof $ ? getOneModel : getAllModels)(elemOrName);
       },
    empty: function(name, options) {
       var settings = $.extend({ fade: false }, options);
@@ -104,7 +104,7 @@ window.dna = {
    getClone: function(elem, options) {
       var settings = $.extend({ main: false }, options);
       var selector = settings.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone';
-      return elem instanceof jQuery ? elem.closest(selector) : $();
+      return elem instanceof $ ? elem.closest(selector) : $();
       },
    getClones: function(name) {
       return dna.store.getTemplate(name).container.children().filter('.dna-clone');
@@ -225,7 +225,7 @@ dna.util = {
          else
             contextApply(obj[names[0]], names.slice(1));
          }
-      if (elem instanceof jQuery && elem.length === 0)
+      if (elem instanceof $ && elem.length === 0)
          result = elem;
       else if (typeof func === 'function')
          result = func.apply(elem, args);
@@ -241,7 +241,7 @@ dna.util = {
 
 dna.ui = {
    toElem: function(elemOrEventOrIndex, that) {
-      return elemOrEventOrIndex instanceof jQuery ? elemOrEventOrIndex :
+      return elemOrEventOrIndex instanceof $ ? elemOrEventOrIndex :
          elemOrEventOrIndex ? $(elemOrEventOrIndex.target) : $(that);
       },
    deleteElem: function(elemOrEventOrIndex) {  //example: $('.box').fadeOut(dna.ui.deleteElem);
@@ -492,7 +492,7 @@ dna.compile = {
    subTemplateName: function(holder, arrayField) {  //holder can be element or template name
       // Example:
       //    subTemplateName('book', 'authors') ==> 'book-authors-instance'
-      var mainTemplateName = holder instanceof jQuery ?
+      var mainTemplateName = holder instanceof $ ?
          dna.getClone(holder).data().dnaRules.template : holder;
       return mainTemplateName + '-' + arrayField + '-instance';
       },
