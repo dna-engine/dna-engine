@@ -2,7 +2,7 @@
    "name":         "dna.js",
    "version":      "1.1.1",
    "description":  "An uncomplicated user interface library",
-   "license":      "(MIT OR GPL-3.0)",
+   "license":      "MIT",
    "keywords":     ["clone", "dom", "engine", "html", "jquery", "json", "template", "templating", "ui"],
    "homepage":     "https://github.com/dnajs/dna.js",
    "docs":         "http://dnajs.org/docs",

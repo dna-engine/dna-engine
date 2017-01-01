@@ -1,5 +1,5 @@
 // dna.js Website
-// MIT/GPLv3 ~~ dnajs.org/license
+// MIT ~~ dnajs.org/license
 // Copyright (c) 2013-2016 individual contributors
 
 window.app = {};

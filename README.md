@@ -11,7 +11,7 @@ Current release: **v1.1.0**
 
 ### 1. Bookstore Example
 Designate templates with the `dna-template` class, and put the templates directly into the HTML
-of your web page.&nbsp;  Use the element's `id` to indicate the name of the template.&nbsp;
+of your web page.&nbsp; Use the element's `id` to indicate the name of the template.&nbsp;
 Enclose data fields in double tildes `~~`.
 
 #### a) HTML for book template
@@ -23,7 +23,7 @@ Enclose data fields in double tildes `~~`.
 </div>
 ```
 
-Then call the `dna.clone()` function to insert a copy of the template into the DOM.&nbsp;  The
+Then call the `dna.clone()` function to insert a copy of the template into the DOM.&nbsp; The
 supplied JSON data object will be used to populate the fields of the template.
 
 #### b) JavaScript call to add book node
@@ -58,7 +58,6 @@ dna.rest.get('book', 'http://dnajs.org/rest/book/3');
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)
 
 ===
-dna.js is an open source project dual-licensed under
-[MIT/GPLv3](http://dnajs.org/license)
-with the website and documentation licensed under
-[CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0).
+dna.js is an open source project with the [MIT](http://dnajs.org/license) license.&nbsp;
+The website and documentation are published under the
+[CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0) licensed.
