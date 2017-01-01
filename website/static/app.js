@@ -1,6 +1,6 @@
 // dna.js Website
 // MIT ~~ dnajs.org/license
-// Copyright (c) 2013-2016 individual contributors
+// Copyright (c) 2013-2017 individual contributors
 
 window.app = {};
 
