@@ -30,15 +30,13 @@ releaseInstructions() {
          echo "   Version number updated for next release"
          echo "then rerun:"
          echo "   $(pwd)/task-runner.sh.command"
-         echo "(you may need to wait and rerun again so GitHub has time to update):"
+         echo "(you may need to wait and rerun again so GitHub has time to update)"
          echo "***********************"
          echo
       elif [ "$versionRemote" == "$versionReleased" ]; then
          status="RELEASED"
          echo "***********************"
          echo "*** Action Required ***"
-         echo "This version has already been released, now update npmjs.org:."
-         echo "   $ npm publish"
          echo "Then increment version number in:"
          echo "   $(pwd)/package.json"
          echo "then rerun:"
@@ -65,6 +63,7 @@ releaseInstructions() {
    echo "   git tag -af current -m \"Current stable release\""
    echo "   git remote -v"
    echo "   git push origin --tags --force"
+   echo "   npm publish"
    echo
    echo "   *** Finally, update:"
    echo "   https://github.com/dnajs/dna.js/wiki/Release-Notes"

@@ -1,6 +1,6 @@
 {
    "name":         "dna.js",
-   "version":      "1.2.0",
+   "version":      "1.2.1",
    "description":  "An uncomplicated user interface library",
    "license":      "MIT",
    "keywords":     ["clone", "dom", "engine", "html", "jquery", "json", "template", "templating", "ui"],
