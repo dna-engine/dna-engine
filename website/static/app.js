@@ -1,6 +1,6 @@
 // dna.js Website
 // MIT ~~ dnajs.org/license
-// Copyright (c) 2013-2017 individual contributors
+// Copyright (c) 2013-2017 individual contributors to dna.js
 
 window.app = {};
 
@@ -24,9 +24,8 @@ app.bookstore = {
 
 app.nav = {
    setup: function() {
-      var current = $('header nav a')
-         .filter('[href="' + window.location.pathname.split('/').pop() + '"]')
-         .closest('li');
+      var folder = window.location.pathname.split('/').slice(-2)[0];
+      var current = $('header nav a[href="./' + folder + '"]').closest('li');
       if (!current.length)
          current = $('header nav li').first();
       current.addClass('current');
