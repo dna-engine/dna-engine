@@ -36,7 +36,6 @@ var context = {
       }
    };
 context.title = context.pkg.dna.fullName;  //default page title
-context.copyright = context.pkg.dna.copyright.replace('@@currentYear@@', new Date().getFullYear());
 var banner = '//dna.js v' + context.pkg.version + ' ~~ dnajs.org/license\n';
 var versionPatternStrs = [
    'js v',                     //example: /* dna.js v1.0.0 ~~ dnajs.org/license */

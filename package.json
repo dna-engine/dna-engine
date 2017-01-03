@@ -26,7 +26,6 @@
       },
    "dna": {
       "fullName":  "dna.js Semantic Templates",
-      "summary":   "dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications.",
-      "copyright": "Copyright (c) 2013-@@currentYear@@ individual contributors"
+      "summary":   "dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications."
       }
 }

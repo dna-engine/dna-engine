@@ -1,6 +1,6 @@
 // dna.js Semantic Templates ~~ v1.2.1
 // MIT ~~ dnajs.org/license
-// Copyright (c) 2013-2017 individual contributors
+// Copyright (c) 2013-2017 individual contributors to dna.js
 
 window.dna = {
    // API:
