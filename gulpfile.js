@@ -108,8 +108,8 @@ function buildWebsite() {
       .pipe(htmlhint.reporter());
    gulp.src('website/root/**/*.html')
       .pipe(fileinclude({ basepath: '@root', indent: true, context: context }))
-      // .pipe(w3cjs())   //need to fix: Element “style” not allowed as child
-      // .pipe(w3cjs.reporter())
+      .pipe(w3cjs())
+      .pipe(w3cjs.reporter())
       .pipe(htmlhint(htmlHintConfig))
       .pipe(htmlhint.reporter())
       .pipe(gulp.dest(httpdocsFolder));

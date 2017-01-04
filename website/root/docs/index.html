@@ -1987,16 +1987,19 @@
       (<code>data-on-load</code>) to make a REST call that gets data for a template.
    </p>
    <figure>
-      <figcaption>Bookshelf Component</figcaption>
+      <figcaption>Bookshelf Component CSS</figcaption>
+      <pre><code class=language-css>
+        [data-component=bookshelf] .my-book {
+           width: 15em;
+           background-color: plum;
+           padding: 5px 15px;
+           }
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Bookshelf Component HTML</figcaption>
       <pre><code class=language-html>
-         &lt;div class=bookshelf data-on-load=bookshelf.setup&gt;
-            &lt;style scoped&gt;
-               .bookshelf .my-book {
-                  width: 15em;
-                  background-color: plum;
-                  padding: 5px 15px;
-                  }
-            &lt;/style&gt;
+         &lt;div data-component=bookshelf data-on-load=bookshelf.setup&gt;
             &lt;h2&gt;Bookshelf&lt;/h2&gt;
             &lt;p id=my-book class=dna-template&gt;
                &lt;span&gt;Title: &lt;b&gt;~~title~~&lt;/b&gt;&lt;/span&gt;&lt;br&gt;
@@ -2020,14 +2023,7 @@
       <figcaption>Result (with three books loaded from REST call)</figcaption>
       <div>
          <!--  Component: start -->
-         <div class=bookshelf data-on-load=bookshelf.setup>
-            <style scoped>
-               .bookshelf .my-book {
-                  width: 15em;
-                  background-color: plum;
-                  padding: 5px 15px;
-                  }
-            </style>
+         <div data-component=bookshelf data-on-load=bookshelf.setup>
             <h2>Bookshelf</h2>
             <p id=my-book class=dna-template>
                <span>Title: <b>~~title~~</b></span><br>
@@ -2084,10 +2080,10 @@
    <figure>
       <figcaption>Example CSS</figcaption>
       <pre><code class=language-css>
-         .author-widget .dna-menu {
+         [data-component=author] .dna-menu {
             list-style-type: none;
             }
-         .author-widget .menu-item {
+         [data-component=author] .menu-item {
             display: inline-block;
             background-color: lightskyblue;
             border: 2px solid silver;
@@ -2095,8 +2091,8 @@
             padding: 5px 10px;
             margin: 10px;
             }
-         .author-widget .menu-item.selected,
-         .author-widget .menu-item:hover {
+         [data-component=author] .menu-item.selected,
+         [data-component=author] .menu-item:hover {
             border-color: dimgray;
             }
       </code></pre>
@@ -2104,7 +2100,7 @@
    <figure>
       <figcaption>Example HTML</figcaption>
       <pre><code class=language-html>
-         &lt;div class=author-widget&gt;
+         &lt;div data-component=author&gt;
             &lt;h2&gt;Author Information&lt;/h2&gt;
             Select:
             &lt;ul id=author-info class=dna-menu&gt;
@@ -2137,29 +2133,7 @@
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
       <div>
-         <style scoped>
-            .author-widget .panel {
-               margin-right: 15px;
-               }
-         </style>
-         <div class=author-widget>
-            <style scoped>
-               .author-widget .dna-menu {
-                  list-style-type: none;
-                  }
-               .author-widget .menu-item {
-                  display: inline-block;
-                  background-color: lightskyblue;
-                  border: 2px solid silver;
-                  border-radius: 5px;
-                  padding: 5px 10px;
-                  margin: 10px;
-                  }
-               .author-widget .menu-item.selected,
-               .author-widget .menu-item:hover {
-                  border-color: dimgray;
-                  }
-            </style>
+         <div data-component=author>
             <h2>Author Information</h2>
             Select:
             <ul id=author-info class=dna-menu>
@@ -2201,7 +2175,7 @@
    <figure>
       <figcaption>Example HTML</figcaption>
       <pre><code class=language-html>
-         &lt;div class=book-catalog-widget&gt;
+         &lt;div data-component=book-catalog&gt;
             &lt;h2&gt;Book Catalog&lt;/h2&gt;
             &lt;div id=book-catalog class=dna-menu&gt;
                &lt;button id=book-menu-item class=dna-template&gt;
@@ -2242,22 +2216,7 @@
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
       <div>
-         <style scoped>
-            .book-catalog-widget .dna-menu {
-               margin-bottom: 10px;
-               }
-            .book-catalog-widget .dna-menu button {
-               margin-right: 15px;
-               }
-            .book-catalog-widget .dna-menu button:hover,
-            .book-catalog-widget .dna-menu button.selected {
-               box-shadow: 0px 0px 0.6em deepskyblue;
-               }
-            .book-catalog-widget .dna-panels {
-               margin-right: 15px;
-               }
-         </style>
-         <div class=book-catalog-widget>
+         <div data-component=book-catalog>
             <h2>Book Catalog</h2>
             <div id=book-catalog class=dna-menu>
                <button id=book-menu-item class=dna-template>

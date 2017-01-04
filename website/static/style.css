@@ -420,6 +420,46 @@ figure.full-screen-code pre code {
    background-color: steelblue;
    }
 
+/* Documentation components */
+[data-component=bookshelf] .my-book {
+   width: 15em;
+   background-color: plum;
+   padding: 5px 15px;
+   }
+
+[data-component=author] .panel {
+   margin-right: 15px;
+   }
+[data-component=author] .dna-menu {
+   list-style-type: none;
+   }
+[data-component=author] .menu-item {
+   display: inline-block;
+   background-color: lightskyblue;
+   border: 2px solid silver;
+   border-radius: 5px;
+   padding: 5px 10px;
+   margin: 10px;
+   }
+[data-component=author] .menu-item.selected,
+[data-component=author] .menu-item:hover {
+   border-color: dimgray;
+   }
+
+[data-component=book-catalog] .dna-menu {
+   margin-bottom: 10px;
+   }
+[data-component=book-catalog] .dna-menu button {
+   margin-right: 15px;
+   }
+[data-component=book-catalog] .dna-menu button:hover,
+[data-component=book-catalog] .dna-menu button.selected {
+   box-shadow: 0px 0px 0.6em deepskyblue;
+   }
+[data-component=book-catalog] .dna-panels {
+   margin-right: 15px;
+   }
+
 /* Mobile */
 @media (max-width: 667px) {  /* selects iPhone 6/6s/7 landscape and anything narrower */
    html {

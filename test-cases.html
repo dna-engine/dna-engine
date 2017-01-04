@@ -1,15 +1,15 @@
 <!doctype html>
-<!-- - - - - - - - - - - - - - - -->
-<!--  dna.js                     -->
-<!--  Test Cases                 -->
-<!--  dnajs.org/test-cases.html  -->
-<!-- - - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - -->
+<!-- dna.js                    -->
+<!-- Test Cases                -->
+<!-- dnajs.org/test-cases.html -->
+<!-- - - - - - - - - - - - - - -->
 <html lang=en>
 <head>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width, initial-scale=1">
 <title>dna.js &bull; Test Cases</title>
-<link rel=icon       href=website/static/graphics/bookmark.png>
+<link rel=icon       href=website/graphics/bookmark.png>
 <link rel=stylesheet href=dna.css>
 <style>
    body                { font-family: sans-serif; margin: 30px; }
@@ -28,6 +28,7 @@
                        padding: 10px; margin: 0px 20px 20px 0px; }
    fieldset            { float: left; width: 200px; border: 1px solid silver; padding-bottom: 0px; }
    legend              { border: 1px solid silver; padding: 0px 10px; }
+   .bookshelf          { background-color: gainsboro; padding: 15px; }
    .dna-clone          { background-color: darkseagreen; }
    div.dna-clone       { padding: 10px; margin-bottom: 15px; }
    .dna-clone img      { width: 120px; }
@@ -1130,12 +1131,6 @@ var test16 = {
       <legend>Actual</legend>
       <!--  Component: start -->
       <div class=bookshelf data-on-load=bookshelf.setup>
-         <style scoped>
-            .bookshelf {
-               background-color: gainsboro;
-               padding: 15px;
-               }
-         </style>
          <h2>Bookshelf</h2>
          <div id=t17-book class=dna-template>
             <div>Title: <span>~~title~~</span></div>
