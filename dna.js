@@ -55,7 +55,7 @@ window.dna = {
       $(html).attr({ id: name }).addClass('dna-template').appendTo(holder);
       return dna.store.getTemplate(name);
       },
-   rest: {
+   rest: {  //experimental -- currently very limited function
       get: function(name, url, options) {
          function processJson(data) {
             if (!data.error)
