@@ -654,7 +654,7 @@ dna.events = {
             runner($(event.target), 'enter-key', event);
          }
       function handleSmartUpdate(event) {
-         var defaultThrottle = 2000;  //default 2 second delay between callbacks
+         var defaultThrottle = 1000;  //default 1 second delay between callbacks
          var elem = $(event.target);
          var data = elem.data();
          function smartUpdate() {
