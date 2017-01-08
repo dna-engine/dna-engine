@@ -25,7 +25,7 @@ app.bookstore = {
 app.nav = {
    setup: function() {
       var folder = window.location.pathname.split('/').slice(-2)[0];
-      var current = $('header nav a[href="./' + folder + '"]').closest('li');
+      var current = $('header nav a[href$="' + folder + '"]').closest('li');
       if (!current.length)
          current = $('header nav li').first();
       current.addClass('current');
