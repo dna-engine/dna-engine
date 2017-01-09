@@ -369,20 +369,6 @@ a.twitter:hover {
    color: royalblue;
    }
 
-/* GitHub fork me */
-footer #github-banner {
-   position: absolute;
-   top: 0px;
-   right: 0px;
-   }
-footer #github-icon {
-   display: none;
-   position: absolute;
-   top: 5px;
-   right: 5px;
-   font-size: 1.4rem;
-   }
-
 /* Highlight.js (hljs-enhance) */
 figure.hljs-enhance {
    width: 80%;
@@ -478,12 +464,6 @@ figure.full-screen-code pre code {
       }
    main >h2 {
       font-size: 1.0rem;
-      }
-   footer #github-banner {
-      display: none;
-      }
-   footer #github-icon {
-      display: block;
       }
    aside {
       width: 280px;
