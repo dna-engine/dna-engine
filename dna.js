@@ -688,9 +688,10 @@ dna.events = {
          .change(handle)
          .keyup(handle)
          .keyup(handleEnterKey)
-         .keyup(handleSmartUpdate)
          .keydown(handle)
-         .keypress(handle);
+         .keypress(handle)
+         .keyup(handleSmartUpdate)
+         .change(handleSmartUpdate);  //handle paste events on iOS
       setupJumpToUrl();
       dna.events.elementSetup();
       }
