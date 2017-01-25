@@ -14,6 +14,8 @@ var htmlhint =    require('gulp-htmlhint');
 var jshint =      require('gulp-jshint');
 var rename =      require('gulp-rename');
 var replace =     require('gulp-replace');
+var tapColorize = require('tap-colorize');
+var tape =        require('gulp-tape');
 var uglify =      require('gulp-uglify');
 var w3cjs =       require('gulp-w3cjs');
 var del =         require('del');
@@ -66,6 +68,7 @@ var jsHintConfig = {
       window:   true
       }
    };
+var jsHintConfigEs6 = Object.assign({}, jsHintConfig, { esversion: 6 });
 
 function setVersionNumberDev() {
    var stream = gulp.src(['dna.js', 'dna.css'])
@@ -102,6 +105,14 @@ function reportSize() {
       .pipe(filesize());
    }
 
+function runSpec() {
+   var stream = gulp.src('spec.js')
+      .pipe(jshint(jsHintConfigEs6))
+      .pipe(jshint.reporter())
+      .pipe(tape({ reporter: tapColorize() }));
+   return stream;
+   }
+
 function cleanWebsite() {
     return del(httpdocsFolder + '/**');
     }
@@ -127,6 +138,7 @@ gulp.task('dev',     setVersionNumberDev);
 gulp.task('release', setVersionNumberProd);
 gulp.task('jshint',  ['dev'], runJsHint);
 gulp.task('uglify',  ['dev'], runUglify);
-gulp.task('default', ['jshint', 'uglify'], reportSize);
+gulp.task('spec',    ['dev'], runSpec);
+gulp.task('default', ['jshint', 'uglify', 'spec'], reportSize);
 gulp.task('clean',   cleanWebsite);
 gulp.task('web',     ['clean'], buildWebsite);
