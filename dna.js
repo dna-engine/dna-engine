@@ -2,7 +2,7 @@
 // MIT ~~ dnajs.org/license
 // Copyright (c) 2013-2017 individual contributors to dna.js
 
-window.dna = {
+var dna = {
    // API:
    //    dna.clone()
    //    dna.cloneSubTemplate()
@@ -305,7 +305,6 @@ dna.placeholder = {  //TODO: optimize
       $('[data-placeholder]').each(fade);
       }
    };
-$(dna.placeholder.setup);
 
 dna.pageToken = {
    // Page specific (url path) key/value temporary storage
@@ -346,9 +345,10 @@ dna.panels = {
       if (loc === undefined)
          loc = dna.pageToken.get(key, 0);
       loc = Math.max(0, Math.min(loc, menuItems.length - 1));
-      menuItems.removeClass('selected').eq(loc).addClass('selected');
-      panels = $(key).children().hide().removeClass('displayed');
-      panel = panels.eq(loc).fadeIn().addClass('displayed');
+      menuItems.removeClass('selected').addClass('unselected')
+         .eq(loc).addClass('selected').removeClass('unselected');
+      panels = $(key).children().hide().removeClass('displayed').addClass('hidden');
+      panel = panels.eq(loc).fadeIn().addClass('displayed').removeClass('hidden');
       function saveState() {
          dna.pageToken.put(key, loc);
          if (updateUrl && panel.data().hash)
@@ -388,7 +388,6 @@ dna.panels = {
       $(document).on({ click: dna.panels.rotate }, '.dna-menu .menu-item');
       }
    };
-$(dna.panels.setup);
 
 dna.compile = {
    // Pre-compile  Example                           Post-compile class + data().dnaRules
@@ -696,7 +695,6 @@ dna.events = {
       dna.events.elementSetup();
       }
    };
-$(dna.events.setup);
 
 dna.core = {
    inject: function(clone, data, index, settings) {
@@ -834,5 +832,21 @@ dna.core = {
       },
    berserk: function(message) {  //oops, file a tps report
       throw new Error('dna.js -> ' + message);
+      },
+   init: function(thisWindow, thisJQuery) {
+      window = thisWindow || window;
+      $ = thisJQuery || $;
+      function setup() {
+         dna.placeholder.setup();
+         dna.panels.setup();
+         dna.events.setup();
+         }
+      $(setup);
+      return dna;
       }
    };
+
+if (typeof module === 'object')  //Node.js module loading system
+   module.exports = function(window, jQuery) { return dna.core.init(window, jQuery); };
+else
+   dna.core.init();

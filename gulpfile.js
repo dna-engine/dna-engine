@@ -6,17 +6,17 @@
 //    $ npm outdated
 //    $ npm update
 
-var gulp =         require('gulp');
-var fileinclude =  require('gulp-file-include');
-var filesize =     require('gulp-filesize');
-var header =       require('gulp-header');
-var htmlhint =     require('gulp-htmlhint');
-var jshint =       require('gulp-jshint');
-var rename =       require('gulp-rename');
-var replace =      require('gulp-replace');
-var uglify =       require('gulp-uglify');
-var w3cjs =        require('gulp-w3cjs');
-var del =          require('del');
+var gulp =        require('gulp');
+var fileinclude = require('gulp-file-include');
+var filesize =    require('gulp-filesize');
+var header =      require('gulp-header');
+var htmlhint =    require('gulp-htmlhint');
+var jshint =      require('gulp-jshint');
+var rename =      require('gulp-rename');
+var replace =     require('gulp-replace');
+var uglify =      require('gulp-uglify');
+var w3cjs =       require('gulp-w3cjs');
+var del =         require('del');
 
 var context = {
    pkg:        require('./package.json'),
@@ -47,17 +47,25 @@ var versionPatternStrs = [
 var versionPatterns = new RegExp('(' + versionPatternStrs.join('|') + ')[0-9.]*', 'g');
 var httpdocsFolder = 'website/httpdocs';
 var files = {
-    html: ['*.html', 'website/*.html', 'website/httpdocs/*.html'],
-    js:   ['dna.js', 'gulpfile.js', 'website/*.js']
-    };
+   html: ['*.html', 'website/*.html', 'website/httpdocs/*.html'],
+   js:   ['dna.js', 'gulpfile.js', 'website/*.js']
+   };
 var htmlHintConfig = {
-    'attr-value-double-quotes': false
-    };
+   'attr-value-double-quotes': false
+   };
 var jsHintConfig = {
-    undef:  true,
-    unused: true,
-    predef: ['require', 'navigator', 'window', 'document', 'console', '$', 'app', 'dna']
-    };
+   undef:  true,
+   unused: true,
+   globals: {
+      $:        true,
+      app:      false,
+      console:  false,
+      document: false,
+      module:   false,
+      require:  false,
+      window:   true
+      }
+   };
 
 function setVersionNumberDev() {
    var stream = gulp.src(['dna.js', 'dna.css'])
