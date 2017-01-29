@@ -47,7 +47,7 @@ var dna = {
       var settings = $.extend({ container: holderClone.find(selector).addBack(selector) }, options);
       dna.clone(name, data, settings);
       var array = dna.getModel(holderClone)[arrayField];
-      function append() { array.push(this); }
+      function append(i, value) { array.push(value); }
       $.each(data instanceof Array ? data : [data], append);
       return holderClone;
       },
@@ -70,7 +70,7 @@ var dna = {
          }
       function getAllModels(name) {
          var model = [];
-         function addToModel() { model.push(dna.getModel($(this))); }
+         function addToModel(i, elem) { model.push(dna.getModel($(elem))); }
          dna.getClones(name).each(addToModel);
          return model;
          }
@@ -88,7 +88,7 @@ var dna = {
       return dna.core.inject(elem, data, null, settings);
       },
    refreshAll: function(name) {
-      function refresh() { dna.refresh($(this)); }
+      function refresh(i, elem) { dna.refresh($(elem)); }
       return dna.getClones(name).each(refresh);
       },
    destroy: function(clone, options) {
@@ -298,9 +298,9 @@ dna.ui = {
 
 dna.placeholder = {  //TODO: optimize
    setup: function() {
-      function fade() {
-         var elem = $(this).stop();
-         return dna.getClones(elem.data().placeholder).length ? elem.fadeOut() : elem.fadeIn();
+      function fade(i, elem) {
+         var input = $(elem).stop();
+         return dna.getClones(input.data().placeholder).length ? input.fadeOut() : input.fadeIn();
          }
       $('[data-placeholder]').each(fade);
       }
@@ -369,8 +369,8 @@ dna.panels = {
       var hash = window.location.hash.slice(1);
       function findPanelLoc(panels) { return panels.filter('[data-hash=' + hash + ']').index(); }
       function partOfTemplate(elems) { return elems.first().closest('.dna-template').length > 0; }
-      function init() {
-         var menu = $(this);
+      function init(i, elem) {
+         var menu = $(elem);
          var key = dna.panels.key(menu);
          var panels = $(key).children().addClass('panel');
          if (menu.find('.menu-item').length === 0)
@@ -424,25 +424,25 @@ dna.compile = {
          elem.data().dnaRules = {};
       return elem.addClass('dna-nucleotide');
       },
-   isDnaField: function() {
-      var firstNode = $(this)[0].childNodes[0];
+   isDnaField: function(i, elem) {
+      var firstNode = elem.childNodes[0];
       return firstNode && firstNode.nodeValue &&
          firstNode.nodeValue.match(dna.compile.regexDnaField);
       },
-   field: function() {
+   field: function(i, elem) {
       // Example:
       //    <p>~~name~~</p>  ==>  <p class=dna-nucleotide data-dnaRules={ text: 'name' }></p>
-      var elem = dna.compile.setupNucleotide($(this));
+      elem = dna.compile.setupNucleotide($(elem));
       elem.data().dnaRules.text = $.trim(elem.text()).replace(dna.compile.regexDnaBasePairs, '');
       return elem.empty();
       },
-   propsAndAttrs: function() {
+   propsAndAttrs: function(i, elem) {
       // Examples:
       //    <option data-prop-selected=~~set~~>  ==>  <option class=dna-nucleotide + data-dnaRules={ props: ['selected', 'set'] }>
       //    <p id=~~num~~>                       ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['id', ['', 'num', '']] }>
       //    <p data-attr-src=~~url~~>            ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['src', ['', 'url', '']] }>
       //    <p data-tag=~~[value]~~>             ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['data-tag', ['', true, '']] }>
-      var elem = $(this);
+      elem = $(elem);
       var props = [];
       var attrs = [];
       var names = [];
@@ -466,11 +466,11 @@ dna.compile = {
          if (key === 'value' && elem.is(textInput) && parts[0] === '' && parts[2] === '')
             elem.addClass('dna-update-model').data().dnaField = parts[1];
          }
-      function compile() {
-         if (/^data-prop-/.test(this.name))
-            compileProp(this.name, this.value);
-         else if (this.value.split(dna.compile.regexDnaBasePair).length === 3)
-            compileAttr(this.name, this.value);
+      function compile(i, attr) {
+         if (/^data-prop-/.test(attr.name))
+            compileProp(attr.name, attr.value);
+         else if (attr.value.split(dna.compile.regexDnaBasePair).length === 3)
+            compileAttr(attr.name, attr.value);
          }
       $.each(elem.get(0).attributes, compile);
       if (props.length > 0)
@@ -498,8 +498,8 @@ dna.compile = {
    rules: function(elems, type, isList) {
       // Example:
       //    <p data-require=~~title~~>, 'require'  ==>  <p data-dnaRules={ require: 'title' }>
-      function add() {
-         var elem = dna.compile.setupNucleotide($(this));
+      function add(i, elem) {
+         elem = dna.compile.setupNucleotide($(elem));
          var field = dna.compile.getDataField(elem, type);
          elem.data().dnaRules[type] = isList ? field.split(',') : field;
          }
@@ -507,15 +507,15 @@ dna.compile = {
       },
    separators: function(elem) {
       // Convert: data-separator=", "  ==>  <span class=dna-separator>, </span>
-      function isWhitespaceNode() { return this.nodeType === 3 && !/\S/.test(this.nodeValue); }
+      function isWhitespaceNode(i, elem) { return elem.nodeType === 3 && !/\S/.test(elem.nodeValue); }
       function append(templateElem, text, className) {
          if (text) {
             templateElem.contents().last().filter(isWhitespaceNode).remove();
             templateElem.append($('<span>').addClass(className).html(text));
             }
          }
-      function processTemplate() {
-         var templateElem = $(this);
+      function processTemplate(i, elem) {
+         var templateElem = $(elem);
          append(templateElem, templateElem.data().separator,     'dna-separator');
          append(templateElem, templateElem.data().lastSeparator, 'dna-last-separator');
          }
@@ -525,7 +525,7 @@ dna.compile = {
       var elem = $('#' + name);
       if (!elem.length)
          dna.core.berserk('Template not found: ' + name);
-      function saveName() { $(this).data().dnaRules = { template: $(this).attr('id') }; }
+      function saveName(i, elem) { $(elem).data().dnaRules = { template: $(elem).attr('id') }; }
       elem.find('.dna-template').addBack().each(saveName).removeAttr('id');
       var elems = elem.find('*').addBack();
       elems.filter(dna.compile.isDnaField).each(dna.compile.field);
@@ -539,7 +539,7 @@ dna.compile = {
       elems.each(dna.compile.propsAndAttrs);
       dna.compile.separators(elem);
       //support html5 values for "type" attribute
-      function setTypeAttr() { $(this).attr({ type: $(this).data().attrType }); }
+      function setTypeAttr(i, elem) { $(elem).attr({ type: $(elem).data().attrType }); }
       $('input[data-attr-type]').each(setTypeAttr);
       return dna.store.stash(elem);
       }
@@ -550,8 +550,8 @@ dna.store = {
    templates: {},
    stash: function(elem) {
       var name = elem.data().dnaRules.template;
-      function move() {
-         var elem = $(this);
+      function move(i, elem) {
+         elem = $(elem);
          var name = elem.data().dnaRules.template;
          var template = {
             name:       name,
@@ -567,7 +567,7 @@ dna.store = {
          dna.store.templates[name] = template;
          elem.removeClass('dna-template').addClass('dna-clone').addClass(name).detach();
          }
-      function prepLoop() {
+      function prepLoop(i, elem) {
          // Pre (sub-template array loops -- data-array):
          //    class=dna-sub-clone data().dnaRules.array='field'
          // Post (elem):
@@ -575,7 +575,7 @@ dna.store = {
          // Post (container)
          //    class=dna-nucleotide +
          //       data().dnaRules.loop={ name: '{NAME}-{FIELD}-instance', field: 'field' }
-         var elem = $(this);
+         elem = $(elem);
          var field = elem.data().dnaRules.array;
          var sub = dna.compile.subTemplateName(name, field);
          dna.compile.setupNucleotide(elem.parent().addClass('dna-array')).data().dnaRules.loop =
@@ -596,7 +596,7 @@ dna.events = {
    elementSetup: function(root, data) {
       // Example:
       //    <p data-on-load=app.cart.setup>
-      function setup() { dna.util.apply($(this).data().onLoad, [$(this), data]); }
+      function setup(i, elem) { dna.util.apply($(elem).data().onLoad, [$(elem), data]); }
       var selector = '[data-on-load]';
       var elems = root ? root.find(selector).addBack(selector) : $(selector);
       return elems.not('.dna-initialized').each(setup).addClass('dna-initialized');
@@ -604,9 +604,9 @@ dna.events = {
    runInitializers: function(elem, data) {
       // Executes data-on-load and data-callback functions plus registered initializers
       dna.events.elementSetup(elem, data);
-      function init() {
-         var elems = this.selector ? elem.find(this.selector).addBack(this.selector) : elem;
-         dna.util.apply(this.func, [elems.addClass('dna-initialized')].concat(this.params));
+      function init(i, initializer) {
+         var elems = initializer.selector ? elem.find(initializer.selector).addBack(initializer.selector) : elem;
+         dna.util.apply(initializer.func, [elems.addClass('dna-initialized')].concat(initializer.params));
          }
       $.each(dna.events.initializers, init);
       return elem;
@@ -627,7 +627,7 @@ dna.events = {
          function updateField(elem, calc) { dna.getModel(elem)[field(elem.data())] = calc(elem); }
          function getValue(elem) { return elem.val(); }
          function isChecked(elem) { return elem.is(':checked'); }
-         function updateOption() { updateField($(this), isChecked); }
+         function updateOption(i, elem) { updateField($(elem), isChecked); }
          function updateModel() {
             var mainClone = dna.getClone(target, { main: true });
             if (mainClone.length === 0) {  //TODO: figure out why some events are captured on the template instead of the clone
@@ -679,7 +679,7 @@ dna.events = {
          function context(elem) {
             return elem.closest('.external-site').length ? '_blank' : '_self';
             }
-         function jump() { window.open($(this).data().href, context($(this))); }
+         function jump(event) { window.open($(event.target).data().href, context($(event.target))); }
          $(document).on({ click: jump }, '[data-href]');
          }
       $(document)
@@ -743,9 +743,7 @@ dna.core = {
       function processLoop(elem, loop) {
          var dataArray = dna.util.value(data, loop.field);
          var subClones = elem.children('.' + loop.name.replace(/[.]/g, '\\.'));
-         function injectSubClone(index) {
-            dna.core.inject($(this), dataArray[index], index, settings);
-            }
+         function injectSubClone(i, elem) { dna.core.inject($(elem), dataArray[i], i, settings); }
          function rebuildSubClones() {
             subClones.remove();
             dna.clone(loop.name, dataArray, { container: elem, html: settings.html });
@@ -757,8 +755,8 @@ dna.core = {
          else
             rebuildSubClones();
          }
-      function process() {
-         var elem = $(this);
+      function process(i, elem) {
+         elem = $(elem);
          var dnaRules = elem.data().dnaRules;
          if (dnaRules.transform)
             dna.util.apply(dnaRules.transform, data);

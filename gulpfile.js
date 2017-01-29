@@ -56,8 +56,9 @@ var htmlHintConfig = {
    'attr-value-double-quotes': false
    };
 var jsHintConfig = {
-   undef:  true,
-   unused: true,
+   strict:  'implied',
+   undef:   true,
+   unused:  true,
    globals: {
       $:        true,
       app:      false,
