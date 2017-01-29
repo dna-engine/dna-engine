@@ -1077,7 +1077,8 @@ var test15 = {
 var test16 = {
    start: Date.now(),
    submit: function(elem) {
-      console.log(Date.now() - test16.start + ': ' + elem.val());
+      var time = Date.now() - test16.start;
+      console.log(time + ': ' + elem.data().smartThrottle + ', ' + elem.val());
       },
    run: function() {
       console.log('Test #16');
@@ -1313,18 +1314,17 @@ var testing = {
          }
       if (window.location.pathname.endsWith('/test-cases-min.html'))
          minifiedMode();
+      var info = dna.info();
       function runTests() {
          var numTests = $('script').length - 3;
          console.log('~~ dna.js ~~');
-         console.log('');
+         console.log('Version: ' + info.version);
          console.log('Specifications:');
          for (var t = 1; t < numTests; t++)
             window['test' + ('0' + t).slice(-2)].run();
          }
       runTests();
-      console.log('');
-      console.log('Report:');
-      console.log(dna.info());
+      console.log('Report:', info);
       console.log('');
       }
    };
