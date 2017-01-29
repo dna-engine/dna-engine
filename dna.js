@@ -191,7 +191,6 @@ dna.util = {
       function dash(word) { return '-' + word.toLowerCase(); }
       return ('' + camelStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
       },
-   toCode: function(camelStr) { return dna.util.toKebab(camelStr); },  //DEPRECATED
    value: function(data, field) {  //example: dna.util.value({ a: { b: 7 }}, 'a.b'); ==> 7
       if (typeof field === 'string')
          field = field.split('.');
