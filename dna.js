@@ -168,6 +168,18 @@ dna.array = {
       function addObj(obj) { map[obj[key]] = obj; }
       array.forEach(addObj);
       return map;
+      },
+   fromMap: function(map, key) {
+      // Converts an object (hash map) into an array of objects
+      //    var map = { a: { word: 'Ant' }, b: { word: 'Bat' } };
+      //    var array = dna.array.fromMap(map, 'code');
+      //       ==> [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
+      key = key || 'code';
+      var array = [];
+      function toObj(item) { return item instanceof Object ? item : { value: item }; }
+      for (var property in map)
+         array[array.push(toObj(map[property])) - 1][key] = property;
+      return array;
       }
    };
 
