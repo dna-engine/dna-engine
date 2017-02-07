@@ -12,6 +12,7 @@
       "package.json",
       "README.md",
       "setup.sh",
+      "spec.js",
       "task-runner.sh.command",
       "test-cases.html",
       "website/"
