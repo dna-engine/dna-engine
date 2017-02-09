@@ -301,6 +301,7 @@ dna.ui = {
       var submissiveElem = up ? elem.prev() : elem.next();
       if (submissiveElem.length)
          move();
+      return elem;
       },
    focus: function(elem) {
       return elem.focus();
@@ -842,15 +843,25 @@ dna.core = {
    berserk: function(message) {  //oops, file a tps report
       throw new Error('dna.js -> ' + message);
       },
+   plugin: function() {
+      // Example:
+      //    dna.getClone(elem).dna('up');
+      // Supports: refresh, up, down, bye, destroy
+      $.fn.dna = function(action, options) {
+         var fn = dna[dna.util.toCamel(action)];
+         if (!fn)
+            dna.core.berserk('Unknown plugin action: ' + action);
+         function callFn(i, elem) { fn($(elem), options); }
+         return this.each(callFn);
+         };
+      },
    init: function(thisWindow, thisJQuery) {
       window = thisWindow || window;
       $ = thisJQuery || $;
-      function setup() {
-         dna.placeholder.setup();
-         dna.panels.setup();
-         dna.events.setup();
-         }
-      $(setup);
+      dna.core.plugin();
+      $(dna.placeholder.setup);
+      $(dna.panels.setup);
+      $(dna.events.setup);
       return dna;
       }
    };

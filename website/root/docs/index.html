@@ -102,7 +102,14 @@
          </ol>
       </li>
       <li><a href=#utils>Utilities</a></li>
-      <li><a href=#index>Index</a></li>
+      <li><a href=#index>Index</a>
+         <ol>
+            <li><a href=#index-classes>Clases</a></li>
+            <li><a href=#index-attributes>Attributes</a></li>
+            <li><a href=#index-jquery>jQuery Functions</a></li>
+            <li><a href=#index-examples>Examples</a></li>
+         </ol>
+      </li>
       <li><a href=#comments>Questions and Comments</a></li>
    </ol>
 </div>
@@ -120,11 +127,9 @@
 <dl>
    <dt>Data Field:</dt>
    <dd>
-      Data Fields identify where in the template data is to be injected during the cloning
-      process.&nbsp; The name of the Data Field is surrounded by a pair of double tildes
-      (example: <code>~~author~~</code>).
-   </dd>
-   <dd>
+      Data fields identify where in the template data is to be injected during the cloning
+      process.&nbsp; The name of the data field (object property) is surrounded by a pair of
+      double tildes (example: <code>~~author~~</code>).&nbsp;
       Mustache notation with curly braces (<code>{{</code> and <code>}}</code>) is also supported.
    </dd>
 </dl>
@@ -147,7 +152,7 @@
    <dt>Versions:</dt>
    <dd>
       dna.js requires jQuery 1.8 or above, and it has the same system requirements
-      and <a href=http://jquery.com/browser-support/ class=external-site>browser
+      and <a href=http://jquery.com/browser-support class=external-site>browser
       support</a> as the version of jQuery you use.
    </dd>
 </dl>
@@ -174,14 +179,14 @@
    <figure>
       <figcaption>Load CSS file</figcaption>
       <pre><code class=language-html>
-         &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/dna.js/1.1/dna.css&gt;
+         &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/dna.js/1.2/dna.css&gt;
       </code></pre>
    </figure>
    <figure>
       <figcaption>Load JavaScript libraries</figcaption>
       <pre><code class=language-html>
          &lt;script src=https://cdn.jsdelivr.net/jquery/3.1/jquery.min.js&gt;&lt;/script&gt;
-         &lt;script src=https://cdn.jsdelivr.net/dna.js/1.1/dna.min.js&gt;&lt;/script&gt;
+         &lt;script src=https://cdn.jsdelivr.net/dna.js/1.2/dna.min.js&gt;&lt;/script&gt;
       </code></pre>
    </figure>
    <p>
@@ -283,7 +288,7 @@
       </code></pre>
    </figure>
    <p>
-      The field name referes to the field in the data object.&nbsp; If the data
+      The field name refers to the property of the data object.&nbsp; If the data
       is a simple literal (string, number, or boolean) rather than an object,
       use the special name <code>[value]</code> for the field.
    </p>
@@ -337,8 +342,8 @@
 <section id=html-option>
    <h4>Select Option</h4>
    <p>
-      The <code>option</code> of <code>select</code> drop-downs is set based on the value
-      of the specified data field matching the <code>value</code> attribute of the
+      The current selected <code>option</code> of a <code>select</code> drop-down is set based on
+      the value of the specified data field matching the <code>value</code> attribute of the
       <code>option</code> element.
    </p>
    <figure>
@@ -2611,7 +2616,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=index-classes>
-   <h4>Index of Classes</h4>
+   <h4>List of Classes</h4>
    <ol>
       <li><a href=#panels>          <code>dna-menu</code></a>:           Mark element as container for panel menu items</li>
       <li><a href=#panels>          <code>dna-panels</code></a>:         Mark element as container for panels</li>
@@ -2623,7 +2628,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=index-attributes>
-   <h4>Index of Data Attributes</h4>
+   <h4>List of Data Attributes</h4>
    <ol>
       <li><a href=#loop-sub-templates>    <code>data-array</code></a>:          Mark an element as a sub-template array loop</li>
       <li><a href=#html-attr>             <code>data-attr-{NAME}</code></a>:    Set value of an element attribute</li>
@@ -2654,8 +2659,20 @@
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=index-jquery>
+   <h4>List of jQuery Plugin Functions</h4>
+   <ol>
+      <li><a href=#api-bye>    <code>.dna('bye')</code></a>:                Slide fade out then remove</li>
+      <li><a href=#api-destroy><code>.dna('destroy'[, options])</code></a>: Remove</li>
+      <li><a href=#api-down>   <code>.dna('down')</code></a>:               Smoothly move down one slot</li>
+      <li><a href=#api-refresh><code>.dna('refresh'[, options])</code></a>: Update to reflect changes to the data model</li>
+      <li><a href=#api-up>     <code>.dna('up')</code></a>:                 Smoothly move up one slot</li>
+   </ol>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=index-examples>
-   <h4>Index of jsFiddle Examples</h4>
+   <h4>List of jsFiddle Examples</h4>
    <table>
       <thead>
          <tr><th>Example</th><th>Link</th></tr>
