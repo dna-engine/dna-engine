@@ -133,6 +133,10 @@ var dna = {
    clearInitializers: function() {
       dna.events.initializers = [];
       },
+   registerContext: function(contextName, contextObjectOrFunction) {
+      dna.events.context[contextName] = contextObjectOrFunction;
+      return dna.events.context;
+      },
    info: function() {
       var names = Object.keys(dna.store.templates);
       function addToSum(sum, name) { return sum + dna.store.templates[name].clones; }
@@ -223,29 +227,32 @@ dna.util = {
       function insert(str, val) { return str.replace(/%s/, val); }
       return values.reduce(insert, format);
       },
-   apply: function(func, params) {  //calls func (string name or actual function) passing in params
+   apply: function(fn, params) {  //calls fn (string name or actual function) passing in params
       // Example: dna.util.apply('app.cart.buy', 7); ==> app.cart.buy(7);
       var args = params === undefined ? [] : [].concat(params);
       var elem = args[0];
       var result;
-      function contextApply(obj, names) {
-         if (!obj || (names.length == 1 && typeof obj[names[0]] !== 'function'))
-            dna.core.berserk('Callback function not found: ' + func);
+      function contextApply(context, names) {
+         if (!context || (names.length == 1 && typeof context[names[0]] !== 'function'))
+            dna.core.berserk('Callback function not found: ' + fn);
          else if (names.length == 1)
-            result = obj[names[0]].apply(elem, args);  //'app.cart.buy' ==> window['app']['cart']['buy']
+            result = context[names[0]].apply(elem, args);  //'app.cart.buy' ==> window['app']['cart']['buy']
          else
-            contextApply(obj[names[0]], names.slice(1));
+            contextApply(context[names[0]], names.slice(1));
+         }
+      function findFn(names) {
+         contextApply(dna.events.context[names[0]] ? dna.events.context : window, names);
          }
       if (elem instanceof $ && elem.length === 0)
          result = elem;
-      else if (typeof func === 'function')
-         result = func.apply(elem, args);
-      else if (elem && elem[func])
-         result = elem[func](args[1], args[2], args[3]);
-      else if (func === '' || { number: true, boolean: true}[typeof func])
-         dna.core.berserk('Invalid callback function: ' + func);
-      else if (typeof func === 'string' && func.length > 0)
-         contextApply(window, func.split('.'));
+      else if (typeof fn === 'function')
+         result = fn.apply(elem, args);
+      else if (elem && elem[fn])
+         result = elem[fn](args[1], args[2], args[3]);
+      else if (fn === '' || { number: true, boolean: true}[typeof fn])
+         dna.core.berserk('Invalid callback function: ' + fn);
+      else if (typeof fn === 'string' && fn.length > 0)
+         findFn(fn.split('.'));
       return result;
       }
    };
@@ -604,6 +611,7 @@ dna.store = {
    };
 
 dna.events = {
+   context: {},  //storage to register callbacks when dna.js is module loaded without window scope (webpack)
    initializers: [],  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
    elementSetup: function(root, data) {
       // Example:
