@@ -51,6 +51,6 @@ template is detached from the DOM and kept for additional cloning).
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)
 
 ===
-dna.js is an open source project with the [MIT](http://dnajs.org/license) license.&nbsp;
+dna.js is open source under the [MIT license](http://dnajs.org/license).&nbsp;
 The website and documentation are published under the
-[CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0) licensed.
+[CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0) license.
