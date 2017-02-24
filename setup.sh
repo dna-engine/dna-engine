@@ -23,9 +23,8 @@ needGulp() {
 
 needGulpLocal() {
    echo "***************************************"
-   echo "Need to install Gulp locally:          "
+   echo "Need to download dependencies:         "
    echo "   $ cd $(dirname $0)"
-   echo "   $ npm install gulp                  "
    echo "   $ npm update                        "
    echo "***************************************"
    exit
