@@ -21,6 +21,7 @@ var dna = {
    //    dna.bye()
    //    dna.registerInitializer()
    //    dna.clearInitializers()
+   //    dna.registerContext()
    //    dna.info()
    // See: http://dnajs.org/docs/#api
    clone: function(name, data, options) {
