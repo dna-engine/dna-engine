@@ -9,11 +9,23 @@
 //    $ npm update
 //    $ node spec.js
 
-var spec =   require('tape');
-var window = require('jsdom').jsdom('<html></html>', { url: 'http://example.com' }).defaultView;
-var $ =      require('jquery')(window);
-var dna =    require('./dna.js')(window, $);
+var html = `
+<!doctype html>
+<html lang=en>
+    <head>
+        <meta charset=utf-8>
+        <title>Specification</title>
+    </head>
+    <body>
+    </body>
+</html>
+`;
 
+var spec =     require('tape');
+var document = require('jsdom').jsdom(html, { url: 'http://example.com' });
+var window =   document.defaultView;
+var $ =        require('jquery')(window);
+var dna =      require('./dna.js')(window, $);
 console.log('~~~ dna.js Specifications ~~~');
 console.log(`jQuery v${$.fn.jquery}, dna.js v${dna.info().version}`);
 

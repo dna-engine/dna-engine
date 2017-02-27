@@ -63,7 +63,7 @@ var jsHintConfig = {
       $:        true,
       app:      false,
       console:  false,
-      document: false,
+      document: true,
       module:   false,
       require:  false,
       window:   true
