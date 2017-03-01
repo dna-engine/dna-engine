@@ -2,8 +2,8 @@
 
 # Generated and downloaded files
 /node_modules/
-/test-cases-min.html
 /website/httpdocs/
+/spec-min.html
 
 # Extraneous system files
 .DS_Store

@@ -31,8 +31,8 @@ downloadProjectCode() {
    curl --remote-name --silent $releasedOrigin/dna.css
    curl --remote-name --silent $releasedOrigin/dna.js
    curl --remote-name --silent $releasedOrigin/dna.min.js
-   curl --remote-name --silent $releasedOrigin/test-cases.html
-   sed s/src=dna.js/src=dna.min.js/ test-cases.html > test-cases-min.html
+   curl --silent $releasedOrigin/spec.html | sed s/href=website[/]static[/]/href=/ > spec.html
+   sed s/src=dna.js/src=dna.min.js/ spec.html > spec-min.html
    }
 
 publish() {

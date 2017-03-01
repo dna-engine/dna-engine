@@ -1,10 +1,6 @@
-// dna.js Specifications
+// dna.js Specification Runner
 //
-// Prerequisite:
-//    Download and install Node.js from https://nodejs.org
-//    $ git clone https://github.com/dnajs/dna.js.git
-//
-// Run tests:
+// Run specs:
 //    $ cd dna.js
 //    $ npm update
 //    $ node spec.js
@@ -14,7 +10,7 @@ var html = `
 <html lang=en>
     <head>
         <meta charset=utf-8>
-        <title>Specification</title>
+        <title>Specification Runner</title>
     </head>
     <body>
     </body>
@@ -26,7 +22,7 @@ var document = require('jsdom').jsdom(html, { url: 'http://example.com' });
 var window =   document.defaultView;
 var $ =        require('jquery')(window);
 var dna =      require('./dna.js')(window, $);
-console.log('~~~ dna.js Specifications ~~~');
+console.log('~~~ dna.js Specification Runner ~~~');
 console.log(`jQuery v${$.fn.jquery}, dna.js v${dna.info().version}`);
 
 spec('Utility function dna.array.fromMap()', (assert) => {

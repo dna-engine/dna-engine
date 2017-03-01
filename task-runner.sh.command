@@ -85,11 +85,11 @@ getVersions() {
    echo
    }
 
-runTestCases() {
+specRunner() {
    cd $projectHome
-   sed s/src=dna.js/src=dna.min.js/ test-cases.html > test-cases-min.html
-   url=http://localhost:$port/test-cases.html
-   echo "Test cases:"
+   sed s/src=dna.js/src=dna.min.js/ spec.html > spec-min.html
+   url=http://localhost:$port/spec.html
+   echo "Specification Runner:"
    echo $url
    echo
    sleep 2
@@ -103,4 +103,4 @@ source $projectHome/setup.sh
 runTasks
 getVersions
 releaseInstructions
-runTestCases
+specRunner
