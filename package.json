@@ -26,7 +26,7 @@
       "del":               "~2.2",
       "jsdom":             "~9.11",
       "jshint":            "~2.9",
-      "tap-colorize":      "~1.2",
+      "tap-spec":          "~4.1",
       "tape":              "~4.6"
       },
    "dna": {
