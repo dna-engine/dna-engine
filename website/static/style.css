@@ -198,9 +198,7 @@ header .logo {
    }
 header .logo img {
    height: 90px;
-   }
-header .logo img:hover {
-   opacity: 0.9;
+   opacity: 1;
    }
 .side-image {
    width: 260px;

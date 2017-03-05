@@ -1,0 +1,130 @@
+<!doctype html>
+<!-- - - - - - - - - - - - -->
+<!-- dna.js Logo Signature -->
+<!-- - - - - - - - - - - - -->
+<html>
+<head>
+<meta charset=utf-8>
+<meta name=viewport                   content="width=device-width, initial-scale=1">
+<meta name=apple-mobile-web-app-title content="dna.js Logo">
+<title>dna.js Logo</title>
+<link rel=icon             href=http://dnajs.org/graphics/bookmark.png>
+<link rel=apple-touch-icon href=http://dnajs.org/graphics/mobile-home-screen.png>
+<link rel=stylesheet       href="https://fonts.googleapis.com/css?family=Comfortaa">
+<link rel=stylesheet       href=https://cdn.jsdelivr.net/dna.js/1.2/dna.css>
+<link rel=stylesheet       href=http://centerkey.com/css/reset.css>
+<style>
+   body >header {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      }
+   body >header img.logo {
+      width: 50px;
+      }
+   body >header h1 {
+      font-size: 1.2rem;
+      }
+   #logo-canvas {
+      position: relative;
+      width: 700px;
+      height: 470px;
+      border: 1px solid silver;
+      }
+   #logo-canvas >span {
+      position: absolute;
+      bottom: 5%;
+      left: 36%;
+      font-family: "Comfortaa";
+      font-size: 8rem;
+      font-weight: 900;
+      }
+   #logo-canvas .circle {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 1000px;
+      opacity: 0.5;
+      }
+   .repository {
+      background-color: silver;
+      padding: 30px;
+      margin-top: 20px;
+      }
+   .repository figure {
+      margin-bottom: 30px;
+      }
+   .repository figure img {
+      border: 1px solid firebrick;
+      }
+   .repository figure figcaption code {
+      display: block;
+      }
+</style>
+</head>
+<body>
+
+<header>
+   <a href=http://dnajs.org>
+      <img class=logo src=http://dnajs.org/graphics/dnajs-logo.png alt=logo>
+   </a>
+   <h1>dna.js Logo</h1>
+</header>
+
+<main>
+   <input type=range value=100 data-change=scaleRange>
+   <figure id=logo-canvas>
+      <span>dna.js</span>
+      <div>
+         <div id=circle class=dna-template></div>
+      </div>
+   </figure>
+   <code id=circle-data></code>
+   <div class=repository>
+      <figure>
+         <figcaption><code>dnajs-logo.png</code>600 wide / no padding / transparent &rarr; duplicate full, wand, resize</figcaption>
+         <img src=graphics/dnajs-logo.png alt=logo>
+      </figure>
+      <figure>
+         <figcaption><code>bookmark.png</code>96x96 / no padding / transparent &rarr; delete all, paste in logo</figcaption>
+         <img src=graphics/bookmark.png alt=logo>
+      </figure>
+      <figure>
+         <figcaption><code>dnajs-logo-square.png</code>600x600 / padding / solid &rarr; white out, paste in full</figcaption>
+         <img src=graphics/dnajs-logo-square.png alt=logo>
+      </figure>
+      <figure>
+         <figcaption><code>mobile-home-screen.png</code>180x180 / padding / solid &rarr; duplicate square, resize</figcaption>
+         <img src=graphics/mobile-home-screen.png alt=logo>
+      </figure>
+      <figure>
+         <figcaption><code>dnajs-logo-card.png</code>600x400 / padding / solid &rarr; white out, paste in full</figcaption>
+         <img src=graphics/dnajs-logo-card.png alt=logo>
+      </figure>
+   </div>
+</main>
+
+<script src=https://cdn.jsdelivr.net/jquery/3.1/jquery.min.js></script>
+<script src=https://cdn.jsdelivr.net/dna.js/1.2/dna.min.js></script>
+<script src=http://centerkey.com/js/library.js></script>
+<script>
+   var circles = [
+      { x:  5, y: 50, color: 'forestgreen' },
+      { x: 65, y: 50, color: 'crimson' },
+      { x: 15, y: 30, color: 'darkgoldenrod' },
+      { x: 50, y: 30, color: 'darkblue' },
+      { x:  5, y:  5, color: 'darkviolet' }
+      ];
+   function addStyle(circleElem, data) {
+      circleElem.css({ backgroundColor: data.color, left: data.x + '%', bottom: data.y + '%' });
+      }
+   dna.clone('circle', circles, { callback: addStyle });
+   $('#circle-data').text(JSON.stringify(circles));
+   function scaleRange(elem) {
+      var scale = Math.max(elem.val(), 5) / 100;
+      $('figure#logo-canvas').css({ transform: `scale(${scale})` });
+      }
+   $('input[type=range]').on('input', function() { scaleRange($(this)); });
+</script>
+</body>
+</html>

@@ -211,8 +211,12 @@
          $ npm install dna.js
       </code></pre>
    </figure>
+   <p>
+      You can also run dna.js headless (no browser) on Node.js with the DOM provided by
+      jsdom.&nbsp;  See the sample project:
+      <a href=https://github.com/dnajs/dnajs-node-jsdom-starter>dnajs-node-jsdom-starter</a>
+   </p>
 </section>
-
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=setup-webpack>
@@ -516,7 +520,7 @@
    <figure>
       <figcaption>Example HTML for <code>src</code> attribute</figcaption>
       <pre><code class=language-html>
-         &lt;img src=# data-attr-src=~~url~~ alt=Avatar&gt;
+         &lt;img src=# data-attr-src=~~url~~ alt=avatar&gt;
       </code></pre>
    </figure>
    <p>
@@ -1378,7 +1382,7 @@
       <pre><code class=language-html>
          &lt;div id=book class=dna-template data-transform=enhanceBook&gt;
             &lt;span&gt;~~title~~&lt;/span&gt;
-            &lt;img src=star.png alt=Star data-truthy=~~displayStar~~&gt;
+            &lt;img src=star.png alt=star data-truthy=~~displayStar~~&gt;
          &lt;/div&gt;
       </code></pre>
    </figure>
@@ -1405,7 +1409,7 @@
          &lt;/div&gt;
          &lt;div class=book&gt;
             &lt;span&gt;Interwebz&lt;/span&gt;
-            &lt;img src=star.png alt=Star&gt;
+            &lt;img src=star.png alt=star&gt;
          &lt;/div&gt;
       </code></pre>
    </figure>
@@ -1445,7 +1449,7 @@
       <b>Note:</b>
       Element callbacks perform a similar function as
       <a href=#event-initializer>initializers</a>, but an element callback is specific and an
-      initializer is general.&nbsp; For example, a element callback is appropriate for an
+      initializer is general.&nbsp; For example, an element callback is appropriate for an
       animation or initiating a REST call to retrieve additional data for the element while an
       initializer is appropriate for configuring tooltips that occur in any element.
    </p>
@@ -1818,8 +1822,13 @@
    </figure>
    <!-- End: Result  -->
    <p>
+      See the line
+      <code>dna.clone('circle', circles, { callback: addStyle });</code>
+      used to create the <a href=../logo.html>dna.js logo</a>.
+   </p>
+   <p>
       <b>Note:</b>
-      It is almost always cleaner and easier to declare an
+      It is often cleaner and easier to declare an
       <a href=#event-element-callback>element callback</a> (<code>data-callback</code>) than to
       pass in a function with the <code>callback</code> option.
    </p>
@@ -2260,7 +2269,7 @@
                &lt;div id=book-panel class=dna-template data-hash=~~id~~
                      data-transform=bookCatalog.addCover&gt;
                   &lt;h4&gt;~~title~~&lt;/h4&gt;
-                  &lt;img src=# data-attr-src=~~cover~~ alt=Cover&gt;
+                  &lt;img src=# data-attr-src=~~cover~~ alt=cover&gt;
                &lt;/div&gt;
             &lt;/section&gt;
             &lt;script&gt;
@@ -2301,7 +2310,7 @@
                <div id=book-panel class=dna-template data-hash=~~id~~
                      data-transform=bookCatalog.addCover>
                   <h4>~~title~~</h4>
-                  <img src=# data-attr-src=~~cover~~ alt=Cover>
+                  <img src=# data-attr-src=~~cover~~ alt=cover>
                </div>
             </section>
             <script>
