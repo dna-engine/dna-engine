@@ -865,8 +865,13 @@ dna.core = {
          };
       },
    init: function(thisWindow, thisJQuery) {
-      window = thisWindow || window;
-      $ = thisJQuery || $;
+      function setupModuleEnv() {
+         window = thisWindow;
+         $ = thisJQuery;
+         window.dna = dna;
+         }
+      if (thisWindow)
+         setupModuleEnv();
       dna.core.plugin();
       $(dna.placeholder.setup);
       $(dna.panels.setup);
@@ -875,7 +880,7 @@ dna.core = {
       }
    };
 
-if (typeof module === 'object')  //Node.js module loading system
-   module.exports = function(window, jQuery) { return dna.core.init(window, jQuery); };
+if (typeof module === 'object')     //Node.js module loading system
+   module.exports = dna.core.init;  //var dna = require('dna.js')(window, jQuery);
 else
    dna.core.init();
