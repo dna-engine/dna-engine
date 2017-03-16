@@ -4,7 +4,7 @@
 
 ---
 <img src=https://raw.githubusercontent.com/dnajs/dna.js/master/website/static/graphics/dnajs-logo.png
-   width=100 align=right>
+   width=100 align=right alt=logo>
 
 dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable
 JavaScript applications.
@@ -33,8 +33,8 @@ supplied JSON data object will be used to populate the fields of the template.
 dna.clone('book', { title: 'The DOM', author: 'Jan' });
 ```
 
-The new element is a clone, and it is appended to the template's parent element (the original
-template is detached from the DOM and kept for additional cloning).
+The new clone element replaces the template.&nbsp; The original template is detached from
+the DOM and kept for additional cloning.
 
 #### c) Resulting HTML with clone
 ```html
