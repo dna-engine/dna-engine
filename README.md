@@ -4,7 +4,7 @@
 
 ---
 <img src=https://raw.githubusercontent.com/dnajs/dna.js/master/website/static/graphics/dnajs-logo.png
-   width=100 align=right alt=logo>
+   align=right width=100 alt=logo>
 
 dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable
 JavaScript applications.
@@ -52,7 +52,7 @@ the DOM and kept for additional cloning.
 * [Documentation](http://dnajs.org/docs)
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)
 
-===
+---
 dna.js is open source under the [MIT License](http://dnajs.org/license).&nbsp;
 The website and documentation are published under the
 [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0) license.
