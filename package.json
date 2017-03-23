@@ -10,7 +10,7 @@
    "bugs":         "https://github.com/dnajs/dna.js/issues",
    "author":       { "name": "Center Key", "url": "http://centerkey.com" },
    "repository":   { "type": "git",        "url": "https://github.com/dnajs/dna.js.git" },
-   "dependencies": { "jquery": ">=1.8" },
+   "dependencies": { "jquery": ">=1.9" },
    "devDependencies": {
       "gulp":              "~3.9",
       "gulp-filesize":     "~0.0",
