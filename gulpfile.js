@@ -40,11 +40,10 @@ var context = {
 context.title = context.pkg.dna.fullName;  //default page title
 var banner = '//dna.js v' + context.pkg.version + ' ~~ dnajs.org/license\n';
 var versionPatternStrs = [
-   'js v',                     //example: /* dna.js v1.0.0 ~~ dnajs.org/license */
-   '~~ v',                     //example: // dna.js Semantic Templates ~~ v1.0.0
-   "version:\\s*'",            //example: version: '1.0.0',
-   '"version":\\s*"',          //example: "version":  "1.0.0",
-   'Current release: \\*\\*v'  //example: Current release: **v1.0.0**
+   'js v',           //example: /* dna.js v1.0.0 ~~ dnajs.org/license */
+   '~~ v',           //example: // dna.js Semantic Templates ~~ v1.0.0
+   "version:\\s*'",  //example: version: '1.0.0',
+   '"version":\\s*"' //example: "version":  "1.0.0",
    ];
 var versionPatterns = new RegExp('(' + versionPatternStrs.join('|') + ')[0-9.]*', 'g');
 var httpdocsFolder = 'website/httpdocs';
@@ -80,7 +79,7 @@ function setVersionNumberDev() {
    }
 
 function setVersionNumberProd() {
-   var stream = gulp.src(['bower.json', 'README.md'])
+   var stream = gulp.src('bower.json')
       .pipe(replace(versionPatterns, '$1' + context.pkg.version))
       .pipe(filesize())
       .pipe(gulp.dest('.'));
