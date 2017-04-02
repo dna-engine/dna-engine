@@ -153,22 +153,26 @@ var dna = {
    };
 
 dna.array = {
-   find: function(array, code) {
-      function found(obj) { return obj.code === code; }
-      var objs = array.filter(found);
-      return objs.length ? objs[0] : null;
-      },
    last: function(array) {
       // Example:
       //    dna.array.last([3, 21, 7]) === 7;
       return array && array.length ? array[array.length - 1] : undefined;
+      },
+   find: function(array, value, key) {
+      // Example:
+      //    var array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
+      //    dna.array.find(array, 'b').word === 'Bat';
+      key = key || 'code';
+      function found(obj) { return obj[key] === value; }
+      var objs = array.filter(found);
+      return objs.length ? objs[0] : null;
       },
    toMap: function(array, key) {
       // Converts an array of objects into an object (hash map)
       //    var array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
       //    var map = dna.array.toMap(array, 'code');
       //       ==> { a: { word: 'Ant' }, b: { word: 'Bat' } }
-      key = key ? key : 'code';
+      key = key || 'code';
       var map = {};
       function addObj(obj) { map[obj[key]] = obj; }
       array.forEach(addObj);
