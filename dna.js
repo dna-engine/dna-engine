@@ -864,23 +864,22 @@ dna.core = {
          return this.each(callFn);
          };
       },
-   init: function(thisWindow, thisJQuery) {
-      function setupModuleEnv() {
-         window = thisWindow;
-         $ = thisJQuery;
-         window.dna = dna;
-         }
-      if (thisWindow)
-         setupModuleEnv();
+   initModule: function(thisWindow, thisJQuery) {
+      window = thisWindow;
+      $ = thisJQuery;
+      window.dna = dna;
+      dna.core.setup();
+      return dna;
+      },
+   setup: function() {
       dna.core.plugin();
       $(dna.placeholder.setup);
       $(dna.panels.setup);
       $(dna.events.setup);
-      return dna;
       }
    };
 
-if (typeof module === 'object')     //Node.js module loading system
-   module.exports = dna.core.init;  //var dna = require('dna.js')(window, jQuery);
+if (typeof module === 'object')           //Node.js module loading system
+   module.exports = dna.core.initModule;  //var dna = require('dna.js')(window, jQuery);
 else
-   dna.core.init();
+   dna.core.setup();
