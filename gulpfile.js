@@ -7,10 +7,9 @@ var filesize =    require('gulp-filesize');
 var header =      require('gulp-header');
 var htmlhint =    require('gulp-htmlhint');
 var jshint =      require('gulp-jshint');
+var mocha =       require('gulp-mocha');
 var rename =      require('gulp-rename');
 var replace =     require('gulp-replace');
-var tapColorize = require('tap-spec');
-var tape =        require('gulp-tape');
 var uglify =      require('gulp-uglify');
 var w3cjs =       require('gulp-w3cjs');
 var del =         require('del');
@@ -50,16 +49,17 @@ var htmlHintConfig = {
    'attr-value-double-quotes': false
    };
 var jsHintConfig = {
-   strict:  'implied',
-   undef:   true,
-   unused:  true,
+   strict: 'implied',
+   undef:  true,
+   unused: true,
+   jquery: true,
+   node:   true,
+   mocha:  true,
    globals: {
-      $:        true,
       app:      false,
       console:  false,
+      $:        true,
       document: true,
-      module:   false,
-      require:  false,
       window:   true
       }
    };
@@ -104,7 +104,7 @@ function runSpec() {
    var stream = gulp.src('spec.js')
       .pipe(jshint(jsHintConfigEs6))
       .pipe(jshint.reporter())
-      .pipe(tape({ reporter: tapColorize() }));
+      .pipe(mocha());
    return stream;
    }
 
