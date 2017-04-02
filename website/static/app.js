@@ -2,7 +2,7 @@
 // MIT ~~ dnajs.org/license
 // Copyright (c) 2013-2017 individual contributors to dna.js
 
-window.app = {};
+var app = {};
 
 app.bookstore = {
    books: [
@@ -48,7 +48,7 @@ app.start = {
       var newsItemsToShow = 3;
       function hideOldNews() {
          var revealButtonHtml = '<div class=reveal-action data-reveal=more-news>more...</div>';
-         var hideSectionHtml = '<div class=reveal-target data-reveal=more-news></div>';
+         var hideSectionHtml =  '<div class=reveal-target data-reveal=more-news></div>';
          $('section.news h2').nextAll().eq(newsItemsToShow - 1).after($(revealButtonHtml)).next()
             .nextAll().wrapAll(hideSectionHtml);
          }
