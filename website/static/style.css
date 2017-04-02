@@ -179,7 +179,7 @@ button {
 button:hover {
    background-color: royalblue;
    }
-button i.fa {
+button i[data-icon] {
    vertical-align: middle;
    font-size: 120%;
    padding-right: 0.2em;
@@ -340,19 +340,34 @@ code.block-indent {
    margin: -10px 0px 10px 0px;
    }
 
+/* News */
+.news >h2 {
+   text-align: left;
+   margin: 5px 0px 8px 0px;
+   }
+
+/* Google+ */
+.google-plus {
+   float: right;
+   margin-right: 35px;
+   }
+.google-plus i[data-icon] {
+   font-size: 1.4rem;
+   color: #db4437;  /* Google+ red */
+   }
+
 /* Twitter */
 .twitter {
    position: relative;
    text-align: center;
    }
-.twitter a,
-.twitter a:visited {
+.twitter a {
    position: absolute;
    top: 0px;
    right: -8px;
    font-size: 0.7rem;
    }
-.twitter a i.fa {
+.twitter a i[data-icon] {
    font-size: 1.4rem;
    opacity: 1;
    }
