@@ -6,14 +6,15 @@
    "keywords":     ["clone", "dom", "engine", "html", "jquery", "json", "template", "templating", "ui"],
    "dependencies": { "jquery": ">=1.9" },
    "ignore": [
+      "website/",
       ".gitignore",
+      ".travis.yml",
       "bower.json",
       "gulpfile.js",
       "package.json",
       "README.md",
       "setup.sh",
-      "task-runner.sh.command",
       "spec.*",
-      "website/"
-      ]
+      "task-runner.sh.command"
+   ]
 }
