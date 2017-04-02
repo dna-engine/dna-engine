@@ -7,7 +7,6 @@
 # To make this file runnable:
 #    $ chmod +x *.sh.command
 
-releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/current
 projectHome=$(cd $(dirname $0)/..; pwd)
 
 buildHtmlFiles() {
@@ -16,13 +15,12 @@ buildHtmlFiles() {
    versionReleased=$(git tag | tail -1)
    versionHtml=$(grep --max-count 1 version package.json | awk -F'"' '{print $4}')
    echo "Versions:"
-   echo "Release: $versionReleased"
-   echo "HTML:    v$versionHtml"
+   echo "   $versionReleased (released)"
+   echo "   v$versionHtml (local)"
    echo
    echo "Tasks:"
    pwd
-   echo "To get latest modules --> $ npm update"
-   gulp web
+   npm run web
    echo
    }
 
@@ -47,7 +45,7 @@ publish() {
       mv placeholder.html $publishFolder/../www.dnajs.com/index.html
       echo
       }
-   [ -w $publishFolder ] && copyWebFiles
+   test -w $publishFolder && copyWebFiles
    }
 
 launchBrowser() {

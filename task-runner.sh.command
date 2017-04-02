@@ -1,21 +1,18 @@
 #!/bin/sh
-#############################
-# Task Runner               #
-# dna.js Semantic Templates #
-#############################
+###############
+# Task Runner #
+# dna.js      #
+###############
 
 # To make this file runnable:
 #    $ chmod +x *.sh.command
 
-package=https://raw.githubusercontent.com/dnajs/dna.js/master/package.json
 projectHome=$(cd $(dirname $0); pwd)
 
 runTasks() {
    cd $projectHome
    echo "Tasks:"
-   pwd
-   echo "To get latest modules --> $ npm update"
-   gulp
+   npm run build
    echo
    }
 
@@ -50,7 +47,7 @@ releaseInstructions() {
    echo
    echo "To release this version:"
    echo "   cd $(pwd)"
-   echo "   gulp release"
+   echo "   npm run release"
    echo "   website/build-website.sh.command"
    echo "   *** Check in local changes with the comment:"
    echo "      Release $versionLocal"
@@ -79,9 +76,9 @@ getVersions() {
    versionReleased=$(git tag | tail -1)
    echo
    echo "Versions:"
-   echo "$versionLocal (local)"
-   echo "$versionRemote (checked in)"
-   echo "$versionReleased (released)"
+   echo "   $versionLocal (local)"
+   echo "   $versionRemote (checked in)"
+   echo "   $versionReleased (released)"
    echo
    }
 

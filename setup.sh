@@ -3,62 +3,36 @@
 # dna.js #
 ##########
 
+package=https://raw.githubusercontent.com/dnajs/dna.js/master/package.json
+releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/current
 port=3482  #d9a
-
-needNpm() {
-   echo "**********************************"
-   echo "Need to install Node.js to get npm"
-   echo "**********************************"
-   open "http://nodejs.org/"
-   exit
-   }
-
-needGulp() {
-   echo "***************************************"
-   echo "Need to install Gulp:                  "
-   echo "   $ sudo npm install --global gulp-cli"
-   echo "***************************************"
-   exit
-   }
-
-needGulpLocal() {
-   echo "***************************************"
-   echo "Need to download dependencies:         "
-   echo "   $ cd $(dirname $0)"
-   echo "   $ npm update                        "
-   echo "***************************************"
-   exit
-   }
 
 info() {
    cd $projectHome
-   echo "npm:"
-   which npm || needNpm
-   npm --version
+   pwd
    echo
-   echo "Gulp:"
-   which gulp || needGulp
-   gulp --version
-   test -d node_modules || needGulpLocal
+   echo "Node.js:"
+   which node || { echo "Need to install Node.js: https://nodejs.org"; exit; }
+   node --version
+   test -d node_modules || npm install
+   npm update
+   npm outdated
    echo
    }
 
 setupWebServer() {
    cd $projectHome
-   find . -name ".DS_Store" -delete
+   echo "Web server (localhost:$port):"
    process=$(pgrep -lf "SimpleHTTPServer $port")
    launch() {
-      echo "Launching SimpleHTTPServer:"
-      pwd
-      python -m SimpleHTTPServer $port &> /dev/null &
-      echo
+      echo "Launching SimpleHTTPServer..."
+      screen -dm python -m SimpleHTTPServer $port
       }
-   [[ -z "$process" ]] && launch
-   echo "Web server:"
-   pgrep -lf SimpleHTTPServer
+   test -z "$process" && launch
+   pwd
+   pgrep -lf "^python -m SimpleHTTPServer"
    echo
    }
 
-echo
 info
 setupWebServer

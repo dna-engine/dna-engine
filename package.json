@@ -8,8 +8,13 @@
    "homepage":     "https://github.com/dnajs/dna.js",
    "docs":         "http://dnajs.org/docs",
    "bugs":         "https://github.com/dnajs/dna.js/issues",
+   "repository":   "dnajs/dna.js",
    "author":       { "name": "Center Key", "url": "http://centerkey.com" },
-   "repository":   { "type": "git",        "url": "https://github.com/dnajs/dna.js.git" },
+   "scripts": {
+      "build":   "gulp",
+      "web":     "gulp web",
+      "release": "gulp release"
+      },
    "dependencies": { "jquery": ">=1.9" },
    "devDependencies": {
       "gulp":              "~3.9",
@@ -21,10 +26,10 @@
       "gulp-rename":       "~1.2",
       "gulp-replace":      "~0.5",
       "gulp-tape":         "~0.0",
-      "gulp-uglify":       "~2.0",
+      "gulp-uglify":       "~2.1",
       "gulp-w3cjs":        "~1.3",
       "del":               "~2.2",
-      "jsdom":             "~9.11",
+      "jsdom":             "~9.12",
       "jshint":            "~2.9",
       "tap-spec":          "~4.1",
       "tape":              "~4.6"

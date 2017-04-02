@@ -1,11 +1,6 @@
 // dna.js Semantic Templates
 // gulp configuration and tasks
 
-// Periodically check dependencies:
-//    $ cd dna.js
-//    $ npm outdated
-//    $ npm update
-
 var gulp =        require('gulp');
 var fileinclude = require('gulp-file-include');
 var filesize =    require('gulp-filesize');
@@ -21,9 +16,9 @@ var w3cjs =       require('gulp-w3cjs');
 var del =         require('del');
 
 var context = {
-   pkg:        require('./package.json'),
-   webRoot:    '..',
-   size:       '16 kb',
+   pkg:     require('./package.json'),
+   webRoot: '..',
+   size:    '16 kb',
    youTube: {
       intro:    'jMOZOI-UkNI',
       tutorial: 'juIru5qHZFM'
