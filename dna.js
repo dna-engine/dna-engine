@@ -1,4 +1,4 @@
-// dna.js Semantic Templates ~~ v1.2.3
+// dna.js Semantic Templates ~~ v1.2.4
 // MIT ~~ dnajs.org/license
 // Copyright (c) 2013-2017 individual contributors to dna.js
 
@@ -142,7 +142,7 @@ var dna = {
       var names = Object.keys(dna.store.templates);
       function addToSum(sum, name) { return sum + dna.store.templates[name].clones; }
       return {
-         version:      '1.2.3',
+         version:      '1.2.4',
          templates:    names.length,
          clones:       names.reduce(addToSum, 0),
          names:        names,
