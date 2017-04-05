@@ -1,16 +1,15 @@
 ### dna.js Semantic Templates
-
-*An uncomplicated user interface library*
-
----
 <img src=https://raw.githubusercontent.com/dnajs/dna.js/master/website/static/graphics/dnajs-logo.png
    align=right width=150 alt=logo>
-
-dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable
-JavaScript applications.
+*An uncomplicated user interface library*
 
 [![npm](https://img.shields.io/npm/v/dna.js.svg)](https://github.com/dnajs/dna.js)
 [![Build Status](https://travis-ci.org/dnajs/dna.js.svg)](https://travis-ci.org/dnajs/dna.js)
+
+---
+
+dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable
+JavaScript applications.
 
 ### 1. Bookstore Example
 Designate templates with the `dna-template` class, and put the templates directly into the HTML
