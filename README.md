@@ -1,12 +1,10 @@
 ### dna.js Semantic Templates
 <img src=https://raw.githubusercontent.com/dnajs/dna.js/master/website/static/graphics/dnajs-logo.png
-   align=right width=150 alt=logo>
+   align=right width=160 alt=logo>
 *An uncomplicated user interface library*
 
 [![npm](https://img.shields.io/npm/v/dna.js.svg)](https://github.com/dnajs/dna.js)
 [![Build Status](https://travis-ci.org/dnajs/dna.js.svg)](https://travis-ci.org/dnajs/dna.js)
-
----
 
 dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable
 JavaScript applications.
