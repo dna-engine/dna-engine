@@ -23,12 +23,14 @@ var context = {
       tutorial: 'juIru5qHZFM'
       },
    jsFiddle: {
-      addABook:     'gwthg5ot',
-      bookFinder:   'zxb2x6dv',
-      dataClick:    '5dsbvacd',
-      liveModel:    '8gnyLovu',
-      smartUpdates: '4a0tpmxp',
-      toDo:         'sftab6fx'
+      addABook:        'gwthg5ot',
+      bookFinder:      'zxb2x6dv',
+      dataClick:       '5dsbvacd',
+      liveModel:       '8gnyLovu',
+      panelsClick:     'uzm44vrf',
+      panelsDropDown:  'zjL1ntnd',
+      smartUpdates:    '4a0tpmxp',
+      toDo:            'sftab6fx'
       }
    };
 context.title = context.pkg.dna.fullName;  //default page title

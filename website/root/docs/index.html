@@ -2245,6 +2245,18 @@
       </div>
    </figure>
    <!-- End: Result  -->
+   <p>
+      Experiment with button navigation panels:
+      <button data-href=http://jsfiddle.net/@@jsFiddle.panelsClick class=external-site>
+         jsfiddle.net/@@jsFiddle.panelsClick
+      </button>
+   </p>
+   <p>
+      Experiment with drop-down navigation panels:
+      <button data-href=http://jsfiddle.net/@@jsFiddle.panelsDropDown class=external-site>
+         jsfiddle.net/@@jsFiddle.panelsDropDown
+      </button>
+   </p>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -2258,7 +2270,7 @@
    <figure>
       <figcaption>Example HTML</figcaption>
       <pre><code class=language-html>
-         &lt;div data-component=book-catalog&gt;
+         &lt;div data-component=book-catalog data-on-load=bookCatalog.setup&gt;
             &lt;h2&gt;Book Catalog&lt;/h2&gt;
             &lt;div id=book-catalog class=dna-menu&gt;
                &lt;button id=book-menu-item class=dna-template&gt;
@@ -2289,7 +2301,6 @@
                      dna.clone(&#39;book-panel&#39;,     bookCatalog.data);
                      }
                   };
-               $(bookCatalog.setup);
             &lt;/script&gt;
          &lt;/div&gt;
       </code></pre>
@@ -2299,7 +2310,7 @@
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
       <div>
-         <div data-component=book-catalog>
+         <div data-component=book-catalog data-on-load=bookCatalog.setup>
             <h2>Book Catalog</h2>
             <div id=book-catalog class=dna-menu>
                <button id=book-menu-item class=dna-template>
@@ -2330,7 +2341,6 @@
                      dna.clone('book-panel',     bookCatalog.data);
                      }
                   };
-               $(bookCatalog.setup);
             </script>
          </div>
       </div>
@@ -2752,12 +2762,14 @@
          <tr><th>Example</th><th>Link</th></tr>
       </thead>
       <tbody class=external-site>
-         <tr><td><code>Add a Book</code></td>   <td><a href=http://jsfiddle.net/@@jsFiddle.addABook>    jsfiddle.net/@@jsFiddle.addABook</a></td></tr>
-         <tr><td><code>Book Finder</code></td>  <td><a href=http://jsfiddle.net/@@jsFiddle.bookFinder>  jsfiddle.net/@@jsFiddle.addABook</a></td></tr>
-         <tr><td><code>Click Events</code></td> <td><a href=http://jsfiddle.net/@@jsFiddle.dataClick>   jsfiddle.net/@@jsFiddle.dataClick</a></td></tr>
-         <tr><td><code>Live Model</code></td>   <td><a href=http://jsfiddle.net/@@jsFiddle.liveModel>   jsfiddle.net/@@jsFiddle.liveModel</a></td></tr>
-         <tr><td><code>Smart Updates</code></td><td><a href=http://jsfiddle.net/@@jsFiddle.smartUpdates>jsfiddle.net/@@jsFiddle.smartUpdates</a></td></tr>
-         <tr><td><code>To Do</code></td>        <td><a href=http://jsfiddle.net/@@jsFiddle.toDo>        jsfiddle.net/@@jsFiddle.toDo</a></td></tr>
+         <tr><td><code>Add a Book</code></td>      <td><a href=http://jsfiddle.net/@@jsFiddle.addABook>      jsfiddle.net/@@jsFiddle.addABook</a></td></tr>
+         <tr><td><code>Book Finder</code></td>     <td><a href=http://jsfiddle.net/@@jsFiddle.bookFinder>    jsfiddle.net/@@jsFiddle.bookFinder</a></td></tr>
+         <tr><td><code>Click Events</code></td>    <td><a href=http://jsfiddle.net/@@jsFiddle.dataClick>     jsfiddle.net/@@jsFiddle.dataClick</a></td></tr>
+         <tr><td><code>Live Model</code></td>      <td><a href=http://jsfiddle.net/@@jsFiddle.liveModel>     jsfiddle.net/@@jsFiddle.liveModel</a></td></tr>
+         <tr><td><code>Panels Click</code></td>    <td><a href=http://jsfiddle.net/@@jsFiddle.panelsClick>   jsfiddle.net/@@jsFiddle.panelsClick</a></td></tr>
+         <tr><td><code>Panels Drop-down</code></td><td><a href=http://jsfiddle.net/@@jsFiddle.panelsDropDown>jsfiddle.net/@@jsFiddle.panelsDropDown</a></td></tr>
+         <tr><td><code>Smart Updates</code></td>   <td><a href=http://jsfiddle.net/@@jsFiddle.smartUpdates>  jsfiddle.net/@@jsFiddle.smartUpdates</a></td></tr>
+         <tr><td><code>To Do</code></td>           <td><a href=http://jsfiddle.net/@@jsFiddle.toDo>          jsfiddle.net/@@jsFiddle.toDo</a></td></tr>
       </tbody>
    </table>
 </section>
