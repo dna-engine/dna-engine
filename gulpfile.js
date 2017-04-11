@@ -16,7 +16,6 @@ var del =         require('del');
 
 var context = {
    pkg:     require('./package.json'),
-   webRoot: '..',
    size:    '16 kb',
    youTube: {
       intro:    'jMOZOI-UkNI',
