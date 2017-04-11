@@ -350,10 +350,10 @@ dna.panels = {
    // Each click of a menu item displays its corresponding panel and passes the panel
    // element to the callback.
    // Usage:
-   //    <ul id={ID} class=dna-menu data-callback=app.displayPanel>
-   //       <li>See X1</li>
-   //       <li>See X2</li>
-   //    </ul>
+   //    <nav id={ID} class=dna-menu data-callback=app.displayPanel>
+   //       <button>See X1</button>
+   //       <button>See X2</button>
+   //    </nav>
    //    <div id={ID}-panels class=dna-panels>
    //       <section data-hash=x1>The X1</section>
    //       <section data-hash=x2>The X2</section>
@@ -381,10 +381,14 @@ dna.panels = {
       saveState();
       dna.util.apply(menu.data().callback, panel);
       },
-   rotate: function(event) {  //moves to the selected panel
+   clickRotate: function(event) {  //moves to the selected panel
       var item = $(event.target).closest('.menu-item');
       var menu = item.closest('.dna-menu');
       dna.panels.display(menu, menu.find('.menu-item').index(item), true);
+      },
+   selectRotate: function(event) {  //moves to the selected panel
+      var menu = $(event.target);
+      dna.panels.display(menu, menu.find('option:selected').index(), true);
       },
    reload: function(name) {  //refreshes the currently displayed panel
       dna.panels.display($('#' + name));
@@ -409,7 +413,8 @@ dna.panels = {
       },
    setup: function() {
       dna.panels.refresh();
-      $(document).on({ click: dna.panels.rotate }, '.dna-menu .menu-item');
+      $(document).on({ click:  dna.panels.clickRotate },  '.dna-menu .menu-item');
+      $(document).on({ change: dna.panels.selectRotate }, '.dna-menu');
       }
    };
 

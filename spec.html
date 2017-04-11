@@ -1181,12 +1181,12 @@ var spec17 = {
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <section id=s18 class=spec-case>
    <h3>Specification: #18</h3>
-   <p>Panels</p>
+   <p>Panels - nav buttons</p>
    <fieldset>
       <legend>Actual</legend>
-      <ol id=s18-books class=dna-menu data-callback=spec18.displayPanel>
-         <li id=s18-book-title class=dna-template>~~title~~</li>
-      </ol>
+      <nav id=s18-books class=dna-menu data-callback=spec18.displayPanel>
+         <button id=s18-book-title class=dna-template>~~title~~</button>
+      </nav>
       <div id=s18-books-panels class=dna-panels>
          <section id=s18-book class=dna-template data-hash=~~code~~ data-transform=spec18.enhance>
             <h2>~~title~~</h2>
@@ -1195,9 +1195,49 @@ var spec17 = {
             <p data-truthy=sale>On SALE</p>
          </section>
       </div>
-      <hr>
-      <h3>Categories</h3>
-      <ul id=s18-category class=dna-menu>
+   </fieldset>
+   <fieldset>
+      <legend>Expected</legend>
+      <nav>
+         <button class=dna-clone>The DOM</button>
+         <button class=dna-clone>Styling CSS3</button>
+         <button class=dna-clone>Howdy HTML5</button>
+      </nav>
+      <div>
+         <section class="dna-clone border-change" data-hash=styling-css3>
+            <h2>Styling CSS3</h2>
+            <p>Abby</p>
+            <p>$19.99</p>
+            <p>On SALE</p>
+         </section>
+      </div>
+   </fieldset>
+</section>
+<script>
+var spec18 = {
+   enhance: function(data) {
+      data.code = dna.util.toKebab(data.title);
+      data.displayPrice = '$' + (data.price / 100).toFixed(2);
+      },
+   displayPanel: function(elem) {
+      elem.addClass('border-change');
+      },
+   run: function() {
+      console.log('Spec #18');
+      dna.clone('s18-book-title', specRunner.catalog);
+      dna.clone('s18-book',       specRunner.catalog);
+      $('#s18-books .menu-item:contains(Styling CSS3)').click();
+      }
+   };
+</script>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<section id=s19 class=spec-case>
+   <h3>Specification: #19</h3>
+   <p>Panels - nested</p>
+   <fieldset>
+      <legend>Actual</legend>
+      <ul id=s19-category class=dna-menu>
          <li><div>Web</div>
             <ul>
                <li><div>Technologies</div>
@@ -1220,7 +1260,7 @@ var spec17 = {
             </ol>
          </li>
       </ul>
-      <div id=s18-category-panels class=dna-panels>
+      <div id=s19-category-panels class=dna-panels>
          <p>HTML!</p>
          <p>CSS!</p>
          <p>W3C!</p>
@@ -1230,21 +1270,6 @@ var spec17 = {
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
-      <ol>
-         <li class=dna-clone>The DOM</li>
-         <li class=dna-clone>Styling CSS3</li>
-         <li class=dna-clone>Howdy HTML5</li>
-      </ol>
-      <div>
-         <section class="dna-clone border-change" data-hash=styling-css3>
-            <h2>Styling CSS3</h2>
-            <p>Abby</p>
-            <p>$19.99</p>
-            <p>On SALE</p>
-         </section>
-      </div>
-      <hr>
-      <h3>Categories</h3>
       <ul>
          <li><div>Web</div>
             <ul>
@@ -1274,21 +1299,54 @@ var spec17 = {
    </fieldset>
 </section>
 <script>
-var spec18 = {
-   enhance: function(data) {
-      data.code = dna.util.toKebab(data.title);
-      data.displayPrice = '$' + (data.price / 100).toFixed(2);
-      },
-   displayPanel: function(elem) {
-      elem.addClass('border-change');
-      },
+var spec19 = {
    run: function() {
-      console.log('Spec #18');
-      dna.clone('s18-book-title', specRunner.catalog);
-      dna.clone('s18-book',       specRunner.catalog);
-      $('#s18-books .menu-item:contains(Styling CSS3)').click();
-      function postRenderClick() { $('#s18-category .menu-item:contains(W3C)').click(); }
+      console.log('Spec #19');
+      function postRenderClick() { $('#s19-category .menu-item:contains(W3C)').click(); }
       window.setTimeout(postRenderClick, 1000);
+      }
+   };
+</script>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<section id=s20 class=spec-case>
+   <h3>Specification: #20</h3>
+   <p>Panels - drop-down</p>
+   <fieldset>
+      <legend>Actual</legend>
+      <select id=s20-author-info class=dna-menu>
+         <option id=s20-book-author-nav-button class=dna-template
+            value=~~author~~>~~author~~</option>
+      </select>
+      <div id=s20-author-info-panels class=dna-panels>
+         <section id=s20-book-author class=dna-template>
+            <p>Author:   <b>~~author~~</b></p>
+            <p>Language: <b>~~language~~</b></p>
+         </section>
+      </div>
+   </fieldset>
+   <fieldset>
+      <legend>Expected</legend>
+      <select>
+         <option>Jake</option>
+         <option selected>Abby</option>
+         <option>Ed</option>
+      </select>
+      <div>
+         <section class=dna-clone>
+            <p>Author:   <b>Abby</b></p>
+            <p>Language: <b>fr</b></p>
+         </section>
+      </div>
+   </fieldset>
+</section>
+<script>
+var spec20 = {
+   run: function() {
+      console.log('Spec #20');
+      dna.clone('s20-book-author-nav-button', specRunner.catalog);
+      dna.clone('s20-book-author',            specRunner.catalog);
+      $('#s20-author-info ').val('Abby').change();
       }
    };
 </script>
