@@ -369,6 +369,7 @@ dna.panels = {
       if (loc === undefined)
          loc = dna.pageToken.get(key, 0);
       loc = Math.max(0, Math.min(loc, menuItems.length - 1));
+      menu[0].selectedIndex = loc;  //case where menu is a drop-down elem (<select>)
       menuItems.removeClass('selected').addClass('unselected')
          .eq(loc).addClass('selected').removeClass('unselected');
       panels = $(key).children().hide().removeClass('displayed').addClass('hidden');
