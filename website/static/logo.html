@@ -10,10 +10,10 @@
 <title>dna.js Logo</title>
 <link rel=icon             href=http://dnajs.org/graphics/bookmark.png>
 <link rel=apple-touch-icon href=http://dnajs.org/graphics/mobile-home-screen.png>
-<link rel=stylesheet       href="https://fonts.googleapis.com/css?family=Comfortaa">
 <link rel=stylesheet       href=https://cdn.jsdelivr.net/dna.js/1.2/dna.css>
 <link rel=stylesheet       href=http://centerkey.com/css/reset.css>
 <style>
+   @import url("https://fonts.googleapis.com/css?family=Comfortaa");
    body >header {
       position: absolute;
       top: 10px;
@@ -72,7 +72,10 @@
 </header>
 
 <main>
-   <input type=range value=100 data-change=scaleRange>
+   <label>
+      <span>Zoom:</span>
+      <input type=range value=100 data-change=scaleRange>
+   </label>
    <figure id=logo-canvas>
       <span>dna.js</span>
       <div>
