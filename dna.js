@@ -351,14 +351,15 @@ dna.panels = {
    // element to the callback.
    // Usage:
    //    <nav id={ID} class=dna-menu data-callback=app.displayPanel>
-   //       <button>See X1</button>
-   //       <button>See X2</button>
+   //       <button id=x1>See X1</button>
+   //       <button id=x2>See X2</button>
    //    </nav>
    //    <div id={ID}-panels class=dna-panels>
-   //       <section data-hash=x1>The X1</section>
-   //       <section data-hash=x2>The X2</section>
+   //       <section>The X1</section>
+   //       <section>The X2</section>
    //    </div>
-   // Leave out the "data-hash" attribute to disable updating of the location bar.
+   // Attribute data-callback is optional.  IDs on menu items are optional and will cause
+   // hash in location bar to update (creating a URL for each panel).
    key: function(menu) {
       return '#' + menu.attr('id') + '-panels';
       },
@@ -376,8 +377,9 @@ dna.panels = {
       panel = panels.eq(loc).fadeIn().addClass('displayed').removeClass('hidden');
       function saveState() {
          dna.pageToken.put(key, loc);
-         if (updateUrl && panel.data().hash)
-            window.history.pushState(null, null, '#' + panel.data().hash);
+         var hash = menuItems.eq(loc).attr('id');
+         if (updateUrl && hash)
+            window.history.pushState(null, null, '#' + hash);
          }
       saveState();
       dna.util.apply(menu.data().callback, panel);
@@ -396,19 +398,25 @@ dna.panels = {
       },
    refresh: function() {
       var hash = window.location.hash.slice(1);
-      function findPanelLoc(panels) { return panels.filter('[data-hash=' + hash + ']').index(); }
       function partOfTemplate(elems) { return elems.first().closest('.dna-template').length > 0; }
       function init(i, elem) {
          var menu = $(elem);
          var key = dna.panels.key(menu);
          var panels = $(key).children().addClass('panel');
-         if (menu.find('.menu-item').length === 0)
+         if (menu.find('.menu-item').length === 0)  //set .menu-item elems if not set in the html
             menu.children().addClass('menu-item');
-         if (!partOfTemplate(panels) && !partOfTemplate(menu.children())) {
-            var loc = hash && panels.first().data().hash ?
-               findPanelLoc(panels) : dna.pageToken.get(key, 0);
+         function displayCurrent() {
+            function moveDepracatedDataHashToMenuItemIds(i, panel) {  //DEPRICATED
+               menu.find('.menu-item').eq($(panel).index()).attr('id', $(panel).data().hash); }
+            panels.filter('[data-hash]').each(moveDepracatedDataHashToMenuItemIds);  //DEPRICATED
+            var menuItems = menu.find('.menu-item');
+            var menuItem = hash && menuItems.filter('#' + hash);
+            var loc = hash && menuItem.length ?
+               menuItems.index(menuItem) : dna.pageToken.get(key, 0);
             dna.panels.display(menu, loc);
             }
+         if (!partOfTemplate(panels) && !partOfTemplate(menu.children()))
+            displayCurrent();
          }
       $('.dna-menu').each(init);
       },
@@ -669,7 +677,7 @@ dna.events = {
                updateField(target, isChecked);
             else if (target.is('input:radio'))
                $('input:radio[name=' + target.attr('name') + ']').each(updateOption);
-            else if (target.is('input') || target.data().dnaRules.option)
+            else if (target.is('input') || target.data().dnaRules.option)  //dna.js:672 Uncaught TypeError: Cannot read property 'option' of undefined at updateModel (dna.js:672)
                updateField(target, getValue);
             else if (target.is('select'))
                target.find('option').each(updateOption);
