@@ -24,8 +24,8 @@
    #file-name          { display: inline-block; width: 75px; }
    .push-right         { float: right; }
    .in-a-row           { display: inline-block; }
-   .spec-case          { display: inline-block; vertical-align: top; border: 1px solid silver;
-                       padding: 10px; margin: 0px 20px 20px 0px; }
+   main >section       { display: inline-block; vertical-align: top; border: 1px solid silver;
+                          padding: 10px; margin: 0px 20px 20px 0px; }
    fieldset            { float: left; width: 200px; border: 1px solid silver; padding-bottom: 0px; }
    legend              { border: 1px solid silver; padding: 0px 10px; }
    .bookshelf          { background-color: gainsboro; padding: 15px; }
@@ -52,7 +52,7 @@
 <main>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s01 class=spec-case>
+<section id=s01>
    <h3>Specification: #01</h3>
    <p>Add 3 items and delete 1 item</p>
    <fieldset>
@@ -94,7 +94,7 @@ var spec01 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s02 class=spec-case>
+<section id=s02>
    <h3>Specification: #02</h3>
    <p>Add 2 items, empty, and add 1 item (with mustache)</p>
    <fieldset>
@@ -139,7 +139,7 @@ var spec02 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s03 class=spec-case>
+<section id=s03>
    <h3>Specification: #03</h3>
    <p>Add 3 items with fade (1st one blue) and top set to true</p>
    <fieldset>
@@ -189,7 +189,7 @@ var spec03 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s04 class=spec-case>
+<section id=s04>
    <h3>Specification: #04</h3>
    <p>Add 1 items with an image</p>
    <fieldset>
@@ -228,7 +228,7 @@ var spec04 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s05 class=spec-case>
+<section id=s05>
    <h3>Specification: #05</h3>
    <p>Add 2 items in an array twice</p>
    <fieldset>
@@ -285,7 +285,7 @@ var spec05 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s06 class=spec-case>
+<section id=s06>
    <h3>Specification: #06</h3>
    <p>Add 1 item with attributes</p>
    <fieldset>
@@ -326,7 +326,7 @@ var spec06 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s07 class=spec-case>
+<section id=s07>
    <h3>Specification: #07</h3>
    <p>Embedded template with array of data</p>
    <fieldset>
@@ -387,7 +387,7 @@ var spec07 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s08 class=spec-case>
+<section id=s08>
    <h3>Specification: #08</h3>
    <p>Add 2 items and refresh</p>
    <fieldset>
@@ -488,7 +488,7 @@ var spec08 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s09 class=spec-case>
+<section id=s09>
    <h3>Specification: #09</h3>
    <p>
       Add 2 items
@@ -534,7 +534,7 @@ var spec09 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s10 class=spec-case>
+<section id=s10>
    <h3>Specification: #10</h3>
    <p>Add 1 item and apply callback function</p>
    <fieldset>
@@ -571,7 +571,7 @@ var spec10 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s11 class=spec-case>
+<section id=s11>
    <h3>Specification: #11</h3>
    <p>Add 2 items with missing fields</p>
    <fieldset>
@@ -626,7 +626,7 @@ var spec11 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s12 class=spec-case>
+<section id=s12>
    <h3>Specification: #12</h3>
    <p>Array field (sub-template)</p>
    <fieldset>
@@ -733,7 +733,7 @@ var spec12 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s13 class=spec-case>
+<section id=s13>
    <h3>Specification: #13</h3>
    <p>Security</p>
    <fieldset>
@@ -772,7 +772,7 @@ var spec13 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s14 class=spec-case>
+<section id=s14>
    <h3>Specification: #14</h3>
    <p>Simple array with rearrange and delete</p>
    <fieldset>
@@ -832,7 +832,7 @@ var spec14 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s15 class=spec-case>
+<section id=s15>
    <h3>Specification: #15</h3>
    <p>Events</p>
    <fieldset>
@@ -923,7 +923,7 @@ var spec15 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s16 class=spec-case>
+<section id=s16>
    <h3>Specification: #16</h3>
    <p>Input tag properties (minimized attributes)</p>
    <fieldset>
@@ -1127,7 +1127,7 @@ var spec16 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s17 class=spec-case>
+<section id=s17>
    <h3>Specification: #17</h3>
    <p>Reusable component <button id=books-data-link class=external-site>View book data</button></p>
    <fieldset>
@@ -1181,7 +1181,7 @@ var spec17 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s18 class=spec-case>
+<section id=s18>
    <h3>Specification: #18</h3>
    <p>Panels - nav buttons</p>
    <fieldset>
@@ -1234,7 +1234,7 @@ var spec18 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s19 class=spec-case>
+<section id=s19>
    <h3>Specification: #19</h3>
    <p>Panels - nested</p>
    <fieldset>
@@ -1311,7 +1311,7 @@ var spec19 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=s20 class=spec-case>
+<section id=s20>
    <h3>Specification: #20</h3>
    <p>Panels - drop-down</p>
    <fieldset>
