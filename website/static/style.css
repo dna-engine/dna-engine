@@ -237,6 +237,7 @@ header .logo img {
    border-color: dimgray;
    }
 
+/* Table of Contents */
 .toc {
    margin: 20px 0px 30px 0px;
    }
@@ -267,6 +268,7 @@ header .logo img {
    margin-bottom: 20px;
    }
 
+/* Documentation */
 .api-description {
    font-style: italic;
    margin-bottom: 10px;
@@ -411,8 +413,15 @@ figure.hljs-enhance >div {
 figure.full-screen-code pre code {
    font-size: 0.8rem;
    }
+figure.hljs-enhance .dna-menu button:hover,
+figure.hljs-enhance .dna-menu button.selected {
+   box-shadow: 0px 0px 0.6em deepskyblue;
+   }
+figure.hljs-enhance .dna-panels {
+   padding-right: 15px;
+   }
 
-/* Reveal Action */
+/* Reveal action */
 .reveal-action {
    color: steelblue;
    }
@@ -427,19 +436,17 @@ figure.full-screen-code pre code {
    padding: 5px 15px;
    }
 
-[data-component=author] .panel {
-   margin-right: 15px;
-   }
 [data-component=author] .dna-menu {
    list-style-type: none;
+   padding: 0px;
+   margin-top: 10px;
    }
 [data-component=author] .menu-item {
-   display: inline-block;
+   display: inline;
    background-color: lightskyblue;
    border: 2px solid silver;
    border-radius: 5px;
    padding: 5px 10px;
-   margin: 10px;
    }
 [data-component=author] .menu-item.selected,
 [data-component=author] .menu-item:hover {
@@ -450,13 +457,6 @@ figure.full-screen-code pre code {
    margin-bottom: 10px;
    }
 [data-component=book-catalog] .dna-menu button {
-   margin-right: 15px;
-   }
-[data-component=book-catalog] .dna-menu button:hover,
-[data-component=book-catalog] .dna-menu button.selected {
-   box-shadow: 0px 0px 0.6em deepskyblue;
-   }
-[data-component=book-catalog] .dna-panels {
    margin-right: 15px;
    }
 
