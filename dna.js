@@ -359,30 +359,23 @@ dna.panels = {
    //       <section>The X2</section>
    //    </div>
    // Attribute data-callback is optional.  IDs on menu items are optional and will cause
-   // hash in location bar to update (creating a URL for each panel).
-   key: function(menu) {
-      return '#' + menu.attr('id') + '-panels';
-      },
+   // URL hash (fragment identifier) in the location bar to update (creating a URL for each panel).
    display: function(menu, loc, updateUrl) {  //shows the panel at the given index (loc)
       var panels, panel;
-      var key = dna.panels.key(menu);
+      var key = menu.data().dnaKey;
       var menuItems = menu.find('.menu-item');
       if (loc === undefined)
          loc = dna.pageToken.get(key, 0);
       loc = Math.max(0, Math.min(loc, menuItems.length - 1));
       menu[0].selectedIndex = loc;  //case where menu is a drop-down elem (<select>)
-      menuItems.removeClass('selected').addClass('unselected')
-         .eq(loc).addClass('selected').removeClass('unselected');
+      var hash = menuItems.removeClass('selected').addClass('unselected')
+         .eq(loc).addClass('selected').removeClass('unselected').attr('id');
       panels = $(key).children().hide().removeClass('displayed').addClass('hidden');
       panel = panels.eq(loc).fadeIn().addClass('displayed').removeClass('hidden');
-      function saveState() {
-         dna.pageToken.put(key, loc);
-         var hash = menuItems.eq(loc).attr('id');
-         if (updateUrl && hash)
-            window.history.pushState(null, null, '#' + hash);
-         }
-      saveState();
-      dna.util.apply(menu.data().callback, panel);
+      dna.pageToken.put(key, loc);
+      if (updateUrl && hash)
+         window.history.pushState(null, null, '#' + hash);
+      dna.util.apply(menu.data().callback, [panel, hash]);
       },
    clickRotate: function(event) {  //moves to the selected panel
       var item = $(event.target).closest('.menu-item');
@@ -401,7 +394,7 @@ dna.panels = {
       function partOfTemplate(elems) { return elems.first().closest('.dna-template').length > 0; }
       function init(i, elem) {
          var menu = $(elem);
-         var key = dna.panels.key(menu);
+         var key = menu.data().dnaKey = '#' + menu.attr('id') + '-panels';
          var panels = $(key).children().addClass('panel');
          if (menu.find('.menu-item').length === 0)  //set .menu-item elems if not set in the html
             menu.children().addClass('menu-item');
