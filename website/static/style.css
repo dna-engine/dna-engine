@@ -238,32 +238,36 @@ header .logo img {
    }
 
 /* Table of Contents */
-.toc {
+nav.toc {
    margin: 20px 0px 30px 0px;
    }
-.toc h2 {
+nav.toc h2 {
    font-size: 1.2rem;
    text-align: left;
    margin-bottom: 5px;
    }
-.toc li a {
+nav.toc li a {
    color: steelblue;
+   border-bottom: 1px dotted;
    }
-.toc li a:hover {
+nav.toc li a:hover {
    color: white;
+   background-color: steelblue;
+   border-color: steelblue;
+   outline: 2px solid steelblue;
    }
-.toc >ol {
+nav.toc >ol {
    list-style-type: upper-alpha;
    font-size: 1.1rem;
    margin-left: 30px;
    }
-.toc >ol >li {
+nav.toc >ol >li {
    margin-bottom: 8px;
    }
-.toc ol ol {
+nav.toc ol ol {
    font-size: 0.9rem;
    }
-.toc ~ h3 {
+nav.toc ~ h3 {
    margin-top: 50px;
    margin-bottom: 20px;
    }
