@@ -101,6 +101,7 @@
          <ol>
             <li><a href=#panels-example>Example</a></li>
             <li><a href=#panels-template>Template-Driven Panels</a></li>
+            <li><a href=#panels-routes>Panel Routes</a></li>
          </ol>
       </li>
       <li><a href=#utils>Utilities</a></li>
@@ -2165,14 +2166,15 @@
       <pre><code class=language-css>
          [data-component=author] .dna-menu {
             list-style-type: none;
+            padding: 0px;
+            margin-top: 10px;
             }
          [data-component=author] .menu-item {
-            display: inline-block;
+            display: inline;
             background-color: lightskyblue;
             border: 2px solid silver;
             border-radius: 5px;
             padding: 5px 10px;
-            margin: 10px;
             }
          [data-component=author] .menu-item.selected,
          [data-component=author] .menu-item:hover {
@@ -2263,27 +2265,25 @@
 <section id=panels-template>
    <h4>Template-Driven Panels</h4>
    <p>
-      The interactive example below uses templates to build the menu and the panels.&nbsp;
-      It includes use of the <code>data-hash</code> panel attribute to update the URL, making it
-      possible to link to and bookmark the panel.
+      The interactive example below uses templates to build the menu and the panels.
    </p>
    <figure>
       <figcaption>Example HTML</figcaption>
       <pre><code class=language-html>
          &lt;div data-component=book-catalog data-on-load=bookCatalog.setup&gt;
             &lt;h2&gt;Book Catalog&lt;/h2&gt;
-            &lt;div id=book-catalog class=dna-menu&gt;
+            &lt;nav id=book-catalog class=dna-menu&gt;
                &lt;button id=book-menu-item class=dna-template&gt;
                   ~~[count]~~
                &lt;/button&gt;
-            &lt;/div&gt;
-            &lt;section id=book-catalog-panels class=dna-panels&gt;
-               &lt;div id=book-panel class=dna-template data-hash=~~id~~
+            &lt;/nav&gt;
+            &lt;div id=book-catalog-panels class=dna-panels&gt;
+               &lt;section id=book-panel class=dna-template
                      data-transform=bookCatalog.addCover&gt;
                   &lt;h4&gt;~~title~~&lt;/h4&gt;
                   &lt;img src=# data-attr-src=~~cover~~ alt=cover&gt;
-               &lt;/div&gt;
-            &lt;/section&gt;
+               &lt;/section&gt;
+            &lt;/div&gt;
             &lt;script&gt;
                var bookCatalog = {
                   data: [
@@ -2312,18 +2312,18 @@
       <div>
          <div data-component=book-catalog data-on-load=bookCatalog.setup>
             <h2>Book Catalog</h2>
-            <div id=book-catalog class=dna-menu>
+            <nav id=book-catalog class=dna-menu>
                <button id=book-menu-item class=dna-template>
                   ~~[count]~~
                </button>
-            </div>
-            <section id=book-catalog-panels class=dna-panels>
-               <div id=book-panel class=dna-template data-hash=~~id~~
+            </nav>
+            <div id=book-catalog-panels class=dna-panels>
+               <section id=book-panel class=dna-template
                      data-transform=bookCatalog.addCover>
                   <h4>~~title~~</h4>
                   <img src=# data-attr-src=~~cover~~ alt=cover>
-               </div>
-            </section>
+               </section>
+            </div>
             <script>
                var bookCatalog = {
                   data: [
@@ -2341,6 +2341,95 @@
                      dna.clone('book-panel',     bookCatalog.data);
                      }
                   };
+            </script>
+         </div>
+      </div>
+   </figure>
+   <!-- End: Result  -->
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=panels-routes>
+   <h4>Panel Routes</h4>
+   <p>
+      Create routes in dna.js by adding a <code>data-hash</code> attribute to each panel
+      element.&nbsp;
+      The value specified by <code>data-hash</code> becomes the fragment identifier (hash) in the
+      URL.
+   </p>
+   <p>
+      Optionally, add a <code>data-callback</code> attribute on the menu element to run a
+      function whenever a panel is displayed.&nbsp;  The callback function receives the panel
+      element and fragment identifier (hash) for the currently displayed panel.
+   </p>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+            &lt;h2&gt;Publishers&lt;/h2&gt;
+            &lt;nav id=publisher-info class=dna-menu data-callback=updatePanel&gt;
+               &lt;button&gt;Pearson&lt;/button&gt;
+               &lt;button&gt;Shueisha&lt;/button&gt;
+               &lt;button&gt;Wiley&lt;/button&gt;
+            &lt;/nav&gt;
+            &lt;div id=publisher-info-panels class=dna-panels&gt;
+               &lt;section data-hash=pearson&gt;
+                  &lt;h2&gt;Pearson&lt;/h2&gt;
+                  &lt;p&gt;UK&lt;/p&gt;
+               &lt;/section&gt;
+               &lt;section data-hash=shueisha&gt;
+                  &lt;h2&gt;Shueisha&lt;/h2&gt;
+                  &lt;p&gt;Japan&lt;/p&gt;
+               &lt;/section&gt;
+               &lt;section data-hash=wiley&gt;
+                  &lt;h2&gt;Wiley&lt;/h2&gt;
+                  &lt;p&gt;US&lt;/p&gt;
+               &lt;/section&gt;
+            &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         function updatePanel(panel, hash) {
+            var url = location.origin + location.pathname + '#' + hash;
+            if (!panel.find('a').length)
+               panel.append($('&lt;a&gt;', { text: url, href: url }));
+            }
+      </code></pre>
+   </figure>
+   <!-- Start: Result  -->
+   <div class=down-arrow></div>
+   <span id=pearson></span><span id=shueisha></span><span id=wiley></span>
+   <figure class=hljs-enhance>
+      <figcaption>Result (interactive)</figcaption>
+      <div>
+         <div>
+            <h2>Publishers</h2>
+            <nav id=publisher-info class=dna-menu data-callback=updatePanel>
+               <button>Pearson</button>
+               <button>Shueisha</button>
+               <button>Wiley</button>
+            </nav>
+            <div id=publisher-info-panels class=dna-panels>
+               <section data-hash=pearson>
+                  <h2>Pearson</h2>
+                  <p>UK</p>
+               </section>
+               <section data-hash=shueisha>
+                  <h2>Shueisha</h2>
+                  <p>Japan</p>
+               </section>
+               <section data-hash=wiley>
+                  <h2>Wiley</h2>
+                  <p>US</p>
+               </section>
+            </div>
+            <script>
+               function updatePanel(panel, hash) {
+                  var url = location.origin + location.pathname + '#' + hash;
+                  if (!panel.find('a').length)
+                     panel.append($('<a>', { text: url, href: url }));
+                  }
             </script>
          </div>
       </div>
@@ -2722,7 +2811,7 @@
       <li><a href=#event-user>            <code>data-click</code></a>:          Callback to run on click event</li>
       <li><a href=#event-user>            <code>data-enter-key</code></a>:      Callback to run on enter key event</li>
       <li><a href=#structure-thimblerig>  <code>data-falsey</code></a>:         Show element only if field evaluates to false</li>
-      <li><a href=#panels>                <code>data-hash</code></a>:           Set name of URL fragment for panel</li>
+      <li><a href=#panels-routes>         <code>data-hash</code></a>:           Set the fragment ID (hash) for a panel's URL</li>
       <li><a href=#event-jump>            <code>data-href</code></a>:           Jumps to the URL (like an <code>&lt;a&gt;</code> link)</li>
       <li><a href=#event-user>            <code>data-key-down</code></a>:       Callback to run on key down event</li>
       <li><a href=#event-user>            <code>data-key-press</code></a>:      Callback to run on key press event</li>
