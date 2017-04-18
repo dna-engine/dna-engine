@@ -859,13 +859,15 @@ dna.core = {
    plugin: function() {
       // Example:
       //    dna.getClone(elem).dna('up');
-      // Supports: refresh, up, down, bye, destroy
-      $.fn.dna = function(action, options) {
-         var fn = dna[dna.util.toCamel(action)];
-         if (!fn)
+      // Supported actions:
+      //    'bye', 'clone-sub-template', 'destroy', 'down', 'refresh', 'up'
+      $.fn.dna = function(action) {  //any additional parameters are passed to the api call
+         var params = [arguments[1], arguments[2], arguments[3]];
+         var dnaApi = dna[dna.util.toCamel(action)];
+         if (!dnaApi)
             dna.core.berserk('Unknown plugin action: ' + action);
-         function callFn(i, elem) { fn($(elem), options); }
-         return this.each(callFn);
+         function callApi(i, elem) { dnaApi($(elem), params[0], params[1], params[2]); }
+         return this.each(callApi);
          };
       },
    initModule: function(thisWindow, thisJQuery) {
