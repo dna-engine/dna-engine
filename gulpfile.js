@@ -22,7 +22,7 @@ var context = {
       tutorial: 'juIru5qHZFM'
       },
    jsFiddle: {
-      addABook:       'gwthg5ot',
+      addABook:       'eo3gpfmo',
       bookFinder:     'zxb2x6dv',
       dataClick:      '5dsbvacd',
       liveModel:      '8gnyLovu',
