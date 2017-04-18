@@ -38,8 +38,7 @@ var dna = {
       for (var i = 0; i < list.length; i++)
          clones = clones.add(dna.core.replicate(template, list[i], i, settings));
       dna.placeholder.setup();  //TODO: optimize
-      if (clones.first().closest('.dna-menu, .dna-panels').length)
-         dna.panels.refresh();
+      clones.first().closest('.dna-menu, .dna-panels').each(dna.panels.refresh);
       return clones;
       },
    cloneSubTemplate: function(holderClone, arrayField, data, options) {
@@ -347,19 +346,19 @@ dna.pageToken = {
    };
 
 dna.panels = {
-   // Each click of a menu item displays its corresponding panel and passes the panel
-   // element to the callback.
+   // Each click of a menu item displays its corresponding panel and optionally passes the panel
+   // element and hash to the function specified by the "data-callback" attribute.
    // Usage:
    //    <nav id={ID} class=dna-menu data-callback=app.displayPanel>
-   //       <button id=x1>See X1</button>
-   //       <button id=x2>See X2</button>
+   //       <button>See X1</button>
+   //       <button>See X2</button>
    //    </nav>
    //    <div id={ID}-panels class=dna-panels>
-   //       <section>The X1</section>
-   //       <section>The X2</section>
+   //       <section data-hash=x1>The X1</section>
+   //       <section data-hash=x2>The X2</section>
    //    </div>
-   // Attribute data-callback is optional.  IDs on menu items are optional and will cause
-   // URL hash (fragment identifier) in the location bar to update (creating a URL for each panel).
+   // The optional "data-hash" attribute specifies the hash (URL fragment ID) and updates the
+   // location bar.
    display: function(menu, loc, updateUrl) {  //shows the panel at the given index (loc)
       var panels, panel;
       var key = menu.data().dnaKey;
@@ -368,10 +367,11 @@ dna.panels = {
          loc = dna.pageToken.get(key, 0);
       loc = Math.max(0, Math.min(loc, menuItems.length - 1));
       menu[0].selectedIndex = loc;  //case where menu is a drop-down elem (<select>)
-      var hash = menuItems.removeClass('selected').addClass('unselected')
-         .eq(loc).addClass('selected').removeClass('unselected').attr('id');
+      menuItems.removeClass('selected').addClass('unselected')
+         .eq(loc).addClass('selected').removeClass('unselected');
       panels = $(key).children().hide().removeClass('displayed').addClass('hidden');
       panel = panels.eq(loc).fadeIn().addClass('displayed').removeClass('hidden');
+      var hash = panel.data().hash;
       dna.pageToken.put(key, loc);
       if (updateUrl && hash)
          window.history.pushState(null, null, '#' + hash);
@@ -389,32 +389,25 @@ dna.panels = {
    reload: function(name) {  //refreshes the currently displayed panel
       dna.panels.display($('#' + name));
       },
-   refresh: function() {
+   refresh: function(i, elem) {
+      var menu = $(elem);
+      if (menu.hasClass('dna-panels'))  //special case for panels that are templates
+         menu = $('#' + menu.attr('id').replace('-panels', ''));
       var hash = window.location.hash.slice(1);
+      var key = menu.data().dnaKey = '#' + menu.attr('id') + '-panels';
+      var panels = $(key).children().addClass('panel');
+      if (menu.find('.menu-item').length === 0)  //set .menu-item elems if not set in the html
+         menu.children().addClass('menu-item');
       function partOfTemplate(elems) { return elems.first().closest('.dna-template').length > 0; }
-      function init(i, elem) {
-         var menu = $(elem);
-         var key = menu.data().dnaKey = '#' + menu.attr('id') + '-panels';
-         var panels = $(key).children().addClass('panel');
-         if (menu.find('.menu-item').length === 0)  //set .menu-item elems if not set in the html
-            menu.children().addClass('menu-item');
-         function displayCurrent() {
-            function moveDepracatedDataHashToMenuItemIds(i, panel) {  //DEPRICATED
-               menu.find('.menu-item').eq($(panel).index()).attr('id', $(panel).data().hash); }
-            panels.filter('[data-hash]').each(moveDepracatedDataHashToMenuItemIds);  //DEPRICATED
-            var menuItems = menu.find('.menu-item');
-            var menuItem = hash && menuItems.filter('#' + hash);
-            var loc = hash && menuItem.length ?
-               menuItems.index(menuItem) : dna.pageToken.get(key, 0);
-            dna.panels.display(menu, loc);
-            }
-         if (!partOfTemplate(panels) && !partOfTemplate(menu.children()))
-            displayCurrent();
+      function findPanelLoc(panels) {
+         return hash && panels.first().data().hash ?
+            panels.filter('[data-hash=' + hash + ']').index() : dna.pageToken.get(key, 0);
          }
-      $('.dna-menu').each(init);
+      if (!partOfTemplate(panels) && !partOfTemplate(menu.children()))
+         dna.panels.display(menu, findPanelLoc(panels));
       },
    setup: function() {
-      dna.panels.refresh();
+      $('.dna-menu').each(dna.panels.refresh);
       $(document).on({ click:  dna.panels.clickRotate },  '.dna-menu .menu-item');
       $(document).on({ change: dna.panels.selectRotate }, '.dna-menu');
       }
@@ -670,7 +663,7 @@ dna.events = {
                updateField(target, isChecked);
             else if (target.is('input:radio'))
                $('input:radio[name=' + target.attr('name') + ']').each(updateOption);
-            else if (target.is('input') || target.data().dnaRules.option)  //dna.js:672 Uncaught TypeError: Cannot read property 'option' of undefined at updateModel (dna.js:672)
+            else if (target.is('input') || target.data().dnaRules.option)
                updateField(target, getValue);
             else if (target.is('select'))
                target.find('option').each(updateOption);
