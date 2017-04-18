@@ -43,7 +43,7 @@
       <li><a href=#api>JavaScript API</a>
          <ol>
             <li><a href=#api-clone>dna.clone()</a></li>
-            <li><a href=#api-clone-sub-template>dna.cloneSubTemplate()</a></li>
+            <li><a href=#api-clone-sub>dna.cloneSub()</a></li>
             <li><a href=#api-create>dna.createTemplate()</a></li>
             <li><a href=#api-rest>dna.rest.get()</a></li>
             <li><a href=#api-get-model>dna.getModel()</a></li>
@@ -574,7 +574,7 @@
 <h5>API Overview</h5>
 <ol>
    <li><b>dna.clone</b>(name, data, options)</li>
-   <li><b>dna.cloneSubTemplate</b>(holderClone, arrayField, data, options)</li>
+   <li><b>dna.cloneSub</b>(holderClone, arrayField, data, options)</li>
    <li><b>dna.rest.get</b>(name, url, options)</li>
    <li><b>dna.getModel</b>(nameOrClone)</li>
    <li><b>dna.empty</b>(name, options)</li>
@@ -627,9 +627,9 @@
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
-<!--  dna.cloneSubTemplate()  -->
-<section id=api-clone-sub-template>
-   <h4>dna.cloneSubTemplate(holderClone, arrayField, data[, options])</h4>
+<!--  dna.cloneSub()  -->
+<section id=api-clone-sub>
+   <h4>dna.cloneSub(holderClone, arrayField, data[, options])</h4>
    <p class=api-description>
       Clones a sub-template to append onto an array loop.
    </p>
@@ -652,7 +652,7 @@
       <pre><code class=language-javascript>
          var book = { title: 'Interwebz', chapters: ['ARPANET', 'TCP/IP'] };
          var clone = dna.clone('book', book);
-         dna.cloneSubTemplate(clone, 'chapters', 'CERN');  //append chapter
+         dna.cloneSub(clone, 'chapters', 'CERN');  //append chapter
       </code></pre>
    </figure>
    <p>
@@ -2835,12 +2835,12 @@
 <section id=index-jquery>
    <h4>List of jQuery Plugin Functions</h4>
    <ol>
-      <li><a href=#api-bye>               <code>.dna('bye')</code></a>:                Slide fade out then remove</li>
-      <li><a href=#api-clone-sub-template><code>.dna('clone-sub-template', name, data[, options])</code></a>: Clones a sub-template</li>
-      <li><a href=#api-destroy>           <code>.dna('destroy'[, options])</code></a>: Remove</li>
-      <li><a href=#api-down>              <code>.dna('down')</code></a>:               Smoothly move down one slot</li>
-      <li><a href=#api-refresh>           <code>.dna('refresh'[, options])</code></a>: Update to reflect changes to the data model</li>
-      <li><a href=#api-up>                <code>.dna('up')</code></a>:                 Smoothly move up one slot</li>
+      <li><a href=#api-bye>      <code>.dna('bye')</code></a>:                              Slide fade out then remove</li>
+      <li><a href=#api-clone-sub><code>.dna('clone-sub', name, data[, options])</code></a>: Clone a sub-template</li>
+      <li><a href=#api-destroy>  <code>.dna('destroy'[, options])</code></a>:               Remove</li>
+      <li><a href=#api-down>     <code>.dna('down')</code></a>:                             Smoothly move down one slot</li>
+      <li><a href=#api-refresh>  <code>.dna('refresh'[, options])</code></a>:               Update to reflect changes to the data model</li>
+      <li><a href=#api-up>       <code>.dna('up')</code></a>:                               Smoothly move up one slot</li>
    </ol>
 </section>
 

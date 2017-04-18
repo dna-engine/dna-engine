@@ -1,11 +1,11 @@
-// dna.js Semantic Templates ~~ v1.2.6
+// dna.js Semantic Templates ~~ v1.2.7
 // MIT ~~ dnajs.org/license
 // Copyright (c) 2013-2017 individual contributors to dna.js
 
 var dna = {
    // API:
    //    dna.clone()
-   //    dna.cloneSubTemplate()
+   //    dna.cloneSub()
    //    dna.createTemplate()
    //    dna.rest.get()
    //    dna.getModel()
@@ -41,7 +41,7 @@ var dna = {
       clones.first().closest('.dna-menu, .dna-panels').each(dna.panels.refresh);
       return clones;
       },
-   cloneSubTemplate: function(holderClone, arrayField, data, options) {
+   cloneSub: function(holderClone, arrayField, data, options) {
       var name = dna.compile.subTemplateName(holderClone, arrayField);
       var selector = '.dna-contains-' + name;
       var settings = $.extend({ container: holderClone.find(selector).addBack(selector) }, options);
@@ -141,7 +141,7 @@ var dna = {
       var names = Object.keys(dna.store.templates);
       function addToSum(sum, name) { return sum + dna.store.templates[name].clones; }
       return {
-         version:      '1.2.6',
+         version:      '1.2.7',
          templates:    names.length,
          clones:       names.reduce(addToSum, 0),
          names:        names,
@@ -150,6 +150,8 @@ var dna = {
          };
       }
    };
+
+dna.cloneSubTemplate = dna.cloneSub;  //DEPRECATED
 
 dna.array = {
    last: function(array) {
@@ -860,7 +862,7 @@ dna.core = {
       // Example:
       //    dna.getClone(elem).dna('up');
       // Supported actions:
-      //    'bye', 'clone-sub-template', 'destroy', 'down', 'refresh', 'up'
+      //    'bye', 'clone-sub', 'destroy', 'down', 'refresh', 'up'
       $.fn.dna = function(action) {  //any additional parameters are passed to the api call
          var params = [arguments[1], arguments[2], arguments[3]];
          var dnaApi = dna[dna.util.toCamel(action)];

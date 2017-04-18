@@ -717,14 +717,14 @@ var spec12 = {
       var book2 = { title: 'Howdy HTML5',  authors: authors, chapters: chapters };
       var book3 = { title: 'Styling CSS3', authors: [],      chapters: [] };
       dna.clone('s12-book', [book1, book2, book3, book1], { html: false });
-      dna.cloneSubTemplate(dna.getClones('s12-book').first(), 'authors', 'Bo I');
-      dna.cloneSubTemplate(dna.getClones('s12-book').first(), 'authors', 'Bo II');
+      dna.cloneSub(dna.getClones('s12-book').first(), 'authors', 'Bo I');
+      dna.cloneSub(dna.getClones('s12-book').first(), 'authors', 'Bo II');
       $('.s12-book').first().toggleClass('border-change', $('.s12-book').first().data().title === 'The DOM');
       var elem = $('.s12-book').first().find('.s12-book-authors-instance').last();
       elem.addClass(elem.data().author === 'Bo II' ? 'color-change' : 'color-change2');
       var clone = dna.refresh($('.s12-book').last(), { data: book2, html: true });
-      dna.cloneSubTemplate(clone, 'chapters', { header: 'Bio', type: 'back' });
-      dna.cloneSubTemplate(clone, 'chapters', moreChapters);
+      dna.cloneSub(clone, 'chapters', { header: 'Bio', type: 'back' });
+      dna.cloneSub(clone, 'chapters', moreChapters);
       dna.destroy($('.s12-book').find(':contains(Bio 2)'), { main: false });
       clone.toggleClass('border-change', dna.getModel(clone).chapters.length === 4);
       $('.s12-book').find('[data-author=Jake]').addClass('color-change2');
