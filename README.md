@@ -45,7 +45,7 @@ the DOM and kept for additional cloning.
 
 ### 2. Additional Information
 * [dnajs.org](http://dnajs.org) (see the "Try It Out" section for a live example)
-* [Sample To-Do Application](http://jsfiddle.net/dovd6088/) (jsfiddle)
+* [Sample To-Do Application](http://jsfiddle.net/wo6og0z8/) (jsfiddle)
 * [Introduction to dna.js](https://youtu.be/jMOZOI-UkNI) (YouTube)
 * [Documentation](http://dnajs.org/docs)
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)

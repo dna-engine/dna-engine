@@ -114,6 +114,17 @@ function cleanWebsite() {
     }
 
 function buildWebsite() {
+   var findToDoLine = /.*To-Do Application.*/;
+   var findIntroLine = /.*Introduction to dna.js.*/;
+   var newToDoLine =
+      '* [Sample To-Do Application](http://jsfiddle.net/' + context.jsFiddle.toDo + '/) (jsfiddle)';
+   var newIntroLine =
+      '* [Introduction to dna.js](https://youtu.be/' + context.youTube.intro + ') (YouTube)';
+   gulp.src('README.md')
+      .pipe(replace(findToDoLine,  newToDoLine))
+      .pipe(replace(findIntroLine, newIntroLine))
+      .pipe(filesize())
+      .pipe(gulp.dest('.'));
    gulp.src('website/static/**')
       .pipe(gulp.dest(httpdocsFolder));
    gulp.src('website/static/**/*.html')
