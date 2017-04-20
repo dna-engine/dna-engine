@@ -92,10 +92,12 @@
          </ol>
       </li>
       <li><a href=#components>Making Reusable Components</a>
+         <!--
          <ol>
-            <li><a href=#define>Defining a Component</a></li>
-            <li><a href=#insert>Inserting a Component</a></li>
+            <li><a href=#components-define>Defining a Component</a></li>
+            <li><a href=#components-insert>Inserting a Component</a></li>
          </ol>
+         -->
       </li>
       <li><a href=#panels>Panels (UI Tabs)</a>
          <ol>
@@ -107,7 +109,7 @@
       <li><a href=#utils>Utilities</a></li>
       <li><a href=#index>Index</a>
          <ol>
-            <li><a href=#index-classes>Clases</a></li>
+            <li><a href=#index-classes>Classes</a></li>
             <li><a href=#index-attributes>Attributes</a></li>
             <li><a href=#index-jquery>jQuery Functions</a></li>
             <li><a href=#index-examples>Examples</a></li>
@@ -1678,6 +1680,7 @@
          <h2>Book Information</h2>
          <div id=book class=dna-template>
             Title: <input value=~~title~~ data-key-up=bookInfo.update>
+            <br>
             ebook: <input type=checkbox data-prop-checked=~~ebook~~
                data-change=bookInfo.update>
          </div>
@@ -2045,7 +2048,7 @@
 <section id=structure-nested-template>
    <h4>Nested Templates</h4>
    <p>
-      For additional flexibility, templates can be nestes and then explicitly
+      For additional flexibility, templates can be nested and then explicitly
       cloned with calls to <code>dna.clone()</code>.&nbsp; A nested template
       belongs to a holder template, and the specific holder clone must be
       passed into <code>dna.clone()</code> when cloning a nested template.
@@ -2067,14 +2070,21 @@
 <section id=define>
    <h4>Defining a Component</h4>
    <p>
-      A reusable component can be created using an <a href=event-on-load>on load function</a>
-      (<code>data-on-load</code>) to make a REST call that gets data for a template.
+      A reusable component is named using the <code>data-component</code> attribute on the
+      container element.
+   </p>
+   <p>
+      The component can be initialized with an <a href=#event-on-load>on load function</a>
+      (<code>data-on-load</code>) to make a REST call that gets data for a template.&nbsp;
+      Events with callbacks, such as a <a href=#event-click>click event</a>
+      (<code>data-click</code>), pass back the target element, event object, and the component
+      element.
    </p>
    <figure>
       <figcaption>Bookshelf Component CSS</figcaption>
       <pre><code class=language-css>
         [data-component=bookshelf] .my-book {
-           width: 15em;
+           width: 25em;
            background-color: plum;
            padding: 5px 15px;
            }
@@ -2085,13 +2095,19 @@
       <pre><code class=language-html>
          &lt;div data-component=bookshelf data-on-load=bookshelf.setup&gt;
             &lt;h2&gt;Bookshelf&lt;/h2&gt;
-            &lt;p id=my-book class=dna-template&gt;
-               &lt;span&gt;Title: &lt;b&gt;~~title~~&lt;/b&gt;&lt;/span&gt;&lt;br&gt;
-               &lt;span&gt;Author: &lt;b&gt;~~author~~&lt;/b&gt;&lt;/span&gt;
-            &lt;/p&gt;
+            &lt;div&gt;
+               &lt;p id=my-book class=dna-template&gt;
+                  &lt;span&gt;Title: &lt;b&gt;~~title~~&lt;/b&gt;&lt;/span&gt;&lt;br&gt;
+                  &lt;span&gt;Author: &lt;b&gt;~~author~~&lt;/b&gt;&lt;/span&gt;
+               &lt;/p&gt;
+            &lt;/div&gt;
+            &lt;button data-click=bookshelf.show&gt;Show component name&lt;/button&gt;
             &lt;script&gt;
                var bookshelf = {
                   booksUrl: 'http://dnajs.org/rest/book/list/',
+                  show: function(elem, event, component) {
+                     elem.text(component.data().component);
+                     },
                   setup: function(elem) {
                      function handle(data) { dna.clone('my-book', data); }
                      $.getJSON(bookshelf.booksUrl, handle);
@@ -2109,13 +2125,19 @@
          <!--  Component: start -->
          <div data-component=bookshelf data-on-load=bookshelf.setup>
             <h2>Bookshelf</h2>
-            <p id=my-book class=dna-template>
-               <span>Title: <b>~~title~~</b></span><br>
-               <span>Author: <b>~~author~~</b></span>
-            </p>
+            <div>
+               <p id=my-book class=dna-template>
+                  <span>Title: <b>~~title~~</b></span><br>
+                  <span>Author: <b>~~author~~</b></span>
+               </p>
+            </div>
+            <button data-click=bookshelf.show>Show component name</button>
             <script>
                var bookshelf = {
                   booksUrl: 'http://dnajs.org/rest/book/list/',
+                  show: function(elem, event, component) {
+                     elem.text(component.data().component);
+                     },
                   setup: function(elem) {
                      function handle(data) { dna.clone('my-book', data); }
                      $.getJSON(bookshelf.booksUrl, handle);
@@ -2130,6 +2152,7 @@
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--
 <section id=insert>
    <h4>Inserting a Component</h4>
    <p>
@@ -2142,8 +2165,7 @@
       </code></pre>
    </figure>
 </section>
-
-
+-->
 
 <!--*********************************************************************************************-->
 <h3 id=panels>Panels (UI Tabs)</h3>
@@ -2809,6 +2831,7 @@
       <li><a href=#event-user>            <code>data-change</code></a>:         Callback to run on change event</li>
       <li><a href=#html-class>            <code>data-class</code></a>:          Add a class to the element</li>
       <li><a href=#event-user>            <code>data-click</code></a>:          Callback to run on click event</li>
+      <li><a href=#components>            <code>data-component</code></a>:      Mark a container element as a component</li>
       <li><a href=#event-user>            <code>data-enter-key</code></a>:      Callback to run on enter key event</li>
       <li><a href=#structure-thimblerig>  <code>data-falsey</code></a>:         Show element only if field evaluates to false</li>
       <li><a href=#panels-routes>         <code>data-hash</code></a>:           Set the fragment ID (hash) for a panel's URL</li>

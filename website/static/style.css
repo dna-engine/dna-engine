@@ -435,7 +435,7 @@ figure.hljs-enhance .dna-panels {
 
 /* Documentation components */
 [data-component=bookshelf] .my-book {
-   width: 15em;
+   width: 25em;
    background-color: plum;
    padding: 5px 15px;
    }

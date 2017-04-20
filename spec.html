@@ -28,7 +28,7 @@
                           padding: 10px; margin: 0px 20px 20px 0px; }
    fieldset            { float: left; width: 200px; border: 1px solid silver; padding-bottom: 0px; }
    legend              { border: 1px solid silver; padding: 0px 10px; }
-   .bookshelf          { background-color: gainsboro; padding: 15px; }
+   [data-component]    { background-color: gainsboro; padding: 15px; }
    .dna-clone          { background-color: darkseagreen; }
    div.dna-clone       { padding: 10px; margin-bottom: 15px; }
    .dna-clone img      { width: 120px; }
@@ -1113,43 +1113,51 @@ var spec16 = {
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <section id=spec17>
    <h3>Specification: #17</h3>
-   <p>Reusable component <button id=books-data-link class=external-site>View book data</button></p>
+   <p>Reusable component</p>
    <fieldset>
       <legend>Actual</legend>
-      <!--  Component: start -->
-      <div class=bookshelf data-on-load=bookshelf.setup>
-         <h2>Bookshelf</h2>
+      <!-- Component: start -->
+      <div data-component=bookshelf data-on-load=bookshelf.setup data-msg=Hello!>
+         <h2 data-click=bookshelf.showMsg>Bookshelf</h2>
+         <button>View book data</button>
          <div id=spec17-book class=dna-template>
-            <div>Title: <span>~~title~~</span></div>
-            <div>Author: <span>~~author~~</span></div>
+            <div>Title: <b>~~title~~</b></div>
+            <div>Author: <b>~~author~~</b></div>
          </div>
          <script>
             var bookshelf = {
-               booksUrl: 'http://dnajs.org/rest/book/list/',
-               setup: function(elem) {
+               showMsg: function(elem, event, component) {
+                  elem.text(component.data().msg + event.timeStamp);
+                  },
+               setup: function(elem, component) {
+                  var booksUrl = 'http://dnajs.org/rest/book/list/';
+                  component.children('button')
+                     .attr({ 'data-href': booksUrl })
+                     .addClass('external-site');
                   function handle(data) { dna.clone('spec17-book', data); }
-                  $.getJSON(bookshelf.booksUrl, handle);
+                  $.getJSON(booksUrl, handle);
                   }
                };
          </script>
       </div>
-      <!--  Component: end -->
+      <!-- Component: end -->
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
-      <div class=bookshelf>
+      <div data-component=bookshelf>
          <h2>Bookshelf</h2>
+         <button>View book data</button>
          <div class=dna-clone>
-            <div>Title:  <span>Go JavaScript</span></div>
-            <div>Author: <span>Jake</span></div>
+            <div>Title:  <b>Go JavaScript</b></div>
+            <div>Author: <b>Jake</b></div>
          </div>
          <div class=dna-clone>
-            <div>Title:  <span>Styling CSS</span></div>
-            <div>Author: <span>Abby</span></div>
+            <div>Title:  <b>Styling CSS</b></div>
+            <div>Author: <b>Abby</b></div>
          </div>
          <div class=dna-clone>
-            <div>Title:  <span>Howdy HTML5</span></div>
-            <div>Author: <span>Ed</span></div>
+            <div>Title:  <b>Howdy HTML5</b></div>
+            <div>Author: <b>Ed</b></div>
          </div>
       </div>
    </fieldset>
@@ -1157,7 +1165,6 @@ var spec16 = {
 <script>
 var spec17 = {
    run: function() {
-      $('#books-data-link').attr('data-href', bookshelf.booksUrl);
       // Nothing to do as component knows how to initialize itself.
       }
    };

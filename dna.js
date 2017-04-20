@@ -247,13 +247,15 @@ dna.util = {
             contextApply(context[names[0]], names.slice(1));
          }
       function findFn(names) {
+         if (elem instanceof $)
+            args.push(dna.ui.getComponent(elem));
          contextApply(dna.events.context[names[0]] ? dna.events.context : window, names);
          }
-      if (elem instanceof $ && elem.length === 0)
+      if (elem instanceof $ && elem.length === 0)  //noop for emply list of elems
          result = elem;
-      else if (typeof fn === 'function')
+      else if (typeof fn === 'function')  //run regular function with supplied arguments
          result = fn.apply(elem, args);
-      else if (elem && elem[fn])
+      else if (elem && elem[fn])  //run element's jQuery function
          result = elem[fn](args[1], args[2], args[3]);
       else if (fn === '' || { number: true, boolean: true}[typeof fn])
          dna.core.berserk('Invalid callback function: ' + fn);
@@ -267,6 +269,9 @@ dna.ui = {
    toElem: function(elemOrEventOrIndex, that) {
       return elemOrEventOrIndex instanceof $ ? elemOrEventOrIndex :
          elemOrEventOrIndex ? $(elemOrEventOrIndex.target) : $(that);
+      },
+   getComponent: function(elem) {
+      return elem.closest('[data-component]');
       },
    deleteElem: function(elemOrEventOrIndex) {  //example: $('.box').fadeOut(dna.ui.deleteElem);
       var elem = dna.ui.toElem(elemOrEventOrIndex, this);
@@ -418,7 +423,7 @@ dna.panels = {
 dna.compile = {
    // Pre-compile  Example                           Post-compile class + data().dnaRules
    // -----------  --------------------------------  ------------------------------------
-   // template     <p id=ad class=dna-template>      class=dna-clone
+   // template     <p id=x1 class=dna-template>      class=dna-clone
    // array        <p data-array=~~tags~~>           class=dna-nucleotide + array='tags'
    // field        <p>~~tag~~</p>                    class=dna-nucleotide + text='tag'
    // attribute    <p id=~~num~~>                    class=dna-nucleotide + attrs=['id', ['', 'num', '']]
@@ -623,7 +628,10 @@ dna.events = {
    elementSetup: function(root, data) {
       // Example:
       //    <p data-on-load=app.cart.setup>
-      function setup(i, elem) { dna.util.apply($(elem).data().onLoad, [$(elem), data]); }
+      function setup(i, elem) {
+         elem = $(elem);
+         dna.util.apply(elem.data().onLoad, data ? [elem, data] : elem);
+         }
       var selector = '[data-on-load]';
       var elems = root ? root.find(selector).addBack(selector) : $(selector);
       return elems.not('.dna-initialized').each(setup).addClass('dna-initialized');
@@ -640,7 +648,8 @@ dna.events = {
       },
    setup: function() {
       function runner(elem, type, event) {
-         // Finds elements for given event type and executes callback passing in the element and event
+         // Finds elements for given event type and executes callback passing in the element,
+         //    event, and component (container element with "data-component" attribute)
          // Types: click|change|key-up|key-down|key-press|enter-key
          elem = elem.closest('[data-' + type + ']');
          var fn = elem.data(type);
