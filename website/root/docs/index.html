@@ -18,7 +18,7 @@
 <nav class=toc>
    <h4>Contents:</h4>
    <ol>
-      <li><a href=#terms-requirements>Terminology and System Requirements</a></li>
+      <li><a href=#system>Terminology and Browser Support</a></li>
       <li><a href=#setup>Setup JS and CSS Assets</a>
          <ol>
             <li><a href=#setup-cdn>CDN</a></li>
@@ -89,6 +89,7 @@
             <li><a href=#structure-placeholder>Template Placeholder</a></li>
             <li><a href=#structure-thimblerig>Thimblerig (conditional hide and seek logic)</a></li>
             <li><a href=#structure-nested-template>Nested Templates</a></li>
+            <li><a href=#structure-hide>Hide a container element</a></li>
          </ol>
       </li>
       <li><a href=#components>Making Reusable Components</a>
@@ -120,8 +121,8 @@
 </nav>
 
 <!--*********************************************************************************************-->
-<h3 id=terms-requirements>Terminology and System Requirements</h3>
-<h4 id=terms>Terminology</h4>
+<h3 id=system>Terminology and Browser Support</h3>
+<h4 id=system-terms>Terminology</h4>
 <dl>
    <dt>Template:</dt>
    <dd>
@@ -146,11 +147,12 @@
    </dd>
 </dl>
 <br>
-<h4 id=requirements>System Requirements</h4>
+<h4 id=system-browsers>Browser Support</h4>
 <dl>
    <dt>Web Browsers:</dt>
    <dd>
-      dna.js supports Chrome, Edge, Internet Exploder, Firefox, Opera, and Safari.
+      dna.js supports Chrome, Firefox, IE/Edge, Opera, and Safari.&nbsp;  It also runs on Node.js
+      with jsdom.
    </dd>
 </dl>
 <dl>
@@ -2054,11 +2056,39 @@
       passed into <code>dna.clone()</code> when cloning a nested template.
    </p>
    <p>
-      View source for <a href=../spec.html#s07>spec runner #07</a>.
+      View source for <a href=../spec.html#spec07>spec runner #07</a>.
    </p>
    <p>
       In most cases, a simple <a href=#loop-sub-templates>sub-template array loop</a>
       is the better solution.
+   </p>
+
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=structure-hide>
+   <h4>Hide a container element</h4>
+   <p>
+      Add the class <code>dna-hide</code> to a container element that should not be visible until
+      after a decendant template is cloned.&nbsp;
+      The primary use for <code>dna-hide</code> is on <code>&lt;select&gt;</code> elements
+      because browsers do not support hiding <code>&lt;option&gt;</code> elements.&nbsp;
+   </p>
+   <figure>
+      <figcaption>Example drop-down hidden until options are ready</figcaption>
+      <pre><code class=language-html>
+         &lt;select class=dna-hide&gt;
+            &lt;option id=author class=dna-template&gt;~~author~~&lt;/option&gt;
+         &lt;/select&gt;
+      </code></pre>
+   </figure>
+   <p>
+      The <code>&lt;select&gt;</code> drop-down will be hidden until the <code>author</code>
+      template is cloned, thus preventing the user from seeing "<b>~~author~~</b>" flash on the
+      screen.
+   </p>
+   <p>
+      Also see: <a href=#structure-placeholder><code>data-placeholder</code></a>
    </p>
 
 </section>
@@ -2813,6 +2843,7 @@
 <section id=index-classes>
    <h4>List of Classes</h4>
    <ol>
+      <li><a href=#structure-hide>  <code>dna-hide</code></a>:           Hides a container element until a descendant template is cloned</li>
       <li><a href=#panels>          <code>dna-menu</code></a>:           Mark element as container for panel menu items</li>
       <li><a href=#panels>          <code>dna-panels</code></a>:         Mark element as container for panels</li>
       <li><a href=#loop-separators> <code>dna-separator</code></a>:      Mark element as a separator for multiple clones</li>
@@ -2842,7 +2873,7 @@
       <li><a href=#structure-thimblerig>  <code>data-missing</code></a>:        Show element only if field us not defined</li>
       <li><a href=#event-on-load>         <code>data-on-load</code></a>:        Pass element into function after HTML is loaded</li>
       <li><a href=#html-option>           <code>data-option</code></a>:         Set option in a select drop-down</li>
-      <li><a href=#html-placeholder>      <code>data-placeholder</code></a>:    Show element only if named template is empty</li>
+      <li><a href=#structure-placeholder> <code>data-placeholder</code></a>:    Show element only if named template is empty</li>
       <li><a href=#html-prop>             <code>data-prop-checked</code></a>:   Enable or disable "checked" property</li>
       <li><a href=#html-prop>             <code>data-prop-disabled</code></a>:  Enable or disable "disabled" property</li>
       <li><a href=#html-prop>             <code>data-prop-selected</code></a>:  Enable or disable "selected" property</li>

@@ -38,7 +38,9 @@ var dna = {
       for (var i = 0; i < list.length; i++)
          clones = clones.add(dna.core.replicate(template, list[i], i, settings));
       dna.placeholder.setup();  //TODO: optimize
-      clones.first().closest('.dna-menu, .dna-panels').each(dna.panels.refresh);
+      var first = clones.first();
+      first.closest('.dna-menu, .dna-panels').each(dna.panels.refresh);
+      first.parents('.dna-hide').removeClass('dna-hide').addClass('dna-unhide');
       return clones;
       },
    cloneSub: function(holderClone, arrayField, data, options) {
