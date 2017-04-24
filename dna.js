@@ -330,6 +330,7 @@ dna.ui = {
 
 dna.placeholder = {  //TODO: optimize
    setup: function() {
+      $('option.dna-template').closest('select').addClass('dna-hide');
       function fade(i, elem) {
          var input = $(elem).stop();
          return dna.getClones(input.data().placeholder).length ? input.fadeOut() : input.fadeIn();
