@@ -89,7 +89,7 @@
             <li><a href=#structure-placeholder>Template Placeholder</a></li>
             <li><a href=#structure-thimblerig>Thimblerig (conditional hide and seek logic)</a></li>
             <li><a href=#structure-nested-template>Nested Templates</a></li>
-            <li><a href=#structure-hide>Hide a container element</a></li>
+            <li><a href=#structure-hide>Hide a Container Element</a></li>
          </ol>
       </li>
       <li><a href=#components>Making Reusable Components</a>
@@ -2067,25 +2067,27 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=structure-hide>
-   <h4>Hide a container element</h4>
+   <h4>Hide a Container Element</h4>
    <p>
       Add the class <code>dna-hide</code> to a container element that should not be visible until
-      after a decendant template is cloned.&nbsp;
-      The primary use for <code>dna-hide</code> is on <code>&lt;select&gt;</code> elements
-      because browsers do not support hiding <code>&lt;option&gt;</code> elements.&nbsp;
+      after a decendant template is cloned.
    </p>
    <figure>
-      <figcaption>Example drop-down hidden until options are ready</figcaption>
+      <figcaption>Example component hidden until after cloning</figcaption>
       <pre><code class=language-html>
-         &lt;select class=dna-hide&gt;
-            &lt;option id=author class=dna-template&gt;~~author~~&lt;/option&gt;
-         &lt;/select&gt;
+         &lt;section data-component=bookshelf class=dna-hide&gt;
+            &lt;h2&gt;Bookshelf&lt;/h2&gt;
+            &lt;div&gt;
+               &lt;p id=book class=dna-template&gt;~~title~~&lt;/p&gt;
+            &lt;/div&gt;
+         &lt;/section&gt;
       </code></pre>
    </figure>
    <p>
-      The <code>&lt;select&gt;</code> drop-down will be hidden until the <code>author</code>
-      template is cloned, thus preventing the user from seeing "<b>~~author~~</b>" flash on the
-      screen.
+      The <code>data-component=bookshelf</code> element is hidden until the <code>book</code>
+      template is cloned, thus preventing the user from seeing the
+      <code>&lt;h2&gt;Bookshelf&lt;/h2&gt;</code>
+      heading before there are any books.
    </p>
    <p>
       Also see: <a href=#structure-placeholder><code>data-placeholder</code></a>
