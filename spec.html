@@ -1372,7 +1372,9 @@ var specRunner = {
       console.log('~~ dna.js ~~');
       console.log('Version: ' + info.version);
       console.log('Specifications:');
+      var start = Date.now();
       $('main >section').each(run);
+      console.log('Run time (ms):', Date.now() - start);
       console.log('Report:', info);
       console.log('');
       }
