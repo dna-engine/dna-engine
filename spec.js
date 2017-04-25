@@ -5,7 +5,8 @@
 //    $ cd dna.js
 //    $ npm test
 
-var html = `
+const url = 'http://example.com?a=one&b=two';
+const html = `
 <!doctype html>
 <html lang=en>
     <head>
@@ -17,11 +18,11 @@ var html = `
 </html>
 `;
 
-var assert =   require('assert');
-var document = require('jsdom').jsdom(html, { url: 'http://example.com' });
-var window =   document.defaultView;
-var $ =        require('jquery')(window);
-var dna =      require('./dna.js')(window, $);
+const assert =    require('assert');
+const { JSDOM } = require('jsdom');
+const window =    new JSDOM(html, { url: url }).window;
+const $ =         require('jquery')(window);
+const dna =       require('./dna.js')(window, $);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Utility function dna.array.fromMap()', () => {
