@@ -126,7 +126,7 @@
 <dl>
    <dt>Template:</dt>
    <dd>
-      An HTML element whose clones will be injected with data from JavaScript
+      An HTML element whose clones are injected with data from JavaScript
       objects.&nbsp; The element has the <code>dna-template</code> class.
    </dd>
 </dl>
@@ -158,7 +158,7 @@
 <dl>
    <dt>Versions:</dt>
    <dd>
-      dna.js requires jQuery 1.9 or above, and it has the same system requirements
+      dna.js requires jQuery 2.2 or above, and it has the same system requirements
       and <a href=http://jquery.com/browser-support class=external-site>browser
       support</a> as the version of jQuery you use.
    </dd>
@@ -438,7 +438,7 @@
    <figure>
       <figcaption>Example HTML (three names)</figcaption>
       <pre><code class=language-html>
-         &lt;div data-class=~~onSale,red-highlight,no-highlight~~&gt;
+         &lt;div data-class=~~onSale,highlight,no-highlight~~&gt;
       </code></pre>
    </figure>
    <p>
@@ -458,36 +458,38 @@
    </table>
    <p>
       Continuing with the example of the <code>onSale</code> data field, the code below would
-      result in the first book containing an element with the class <code>red-highlight</code> and
+      result in the first book containing an element with the class <code>highlight</code> and
       the second book containing an element with the class <code>no-highlight</code>.
    </p>
    <figure>
-      <figcaption>Example</figcaption>
+      <figcaption>Example HTML</figcaption>
       <pre><code class=language-html>
          &lt;div id=book class=dna-template&gt;
-            &lt;span data-class=~~onSale,red-highlight,no-highlight~~&gt;
-               ~~title~~
-            &lt;/span&gt;
+            &lt;p data-class=~~onSale,highlight,no-highlight~~&gt;~~title~~&lt;/p&gt;
          &lt;/div&gt;
-         &lt;script&gt;
+      </code></pre>
+   </figure>
+   <p class=big-symbol><i class=icon data-icon=plus></i></p>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
             var books = [
                { title: 'The DOM',     onSale: true },
                { title: 'Styling CSS', onSale: false }
                ];
             dna.clone('book', books);
-         &lt;/script&gt;
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
-   <figure>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
+    <figure>
       <figcaption>Resulting HTML</figcaption>
       <pre><code class=language-html>
          &lt;div class=book&gt;
-            &lt;span class=red-highlight&gt;The DOM&lt;/span&gt;
+            &lt;p class=highlight&gt;The DOM&lt;/p&gt;
          &lt;/div&gt;
          &lt;div class=book&gt;
-            &lt;span class=no-highlight&gt;Styling CSS&lt;/span&gt;
+            &lt;p class=no-highlight&gt;Styling CSS&lt;/p&gt;
          &lt;/div&gt;
       </code></pre>
    </figure>
@@ -548,7 +550,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure>
       <figcaption>Resulting HTML</figcaption>
       <pre><code class=language-html>
@@ -693,7 +695,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure>
       <figcaption>Resulting HTML</figcaption>
       <pre><code class=language-html>
@@ -941,7 +943,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure>
       <figcaption>Resulting HTML (before clicking button)</figcaption>
       <pre><code class=language-html>
@@ -951,6 +953,7 @@
          &lt;/div&gt;
       </code></pre>
    </figure>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure>
       <figcaption>Resulting HTML (after clicking button)</figcaption>
       <pre><code class=language-html>
@@ -1008,7 +1011,7 @@
       </code></pre>
    </figure>
    <p>
-      Users will be able to interactively rearrange the clones by clicking the <b>Move Up</b> and
+      Users are able to interactively rearrange the clones by clicking the <b>Move Up</b> and
       <b>Move Down</b> buttons.
    </p>
 </section>
@@ -1192,6 +1195,7 @@
          &lt;div id=book class=dna-template&gt;~~title~~&lt;/div&gt;
       </code></pre>
    </figure>
+   <p class=big-symbol><i class=icon data-icon=plus></i></p>
    <figure>
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
@@ -1203,7 +1207,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure>
       <figcaption>Resulting HTML</figcaption>
       <pre><code class=language-html>
@@ -1238,6 +1242,7 @@
          &lt;/div&gt;
       </code></pre>
    </figure>
+   <p class=big-symbol><i class=icon data-icon=plus></i></p>
    <figure>
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
@@ -1250,7 +1255,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure>
       <figcaption>Resulting HTML</figcaption>
       <pre><code class=language-html>
@@ -1291,6 +1296,7 @@
          &lt;/div&gt;
       </code></pre>
    </figure>
+   <p class=big-symbol><i class=icon data-icon=plus></i></p>
    <figure>
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
@@ -1299,7 +1305,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure>
       <figcaption>Resulting HTML</figcaption>
       <pre><code class=language-html>
@@ -1337,7 +1343,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure class=hljs-enhance>
       <figcaption>Result</figcaption>
       <div>
@@ -1361,7 +1367,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure class=hljs-enhance>
       <figcaption>Result</figcaption>
       <div>
@@ -1391,6 +1397,7 @@
          &lt;/div&gt;
       </code></pre>
    </figure>
+   <p class=big-symbol><i class=icon data-icon=plus></i></p>
    <figure>
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
@@ -1405,7 +1412,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure>
       <figcaption>Resulting HTML</figcaption>
       <pre><code class=language-html>
@@ -1430,7 +1437,7 @@
       element is passed into the function.
    </p>
    <p>
-      In the example below, the <code>span</code> node of each new book clone will be passed into
+      In the example below, the <code>span</code> node of each new book clone is passed into
       the <code>blink()</code> function, causing the title to fade in a couple times as if it's
       blinking at the user.
    </p>
@@ -1498,7 +1505,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
       <div>
@@ -1560,7 +1567,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
       <div>
@@ -1599,7 +1606,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
       <div>
@@ -1658,6 +1665,7 @@
          &lt;div&gt;Data: &lt;code id=data&gt;[YOUR MOVE]&lt;/code&gt;&lt;/div&gt;
       </code></pre>
    </figure>
+   <p class=big-symbol><i class=icon data-icon=plus></i></p>
    <figure>
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
@@ -1675,7 +1683,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure class=hljs-enhance>
       <figcaption>Update data model (interactive)</figcaption>
       <div>
@@ -1708,7 +1716,7 @@
       <b>Note:</b>
       While the original data used to clone the template may contain
       <a href=#real-truth>truthy</a> values, the <code>boolean</code> values updated in the data
-      model will be set to actual <code>true</code> or <code>false</code>.
+      model are set to actual <code>true</code> or <code>false</code>.
    </p>
 </section>
 
@@ -1805,6 +1813,7 @@
          &lt;/div&gt;
       </code></pre>
    </figure>
+   <p class=big-symbol><i class=icon data-icon=plus></i></p>
    <figure>
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
@@ -1817,7 +1826,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure>
       <figcaption>Resulting HTML</figcaption>
       <pre><code class=language-html>
@@ -1886,6 +1895,7 @@
          &lt;/div&gt;
       </code></pre>
    </figure>
+   <p class=big-symbol><i class=icon data-icon=plus></i></p>
    <figure>
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
@@ -1897,7 +1907,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure>
       <figcaption>Resulting HTML</figcaption>
       <pre><code class=language-html>
@@ -1961,6 +1971,7 @@
          &lt;/div&gt;
       </code></pre>
    </figure>
+   <p class=big-symbol><i class=icon data-icon=plus></i></p>
    <figure>
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
@@ -1972,7 +1983,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure>
       <figcaption>Resulting HTML</figcaption>
       <pre><code class=language-html>
@@ -2122,6 +2133,7 @@
            }
       </code></pre>
    </figure>
+   <p class=big-symbol><i class=icon data-icon=plus></i></p>
    <figure>
       <figcaption>Bookshelf Component HTML</figcaption>
       <pre><code class=language-html>
@@ -2138,7 +2150,7 @@
                var bookshelf = {
                   booksUrl: 'http://dnajs.org/rest/book/list/',
                   show: function(elem, event, component) {
-                     elem.text(component.data().component);
+                     elem.text(component.data().component + '!');
                      },
                   setup: function(elem) {
                      function handle(data) { dna.clone('my-book', data); }
@@ -2150,7 +2162,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure class=hljs-enhance>
       <figcaption>Result (with three books loaded from REST call)</figcaption>
       <div>
@@ -2168,7 +2180,7 @@
                var bookshelf = {
                   booksUrl: 'http://dnajs.org/rest/book/list/',
                   show: function(elem, event, component) {
-                     elem.text(component.data().component);
+                     elem.text(component.data().component + '!');
                      },
                   setup: function(elem) {
                      function handle(data) { dna.clone('my-book', data); }
@@ -2236,6 +2248,7 @@
             }
       </code></pre>
    </figure>
+   <p class=big-symbol><i class=icon data-icon=plus></i></p>
    <figure>
       <figcaption>Example HTML</figcaption>
       <pre><code class=language-html>
@@ -2268,7 +2281,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
       <div>
@@ -2360,7 +2373,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
       <div>
@@ -2441,6 +2454,7 @@
             &lt;/div&gt;
       </code></pre>
    </figure>
+   <p class=big-symbol><i class=icon data-icon=plus></i></p>
    <figure>
       <figcaption>Example JavaScript</figcaption>
       <pre><code class=language-javascript>
@@ -2452,7 +2466,7 @@
       </code></pre>
    </figure>
    <!-- Start: Result  -->
-   <div class=down-arrow></div>
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <span id=pearson></span><span id=shueisha></span><span id=wiley></span>
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>

@@ -24,7 +24,7 @@ Enclose data fields in double tildes `~~`.
 ```
 
 Then call the `dna.clone()` function to insert a copy of the template into the DOM.&nbsp; The
-supplied JSON data object will be used to populate the fields of the template.
+supplied JSON data object populates the fields of the template.
 
 #### b) JavaScript call to add book node
 ```js

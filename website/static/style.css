@@ -335,16 +335,13 @@ code.block-indent {
    border: 3px solid steelblue;
    }
 
-.down-arrow:before {
-   content: "\21E7";
-   }
-.down-arrow {
+.big-symbol {
    text-align: center;
-   transform: rotate(180deg);
-   font-size: 2.5rem;
-   font-weight: bold;
+   margin: -10px 0px 7px 0px;
+   }
+.big-symbol >i[data-icon] {
+   font-size: 3.0rem;
    color: steelblue;
-   margin: -10px 0px 10px 0px;
    }
 
 /* News */
