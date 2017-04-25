@@ -57,11 +57,10 @@ var jsHintConfig = {
    node:   true,
    mocha:  true,
    globals: {
-      app:      false,
-      console:  false,
-      $:        true,
-      document: true,
-      window:   true
+      app:     false,
+      console: false,
+      $:       true,
+      window:  true
       }
    };
 var jsHintConfigEs6 = Object.assign({}, jsHintConfig, { esversion: 6 });

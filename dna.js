@@ -128,7 +128,7 @@ var dna = {
       var settings = $.extend({ onDocumentLoad: true }, options);
       if (settings.onDocumentLoad)
          dna.util.apply(func, [settings.selector ? $(settings.selector).not('.dna-template ' +
-            settings.selector).addClass('dna-initialized') : $(document)].concat(settings.params));
+            settings.selector).addClass('dna-initialized') : $(window.document)].concat(settings.params));
       return dna.events.initializers.push(
          { func: func, selector: settings.selector, params: settings.params });
       },
@@ -418,8 +418,8 @@ dna.panels = {
       },
    setup: function() {
       $('.dna-menu').each(dna.panels.refresh);
-      $(document).on({ click:  dna.panels.clickRotate },  '.dna-menu .menu-item');
-      $(document).on({ change: dna.panels.selectRotate }, '.dna-menu');
+      $(window.document).on({ click:  dna.panels.clickRotate },  '.dna-menu .menu-item');
+      $(window.document).on({ change: dna.panels.selectRotate }, '.dna-menu');
       }
    };
 
@@ -719,9 +719,9 @@ dna.events = {
             return elem.closest('.external-site').length ? '_blank' : '_self';
             }
          function jump(event) { window.open($(event.target).data().href, context($(event.target))); }
-         $(document).on({ click: jump }, '[data-href]');
+         $(window.document).on({ click: jump }, '[data-href]');
          }
-      $(document)
+      $(window.document)
          .click(handle)
          .change(handle)
          .keyup(handle)
