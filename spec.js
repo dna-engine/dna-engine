@@ -62,3 +62,14 @@ describe('Utility function dna.util.toCamel()', () => {
       });
 
    });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Utility function dna.util.printf()', () => {
+
+  it('builds a string from variables', () => {
+    var actual = dna.util.printf('%s: %s', 'Lives', 3);
+    expected = 'Lives: 3';
+    assert.equal(actual, expected);
+    });
+
+  });
