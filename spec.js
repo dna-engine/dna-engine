@@ -108,18 +108,22 @@ describe('Utility function dna.util.toKebab()', () => {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
+
 describe('Utility function dna.util.apply()', () => {
 
   it('calls fn (string name or actual function) passing in params', () => {
-
-    app.cart.buy(var){
-      return var;
+    var app = {
+      priceCatalog: { 3: 19.95, 7: 14.95, 21: 39.95 },
+      cart: {
+        buy: function(itemNum) {
+          return app.priceCatalog[itemNum];
+        }
+      }
     }
+    dna.registerContext('app', app);
     var actual = dna.util.apply('app.cart.buy', 7);
-    expected = 'app.cart.buy(7)';
+    expected = '14.95';
     assert.equal(actual, expected);
     });
 
   });
-*/
