@@ -73,3 +73,57 @@ describe('Utility function dna.util.printf()', () => {
     });
 
   });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Utility function dna.util.realTruth()', () => {
+
+  it('returns a boolean', () => {
+    var dataSet = [
+         { input: '7', expected: true },
+         { input: '0', expected: false }
+         ];
+      function evalData(data) {
+         assert.equal(dna.util.realTruth(data.input), data.expected);
+         }
+      dataSet.forEach(evalData);
+      });
+
+  });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Utility function dna.util.toKebab()', () => {
+
+  it('converts kebab (dashes) name to camelCase', () => {
+    var dataSet = [
+         { input: 'readySetGo', expected: 'ready-set-go' },
+         { input: 'dna',          expected: 'dna' }
+         ];
+      function evalData(data) {
+         assert.equal(dna.util.toKebab(data.input), data.expected);
+         }
+      dataSet.forEach(evalData);
+      });
+
+  });
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+describe('Utility function dna.util.apply()', () => {
+
+  it('calls fn (string name or actual function) passing in params', () => {
+    var app = {
+      priceCatalog: { 3: 19.95, 7: 14.95, 21: 39.95 },
+      cart: {
+        buy: function(itemNum) {
+          return app.priceCatalog[itemNum];
+        }
+      }
+    }
+    dna.registerContext('app', app);
+    var actual = dna.util.apply('app.cart.buy', 7);
+    expected = '14.95';
+    assert.equal(actual, expected);
+    });
+
+  });
