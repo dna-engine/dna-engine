@@ -7,7 +7,6 @@ var filesize =    require('gulp-filesize');
 var header =      require('gulp-header');
 var htmlhint =    require('gulp-htmlhint');
 var jshint =      require('gulp-jshint');
-var mocha =       require('gulp-mocha');
 var rename =      require('gulp-rename');
 var replace =     require('gulp-replace');
 var uglify =      require('gulp-uglify');
@@ -42,13 +41,7 @@ var versionPatternStrs = [
    ];
 var versionPatterns = new RegExp('(' + versionPatternStrs.join('|') + ')[0-9.]*', 'g');
 var httpdocsFolder = 'website/httpdocs';
-var files = {
-   html: ['*.html', 'website/*.html', 'website/httpdocs/*.html'],
-   js:   ['dna.js', 'gulpfile.js', 'website/*.js']
-   };
-var htmlHintConfig = {
-   'attr-value-double-quotes': false
-   };
+var htmlHintConfig = { 'attr-value-double-quotes': false };
 var jsHintConfig = {
    strict: 'implied',
    undef:  true,
@@ -65,25 +58,19 @@ var jsHintConfig = {
    };
 var jsHintConfigEs6 = Object.assign({}, jsHintConfig, { esversion: 6 });
 
-function setVersionNumberDev() {
+function setVersionNumber() {
    var stream = gulp.src(['dna.js', 'dna.css'])
       .pipe(replace(versionPatterns, '$1' + context.pkg.version))
-      .pipe(filesize())
-      .pipe(gulp.dest('.'));
-   return stream;
-   }
-
-function setVersionNumberProd() {
-   var stream = gulp.src('bower.json')
-      .pipe(replace(versionPatterns, '$1' + context.pkg.version))
-      .pipe(filesize())
       .pipe(gulp.dest('.'));
    return stream;
    }
 
 function runJsHint() {
-   gulp.src(files.js)
+   gulp.src(['dna.js', 'website/*.js'])
       .pipe(jshint(jsHintConfig))
+      .pipe(jshint.reporter());
+   gulp.src(['gulpfile.js', 'spec.js'])
+      .pipe(jshint(jsHintConfigEs6))
       .pipe(jshint.reporter());
    }
 
@@ -96,16 +83,8 @@ function runUglify() {
    }
 
 function reportSize() {
-   gulp.src('dna*.js')
+   gulp.src('dna.*')
       .pipe(filesize());
-   }
-
-function runSpec() {
-   var stream = gulp.src('spec.js')
-      .pipe(jshint(jsHintConfigEs6))
-      .pipe(jshint.reporter())
-      .pipe(mocha());
-   return stream;
    }
 
 function cleanWebsite() {
@@ -140,11 +119,9 @@ function buildWebsite() {
       .pipe(gulp.dest(httpdocsFolder));
    }
 
-gulp.task('dev',     setVersionNumberDev);
-gulp.task('release', setVersionNumberProd);
-gulp.task('jshint',  ['dev'], runJsHint);
-gulp.task('uglify',  ['dev'], runUglify);
-gulp.task('spec',    ['dev'], runSpec);
-gulp.task('default', ['jshint', 'uglify', 'spec'], reportSize);
-gulp.task('clean',   cleanWebsite);
-gulp.task('web',     ['clean'], buildWebsite);
+gulp.task('set-version', setVersionNumber);
+gulp.task('lint',        runJsHint);
+gulp.task('minify',      ['set-version'], runUglify);
+gulp.task('build',       ['lint', 'minify'], reportSize);
+gulp.task('clean-web',   cleanWebsite);
+gulp.task('web',         ['clean-web'], buildWebsite);

@@ -11,10 +11,9 @@
    "repository":   "dnajs/dna.js",
    "author":       { "name": "Center Key", "url": "http://centerkey.com" },
    "scripts": {
-      "build":   "gulp",
+      "pretest": "gulp build",
       "test":    "mocha spec.js",
-      "web":     "gulp web",
-      "release": "gulp release"
+      "web":     "gulp web"
       },
    "dependencies": { "jquery": ">=2.2" },
    "devDependencies": {
@@ -24,14 +23,14 @@
       "gulp-header":       "~1.8",
       "gulp-htmlhint":     "~0.3",
       "gulp-jshint":       "~2.0",
-      "gulp-mocha":        "~4.3",
       "gulp-rename":       "~1.2",
       "gulp-replace":      "~0.5",
       "gulp-uglify":       "~2.1",
       "gulp-w3cjs":        "~1.3",
       "del":               "~2.2",
-      "jsdom":             "~10.0",
-      "jshint":            "~2.9"
+      "jsdom":             "~10.1",
+      "jshint":            "~2.9",
+      "mocha":             "~3.3"
       },
    "dna": {
       "fullName":  "dna.js Semantic Templates",

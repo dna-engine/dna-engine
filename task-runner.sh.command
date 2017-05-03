@@ -12,7 +12,7 @@ projectHome=$(cd $(dirname $0); pwd)
 runTasks() {
    cd $projectHome
    echo "Tasks:"
-   npm run build
+   npm test
    echo
    }
 
@@ -47,7 +47,6 @@ releaseInstructions() {
    echo
    echo "To release this version:"
    echo "   cd $(pwd)"
-   echo "   npm run release"
    echo "   website/build-website.sh.command"
    echo "   *** Check in local changes with the comment:"
    echo "      Release $versionLocal"
