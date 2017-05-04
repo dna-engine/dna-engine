@@ -47,7 +47,7 @@ describe('Utility function dna.array.find()', () => {
     });
 
 });
-/*
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Utility function dna.array.toMap()', () => {
 
@@ -55,7 +55,7 @@ describe('Utility function dna.array.toMap()', () => {
      var dataSet = [
         {
            inputArray: [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }],
-           expected: { a: { word: 'Ant' }, b: { word: 'Bat' } }
+           expected: { a: { code: 'a', word: 'Ant' }, b: { code: 'b', word: 'Bat' } }
         }];
      function evalData(data) {
         var output = dna.array.toMap(data.inputArray, data.inputKey);
@@ -65,7 +65,7 @@ describe('Utility function dna.array.toMap()', () => {
      });
 
   });
-*/
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Utility function dna.array.fromMap()', () => {
 
