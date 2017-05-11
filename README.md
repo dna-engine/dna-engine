@@ -1,7 +1,7 @@
-### dna.js Semantic Templates
+### dna.js
 <img src=https://raw.githubusercontent.com/dnajs/dna.js/master/website/static/graphics/dnajs-logo.png
    align=right width=160 alt=logo>
-*An uncomplicated user interface library*
+*An uncomplicated user interface library for semantic templates*
 
 [![npm](https://img.shields.io/npm/v/dna.js.svg)](https://github.com/dnajs/dna.js)
 [![Build Status](https://travis-ci.org/dnajs/dna.js.svg)](https://travis-ci.org/dnajs/dna.js)

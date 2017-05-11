@@ -42,14 +42,15 @@ body {
    padding: 20px 50px 30px 50px;
    margin: 0px auto;
    }
-header nav ul {
+body >header nav ul {
    text-align: center;
+   margin-bottom: 5px;
    }
-header nav ul li {
+body >header nav ul li {
    display: inline-block;
    }
-header nav ul li a,
-header nav ul li a:visited {
+body >header nav ul li a,
+body >header nav ul li a:visited {
    display: inline-block;
    font-weight: bold;
    font-size: 0.9rem;
@@ -58,32 +59,33 @@ header nav ul li a:visited {
    padding: 1px 12px;
    margin: 0px 10px 10px 10px;
    }
-header nav ul li.current a,
-header nav ul li a:hover {
+body >header nav ul li.current a,
+body >header nav ul li a:hover {
    color: dimgray;
    border-color: dimgray;
    }
-header h1 {
-   font-size: 2.2rem;
+body >header h1 {
+   font-size: 3.0rem;
    font-family: Chango, sans-serif;
    text-align: center;
    color: steelblue;
    margin-bottom: 5px;
    }
-header h2 {
-   font-size: 1.2rem;
+body >header h2 {
+   font-size: 1.1rem;
+   font-style: italic;
    text-align: center;
-   margin-bottom: 20px;
+   margin-bottom: 30px;
    }
 main >h2 {
    font-size: 1.2rem;
    font-weight: normal;
    text-transform: uppercase;
    }
-footer {
+body >footer {
    padding: 40px 0px 0px 0px;
    }
-footer .tag-line {
+body >footer .tag-line {
    font-size: 0.7rem;
    font-style: italic;
    color: slategray;

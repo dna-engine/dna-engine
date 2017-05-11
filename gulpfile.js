@@ -31,7 +31,7 @@ var context = {
       toDo:           'wo6og0z8'
       }
    };
-context.title = context.pkg.dna.fullName;  //default page title
+context.title = 'dna.js';  //default page title
 var banner = '//dna.js v' + context.pkg.version + ' ~~ dnajs.org/license\n';
 var versionPatternStrs = [
    'dna[.]js v',     //example (dna.css):      /* dna.js v1.0.0 ~~ dnajs.org/license */
