@@ -30,7 +30,7 @@ describe('Utility function dna.array.last()', () => {
 
  it('returns last object in array', () => {
    var actual = dna.array.last([3, 21, 7]);
-   expected = '7';
+   var expected = '7';
    assert.equal(actual, expected);
    });
 
@@ -42,7 +42,7 @@ describe('Utility function dna.array.find()', () => {
   it('finds a key in an array and returns the value', () => {
     var array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
     var actual = dna.array.find(array, 'b').word;
-    expected = 'Bat';
+    var expected = 'Bat';
     assert.equal(actual, expected);
     });
 
@@ -128,7 +128,7 @@ describe('Utility function dna.util.value()', () => {
 
  it('returns value from key', () => {
    var actual = dna.util.value({ a: { b: 7 }}, 'a.b');
-   expected = '7';
+   var expected = '7';
    assert.equal(actual, expected);
    });
 
@@ -155,7 +155,7 @@ describe('Utility function dna.util.printf()', () => {
 
  it('builds a string from variables', () => {
    var actual = dna.util.printf('%s: %s', 'Lives', 3);
-   expected = 'Lives: 3';
+   var expected = 'Lives: 3';
    assert.equal(actual, expected);
    });
 
@@ -172,10 +172,10 @@ describe('Utility function dna.util.apply()', () => {
          return app.priceCatalog[itemNum];
        }
      }
-   }
+   };
    dna.registerContext('app', app);
    var actual = dna.util.apply('app.cart.buy', 7);
-   expected = '14.95';
+   var expected = '14.95';
    assert.equal(actual, expected);
    });
 
