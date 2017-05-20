@@ -1528,12 +1528,12 @@
    <h4>Smart Update</h4>
    <p>
       Smart update callbacks are run only when a user changes the actual value of a text
-      <code>input</code>, and the calls are throttled to be at least two seconds apart.
+      <code>input</code>, and the calls are throttled to be at least one second apart.
    </p>
    <p>
       The <code>data-smart-update</code> attribute sets the callback, and the
       <code>data-smart-throttle</code> attribute sets the throttle rate in milliseconds to
-      override the 2000 millisecond default.
+      override the 1000 millisecond default.
    </p>
    <figure>
       <figcaption>Example</figcaption>
@@ -1544,8 +1544,8 @@
          &lt;/div&gt;
          &lt;script&gt;
             function logNow(elem) {
-               var message = Date.now() + ': ' + elem.val();
-               dna.clone('log-message', { message: message });
+               var msg = Date.now() + ': ' + elem.val();
+               dna.clone('log-message', { message: msg }, { fade: true });
                }
          &lt;/script&gt;
       </code></pre>
@@ -1561,8 +1561,8 @@
          </div>
          <script>
             function logNow(elem) {
-               var message = Date.now() + ': ' + elem.val();
-               dna.clone('log-message', { message: message });
+               var msg = Date.now() + ': ' + elem.val();
+               dna.clone('log-message', { message: msg }, { fade: true });
                }
          </script>
       </div>
@@ -2493,9 +2493,50 @@
 <section id=panels-styling>
    <h4>Styling Panels</h4>
    <p>
-      Use CSS, such as <a href=../panel-nav.css class=external-size><code>panel-nav.css</code></a>,
-      to stylize your menu and panels.
+      Use CSS to stylize your panel navigation.
    </p>
+   <p>
+      The examples below are based on the CSS at:
+      <a href=../panel-nav.css class=external-size><code>panel-nav.css</code></a>
+   </p>
+   <h5>Flat tabs</h5>
+   <figure>
+      <figcaption>Example HTML for flat tabs styling</figcaption>
+      <pre><code class=language-html>
+            &lt;h2&gt;Book format&lt;/h2&gt;
+            &lt;nav id=book-format class=dna-menu data-style=flat-tabs&gt;
+               &lt;span&gt;Hardcover&lt;/span&gt;
+               &lt;span&gt;Paperback&lt;/span&gt;
+               &lt;span&gt;eBook&lt;/span&gt;
+            &lt;/nav&gt;
+            &lt;div id=book-format-panels class=dna-panels&gt;
+               &lt;p&gt;Hardcovers are the nicest.&lt;/p&gt;
+               &lt;p&gt;Paperbacks are the easiest.&lt;/p&gt;
+               &lt;p&gt;EBooks are the future.&lt;/p&gt;
+            &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <!-- Start: Result  -->
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
+   <figure class=hljs-enhance>
+      <figcaption>Result (interactive)</figcaption>
+      <div>
+         <div>
+            <h2>Book format</h2>
+            <nav id=book-format class=dna-menu data-style=flat-tabs>
+               <span>Hardcover</span>
+               <span>Paperback</span>
+               <span>eBook</span>
+            </nav>
+            <div id=book-format-panels class=dna-panels>
+               <p>Hardcovers are the nicest.</p>
+               <p>Paperbacks are the easiest.</p>
+               <p>eBooks are the future.</p>
+            </div>
+         </div>
+      </div>
+   </figure>
+   <!-- End: Result  -->
    <h5>Pill box tabs</h5>
    <figure>
       <figcaption>Example HTML for pill box tabs</figcaption>
