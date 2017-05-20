@@ -2,11 +2,11 @@
 // gulp configuration and tasks
 
 var gulp =        require('gulp');
-var fileinclude = require('gulp-file-include');
+var fileInclude = require('gulp-file-include');
 var filesize =    require('gulp-filesize');
 var header =      require('gulp-header');
-var htmlhint =    require('gulp-htmlhint');
-var jshint =      require('gulp-jshint');
+var htmlHint =    require('gulp-htmlhint');
+var jsHint =      require('gulp-jshint');
 var rename =      require('gulp-rename');
 var replace =     require('gulp-replace');
 var uglify =      require('gulp-uglify');
@@ -14,8 +14,8 @@ var w3cjs =       require('gulp-w3cjs');
 var del =         require('del');
 
 var context = {
-   pkg:     require('./package.json'),
-   size:    '16 kb',
+   pkg:  require('./package.json'),
+   size: '16 kb',
    youTube: {
       intro:    'jMOZOI-UkNI',
       tutorial: 'juIru5qHZFM'
@@ -66,11 +66,11 @@ function setVersionNumber() {
 
 function runJsHint() {
    gulp.src(['dna.js', 'website/*.js'])
-      .pipe(jshint(jsHintConfig))
-      .pipe(jshint.reporter());
+      .pipe(jsHint(jsHintConfig))
+      .pipe(jsHint.reporter());
    gulp.src(['gulpfile.js', 'spec.js'])
-      .pipe(jshint(jsHintConfigEs6))
-      .pipe(jshint.reporter());
+      .pipe(jsHint(jsHintConfigEs6))
+      .pipe(jsHint.reporter());
    }
 
 function runUglify() {
@@ -107,14 +107,14 @@ function buildWebsite() {
    gulp.src('website/static/**/*.html')
       .pipe(w3cjs())
       .pipe(w3cjs.reporter())
-      .pipe(htmlhint(htmlHintConfig))
-      .pipe(htmlhint.reporter());
+      .pipe(htmlHint(htmlHintConfig))
+      .pipe(htmlHint.reporter());
    gulp.src('website/root/**/*.html')
-      .pipe(fileinclude({ basepath: '@root', indent: true, context: context }))
+      .pipe(fileInclude({ basepath: '@root', indent: true, context: context }))
       .pipe(w3cjs())
       .pipe(w3cjs.reporter())
-      .pipe(htmlhint(htmlHintConfig))
-      .pipe(htmlhint.reporter())
+      .pipe(htmlHint(htmlHintConfig))
+      .pipe(htmlHint.reporter())
       .pipe(gulp.dest(httpdocsFolder));
    }
 
