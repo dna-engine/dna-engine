@@ -85,11 +85,6 @@ main >h2 {
 body >footer {
    padding: 40px 0px 0px 0px;
    }
-body >footer .tag-line {
-   font-size: 0.7rem;
-   font-style: italic;
-   color: slategray;
-   }
 
 /* Sidebar */
 aside {
