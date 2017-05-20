@@ -104,6 +104,7 @@
             <li><a href=#panels-example>Example</a></li>
             <li><a href=#panels-template>Template-Driven Panels</a></li>
             <li><a href=#panels-routes>Panel Routes</a></li>
+            <li><a href=#panels-styling>Styling Panels</a></li>
          </ol>
       </li>
       <li><a href=#utils>Utilities</a></li>
@@ -2482,6 +2483,53 @@
                      panel.append($('<a>', { text: url, href: url }));
                   }
             </script>
+         </div>
+      </div>
+   </figure>
+   <!-- End: Result  -->
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=panels-styling>
+   <h4>Styling Panels</h4>
+   <p>
+      Use CSS, such as <a href=../panel-nav.css class=external-size><code>panel-nav.css</code></a>,
+      to stylize your menu and panels.
+   </p>
+   <h5>Pill box tabs</h5>
+   <figure>
+      <figcaption>Example HTML for pill box tabs</figcaption>
+      <pre><code class=language-html>
+            &lt;h2&gt;Book type&lt;/h2&gt;
+            &lt;nav id=book-type class=dna-menu data-style=pill-box-tabs&gt;
+               &lt;span&gt;Action&lt;/span&gt;
+               &lt;span&gt;Mystery&lt;/span&gt;
+               &lt;span&gt;Sciense Fiction&lt;/span&gt;
+            &lt;/nav&gt;
+            &lt;div id=book-type-panels class=dna-panels&gt;
+               &lt;p&gt;Action books&lt;/p&gt;
+               &lt;p&gt;Mystery books&lt;/p&gt;
+               &lt;p&gt;Science fiction books are the best!&lt;/p&gt;
+            &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <!-- Start: Result  -->
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
+   <figure class=hljs-enhance>
+      <figcaption>Result (interactive)</figcaption>
+      <div>
+         <div>
+            <h2>Book type</h2>
+            <nav id=book-type class=dna-menu data-style=pill-box-tabs>
+               <span>Action</span>
+               <span>Mystery</span>
+               <span>Science fiction</span>
+            </nav>
+            <div id=book-type-panels class=dna-panels>
+               <p>Action books rock!</p>
+               <p>Mystery books rule!</p>
+               <p>Science fiction books are the best!</p>
+            </div>
          </div>
       </div>
    </figure>

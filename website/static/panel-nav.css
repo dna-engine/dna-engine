@@ -14,7 +14,7 @@ nav.dna-menu[data-style=pill-box-tabs] {
    margin-bottom: 8px;
    }
 nav.dna-menu[data-style=pill-box-tabs] span {
-   color: darkgray;
+   color: dimgray;
    background-color: gainsboro;
    padding: 5px 30px;
    transition: all 0.4s;
@@ -27,7 +27,7 @@ nav.dna-menu[data-style=pill-box-tabs] span:last-child {
    }
 nav.dna-menu[data-style=pill-box-tabs] span.selected,
 nav.dna-menu[data-style=pill-box-tabs] span:hover {
-   color: dimgray;
+   color: darkslategray;
    background-color: lightsteelblue;
    }
 nav.dna-menu[data-style=pill-box-tabs] span.selected {
