@@ -30,7 +30,7 @@
       "del":               "~2.2",
       "jsdom":             "~10.1",
       "jshint":            "~2.9",
-      "mocha":             "~3.3"
+      "mocha":             "~3.4"
       },
    "dna": {
       "summary":   "dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications."
