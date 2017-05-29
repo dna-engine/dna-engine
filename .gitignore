@@ -3,7 +3,7 @@
 # Generated and downloaded files
 /node_modules/
 /website/httpdocs/
-/spec-min.html
+/spec/visual-min.html
 
 # Extraneous system files
 .DS_Store

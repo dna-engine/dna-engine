@@ -1,16 +1,16 @@
 <!doctype html>
-<!-- - - - - - - - - - - - -->
-<!-- dna.js                -->
-<!-- Specification Runner  -->
-<!-- dnajs.org/spec.html   -->
-<!-- - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - - -->
+<!-- dna.js                      -->
+<!-- Specification Runner        -->
+<!-- dnajs.org/spec/visual.html  -->
+<!-- - - - - - - - - - - - - - - -->
 <html lang=en>
 <head>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width, initial-scale=1">
 <title>dna.js &bull; Specification Runner</title>
 <link rel=icon       href=website/static/graphics/bookmark.png>
-<link rel=stylesheet href=dna.css>
+<link rel=stylesheet href=../dna.css>
 <style>
    body                { font-family: sans-serif; margin: 30px; }
    body >header        { margin-bottom: 30px; }
@@ -45,8 +45,8 @@
 <header>
    <button data-href=http://dnajs.org>dnajs.org</button>
    <h1>dna.js</h1>
-   <h2>Specification Runner</h2>
-   <p><span id=file-name>dna.js</span> &mdash; <a id=switch href=spec-min.html>switch</a></p>
+   <h2>Visual Specification Runner</h2>
+   <p><span id=file-name>dna.js</span> &mdash; <a id=switch href=visual-min.html>switch</a></p>
 </header>
 
 <main>
@@ -236,22 +236,22 @@ var spec04 = {
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone>
-            <div>Title:  <span>1st</span></div>
+            <div>Title:  <span>1st!!</span></div>
             <div>Author: <span>Lee</span></div>
             <div>Code:   <span>11</span></div>
          </div>
          <div class=dna-clone>
-            <div>Title:  <span>2st</span></div>
+            <div>Title:  <span>2st!!</span></div>
             <div>Author: <span>Jan</span></div>
             <div>Code:   <span>9</span></div>
          </div>
          <div class="dna-clone color-change">
-            <div>Title:  <span>1st</span></div>
+            <div>Title:  <span>1st!!!</span></div>
             <div>Author: <span>Lee</span></div>
             <div>Code:   <span>11</span></div>
          </div>
          <div class="dna-clone color-change">
-            <div>Title:  <span>2st</span></div>
+            <div>Title:  <span>2st!!!</span></div>
             <div>Author: <span>Jan</span></div>
             <div>Code:   <span>9</span></div>
          </div>
@@ -273,9 +273,10 @@ var spec05 = {
       dna.createTemplate('s05-book', spec05.html, $('#s05-book-list'));
       var book1 = { title: '1st', author: 'Lee' };  //code: 11
       var book2 = { title: '2nd', author: 'Jan' };  //code: 9
-      dna.clone('s05-book', [book1, book2]).addClass('color-change');
-      dna.clone('s05-book', [book1, book2], { empty: true });
-      dna.clone('s05-book', [book1, book2]).addClass('color-change');
+      function bang(book) { book.title = book.title + '!'; return book; }
+      dna.clone('s05-book', [book1, book2], { transform: bang }).addClass('color-change');
+      dna.clone('s05-book', [book1, book2], { transform: bang, empty: true });
+      dna.clone('s05-book', [book1, book2], { transform: bang }).addClass('color-change');
       }
    };
 </script>
@@ -1348,7 +1349,7 @@ var spec20 = {
 </footer>
 
 <script src=https://cdn.jsdelivr.net/jquery/3.2/jquery.min.js></script>
-<script src=dna.js></script>
+<script src=../dna.js></script>
 <script>
 var specRunner = {
    catalog: [
@@ -1359,7 +1360,7 @@ var specRunner = {
    setup: function() {
       function minifiedMode() {
          $('#file-name').text('dna.min.js');
-         $('#switch').attr('href', 'spec.html');
+         $('#switch').attr('href', 'visual.html');
          }
       if (window.location.pathname.endsWith('-min.html'))
          minifiedMode();

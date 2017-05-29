@@ -83,8 +83,8 @@ getVersions() {
 
 specRunner() {
    cd $projectHome
-   sed s/src=dna.js/src=dna.min.js/ spec.html > spec-min.html
-   url=http://localhost:$port/spec.html
+   sed s/src=dna.js/src=dna.min.js/ spec/visual.html > spec/visual-min.html
+   url=http://localhost:$port/spec/visual.html
    echo "Specification Runner:"
    echo $url
    echo
