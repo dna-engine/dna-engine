@@ -25,9 +25,16 @@ var dna = {
    //    dna.info()
    // See: http://dnajs.org/docs/#api
    clone: function(name, data, options) {
-      var settings = $.extend(
-         { fade: false, top: false, container: null, empty: false, html: false, callback: null },
-         options);
+      var defaults = {
+         fade:      false,
+         top:       false,
+         container: null,
+         empty:     false,
+         html:      false,
+         transform: null,
+         callback:  null
+         };
+      var settings = $.extend(defaults, options);
       var template = dna.store.getTemplate(name);
       if (template.nested && !settings.container)
          dna.core.berserk('Container missing for nested template: ' + name);
@@ -512,7 +519,7 @@ dna.compile = {
       if (attrs.length > 0)
          dna.compile.setupNucleotide(elem).data().dnaRules.attrs = attrs;
       if (elem.data().transform)  //TODO: Determine if it's better to process only at top-level of clone
-         dna.compile.setupNucleotide(elem).data().dnaRules.transform = elem.data().transform;
+         dna.compile.setupNucleotide(elem).data().dnaRules.transform = elem.data().transform;  //TODO: string to fn
       if (elem.data().callback)
          dna.compile.setupNucleotide(elem).data().dnaRules.callback = elem.data().callback;
       return elem.removeAttr(names.join(' '));
@@ -797,7 +804,7 @@ dna.core = {
       function process(i, elem) {
          elem = $(elem);
          var dnaRules = elem.data().dnaRules;
-         if (dnaRules.transform)
+         if (dnaRules.transform)  //alternate version of the "transform" option
             dna.util.apply(dnaRules.transform, data);
          if (dnaRules.text)
             injectField(elem, dnaRules.text);
@@ -827,6 +834,8 @@ dna.core = {
          if (elems.length)
             dig(elems.children().not('.dna-sub-clone'));
          }
+      if (settings.transform)  //alternate version of data-transform
+         settings.transform(data);
       dig(clone);
       clone.data().dnaModel = data;
       return clone;

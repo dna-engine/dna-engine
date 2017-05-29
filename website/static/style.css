@@ -301,6 +301,11 @@ nav.toc ~ h3 {
    top: 0px;
    left: -190px;
    }
+section >p >em {
+   display: block;
+   font-weight: bold;
+   font-style: normal;
+   }
 
 .wrappable code,
 code.wrappable,

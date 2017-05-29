@@ -13,7 +13,7 @@
 </p>
 <p>
    For richer examples, view the HTML source of the project
-   <a href=../spec.html>specification runner</a>.
+   <a href=../spec/visual.html>visual specification runner</a>.
 </p>
 <nav class=toc>
    <h4>Contents:</h4>
@@ -78,7 +78,8 @@
             <li><a href=#event-jump>Jump to page (URL)</a></li>
             <li><a href=#event-update-model>Data Model Updating on Field Updates</a></li>
             <li><a href=#event-initializer>Initializers</a></li>
-            <li><a href=#event-callback-option>Callback Options</a></li>
+            <li><a href=#event-transform-option>Transform Option</a></li>
+            <li><a href=#event-callback-option>Callback Option</a></li>
             <li><a href=#event-on-load>On Load Functions</a></li>
          </ol>
       </li>
@@ -342,7 +343,7 @@
       </code></pre>
    </figure>
    <p>
-      <b>Note:</b>
+      <em>Note:</em>
       See <a href=#html-attr-data>Element Attribute (advanced)</a> for alternate ways to set the
       value of an attribute.
    </p>
@@ -603,6 +604,7 @@
                @@include('website/templates/options/html.html')
                @@include('website/templates/options/empty.html')
                @@include('website/templates/options/holder.html')
+               @@include('website/templates/options/transform.html')
                @@include('website/templates/options/callback.html')
             </ul>
          </li>
@@ -702,7 +704,7 @@
       and populates the fields, attributes, and classes from the JSON response.
    </p>
    <p>
-      <b>Note:</b>
+      <em>Note:</em>
       This feature is currently experimental with very limited functionality.
    </p>
    <div class=api-parameters>
@@ -885,7 +887,7 @@
       </code></pre>
    </figure>
    <p>
-      <b>Note:</b>
+      <em>Note:</em>
       If the only option being set is <code>fade</code> to <code>true</code>, it is simpler to user
       the <code><a href=#api-bye>dna.bye()</a></code> convenience method.
    </p>
@@ -1056,11 +1058,11 @@
       </code></pre>
    </figure>
    <p>
-      <b>Note 1:</b>
+      <em>Note 1:</em>
       The element identifying the clone can be a sub-element within the clone or the clone itslef.
    </p>
    <p>
-      <b>Note 2:</b>
+      <em>Note 2:</em>
       The clone to be removed can be either a main clone or a sub-clone.
    </p>
 </section>
@@ -1336,7 +1338,7 @@
    </figure>
    <!-- End: Result  -->
    <p>
-      <b>Note:</b>
+      <em>Note:</em>
       For more advanced control, use the classes <code>dna-separator</code> and
       <code>dna-last-separator</code> on elements within the template.
    </p>
@@ -1368,9 +1370,14 @@
 <section id=event-transform>
    <h4>Data Model Transformer</h4>
    <p>
-      The FINAL chapter in keeping JavaScript out of HTML is here.&nbsp;
-      Transformers (<code>data-transform</code>) are the holy grail of semantic templates, enabling
-      you to cleanly organize your business logic in JavaScript instead creating hideous HTML.
+      Essential to building semantic templates and keeping JavaScript out of your HTML is having a
+      clean way to mutate (enhance) the data model.&nbsp;
+      Use the <code>data-transform</code> attribute to declare transformers that implment your
+      business logic.
+   </p>
+   <p>
+      The transformer function receives the clone's data model so it can modify the model before
+      the clone element is created.
    </p>
    <figure>
       <figcaption>Example HTML</figcaption>
@@ -1410,6 +1417,12 @@
       </code></pre>
    </figure>
    <!-- End: Result  -->
+   <p>
+      <em>Note:</em>
+      The transform function can also be passed as an <a href=#event-transform-option>option</a>
+      when cloning, such as:
+      <code>dna.clone('book', books, { transform: enhanceBook })</code>
+   </p>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -1442,7 +1455,13 @@
       </code></pre>
    </figure>
    <p>
-      <b>Note:</b>
+      <em>Note 1:</em>
+      A callback function can also be passed as an
+      <a href=#event-callback-option> option</a>, such as:
+      <code>dna.clone('book', books, { callback: blink });</code>
+   </p>
+   <p>
+      <em>Note 2:</em>
       Element callbacks perform a similar function as
       <a href=#event-initializer>initializers</a>, but an element callback is specific and an
       initializer is general.&nbsp; For example, an element callback is appropriate for an
@@ -1510,7 +1529,7 @@
    </figure>
    <!-- End: Result  -->
    <p>
-      <b>Note:</b>
+      <em>Note:</em>
       For text fields <code>input</code> and <code>textarea</code>, use
       <a href=#event-smart>data-smart-update</a>.
    </p>
@@ -1697,7 +1716,7 @@
    </figure>
    <!-- End: Result  -->
    <p>
-      <b>Note:</b>
+      <em>Note:</em>
       While the original data used to clone the template may contain
       <a href=#real-truth>truthy</a> values, the <code>boolean</code> values updated in the data
       model are set to actual <code>true</code> or <code>false</code>.
@@ -1767,14 +1786,14 @@
       </code></pre>
    </figure>
    <p>
-      <b>Note 1:</b>
+      <em>Note 1:</em>
       Initializers perform a similar function as <a href=#event-element-callback>element
       callbacks</a> (<code>data-callback</code>), but an initializer is general to all clones and
       an element callback is specific to clones of one template.&nbsp; For example, an initializer
       is appropriate for configuring tooltips that can occur in any clone.
    </p>
    <p>
-      <b>Note 2:</b>
+      <em>Note 2:</em>
       In the event that your application dynamically adds elements to the DOM without using dna.js,
       it may be necessary to explicitly run the initializers by passing the root element of new
       elements into: <code>dna.events.runInitializers(root);</code>
@@ -1782,8 +1801,69 @@
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<section id=event-transform-option>
+   <h4>Transform Option</h4>
+   <p>
+      The <code>transform</code> option for <a href=#api-clone><code>dna.clone()</code></a>
+      specifies a transformer function to mutate (enhance) the data model.
+   </p>
+   <p>
+      The transformer function receives the clone's data model so it can modify the model before
+      the clone element is created.
+   </p>
+   <figure>
+      <figcaption>Example HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div id=book class=dna-template&gt;
+            &lt;span&gt;~~title~~&lt;/span&gt;
+            &lt;img src=star.png alt=star data-truthy=~~displayStar~~&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <p class=big-symbol><i class=icon data-icon=plus></i></p>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         function enhanceBook(data) {
+            data.displayStar = data.rating &gt; 3;  //good books get a star
+            }
+         var books = [
+            { title: 'The DOM',   rating: 2 },
+            { title: 'Interwebz', rating: 5 }
+            ];
+         dna.clone('book', books, { transform: enhanceBook });
+      </code></pre>
+   </figure>
+   <!-- Start: Result  -->
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
+   <figure>
+      <figcaption>Resulting HTML</figcaption>
+      <pre><code class=language-html>
+         &lt;div class=book&gt;
+            &lt;span&gt;The DOM&lt;/span&gt;
+         &lt;/div&gt;
+         &lt;div class=book&gt;
+            &lt;span&gt;Interwebz&lt;/span&gt;
+            &lt;img src=star.png alt=star&gt;
+         &lt;/div&gt;
+      </code></pre>
+   </figure>
+   <!-- End: Result  -->
+   <p>
+      <em>Note:</em>
+      A transformer function can also be specified with the
+      <a href=#event-transform>data-transform</a> attribute, such as:
+      <code>&lt;div id=book class=dna-template data-transform=enhanceBook&gt;</code>
+   </p>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=event-callback-option>
-   <h4>Callback Options</h4>
+   <h4>Callback Option</h4>
+   <p>
+      The <code>callback</code> option for <a href=#api-clone><code>dna.clone()</code></a>
+      specifies a callback function.
+   </p>
    <p>
       Once cloning is completed, the <code>callback</code> function is
       executed and passed the clone element plus the data that was injected
@@ -1826,10 +1906,10 @@
       used to create the <a href=../logo.html>dna.js logo</a>.
    </p>
    <p>
-      <b>Note:</b>
-      It is often cleaner and easier to declare an
-      <a href=#event-element-callback>element callback</a> (<code>data-callback</code>) than to
-      pass in a function with the <code>callback</code> option.
+      <em>Note:</em>
+      A callback function can also be specified with the
+      <a href=#event-callback>data-callback</a> attribute, such as:
+      <code>&lt;div id=book class=dna-template data-callback=blink&gt;</code>
    </p>
 </section>
 
@@ -2035,7 +2115,7 @@
       field <code>overdue</code>, which is calculated on the fly, is set to <code>true</code>.
    </p>
    <p>
-      <b>Note:</b>
+      <em>Note:</em>
       Similar to thimblerigs, <a href=#loop-separators>separators</a> are used to hide and show a
       delimiter between clones, such as a comma to separate names of authors.
    </p>
@@ -2051,7 +2131,7 @@
       passed into <code>dna.clone()</code> when cloning a nested template.
    </p>
    <p>
-      View source for <a href=../spec.html#spec07>spec runner #07</a>.
+      View source for <a href=../spec/visual.html#spec07>spec runner #07</a>.
    </p>
    <p>
       In most cases, a simple <a href=#loop-sub-templates>sub-template array loop</a>
