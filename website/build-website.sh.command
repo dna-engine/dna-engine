@@ -29,8 +29,10 @@ downloadProjectCode() {
    curl --remote-name --silent $releasedOrigin/dna.css
    curl --remote-name --silent $releasedOrigin/dna.js
    curl --remote-name --silent $releasedOrigin/dna.min.js
-   curl --silent $releasedOrigin/spec/visual.html | sed s/href=website[/]static[/]/href=/ > spec/visual.html
-   sed s/src=dna.js/src=dna.min.js/ spec/visual.html > spec/visual-min.html
+   mkdir spec
+   cd spec
+   curl --silent $releasedOrigin/spec/visual.html | sed s/href=website[/]static[/]/href=/ > visual.html
+   sed s/src=dna.js/src=dna.min.js/ visual.html > visual-min.html
    }
 
 publish() {
