@@ -123,11 +123,12 @@
       }
    dna.clone('circle', circles, { callback: addStyle });
    $('#circle-data').text(JSON.stringify(circles));
-   function scaleRange(elem) {
+   function scaleRange(elemOrEvent) {
+      var elem = elemOrEvent.target ? $(elemOrEvent.target) : $(elem);
       var scale = Math.max(elem.val(), 5) / 100;
       $('figure#logo-canvas').css({ transform: `scale(${scale})` });
       }
-   $('input[type=range]').on('input', function() { scaleRange($(this)); });
+   $('input[type=range]').on('input', scaleRange);
 </script>
 </body>
 </html>

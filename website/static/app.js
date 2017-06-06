@@ -34,9 +34,9 @@ app.nav = {
 
 app.documenation = {
    setup: function() {
-      function addOutlineNumber(elemIndex) {
-         var letter = String.fromCharCode('A'.charCodeAt() + elemIndex);
-         $(this).text(letter + '. ' + $(this).text());
+      function addOutlineNumber(i, elem) {
+         var letter = String.fromCharCode('A'.charCodeAt() + i);
+         $(elem).text(letter + '. ' + $(elem).text());
          }
       if (window.location.pathname.indexOf('/docs') !== -1)
          $('h3').each(addOutlineNumber);
