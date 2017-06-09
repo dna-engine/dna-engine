@@ -104,7 +104,7 @@ function buildWebsite() {
       .pipe(gulp.dest('.'));
    gulp.src('website/static/**')
       .pipe(gulp.dest(httpdocsFolder));
-   gulp.src('website/static/**/*.html')
+   gulp.src(['website/static/**/*.html', 'spec/visual.html'])
       .pipe(w3cjs())
       .pipe(w3cjs.reporter())
       .pipe(htmlHint(htmlHintConfig))
