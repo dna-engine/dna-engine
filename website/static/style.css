@@ -215,24 +215,6 @@ header .logo img {
    margin: 0pt 0pt 2pt 20pt;
    }
 
-/* Video container link box */
-.video-container {
-   margin-bottom: 20px;
-   opacity: 0.8;
-   transition: all 0.4s;
-   }
-.video-container iframe {
-   border-color: gray;
-   pointer-events: none;
-   transition: all 0.4s;
-   }
-.video-container:hover {
-   opacity: 1;
-   }
-.video-container:hover iframe {
-   border-color: dimgray;
-   }
-
 /* Table of Contents */
 nav.toc {
    margin: 20px 0px 30px 0px;
