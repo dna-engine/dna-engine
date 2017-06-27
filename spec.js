@@ -29,8 +29,8 @@ const dna =       require('./dna.js')(window, $);
 describe('Utility function dna.array.last()', () => {
 
  it('returns last object in array', () => {
-   var actual = dna.array.last([3, 21, 7]);
-   var expected = '7';
+   const actual = dna.array.last([3, 21, 7]);
+   const expected = '7';
    assert.equal(actual, expected);
    });
 
@@ -40,9 +40,9 @@ describe('Utility function dna.array.last()', () => {
 describe('Utility function dna.array.find()', () => {
 
   it('finds a key in an array and returns the value', () => {
-    var array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
-    var actual = dna.array.find(array, 'b').word;
-    var expected = 'Bat';
+    const array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
+    const actual = dna.array.find(array, 'b').word;
+    const expected = 'Bat';
     assert.equal(actual, expected);
     });
 
@@ -52,13 +52,13 @@ describe('Utility function dna.array.find()', () => {
 describe('Utility function dna.array.toMap()', () => {
 
   it('Converts an array of objects into an object (hash map)', () => {
-     var dataSet = [
+     const dataSet = [
         {
            inputArray: [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }],
            expected: { a: { code: 'a', word: 'Ant' }, b: { code: 'b', word: 'Bat' } }
         }];
      function evalData(data) {
-        var output = dna.array.toMap(data.inputArray, data.inputKey);
+        const output = dna.array.toMap(data.inputArray, data.inputKey);
         assert.deepEqual(output, data.expected);
         }
      dataSet.forEach(evalData);
@@ -70,7 +70,7 @@ describe('Utility function dna.array.toMap()', () => {
 describe('Utility function dna.array.fromMap()', () => {
 
   it('converts a map into an array of maps', () => {
-     var dataSet = [
+     const dataSet = [
         {
            inputMap: { a: { word: 'Ant' }, b: { word: 'Bat' } },
            expected: [{ word: 'Ant', code: 'a' }, { word: 'Bat', code: 'b' }]
@@ -81,7 +81,7 @@ describe('Utility function dna.array.fromMap()', () => {
            expected: [{ value: 100, key: 'x0' }, { value: 101, key: 'x1' }, { value: 102, key: 'x2' }]
         }];
      function evalData(data) {
-        var output = dna.array.fromMap(data.inputMap, data.inputKey);
+        const output = dna.array.fromMap(data.inputMap, data.inputKey);
         assert.deepEqual(output, data.expected);
         }
      dataSet.forEach(evalData);
@@ -95,7 +95,7 @@ describe('Utility function dna.array.fromMap()', () => {
 describe('Utility function dna.util.toCamel()', () => {
 
    it('converts a kebab (dashes) name to camelCase', () => {
-      var dataSet = [
+      const dataSet = [
          { input: 'ready-set-go', expected: 'readySetGo' },
          { input: 'dna',          expected: 'dna' }
          ];
@@ -111,7 +111,7 @@ describe('Utility function dna.util.toCamel()', () => {
 describe('Utility function dna.util.toKebab()', () => {
 
  it('converts kebab (dashes) name to camelCase', () => {
-   var dataSet = [
+   const dataSet = [
         { input: 'readySetGo', expected: 'ready-set-go' },
         { input: 'dna',          expected: 'dna' }
         ];
@@ -127,8 +127,8 @@ describe('Utility function dna.util.toKebab()', () => {
 describe('Utility function dna.util.value()', () => {
 
  it('returns value from key', () => {
-   var actual = dna.util.value({ a: { b: 7 }}, 'a.b');
-   var expected = '7';
+   const actual = dna.util.value({ a: { b: 7 }}, 'a.b');
+   const expected = '7';
    assert.equal(actual, expected);
    });
 
@@ -138,7 +138,7 @@ describe('Utility function dna.util.value()', () => {
 describe('Utility function dna.util.realTruth()', () => {
 
  it('returns a boolean', () => {
-   var dataSet = [
+   const dataSet = [
         { input: '7', expected: true },
         { input: '0', expected: false }
         ];
@@ -154,8 +154,8 @@ describe('Utility function dna.util.realTruth()', () => {
 describe('Utility function dna.util.printf()', () => {
 
  it('builds a string from variables', () => {
-   var actual = dna.util.printf('%s: %s', 'Lives', 3);
-   var expected = 'Lives: 3';
+   const actual = dna.util.printf('%s: %s', 'Lives', 3);
+   const expected = 'Lives: 3';
    assert.equal(actual, expected);
    });
 
@@ -165,7 +165,7 @@ describe('Utility function dna.util.printf()', () => {
 describe('Utility function dna.util.apply()', () => {
 
  it('calls fn (string name or actual function) passing in params', () => {
-   var app = {
+   const app = {
      priceCatalog: { 3: 19.95, 7: 14.95, 21: 39.95 },
      cart: {
        buy: function(itemNum) {
@@ -174,8 +174,8 @@ describe('Utility function dna.util.apply()', () => {
      }
    };
    dna.registerContext('app', app);
-   var actual = dna.util.apply('app.cart.buy', 7);
-   var expected = '14.95';
+   const actual = dna.util.apply('app.cart.buy', 7);
+   const expected = '14.95';
    assert.equal(actual, expected);
    });
 
