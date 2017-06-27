@@ -1,19 +1,19 @@
 // dna.js
 // gulp configuration and tasks
 
-var gulp =        require('gulp');
-var fileInclude = require('gulp-file-include');
-var filesize =    require('gulp-filesize');
-var header =      require('gulp-header');
-var htmlHint =    require('gulp-htmlhint');
-var jsHint =      require('gulp-jshint');
-var rename =      require('gulp-rename');
-var replace =     require('gulp-replace');
-var uglify =      require('gulp-uglify');
-var w3cjs =       require('gulp-w3cjs');
-var del =         require('del');
+const gulp =        require('gulp');
+const fileInclude = require('gulp-file-include');
+const filesize =    require('gulp-filesize');
+const header =      require('gulp-header');
+const htmlHint =    require('gulp-htmlhint');
+const jsHint =      require('gulp-jshint');
+const rename =      require('gulp-rename');
+const replace =     require('gulp-replace');
+const uglify =      require('gulp-uglify');
+const w3cjs =       require('gulp-w3cjs');
+const del =         require('del');
 
-var context = {
+const webContext = {
    pkg:  require('./package.json'),
    size: '16 kb',
    youTube: {
@@ -31,17 +31,17 @@ var context = {
       toDo:           'wo6og0z8'
       }
    };
-context.title = 'dna.js';  //default page title
-var banner = '//dna.js v' + context.pkg.version + ' ~~ dnajs.org/license\n';
-var versionPatternStrs = [
+webContext.title = 'dna.js';  //default page title
+const banner = '//dna.js v' + webContext.pkg.version + ' ~~ dnajs.org/license\n';
+const versionPatternStrs = [
    'dna[.]js v',     //example (dna.css):      /* dna.js v1.0.0 ~~ dnajs.org/license */
    "version:\\s*'",  //example (dna.js):       version: '1.0.0',
    '"version":\\s*"' //example (package.json): "version":  "1.0.0",
    ];
-var versionPatterns = new RegExp('(' + versionPatternStrs.join('|') + ')[0-9.]*', 'g');
-var httpdocsFolder = 'website/httpdocs';
-var htmlHintConfig = { 'attr-value-double-quotes': false };
-var jsHintConfig = {
+const versionPatterns = new RegExp('(' + versionPatternStrs.join('|') + ')[0-9.]*', 'g');
+const httpdocsFolder = 'website/httpdocs';
+const htmlHintConfig = { 'attr-value-double-quotes': false };
+const jsHintConfig = {
    strict: 'implied',
    undef:  true,
    unused: true,
@@ -55,11 +55,11 @@ var jsHintConfig = {
       window:  true
       }
    };
-var jsHintConfigEs6 = Object.assign({}, jsHintConfig, { esversion: 6 });
+const jsHintConfigEs6 = Object.assign({}, jsHintConfig, { esversion: 6 });
 
 function setVersionNumber() {
-   var stream = gulp.src(['dna.js', 'dna.css'])
-      .pipe(replace(versionPatterns, '$1' + context.pkg.version))
+   const stream = gulp.src(['dna.js', 'dna.css'])
+      .pipe(replace(versionPatterns, '$1' + webContext.pkg.version))
       .pipe(gulp.dest('.'));
    return stream;
    }
@@ -91,12 +91,12 @@ function cleanWebsite() {
     }
 
 function buildWebsite() {
-   var findToDoLine = /.*To-Do Application.*/;
-   var findIntroLine = /.*Introduction to dna.js.*/;
-   var newToDoLine =
-      '* [Sample To-Do Application](http://jsfiddle.net/' + context.jsFiddle.toDo + '/) (jsfiddle)';
-   var newIntroLine =
-      '* [Introduction to dna.js](https://youtu.be/' + context.youTube.intro + ') (YouTube)';
+   const findToDoLine = /.*To-Do Application.*/;
+   const findIntroLine = /.*Introduction to dna.js.*/;
+   const newToDoLine =
+      '* [Sample To-Do Application](http://jsfiddle.net/' + webContext.jsFiddle.toDo + '/) (jsfiddle)';
+   const newIntroLine =
+      '* [Introduction to dna.js](https://youtu.be/' + webContext.youTube.intro + ') (YouTube)';
    gulp.src('README.md')
       .pipe(replace(findToDoLine,  newToDoLine))
       .pipe(replace(findIntroLine, newIntroLine))
@@ -110,7 +110,7 @@ function buildWebsite() {
       .pipe(htmlHint(htmlHintConfig))
       .pipe(htmlHint.reporter());
    gulp.src('website/root/**/*.html')
-      .pipe(fileInclude({ basepath: '@root', indent: true, context: context }))
+      .pipe(fileInclude({ basepath: '@root', indent: true, webContext: webContext }))
       .pipe(w3cjs())
       .pipe(w3cjs.reporter())
       .pipe(htmlHint(htmlHintConfig))
