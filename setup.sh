@@ -8,6 +8,7 @@ releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/current
 port=3482  #d9a
 
 info() {
+   # Check for Node.js installation and download project dependencies
    cd $projectHome
    pwd
    echo
@@ -21,6 +22,7 @@ info() {
    }
 
 setupWebServer() {
+   # Startup SimpleHTTPServer
    cd $projectHome
    echo "Web server (localhost:$port):"
    process=$(pgrep -lf "SimpleHTTPServer $port")
