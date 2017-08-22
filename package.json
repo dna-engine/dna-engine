@@ -11,9 +11,10 @@
    "keywords":    ["clone", "dom", "engine", "html", "jquery", "json", "template", "templating", "ui"],
    "author":      { "name": "Center Key", "url": "http://centerkey.com" },
    "scripts": {
-      "pretest": "gulp build",
-      "test":    "mocha spec.js",
-      "web":     "gulp web"
+      "pretest":      "gulp build",
+      "test":         "mocha spec.js",
+      "web":          "gulp web",
+      "clonebook":    "mocha spec/clonetest.js"
       },
    "dependencies": { "jquery": ">=2.2" },
    "devDependencies": {
