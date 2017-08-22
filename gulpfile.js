@@ -110,7 +110,7 @@ function buildWebsite() {
       .pipe(htmlHint(htmlHintConfig))
       .pipe(htmlHint.reporter());
    gulp.src('website/root/**/*.html')
-      .pipe(fileInclude({ basepath: '@root', indent: true, webContext: webContext }))
+      .pipe(fileInclude({ basepath: '@root', indent: true, context: webContext }))
       .pipe(w3cjs())
       .pipe(w3cjs.reporter())
       .pipe(htmlHint(htmlHintConfig))
