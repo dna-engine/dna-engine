@@ -203,6 +203,10 @@ dna.array = {
    };
 
 dna.browser = {
+   iOS: function() {
+      return /iPad|iPhone|iPod/.test(window.navigator.userAgent) &&
+         /Apple/.test(window.navigator.vendor);
+      },
    getParams: function() {
       // Example:
       //    http://example.com?lang=jp&code=7  ==>  { lang: 'jp', code: 7 }
@@ -719,14 +723,13 @@ dna.events = {
          if (data.smartUpdate && elem.val() !== data.dnaLastValue)
             smartUpdate();
          }
-      function setupJumpToUrl() {
-         // Usage ("external-site" is optional and can be on a parent element):
-         //    <button data-href=http://dnajs.org class=external-site>dna.js</button>
-         function context(elem) {
-            return elem.closest('.external-site').length ? '_blank' : '_self';
-            }
-         function jump(event) { window.open($(event.target).data().href, context($(event.target))); }
-         $(window.document).on({ click: jump }, '[data-href]');
+      function jumpToUrl(event) {
+         // Usage:
+         //    <button data-href=http://dnajs.org>dna.js</button>
+         // If element (or parent) has the class "external-site", page will be opened in a new tab.
+         var elem = $(event.target);
+         var newTab = !dna.browser.iOS() && elem.closest('.external-site').length;
+         window.open(elem.data().href, newTab ? '_blank' : '_self');
          }
       $(window.document)
          .click(handle)
@@ -736,8 +739,8 @@ dna.events = {
          .keydown(handle)
          .keypress(handle)
          .keyup(handleSmartUpdate)
-         .change(handleSmartUpdate);  //handle paste events on iOS
-      setupJumpToUrl();
+         .change(handleSmartUpdate)  //TODO: handle paste events on iOS
+         .on({ click: jumpToUrl }, '[data-href]');
       dna.events.elementSetup();
       }
    };
