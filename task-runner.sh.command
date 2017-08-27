@@ -34,7 +34,7 @@ releaseInstructions() {
          status="RELEASED"
          echo "***********************"
          echo "*** Action Required ***"
-         echo "Then increment version number in:"
+         echo "Increment version number in:"
          echo "   $(pwd)/package.json"
          echo "then rerun:"
          echo "   $(pwd)/task-runner.sh.command"
