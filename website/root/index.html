@@ -123,15 +123,15 @@
       <code>dna.empty()</code> function, which deletes all the clones previously
       created from the template.
    </p>
-   <div class="featured-books dna-setup" data-setup=app.bookstore.setup>
+   <div class=featured-books data-setup=app.bookstore.setup>
       <h2>Featured Books</h2>
       <div class=buttons>
-         <button data-click=app.bookstore.feelLucky>
+         <button data-click=app.bookstore.feelLucky class=no-disable>
             Add a Book
             <span class=bubble-help>dna.clone('book', { title: 'The DOM', author: 'Jan' });</span>
          </button>
          &nbsp;
-         <button data-click=app.bookstore.clear>
+         <button data-click=app.bookstore.clear class=no-disable>
             Clear List
             <span class=bubble-help>dna.empty('book');</span>
          </button>

@@ -281,7 +281,7 @@
    <figure>
       <figcaption>application.js</figcaption>
       <pre><code class=language-javascript>
-         //= require jquery2
+         //= require jquery3
          //= require dna.js
       </code></pre>
    </figure>
@@ -1512,7 +1512,7 @@
    <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
-      <div>
+      <div class=no-disable>
          <p>Click:  <button data-click=showMsg     value=1>1</button></p>
          <p>Change: <input  data-change=showMsg    value=2></p>
          <p>Up:     <input  data-key-up=showMsg    value=3></p>
@@ -2240,7 +2240,7 @@
                   <span>Author: <b>~~author~~</b></span>
                </p>
             </div>
-            <button data-click=bookshelf.show>Show component name</button>
+            <button data-click=bookshelf.show class=no-disable>Show component name</button>
             <script>
                var bookshelf = {
                   booksUrl: 'http://dnajs.org/rest/book/list/',
