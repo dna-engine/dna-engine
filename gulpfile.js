@@ -3,14 +3,14 @@
 
 const gulp =        require('gulp');
 const fileInclude = require('gulp-file-include');
-const filesize =    require('gulp-filesize');
 const header =      require('gulp-header');
 const htmlHint =    require('gulp-htmlhint');
 const jsHint =      require('gulp-jshint');
 const rename =      require('gulp-rename');
 const replace =     require('gulp-replace');
+const size =        require('gulp-size');
 const uglify =      require('gulp-uglify');
-const w3cjs =       require('gulp-w3cjs');
+const w3cJs =       require('gulp-w3cjs');
 const del =         require('del');
 
 const webContext = {
@@ -83,7 +83,7 @@ function runUglify() {
 
 function reportSize() {
    gulp.src('dna.*')
-      .pipe(filesize());
+      .pipe(size({ showFiles: true }));
    }
 
 function cleanWebsite() {
@@ -100,19 +100,19 @@ function buildWebsite() {
    gulp.src('README.md')
       .pipe(replace(findToDoLine,  newToDoLine))
       .pipe(replace(findIntroLine, newIntroLine))
-      .pipe(filesize())
+      .pipe(size({ showFiles: true }))
       .pipe(gulp.dest('.'));
    gulp.src('website/static/**')
       .pipe(gulp.dest(httpdocsFolder));
    gulp.src(['website/static/**/*.html', 'spec/visual.html'])
-      .pipe(w3cjs())
-      .pipe(w3cjs.reporter())
+      .pipe(w3cJs())
+      .pipe(w3cJs.reporter())
       .pipe(htmlHint(htmlHintConfig))
       .pipe(htmlHint.reporter());
    gulp.src('website/root/**/*.html')
       .pipe(fileInclude({ basepath: '@root', indent: true, context: webContext }))
-      .pipe(w3cjs())
-      .pipe(w3cjs.reporter())
+      .pipe(w3cJs())
+      .pipe(w3cJs.reporter())
       .pipe(htmlHint(htmlHintConfig))
       .pipe(htmlHint.reporter())
       .pipe(gulp.dest(httpdocsFolder));
