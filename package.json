@@ -1,39 +1,60 @@
 {
-   "name":        "dna.js",
-   "version":     "1.3.0",
+   "name": "dna.js",
+   "version": "1.3.0",
    "description": "An uncomplicated user interface library for semantic templates",
-   "license":     "MIT",
-   "main":        "dna.js",
-   "repository":  "dnajs/dna.js",
-   "homepage":    "https://github.com/dnajs/dna.js",
-   "bugs":        "https://github.com/dnajs/dna.js/issues",
-   "docs":        "http://dnajs.org/docs",
-   "keywords":    ["clone", "dom", "engine", "html", "jquery", "json", "template", "templating", "ui"],
-   "author":      { "name": "Center Key", "url": "http://centerkey.com" },
+   "license": "MIT",
+   "main": "dna.js",
+   "repository": "dnajs/dna.js",
+   "homepage": "https://github.com/dnajs/dna.js",
+   "bugs": "https://github.com/dnajs/dna.js/issues",
+   "docs": "http://dnajs.org/docs",
+   "keywords": [
+      "clone",
+      "dom",
+      "engine",
+      "html",
+      "jquery",
+      "json",
+      "template",
+      "templating",
+      "ui"
+   ],
+   "author": {
+      "name": "Center Key",
+      "url": "http://centerkey.com"
+   },
+   "jshintConfig": {
+      "esversion": 6,
+      "node": true,
+      "undef": true,
+      "unused": true
+   },
    "scripts": {
-      "pretest":      "gulp build",
-      "test":         "mocha spec.js",
-      "web":          "gulp web",
-      "clonebook":    "mocha spec/clonetest.js"
-      },
-   "dependencies": { "jquery": ">=2.2" },
+      "pretest": "jshint gulpfile.js && gulp build",
+      "test": "mocha spec.js",
+      "web": "gulp web",
+      "clonebook": "mocha spec/clonetest.js"
+   },
+   "dependencies": {
+      "jquery": ">=2.2"
+   },
    "devDependencies": {
-      "gulp":              "~3.9",
+      "gulp": "~3.9",
       "gulp-file-include": "~1.2",
-      "gulp-header":       "~1.8",
-      "gulp-htmlhint":     "~0.3",
-      "gulp-jshint":       "~2.0",
-      "gulp-rename":       "~1.2",
-      "gulp-replace":      "~0.6",
-      "gulp-size":         "~2.1",
-      "gulp-uglify":       "~3.0",
-      "gulp-w3cjs":        "~1.3",
-      "del":               "~3.0",
-      "jsdom":             "~11.2",
-      "jshint":            "~2.9",
-      "mocha":             "~3.5"
-      },
+      "gulp-header": "~1.8",
+      "gulp-htmlhint": "~0.3",
+      "gulp-jshint": "~2.0",
+      "gulp-rename": "~1.2",
+      "gulp-replace": "~0.6",
+      "gulp-size": "~2.1",
+      "gulp-uglify": "~3.0",
+      "gulp-w3cjs": "~1.3",
+      "del": "~3.0",
+      "jsdom": "~11.2",
+      "jshint": "~2.9",
+      "mocha": "~3.5"
+   },
    "dna": {
       "summary": "dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications."
-      }
+   }
 }
