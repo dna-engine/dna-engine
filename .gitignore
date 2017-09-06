@@ -1,7 +1,8 @@
 # dna.js
 
-# Generated and downloaded files
+# Downloaded and generated files
 /node_modules/
+/package-lock.json
 /website/httpdocs/
 /spec/visual-min.html
 
