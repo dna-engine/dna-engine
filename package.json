@@ -32,9 +32,8 @@
    },
    "scripts": {
       "pretest": "jshint gulpfile.js && gulp build",
-      "test": "mocha spec.js",
-      "web": "gulp web",
-      "clonebook": "mocha spec/clonetest.js"
+      "test": "mocha spec/spec.js spec/clonetest.js",
+      "web": "gulp web"
    },
    "dependencies": {
       "jquery": ">=2.2"
