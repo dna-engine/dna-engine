@@ -22,7 +22,7 @@ const assert =    require('assert');
 const { JSDOM } = require('jsdom');
 const window =    new JSDOM(html, { url: url }).window;
 const $ =         require('jquery')(window);
-const dna =       require('./dna.js')(window, $);
+const dna =       require('../dna.js')(window, $);
 
 //Unit tests for dna.array
 ////////////////////////////////////////////////////////////////////////////////////////////////////
