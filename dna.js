@@ -209,7 +209,7 @@ dna.browser = {
       },
    getParams: function() {
       // Example:
-      //    http://example.com?lang=jp&code=7  ==>  { lang: 'jp', code: 7 }
+      //    http://example.com?lang=jp&code=7 ==> { lang: 'jp', code: 7 }
       var params = {};
       function addParam(pair) { params[pair.split('=')[0]] = pair.split('=')[1]; }
       window.location.search.slice(1).split('&').forEach(addParam);
@@ -218,43 +218,57 @@ dna.browser = {
    };
 
 dna.util = {
-   toCamel: function(kebabStr) {  //example: 'ready-set-go' ==> 'readySetGo'
+   toCamel: function(kebabStr) {
+      // Converts a kebab-case string (a code made of lowercase letters and dashes) to camelCase.
+      // Example:
+      //    dna.util.toCamel('ready-set-go') === 'readySetGo'
       function hump(match, char) { return char.toUpperCase(); }
       return ('' + kebabStr).replace(/\-(.)/g, hump);
       },
-   toKebab: function(camelStr) {  //example: 'readySetGo' ==> 'ready-set-go'
+   toKebab: function(camelStr) {
+      // Converts a camelCase string to kebab-case (a code made of lowercase letters and dashes).
+      // Example:
+      //    dna.util.toKebab('readySetGo') === 'ready-set-go'
       function dash(word) { return '-' + word.toLowerCase(); }
       return ('' + camelStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
       },
-   value: function(data, field) {  //example: dna.util.value({ a: { b: 7 }}, 'a.b'); ==> 7
+   value: function(data, field) {
+      // Returns the value of the field from the data object.
+      // Example:
+      //    dna.util.value({ a: { b: 7 }}, 'a.b') === 7
       if (typeof field === 'string')
          field = field.split('.');
       return (data === null || data === undefined || field === undefined) ? null :
          (field.length === 1 ? data[field[0]] : this.value(data[field[0]], field.slice(1)));
       },
-   realTruth: function(value) {  //returns a boolean
-      // Example true values:  true,  7, '7', [5], 't', 'T', 'TRue',  {},   'Colbert'
-      // Example false values: false, 0, '0', [],  'f', 'F', 'faLSE', null, undefined, NaN
+   realTruth: function(value) {
+      // Returns the "real" boolean truth of a value.
+      // Examples:
+      //    true values  ==> true,  7, '7', [5], 't', 'T', 'TRue',  {},   'Colbert'
+      //    false values ==> false, 0, '0', [],  'f', 'F', 'faLSE', null, undefined, NaN
       function falseyStr() { return /^(f|false|0)$/i.test(value); }
       function emptyArray() { return value instanceof Array && value.length === 0; }
       return value ? !emptyArray() && !falseyStr() : false;
       },
    printf: function(format) {
+      // Builds a formatted string by replacing the format specifiers with the supplied arguments.
       // Usage:
       //    dna.util.printf('%s: %s', 'Lives', 3) === 'Lives: 3';
       var values = Array.prototype.slice.call(arguments, 1);
       function insert(str, val) { return str.replace(/%s/, val); }
       return values.reduce(insert, format);
       },
-   apply: function(fn, params) {  //calls fn (string name or actual function) passing in params
-      // Example: dna.util.apply('app.cart.buy', 7); ==> app.cart.buy(7);
+   apply: function(fn, params) {
+      // Calls fn (string name or actual function) passing in params.
+      // Usage:
+      //    dna.util.apply('app.cart.buy', 7); ==> app.cart.buy(7);
       var args = params === undefined ? [] : [].concat(params);
       var elem = args[0];
       var result;
       function contextApply(context, names) {
-         if (!context || (names.length == 1 && typeof context[names[0]] !== 'function'))
+         if (!context || (names.length === 1 && typeof context[names[0]] !== 'function'))
             dna.core.berserk('Callback function not found: ' + fn);
-         else if (names.length == 1)
+         else if (names.length === 1)
             result = context[names[0]].apply(elem, args);  //'app.cart.buy' ==> window['app']['cart']['buy']
          else
             contextApply(context[names[0]], names.slice(1));
@@ -911,7 +925,7 @@ dna.core = {
       }
    };
 
-if (typeof module === 'object')           //Node.js module loading system
+if (typeof module === 'object')           //Node.js module loading system (CommonJS)
    module.exports = dna.core.initModule;  //var dna = require('dna.js')(window, jQuery);
 else
    dna.core.setup();

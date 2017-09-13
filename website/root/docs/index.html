@@ -2668,33 +2668,47 @@
 </p>
 <h5>Utility Functions Overview</h5>
 <ol>
-   <li><b>dna.array.find</b>(array, code)</li>
-   <li><b>dna.array.last</b>(array)</li>
-   <li><b>dna.array.toMap</b>(array, key)</li>
-   <li><b>dna.browser.getParams</b>()</li>
-   <li>
-      <b>dna.pageToken.get</b>(key, value)<br>
-      <b>dna.pageToken.put</b>(key, defaultValue)<br>
+   <li><a href=#array-find><b>dna.array.find</b>(array, code)</a></li>
+   <li><a href=#array-from-map><b>dna.array.fromMap</b>(map, key)</a></li>
+   <li><a href=#array-last><b>dna.array.last</b>(array)</a></li>
+   <li><a href=#array-to-map><b>dna.array.toMap</b>(array, key)</a></li>
+   <li><a href=#browser-get-params><b>dna.browser.getParams</b>()</a></li>
+   <li>dna.pageToken<br>
+      <a href=#page-token><b>dna.pageToken.get</b>(key, value)</a><br>
+      <a href=#page-token><b>dna.pageToken.put</b>(key, defaultValue)</a><br>
    </li>
-   <li><b>dna.ui.deleteElem</b>(elemOrEventOrIndex)</li>
-   <li><b>dna.ui.focus</b>(elem)</li>
-   <li>
-      <b>dna.ui.slideFadeDelete</b>(elem)<br>
-      <b>dna.ui.slideFadeIn</b>(elem, callback)<br>
-      <b>dna.ui.slideFadeOut</b>(elem, callback)<br>
-      <b>dna.ui.slideFadeToggle</b>(elem, callback)
+   <li><a href=#ui-delete-elem><b>dna.ui.deleteElem</b>(elemOrEventOrIndex)</a></li>
+   <li><a href=#ui-focus><b>dna.ui.focus</b>(elem)</a></li>
+   <li>dna.ui.slideFade<br>
+      <a href=#ui-slide-fade><b>dna.ui.slideFadeDelete</b>(elem)</a><br>
+      <a href=#ui-slide-fade><b>dna.ui.slideFadeIn</b>(elem, callback)</a><br>
+      <a href=#ui-slide-fade><b>dna.ui.slideFadeOut</b>(elem, callback)</a><br>
+      <a href=#ui-slide-fade><b>dna.ui.slideFadeToggle</b>(elem, callback)</a><br>
    </li>
-   <li><b>dna.ui.slidingFlasher</b>(elem, callback)</li>
-   <li><b>dna.ui.smoothMove</b>(elem, up)</li>
-   <li><b>dna.ui.toElem</b>(elemOrEventOrIndex, that)</li>
-   <li><b>dna.util.apply</b>(func, params)</li>
-   <li><b>dna.util.realTruth</b>(value)</li>
-   <li><b>dna.util.toCamel</b>(kebabCaseStr)</li>
-   <li><b>dna.util.toKebab</b>(camelCaseStr)</li>
-   <li><b>dna.util.value</b>(data, field)</li>
+   <li><a href=#ui-sliding-flasher><b>dna.ui.slidingFlasher</b>(elem, callback)</a></li>
+   <li><a href=#ui-smooth-move><b>dna.ui.smoothMove</b>(elem, up)</a></li>
+   <li><a href=#ui-to-elem><b>dna.ui.toElem</b>(elemOrEventOrIndex, that)</a></li>
+   <li><a href=#util-apply><b>dna.util.apply</b>(func, params)</a></li>
+   <li><a href=#util-printf><b>dna.util.printf</b>(formatString, parameters...)</a></li>
+   <li><a href=#util-real-truth><b>dna.util.realTruth</b>(value)</a></li>
+   <li><a href=#util-to-camel><b>dna.util.toCamel</b>(kebabCaseStr)</a></li>
+   <li><a href=#util-to-kebab><b>dna.util.toKebab</b>(camelCaseStr)</a></li>
+   <li><a href=#util-value><b>dna.util.value</b>(data, field)</a></li>
 </ol>
 
-
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.???.TBD()  -->
+<span id=array-find></span>
+<span id=array-from-map></span>
+<span id=array-last></span>
+<span id=array-to-map></span>
+<span id=browser-get-params></span>
+<section id=???-tbd>
+   <h4>dna.array.TBD(TBD)</h4>
+   <p class=api-description>
+      TBD...
+   </p>
+</section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.pageToken.get()  -->
@@ -2726,9 +2740,9 @@
    <figure>
       <figcaption>Example using a direct function call</figcaption>
       <pre><code class=language-javascript>
-         var a = dna.pageToken.get('favorite', 0);  //a == 0
+         var a = dna.pageToken.get('favorite', 0);  //a === 0
          dna.pageToken.put('favorite', 7);
-         var b = dna.pageToken.get('favorite', 0);  //b == 7
+         var b = dna.pageToken.get('favorite', 0);  //b === 7
       </code></pre>
    </figure>
 </section>
@@ -2920,11 +2934,32 @@
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.util.printf()  -->
+<section id=util-printf>
+   <h4>dna.util.printf(formatString, args...)</h4>
+   <p class=api-description>
+      Builds a formatted string by replacing the format specifiers with the supplied arguments.
+   </p>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         @@include('website/templates/params/format-string-and-args.html')
+      </ul>
+   </div>
+   <figure>
+      <figcaption>Example JavaScript</figcaption>
+      <pre><code class=language-javascript>
+         dna.util.printf('%s: %s', 'Lives', 3);  //'Lives: 3'
+      </code></pre>
+   </figure>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
 <!--  dna.util.realTruth()  -->
 <section id=util-real-truth>
    <h4>dna.util.realTruth(value)</h4>
    <p class=api-description>
-      Return the <a href=#real-truth>"real" truth</a> of a value.&nbsp; Whereas JavaScript
+      Return the <a href=#real-truth>"real" boolean truth</a> of a value.&nbsp; Whereas JavaScript
       truthy an falsey is more about existence, the "real" truth is for evaluating boolean data as
       it is stored in databases or transmitted in REST calls.
    </p>
@@ -2989,7 +3024,7 @@
 <section id=util-value>
    <h4>dna.util.value(data, field)</h4>
    <p class=api-description>
-      Retrieve a value from a field within an object.
+      Returns the value of the field from the data object.
    </p>
    <div class=api-parameters>
       Parameters:
