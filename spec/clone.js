@@ -1,35 +1,50 @@
-const assert    = require('assert');
-const jsdom     = require("jsdom");
-const { JSDOM } = jsdom;
+// dna.js
+// Mocha Specification Cases
+//
+// Run specs:
+//    $ cd dna.js
+//    $ npm test
 
-const dom       = new JSDOM(`<!DOCTYPE html>
-                             <html>
-                             <body>
-                             <h1>Featured Books</h1>
-                             <div id=book class=dna-template>
-                                 <div>Title:  <span class=title  >~~title~~</span></div>
-                                 <div>Author: <span class=author >~~author~~</span></div>
-                             </div>
-                             </body>
-                             </html>`);
+const html = `
+<!doctype html>
+<html>
+    <head>
+        <meta charset=utf-8>
+        <title>Specification Runner</title>
+    </head>
+    <body>
+        <h1>Featured Books</h1>
+        <div class=books>
+            <div id=book class=dna-template>
+                <p>Title:  <span class=title>~~title~~</span></p>
+                <p>Author: <span class=author>~~author~~</span></p>
+            </div>
+        </div>
+    </body>
+</html>
+`;
 
-const $       = require("jquery")(dom.window);
-const dna     = require("../dna.js")(dom.window, $);
+const assert =    require('assert');
+const { JSDOM } = require('jsdom');
+const window =    new JSDOM(html).window;
+const $ =         require('jquery')(window);
+const dna =       require('../dna.js')(window, $);
 
-describe('the clone function', () => {
+////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Template cloning function dna.clone()', () => {
 
- dna.clone('book', { title: 'The DOM', author: 'Jan' });
+    dna.clone('book', { title: 'The DOM', author: 'Jan' });
 
- it('creates a book with the correct title', () => {
-   const actual   = $('.book .title').text()
-   const expected = 'The DOM'
-   assert.equal(actual, expected);
- });
+    it('creates a book with the correct title', () => {
+        const actual   = $('.book .title').text();
+        const expected = 'The DOM';
+        assert.strictEqual(actual, expected);
+        });
 
- it('creates a book with the correct author', () => {
-   const actual   = $('.book .author').text();
-   const expected = 'Jan';
-   assert.equal(actual, expected);
- });
+    it('creates a book with the correct author', () => {
+        const actual   = $('.book .author').text();
+        const expected = 'Jan';
+        assert.strictEqual(actual, expected);
+        });
 
-});
+    });
