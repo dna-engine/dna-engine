@@ -43,19 +43,13 @@ const httpdocsFolder = 'website/httpdocs';
 const htmlHintConfig = { 'attr-value-double-quotes': false };
 const jsHintConfig = {
    strict: 'implied',
-   undef:  true,
-   unused: true,
-   jquery: true,
-   node:   true,
-   mocha:  true,
-   globals: {
-      app:     false,
-      console: false,
-      $:       true,
-      window:  true
-      }
+   undef:   true,
+   unused:  true,
+   browser: true,
+   jquery:  true,
+   node:    true,
+   globals: { dna: false, $: true, window: true }
    };
-const jsHintConfigEs6 = Object.assign({}, jsHintConfig, { esversion: 6 });
 
 function setVersionNumber() {
    const stream = gulp.src(['dna.js', 'dna.css'])
@@ -65,11 +59,8 @@ function setVersionNumber() {
    }
 
 function runJsHint() {
-   gulp.src(['dna.js', 'website/*.js'])
+   return gulp.src(['dna.js', 'website/static/**/*.js'])
       .pipe(jsHint(jsHintConfig))
-      .pipe(jsHint.reporter());
-   gulp.src(['gulpfile.js', 'spec.js'])
-      .pipe(jsHint(jsHintConfigEs6))
       .pipe(jsHint.reporter());
    }
 
