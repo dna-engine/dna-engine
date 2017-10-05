@@ -938,6 +938,8 @@ var spec15 = {
                <option data-array=~~purposes~~ value=~~code~~
                   data-prop-selected=~~set~~>~~name~~</option>
             </select>
+            <hr>
+            Category:
             <div>
                <select data-option=~~category~~>
                   <option value=art>Art</option>
@@ -962,19 +964,23 @@ var spec15 = {
             </p>
             Published:
             <p>
-               <input data-attr-type=date value=~~pubDate~~>
+               <input data-attr-type=date value=~~pubDate~~><br>
+               <code>~~pubDate~~</code>
             </p>
             Cover Color:
             <p>
                <input data-attr-type=color value=~~coverColor~~>
+               <code>~~coverColor~~</code>
             </p>
-            Note:
+            Note (2s smart updates):
             <p>
-               <input data-smart-update=spec16.submit data-smart-throttle=5000 value=~~note~~><br>
-               &ldquo;<code>~~note~~</code>&rdquo;
+               <input data-smart-update=spec16.submitNote data-smart-throttle=2000 value=~~note~~><br>
+               <code>~~note~~</code>
             </p>
-            Check js console for smart updates
          </div>
+      </div>
+      <div>
+         <div id=note class=dna-template><small><b>~~ms~~</b></small>: <code>~~note~~</code></div>
       </div>
    </fieldset>
    <fieldset>
@@ -1018,6 +1024,8 @@ var spec15 = {
                <option value=fun selected>Personal</option>
                <option value=edu>School</option>
             </select>
+            <hr>
+            Category:
             <div>
                <select>
                   <option value=art>Art</option>
@@ -1046,18 +1054,19 @@ var spec15 = {
             </p>
             Published:
             <p>
-               <input type=date value=2014-06-22>
+               <input type=date value=2014-06-22><br>
+               <code>2014-06-22</code>
             </p>
             Cover Color:
             <p>
-               <input type=color value=#DAA520>
+               <input type=color value=#daa520>
+               <code>#daa520</code>
             </p>
-            Note:
+            Note (2s smart updates):
             <p>
                <input value="Award winning"><br>
-               &ldquo;<code>Award winning</code>&rdquo;
+               <code>Award winning</code>
             </p>
-            Check js console for smart updates
          </div>
       </div>
    </fieldset>
@@ -1065,9 +1074,9 @@ var spec15 = {
 <script>
 var spec16 = {
    start: Date.now(),
-   submit: function(elem) {
+   submitNote: function(elem) {
       var time = Date.now() - spec16.start;
-      console.log(time + ': ' + elem.data().smartThrottle + ', ' + elem.val());
+      dna.clone('note', { ms: time, note: elem.val() }, { top: true, fade: true });
       },
    run: function() {
       var options = [
@@ -1094,7 +1103,7 @@ var spec16 = {
          meta:     { info: { tags: [{ code: 'tech' },  { code: 'color' }] }},  //verify dot notation
          secret:   'Signed!',
          pubDate:  '2014-06-22',
-         coverColor: '#DAA520',
+         coverColor: '#daa520',
          note:     'Award winning'
          };
       var clone = dna.clone('spec16-book', book);
