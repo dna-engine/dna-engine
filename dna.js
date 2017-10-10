@@ -743,7 +743,7 @@ dna.events = {
          // If element (or parent) has the class "external-site", page will be opened in a new tab.
          var elem = $(event.target);
          var newTab = !dna.browser.iOS() && elem.closest('.external-site').length;
-         window.open(elem.data().href, newTab ? '_blank' : '_self');
+         window.open(elem.closest('[data-href]').data().href, newTab ? '_blank' : '_self');
          }
       $(window.document)
          .click(handle)
