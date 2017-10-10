@@ -2686,6 +2686,10 @@
       <a href=#ui-slide-fade><b>dna.ui.slideFadeToggle</b>(elem, callback)</a><br>
    </li>
    <li><a href=#ui-sliding-flasher><b>dna.ui.slidingFlasher</b>(elem, callback)</a></li>
+   <li>dna.ui.smoothHeight<br>
+      <a href=#ui-smooth-height><b>dna.ui.smoothHeightAnimate</b>(elem)</a><br>
+      <a href=#ui-smooth-height><b>dna.ui.smoothHeightSetBaseline</b>(elem)</a><br>
+   </li>
    <li><a href=#ui-smooth-move><b>dna.ui.smoothMove</b>(elem, up)</a></li>
    <li><a href=#ui-to-elem><b>dna.ui.toElem</b>(elemOrEventOrIndex, that)</a></li>
    <li><a href=#util-apply><b>dna.util.apply</b>(func, params)</a></li>
@@ -2848,6 +2852,62 @@
          dna.ui.slidingFlasher(elem);  //pulse
       </code></pre>
    </figure>
+</section>
+
+<!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.ui.smoothHeightAnimate()  -->
+<!--  dna.ui.smoothHeightSetBaseline()  -->
+<section id=ui-smooth-height>
+   <h4>dna.ui.smoothHeightAnimate([elem])</h4>
+   <h4>dna.ui.smoothHeightSetBaseline([elem])</h4>
+   <p class=api-description>
+      Smoothly animates the height of a container element from a beginning height to a final
+      height.
+   </p>
+   <p>
+      If no container element is specified, the <code>body</code> element will be
+      used for the baseline and the animation will use the previously set baseline.
+   </p>
+   Usage:
+   <ol>
+      <li>First call <code>dna.ui.smoothHeightSetBaseline()</code> to establish the initial height
+         of the container.</li>
+      <li>Then insert (show) and remove (hide) elements within the container.</li>
+      <li>Lastly, call <code>dna.ui.smoothHeightAnimate()</code> to smoothly adjust the container
+         element to its new height.</li>
+   </ol>
+   <div class=api-parameters>
+      Parameters:
+      <ul>
+         @@include('website/templates/params/elem-simple.html')
+      </ul>
+   </div>
+   <figure>
+      <figcaption>Example (TBD)</figcaption>
+      <pre><code class=language-html>
+         &lt;script&gt;dna.ui.smoothHeightSetBaseline();&lt;/script&gt;
+         &lt;script&gt;dna.ui.smoothHeightAnimate();&lt;/script&gt;
+      </code></pre>
+   </figure>
+   <!-- Start: Result  -->
+   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
+   <figure class=hljs-enhance>
+      <figcaption>Result (interactive)</figcaption>
+      <div>
+         <div>
+            <h2>TBD</h2>
+         </div>
+         <script>
+            function makeChapterBoxes() {
+               dna.ui.smoothHeightSetBaseline();
+               //TBD
+               dna.ui.smoothHeightAnimate();
+               }
+            makeChapterBoxes();
+         </script>
+      </div>
+   </figure>
+   <!-- End: Result  -->
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
