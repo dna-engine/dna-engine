@@ -742,15 +742,21 @@ dna.events = {
                data.dnaTimeoutId = undefined;
                runner(elem, 'smart-update', event);
                }
-            var throttle = data.smartThrottle ? Number(data.smartThrottle) : defaultThrottle;
-            data.dnaLastValue = elem.val();
-            if (!data.dnaTimeoutId)
-               if (Date.now() < data.dnaLastUpdated + throttle)
-                  data.dnaTimeoutId = window.setTimeout(doCallback, throttle);
-               else
-                  doCallback();
+            function handleChange() {
+               var throttle = data.smartThrottle ? +data.smartThrottle : defaultThrottle;
+               data.dnaLastValue = elem.val();
+               if (!data.dnaTimeoutId)
+                  if (Date.now() < data.dnaLastUpdated + throttle)
+                     data.dnaTimeoutId = window.setTimeout(doCallback, throttle);
+                  else
+                     doCallback();
+               }
+            if (event.type === 'keydown' && data.dnaLastValue === undefined)
+               data.dnaLastValue = elem.val();
+            if (event.type !== 'keydown' && elem.val() !== data.dnaLastValue)
+               handleChange();
             }
-         if (data.smartUpdate && elem.val() !== data.dnaLastValue)
+         if (data.smartUpdate)
             smartUpdate();
          }
       function jumpToUrl(event) {
