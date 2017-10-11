@@ -30,6 +30,7 @@ var dna = {
          top:       false,
          container: null,
          empty:     false,
+         clones:    1,
          html:      false,
          transform: null,
          callback:  null
@@ -40,10 +41,12 @@ var dna = {
          dna.core.berserk('Container missing for nested template: ' + name);
       if (settings.empty)
          dna.empty(name);
-      var list = data instanceof Array ? data : [data];
+      var list = [];
+      while (settings.clones--)
+         list = list.concat(data);
       var clones = $();
-      for (var i = 0; i < list.length; i++)
-         clones = clones.add(dna.core.replicate(template, list[i], i, settings));
+      function addClone(i, d) { clones = clones.add(dna.core.replicate(template, d, i, settings)); }
+      $.each(list, addClone);
       dna.placeholder.setup();  //TODO: optimize
       var first = clones.first();
       first.closest('.dna-menu, .dna-panels').each(dna.panels.refresh);
@@ -774,6 +777,7 @@ dna.events = {
          .keyup(handleEnterKey)
          .keydown(handle)
          .keypress(handle)
+         .keydown(handleSmartUpdate)
          .keyup(handleSmartUpdate)
          .change(handleSmartUpdate)  //TODO: handle paste events on iOS
          .on({ click: jumpToUrl }, '[data-href]');
