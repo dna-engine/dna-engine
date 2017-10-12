@@ -349,7 +349,7 @@ dna.ui = {
          function turnOffTransition() { container.css({ transition: 'none' }); }
          window.setTimeout(turnOffTransition, 1000);  //allow 1s transition to finish
          }
-      window.setTimeout(animate, 400);  //allow container time to draw
+      window.setTimeout(animate, 500);  //allow container time to draw (default fadeIn() time + 100)
       return container.css({ transition: 'all 1s' });
       },
    smoothMove: function(elem, up) {
