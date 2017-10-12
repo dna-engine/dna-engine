@@ -137,8 +137,9 @@ var dna = {
    registerInitializer: function(func, options) {
       var settings = $.extend({ onDocumentLoad: true }, options);
       if (settings.onDocumentLoad)
-         dna.util.apply(func, [settings.selector ? $(settings.selector).not('.dna-template ' +
-            settings.selector).addClass('dna-initialized') : $(window.document)].concat(settings.params));
+         dna.util.apply(func, [settings.selector ? $(settings.selector).not(
+            '.dna-template ' + settings.selector).addClass('dna-initialized') :
+            $(window.document)].concat(settings.params));
       return dna.events.initializers.push(
          { func: func, selector: settings.selector, params: settings.params });
       },
@@ -298,7 +299,7 @@ dna.util = {
 dna.ui = {
    toElem: function(elemOrEventOrIndex, that) {
       return elemOrEventOrIndex instanceof $ ? elemOrEventOrIndex :
-         elemOrEventOrIndex ? $(elemOrEventOrIndex.target) : $(that);
+         $(elemOrEventOrIndex ? elemOrEventOrIndex.target : that);
       },
    getComponent: function(elem) {
       return elem.closest('[data-component]');
@@ -686,8 +687,10 @@ dna.events = {
       // Executes data-on-load and data-callback functions plus registered initializers
       dna.events.elementSetup(elem, data);
       function init(i, initializer) {
-         var elems = initializer.selector ? elem.find(initializer.selector).addBack(initializer.selector) : elem;
-         dna.util.apply(initializer.func, [elems.addClass('dna-initialized')].concat(initializer.params));
+         var elems = initializer.selector ?
+            elem.find(initializer.selector).addBack(initializer.selector) : elem;
+         dna.util.apply(initializer.func,
+            [elems.addClass('dna-initialized')].concat(initializer.params));
          }
       $.each(dna.events.initializers, init);
       return elem;
