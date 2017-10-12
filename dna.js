@@ -338,19 +338,18 @@ dna.ui = {
       },
    smoothHeightSetBaseline: function(container) {
       dna.ui.$container = container = container || $('body');
-      return container.data({ startHeight: container.outerHeight() });
+      var height = container.outerHeight();
+      return container.css({ minHeight: height, maxHeight: height, overflow: 'hidden' });
       },
    smoothHeightAnimate: function(container) {
       container = container || dna.ui.$container;
-      var startHeight = +container.data().startHeight;
-      var endHeight = container.outerHeight();
-      function setCss(height) {
-         container.css({ minHeight: height, maxHeight: height, transition: 'all 0.4s' });
+      function animate() {
+         container.css({ minHeight: 0, maxHeight: '100vh' });
+         function turnOffTransition() { container.css({ transition: 'none' }); }
+         window.setTimeout(turnOffTransition, 1000);  //allow 1s transition to finish
          }
-      setCss(startHeight);
-      function animate() { setCss(endHeight); }
-      window.setTimeout(animate, 0);  //allow container to draw at startHeight before animating
-      return container;
+      window.setTimeout(animate, 400);  //allow container time to draw
+      return container.css({ transition: 'all 1s' });
       },
    smoothMove: function(elem, up) {
       function move() {
