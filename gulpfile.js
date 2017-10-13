@@ -32,9 +32,9 @@ const webContext = {
       }
    };
 webContext.title = 'dna.js';  //default page title
-const banner = '//dna.js v' + webContext.pkg.version + ' ~~ dnajs.org/license\n';
+const banner = '// dna.js v' + webContext.pkg.version + ' ~~ dnajs.org ~~ MIT\n';
 const versionPatternStrs = [
-   'dna[.]js v',     //example (dna.css):      /* dna.js v1.0.0 ~~ dnajs.org/license */
+   'dna[.]js v',     //example (dna.css):      /* dna.js v1.0.0 ~~ dnajs.org ~~ MIT */
    "version:\\s*'",  //example (dna.js):       version: '1.0.0',
    '"version":\\s*"' //example (package.json): "version":  "1.0.0",
    ];
