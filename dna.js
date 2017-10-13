@@ -342,15 +342,18 @@ dna.ui = {
       var height = container.outerHeight();
       return container.css({ minHeight: height, maxHeight: height, overflow: 'hidden' });
       },
-   smoothHeightAnimate: function(container) {
+   smoothHeightAnimate: function(delay, container) {
       container = container || dna.ui.$container;
+      window.console.log([delay, container]);
       function animate() {
          container.css({ minHeight: 0, maxHeight: '100vh' });
-         function turnOffTransition() { container.css({ transition: 'none' }); }
+         function turnOffTransition() { container.css({ transition: 'none', maxHeight: 'none' }); }
          window.setTimeout(turnOffTransition, 1000);  //allow 1s transition to finish
          }
-      window.setTimeout(animate, 500);  //allow container time to draw (default fadeIn() time + 100)
-      return container.css({ transition: 'all 1s' });
+      window.setTimeout(animate, delay || 50);  //allow container time to draw
+      function setAnimationLength() { container.css({ transition: 'all 1s' }); }
+      window.setTimeout(setAnimationLength, 10);  //allow baseline to lock in height
+      return container;
       },
    smoothMove: function(elem, up) {
       function move() {
