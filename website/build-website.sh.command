@@ -25,14 +25,18 @@ buildHtmlFiles() {
    }
 
 downloadProjectCode() {
+   echo "Downloading:"
    cd $projectHome/website/httpdocs
    curl --remote-name --silent $releasedOrigin/dna.css
    curl --remote-name --silent $releasedOrigin/dna.js
    curl --remote-name --silent $releasedOrigin/dna.min.js
+   ls -1 dna*
    mkdir spec
    cd spec
    curl --silent $releasedOrigin/spec/visual.html | sed s/href=website[/]static[/]/href=/ > visual.html
    sed s/src=dna.js/src=dna.min.js/ visual.html > visual-min.html
+   ls -1 visual*.html
+   echo
    }
 
 publish() {
