@@ -14,7 +14,7 @@
 <style>
    body                { font-family: sans-serif; margin: 30px; }
    body >header        { margin-bottom: 30px; }
-   body >header button { float: right; }
+   body >header >aside { float: right; text-align: right; }
    body >footer        { background: silver; padding: 10px 10px; }
    h1, h3              { margin: 0px 0px 5px 0px; }
    h2                  { margin: 0px; }
@@ -25,9 +25,11 @@
    .push-right         { float: right; }
    .in-a-row           { display: inline-block; }
    main >section       { display: inline-block; vertical-align: top; border: 1px solid silver;
-                          padding: 10px; margin: 0px 20px 20px 0px; }
+                           padding: 10px; margin: 0px 20px 20px 0px; }
    fieldset            { float: left; width: 200px; border: 1px solid silver; padding-bottom: 0px; }
    legend              { border: 1px solid silver; padding: 0px 10px; }
+   input[type=range]   { -webkit-appearance: none; width: 100%; height: 20px;
+                           background-color: mintcream; border: 1px solid silver; }
    [data-component]    { background-color: gainsboro; padding: 15px; }
    .dna-clone          { background-color: darkseagreen; }
    div.dna-clone       { padding: 10px; margin-bottom: 15px; }
@@ -37,16 +39,19 @@
    #back, .id-back     { background-color: honeydew; }
    .border-change      { border: 2px solid darkorange; }
    .border-change2     { border: 2px solid darkslateblue; }
+   .chapter-box        { display: inline-block; background-color: lightsteelblue; padding: 15px; margin: 5px }
 </style>
 </head>
 <body>
 
 <header>
-   <button data-href=http://dnajs.org class=external-site>dnajs.org <span>(new tab)</span></button>
-   <button data-href=http://dnajs.org>dnajs.org</button>
+   <aside>
+      <p><button data-href=http://dnajs.org>dnajs.org</button></p>
+      <p><button data-href=http://dnajs.org class=external-site>dnajs.org <span>(new tab)</span></button></p>
+      <p><span id=file-name>dna.js</span> &mdash; <a id=switch href=visual-min.html>switch</a></p>
+   </aside>
    <h1>dna.js</h1>
    <h2>Visual Specification Runner</h2>
-   <p><span id=file-name>dna.js</span> &mdash; <a id=switch href=visual-min.html>switch</a></p>
 </header>
 
 <main>
@@ -1192,14 +1197,60 @@ var spec17 = {
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <section id=spec18>
    <h3>Specification: #18</h3>
+   <p>Smooth container</p>
+   <fieldset>
+      <legend>Actual</legend>
+
+      <input type=range value=21 data-change=spec18.iEvent>
+      <input type=email data-change=spec18.iEvent placeholder="Email!">
+      <input type=range value=21 data-input=spec18.iEvent>
+      <input type=email data-input=spec18.iEvent placeholder="Email!">
+
+      <input type=range value=3 data-change=spec18.smooth>
+      <div class=smooth-container>
+         <p id=chapter-box class=dna-template>~~[count]~~</p>
+      </div>
+   </fieldset>
+   <fieldset>
+      <legend>Expected</legend>
+      <input type=range value=5>
+      <div>
+         <p class=chapter-box>1</p>
+         <p class=chapter-box>1</p>
+         <p class=chapter-box>1</p>
+      </div>
+   </fieldset>
+</section>
+<script>
+var spec18 = {
+   iEvent: function(elem, event) {
+      window.console.log(Date.now(), elem.val(), event.type);
+      },
+   makeChapterBoxes: function(range) {
+      dna.clone('chapter-box', {}, { empty: true, clones: +range.val() }).hide().fadeIn();
+      },
+   smooth: function(range) {
+      dna.ui.smoothHeightSetBaseline($('#spec18 .smooth-container'));
+      spec18.makeChapterBoxes(range);
+      dna.ui.smoothHeightAnimate();
+      },
+   run: function() {
+      spec18.makeChapterBoxes($('#spec18 input[type=range]').first())
+      }
+   };
+</script>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<section id=spec19>
+   <h3>Specification: #19</h3>
    <p>Panels - nav buttons</p>
    <fieldset>
       <legend>Actual</legend>
-      <nav id=spec18-books class=dna-menu data-callback=spec18.displayPanel>
-         <button id=spec18-book-title class=dna-template>~~title~~</button>
+      <nav id=spec19-books class=dna-menu data-callback=spec19.displayPanel>
+         <button id=spec19-book-title class=dna-template>~~title~~</button>
       </nav>
-      <div id=spec18-books-panels class=dna-panels>
-         <section id=spec18-book class=dna-template data-transform=spec18.enhance>
+      <div id=spec19-books-panels class=dna-panels>
+         <section id=spec19-book class=dna-template data-transform=spec19.enhance>
             <h2>~~title~~</h2>
             <p>~~author~~</p>
             <p>~~displayPrice~~</p>
@@ -1225,7 +1276,7 @@ var spec17 = {
    </fieldset>
 </section>
 <script>
-var spec18 = {
+var spec19 = {
    enhance: function(data) {
       data.code = dna.util.toKebab(data.title);
       data.displayPrice = '$' + (data.price / 100).toFixed(2);
@@ -1234,20 +1285,20 @@ var spec18 = {
       elem.addClass('border-change');
       },
    run: function() {
-      dna.clone('spec18-book-title', specRunner.catalog);
-      dna.clone('spec18-book',       specRunner.catalog);
-      $('#spec18-books .menu-item:contains(Styling CSS3)').click();
+      dna.clone('spec19-book-title', specRunner.catalog);
+      dna.clone('spec19-book',       specRunner.catalog);
+      $('#spec19-books .menu-item:contains(Styling CSS3)').click();
       }
    };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=spec19>
-   <h3>Specification: #19</h3>
+<section id=spec20>
+   <h3>Specification: #20</h3>
    <p>Panels - nested</p>
    <fieldset>
       <legend>Actual</legend>
-      <ul id=spec19-category class=dna-menu>
+      <ul id=spec20-category class=dna-menu>
          <li><div>Web</div>
             <ul>
                <li><div>Technologies</div>
@@ -1270,7 +1321,7 @@ var spec18 = {
             </ol>
          </li>
       </ul>
-      <div id=spec19-category-panels class=dna-panels>
+      <div id=spec20-category-panels class=dna-panels>
          <p>HTML!</p>
          <p>CSS!</p>
          <p>W3C!</p>
@@ -1309,26 +1360,26 @@ var spec18 = {
    </fieldset>
 </section>
 <script>
-var spec19 = {
+var spec20 = {
    run: function() {
-      function postRenderClick() { $('#spec19-category .menu-item:contains(W3C)').click(); }
+      function postRenderClick() { $('#spec20-category .menu-item:contains(W3C)').click(); }
       window.setTimeout(postRenderClick, 1000);
       }
    };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<section id=spec20>
-   <h3>Specification: #20</h3>
+<section id=spec21>
+   <h3>Specification: #21</h3>
    <p>Panels - drop-down</p>
    <fieldset>
       <legend>Actual</legend>
-      <select id=spec20-author-info class=dna-menu>
-         <option id=spec20-book-author-nav-button class=dna-template
+      <select id=spec21-author-info class=dna-menu>
+         <option id=spec21-book-author-nav-button class=dna-template
             value=~~author~~>~~author~~</option>
       </select>
-      <div id=spec20-author-info-panels class=dna-panels>
-         <section id=spec20-book-author class=dna-template>
+      <div id=spec21-author-info-panels class=dna-panels>
+         <section id=spec21-book-author class=dna-template>
             <p>Author:   <b>~~author~~</b></p>
             <p>Language: <b>~~language~~</b></p>
          </section>
@@ -1350,11 +1401,11 @@ var spec19 = {
    </fieldset>
 </section>
 <script>
-var spec20 = {
+var spec21 = {
    run: function() {
-      dna.clone('spec20-book-author-nav-button', specRunner.catalog);
-      dna.clone('spec20-book-author',            specRunner.catalog);
-      $('#spec20-author-info ').val('Abby').change();
+      dna.clone('spec21-book-author-nav-button', specRunner.catalog);
+      dna.clone('spec21-book-author',            specRunner.catalog);
+      $('#spec21-author-info ').val('Abby').change();
       }
    };
 </script>
