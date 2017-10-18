@@ -13,7 +13,7 @@
 <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/dna.js@1.3/dna.css>
 <link rel=stylesheet       href=http://centerkey.com/css/reset.css>
 <style>
-   @import url("https://fonts.googleapis.com/css?family=Comfortaa");
+   @import url(https://fonts.googleapis.com/css?family=Comfortaa);
    body >header {
       position: absolute;
       top: 10px;
@@ -74,7 +74,7 @@
 <main>
    <label>
       <span>Zoom:</span>
-      <input type=range value=100 data-change=scaleRange>
+      <input type=range value=100 data-input=scaleRange>
    </label>
    <figure id=logo-canvas>
       <span>dna.js</span>
@@ -123,12 +123,14 @@
       }
    dna.clone('circle', circles, { callback: addStyle });
    $('#circle-data').text(JSON.stringify(circles));
-   function scaleRange(elemOrEvent) {
-      var elem = elemOrEvent.target ? $(elemOrEvent.target) : $(elem);
-      var scale = Math.max(elem.val(), 5) / 100;
+   function scaleRange(range) {
+      var scale = Math.max(range.val(), 5) / 100;
       $('figure#logo-canvas').css({ transform: `scale(${scale})` });
       }
-   $('input[type=range]').on('input', scaleRange);
+</script>
+<script id=temporary-patch>
+   if (dna.info().version <= '1.3.2')
+      $('input[type=range]').on({ input: function(e) { scaleRange($(e.target)); } });
 </script>
 </body>
 </html>

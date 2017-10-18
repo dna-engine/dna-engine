@@ -1485,6 +1485,7 @@
    <ol>
       <li><code>data-click</code></li>
       <li><code>data-change</code></li>
+      <li><code>data-input</code></li>
       <li><code>data-key-up</code></li>
       <li><code>data-key-down</code></li>
       <li><code>data-key-press</code></li>
@@ -1495,10 +1496,11 @@
       <pre><code class=language-html>
          &lt;p&gt;Click:  &lt;button data-click=showMsg     value=1&gt;1&lt;/button&gt;&lt;/p&gt;
          &lt;p&gt;Change: &lt;input  data-change=showMsg    value=2&gt;&lt;/p&gt;
-         &lt;p&gt;Up:     &lt;input  data-key-up=showMsg    value=3&gt;&lt;/p&gt;
-         &lt;p&gt;Down:   &lt;input  data-key-down=showMsg  value=4&gt;&lt;/p&gt;
-         &lt;p&gt;Press:  &lt;input  data-key-press=showMsg value=5&gt;&lt;/p&gt;
-         &lt;p&gt;Submit: &lt;input  data-enter-key=showMsg value=6&gt;&lt;/p&gt;
+         &lt;p&gt;Input:  &lt;input  data-input=showMsg     value=3&gt;&lt;/p&gt;
+         &lt;p&gt;Up:     &lt;input  data-key-up=showMsg    value=4&gt;&lt;/p&gt;
+         &lt;p&gt;Down:   &lt;input  data-key-down=showMsg  value=5&gt;&lt;/p&gt;
+         &lt;p&gt;Press:  &lt;input  data-key-press=showMsg value=6&gt;&lt;/p&gt;
+         &lt;p&gt;Submit: &lt;input  data-enter-key=showMsg value=7&gt;&lt;/p&gt;
          &lt;p id=message&gt;&lt;/p&gt;
          &lt;script&gt;
             function showMsg(elem, event) {
@@ -1515,10 +1517,11 @@
       <div class=no-disable>
          <p>Click:  <button data-click=showMsg     value=1>1</button></p>
          <p>Change: <input  data-change=showMsg    value=2></p>
-         <p>Up:     <input  data-key-up=showMsg    value=3></p>
-         <p>Down:   <input  data-key-down=showMsg  value=4></p>
-         <p>Press:  <input  data-key-press=showMsg value=5></p>
-         <p>Submit: <input  data-enter-key=showMsg value=6></p>
+         <p>Input:  <input  data-input=showMsg     value=3></p>
+         <p>Up:     <input  data-key-up=showMsg    value=4></p>
+         <p>Down:   <input  data-key-down=showMsg  value=5></p>
+         <p>Press:  <input  data-key-press=showMsg value=6></p>
+         <p>Submit: <input  data-enter-key=showMsg value=7></p>
          <p id=message><br></p>
          <script>
             function showMsg(elem, event) {
@@ -1589,7 +1592,7 @@
    </figure>
    <!-- End: Result  -->
    <p>
-      Experiment with smart update events:<br>
+      Experiment with smart update events:
       <button data-href=http://jsfiddle.net/@@jsFiddle.smartUpdates class=external-site>
          jsfiddle.net/@@jsFiddle.smartUpdates
       </button>
@@ -3170,6 +3173,7 @@
       <li><a href=#structure-thimblerig>  <code>data-falsey</code></a>:         Show element only if field evaluates to false</li>
       <li><a href=#panels-routes>         <code>data-hash</code></a>:           Set the fragment ID (hash) for a panel's URL</li>
       <li><a href=#event-jump>            <code>data-href</code></a>:           Jumps to the URL (like an <code>&lt;a&gt;</code> link)</li>
+      <li><a href=#event-user>            <code>data-input</code></a>:          Callback to run on input event</li>
       <li><a href=#event-user>            <code>data-key-down</code></a>:       Callback to run on key down event</li>
       <li><a href=#event-user>            <code>data-key-press</code></a>:      Callback to run on key press event</li>
       <li><a href=#event-user>            <code>data-key-up</code></a>:         Callback to run on key up event</li>

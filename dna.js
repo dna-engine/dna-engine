@@ -699,7 +699,7 @@ dna.events = {
       function runner(elem, type, event) {
          // Finds elements for given event type and executes callback passing in the element,
          //    event, and component (container element with "data-component" attribute)
-         // Types: click|change|key-up|key-down|key-press|enter-key
+         // Types: click|change|input|key-up|key-down|key-press|enter-key
          elem = elem.closest('[data-' + type + ']');
          var fn = elem.data(type);
          if (type === 'click' && elem.prop('tagName') === 'A' && fn && fn.match(/^dna[.]/))
@@ -782,6 +782,7 @@ dna.events = {
          .keydown(handleSmartUpdate)
          .keyup(handleSmartUpdate)
          .change(handleSmartUpdate)  //TODO: handle paste events on iOS
+         .on({ input: handle })
          .on({ click: jumpToUrl }, '[data-href]');
       dna.events.elementSetup();
       }
@@ -954,6 +955,6 @@ dna.core = {
    };
 
 if (typeof module === 'object')           //Node.js module loading system (CommonJS)
-   module.exports = dna.core.initModule;  //var dna = require('dna.js')(window, jQuery);
+   module.exports = dna.core.initModule;  //const dna = require('dna.js')(window, jQuery);
 else
    dna.core.setup();
