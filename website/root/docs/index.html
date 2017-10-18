@@ -1,6 +1,6 @@
 @@include('website/templates/page-begin.html', { "title": "Documentation" })
 
-<main>
+<main class=docs-page>
 
 <aside>
    <figure class=video-container-link>
@@ -15,7 +15,6 @@
    For richer examples, view the HTML source of the project
    <a href=../spec/visual.html>visual specification runner</a>.
 </p>
-
 
 <nav class=toc>
    <h4>Contents:</h4>
@@ -123,7 +122,7 @@
    </ol>
 </nav>
 
-<!--*********************************************************************************************-->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=system>Terminology and Browser Support</h3>
 <h4 id=system-terms>Terminology</h4>
 <dl>
@@ -167,7 +166,7 @@
    </dd>
 </dl>
 
-<!--*********************************************************************************************-->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=setup>Setup JS and CSS Assets</h3>
 <ol>
    <li><a href=#setup-cdn>CDN</a></li>
@@ -287,7 +286,7 @@
    </figure>
 </section>
 
-<!--*********************************************************************************************-->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=html>HTML &mdash; Classes, Fields, Attributes, and Properties</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -541,7 +540,7 @@
       <figcaption>Resulting HTML</figcaption>
       <pre><code class=language-html>
          Due date:    &lt;input type=date  value=2017-12-31&gt;&lt;br&gt;
-         Cover color: &lt;input type=color value=#DAA520&gt;
+         Cover color: &lt;input type=color value=#daa520&gt;
       </code></pre>
    </figure>
    <!-- End: Result  -->
@@ -561,7 +560,7 @@
    </ul>
 </section>
 
-<!--*********************************************************************************************-->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=api>JavaScript API</h3>
 <h5>API Overview</h5>
 <ol>
@@ -602,6 +601,7 @@
             <ul>
                @@include('website/templates/options/fade.html')
                @@include('website/templates/options/top.html')
+               @@include('website/templates/options/clones.html')
                @@include('website/templates/options/html.html')
                @@include('website/templates/options/empty.html')
                @@include('website/templates/options/holder.html')
@@ -1166,7 +1166,7 @@
    </p>
 </section>
 
-<!--*********************************************************************************************-->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=loop>Looping</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -1364,7 +1364,7 @@
    <!-- End: Result  -->
 </section>
 
-<!--*********************************************************************************************-->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=event>Events, Callbacks, and Forms</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -1589,11 +1589,24 @@
    </figure>
    <!-- End: Result  -->
    <p>
-      Experiment with smart update events:
+      Experiment with smart update events:<br>
       <button data-href=http://jsfiddle.net/@@jsFiddle.smartUpdates class=external-site>
          jsfiddle.net/@@jsFiddle.smartUpdates
       </button>
    </p>
+   <p>
+       Smart update events can be used over WebSockets:<br>
+       <a href=https://github.com/dnajs/dnajs-smart-update-websockets>
+           github.com/dnajs/dnajs-smart-update-websockets
+       </a>
+   </p>
+   <figure>
+      <img src=https://raw.githubusercontent.com/dnajs/dnajs-smart-update-websockets/master/screenshot.png
+         alt=screenshot>
+      <figcaption>
+          Example WebSockets server and client showing throttled live updates using dna.js
+      </figcaption>
+   </figure>
 </section>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -1942,7 +1955,7 @@
    </p>
 </section>
 
-<!--*********************************************************************************************-->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=structure>Structures and Conditional Logic</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -2171,7 +2184,7 @@
 
 </section>
 
-<!--*********************************************************************************************-->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=components>Making Reusable Components</h3>
 
 <!-- - - - - - - - - - - - - - - - - - - - - -->
@@ -2276,7 +2289,7 @@
 </section>
 -->
 
-<!--*********************************************************************************************-->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=panels>Panels (UI Tabs)</h3>
 <p>
    Panels are content elements associated with menu items.&nbsp;
@@ -2660,7 +2673,7 @@
    </p>
 </section>
 
-<!--*********************************************************************************************-->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=utils>Utilities</h3>
 <p>
    The utility functions built into dna.js are available to be called directly in the event that
@@ -2687,7 +2700,7 @@
    </li>
    <li><a href=#ui-sliding-flasher><b>dna.ui.slidingFlasher</b>(elem, callback)</a></li>
    <li>dna.ui.smoothHeight<br>
-      <a href=#ui-smooth-height><b>dna.ui.smoothHeightAnimate</b>(elem)</a><br>
+      <a href=#ui-smooth-height><b>dna.ui.smoothHeightAnimate</b>(delay, elem)</a><br>
       <a href=#ui-smooth-height><b>dna.ui.smoothHeightSetBaseline</b>(elem)</a><br>
    </li>
    <li><a href=#ui-smooth-move><b>dna.ui.smoothMove</b>(elem, up)</a></li>
@@ -2858,35 +2871,55 @@
 <!--  dna.ui.smoothHeightAnimate()  -->
 <!--  dna.ui.smoothHeightSetBaseline()  -->
 <section id=ui-smooth-height>
-   <h4>dna.ui.smoothHeightAnimate([elem])</h4>
    <h4>dna.ui.smoothHeightSetBaseline([elem])</h4>
+   <h4>dna.ui.smoothHeightAnimate([delay, [elem]])</h4>
    <p class=api-description>
       Smoothly animates the height of a container element from a beginning height to a final
       height.
    </p>
    <p>
-      If no container element is specified, the <code>body</code> element will be
-      used for the baseline and the animation will use the previously set baseline.
+      If no container element (<code>elem</code>) is specified, the <code>&lt;body&gt;</code>
+      element will be used for the baseline and the animation will use the previously set baseline.
    </p>
-   Usage:
+   <p>
+      The animation start <code>delay</code> (default is 50 milliseconds) allows time for the
+      container to be drawn.
+   </p>
+   Usage steps:
    <ol>
-      <li>First call <code>dna.ui.smoothHeightSetBaseline()</code> to establish the initial height
+      <li>Call <code>dna.ui.smoothHeightSetBaseline()</code> to establish the initial height
          of the container.</li>
-      <li>Then insert (show) and remove (hide) elements within the container.</li>
-      <li>Lastly, call <code>dna.ui.smoothHeightAnimate()</code> to smoothly adjust the container
+      <li>Insert (show) and remove (hide) multiple elements within the container.</li>
+      <li>Call <code>dna.ui.smoothHeightAnimate()</code> to smoothly adjust the container
          element to its new height.</li>
    </ol>
    <div class=api-parameters>
       Parameters:
       <ul>
          @@include('website/templates/params/elem-simple.html')
+         @@include('website/templates/params/delay.html')
       </ul>
    </div>
    <figure>
-      <figcaption>Example (TBD)</figcaption>
+      <figcaption>Smooth container of chapters</figcaption>
       <pre><code class=language-html>
-         &lt;script&gt;dna.ui.smoothHeightSetBaseline();&lt;/script&gt;
-         &lt;script&gt;dna.ui.smoothHeightAnimate();&lt;/script&gt;
+         Number of chapters:&lt;br&gt;
+         &lt;input type=range value=10
+            data-on-load=makeChapters data-change=smooth&gt;
+         &lt;div id=smooth-container&gt;
+            &lt;button id=chapter-box class=dna-template&gt;~~[count]~~&lt;/button&gt;
+         &lt;/div&gt;
+         &lt;script&gt;
+            function makeChapters(range) {
+               var options = { empty: true, clones: +range.val() };
+               dna.clone('chapter-box', {}, options);
+               }
+            function smooth(range) {
+               dna.ui.smoothHeightSetBaseline($('#smooth-container'));
+               makeChapters(range);
+               dna.ui.smoothHeightAnimate();
+               }
+         &lt;/script&gt;
       </code></pre>
    </figure>
    <!-- Start: Result  -->
@@ -2894,16 +2927,22 @@
    <figure class=hljs-enhance>
       <figcaption>Result (interactive)</figcaption>
       <div>
-         <div>
-            <h2>TBD</h2>
+         Number of chapters:<br>
+         <input type=range value=10
+            data-on-load=makeChapters data-change=smooth>
+         <div id=smooth-container>
+            <button id=chapter-box class=dna-template>~~[count]~~</button>
          </div>
          <script>
-            function makeChapterBoxes() {
-               dna.ui.smoothHeightSetBaseline();
-               //TBD
+            function makeChapters(range) {
+               var options = { empty: true, clones: +range.val() };
+               dna.clone('chapter-box', {}, options);
+               }
+            function smooth(range) {
+               dna.ui.smoothHeightSetBaseline($('#smooth-container'));
+               makeChapters(range);
                dna.ui.smoothHeightAnimate();
                }
-            makeChapterBoxes();
          </script>
       </div>
    </figure>
@@ -3037,8 +3076,8 @@
    </figure>
 </section>
 
-<!--  dna.util.toCamel()  -->
 <!-- - - - - - - - - - - - - - - - - - - - - -->
+<!--  dna.util.toCamel()  -->
 <section id=util-to-camel>
    <h4>dna.util.toCamel(kebabCaseStr)</h4>
    <p class=api-description>
@@ -3102,10 +3141,9 @@
    </figure>
 </section>
 
-<!--*********************************************************************************************-->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h3 id=index>Index</h3>
 
-<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=index-classes>
    <h4>List of Classes</h4>
    <ol>
@@ -3118,7 +3156,6 @@
    </ol>
 </section>
 
-<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=index-attributes>
    <h4>List of Data Attributes</h4>
    <ol>
@@ -3151,7 +3188,6 @@
    </ol>
 </section>
 
-<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=index-jquery>
    <h4>List of jQuery Plugin Functions</h4>
    <ol>
@@ -3164,7 +3200,6 @@
    </ol>
 </section>
 
-<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section id=index-examples>
    <h4>List of jsFiddle Examples</h4>
    <table>
@@ -3184,15 +3219,15 @@
    </table>
 </section>
 
-<!--*********************************************************************************************-->
-<h3 id=comments>Questions and comments</h3>
-<p class=plain>
-   Tweet your question or comment with
-   <a href=https://twitter.com/dna_js class=twitter>#dnajs</a>
-   or post below.
-</p>
+<section>
+   <h3 id=comments>Questions and comments</h3>
+   <p class=plain>
+      Tweet your question or comment with
+      <a href=https://twitter.com/dna_js class=twitter>#dnajs</a>
+      or post below.
+   </p>
+</section>
 
-<!-- - - - - - - - - - - - - - - - - - - - - -->
 <section>
    <div id=disqus_thread></div>
    <script>

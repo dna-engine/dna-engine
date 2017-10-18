@@ -93,29 +93,27 @@ aside {
    max-width: 100%;
    margin-left: 40px;
    }
-aside section {
+main h2+aside {
    font-size: 0.8rem;
+   text-align: center;
    background-color: gainsboro;
    border: 1px solid dimgray;
    border-radius: 2px;
    padding: 5px 15px;
    margin-bottom: 30px;
    }
-aside section h2 {
+main h2+aside h2 {
    font-size: 1.0rem;
    font-weight: bold;
    text-align: center;
    }
-aside section header {
+main h2+aside header {
    display: inline-block;
    font-size: 0.8rem;
    color: white;
    background-color: gray;
    padding: 3px 10px;
    margin-bottom: 3px;
-   }
-aside section:first-child {
-   text-align: center;
    }
 
 /* General style */
@@ -143,11 +141,6 @@ h4 {
 h5 {
    font-size: 1.3rem
    }
-section {
-   border: 3px solid silver;
-   padding: 10px 20px;
-   margin-bottom: 20px;
-   }
 table thead th,
 table tbody td {
    text-align: left;
@@ -160,6 +153,14 @@ dd >code,
 td >code {
    font-weight: bold;
    }
+
+
+figure img {
+    border: 3px solid steelblue;
+    }
+figure figcaption {
+    font-style: italic;
+    }
 
 /* Flat buttons */
 button {
@@ -182,8 +183,11 @@ button i[data-icon] {
    padding-right: 0.2em;
    }
 
-main >p >button {
+main >section >p >button {
    display: block;
+   margin-left: 40px;
+   }
+main >section >p br+a {
    margin-left: 40px;
    }
 
@@ -251,6 +255,19 @@ nav.toc ~ h3 {
    }
 
 /* Documentation */
+main.docs-page >section {
+   border: 3px solid silver;
+   padding: 10px 20px;
+   margin-bottom: 30px;
+   }
+main.docs-page >section >h3:first-child {
+   margin: 10px 0px 20px 0px;
+   }
+section >p >em {
+   display: block;
+   font-weight: bold;
+   font-style: normal;
+   }
 .api-description {
    font-style: italic;
    margin-bottom: 10px;
@@ -282,11 +299,6 @@ nav.toc ~ h3 {
    position: absolute;
    top: 0px;
    left: -190px;
-   }
-section >p >em {
-   display: block;
-   font-weight: bold;
-   font-style: normal;
    }
 
 .wrappable code,
@@ -333,29 +345,19 @@ code.block-indent {
    margin: 5px 0px 8px 0px;
    }
 
-/* Google+ */
-.google-plus {
-   float: right;
-   margin-right: 35px;
-   }
-.google-plus i[data-icon] {
-   font-size: 1.4rem;
-   color: #db4437;  /* Google+ red */
-   }
-
 /* Twitter */
 .twitter {
-   position: relative;
+   display: inline-block;
    text-align: center;
+   margin-right: 10px;
    }
 .twitter a {
-   position: absolute;
-   top: 0px;
-   right: -8px;
-   font-size: 0.7rem;
+   font-size: 0.8rem;
    }
 .twitter a i[data-icon] {
+   display: block;
    font-size: 1.4rem;
+   line-height: 0.6em;
    opacity: 1;
    }
 .twitter a,
@@ -367,6 +369,16 @@ a.twitter:visited {
 .twitter a:hover,
 a.twitter:hover {
    color: royalblue;
+   }
+
+/* Google+ */
+.google-plus {
+   display: inline-block;
+   vertical-align: top;
+   }
+.google-plus i[data-icon] {
+   font-size: 1.8rem;
+   color: #db4437;  /* Google+ red */
    }
 
 /* Highlight.js (hljs-enhance) */

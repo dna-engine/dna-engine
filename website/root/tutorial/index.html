@@ -1,13 +1,14 @@
 @@include('website/templates/page-begin.html', { "title": "Book Finder Tutorial" })
 
-<main>
+<main class=docs-page>
+
    <h2>REST-driven Search Component Tutorial</h2>
-   <p>
+   <p class=space-below-4x>
       Follow the steps below to build an interactive book search tool on top of the
       <a href=https://developers.google.com/books/docs/v1/getting_started class=external-site>
          Google Books API</a>.
    </p>
-   <p class=leapfrog>
+   <p>
       <img src=http://books.google.com/googlebooks/images/poweredby.png class=push-right alt=google>
       View a sample of the JSON results you will be using:
       <span class=block-indent>
@@ -15,31 +16,30 @@
              class=external-site>https://www.googleapis.com/books/v1/volumes?q=ice</a>
       </span>
    </p>
-   <aside class=space-above-3x>
+   <br>
+   <aside>
       <figure class=video-container-link>
          <iframe src=//www.youtube.com/embed/@@youTube.tutorial></iframe>
       </figure>
    </aside>
-   <div class=push-left>
-      <h4>Steps:</h4>
-      <ol>
-         <li><a href=#step1>Create baseline HTML</a></li>
-         <li><a href=#step2>Add search component</a></li>
-         <li><a href=#step3>Add search results component</a></li>
-         <li><a href=#step4>Style search results</a></li>
-         <li><a href=#step5>Define book template</a></li>
-         <li><a href=#step6>Load jQuery and dna.js</a></li>
-         <li><a href=#step7>Wire up search callback</a></li>
-         <li><a href=#step8>Make REST call</a></li>
-         <li><a href=#step9>Smarten up the search field</a></li>
-         <li><a href=#conclusion>Conclusion</a></li>
-         <li><a href=#comments>Questions and comments</a></li>
-      </ol>
-   </div>
+   <h4>Steps:</h4>
+   <ol class=space-below-4x>
+      <li><a href=#step1>Create baseline HTML</a></li>
+      <li><a href=#step2>Add search component</a></li>
+      <li><a href=#step3>Add search results component</a></li>
+      <li><a href=#step4>Style search results</a></li>
+      <li><a href=#step5>Define book template</a></li>
+      <li><a href=#step6>Load jQuery and dna.js</a></li>
+      <li><a href=#step7>Wire up search callback</a></li>
+      <li><a href=#step8>Make REST call</a></li>
+      <li><a href=#step9>Smarten up the search field</a></li>
+      <li><a href=#conclusion>Conclusion</a></li>
+      <li><a href=#comments>Questions and comments</a></li>
+   </ol>
 
-   <!--******************************************************************************************-->
-   <h3 id=step1>Step 1: Create baseline HTML</h3>  <!-- TODO: move h3 into section -->
-   <section>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=step1>
+      <h3>Step 1: Create baseline HTML</h3>
       <p>
          Using your <a href=https://atom.io class=external-site>favorite code editor</a>, create
          an HTML file named <code>book-finder.html</code> with the content below.
@@ -68,9 +68,9 @@
       </p>
    </section>
 
-   <!--******************************************************************************************-->
-   <h3 id=step2>Step 2: Add search component</h3>
-   <section>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=step2>
+      <h3>Step 2: Add search component</h3>
       <p>
          Just after the <code>h1</code> header line, insert the HTML for the search
          input box and the submit button.
@@ -93,9 +93,9 @@
       </p>
    </section>
 
-   <!--******************************************************************************************-->
-   <h3 id=step3>Step 3: Add search results component</h3>
-   <section>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=step3>
+      <h3>Step 3: Add search results component</h3>
       <p>
          Just after the search component you added in the previous step, insert a <code>div</code> tag
          to hold a list of books.&nbsp; Then add the static HTML for a single book.
@@ -121,9 +121,9 @@
       </p>
    </section>
 
-   <!--******************************************************************************************-->
-   <h3 id=step4>Step 4: Style search results</h3>
-   <section>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=step4>
+      <h3>Step 4: Style search results</h3>
       <p>
          Add the following lines into the <code>&lt;head&gt;</code> section:
       </p>
@@ -147,9 +147,9 @@
       </p>
    </section>
 
-   <!--******************************************************************************************-->
-   <h3 id=step5>Step 5: Define book template</h3>
-   <section>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=step5>
+      <h3>Step 5: Define book template</h3>
       <p>
          Before we convert the static book HTML into a data-driven template, we need to know the
          structure of the data.&nbsp; Do this by manually examining the results of a
@@ -226,9 +226,9 @@
       </p>
    </section>
 
-   <!--******************************************************************************************-->
-   <h3 id=step6>Step 6: Load jQuery and dna.js</h3>
-   <section>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=step6>
+      <h3>Step 6: Load jQuery and dna.js</h3>
       <p>
          The easiest way to get the necessary CSS and JavaScript libraries is the pull them from a
          <a href=https://en.wikipedia.org/wiki/Content_delivery_network
@@ -263,9 +263,9 @@
       </p>
    </section>
 
-   <!--******************************************************************************************-->
-   <h3 id=step7>Step 7: Wire up search callback</h3>
-   <section>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=step7>
+      <h3>Step 7: Wire up search callback</h3>
       <p>
          Start by writing the shell of a JavaScript function called <code>findBooks()</code>.
       </p>
@@ -304,9 +304,9 @@
       </p>
    </section>
 
-   <!--******************************************************************************************-->
-   <h3 id=step8>Step 8: Make REST call</h3>
-   <section>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=step8>
+      <h3>Step 8: Make REST call</h3>
       <p>
          Immediately after the <code>console.log</code> line, insert the following code:
       </p>
@@ -337,9 +337,9 @@
       </p>
    </section>
 
-   <!--******************************************************************************************-->
-   <h3 id=step9>Step 9: Smarten up the search field</h3>
-   <section>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=step9>
+      <h3>Step 9: Smarten up the search field</h3>
       <p>
          Clicking the "Find" button may be simple, but it makes for a cumbersome user
          experience.&nbsp;
@@ -353,7 +353,8 @@
       <figure>
          <figcaption>Smart update</figcaption>
          <pre><code class=language-html>
-            &lt;input data-smart-update=findBooks placeholder=&quot;Enter terms&quot; autofocus&gt;
+            &lt;input data-smart-update=findBooks
+               placeholder=&quot;Enter terms&quot; autofocus&gt;
          </code></pre>
       </figure>
       <p>
@@ -373,9 +374,9 @@
       </p>
    </section>
 
-   <!--******************************************************************************************-->
-   <h3 id=conclusion>Conclusion</h3>
-   <section>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=conclusion>
+      <h3>Conclusion</h3>
       <p>
          That's a wrap!
       </p>
@@ -457,8 +458,9 @@
       </p>
    </section>
 
-   <h3 id=comments>Questions and comments</h3>
-   <section>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=comments>
+      <h3>Questions and comments</h3>
       <p class=plain>
          Tweet your question or comment with
          <a href=https://twitter.com/dna_js class=twitter>#dnajs</a>

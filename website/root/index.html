@@ -5,211 +5,223 @@
    <h2 class=hide-me>dna.js</h2>
 
    <aside>
-      <section>
-         <h2>Download v@@pkg.version</h2>
-         <p>
-            <button data-href=https://raw.github.com/dnajs/dna.js/current/dna.min.js class=external-site>
-               <i data-icon=download></i> dna.min.js (@@size)
-            </button>
-         </p>
-         <p>
-            <button data-href=https://raw.github.com/dnajs/dna.js/current/dna.css class=external-site>
-               <i data-icon=download></i> dna.css (1 kb)
-            </button>
-         </p>
-         (or simply use the <a href=docs/#setup-cdn>jsDelivr CDN</a>)
-      </section>
-      <section class=news>
-         <div class=twitter>
-            <a href=https://twitter.com/dna_js><i data-icon=twitter></i><br>#dnajs</a>
-         </div>
-         <a class=google-plus href=https://plus.google.com/+DnajsOrg><i data-icon=google-plus-official></i></a>
-         <h2>News</h2>
-         @@include('website/templates/news.html')
-      </section>
+      <h2>Download v@@pkg.version</h2>
+      <p>
+         <button data-href=https://raw.github.com/dnajs/dna.js/current/dna.min.js class=external-site>
+            <i data-icon=download></i> dna.min.js (@@size)
+         </button>
+      </p>
+      <p>
+         <button data-href=https://raw.github.com/dnajs/dna.js/current/dna.css class=external-site>
+            <i data-icon=download></i> dna.css (1 kb)
+         </button>
+      </p>
+      (or simply use the <a href=docs/#setup-cdn>jsDelivr CDN</a>)
    </aside>
 
-   <p>
-      @@pkg.summary&nbsp;
-      You write semantic templates and then dna.js converts your JSON data into dynamically
-      generated DOM elements.
-   </p>
-   <p>
-      The project is open source and available for free.&nbsp; The code is hosted on
-      <a href=https://github.com/dnajs/dna.js>GitHub</a> under the
-      <a href=license>MIT License</a>.
-   </p>
-   <div style="max-width: 350px;">
-      <figure class=video-container-link>
-         <iframe src=//www.youtube.com/embed/@@youTube.intro></iframe>
-      </figure>
-   </div>
-
-   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <h3 id=todo>To-Do List Application</h3>
-   <div class=push-right>
-      <a href=http://jsfiddle.net/@@jsFiddle.toDo class=external-site>
-         <img class=side-image src=graphics/icon-todo-app.png alt=screenshot>
-      </a>
-   </div>
-   <p>
-      Looking under the hood of a simple to-do list application is a good way to quickly
-      understand a library.<br>
-   </p>
-   <p>
-      Experiment with the dna.js to-do list application at:
-      <button data-href=http://jsfiddle.net/@@jsFiddle.toDo class=external-site>
-         jsfiddle.net/@@jsFiddle.toDo
-      </button>
-   </p>
-   <p>
-      The core of the to-do list application is not even <b>10 lines of JavaScript</b>, yet the
-      application includes add a task, complete a task with style change, delete a task, and
-      smooth animation effects.
-   </p>
-
-   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <h3 id=example>Bookstore Example</h3>
-   <p>
-      Designate HTML elements as templates with the <code>dna-template</code> class, and put
-      the templates directly into the HTML of your web page.&nbsp; Use each element's ID to
-      indicate the name of the template.&nbsp; Enclose data field names (object properties) in
-      double tildes.
-   </p>
-   <figure>
-      <figcaption>HTML for <code>book</code> template</figcaption>
-      <pre><code class=language-html>
-         &lt;h1&gt;Featured Books&lt;/h1&gt;
-         &lt;div id=book class=dna-template&gt;
-            &lt;div&gt;Title:  &lt;span&gt;~~title~~&lt;/span&gt;&lt;/div&gt;
-            &lt;div&gt;Author: &lt;span&gt;~~author~~&lt;/span&gt;&lt;/div&gt;
-         &lt;/div&gt;
-      </code></pre>
-   </figure>
-   <p class=big-symbol><i class=icon data-icon=plus></i></p>
-   <figure>
-      <figcaption>JavaScript call to add <code>book</code> node</figcaption>
-      <pre><code class=language-javascript>
-         dna.clone('book', { title: 'The DOM', author: 'Jan' });
-      </code></pre>
-   </figure>
-   <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
-   <figure>
-      <figcaption>Resulting HTML with clone</figcaption>
-      <pre><code class=language-html>
-         &lt;h1&gt;Featured Books&lt;/h1&gt;
-         &lt;div class=book&gt;
-            &lt;div&gt;Title:  &lt;span&gt;The DOM&lt;/span&gt;&lt;/div&gt;
-            &lt;div&gt;Author: &lt;span&gt;Jan&lt;/span&gt;&lt;/div&gt;
-         &lt;/div&gt;
-      </code></pre>
-   </figure>
-   <p>
-      Call the <code>dna.clone()</code> function to insert a copy of the
-      template into the DOM.&nbsp; The supplied JSON data object is used to
-      populate the fields of the template.
-   </p>
-   <p>
-      The new element is a clone, and it is placed into the DOM where the template was
-      located.&nbsp; The original template is detached from the DOM and kept for additional
-      cloning.
-   </p>
-
-   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <h3 id=try>Try It Out</h3>
-   <p>
-      Click "Add a Book" to trigger an event that calls the
-      <code>dna.clone()</code> function.&nbsp; Click "Clear List" to call the
-      <code>dna.empty()</code> function, which deletes all the clones previously
-      created from the template.
-   </p>
-   <div class=featured-books data-setup=app.bookstore.setup>
-      <h2>Featured Books</h2>
-      <div class=buttons>
-         <button data-click=app.bookstore.feelLucky class=no-disable>
-            Add a Book
-            <span class=bubble-help>dna.clone('book', { title: 'The DOM', author: 'Jan' });</span>
-         </button>
-         &nbsp;
-         <button data-click=app.bookstore.clear class=no-disable>
-            Clear List
-            <span class=bubble-help>dna.empty('book');</span>
-         </button>
+   <section>
+      <h3 class=hide-me>Introduction</h3>
+      <p>
+         @@pkg.summary&nbsp;
+         You write semantic templates and then dna.js converts your JSON data into dynamically
+         generated DOM elements.
+      </p>
+      <p>
+         The project is open source and available for free.&nbsp; The code is hosted on
+         <a href=https://github.com/dnajs/dna.js>GitHub</a> under the
+         <a href=license>MIT License</a>.
+      </p>
+      <div style="max-width: 400px; text-align: center; margin: 0px auto;">
+         <figure class=video-container-link>
+            <iframe src=//www.youtube.com/embed/@@youTube.intro></iframe>
+         </figure>
+         <span class=twitter>
+            <a href=https://twitter.com/dna_js><i data-icon=twitter></i>#dnajs</a>
+         </span>
+         <span class=google-plus>
+            <a href=https://plus.google.com/+DnajsOrg><i data-icon=google-plus-official></i></a>
+         </span>
       </div>
-      <div id=book class=dna-template>
-         <div>Title:  <span>~~title~~</span></div>
-         <div>Author: <span>~~author~~</span></div>
-      </div>
-   </div>
-   <p>
-      To see all the pieces running together, check out the standalone example:
-      <button data-href=hello-world>View Source</button>
-   </p>
+   </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <h3 id=live-model>Live Model</h3>
-   <div class=push-right>
-      <a href=http://jsfiddle.net/@@jsFiddle.liveModel class=external-site>
-         <img class=side-image src=graphics/icon-live-model.png alt=screenshot>
-      </a>
-   </div>
-   <p>
-      dna.js keeps track of the data model (the "M" in MVC) and updates the UI as the user changes
-      the model.<br>
-   </p>
-   <p>
-      Interact with the live model at:
-      <button data-href=http://jsfiddle.net/@@jsFiddle.liveModel class=external-site>
-         jsfiddle.net/@@jsFiddle.liveModel
-      </button>
-   </p>
+   <section id=todo>
+       <h3>To-Do List Application</h3>
+       <div class=push-right>
+          <a href=http://jsfiddle.net/@@jsFiddle.toDo class=external-site>
+             <img class=side-image src=graphics/icon-todo-app.png alt=screenshot>
+          </a>
+       </div>
+       <p>
+          Looking under the hood of a simple to-do list application is a good way to quickly
+          understand a library.<br>
+       </p>
+       <p>
+          Experiment with the dna.js to-do list application at:
+          <button data-href=http://jsfiddle.net/@@jsFiddle.toDo class=external-site>
+             jsfiddle.net/@@jsFiddle.toDo
+          </button>
+       </p>
+       <p>
+          The core of the to-do list application is not even <b>10 lines of JavaScript</b>, yet the
+          application includes add a task, complete a task with style change, delete a task, and
+          smooth animation effects.
+       </p>
+   </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <h3 id=philosophy>Philosophy</h3>
-   <p>
-      Backbone.js, AngularJS, and React are all powerful, but they require a fair a amount of
-      technical expertise just to get started.&nbsp; The HTML and JavaScript to create web
-      applications using dna.js is familiar to all web developers, enabling developers to be
-      productive on the first day of using dna.js.
-   </p>
-   Templating should be lightweight, clean, and simple:
-   <ol>
-      <li>Be completely web framework agnostic</li>
-      <li>Put no HTML in your JavaScript</li>
-      <li>Templates should be real HTML that <a href="https://validator.w3.org/nu/?doc=http://dnajs.org"
-         class=external-site>validate</a></li>
-      <li>Templates can be inline (no need for separate template files)</li>
-      <li>Iteration is best done with <a href=docs/#loop-templates>data arrays</a> not messy
-         template <code>for</code> loops</li>
-      <li><a href=http://blog.centerkey.com/2013/02/lazy-setup-50x-javascript-performance.html
-         class=external-site>Zero setup</a> until data is pushed (can be after page load)</li>
-      <li>Stay away from serialization/deserialization (no need to call the <code>.html()</code> function)</li>
-      <li>JavaScript should be void of boilerplate code and anonymous functions</li>
-      <li>Declaring callbacks using simple HTML attributes is more cohesive and semantically
-         meaningful than programmatically binding with JavaScript code</li>
-   </ol>
-   <p>
-      The more transparent a JavaScript templating solution is, the less impact it
-      will have on your workflow for building web applications.&nbsp; Templates with dna.js
-      don't just look like HTML, they are HTML (and they validate).
-   </p>
-   <p>
-      JavaScript is easier to write, quicker to read, and more compact if it is
-      focused on handling data not generating HTML.&nbsp; Traditional web
-      frameworks, such as Grails, PHP, Rails, Django, and Flask already handle HTML.&nbsp;
-      Generating HTML from both the web framework and a client-side HTML templating
-      engine makes the HTML cumbersome to manage and style.&nbsp;
-      dna.js is all about keeping it simple.
-   </p>
+   <section id=example>
+       <h3>Bookstore Example</h3>
+       <p>
+          Add the class <code>dna-template</code> to an element to turn it into a template, and
+          give the template a name using the <code>id</code> attribute.&nbsp;
+          Put the template directly into the HTML of your web page, and specify where data fields
+          (object properties) are to be inserted into the template by enclosing the field names in
+          double tildes.
+       </p>
+       <figure>
+          <figcaption>HTML for <code>book</code> template</figcaption>
+          <pre><code class=language-html>
+             &lt;h1&gt;Featured Books&lt;/h1&gt;
+             &lt;div id=book class=dna-template&gt;
+                &lt;div&gt;Title:  &lt;span&gt;~~title~~&lt;/span&gt;&lt;/div&gt;
+                &lt;div&gt;Author: &lt;span&gt;~~author~~&lt;/span&gt;&lt;/div&gt;
+             &lt;/div&gt;
+          </code></pre>
+       </figure>
+       <p class=big-symbol><i class=icon data-icon=plus></i></p>
+       <figure>
+          <figcaption>JavaScript call to add <code>book</code> node</figcaption>
+          <pre><code class=language-javascript>
+             dna.clone('book', { title: 'The DOM', author: 'Jan' });
+          </code></pre>
+       </figure>
+       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
+       <figure>
+          <figcaption>Resulting HTML with clone</figcaption>
+          <pre><code class=language-html>
+             &lt;h1&gt;Featured Books&lt;/h1&gt;
+             &lt;div class=book&gt;
+                &lt;div&gt;Title:  &lt;span&gt;The DOM&lt;/span&gt;&lt;/div&gt;
+                &lt;div&gt;Author: &lt;span&gt;Jan&lt;/span&gt;&lt;/div&gt;
+             &lt;/div&gt;
+          </code></pre>
+       </figure>
+       <p>
+          Call the <code>dna.clone()</code> function to insert a copy of the
+          template into the DOM.&nbsp; The supplied JSON data object is used to
+          populate the fields of the template.
+       </p>
+       <p>
+          The new element is a clone, and it is placed into the DOM where the template was
+          located.&nbsp; The original template is detached from the DOM and kept for additional
+          cloning.
+       </p>
+   </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <h3 id=feedback>Issues</h3>
-   <p>
-      Submit bugs, feature requests, and questions at:
-      <span class=block-indent>
-         <a href=https://github.com/dnajs/dna.js/issues>github.com/dnajs/dna.js/issues</a>
-      </span>
-   </p>
+   <section id=try>
+       <h3>Try It Out</h3>
+       <p>
+          Click "Add a Book" to trigger an event that calls the
+          <code>dna.clone()</code> function.&nbsp; Click "Clear List" to call the
+          <code>dna.empty()</code> function, which deletes all the clones previously
+          created from the template.
+       </p>
+       <div class=featured-books data-setup=app.bookstore.setup>
+          <h2>Featured Books</h2>
+          <div class=buttons>
+             <button data-click=app.bookstore.feelLucky class=no-disable>
+                Add a Book
+                <span class=bubble-help>dna.clone('book', { title: 'The DOM', author: 'Jan' });</span>
+             </button>
+             &nbsp;
+             <button data-click=app.bookstore.clear class=no-disable>
+                Clear List
+                <span class=bubble-help>dna.empty('book');</span>
+             </button>
+          </div>
+          <div id=book class=dna-template>
+             <div>Title:  <span>~~title~~</span></div>
+             <div>Author: <span>~~author~~</span></div>
+          </div>
+       </div>
+       <p>
+          To see all the pieces running together, check out the standalone example:
+          <button data-href=hello-world>View Source</button>
+       </p>
+   </section>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=live-model>
+       <h3>Live Model</h3>
+       <div class=push-right>
+          <a href=http://jsfiddle.net/@@jsFiddle.liveModel class=external-site>
+             <img class=side-image src=graphics/icon-live-model.png alt=screenshot>
+          </a>
+       </div>
+       <p>
+          dna.js keeps track of the data model (the "M" in MVC) and updates the UI as the user changes
+          the model.<br>
+       </p>
+       <p>
+          Interact with the live model at:
+          <button data-href=http://jsfiddle.net/@@jsFiddle.liveModel class=external-site>
+             jsfiddle.net/@@jsFiddle.liveModel
+          </button>
+       </p>
+   </section>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=philosophy>
+       <h3>Philosophy</h3>
+       <p>
+          Backbone.js, AngularJS, and React are all powerful, but they require a fair a amount of
+          technical expertise just to get started.&nbsp; The HTML and JavaScript to create web
+          applications using dna.js is familiar to all web developers, enabling developers to be
+          productive on the first day of using dna.js.
+       </p>
+       Templating should be lightweight, clean, and simple:
+       <ol>
+          <li>Be completely web framework agnostic</li>
+          <li>Put no HTML in your JavaScript</li>
+          <li>Templates should be real HTML that <a href="https://validator.w3.org/nu/?doc=http://dnajs.org"
+             class=external-site>validate</a></li>
+          <li>Templates can be inline (no need for separate template files)</li>
+          <li>Iteration is best done with <a href=docs/#loop-templates>data arrays</a> not messy
+             template <code>for</code> loops</li>
+          <li><a href=http://blog.centerkey.com/2013/02/lazy-setup-50x-javascript-performance.html
+             class=external-site>Zero setup</a> until data is pushed (can be after page load)</li>
+          <li>Stay away from serialization/deserialization (no need to call the <code>.html()</code> function)</li>
+          <li>JavaScript should be void of boilerplate code and anonymous functions</li>
+          <li>Declaring callbacks using simple HTML attributes is more cohesive and semantically
+             meaningful than programmatically binding with JavaScript code</li>
+       </ol>
+       <p>
+          The more transparent a JavaScript templating solution is, the less impact it
+          will have on your workflow for building web applications.&nbsp; Templates with dna.js
+          don't just look like HTML, they are HTML (and they validate).
+       </p>
+       <p>
+          JavaScript is easier to write, quicker to read, and more compact if it is
+          focused on handling data not generating HTML.&nbsp; Traditional web
+          frameworks, such as Grails, PHP, Rails, Django, and Flask already handle HTML.&nbsp;
+          Generating HTML from both the web framework and a client-side HTML templating
+          engine makes the HTML cumbersome to manage and style.&nbsp;
+          dna.js is all about keeping it simple.
+       </p>
+   </section>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=feedback>
+       <h3>Issues</h3>
+       <p>
+          Submit bugs, feature requests, and questions at:
+          <span class=block-indent>
+             <a href=https://github.com/dnajs/dna.js/issues>github.com/dnajs/dna.js/issues</a>
+          </span>
+       </p>
+   </section>
 
 </main>
 
