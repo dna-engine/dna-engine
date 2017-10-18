@@ -1,8 +1,36 @@
-// dna.js Website
-// MIT ~~ dnajs.org/license
+// dna.js Website ~~ dnajs.org ~~ MIT
 // Copyright (c) 2013-2017 individual contributors to dna.js
 
-var app = {};
+var app = {
+   setup: function() {
+      var newsItemsToShow = 3;
+      function hideOldNews() {
+         var revealButtonHtml = '<div class=reveal-action data-reveal=more-news>more...</div>';
+         var hideSectionHtml =  '<div class=reveal-target data-reveal=more-news></div>';
+         $('section.news h2').nextAll().eq(newsItemsToShow - 1).after($(revealButtonHtml)).next()
+            .nextAll().wrapAll(hideSectionHtml);
+         }
+      app.nav.setup();
+      app.documenation.setup();
+      hideOldNews();
+      }
+   };
+
+app.start = {
+   go: function() {
+      var newsItemsToShow = 3;
+      function hideOldNews() {
+         var revealButtonHtml = '<div class=reveal-action data-reveal=more-news>more...</div>';
+         var hideSectionHtml =  '<div class=reveal-target data-reveal=more-news></div>';
+         $('section.news h2').nextAll().eq(newsItemsToShow - 1).after($(revealButtonHtml)).next()
+            .nextAll().wrapAll(hideSectionHtml);
+         }
+      app.nav.setup();
+      app.documenation.setup();
+      hideOldNews();
+      }
+   };
+
 
 app.bookstore = {
    books: [
@@ -43,19 +71,4 @@ app.documenation = {
       }
    };
 
-app.start = {
-   go: function() {
-      var newsItemsToShow = 3;
-      function hideOldNews() {
-         var revealButtonHtml = '<div class=reveal-action data-reveal=more-news>more...</div>';
-         var hideSectionHtml =  '<div class=reveal-target data-reveal=more-news></div>';
-         $('section.news h2').nextAll().eq(newsItemsToShow - 1).after($(revealButtonHtml)).next()
-            .nextAll().wrapAll(hideSectionHtml);
-         }
-      app.nav.setup();
-      app.documenation.setup();
-      hideOldNews();
-      }
-   };
-
-$(app.start.go);
+$(app.setup);

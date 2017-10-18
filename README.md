@@ -3,7 +3,7 @@
    align=right width=160 alt=logo>
 *An uncomplicated user interface library for semantic templates*
 
-[![npm](https://img.shields.io/npm/v/dna.js.svg)](https://github.com/dnajs/dna.js)
+[![npm](https://img.shields.io/npm/v/dna.js.svg)](https://www.npmjs.com/package/dna.js)
 [![Build Status](https://travis-ci.org/dnajs/dna.js.svg)](https://travis-ci.org/dnajs/dna.js)
 
 dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable
@@ -42,6 +42,9 @@ the DOM and kept for additional cloning.
    <div>Author: <span>Jan</span></div>
 </div>
 ```
+
+Need to clone the template multiple times?&nbsp;  Simply pass an array of data objects into the
+`dna.clone()` function.
 
 ### 2. Additional Information
 * [dnajs.org](http://dnajs.org) (see the "Try It Out" section for a live example)
