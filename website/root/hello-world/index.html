@@ -2,77 +2,85 @@
 
 <main>
 
-   <h2>Hello World Bookstore Example</h2>
-   <p>
-      The code below is a bare bones, standalone web page with the all CSS and JavaScript
-      (including loading jQuery and dna.js) to demonstrate dna.js in action.
-   </p>
-   <p>
-      Each call to <code>dna.clone()</code> creates a new element from the <code>book</code>
-      template and appends the element to the <code>books</code> element.
-   </p>
+   <header>
+      <h2>Hello World Bookstore Example</h2>
+      <p>
+         The code below is a bare bones, standalone web page with the all CSS and JavaScript
+         (including loading jQuery and dna.js) to demonstrate dna.js in action.
+      </p>
+      <p>
+         Each call to <code>dna.clone()</code> creates a new element from the <code>book</code>
+         template and appends the element to the <code>books</code> element.
+      </p>
+   </header>
 
-   <h3 id=code>Bookstore Code</h3>
-   <figure class=full-screen-code>
-      <figcaption>bookstore.html</figcaption>
-      <pre><code class=language-html>
-         &lt;!doctype html&gt;
-         &lt;!-- - - - - - --&gt;
-         &lt;!-- Bookstore --&gt;
-         &lt;!-- - - - - - --&gt;
-         &lt;html&gt;
-         &lt;head&gt;
-         &lt;meta charset=utf-8&gt;
-         &lt;title&gt;Bookstore&lt;/title&gt;
-         &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@1.3/dna.css&gt;
-         &lt;style&gt;
-            body   { font-family: sans-serif; margin: 30px; }
-            .books { width: 250px; }
-            .book  { background-color: gold; padding: 10px; margin: 15px; }
-         &lt;/style&gt;
-         &lt;/head&gt;
-         &lt;body&gt;
+   <section>
+      <h3 id=code>Bookstore Code</h3>
+      <figure class=full-screen-code>
+         <figcaption>bookstore.html</figcaption>
+         <pre><code class=language-html>
+            &lt;!doctype html&gt;
+            &lt;!-- - - - - - --&gt;
+            &lt;!-- Bookstore --&gt;
+            &lt;!-- - - - - - --&gt;
+            &lt;html&gt;
+            &lt;head&gt;
+            &lt;meta charset=utf-8&gt;
+            &lt;title&gt;Bookstore&lt;/title&gt;
+            &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@1.3/dna.css&gt;
+            &lt;style&gt;
+               body   { font-family: sans-serif; margin: 30px; }
+               .books { width: 250px; }
+               .book  { background-color: gold; padding: 10px; margin: 15px; }
+            &lt;/style&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
 
-         &lt;h1&gt;Bookstore&lt;/h1&gt;
-         &lt;div class=books&gt;
-            &lt;div id=book class=dna-template&gt;
-               &lt;div&gt;Title:  &lt;span&gt;~~title~~&lt;/span&gt;&lt;/div&gt;
-               &lt;div&gt;Author: &lt;span&gt;~~author~~&lt;/span&gt;&lt;/div&gt;
+            &lt;h1&gt;Bookstore&lt;/h1&gt;
+            &lt;div class=books&gt;
+               &lt;div id=book class=dna-template&gt;
+                  &lt;div&gt;Title:  &lt;span&gt;~~title~~&lt;/span&gt;&lt;/div&gt;
+                  &lt;div&gt;Author: &lt;span&gt;~~author~~&lt;/span&gt;&lt;/div&gt;
+               &lt;/div&gt;
             &lt;/div&gt;
-         &lt;/div&gt;
 
-         &lt;script src=https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js&gt;&lt;/script&gt;
-         &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@1.3/dna.min.js&gt;&lt;/script&gt;
-         &lt;script&gt;
-            var books = [
-               { title: 'The DOM',      author: 'Jan' },
-               { title: 'Howdy HTML5',  author: 'Ed' },
-               { title: 'Styling CSS3', author: 'Abby' }
-               ];
-            dna.clone('book', books);
-         &lt;/script&gt;
-         &lt;/body&gt;
-         &lt;/html&gt;
-      </code></pre>
-   </figure>
+            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@1.3/dna.min.js&gt;&lt;/script&gt;
+            &lt;script&gt;
+               var books = [
+                  { title: 'The DOM',      author: 'Jan' },
+                  { title: 'Howdy HTML5',  author: 'Ed' },
+                  { title: 'Styling CSS3', author: 'Abby' }
+                  ];
+               dna.clone('book', books);
+            &lt;/script&gt;
+            &lt;/body&gt;
+            &lt;/html&gt;
+         </code></pre>
+      </figure>
+   </section>
 
-   <h3 id=page>Bookstore Web Page</h3>
-   <p class=image-frame>
-      <a href=../bookstore.html class=external-site>
-         <img src=../graphics/bookstore.png class=plain alt=screenshot>
-      </a>
-   </p>
-   <div class=align-centered>
-       <button data-href=../bookstore.html class=external-site>Open Web Page</button>
-   </div>
+   <section>
+      <h3 id=page>Bookstore Web Page</h3>
+      <p class=image-frame>
+         <a href=../bookstore.html class=external-site>
+            <img src=../graphics/bookstore.png class=plain alt=screenshot>
+         </a>
+      </p>
+      <div class=align-centered>
+          <button data-href=../bookstore.html class=external-site>Open Web Page</button>
+      </div>
+   </section>
 
-   <h3 id=jsFiddle>Bookstore on jsFiddle</h3>
-   <p>
-      Experiment with the code at:
-      <button data-href=http://jsfiddle.net/@@jsFiddle.addABook class=external-site>
-         jsfiddle.net/@@jsFiddle.addABook
-      </button>
-   </p>
+   <section>
+      <h3 id=jsFiddle>Bookstore on jsFiddle</h3>
+      <p>
+         Experiment with the code at:
+         <button data-href=http://jsfiddle.net/@@jsFiddle.addABook class=external-site>
+            jsfiddle.net/@@jsFiddle.addABook
+         </button>
+      </p>
+   </section>
 
 </main>
 

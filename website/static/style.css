@@ -77,9 +77,11 @@ body >header h2 {
    text-align: center;
    margin-bottom: 30px;
    }
-main >h2 {
+main >header >h2 {
    font-size: 1.2rem;
-   font-weight: normal;
+   font-weight: lighter;
+   letter-spacing: 0.1em;
+   color: gray;
    text-transform: uppercase;
    }
 body >footer {
@@ -349,7 +351,6 @@ code.block-indent {
 .twitter {
    display: inline-block;
    text-align: center;
-   margin-right: 10px;
    }
 .twitter a {
    font-size: 0.8rem;
@@ -375,6 +376,7 @@ a.twitter:hover {
 .google-plus {
    display: inline-block;
    vertical-align: top;
+   margin-left: 10px;
    }
 .google-plus i[data-icon] {
    font-size: 1.8rem;

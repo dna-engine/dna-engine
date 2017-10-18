@@ -2,40 +2,42 @@
 
 <main class=docs-page>
 
-   <h2>REST-driven Search Component Tutorial</h2>
-   <p class=space-below-4x>
-      Follow the steps below to build an interactive book search tool on top of the
-      <a href=https://developers.google.com/books/docs/v1/getting_started class=external-site>
-         Google Books API</a>.
-   </p>
-   <p>
-      <img src=http://books.google.com/googlebooks/images/poweredby.png class=push-right alt=google>
-      View a sample of the JSON results you will be using:
-      <span class=block-indent>
-         <a href="https://www.googleapis.com/books/v1/volumes?q=ice"
-             class=external-site>https://www.googleapis.com/books/v1/volumes?q=ice</a>
-      </span>
-   </p>
-   <br>
-   <aside>
-      <figure class=video-container-link>
-         <iframe src=//www.youtube.com/embed/@@youTube.tutorial></iframe>
-      </figure>
-   </aside>
-   <h4>Steps:</h4>
-   <ol class=space-below-4x>
-      <li><a href=#step1>Create baseline HTML</a></li>
-      <li><a href=#step2>Add search component</a></li>
-      <li><a href=#step3>Add search results component</a></li>
-      <li><a href=#step4>Style search results</a></li>
-      <li><a href=#step5>Define book template</a></li>
-      <li><a href=#step6>Load jQuery and dna.js</a></li>
-      <li><a href=#step7>Wire up search callback</a></li>
-      <li><a href=#step8>Make REST call</a></li>
-      <li><a href=#step9>Smarten up the search field</a></li>
-      <li><a href=#conclusion>Conclusion</a></li>
-      <li><a href=#comments>Questions and comments</a></li>
-   </ol>
+   <header>
+      <h2>REST-driven Search Component Tutorial</h2>
+      <p class=space-below-4x>
+         Follow the steps below to build an interactive book search tool on top of the
+         <a href=https://developers.google.com/books/docs/v1/getting_started class=external-site>
+            Google Books API</a>.
+      </p>
+      <p>
+         <img src=http://books.google.com/googlebooks/images/poweredby.png class=push-right alt=google>
+         View a sample of the JSON results you will be using:
+         <span class=block-indent>
+            <a href="https://www.googleapis.com/books/v1/volumes?q=ice"
+                class=external-site>https://www.googleapis.com/books/v1/volumes?q=ice</a>
+         </span>
+      </p>
+      <br>
+      <aside>
+         <figure class=video-container-link>
+            <iframe src=//www.youtube.com/embed/@@youTube.tutorial></iframe>
+         </figure>
+      </aside>
+      <h4>Steps:</h4>
+      <ol class=space-below-4x>
+         <li><a href=#step1>Create baseline HTML</a></li>
+         <li><a href=#step2>Add search component</a></li>
+         <li><a href=#step3>Add search results component</a></li>
+         <li><a href=#step4>Style search results</a></li>
+         <li><a href=#step5>Define book template</a></li>
+         <li><a href=#step6>Load jQuery and dna.js</a></li>
+         <li><a href=#step7>Wire up search callback</a></li>
+         <li><a href=#step8>Make REST call</a></li>
+         <li><a href=#step9>Smarten up the search field</a></li>
+         <li><a href=#conclusion>Conclusion</a></li>
+         <li><a href=#comments>Questions and comments</a></li>
+      </ol>
+   </header>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <section id=step1>
@@ -97,8 +99,8 @@
    <section id=step3>
       <h3>Step 3: Add search results component</h3>
       <p>
-         Just after the search component you added in the previous step, insert a <code>div</code> tag
-         to hold a list of books.&nbsp; Then add the static HTML for a single book.
+         Just after the search component you added in the previous step, insert a <code>div</code>
+         tag to hold a list of books.&nbsp; Then add the static HTML for a single book.
       </p>
       <figure>
          <figcaption>HTML for books</figcaption>
@@ -116,8 +118,8 @@
          </code></pre>
       </figure>
       <p>
-         If you go to your browser and refresh the <code>book-finder.html</code> page, you'll see the
-         sample book desperately needs some styling.
+         If you go to your browser and refresh the <code>book-finder.html</code> page, you'll see
+         the sample book desperately needs some styling.
       </p>
    </section>
 
@@ -217,7 +219,8 @@
       <p>
          <em>Note:</em>
          For a production website, set the image <code>src</code> attribute to
-         <code>#</code> and specify the data field in the <code>data-attr-src</code> attribute.&nbsp;
+         <code>#</code> and specify the data field in the <code>data-attr-src</code>
+         attribute.&nbsp;
          This apparoch maintains
          <a href=http://stackoverflow.com/a/34834047 class=external-site>valid HTML</a>.
       </p>
@@ -359,8 +362,9 @@
       </figure>
       <p>
          dna.js always passes the event target element into the callback.&nbsp;
-         The callback event now happens on the <code>&lt;input&gt;</code> element, so we can replace
-         the old <code>var terms = $('input').val();</code> line with a more robust line of code:
+         The callback event now happens on the <code>&lt;input&gt;</code> element, so we can
+         replace the old <code>var terms = $('input').val();</code> line with a more robust line of
+         code:
       </p>
       <figure>
          <figcaption>Smart update</figcaption>
@@ -369,8 +373,8 @@
          </code></pre>
       </figure>
       <p>
-         Hop back to your browser and verify that search results are returned continuously as you type
-         in search terms.
+         Hop back to your browser and verify that search results are returned continuously as you
+         type in search terms.
       </p>
    </section>
 
