@@ -24,6 +24,8 @@ var dna = {
    //    dna.info()
    // See: http://dnajs.org/docs/#api
    clone: function(name, data, options) {
+      // Generates a copy of the template and populates the fields, attributes, and
+      // classes from the supplied data.
       var defaults = {
          fade:      false,
          top:       false,
@@ -53,6 +55,7 @@ var dna = {
       return clones;
       },
    cloneSub: function(holderClone, arrayField, data, options) {
+      // Clones a sub-template to append onto an array loop.
       var name = dna.compile.subTemplateName(holderClone, arrayField);
       var selector = '.dna-contains-' + name;
       var settings = $.extend({ container: holderClone.find(selector).addBack(selector) }, options);
@@ -63,10 +66,14 @@ var dna = {
       return holderClone;
       },
    createTemplate: function(name, html, holder) {
+      // Generates a template from an HTML string.
       $(html).attr({ id: name }).addClass('dna-template').appendTo(holder);
       return dna.store.getTemplate(name);
       },
-   rest: {  //experimental -- currently very limited function
+   rest: {
+      // Makes a GET request to the url and then generates a copy of the template
+      // and populates the fields, attributes, and classes from the JSON response.
+      // NOTE: Experimental -- currently very limited functionality
       get: function(name, url, options) {
          function processJson(data) {
             if (!data.error)
@@ -76,6 +83,7 @@ var dna = {
          }
       },
    getModel: function(elemOrName, options) {
+      // Returns the underlying data of the clone.
       function getOneModel(elem) {
          return dna.getClone(elem, options).data('dnaModel');
          }
@@ -88,21 +96,25 @@ var dna = {
       return (elemOrName instanceof $ ? getOneModel : getAllModels)(elemOrName);
       },
    empty: function(name, options) {
+      // Deletes all clones generated from the template.
       var settings = $.extend({ fade: false }, options);
       var clones = dna.store.getTemplate(name).container.find('.dna-clone');
       return settings.fade ? dna.ui.slideFadeDelete(clones) : dna.core.remove(clones);
       },
    refresh: function(clone, options) {
+      // Updates an existing clone to reflect changes to the data model.
       var settings = $.extend({ html: false }, options);
       var elem = dna.getClone(clone, options);
       var data = settings.data ? settings.data : dna.getModel(elem);
       return dna.core.inject(elem, data, null, settings);
       },
    refreshAll: function(name) {
+      // Updates all the clones of the specified template.
       function refresh(i, elem) { dna.refresh($(elem)); }
       return dna.getClones(name).each(refresh);
       },
    destroy: function(clone, options) {
+      // Removes an existing clone from the DOM.
       var settings = $.extend({ fade: false }, options);
       clone = dna.getClone(clone, options);
       function removeArrayItem(field) {
@@ -113,27 +125,36 @@ var dna = {
       return settings.fade ? dna.ui.slideFadeDelete(clone) : dna.core.remove(clone);
       },
    getClone: function(elem, options) {
+      // Returns the clone (or sub-clone) for the specified element.
       var settings = $.extend({ main: false }, options);
       var selector = settings.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone';
       return elem instanceof $ ? elem.closest(selector) : $();
       },
    getClones: function(name) {
+      // Returns an array of all the existing clones for the given template.
       return dna.store.getTemplate(name).container.children().filter('.dna-clone');
       },
    getIndex: function(elem, options) {
+      // Returns the index of the clone.
       var clone = dna.getClone(elem, options);
       return clone.parent().children('.dna-clone').index(clone);
       },
    up: function(elemOrEventOrIndex) {
+      // Smoothly moves a clone up one slot effectively swapping its position with the previous
+      // clone.
       return dna.ui.smoothMove(dna.getClone(dna.ui.toElem(elemOrEventOrIndex, this)), true);
       },
    down: function(elemOrEventOrIndex) {
+      // Smoothly moves a clone down one slot effectively swapping its position with the next
+      // clone.
       return dna.ui.smoothMove(dna.getClone(dna.ui.toElem(elemOrEventOrIndex, this)), false);
       },
    bye: function(elemOrEventOrIndex) {
+      // Performs a sliding fade out effect on the clone and then removes the element.
       return dna.destroy(dna.ui.toElem(elemOrEventOrIndex, this), { fade: true });
       },
    registerInitializer: function(func, options) {
+      // Adds a callback function to the list of initializers that are run on all DOM elements.
       var settings = $.extend({ onDocumentLoad: true }, options);
       if (settings.onDocumentLoad)
          dna.util.apply(func, [settings.selector ? $(settings.selector).not(
@@ -143,13 +164,18 @@ var dna = {
          { func: func, selector: settings.selector, params: settings.params });
       },
    clearInitializers: function() {
+      // Deletes all initializers.
       dna.events.initializers = [];
       },
    registerContext: function(contextName, contextObjectOrFunction) {
+      // Registers an application object or individual function to enable it to be used for event
+      // callbacks.  Registration is needed when global namespace is not available to dna.js, such
+      // as when using webpack to load dna.js as a module.
       dna.events.context[contextName] = contextObjectOrFunction;
       return dna.events.context;
       },
    info: function() {
+      // Returns status information about templates on the current web page.
       var names = Object.keys(dna.store.templates);
       function addToSum(sum, name) { return sum + dna.store.templates[name].clones; }
       return {
@@ -164,12 +190,9 @@ var dna = {
    };
 
 dna.array = {
-   last: function(array) {
-      // Example:
-      //    dna.array.last([3, 21, 7]) === 7;
-      return array && array.length ? array[array.length - 1] : undefined;
-      },
    find: function(array, value, key) {
+      // Returns the first array element with a key equal to the supplied value.  The default key
+      // is "code".
       // Example:
       //    var array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
       //    dna.array.find(array, 'b').word === 'Bat';
@@ -178,19 +201,8 @@ dna.array = {
       var objs = array.filter(found);
       return objs.length ? objs[0] : null;
       },
-   toMap: function(array, key) {
-      // Converts an array of objects into an object (hash map)
-      //    var array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
-      //    var map = dna.array.toMap(array, 'code');
-      //       ==> { a: { word: 'Ant' }, b: { word: 'Bat' } }
-      key = key || 'code';
-      var map = {};
-      function addObj(obj) { map[obj[key]] = obj; }
-      array.forEach(addObj);
-      return map;
-      },
    fromMap: function(map, key) {
-      // Converts an object (hash map) into an array of objects
+      // Converts an object (hash map) into an array of objects.  The default key is "code".
       //    var map = { a: { word: 'Ant' }, b: { word: 'Bat' } };
       //    var array = dna.array.fromMap(map, 'code');
       //       ==> [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
@@ -200,65 +212,159 @@ dna.array = {
       for (var property in map)
          array[array.push(toObj(map[property])) - 1][key] = property;
       return array;
+      },
+   last: function(array) {
+      // Returns the last element of the array (or undefined if not possible).
+      // Example:
+      //    dna.array.last([3, 21, 7]) === 7;
+      return array && array.length ? array[array.length - 1] : undefined;
+      },
+   toMap: function(array, key) {
+      // Converts an array of objects into an object (hash map).  The default key is "code".
+      //    var array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
+      //    var map = dna.array.toMap(array, 'code');
+      //       ==> { a: { word: 'Ant' }, b: { word: 'Bat' } }
+      key = key || 'code';
+      var map = {};
+      function addObj(obj) { map[obj[key]] = obj; }
+      array.forEach(addObj);
+      return map;
       }
    };
 
 dna.browser = {
-   iOS: function() {
-      return /iPad|iPhone|iPod/.test(window.navigator.userAgent) &&
-         /Apple/.test(window.navigator.vendor);
-      },
    getParams: function() {
+      // Returns the URL query parameters as an object literal.
       // Example:
       //    http://example.com?lang=jp&code=7 ==> { lang: 'jp', code: 7 }
       var params = {};
-      function addParam(pair) { params[pair.split('=')[0]] = pair.split('=')[1]; }
+      function addParam(pair) { if (pair) params[pair.split('=')[0]] = pair.split('=')[1]; }
       window.location.search.slice(1).split('&').forEach(addParam);
       return params;
+      },
+   iOS: function() {
+      // Returns a boolean indicating if the browser is running on an iOS device.
+      return /iPad|iPhone|iPod/.test(window.navigator.userAgent) &&
+         /Apple/.test(window.navigator.vendor);
+      }
+   };
+
+dna.pageToken = {
+   // A simple key/value store specific to the page (URL path) that is cleared out when the
+   // user's browser session ends.
+   put: function(key, value) {
+      // Example:
+      //   dna.pageToken.put('favorite', 7);  //saves 7
+      window.sessionStorage[key + window.location.pathname] = JSON.stringify(value);
+      return value;
+      },
+   get: function(key, defaultValue) {
+      // Example:
+      //   dna.pageToken.get('favorite', 0);  //returns 0 if not set
+      var value = window.sessionStorage[key + window.location.pathname];
+      return value === undefined ? defaultValue : JSON.parse(value);
+      }
+   };
+
+dna.ui = {
+   deleteElem: function(elemOrEventOrIndex) {
+      // A flexible function for removing a jQuery element.
+      // Example:
+      //    $('.box').fadeOut(dna.ui.deleteElem);
+      var elem = dna.ui.toElem(elemOrEventOrIndex, this);
+      dna.core.remove(elem);
+      return elem;
+      },
+   focus: function(elem) {
+      // Sets focus on an element.
+      return elem.focus();
+      },
+   getComponent: function(elem) {
+      // Returns the component (container element with a <code>data-component</code> attribute) to
+      // which the element belongs.
+      return elem.closest('[data-component]');
+      },
+   slideFade: function(elem, callback, show) {
+      // Smooth slide plus fade effect.
+      var obscure = { opacity: 0.0, transition: 'opacity 0s ease 0s' };
+      var easyIn =  { opacity: 1.0, transition: 'opacity 0.4s ease-in' };
+      var easyOut = { opacity: 0.0, transition: 'opacity 0.4s ease-out' };
+      var reset =   { transition: 'opacity 0s ease 0s' };
+      function clearOpacityTransition() { elem.css(reset); }
+      window.setTimeout(clearOpacityTransition, 1000);  //keep clean for other animations
+      if (show)
+         elem.css(obscure).hide().slideDown({ complete: callback }).css(easyIn);
+      else
+         elem.css(easyOut).slideUp({ complete: callback });
+      return elem;
+      },
+   slideFadeIn: function(elem, callback) {
+      // Smooth slide plus fade effect.
+      return dna.ui.slideFade(elem, callback, true);
+      },
+   slideFadeOut: function(elem, callback) {
+      // Smooth slide plus fade effect.
+      return dna.ui.slideFade(elem, callback, false);
+      },
+   slideFadeToggle: function(elem, callback) {
+      // Smooth slide plus fade effect.
+      return dna.ui.slideFade(elem, callback, elem.is(':hidden'));
+      },
+   slideFadeDelete: function(elem) {
+      // Smooth slide plus fade effect.
+      return dna.ui.slideFadeOut(elem, dna.ui.deleteElem);
+      },
+   slidingFlasher: function(elem, callback) {
+      // Uses a smooth slide down plus fade in effect on an element if it is hidden or a smooth
+      // fade in flash if the element is already visible -- intended to display an error message.
+      return elem.is(':hidden') ? dna.ui.slideFadeIn(elem, callback) : elem.hide().fadeIn();
+      },
+   smoothHeightSetBaseline: function(container) {
+      // See: smoothHeightAnimate below
+      dna.ui.$container = container = container || $('body');
+      var height = container.outerHeight();
+      return container.css({ minHeight: height, maxHeight: height, overflow: 'hidden' });
+      },
+   smoothHeightAnimate: function(delay, container) {
+      // Smoothly animates the height of a container element from a beginning height to a final
+      // height.
+      container = container || dna.ui.$container;
+      window.console.log([delay, container]);
+      function animate() {
+         container.css({ minHeight: 0, maxHeight: '100vh' });
+         function turnOffTransition() { container.css({ transition: 'none', maxHeight: 'none' }); }
+         window.setTimeout(turnOffTransition, 1000);  //allow 1s transition to finish
+         }
+      window.setTimeout(animate, delay || 50);  //allow container time to draw
+      function setAnimationLength() { container.css({ transition: 'all 1s' }); }
+      window.setTimeout(setAnimationLength, 10);  //allow baseline to lock in height
+      return container;
+      },
+   smoothMove: function(elem, up) {
+      // Uses animation to smoothly slide an element up or down one slot amongst its siblings.
+      function move() {
+         var ghostElem = submissiveElem.clone();
+         if (up)
+            elem.after(submissiveElem.hide()).before(ghostElem);
+         else
+            elem.before(submissiveElem.hide()).after(ghostElem);
+         dna.ui.slideFadeIn(submissiveElem);
+         dna.ui.slideFadeDelete(ghostElem);
+         }
+      var submissiveElem = up ? elem.prev() : elem.next();
+      if (submissiveElem.length)
+         move();
+      return elem;
+      },
+   toElem: function(elemOrEventOrIndex, that) {
+      // A flexible way to get the jQuery element whether it is passed in directly, the target of
+      // an event, or comes from the jQuery context.
+      return elemOrEventOrIndex instanceof $ ? elemOrEventOrIndex :
+         $(elemOrEventOrIndex ? elemOrEventOrIndex.target : that);
       }
    };
 
 dna.util = {
-   toCamel: function(kebabStr) {
-      // Converts a kebab-case string (a code made of lowercase letters and dashes) to camelCase.
-      // Example:
-      //    dna.util.toCamel('ready-set-go') === 'readySetGo'
-      function hump(match, char) { return char.toUpperCase(); }
-      return ('' + kebabStr).replace(/\-(.)/g, hump);
-      },
-   toKebab: function(camelStr) {
-      // Converts a camelCase string to kebab-case (a code made of lowercase letters and dashes).
-      // Example:
-      //    dna.util.toKebab('readySetGo') === 'ready-set-go'
-      function dash(word) { return '-' + word.toLowerCase(); }
-      return ('' + camelStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
-      },
-   value: function(data, field) {
-      // Returns the value of the field from the data object.
-      // Example:
-      //    dna.util.value({ a: { b: 7 }}, 'a.b') === 7
-      if (typeof field === 'string')
-         field = field.split('.');
-      return (data === null || data === undefined || field === undefined) ? null :
-         (field.length === 1 ? data[field[0]] : this.value(data[field[0]], field.slice(1)));
-      },
-   realTruth: function(value) {
-      // Returns the "real" boolean truth of a value.
-      // Examples:
-      //    true values  ==> true,  7, '7', [5], 't', 'T', 'TRue',  {},   'Colbert'
-      //    false values ==> false, 0, '0', [],  'f', 'F', 'faLSE', null, undefined, NaN
-      function falseyStr() { return /^(f|false|0)$/i.test(value); }
-      function emptyArray() { return value instanceof Array && value.length === 0; }
-      return value ? !emptyArray() && !falseyStr() : false;
-      },
-   printf: function(format) {
-      // Builds a formatted string by replacing the format specifiers with the supplied arguments.
-      // Usage:
-      //    dna.util.printf('%s: %s', 'Lives', 3) === 'Lives: 3';
-      var values = Array.prototype.slice.call(arguments, 1);
-      function insert(str, val) { return str.replace(/%s/, val); }
-      return values.reduce(insert, format);
-      },
    apply: function(fn, params) {
       // Calls fn (string name or actual function) passing in params.
       // Usage:
@@ -290,89 +396,52 @@ dna.util = {
       else if (typeof fn === 'string' && fn.length > 0)
          findFn(fn.split('.'));
       return result;
-      }
-   };
-
-dna.ui = {
-   toElem: function(elemOrEventOrIndex, that) {
-      return elemOrEventOrIndex instanceof $ ? elemOrEventOrIndex :
-         $(elemOrEventOrIndex ? elemOrEventOrIndex.target : that);
       },
-   getComponent: function(elem) {
-      return elem.closest('[data-component]');
+   printf: function(format) {
+      // Builds a formatted string by replacing the format specifiers with the supplied arguments.
+      // Usage:
+      //    dna.util.printf('%s: %s', 'Lives', 3) === 'Lives: 3';
+      var values = Array.prototype.slice.call(arguments, 1);
+      function insert(str, val) { return str.replace(/%s/, val); }
+      return values.reduce(insert, format);
       },
-   deleteElem: function(elemOrEventOrIndex) {  //example: $('.box').fadeOut(dna.ui.deleteElem);
-      var elem = dna.ui.toElem(elemOrEventOrIndex, this);
-      dna.core.remove(elem);
-      return elem;
+   realTruth: function(value) {
+      // Returns the "real" boolean truth of a value.
+      // Examples:
+      //    true values  ==> true,  7, '7', [5], 't', 'T', 'TRue',  {},   'Colbert'
+      //    false values ==> false, 0, '0', [],  'f', 'F', 'faLSE', null, undefined, NaN
+      function falseyStr() { return /^(f|false|0)$/i.test(value); }
+      function emptyArray() { return value instanceof Array && value.length === 0; }
+      return value ? !emptyArray() && !falseyStr() : false;
       },
-   slideFade: function(elem, callback, show) {
-      var obscure = { opacity: 0.0, transition: 'opacity 0s ease 0s' };
-      var easyIn =  { opacity: 1.0, transition: 'opacity 0.4s ease-in' };
-      var easyOut = { opacity: 0.0, transition: 'opacity 0.4s ease-out' };
-      var reset =   { transition: 'opacity 0s ease 0s' };
-      function clearOpacityTransition() { elem.css(reset); }
-      window.setTimeout(clearOpacityTransition, 1000);  //keep clean for other animations
-      if (show)
-         elem.css(obscure).hide().slideDown({ complete: callback }).css(easyIn);
-      else
-         elem.css(easyOut).slideUp({ complete: callback });
-      return elem;
+   toCamel: function(kebabStr) {
+      // Converts a kebab-case string (a code made of lowercase letters and dashes) to camelCase.
+      // Example:
+      //    dna.util.toCamel('ready-set-go') === 'readySetGo'
+      function hump(match, char) { return char.toUpperCase(); }
+      return ('' + kebabStr).replace(/\-(.)/g, hump);
       },
-   slideFadeIn: function(elem, callback) {
-      return dna.ui.slideFade(elem, callback, true);
+   toKebab: function(camelStr) {
+      // Converts a camelCase string to kebab-case (a code made of lowercase letters and dashes).
+      // Example:
+      //    dna.util.toKebab('readySetGo') === 'ready-set-go'
+      function dash(word) { return '-' + word.toLowerCase(); }
+      return ('' + camelStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
       },
-   slideFadeOut: function(elem, callback) {
-      return dna.ui.slideFade(elem, callback, false);
-      },
-   slideFadeToggle: function(elem, callback) {
-      return dna.ui.slideFade(elem, callback, elem.is(':hidden'));
-      },
-   slideFadeDelete: function(elem) {
-      return dna.ui.slideFadeOut(elem, dna.ui.deleteElem);
-      },
-   slidingFlasher: function(elem, callback) {
-      return elem.is(':hidden') ? dna.ui.slideFadeIn(elem, callback) : elem.hide().fadeIn();
-      },
-   smoothHeightSetBaseline: function(container) {
-      dna.ui.$container = container = container || $('body');
-      var height = container.outerHeight();
-      return container.css({ minHeight: height, maxHeight: height, overflow: 'hidden' });
-      },
-   smoothHeightAnimate: function(delay, container) {
-      container = container || dna.ui.$container;
-      window.console.log([delay, container]);
-      function animate() {
-         container.css({ minHeight: 0, maxHeight: '100vh' });
-         function turnOffTransition() { container.css({ transition: 'none', maxHeight: 'none' }); }
-         window.setTimeout(turnOffTransition, 1000);  //allow 1s transition to finish
-         }
-      window.setTimeout(animate, delay || 50);  //allow container time to draw
-      function setAnimationLength() { container.css({ transition: 'all 1s' }); }
-      window.setTimeout(setAnimationLength, 10);  //allow baseline to lock in height
-      return container;
-      },
-   smoothMove: function(elem, up) {
-      function move() {
-         var ghostElem = submissiveElem.clone();
-         if (up)
-            elem.after(submissiveElem.hide()).before(ghostElem);
-         else
-            elem.before(submissiveElem.hide()).after(ghostElem);
-         dna.ui.slideFadeIn(submissiveElem);
-         dna.ui.slideFadeDelete(ghostElem);
-         }
-      var submissiveElem = up ? elem.prev() : elem.next();
-      if (submissiveElem.length)
-         move();
-      return elem;
-      },
-   focus: function(elem) {
-      return elem.focus();
+   value: function(data, field) {
+      // Returns the value of the field from the data object.
+      // Example:
+      //    dna.util.value({ a: { b: 7 }}, 'a.b') === 7
+      if (typeof field === 'string')
+         field = field.split('.');
+      return (data === null || data === undefined || field === undefined) ? null :
+         (field.length === 1 ? data[field[0]] : this.value(data[field[0]], field.slice(1)));
       }
    };
 
 dna.placeholder = {  //TODO: optimize
+   // A template placeholder is only shown when its corresponding template is empty (has zero
+   // clones).  The "data-placeholder" attribute specifies the name of the template.
    setup: function() {
       $('option.dna-template').closest('select').addClass('dna-hide');
       function fade(i, elem) {
@@ -380,22 +449,6 @@ dna.placeholder = {  //TODO: optimize
          return dna.getClones(input.data().placeholder).length ? input.fadeOut() : input.fadeIn();
          }
       $('[data-placeholder]').each(fade);
-      }
-   };
-
-dna.pageToken = {
-   // Page specific (url path) key/value temporary storage
-   put: function(key, value) {
-      // Example:
-      //   dna.pageToken.put('favorite', 7);  //saves 7
-      window.sessionStorage[key + window.location.pathname] = JSON.stringify(value);
-      return value;
-      },
-   get: function(key, defaultValue) {
-      // Example:
-      //   dna.pageToken.get('favorite', 0);  //returns 0 if not set
-      var value = window.sessionStorage[key + window.location.pathname];
-      return value === undefined ? defaultValue : JSON.parse(value);
       }
    };
 
@@ -413,7 +466,8 @@ dna.panels = {
    //    </div>
    // The optional "data-hash" attribute specifies the hash (URL fragment ID) and updates the
    // location bar.
-   display: function(menu, loc, updateUrl) {  //shows the panel at the given index (loc)
+   display: function(menu, loc, updateUrl) {
+      // Shows the panel at the given index (loc)
       var panels, panel;
       var key = menu.data().dnaKey;
       var menuItems = menu.find('.menu-item');
@@ -431,16 +485,19 @@ dna.panels = {
          window.history.pushState(null, null, '#' + hash);
       dna.util.apply(menu.data().callback, [panel, hash]);
       },
-   clickRotate: function(event) {  //moves to the selected panel
+   clickRotate: function(event) {
+      // Moves to the selected panel
       var item = $(event.target).closest('.menu-item');
       var menu = item.closest('.dna-menu');
       dna.panels.display(menu, menu.find('.menu-item').index(item), true);
       },
-   selectRotate: function(event) {  //moves to the selected panel
+   selectRotate: function(event) {
+      // Moves to the selected panel
       var menu = $(event.target);
       dna.panels.display(menu, menu.find('option:selected').index(), true);
       },
-   reload: function(name) {  //refreshes the currently displayed panel
+   reload: function(name) {
+      // Refreshes the currently displayed panel
       dna.panels.display($('#' + name));
       },
    refresh: function(i, elem) {

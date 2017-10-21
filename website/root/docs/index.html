@@ -53,6 +53,7 @@
                   <li><a href=#api-destroy>dna.destroy()</a></li>
                   <li><a href=#api-get-clone>dna.getClone()</a></li>
                   <li><a href=#api-get-clones>dna.getClones()</a></li>
+                  <li><a href=#api-get-index>dna.getIndex()</a></li>
                   <li><a href=#api-up>dna.up()</a></li>
                   <li><a href=#api-down>dna.down()</a></li>
                   <li><a href=#api-bye>dna.bye()</a></li>
@@ -221,7 +222,7 @@
       <figure>
          <figcaption>npm</figcaption>
          <pre><code class=language-bash>
-            $ npm install dna.js
+            $ npm install dna.js --save-prod
          </code></pre>
       </figure>
       <p>
@@ -245,7 +246,7 @@
          <figcaption>webpack</figcaption>
          <pre><code class=language-javascript>
             require('dna.js/dna.css');
-            var $ = require('jquery');
+            var $ =   require('jquery');
             var dna = require('dna.js')(window, $);
 
             var myApp = {
@@ -467,7 +468,7 @@
                dna.clone('book', books);
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
        <figure>
          <figcaption>Resulting HTML</figcaption>
@@ -480,7 +481,7 @@
             &lt;/div&gt;
          </code></pre>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
    </section>
 
    <section id=html-example>
@@ -534,7 +535,7 @@
             Cover color: &lt;input data-attr-type=color value=~~coverColor~~&gt;
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure>
          <figcaption>Resulting HTML</figcaption>
@@ -543,7 +544,7 @@
             Cover color: &lt;input type=color value=#daa520&gt;
          </code></pre>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
       <p>
          Setting HTML5 type values with the <code>data-attr-type</code> attribute avoids browser
          warnings such as:
@@ -575,6 +576,7 @@
          <li><b>dna.destroy</b>(clone, options)</li>
          <li><b>dna.getClone</b>(elem, options)</li>
          <li><b>dna.getClones</b>(name)</li>
+         <li><b>dna.getIndex</b>(elem, options)</li>
          <li><b>dna.up</b>(elemOrEventOrIndex)</li>
          <li><b>dna.down</b>(elemOrEventOrIndex)</li>
          <li><b>dna.bye</b>(elemOrEventOrIndex)</li>
@@ -585,7 +587,7 @@
       </ol>
    </div>
 
-   <!--  dna.clone()  -->
+   <!-- dna.clone() -->
    <section id=api-clone>
       <h4>dna.clone(name, data [, options])</h4>
       <p class=api-description>
@@ -620,7 +622,7 @@
       </figure>
    </section>
 
-   <!--  dna.cloneSub()  -->
+   <!-- dna.cloneSub() -->
    <section id=api-clone-sub>
       <h4>dna.cloneSub(holderClone, arrayField, data[, options])</h4>
       <p class=api-description>
@@ -653,7 +655,7 @@
       </p>
    </section>
 
-   <!--  dna.createTemplate()  -->
+   <!-- dna.createTemplate() -->
    <section id=api-create>
       <h4>dna.createTemplate(name, html, holder)</h4>
       <p class=api-description>
@@ -680,7 +682,7 @@
             dna.clone('book', books);
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure>
          <figcaption>Resulting HTML</figcaption>
@@ -692,10 +694,10 @@
             &lt;/ol&gt;
          </code></pre>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
    </section>
 
-   <!--  dna.rest.get()  -->
+   <!-- dna.rest.get() -->
    <section id=api-rest>
       <h4>dna.rest.get(name, url [, options])</h4>
       <p class=api-description>
@@ -740,7 +742,7 @@
       </p>
    </section>
 
-   <!--  dna.getModel()  -->
+   <!-- dna.getModel() -->
    <section id=api-get-model>
       <h4>dna.getModel(clone)</h4>
       <p class=api-description>
@@ -769,7 +771,7 @@
       </figure>
    </section>
 
-   <!--  dna.empty()  -->
+   <!-- dna.empty() -->
    <section id=api-empty>
       <h4>dna.empty(name[, options])</h4>
       <p class=api-description>
@@ -799,7 +801,7 @@
       </p>
    </section>
 
-   <!--  dna.refresh()  -->
+   <!-- dna.refresh() -->
    <section id=api-refresh>
       <h4>dna.refresh(clone[, options])</h4>
       <p class=api-description>
@@ -830,7 +832,7 @@
       </figure>
    </section>
 
-   <!--  dna.refreshAll()  -->
+   <!-- dna.refreshAll() -->
    <section id=api-refresh-all>
       <h4>dna.refreshAll(name)</h4>
       <p class=api-description>
@@ -854,7 +856,7 @@
       </figure>
    </section>
 
-   <!--  dna.destroy()  -->
+   <!-- dna.destroy() -->
    <section id=api-destroy>
       <h4>dna.destroy(clone[, options])</h4>
       <p class=api-description>
@@ -887,7 +889,7 @@
       </p>
    </section>
 
-   <!--  dna.getClone()  -->
+   <!-- dna.getClone() -->
    <section id=api-get-clone>
       <h4>dna.getClone(elem[, options])</h4>
       <p class=api-description>
@@ -921,7 +923,7 @@
             &lt;/script&gt;
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure>
          <figcaption>Resulting HTML (before clicking button)</figcaption>
@@ -942,10 +944,10 @@
             &lt;/div&gt;
          </code></pre>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
    </section>
 
-   <!--  dna.getClones()  -->
+   <!-- dna.getClones() -->
    <section id=api-get-clones>
       <h4>dna.getClones(name)</h4>
       <p class=api-description>
@@ -965,7 +967,27 @@
       </figure>
    </section>
 
-   <!--  dna.up()  -->
+   <!-- dna.getIndex() -->
+   <section id=api-get-index>
+      <h4>dna.getIndex(elem[, options])</h4>
+      <p class=api-description>
+         Returns the index of the clone.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/elem.html')
+            <li>
+               <label><b>options</b> (Object) <i>[optional]</i>:</label>
+               <ul>
+                  @@include('website/templates/options/main.html')
+               </ul>
+            </li>
+         </ul>
+      </div>
+   </section>
+
+   <!-- dna.up() -->
    <section id=api-up>
       <h4>dna.up(elemOrEventOrIndex)</h4>
       <p class=api-description>
@@ -993,7 +1015,7 @@
       </p>
    </section>
 
-   <!--  dna.down()  -->
+   <!-- dna.down() -->
    <section id=api-down>
       <h4>dna.down(elemOrEventOrIndex)</h4>
       <p class=api-description>
@@ -1010,7 +1032,7 @@
       </p>
    </section>
 
-   <!--  dna.bye()  -->
+   <!-- dna.bye() -->
    <section id=api-bye>
       <h4>dna.bye(elemOrEventOrIndex)</h4>
       <p class=api-description>
@@ -1048,7 +1070,7 @@
       </figure>
       <p>
          <em>Note 1:</em>
-         The element identifying the clone can be a sub-element within the clone or the clone itslef.
+         The element identifying the clone can be a sub-element within the clone or the clone itself.
       </p>
       <p>
          <em>Note 2:</em>
@@ -1056,11 +1078,11 @@
       </p>
    </section>
 
-   <!--  dna.registerInitializer()  -->
+   <!-- dna.registerInitializer() -->
    <section id=api-register-initializer>
       <h4>dna.registerInitializer(callback[, options])</h4>
       <p class=api-description>
-          Adds a callback function to the list of initializers that are run on all DOM elements.
+         Adds a callback function to the list of initializers that are run on all DOM elements.
       </p>
       <div class=api-parameters>
          Parameters:
@@ -1086,7 +1108,7 @@
       </p>
    </section>
 
-   <!--  dna.clearInitializers()  -->
+   <!-- dna.clearInitializers() -->
    <section id=api-clear-initializers>
       <h4>dna.clearInitializers()</h4>
       <p class=api-description>
@@ -1104,14 +1126,14 @@
       </p>
    </section>
 
-   <!--  dna.registerContext()  -->
+   <!-- dna.registerContext() -->
    <section id=api-register-context>
       <h4>dna.registerContext(contextName, contextObjectOrFunction)</h4>
       <p class=api-description>
-         Registers an application object or individual function to enable it to be
-         used for event callbacks.&nbsp;
-         Registration is needed when global namespace is not available to dna.js, such as when using
-         webpack to load dna.js as a module.
+         Registers an application object or individual function to enable it to be used for event
+         callbacks.&nbsp;
+         Registration is needed when global namespace is not available to dna.js, such as when
+         using webpack to load dna.js as a module.
       </p>
       <div class=api-parameters>
          Parameters:
@@ -1131,7 +1153,7 @@
       </p>
    </section>
 
-   <!--  dna.info()  -->
+   <!-- dna.info() -->
    <section id=api-info>
       <h4>dna.info()</h4>
       <p class=api-description>
@@ -1178,7 +1200,7 @@
             dna.clone('book', books);
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure>
          <figcaption>Resulting HTML</figcaption>
@@ -1187,7 +1209,7 @@
             &lt;div class=book&gt;Interwebz&lt;/div&gt;
          </code></pre>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
    </section>
 
    <section id=loop-sub-templates>
@@ -1225,7 +1247,7 @@
             dna.clone('book', book);
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure>
          <figcaption>Resulting HTML</figcaption>
@@ -1248,7 +1270,7 @@
             &lt;/div&gt;
          </code></pre>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
    </section>
 
    <section id=loop-primitives>
@@ -1274,7 +1296,7 @@
             dna.clone('book', books);
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure>
          <figcaption>Resulting HTML</figcaption>
@@ -1287,7 +1309,7 @@
             &lt;/div&gt;
          </code></pre>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
    </section>
 
    <section id=loop-separators>
@@ -1311,7 +1333,7 @@
             &lt;/script&gt;
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure class=hljs-enhance>
          <figcaption>Result</figcaption>
@@ -1319,7 +1341,7 @@
             <b>Authors:</b> Ed, Bo, Jan
          </div>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
       <p>
          <em>Note:</em>
          For more advanced control, use the classes <code>dna-separator</code> and
@@ -1335,7 +1357,7 @@
             &lt;/span&gt;
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure class=hljs-enhance>
          <figcaption>Result</figcaption>
@@ -1343,7 +1365,7 @@
             <b>Authors:</b> Ed, Bo and Jan
          </div>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
    </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1356,7 +1378,7 @@
       <p>
          Essential to building semantic templates and keeping JavaScript out of your HTML is having a
          clean way to mutate (enhance) the data model.&nbsp;
-         Use the <code>data-transform</code> attribute to declare transformers that implment your
+         Use the <code>data-transform</code> attribute to declare transformers that implement your
          business logic.
       </p>
       <p>
@@ -1386,7 +1408,7 @@
             dna.clone('book', books);
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure>
          <figcaption>Resulting HTML</figcaption>
@@ -1400,7 +1422,7 @@
             &lt;/div&gt;
          </code></pre>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
       <p>
          <em>Note:</em>
          The transform function can also be passed as an <a href=#event-transform-option>option</a>
@@ -1491,7 +1513,7 @@
             &lt;/script&gt;
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure class=hljs-enhance>
          <figcaption>Result (interactive)</figcaption>
@@ -1512,7 +1534,7 @@
             </script>
          </div>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
       <p>
          <em>Note:</em>
          For text fields <code>input</code> and <code>textarea</code>, use
@@ -1552,7 +1574,7 @@
             &lt;/script&gt;
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure class=hljs-enhance>
          <figcaption>Result (interactive)</figcaption>
@@ -1569,7 +1591,7 @@
             </script>
          </div>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
       <p>
          Experiment with smart update events:
          <button data-href=http://jsfiddle.net/@@jsFiddle.smartUpdates class=external-site>
@@ -1603,7 +1625,7 @@
             &lt;button data-href=../book-finder.html&gt;Book Finder&lt;/button&gt;
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure class=hljs-enhance>
          <figcaption>Result (interactive)</figcaption>
@@ -1611,7 +1633,7 @@
             <button data-href=../book-finder.html>Book Finder</button>
          </div>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
       <p>
          Add <code>class=external-site</code> to tell the browser to open the link in a new tab (or
          window).
@@ -1679,7 +1701,7 @@
             $(bookInfo.setup);
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure class=hljs-enhance>
          <figcaption>Update data model (interactive)</figcaption>
@@ -1708,7 +1730,7 @@
             </script>
          </div>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
       <p>
          <em>Note:</em>
          While the original data used to clone the template may contain
@@ -1826,7 +1848,7 @@
             dna.clone('book', books, { transform: enhanceBook });
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure>
          <figcaption>Resulting HTML</figcaption>
@@ -1840,7 +1862,7 @@
             &lt;/div&gt;
          </code></pre>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
       <p>
          <em>Note:</em>
          A transformer function can also be specified with the
@@ -1880,7 +1902,7 @@
             dna.clone('book', book, options);
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure>
          <figcaption>Resulting HTML</figcaption>
@@ -1890,7 +1912,7 @@
             &lt;/div&gt;
          </code></pre>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
       <p>
          See the line
          <code>dna.clone('circle', circles, { callback: addStyle });</code>
@@ -2035,7 +2057,7 @@
             dna.clone('book', books);
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure>
          <figcaption>Resulting HTML</figcaption>
@@ -2048,7 +2070,7 @@
             &lt;/div&gt;
          </code></pre>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
       <h5 id=real-truth>Real Truth</h5>
       <p>
          dna.js evaluates if a data field is <code>true</code> or <code>false</code> based on rules
@@ -2132,7 +2154,7 @@
       <h4>Hide a Container Element</h4>
       <p>
          Add the class <code>dna-hide</code> to a container element that should not be visible until
-         after a decendant template is cloned.
+         after a descendant template is cloned.
       </p>
       <figure>
          <figcaption>Example component hidden until after cloning</figcaption>
@@ -2213,12 +2235,12 @@
             &lt;/div&gt;
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure class=hljs-enhance>
          <figcaption>Result (with three books loaded from REST call)</figcaption>
          <div>
-            <!--  Component: start -->
+            <!-- Component: start -->
             <div data-component=bookshelf data-on-load=bookshelf.setup>
                <h2>Bookshelf</h2>
                <div>
@@ -2241,10 +2263,10 @@
                      };
                </script>
             </div>
-            <!--  Component: end -->
+            <!-- Component: end -->
          </div>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
    </section>
 
    <!--
@@ -2332,7 +2354,7 @@
             &lt;/div&gt;
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure class=hljs-enhance>
          <figcaption>Result (interactive)</figcaption>
@@ -2365,7 +2387,7 @@
             </div>
          </div>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
       <p>
          Experiment with button navigation panels:
          <button data-href=http://jsfiddle.net/@@jsFiddle.panelsClick class=external-site>
@@ -2423,7 +2445,7 @@
             &lt;/div&gt;
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure class=hljs-enhance>
          <figcaption>Result (interactive)</figcaption>
@@ -2463,7 +2485,7 @@
             </div>
          </div>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
    </section>
 
    <section id=panels-routes>
@@ -2515,7 +2537,7 @@
                }
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <span id=pearson></span><span id=shueisha></span><span id=wiley></span>
       <figure class=hljs-enhance>
@@ -2552,7 +2574,7 @@
             </div>
          </div>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
    </section>
 
    <section id=panels-styling>
@@ -2579,7 +2601,7 @@
                &lt;/div&gt;
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure class=hljs-enhance>
          <figcaption>Result (interactive)</figcaption>
@@ -2599,7 +2621,7 @@
             </div>
          </div>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
       <h5>Pillbox tabs</h5>
       <figure>
          <figcaption>Example HTML for pillbox tabs</figcaption>
@@ -2617,7 +2639,7 @@
                &lt;/div&gt;
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure class=hljs-enhance>
          <figcaption>Result (interactive)</figcaption>
@@ -2637,9 +2659,9 @@
             </div>
          </div>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
       <p>
-         Example website with pillbox UI tabs:
+         Example website with pillbox UI tabs:<br>
          <a href=http://centerkey.com/clabe class=external-site>CLABE Validator</a>
       </p>
    </section>
@@ -2658,12 +2680,14 @@
          <li><a href=#array-last><b>dna.array.last</b>(array)</a></li>
          <li><a href=#array-to-map><b>dna.array.toMap</b>(array, key)</a></li>
          <li><a href=#browser-get-params><b>dna.browser.getParams</b>()</a></li>
+         <li><a href=#browser-ios><b>dna.browser.iOS</b>()</a></li>
          <li>dna.pageToken<br>
             <a href=#page-token><b>dna.pageToken.get</b>(key, value)</a><br>
             <a href=#page-token><b>dna.pageToken.put</b>(key, defaultValue)</a><br>
          </li>
          <li><a href=#ui-delete-elem><b>dna.ui.deleteElem</b>(elemOrEventOrIndex)</a></li>
          <li><a href=#ui-focus><b>dna.ui.focus</b>(elem)</a></li>
+         <li><a href=#ui-get-component><b>dna.ui.getComponent</b>(elem)</a></li>
          <li>dna.ui.slideFade<br>
             <a href=#ui-slide-fade><b>dna.ui.slideFadeDelete</b>(elem)</a><br>
             <a href=#ui-slide-fade><b>dna.ui.slideFadeIn</b>(elem, callback)</a><br>
@@ -2686,27 +2710,93 @@
       </ol>
    </div>
 
-   <!--  dna.???.TBD()  -->
-   <span id=array-find></span>
-   <span id=array-from-map></span>
-   <span id=array-last></span>
-   <span id=array-to-map></span>
-   <span id=browser-get-params></span>
-   <section id=???-tbd>
-      <h4>dna.array.TBD(TBD)</h4>
+   <!-- dna.array.find() -->
+   <section id=array-find>
+      <h4>dna.array.find(array, value, key)</h4>
       <p class=api-description>
-         TBD...
+         Returns the first array element with a key equal to the supplied value.&nbsp;
+         The default key is "code".
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/array-objects.html')
+            @@include('website/templates/params/value.html')
+            @@include('website/templates/params/key.html')
+         </ul>
+      </div>
+   </section>
+
+   <!-- dna.array.fromMap() -->
+   <section id=array-from-map>
+      <h4>dna.array.fromMap(object, key)</h4>
+      <p class=api-description>
+         Converts an object (hash map) into an array of objects.&nbsp;
+         The default key is "code".
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/object.html')
+            @@include('website/templates/params/key.html')
+         </ul>
+      </div>
+   </section>
+
+   <!-- dna.array.last() -->
+   <section id=array-last>
+      <h4>dna.array.last(array)</h4>
+      <p class=api-description>
+         Returns the last element of the array (or undefined if not possible).
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/array.html')
+         </ul>
+      </div>
+   </section>
+
+   <!-- dna.array.toMap() -->
+   <section id=array-to-map>
+      <h4>dna.array.toMap(array, key)</h4>
+      <p class=api-description>
+         Converts an array of objects into an object (hash map).&nbsp;
+         The default key is "code".
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/array-objects.html')
+            @@include('website/templates/params/key.html')
+         </ul>
+      </div>
+   </section>
+
+   <!-- dna.browser.getParams() -->
+   <section id=browser-get-params>
+      <h4>dna.browser.getParams()</h4>
+      <p class=api-description>
+         Returns the URL query parameters as an object literal.
       </p>
    </section>
 
-   <!--  dna.pageToken.get()  -->
-   <!--  dna.pageToken.put()  -->
+   <!-- dna.browser.iOS() -->
+   <section id=browser-ios>
+      <h4>dna.browser.iOS()</h4>
+      <p class=api-description>
+         Returns a boolean indicating if the browser is running on an iOS device.
+      </p>
+   </section>
+
+   <!-- dna.pageToken.get() -->
+   <!-- dna.pageToken.put() -->
    <section id=page-token>
       <h4>dna.pageToken.get(key, defaultValue)</h4>
       <h4>dna.pageToken.put(key, value)</h4>
       <p class=api-description>
-         A simple key/value store specific to the page (URL path) that is cleared out when the user's
-         browser session ends.
+         A simple key/value store specific to the page (URL path) that is cleared out when the
+         user's browser session ends.
       </p>
       <div class=api-parameters>
          Parameters:
@@ -2735,7 +2825,7 @@
       </figure>
    </section>
 
-   <!--  dna.ui.deleteElem()  -->
+   <!-- dna.ui.deleteElem() -->
    <section id=ui-delete-elem>
       <h4>dna.ui.deleteElem(elemOrEventOrIndex)</h4>
       <p class=api-description>
@@ -2761,17 +2851,17 @@
       </figure>
    </section>
 
-   <!--  dna.ui.focus()  -->
+   <!-- dna.ui.focus() -->
    <section id=ui-focus>
       <h4>dna.ui.focus(elem)</h4>
       <p class=api-description>
-         Sets focus on the element.
+         Sets focus on an element.
       </p>
       <div class=api-parameters>
          Parameters:
          <ul>
             @@include('website/templates/params/elem-simple.html')
-         </ul>
+        </ul>
       </div>
       <figure>
          <figcaption>Example HTML</figcaption>
@@ -2784,7 +2874,22 @@
       </figure>
    </section>
 
-   <!--  dna.ui.slideFade()  -->
+   <!-- dna.ui.getComponent() -->
+   <section id=ui-get-component>
+      <h4>dna.ui.getComponent(elem)</h4>
+      <p class=api-description>
+         Returns the component (container element with a <code>data-component</code> attribute) to
+         which the element belongs.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/elem-simple.html')
+        </ul>
+      </div>
+   </section>
+
+   <!-- dna.ui.slideFade() -->
    <section id=ui-slide-fade>
       <h4>dna.ui.slideFadeDelete(elem)</h4>
       <h4>dna.ui.slideFadeIn(elem[, callback])</h4>
@@ -2809,7 +2914,7 @@
       </figure>
    </section>
 
-   <!--  dna.ui.slidingFlasher()  -->
+   <!-- dna.ui.slidingFlasher() -->
    <section id=ui-sliding-flasher>
       <h4>dna.ui.slidingFlasher(elem[, callback])</h4>
       <p class=api-description>
@@ -2834,8 +2939,8 @@
       </figure>
    </section>
 
-   <!--  dna.ui.smoothHeightAnimate()  -->
-   <!--  dna.ui.smoothHeightSetBaseline()  -->
+   <!-- dna.ui.smoothHeightAnimate() -->
+   <!-- dna.ui.smoothHeightSetBaseline() -->
    <section id=ui-smooth-height>
       <h4>dna.ui.smoothHeightSetBaseline([elem])</h4>
       <h4>dna.ui.smoothHeightAnimate([delay, [elem]])</h4>
@@ -2888,7 +2993,7 @@
             &lt;/script&gt;
          </code></pre>
       </figure>
-      <!-- Start: Result  -->
+      <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
       <figure class=hljs-enhance>
          <figcaption>Result (interactive)</figcaption>
@@ -2912,10 +3017,10 @@
             </script>
          </div>
       </figure>
-      <!-- End: Result  -->
+      <!-- End: Result -->
    </section>
 
-   <!--  dna.ui.smoothMove()  -->
+   <!-- dna.ui.smoothMove() -->
    <section id=ui-smooth-move>
       <h4>dna.ui.smoothMove(elem, up)</h4>
       <p class=api-description>
@@ -2945,12 +3050,12 @@
       </p>
    </section>
 
-   <!--  dna.ui.toElem()  -->
+   <!-- dna.ui.toElem() -->
    <section id=ui-to-elem>
       <h4>dna.ui.toElem(elemOrEventOrIndex, that)</h4>
       <p class=api-description>
-         A flexible way to get the jQuery element whether it is passed in directly, the target of an
-         event, or comes from the jQuery context.
+         A flexible way to get the jQuery element whether it is passed in directly, the target of
+         an event, or comes from the jQuery context.
       </p>
       <div class=api-parameters>
          Parameters:
@@ -2970,7 +3075,7 @@
       </figure>
    </section>
 
-   <!--  dna.util.apply()  -->
+   <!-- dna.util.apply() -->
    <section id=util-apply>
       <h4>dna.util.apply(func, params)</h4>
       <p class=api-description>
@@ -2995,7 +3100,7 @@
       </figure>
    </section>
 
-   <!--  dna.util.printf()  -->
+   <!-- dna.util.printf() -->
    <section id=util-printf>
       <h4>dna.util.printf(formatString, args...)</h4>
       <p class=api-description>
@@ -3015,13 +3120,13 @@
       </figure>
    </section>
 
-   <!--  dna.util.realTruth()  -->
+   <!-- dna.util.realTruth() -->
    <section id=util-real-truth>
       <h4>dna.util.realTruth(value)</h4>
       <p class=api-description>
-         Return the <a href=#real-truth>"real" boolean truth</a> of a value.&nbsp; Whereas JavaScript
-         truthy an falsey is more about existence, the "real" truth is for evaluating boolean data as
-         it is stored in databases or transmitted in REST calls.
+         Return the <a href=#real-truth>"real" boolean truth</a> of a value.&nbsp; Whereas
+         JavaScript truthy an falsey is more about existence, the "real" truth is for evaluating
+         boolean data as it is stored in databases or transmitted in REST calls.
       </p>
       <div class=api-parameters>
          Parameters:
@@ -3037,7 +3142,7 @@
       </figure>
    </section>
 
-   <!--  dna.util.toCamel()  -->
+   <!-- dna.util.toCamel() -->
    <section id=util-to-camel>
       <h4>dna.util.toCamel(kebabCaseStr)</h4>
       <p class=api-description>
@@ -3057,7 +3162,7 @@
       </figure>
    </section>
 
-   <!--  dna.util.toKebab()  -->
+   <!-- dna.util.toKebab() -->
    <section id=util-to-kebab>
       <h4>dna.util.toKebab(camelCaseStr)</h4>
       <p class=api-description>
@@ -3077,7 +3182,7 @@
       </figure>
    </section>
 
-   <!--  dna.util.value()  -->
+   <!-- dna.util.value() -->
    <section id=util-value>
       <h4>dna.util.value(data, field)</h4>
       <p class=api-description>
