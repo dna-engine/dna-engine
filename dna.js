@@ -233,8 +233,8 @@ dna.array = {
    };
 
 dna.browser = {
-   getParams: function() {
-      // Returns the URL query parameters as an object literal.
+   getUrlParams: function() {
+      // Returns the query parameters as an object literal.
       // Example:
       //    http://example.com?lang=jp&code=7 ==> { lang: 'jp', code: 7 }
       var params = {};
@@ -248,6 +248,7 @@ dna.browser = {
          /Apple/.test(window.navigator.vendor);
       }
    };
+dna.browser.getParams = dna.browser.getUrlParams;  //DEPRECATED
 
 dna.pageToken = {
    // A simple key/value store specific to the page (URL path) that is cleared out when the
