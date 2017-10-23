@@ -128,9 +128,5 @@
       $('figure#logo-canvas').css({ transform: `scale(${scale})` });
       }
 </script>
-<script id=temporary-patch>
-   if (dna.info().version <= '1.3.2')
-      $('input[type=range]').on({ input: function(e) { scaleRange($(e.target)); } });
-</script>
 </body>
 </html>
