@@ -3,6 +3,8 @@
    align=right width=160 alt=logo>
 *An uncomplicated user interface library for semantic templates*
 
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](http://dnajs.org/license)
 [![npm](https://img.shields.io/npm/v/dna.js.svg)](https://www.npmjs.com/package/dna.js)
 [![Build Status](https://travis-ci.org/dnajs/dna.js.svg)](https://travis-ci.org/dnajs/dna.js)
 
