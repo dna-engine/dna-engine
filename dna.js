@@ -287,10 +287,10 @@ dna.ui = {
       },
    slideFade: function(elem, callback, show) {
       // Smooth slide plus fade effect.
-      var obscure = { opacity: 0.0, transition: 'opacity 0s ease 0s' };
-      var easyIn =  { opacity: 1.0, transition: 'opacity 0.4s ease-in' };
-      var easyOut = { opacity: 0.0, transition: 'opacity 0.4s ease-out' };
-      var reset =   { transition: 'opacity 0s ease 0s' };
+      var obscure = { opacity: 0, transition: 'opacity 0s' };
+      var easyIn =  { opacity: 1, transition: 'opacity 0.4s' };
+      var easyOut = { opacity: 0, transition: 'opacity 0.4s' };
+      var reset =   { transition: 'opacity 0s' };
       function clearOpacityTransition() { elem.css(reset); }
       window.setTimeout(clearOpacityTransition, 1000);  //keep clean for other animations
       if (show)
@@ -446,7 +446,7 @@ dna.placeholder = {  //TODO: optimize
    setup: function() {
       $('option.dna-template').closest('select').addClass('dna-hide');
       function fade(i, elem) {
-         var input = $(elem).stop();
+         var input = $(elem).stop(true);
          return dna.getClones(input.data().placeholder).length ? input.fadeOut() : input.fadeIn();
          }
       $('[data-placeholder]').each(fade);
