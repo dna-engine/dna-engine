@@ -1,4 +1,4 @@
-// dna.js v1.3.4 ~~ dnajs.org ~~ MIT
+// dna.js v1.3.5 ~~ dnajs.org ~~ MIT
 // Copyright (c) 2013-2017 individual contributors to dna.js
 
 var dna = {
@@ -179,7 +179,7 @@ var dna = {
       var names = Object.keys(dna.store.templates);
       function addToSum(sum, name) { return sum + dna.store.templates[name].clones; }
       return {
-         version:      '1.3.4',
+         version:      '1.3.5',
          templates:    names.length,
          clones:       names.reduce(addToSum, 0),
          names:        names,
@@ -286,7 +286,7 @@ dna.ui = {
       return elem.closest('[data-component]');
       },
    pulse: function(elem, options) {
-      // Fades in an element after hiding it to create a smooth pulse effect.  The optional
+      // Fades in an element after hiding it to create a single smooth flash effect.  The optional
       // interval fades out the element.
       var settings = $.extend({ duration: 400, interval: null, out: 5000 }, options);
       elem.stop(true).slideDown().css({ opacity: 0 }).animate({ opacity: 1 }, settings.duration);
@@ -324,10 +324,8 @@ dna.ui = {
       // Smooth slide plus fade effect.
       return dna.ui.slideFadeOut(elem, dna.ui.deleteElem);
       },
-   slidingFlasher: function(elem, callback) {
-      // Uses a smooth slide down plus fade in effect on an element if it is hidden or a smooth
-      // fade in flash if the element is already visible -- intended to display an error message.
-      return elem.is(':hidden') ? dna.ui.slideFadeIn(elem, callback) : elem.hide().fadeIn();
+   slidingFlasher: function(elem) {  //DEPRECATED
+      return dna.ui.pulse(elem);
       },
    smoothHeightSetBaseline: function(container) {
       // See: smoothHeightAnimate below
