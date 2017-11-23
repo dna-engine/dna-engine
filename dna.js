@@ -285,6 +285,15 @@ dna.ui = {
       // which the element belongs.
       return elem.closest('[data-component]');
       },
+   pulse: function(elem, options) {
+      // Fades in an element after hiding it to create a smooth pulse effect.  The optional
+      // interval fades out the element.
+      var settings = $.extend({ duration: 400, interval: null, out: 5000 }, options);
+      elem.stop(true).slideDown().css({ opacity: 0 }).animate({ opacity: 1 }, settings.duration);
+      if (settings.interval)
+         elem.delay(settings.duration + settings.interval).animate({ opacity: 0 }, settings.out);
+      return elem;
+      },
    slideFade: function(elem, callback, show) {
       // Smooth slide plus fade effect.
       var obscure = { opacity: 0, transition: 'opacity 0s' };
