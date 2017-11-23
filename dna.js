@@ -339,7 +339,6 @@ dna.ui = {
       // Smoothly animates the height of a container element from a beginning height to a final
       // height.
       container = container || dna.ui.$container;
-      window.console.log([delay, container]);
       function animate() {
          container.css({ minHeight: 0, maxHeight: '100vh' });
          function turnOffTransition() { container.css({ transition: 'none', maxHeight: 'none' }); }

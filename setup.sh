@@ -5,7 +5,7 @@
 
 package=https://raw.githubusercontent.com/dnajs/dna.js/master/package.json
 releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/current
-port=3482  #d9a
+port=3482  #dna -> d9a -> 0xD9A -> 3482
 
 info() {
    # Check for Node.js installation and download project dependencies
