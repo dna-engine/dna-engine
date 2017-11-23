@@ -1197,13 +1197,14 @@ var spec17 = {
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <section id=spec18>
    <h3>Specification: #18</h3>
-   <p>Smooth container</p>
+   <p>Smooth container and pulse button</p>
    <fieldset>
       <legend>Actual</legend>
       <input type=range value=3 data-change=spec18.smooth>
       <div class=smooth-container>
          <p id=chapter-box class=dna-template>~~[count]~~</p>
       </div>
+      <button data-click=dna.ui.pulse>Pulse</button>
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
@@ -1213,6 +1214,7 @@ var spec17 = {
          <p class=chapter-box>1</p>
          <p class=chapter-box>1</p>
       </div>
+      <button>Pulse</button>
    </fieldset>
 </section>
 <script>
