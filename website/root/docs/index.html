@@ -2688,13 +2688,13 @@
          <li><a href=#ui-delete-elem><b>dna.ui.deleteElem</b>(elemOrEventOrIndex)</a></li>
          <li><a href=#ui-focus><b>dna.ui.focus</b>(elem)</a></li>
          <li><a href=#ui-get-component><b>dna.ui.getComponent</b>(elem)</a></li>
+         <li><a href=#ui-pulse><b>dna.ui.pulse</b>(elem, options)</a></li>
          <li>dna.ui.slideFade<br>
             <a href=#ui-slide-fade><b>dna.ui.slideFadeDelete</b>(elem)</a><br>
             <a href=#ui-slide-fade><b>dna.ui.slideFadeIn</b>(elem, callback)</a><br>
             <a href=#ui-slide-fade><b>dna.ui.slideFadeOut</b>(elem, callback)</a><br>
             <a href=#ui-slide-fade><b>dna.ui.slideFadeToggle</b>(elem, callback)</a><br>
          </li>
-         <li><a href=#ui-sliding-flasher><b>dna.ui.slidingFlasher</b>(elem, callback)</a></li>
          <li>dna.ui.smoothHeight<br>
             <a href=#ui-smooth-height><b>dna.ui.smoothHeightAnimate</b>(delay, elem)</a><br>
             <a href=#ui-smooth-height><b>dna.ui.smoothHeightSetBaseline</b>(elem)</a><br>
@@ -2889,6 +2889,46 @@
       </div>
    </section>
 
+   <!-- dna.ui.pulse() -->
+   <section id=ui-pulse>
+      <h4>dna.ui.pulse(elem[, options])</h4>
+      <p class=api-description>
+         Fades in an element after hiding it to create a single smooth flash effect.&nbsp;
+         If the element is initially hidden, it will slide down.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/elem.html')
+            <li>
+               <label><b>options</b> (Object) <i>[optional]</i>:</label>
+               <ul>
+                  @@include('website/templates/options/duration.html')
+                  @@include('website/templates/options/interval.html')
+                  @@include('website/templates/options/out.html')
+               </ul>
+            </li>
+         </ul>
+      </div>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            dna.ui.pulse($('#msg').text('Error!'));  //simple flash effect
+         </code></pre>
+      </figure>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            var elem = $('#msg').text('Error!');
+            var options = { interval: 7000, out: 2000 };
+            dna.ui.pulse(elem, options);  //show for 7 seconds then slowly fade
+         </code></pre>
+      </figure>
+      <p>
+         This UI function is primarily intended to display a status or error message.
+      </p>
+   </section>
+
    <!-- dna.ui.slideFade() -->
    <section id=ui-slide-fade>
       <h4>dna.ui.slideFadeDelete(elem)</h4>
@@ -2910,31 +2950,6 @@
          <pre><code class=language-javascript>
             dna.ui.slideFadeDelete($('.box').last());  //removes the last box
             dna.ui.slideFadeIn($('.box').first());  //shows the box
-         </code></pre>
-      </figure>
-   </section>
-
-   <!-- dna.ui.slidingFlasher() -->
-   <section id=ui-sliding-flasher>
-      <h4>dna.ui.slidingFlasher(elem[, callback])</h4>
-      <p class=api-description>
-         Uses a smooth slide down plus fade in effect on an element if it is hidden or a smooth fade in
-         flash if the element is already visible &mdash; intended to display an error message.
-      </p>
-      <div class=api-parameters>
-         Parameters:
-         <ul>
-            @@include('website/templates/params/elem.html')
-            @@include('website/templates/params/callback.html')
-         </ul>
-      </div>
-      <figure>
-         <figcaption>Example JavaScript</figcaption>
-         <pre><code class=language-javascript>
-            var elem = $('#msg').text('Error!');
-            dna.ui.slidingFlasher(elem);  //slide down
-            ...
-            dna.ui.slidingFlasher(elem);  //pulse
          </code></pre>
       </figure>
    </section>
@@ -3286,30 +3301,12 @@
    </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <div>
-      <h3 id=comments>Questions and comments</h3>
-      <p class=plain>
-         Tweet your question or comment with
-         <a href=https://twitter.com/dna_js class=twitter>#dnajs</a>
-         or post below.
-      </p>
+   <div id=comments>
+      <h3>Questions and comments</h3>
    </div>
-
    <section>
-      <h4 id=disqus class=hide-me>Disqus</h4>
-      <div id=disqus_thread></div>
-      <script>
-         var disqus_config = function() {
-            this.page.url = 'http://dnajs.org/docs/';
-            this.page.identifier = 'dna.js-docs';
-            };
-         (function() {
-            var d = document, s = d.createElement('script');
-            s.src = 'https://dnajs.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            })();
-      </script>
+      <h3 class=hide-me>Questions and comments</h3>
+      @@include('website/templates/comments.html')
    </section>
 
 </main>
