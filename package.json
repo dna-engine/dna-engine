@@ -29,10 +29,11 @@
       "strict": "implied",
       "undef": true,
       "unused": true,
-      "node": true
+      "node": true,
+      "mocha": true
    },
    "scripts": {
-      "pretest": "jshint gulpfile.js && gulp build",
+      "pretest": "jshint gulpfile.js spec/*.js && gulp build",
       "test": "mocha spec/*.js",
       "web": "gulp web"
    },
