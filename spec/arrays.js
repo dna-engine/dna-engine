@@ -27,7 +27,6 @@ const dna =       require('../dna.js')(window, $);
 describe('Array utility function dna.array.last()', () => {
 
    it('returns last object in array', () => {
-      const array =    [3, 21, 7];
       const actual =   dna.array.last([3, 21, 7]);
       const expected = 7;
       assert.strictEqual(actual, expected);
