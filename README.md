@@ -3,14 +3,11 @@
    align=right width=160 alt=logo>
 *An uncomplicated user interface library for semantic templates*
 
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](http://dnajs.org/license)
 [![npm](https://img.shields.io/npm/v/dna.js.svg)](https://www.npmjs.com/package/dna.js)
 [![Build Status](https://travis-ci.org/dnajs/dna.js.svg)](https://travis-ci.org/dnajs/dna.js)
 [![Package Quality](http://npm.packagequality.com/shield/dna.js.svg)](http://packagequality.com/#?package=dna.js)
-[![Hits](https://data.jsdelivr.com/v1/package/npm/dna.js/badge)](https://www.jsdelivr.com/package/npm/dna.js)
 [![Hits](https://data.jsdelivr.com/v1/package/npm/dna.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/dna.js)
-
 
 dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable
 JavaScript applications.
