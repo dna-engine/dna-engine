@@ -210,7 +210,7 @@ dna.array = {
       var array = [];
       function toObj(item) { return item instanceof Object ? item : { value: item }; }
       for (var property in map)
-         array[array.push(toObj(map[property])) - 1][key] = property;
+         array[array.push(toObj(map[property])) - 1][key] = dna.util.toKebab(property);
       return array;
       },
    last: function(array) {
@@ -226,7 +226,7 @@ dna.array = {
       //       ==> { a: { word: 'Ant' }, b: { word: 'Bat' } }
       key = key || 'code';
       var map = {};
-      function addObj(obj) { map[obj[key]] = obj; }
+      function addObj(obj) { map[dna.util.toCamel(obj[key])] = obj; }
       array.forEach(addObj);
       return map;
       }
@@ -640,12 +640,12 @@ dna.compile = {
    rules: function(elems, type, isList) {
       // Example:
       //    <p data-require=~~title~~>, 'require'  ==>  <p data-dnaRules={ require: 'title' }>
-      function add(i, elem) {
+      function addRule(i, elem) {
          elem = dna.compile.setupNucleotide($(elem));
          var field = dna.compile.getDataField(elem, type);
          elem.data().dnaRules[type] = isList ? field.split(',') : field;
          }
-      return elems.filter('[data-' + type + ']').each(add).removeAttr('data-' + type);
+      return elems.filter('[data-' + type + ']').each(addRule).removeAttr('data-' + type);
       },
    separators: function(elem) {
       // Convert: data-separator=", "  ==>  <span class=dna-separator>, </span>
