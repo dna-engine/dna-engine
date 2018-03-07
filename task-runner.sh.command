@@ -55,10 +55,10 @@ releaseInstructions() {
       echo "   *** After local changes checked in, tag release:"
       fi
    echo "   cd $(pwd)"
-   echo "   git tag -af $versionRemote -m \"Stable release\""
-   echo "   git tag -af current -m \"Current stable release\""
-   echo "   git remote -v"
+   echo "   git tag --annotate --force --message 'Stable release' $versionRemote"
+   echo "   git remote --verbose"
    echo "   git push origin --tags --force"
+   echo "   git tag"
    echo "   npm publish"
    echo
    echo "   *** Finally, update:"

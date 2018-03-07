@@ -15,7 +15,7 @@ info() {
    echo "Node.js:"
    which node || { echo "Need to install Node.js: https://nodejs.org"; exit; }
    node --version
-   test -d node_modules || npm install
+   npm install
    npm update
    npm outdated
    echo
