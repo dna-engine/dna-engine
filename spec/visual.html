@@ -964,8 +964,8 @@ var spec15 = {
             Tags:
             <p>
                <span data-array=~~meta.info.tags~~ class=in-a-row>
-                  <input value=~~code~~ size=10>
-                  <code>~~code~~</code>
+                  <input value=~~english.code~~ size=10>
+                  <code>~~english.code~~</code>
                </span>
             </p>
             Secret:
@@ -1113,7 +1113,7 @@ var spec16 = {
          cover:    cover,
          purposes: purposes,
          category: 'computers',
-         meta:     { info: { tags: [{ code: 'tech' },  { code: 'color' }] }},  //verify dot notation
+         meta:     { info: { tags: [{ english: { code: 'tech' } },  { english: { code: 'color' } }] }},  //verify dot notation
          secret:   'Signed!',
          pubDate:  '2014-06-22',
          coverColor: '#daa520',
@@ -1220,7 +1220,7 @@ var spec17 = {
 <script>
 var spec18 = {
    iEvent: function(elem, event) {
-      window.console.log(Date.now(), elem.val(), event.type);
+      console.log(Date.now(), elem.val(), event.type);
       },
    makeChapterBoxes: function(range) {
       dna.clone('chapter-box', {}, { empty: true, clones: +range.val() }).hide().fadeIn();
@@ -1412,7 +1412,7 @@ var spec21 = {
    dna.js
 </footer>
 
-<script src=https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js></script>
 <script src=../dna.js></script>
 <script>
 var specRunner = {
