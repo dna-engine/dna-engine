@@ -54,6 +54,7 @@
       "gulp-w3cjs": "~1.3",
       "jsdom": "~11.6",
       "jshint": "~2.9",
+      "merge-stream": "~1.0",
       "mocha": "~5.0"
    }
 }

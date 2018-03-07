@@ -1,17 +1,18 @@
 // dna.js
 // gulp configuration and tasks
 
-const gulp =        require('gulp');
-const fileInclude = require('gulp-file-include');
-const header =      require('gulp-header');
-const htmlHint =    require('gulp-htmlhint');
-const jsHint =      require('gulp-jshint');
-const rename =      require('gulp-rename');
-const replace =     require('gulp-replace');
-const size =        require('gulp-size');
-const uglify =      require('gulp-uglify');
-const w3cJs =       require('gulp-w3cjs');
-const del =         require('del');
+const gulp =         require('gulp');
+const fileInclude =  require('gulp-file-include');
+const header =       require('gulp-header');
+const htmlHint =     require('gulp-htmlhint');
+const jsHint =       require('gulp-jshint');
+const mergeStream =  require('merge-stream');
+const rename =       require('gulp-rename');
+const replace =      require('gulp-replace');
+const size =         require('gulp-size');
+const uglify =       require('gulp-uglify');
+const w3cJs =        require('gulp-w3cjs');
+const del =          require('del');
 
 const webContext = {
    pkg:  require('./package.json'),
@@ -27,6 +28,7 @@ const webContext = {
       liveModel:      '8gnyLovu',
       panelsClick:    'uzm44vrf',
       panelsDropDown: 'qt95wt46',
+      photoUpload:    'ac0d784e/3',
       smartUpdates:   '4a0tpmxp',
       toDo:           'wo6og0z8'
       }
@@ -73,8 +75,12 @@ function runUglify() {
    }
 
 function reportSize() {
-   gulp.src('dna.*')
-      .pipe(size({ showFiles: true }));
+   return mergeStream(
+      gulp.src('dna.*')
+         .pipe(size({ showFiles: true })),
+      gulp.src('dna.min.js')
+         .pipe(size({ gzip: true, title: 'dna.min.js gzipped:' }))
+      );
    }
 
 function cleanWebsite() {
