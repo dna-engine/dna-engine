@@ -1,5 +1,5 @@
 // dna.js v1.3.5 ~~ dnajs.org ~~ MIT
-// Copyright (c) 2013-2017 individual contributors to dna.js
+// Copyright (c) 2013-2018 individual contributors to dna.js
 
 var dna = {
    // API:
@@ -191,42 +191,56 @@ var dna = {
 
 dna.array = {
    find: function(array, value, key) {
-      // Returns the first array element with a key equal to the supplied value.  The default key
-      // is "code".
+      // Returns the index and a reference to first array element with a key equal to the supplied
+      // value.  The default key is "code".
       // Example:
       //    var array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
-      //    dna.array.find(array, 'b').word === 'Bat';
+      //    dna.array.find(array, 'b').item.word === 'Bat';
+      //    dna.array.find(array, 'b').index === 1;
+      //    dna.array.find(array, 'x').item === undefined;
       key = key || 'code';
-      function found(obj) { return obj[key] === value; }
-      var objs = array.filter(found);
-      return objs.length ? objs[0] : null;
+      var valid = Array.isArray(array);
+      var i = 0;
+      if (valid)
+         while (i < array.length && array[i][key] !== value)
+            i++;
+      return valid && i < array.length ?
+         { item: array[i],  index: i } :
+         { item: undefined, index: -1 };
       },
-   fromMap: function(map, key) {
+   fromMap: function(map, key, kebabCodes) {
       // Converts an object (hash map) into an array of objects.  The default key is "code".
-      //    var map = { a: { word: 'Ant' }, b: { word: 'Bat' } };
-      //    var array = dna.array.fromMap(map, 'code');
-      //       ==> [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
+      // Example:
+      //    dna.array.fromMap({ a: { word: 'Ant' }, b: { word: 'Bat' } })
+      // converts:
+      //    { a: { word: 'Ant' }, b: { word: 'Bat' } }
+      // to:
+      //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
       key = key || 'code';
       var array = [];
       function toObj(item) { return item instanceof Object ? item : { value: item }; }
       for (var property in map)
-         array[array.push(toObj(map[property])) - 1][key] = dna.util.toKebab(property);
+         array[array.push(toObj(map[property])) - 1][key] =
+            kebabCodes === false ? property : dna.util.toKebab(property);
       return array;
       },
    last: function(array) {
       // Returns the last element of the array (or undefined if not possible).
       // Example:
       //    dna.array.last([3, 21, 7]) === 7;
-      return array && array.length ? array[array.length - 1] : undefined;
+      return Array.isArray(array) && array.length ? array[array.length - 1] : undefined;
       },
-   toMap: function(array, key) {
+   toMap: function(array, key, camelKeys) {
       // Converts an array of objects into an object (hash map).  The default key is "code".
-      //    var array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
-      //    var map = dna.array.toMap(array, 'code');
-      //       ==> { a: { word: 'Ant' }, b: { word: 'Bat' } }
+      // Example:
+      //    dna.array.toMap([{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }])
+      // converts:
+      //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
+      // to:
+      //    { a: { code: 'a', word: 'Ant' }, b: { code: 'b', word: 'Bat' } }
       key = key || 'code';
       var map = {};
-      function addObj(obj) { map[dna.util.toCamel(obj[key])] = obj; }
+      function addObj(obj) { map[camelKeys === false ? obj[key] : dna.util.toCamel(obj[key])] = obj; }
       array.forEach(addObj);
       return map;
       }

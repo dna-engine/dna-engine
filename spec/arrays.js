@@ -37,11 +37,18 @@ describe('Array utility function dna.array.last()', () => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Array utility function dna.array.find()', () => {
 
-   it('finds a key in an array and returns the value', () => {
+   it('finds an item by key in an array and returns the item and index', () => {
       const array =    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
-      const actual =   dna.array.find(array, 'b').word;
-      const expected = 'Bat';
-      assert.strictEqual(actual, expected);
+      const actual =   dna.array.find(array, 'b');
+      const expected = { item: { code: 'b', word: 'Bat' }, index: 1 };
+      assert.deepStrictEqual(actual, expected);
+      });
+
+   it('returns undefined for the item when key does not exist', () => {
+      const array =    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
+      const actual =   dna.array.find(array, 'bogus');
+      const expected = { item: undefined, index: -1 };
+      assert.deepStrictEqual(actual, expected);
       });
 
    });
@@ -50,16 +57,30 @@ describe('Array utility function dna.array.find()', () => {
 describe('Array utility function dna.array.toMap()', () => {
 
    it('converts an array of objects into an object (hash map) using default key', () => {
-      const array =    [{ code: 'a', word: 'Ant' }, { code: 'b-z', word: 'Bat' }];
+      const array = [
+         { code: 'a', word: 'Ant' },
+         { code: 'b-z', word: 'Bat' },
+         { code: 'J30X-W77', price: 34.99 }
+         ];
       const actual =   dna.array.toMap(array);
-      const expected = { a: { code: 'a', word: 'Ant' }, bZ: { code: 'b-z', word: 'Bat' } };
+      const expected = {
+         a:       { code: 'a',        word: 'Ant' },
+         bZ:      { code: 'b-z',      word: 'Bat' },
+         J30XW77: { code: 'J30X-W77', price: 34.99 }
+         };
       assert.deepStrictEqual(actual, expected);
       });
 
    it('converts an array of objects into an object (hash map)', () => {
-      const array =    [{ code: 'a', word: 'Ant' }, { code: 'b-z', word: 'Bat' }];
+      const array =    [
+         { code: 'a', word: 'Ant' },
+         { code: 'b-z', word: 'Bat' }
+         ];
       const actual =   dna.array.toMap(array, 'word');
-      const expected = { Ant: { code: 'a', word: 'Ant' }, Bat: { code: 'b-z', word: 'Bat' } };
+      const expected = {
+         Ant: { code: 'a', word: 'Ant' },
+         Bat: { code: 'b-z', word: 'Bat' }
+         };
       assert.deepStrictEqual(actual, expected);
       });
 
