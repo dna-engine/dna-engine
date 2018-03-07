@@ -1,5 +1,5 @@
 /* dna.js ~~ MIT ~~ dnajs.org/license                        */
-/* Copyright (c) 2013-2017 individual contributors to dna.js */
+/* Copyright (c) 2013-2018 individual contributors to dna.js */
 
 /* Bookstore */
 .featured-books {
@@ -460,7 +460,7 @@ figure.hljs-enhance .dna-panels {
    }
 
 /* Mobile */
-@media (max-width: 667px) {  /* selects iPhone 6/6s/7 landscape and anything narrower */
+@media (max-width: 667px) {  /* selects iPhone 6/6s/7/8 landscape and anything narrower */
    html {
       font-size: 90%;
       background: none;
