@@ -104,6 +104,7 @@ var dna = {
       return settings.fade ? dna.ui.slideFadeDelete(clones) : dna.core.remove(clones);
       },
    insert: function(name, data, options) {
+      // ...
       var settings = $.extend({ data: data }, options);
       return dna.refresh(dna.getCloneOnce(name), settings);
       },
@@ -141,8 +142,9 @@ var dna = {
       return dna.store.getTemplate(name).container.children().filter('.dna-clone');
       },
    getCloneOnce: function(name) {
+      // ...
       var clones = dna.getClones(name);
-      return clones.length ? $(clones[0]) : dna.clone(name, {});
+      return clones.length ? clones.first() : dna.clone(name, {});
       },
    getIndex: function(elem, options) {
       // Returns the index of the clone.
@@ -189,7 +191,7 @@ var dna = {
       var names = Object.keys(dna.store.templates);
       function addToSum(sum, name) { return sum + dna.store.templates[name].clones; }
       return {
-         version:      '1.3.5',
+         version:      '1.3.6',
          templates:    names.length,
          clones:       names.reduce(addToSum, 0),
          names:        names,
@@ -218,7 +220,13 @@ dna.array = {
          { item: array[i],  index: i } :
          { item: undefined, index: -1 };
       },
-   fromMap: function(map, key, kebabCodes) {
+   last: function(array) {
+      // Returns the last element of the array (or undefined if not possible).
+      // Example:
+      //    dna.array.last([3, 21, 7]) === 7;
+      return Array.isArray(array) && array.length ? array[array.length - 1] : undefined;
+      },
+   fromMap: function(map, options) {
       // Converts an object (hash map) into an array of objects.  The default key is "code".
       // Example:
       //    dna.array.fromMap({ a: { word: 'Ant' }, b: { word: 'Bat' } })
@@ -226,21 +234,15 @@ dna.array = {
       //    { a: { word: 'Ant' }, b: { word: 'Bat' } }
       // to:
       //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
-      key = key || 'code';
+      var settings = $.extend({ key: 'code', kebabCodes: false }, options);
       var array = [];
       function toObj(item) { return item instanceof Object ? item : { value: item }; }
       for (var property in map)
-         array[array.push(toObj(map[property])) - 1][key] =
-            kebabCodes === false ? property : dna.util.toKebab(property);
+         array[array.push(toObj(map[property])) - 1][settings.key] =
+            settings.kebabCodes ? dna.util.toKebab(property) : property;
       return array;
       },
-   last: function(array) {
-      // Returns the last element of the array (or undefined if not possible).
-      // Example:
-      //    dna.array.last([3, 21, 7]) === 7;
-      return Array.isArray(array) && array.length ? array[array.length - 1] : undefined;
-      },
-   toMap: function(array, key, camelKeys) {
+   toMap: function(array, options) {
       // Converts an array of objects into an object (hash map).  The default key is "code".
       // Example:
       //    dna.array.toMap([{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }])
@@ -248,10 +250,11 @@ dna.array = {
       //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
       // to:
       //    { a: { code: 'a', word: 'Ant' }, b: { code: 'b', word: 'Bat' } }
-      key = key || 'code';
+      var settings = $.extend({ key: 'code', camelKeys: false }, options);
       var map = {};
-      function addObj(obj) { map[camelKeys === false ? obj[key] : dna.util.toCamel(obj[key])] = obj; }
-      array.forEach(addObj);
+      function addObj(obj) { map[obj[settings.key]] = obj; }
+      function addObjCamelKey(obj) { map[dna.util.toCamel(obj[settings.key])] = obj; }
+      array.forEach(settings.camelKeys ? addObjCamelKey : addObj);
       return map;
       }
    };
