@@ -1,4 +1,4 @@
-// dna.js v1.3.5 ~~ dnajs.org ~~ MIT
+// dna.js v1.3.6 ~~ dnajs.org ~~ MIT
 // Copyright (c) 2013-2018 individual contributors to dna.js
 
 var dna = {

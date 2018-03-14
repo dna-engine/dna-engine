@@ -1,6 +1,6 @@
 {
    "name": "dna.js",
-   "version": "1.3.5",
+   "version": "1.3.6",
    "description": "An uncomplicated user interface library for semantic templates",
    "summary": "dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications.",
    "license": "MIT",
