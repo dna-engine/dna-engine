@@ -58,7 +58,7 @@ releaseInstructions() {
    echo "   git tag --annotate --force --message 'Stable release' $versionRemote"
    echo "   git remote --verbose"
    echo "   git push origin --tags --force"
-   echo "   git tag"
+   echo "   git tag | tail -10"
    echo "   npm publish"
    echo
    echo "   *** Finally, update:"
