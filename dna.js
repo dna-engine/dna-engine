@@ -1,4 +1,4 @@
-// dna.js v1.3.6 ~~ dnajs.org ~~ MIT
+// dna.js v1.3.7 ~~ dnajs.org ~~ MIT
 // Copyright (c) 2013-2018 individual contributors to dna.js
 
 var dna = {
@@ -191,7 +191,7 @@ var dna = {
       var names = Object.keys(dna.store.templates);
       function addToSum(sum, name) { return sum + dna.store.templates[name].clones; }
       return {
-         version:      '1.3.6',
+         version:      '1.3.7',
          templates:    names.length,
          clones:       names.reduce(addToSum, 0),
          names:        names,
