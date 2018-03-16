@@ -37,7 +37,7 @@
       "test": "mocha spec/*.js",
       "web": "gulp web"
    },
-   "dependencies": {
+   "peerDependencies": {
       "jquery": ">=2.2"
    },
    "devDependencies": {
@@ -52,6 +52,7 @@
       "gulp-size": "~3.0",
       "gulp-uglify": "~3.0",
       "gulp-w3cjs": "~1.3",
+      "jquery": "~3.3",
       "jsdom": "~11.6",
       "jshint": "~2.9",
       "merge-stream": "~1.0",
