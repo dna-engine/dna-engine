@@ -35,7 +35,6 @@
          <li><a href=#step8>Make REST call</a></li>
          <li><a href=#step9>Smarten up the search field</a></li>
          <li><a href=#conclusion>Conclusion</a></li>
-         <li><a href=#comments>Questions and comments</a></li>
       </ol>
    </header>
 
@@ -252,7 +251,7 @@
       <figure>
          <figcaption>JS link at bottom of the <code>body</code> section</figcaption>
          <pre><code class=language-html>
-            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js&gt;&lt;/script&gt;
             &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@1.3/dna.min.js&gt;&lt;/script&gt;
          </code></pre>
       </figure>
@@ -390,9 +389,7 @@
             <button data-href=../book-finder.html class=external-site>book-finder.html</button>
          </span>
       </p>
-      <p>
-         Code:
-      </p>
+      <h4>Code</h4>
       <figure>
          <figcaption><code>book-finder.html</code></figcaption>
          <pre><code class=language-html>
@@ -431,7 +428,7 @@
                &lt;/div&gt;
             &lt;/main&gt;
 
-            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js&gt;&lt;/script&gt;
             &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@1.3/dna.min.js&gt;&lt;/script&gt;
             &lt;script&gt;
                function findBooks(elem) {
@@ -448,6 +445,7 @@
             &lt;/html&gt;
          </code></pre>
       </figure>
+      <h4>Keep going</h4>
       <p>
          Hungry for more?&nbsp; Try building something using the
             <a href=https://developers.google.com/maps/documentation/webservices/
@@ -460,29 +458,8 @@
                class=external-site>maps.googleapis.com/maps/api/geocode/json?address=Paris</a>
          </span>
       </p>
-   </section>
-
-   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <section id=comments>
-      <h3>Questions and comments</h3>
-      <p class=plain>
-         Tweet your question or comment with
-         <a href=https://twitter.com/dna_js class=twitter>#dnajs</a>
-         or post below.
-      </p>
-      <div id=disqus_thread></div>
-      <script>
-         var disqus_config = function() {
-            this.page.url = 'http://dnajs.org/tutorial/';
-            this.page.identifier = 'dna.js-tutorial';
-            };
-         (function() {
-            var d = document, s = d.createElement('script');
-            s.src = 'https://dnajs.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            })();
-      </script>
+      <h4>Questions and comments</h4>
+      @@include('website/templates/comments.html')
    </section>
 
 </main>
