@@ -838,8 +838,6 @@ var spec14 = {
    <p>Events</p>
    <fieldset>
       <legend>Actual</legend>
-      <div class=surrounded></div>
-      <hr>
       <div class=book-list>
          <div id=spec15-book class=dna-template data-callback=spec15.configure>
             <div class=surrounded>
@@ -854,11 +852,6 @@ var spec14 = {
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
-      <div class=border-change style="color: white; padding: 10px;">
-         <hr class=border-change2>
-         <hr class=border-change2 style="color: white; padding: 10px;">
-      </div>
-      <hr>
       <div class=book-list>
          <div class="dna-clone color-change border-change2">
             <div class=border-change style="color: white; padding: 10px;">
@@ -876,7 +869,7 @@ var spec14 = {
             <button>Bye 2</button>
             <button>Bye 3</button>
          </div>
-         <hr><hr><hr><hr><hr><hr><hr><hr><hr><hr>
+         <hr><hr><hr><hr><hr><hr><hr><hr>
       </div>
    </fieldset>
 </section>
@@ -888,7 +881,7 @@ var spec15 = {
    surround: function(elem) {
       elem.addClass('border-change');
       function addHr() { $('#spec15 fieldset').first().append('<hr>'); }
-      elem.each(addHr);  //exactly 9 times (1 <div> + 8 clones + 1 <hr>)
+      elem.each(addHr);  //exactly 8 times (one for each clone)
       },
    surround2: function(elem) {
       elem.addClass('border-change2');
@@ -914,9 +907,6 @@ var spec15 = {
       dna.bye(getClone(4));                                  //nuke 4th (bye w/jQuery elem)
       dna.getClone(getClone(7).find('span:last')).remove();  //nuke 7th (remove w/sub-node)
       getClone(6).each(dna.bye);                             //nuke 6th (bye w/jQuery loop)
-      var box = $('.spec15-book').closest('fieldset').find('legend+div');
-      var foreigners = $('<hr><hr data-on-load=fadeOut><hr class=surrounded>').appendTo(box);
-      dna.events.runInitializers(foreigners);
       dna.clearInitializers();
       }
    };
@@ -963,7 +953,7 @@ var spec15 = {
             </div>
             Tags:
             <p>
-               <span data-array=~~meta.info.tags~~ class=in-a-row>
+               <span data-array=~~meta.info.tags~~ class=in-a-row>  <!-- TODO: Nesting (dots) breaks updating! -->
                   <input value=~~english.code~~ size=10>
                   <code>~~english.code~~</code>
                </span>
@@ -1384,7 +1374,7 @@ var spec20 = {
    <fieldset>
       <legend>Expected</legend>
       <select>
-         <option>Jake</option>
+         <option>Jan</option>
          <option selected>Abby</option>
          <option>Ed</option>
       </select>

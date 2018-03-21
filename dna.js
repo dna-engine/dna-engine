@@ -763,20 +763,14 @@ dna.store = {
 dna.events = {
    context: {},  //storage to register callbacks when dna.js is module loaded without window scope (webpack)
    initializers: [],  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
-   elementSetup: function(root, data) {
+   runOnLoads: function() {
       // Example:
       //    <p data-on-load=app.cart.setup>
-      function setup(i, elem) {
-         elem = $(elem);
-         dna.util.apply(elem.data().onLoad, data ? [elem, data] : elem);
-         }
-      var selector = '[data-on-load]';
-      var elems = root ? root.find(selector).addBack(selector) : $(selector);
-      return elems.not('.dna-initialized').each(setup).addClass('dna-initialized');
+      function run(i, elem) { dna.util.apply($(elem).data().onLoad, $(elem)); }
+      return $('[data-on-load]').not('.dna-loaded').each(run).addClass('dna-loaded');
       },
-   runInitializers: function(elem, data) {
-      // Executes data-on-load and data-callback functions plus registered initializers
-      dna.events.elementSetup(elem, data);
+   runInitializers: function(elem) {
+      // Executes data-callback functions plus registered initializers
       function init(i, initializer) {
          var elems = initializer.selector ?
             elem.find(initializer.selector).addBack(initializer.selector) : elem;
@@ -875,7 +869,7 @@ dna.events = {
          .change(handleSmartUpdate)  //TODO: handle paste events on iOS
          .on({ input: handle })
          .on({ click: jumpToUrl }, '[data-href]');
-      dna.events.elementSetup();
+      dna.events.runOnLoads();
       }
    };
 
