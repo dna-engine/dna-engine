@@ -1397,6 +1397,63 @@ var spec21 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<section id=spec22>
+   <h3>Specification: #22</h3>
+   <p>Insert</p>
+   <fieldset>
+      <legend>Actual</legend>
+      <hr>
+      <div id=s22-summary class=dna-template>
+         <h3>Summary</h3>
+         <p>Number of books: <b>~~numBooks~~</b></p>
+         <p>Total price: $<b>~~totalPrice~~</b></p>
+      </div>
+      <hr>
+      <div id=s22-analytics class=dna-template>
+         <h3>Analytics</h3>
+         <p>Title words:<br>  <b data-array=~~titleWords~~>  <code>~~[value]~~</code></b></p>
+         <p>Author names:<br> <b data-array=~~authorNames~~> <code>~~[value]~~</code></b></p>
+      </div>
+      <hr>
+   </fieldset>
+   <fieldset>
+      <legend>Expected</legend>
+      <hr>
+      <div class=dna-clone>
+         <h3>Summary</h3>
+         <p>Number of books: <b>3</b></p>
+         <p>Total price: $<b>74.97</b></p>
+      </div>
+      <hr>
+      <div class=dna-clone>
+         <h3>Analytics</h3>
+         <p>Title words:<br>  <b><code>CSS3 DOM HTML5 Howdy Styling The</code></b></p>
+         <p>Author names:<br> <b><code>Abby Ed Jan</code></b></p>
+      </div>
+      <hr>
+   </fieldset>
+</section>
+<script>
+var spec22 = {
+   run: function() {
+      function sumPrice(accumulator, obj) { return accumulator + obj.price; }
+      function addTitleWords(accumulator, obj) { return accumulator.concat(obj.title.split(' ')); }
+      function addAuthorNames(accumulator, obj) { return accumulator.concat(obj.author.split(' ')); }
+      const summary = {
+         numBooks:   specRunner.catalog.length,
+         totalPrice: specRunner.catalog.reduce(sumPrice, 0)/100
+         };
+      const analytics = {
+         titleWords:  specRunner.catalog.reduce(addTitleWords, []).sort(),
+         authorNames: specRunner.catalog.reduce(addAuthorNames, []).sort()
+         }
+      dna.insert('s22-summary',   summary);
+      dna.insert('s22-analytics', analytics);
+      }
+   };
+</script>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 </main>
 <footer>
    dna.js
