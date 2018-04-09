@@ -491,7 +491,7 @@ var spec08 = {
    <h3>Specification: #09</h3>
    <p>
       Add 2 items
-      (<span><span id=rest-link class=dna-template>
+      (<span><span id=s09-rest-link class=dna-template>
          <button data-href=~~[value]~~ class=external-site>book <span>~~[count]~~</span></button>
          <span class=dna-separator>and</span>
       </span></span>)
@@ -523,7 +523,7 @@ var spec08 = {
 <script>
 var spec09 = {
    run: function() {
-      dna.clone('rest-link', ['http://dnajs.org/rest/book/1/', 'http://dnajs.org/rest/book/2/']);
+      dna.clone('s09-rest-link', ['http://dnajs.org/rest/book/1/', 'http://dnajs.org/rest/book/2/']);
       dna.rest.get('s09-book', 'http://dnajs.org/rest/book/1/');
       dna.rest.get('s09-book', 'http://dnajs.org/rest/book/2/');
       dna.rest.get('s09-book', 'http://dnajs.org/rest/book/7/');  //verify call to missing resource
@@ -538,7 +538,7 @@ var spec09 = {
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
-         <div id=spec10-book class=dna-template>
+         <div id=s10-book class=dna-template>
             <div>~~title~~</div>
          </div>
       </div>
@@ -570,7 +570,7 @@ var spec10 = {
          };
       var book = { title: 'Background', image: 'url(http://dnajs.org/graphics/dnajs-logo.png)' };
       var options = { fade: true, callback: applyBackgnd, clones: 3 };
-      dna.clone('spec10-book', book, options);
+      dna.clone('s10-book', book, options);
       }
    };
 </script>
@@ -582,7 +582,7 @@ var spec10 = {
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
-         <div id=spec11-book class=dna-template>
+         <div id=s11-book class=dna-template>
             <div>Title:
                <span data-require=~~title~~>~~title~~</span>
                <span data-missing=~~title~~><i>[Gone with the Wind]</i></span>
@@ -623,8 +623,8 @@ var spec11 = {
    run: function() {
       var book1 = { author: 'Jan',        available: 1, onSale: 'true' };
       var book2 = { title: 'Howdy HTML5', available: 0, onSale: [] };
-      dna.clone('spec11-book', book1);
-      dna.clone('spec11-book', book2);
+      dna.clone('s11-book', book1);
+      dna.clone('s11-book', book2);
       }
    };
 </script>
@@ -636,7 +636,7 @@ var spec11 = {
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
-         <div id=spec12-book class=dna-template data-title=~~title~~>
+         <div id=s12-book class=dna-template data-title=~~title~~>
             <div>
                Title: <span>~~title~~</span>
             </div>
@@ -719,18 +719,18 @@ var spec12 = {
       var book1 = { title: 'The DOM' };
       var book2 = { title: 'Howdy HTML5',  authors: authors, chapters: chapters };
       var book3 = { title: 'Styling CSS3', authors: [],      chapters: [] };
-      dna.clone('spec12-book', [book1, book2, book3, book1], { html: false });
-      dna.cloneSub(dna.getClones('spec12-book').first(), 'authors', 'Bo I');
-      dna.cloneSub(dna.getClones('spec12-book').first(), 'authors', 'Bo II');
-      $('.spec12-book').first().toggleClass('border-change', $('.spec12-book').first().data().title === 'The DOM');
-      var elem = $('.spec12-book').first().find('.spec12-book-authors-instance').last();
+      dna.clone('s12-book', [book1, book2, book3, book1], { html: false });
+      dna.cloneSub(dna.getClones('s12-book').first(), 'authors', 'Bo I');
+      dna.cloneSub(dna.getClones('s12-book').first(), 'authors', 'Bo II');
+      $('.s12-book').first().toggleClass('border-change', $('.s12-book').first().data().title === 'The DOM');
+      var elem = $('.s12-book').first().find('.s12-book-authors-instance').last();
       elem.addClass(elem.data().author === 'Bo II' ? 'color-change' : 'color-change2');
-      var clone = dna.refresh($('.spec12-book').last(), { data: book2, html: true });
+      var clone = dna.refresh($('.s12-book').last(), { data: book2, html: true });
       dna.cloneSub(clone, 'chapters', { header: 'Bio', type: 'back' });
       dna.cloneSub(clone, 'chapters', moreChapters);
-      dna.destroy($('.spec12-book').find(':contains(Bio 2)'), { main: false });
+      dna.destroy($('.s12-book').find(':contains(Bio 2)'), { main: false });
       clone.toggleClass('border-change', dna.getModel(clone).chapters.length === 4);
-      $('.spec12-book').find('[data-author=Jake]').addClass('color-change2');
+      $('.s12-book').find('[data-author=Jake]').addClass('color-change2');
       }
    };
 </script>
@@ -742,7 +742,7 @@ var spec12 = {
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
-         <div id=spec13-book class=dna-template>
+         <div id=s13-book class=dna-template>
             Title: <span>~~[value]~~</span>
          </div>
       </div>
@@ -765,9 +765,9 @@ var spec12 = {
 <script>
 var spec13 = {
    run: function() {
-      dna.clone('spec13-book', '<script>alert(1);<\/script>');
-      dna.clone('spec13-book', '<script>alert(2);<\/script>', { html: false });
-      dna.clone('spec13-book', '<script>$(".spec13-book").last().find("span").text(3);<\/script>',
+      dna.clone('s13-book', '<script>alert(1);<\/script>');
+      dna.clone('s13-book', '<script>alert(2);<\/script>', { html: false });
+      dna.clone('s13-book', '<script>$(".s13-book").last().find("span").text(3);<\/script>',
          { html: true });
       }
    };
@@ -780,7 +780,7 @@ var spec13 = {
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
-         <div id=spec14-book class=dna-template>
+         <div id=s14-book class=dna-template>
             <div>
                <button data-click=dna.up>&uarr;</button>
                <button data-click=dna.down>&darr;</button>
@@ -789,8 +789,8 @@ var spec13 = {
             Book #<span>~~[count]~~</span>: <span>~~[value]~~</span>
          </div>
       </div>
-      <div id=spec14-book-placeholder class=dna-template></div>
-      <div data-placeholder=spec14-book-placeholder><i>Placeholder</i></div>
+      <div id=s14-book-placeholder class=dna-template></div>
+      <div data-placeholder=s14-book-placeholder><i>Placeholder</i></div>
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
@@ -827,7 +827,7 @@ var spec13 = {
 var spec14 = {
    run: function() {
       var books = ['The DOM', 'Howdy HTML5', 'Styling CSS3'];
-      dna.clone('spec14-book', books);
+      dna.clone('s14-book', books);
       }
    };
 </script>
@@ -839,7 +839,7 @@ var spec14 = {
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
-         <div id=spec15-book class=dna-template data-callback=spec15.configure>
+         <div id=s15-book class=dna-template data-callback=spec15.configure>
             <div class=surrounded>
                <span class=count>~~[count]~~</span>: <span>~~[value]~~</span>
             </div>
@@ -848,7 +848,7 @@ var spec14 = {
             <button class=3 data-click=spec15.bye>Bye 3</button>
          </div>
       </div>
-      <div data-placeholder=spec15-book>No more clones!</div>
+      <div data-placeholder=s15-book>No more clones!</div>
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
@@ -896,10 +896,10 @@ var spec15 = {
       dna.registerInitializer('css', { selector: '.surrounded', params: ['padding', '10px'] });
       dna.registerInitializer(spec15.surround2);  //apply to each clone
       var titles = ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE'];
-      dna.clone('spec15-book', titles);
-      $('.spec15-book button.2').click(dna.bye);  //add handler
+      dna.clone('s15-book', titles);
+      $('.s15-book button.2').click(dna.bye);  //add handler
       function getClone(count) {
-         return $('.spec15-book .count:contains(' + count + ')').closest('.dna-clone');
+         return $('.s15-book .count:contains(' + count + ')').closest('.dna-clone');
          }
       getClone(1).find('button.1').click();                  //nuke 1st (bye w/data-click)
       getClone(2).find('button.2').click();                  //nuke 2nd (bye w/event handler)
@@ -919,7 +919,7 @@ var spec15 = {
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
-         <div id=spec16-book class=dna-template>
+         <div id=s16-book class=dna-template>
             <p>Title: <input value=~~title~~></p>
             Options:
             <div>
@@ -1109,7 +1109,7 @@ var spec16 = {
          coverColor: '#daa520',
          note:     'Award winning'
          };
-      var clone = dna.clone('spec16-book', book);
+      var clone = dna.clone('s16-book', book);
       var titleElem = clone.find('input:text').first().val('The DOM!').change();  //simulate user edit
       titleElem.toggleClass('border-change', book.title === 'The DOM!');
       if (clone.find('input[value=fast]').prop('checked'))  //expect "Overnight" selected
@@ -1134,7 +1134,7 @@ var spec16 = {
       <div data-component=bookshelf data-on-load=bookshelf.setup data-msg=Hello!>
          <h2 data-click=bookshelf.showMsg>Bookshelf</h2>
          <button>View book data</button>
-         <div id=spec17-book class=dna-template>
+         <div id=s17-book class=dna-template>
             <div>Title: <b>~~title~~</b></div>
             <div>Author: <b>~~author~~</b></div>
          </div>
@@ -1148,7 +1148,7 @@ var spec16 = {
                   component.children('button')
                      .attr({ 'data-href': booksUrl })
                      .addClass('external-site');
-                  function handle(data) { dna.clone('spec17-book', data); }
+                  function handle(data) { dna.clone('s17-book', data); }
                   $.getJSON(booksUrl, handle);
                   }
                };
@@ -1232,11 +1232,11 @@ var spec18 = {
    <p>Panels - nav buttons</p>
    <fieldset>
       <legend>Actual</legend>
-      <nav id=spec19-books class=dna-menu data-callback=spec19.displayPanel>
-         <button id=spec19-book-title class=dna-template>~~title~~</button>
+      <nav id=s19-books class=dna-menu data-callback=spec19.displayPanel>
+         <button id=s19-book-title class=dna-template>~~title~~</button>
       </nav>
-      <div id=spec19-books-panels class=dna-panels>
-         <section id=spec19-book class=dna-template data-transform=spec19.enhance>
+      <div id=s19-books-panels class=dna-panels>
+         <section id=s19-book class=dna-template data-transform=spec19.enhance>
             <h2>~~title~~</h2>
             <p>~~author~~</p>
             <p>~~displayPrice~~</p>
@@ -1271,9 +1271,9 @@ var spec19 = {
       elem.addClass('border-change');
       },
    run: function() {
-      dna.clone('spec19-book-title', specRunner.catalog);
-      dna.clone('spec19-book',       specRunner.catalog);
-      $('#spec19-books .menu-item:contains(Styling CSS3)').click();
+      dna.clone('s19-book-title', specRunner.catalog);
+      dna.clone('s19-book',       specRunner.catalog);
+      $('#s19-books .menu-item:contains(Styling CSS3)').click();
       }
    };
 </script>
@@ -1284,7 +1284,7 @@ var spec19 = {
    <p>Panels - nested</p>
    <fieldset>
       <legend>Actual</legend>
-      <ul id=spec20-category class=dna-menu>
+      <ul id=s20-category class=dna-menu>
          <li><div>Web</div>
             <ul>
                <li><div>Technologies</div>
@@ -1307,7 +1307,7 @@ var spec19 = {
             </ol>
          </li>
       </ul>
-      <div id=spec20-category-panels class=dna-panels>
+      <div id=s20-category-panels class=dna-panels>
          <p>HTML!</p>
          <p>CSS!</p>
          <p>W3C!</p>
@@ -1348,7 +1348,7 @@ var spec19 = {
 <script>
 var spec20 = {
    run: function() {
-      function postRenderClick() { $('#spec20-category .menu-item:contains(W3C)').click(); }
+      function postRenderClick() { $('#s20-category .menu-item:contains(W3C)').click(); }
       window.setTimeout(postRenderClick, 1000);
       }
    };
@@ -1360,12 +1360,12 @@ var spec20 = {
    <p>Panels - drop-down</p>
    <fieldset>
       <legend>Actual</legend>
-      <select id=spec21-author-info class=dna-menu>
-         <option id=spec21-book-author-nav-button class=dna-template
+      <select id=s21-author-info class=dna-menu>
+         <option id=s21-book-author-nav-button class=dna-template
             value=~~author~~>~~author~~</option>
       </select>
-      <div id=spec21-author-info-panels class=dna-panels>
-         <section id=spec21-book-author class=dna-template>
+      <div id=s21-author-info-panels class=dna-panels>
+         <section id=s21-book-author class=dna-template>
             <p>Author:   <b>~~author~~</b></p>
             <p>Language: <b>~~language~~</b></p>
          </section>
@@ -1389,9 +1389,9 @@ var spec20 = {
 <script>
 var spec21 = {
    run: function() {
-      dna.clone('spec21-book-author-nav-button', specRunner.catalog);
-      dna.clone('spec21-book-author',            specRunner.catalog);
-      $('#spec21-author-info ').val('Abby').change();
+      dna.clone('s21-book-author-nav-button', specRunner.catalog);
+      dna.clone('s21-book-author',            specRunner.catalog);
+      $('#s21-author-info ').val('Abby').change();
       }
    };
 </script>
