@@ -46,7 +46,8 @@ describe('Array utility function dna.array.find()', () => {
 describe('Array utility function dna.array.last()', () => {
 
    it('returns last object in array', () => {
-      const actual =   dna.array.last([3, 21, 7]);
+      const array =    [3, 21, 7];
+      const actual =   dna.array.last(array);
       const expected = 7;
       assert.strictEqual(actual, expected);
       });
@@ -88,7 +89,7 @@ describe('Array utility function dna.array.toMap()', () => {
          { code: 'b-z', word: 'Bat' },
          { code: 'J30X-W77', price: 34.99 }
          ];
-      const actual =   dna.array.toMap(array);
+      const actual = dna.array.toMap(array);
       const expected = {
          'a':        { code: 'a',        word: 'Ant' },
          'b-z':      { code: 'b-z',      word: 'Bat' },
@@ -103,7 +104,7 @@ describe('Array utility function dna.array.toMap()', () => {
          { code: 'b-z', word: 'Bat' },
          { code: 'J30X-W77', price: 34.99 }
          ];
-      const actual =   dna.array.toMap(array, { key: 'code', camelKeys: true });
+      const actual = dna.array.toMap(array, { key: 'code', camelKeys: true });
       const expected = {
          a:       { code: 'a',        word: 'Ant' },
          bZ:      { code: 'b-z',      word: 'Bat' },
@@ -117,7 +118,7 @@ describe('Array utility function dna.array.toMap()', () => {
          { code: 'a',   word: 'Ant' },
          { code: 'b-z', word: 'Bat' }
          ];
-      const actual =   dna.array.toMap(array, { key: 'word' });
+      const actual = dna.array.toMap(array, { key: 'word' });
       const expected = {
          Ant: { code: 'a',   word: 'Ant' },
          Bat: { code: 'b-z', word: 'Bat' }

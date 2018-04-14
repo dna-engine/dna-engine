@@ -56,6 +56,7 @@ releaseInstructions() {
       fi
    echo "   cd $(pwd)"
    echo "   git tag --annotate --force --message 'Stable release' $versionRemote"
+   echo "   git tag --annotate --force --message 'Current release' current"
    echo "   git remote --verbose"
    echo "   git push origin --tags --force"
    echo "   git tag | tail -10"
