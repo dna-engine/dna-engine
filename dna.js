@@ -48,7 +48,9 @@ var dna = {
       while (settings.clones--)
          list = list.concat(data);
       var clones = $();
-      function addClone(i, d) { clones = clones.add(dna.core.replicate(template, d, i, settings)); }
+      function addClone(index, data) {
+         clones = clones.add(dna.core.replicate(template, data, index, settings));
+         }
       $.each(list, addClone);
       dna.placeholder.setup();  //TODO: optimize
       var first = clones.first();
@@ -139,7 +141,7 @@ var dna = {
       },
    getClones: function(name) {
       // Returns an array of all the existing clones for the given template.
-      return dna.store.getTemplate(name).container.children().filter('.dna-clone');
+      return dna.store.getTemplate(name).container.children('.dna-clone.' + name);
       },
    getCloneOnce: function(name) {
       // ...
@@ -149,7 +151,7 @@ var dna = {
    getIndex: function(elem, options) {
       // Returns the index of the clone.
       var clone = dna.getClone(elem, options);
-      return clone.parent().children('.dna-clone').index(clone);
+      return clone.parent().children('.dna-clone.' + clone.data().dnaRules.template).index(clone);
       },
    up: function(elemOrEventOrIndex) {
       // Smoothly moves a clone up one slot effectively swapping its position with the previous
@@ -722,15 +724,27 @@ dna.store = {
       function move(i, elem) {
          elem = $(elem);
          var name = elem.data().dnaRules.template;
+         var container = elem.parent();
+         var wrapped = container.children().length === 1 && !container.hasClass('dna-container');
+         function compileSiblings() {
+            container.data().dnaContents = true;
+            function templateName(elem) {
+               elem = $(elem);
+               function compileToName(id) { return id ? dna.compile.template(id).name : name; }
+               return elem.hasClass('dna-template') ? compileToName(elem.attr('id')) :
+                  elem.hasClass('dna-sub-clone') ? elem.data().dnaRules.template : false;
+               }
+            container.data().dnaContents = container.children().toArray().map(templateName);
+            }
+         if (!wrapped && !container.data().dnaContents)
+            compileSiblings();
          var template = {
             name:       name,
             elem:       elem,
-            container:  elem.parent().addClass('dna-container').addClass('dna-contains-' + name),
-            nested:     elem.parent().closest('.dna-clone').length !== 0,
+            container:  container.addClass('dna-container').addClass('dna-contains-' + name),
+            nested:     container.closest('.dna-clone').length !== 0,
             separators: elem.find('.dna-separator, .dna-last-separator').length,
-            index:      elem.index(),
-            elemsAbove: elem.index() > 0,
-            elemsBelow: elem.nextAll().length > 0,
+            wrapped:    wrapped,
             clones:     0
             };
          dna.store.templates[name] = template;
@@ -984,15 +998,35 @@ dna.core = {
       var selector =  '.dna-contains-' + template.name.replace(/[.]/g, '\\.');
       var container = settings.container ?
          settings.container.find(selector).addBack(selector) : template.container;
-      if (settings.top && !template.elemsAbove)
-         container.prepend(clone);
-      else if (!settings.top && !template.elemsBelow)
-         container.append(clone);
+      function intoUnwrapped() {
+         function firstClone() {
+            var contents = container.data().dnaContents;
+            var i = contents.indexOf(template.name);
+            function adjustment(count, name) {
+               return count +
+                  (name && contents.indexOf(name) < i ? allClones.filter('.' + name).length - 1 : 0);
+               }
+            var target = container.children().eq(i + contents.reduce(adjustment, 0));
+            if (target.length)
+               target.before(clone);
+            else
+               container.append(clone);
+            }
+         var allClones = container.children('.dna-clone');
+         var sameClones = allClones.filter('.' + template.name);
+         if (!sameClones.length)
+            firstClone();
+         else if (settings.top)
+            sameClones.first().before(clone);
+         else
+            sameClones.last().after(clone);
+         }
+      if (!template.wrapped)
+         intoUnwrapped();
       else if (settings.top)
-         container.children().eq(template.index - 1).after(clone);
+         container.prepend(clone);
       else
-         container.children().eq(template.index +
-            container.children().filter('.dna-clone').length).before(clone);
+         container.append(clone);
       if (template.separators)
          displaySeparators();
       dna.events.runInitializers(clone, data);

@@ -1436,15 +1436,15 @@ var spec21 = {
 <script>
 var spec22 = {
    run: function() {
-      function sumPrice(accumulator, obj) { return accumulator + obj.price; }
-      function addTitleWords(accumulator, obj) { return accumulator.concat(obj.title.split(' ')); }
-      function addAuthorNames(accumulator, obj) { return accumulator.concat(obj.author.split(' ')); }
+      function sumPrice(sum, book) { return sum + book.price; }
+      function addTitleWords(words, book) { return words.concat(book.title.split(' ')); }
+      function addAuthorNames(names, book) { return names.concat(book.author.split(' ')); }
       const summary = {
          numBooks:   specRunner.catalog.length,
-         totalPrice: specRunner.catalog.reduce(sumPrice, 0)/100
+         totalPrice: specRunner.catalog.reduce(sumPrice, 0) / 100
          };
       const analytics = {
-         titleWords:  specRunner.catalog.reduce(addTitleWords, []).sort(),
+         titleWords:  specRunner.catalog.reduce(addTitleWords,  []).sort(),
          authorNames: specRunner.catalog.reduce(addAuthorNames, []).sort()
          }
       dna.insert('s22-summary',   summary);
