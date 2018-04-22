@@ -1,4 +1,4 @@
-// dna.js v1.3.8 ~~ dnajs.org ~~ MIT
+// dna.js v1.3.9 ~~ dnajs.org ~~ MIT
 // Copyright (c) 2013-2018 individual contributors to dna.js
 
 var dna = {
@@ -193,7 +193,7 @@ var dna = {
       var names = Object.keys(dna.store.templates);
       function addToSum(sum, name) { return sum + dna.store.templates[name].clones; }
       return {
-         version:      '1.3.8',
+         version:      '1.3.9',
          templates:    names.length,
          clones:       names.reduce(addToSum, 0),
          names:        names,
@@ -582,8 +582,8 @@ dna.compile = {
    // data-option=~~field~~                      option='field'
    // data-require=~~field~~                     require='field'
    // data-missing=~~field~~                     missing='field'
-   // data-truthy=~~field~~                      truthy='field'
-   // data-falsey=~~field~~                      falsey='field'
+   // data-true=~~field~~                        true='field'
+   // data-false=~~field~~                       false='field'
    // data-transform=func                        transform='func'
    // data-callback=func                         callback='func'
    //
@@ -699,13 +699,19 @@ dna.compile = {
       function saveName(i, elem) { $(elem).data().dnaRules = { template: $(elem).attr('id') }; }
       elem.find('.dna-template').addBack().each(saveName).removeAttr('id');
       var elems = elem.find('*').addBack();
+      function backwardsCompatibleThimblerig(deprecated, type) {
+         function moveDataAttr(i, elem) { $(elem).attr('data-' + type, $(elem).data(deprecated)); }
+         elems.filter('[data-' + deprecated + ']').each(moveDataAttr).removeAttr('data-' + deprecated);
+         }
+      backwardsCompatibleThimblerig('truthy', 'true');
+      backwardsCompatibleThimblerig('falsey', 'false');
       elems.filter(dna.compile.isDnaField).each(dna.compile.field);
       dna.compile.rules(elems, 'array').addClass('dna-sub-clone');
       dna.compile.rules(elems, 'class', true);
       dna.compile.rules(elems, 'require');
       dna.compile.rules(elems, 'missing');
-      dna.compile.rules(elems, 'truthy');
-      dna.compile.rules(elems, 'falsey');
+      dna.compile.rules(elems, 'true');
+      dna.compile.rules(elems, 'false');
       dna.compile.rules(elems.filter('select'), 'option').addClass('dna-update-model');
       elems.each(dna.compile.propsAndAttrs);
       dna.compile.separators(elem);
@@ -963,10 +969,10 @@ dna.core = {
             elem.toggle(dna.util.value(data, dnaRules.require) !== undefined);
          if (dnaRules.missing)
             elem.toggle(dna.util.value(data, dnaRules.missing) === undefined);
-         if (dnaRules.truthy)
-            elem.toggle(dna.util.realTruth(dna.util.value(data, dnaRules.truthy)));
-         if (dnaRules.falsey)
-            elem.toggle(!dna.util.realTruth(dna.util.value(data, dnaRules.falsey)));
+         if (dnaRules.true)
+            elem.toggle(dna.util.realTruth(dna.util.value(data, dnaRules.true)));
+         if (dnaRules.false)
+            elem.toggle(!dna.util.realTruth(dna.util.value(data, dnaRules.false)));
          if (dnaRules.loop)
             processLoop(elem, dnaRules.loop);
          if (dnaRules.option)
