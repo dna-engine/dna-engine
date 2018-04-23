@@ -15,7 +15,6 @@ var dna = {
    //    dna.destroy()
    //    dna.getClone()
    //    dna.getClones()
-   //    dna.getCloneOnce()
    //    dna.getIndex()
    //    dna.up()
    //    dna.down()
@@ -106,9 +105,10 @@ var dna = {
       return settings.fade ? dna.ui.slideFadeDelete(clones) : dna.core.remove(clones);
       },
    insert: function(name, data, options) {
-      // ...
-      var settings = $.extend({ data: data }, options);
-      return dna.refresh(dna.getCloneOnce(name), settings);
+      // Updates the first clone if it already exists otherwise creates the first clone.
+      var clone = dna.getClones(name).first();
+      return clone.length ? dna.refresh(clone, { data: data, html: options && options.html }) :
+         dna.clone(name, data, options);
       },
    refresh: function(clone, options) {
       // Updates an existing clone to reflect changes to the data model.
@@ -142,11 +142,6 @@ var dna = {
    getClones: function(name) {
       // Returns an array of all the existing clones for the given template.
       return dna.store.getTemplate(name).container.children('.dna-clone.' + name);
-      },
-   getCloneOnce: function(name) {
-      // ...
-      var clones = dna.getClones(name);
-      return clones.length ? clones.first() : dna.clone(name, {});
       },
    getIndex: function(elem, options) {
       // Returns the index of the clone.

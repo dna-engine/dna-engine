@@ -1448,6 +1448,7 @@ var spec22 = {
          authorNames: specRunner.catalog.reduce(addAuthorNames, []).sort()
          }
       dna.insert('s22-summary',   summary);
+      dna.insert('s22-analytics', { titleWords: ['bogus'], authorNames: ['also bogus'] });
       dna.insert('s22-analytics', analytics);
       }
    };
