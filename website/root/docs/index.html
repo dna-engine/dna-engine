@@ -20,7 +20,8 @@
          <h4>Contents:</h4>
          <ol>
             <li><a href=#system>Terminology and Browser Support</a></li>
-            <li><a href=#setup>Setup JS and CSS Assets</a>
+            <li>
+               <a href=#setup>Setup JS and CSS Assets</a>
                <ol>
                   <li><a href=#setup-cdn>CDN</a></li>
                   <li><a href=#setup-npm>Install with npm</a></li>
@@ -28,7 +29,8 @@
                   <li><a href=#setup-rails>Rails Assets</a></li>
                </ol>
             </li>
-            <li><a href=#html>HTML &mdash; Classes, Fields, Attributes, and Properties</a>
+            <li>
+               <a href=#html>HTML &mdash; Classes, Fields, Attributes, and Properties</a>
                <ol>
                   <li><a href=#html-template>Template</a></li>
                   <li><a href=#html-field>Data Field</a></li>
@@ -40,13 +42,19 @@
                   <li><a href=#html-attr-data>Element Attribute (advanced)</a></li>
                </ol>
             </li>
-            <li><a href=#api>JavaScript API</a>
+            <li>
+               <a href=#api>JavaScript API (Essential)</a>
                <ol>
                   <li><a href=#api-clone>dna.clone()</a></li>
                   <li><a href=#api-get-clone>dna.getClone()</a></li>
                   <li><a href=#api-get-model>dna.getModel()</a></li>
                   <li><a href=#api-refresh>dna.refresh()</a></li>
                   <li><a href=#api-insert>dna.insert()</a></li>
+               </ol>
+            </li>
+            <li>
+               <a href=#api-extra>JavaScript API (Extra/Advanced)</a>
+               <ol>
                   <li><a href=#api-clone-sub>dna.cloneSub()</a></li>
                   <li><a href=#api-create>dna.createTemplate()</a></li>
                   <li><a href=#api-rest>dna.rest.get()</a></li>
@@ -64,7 +72,8 @@
                   <li><a href=#api-info>dna.info()</a></li>
                </ol>
             </li>
-            <li><a href=#loop>Looping</a>
+            <li>
+               <a href=#loop>Looping</a>
                <ol>
                   <li><a href=#loop-templates>Template Array Loops</a></li>
                   <li><a href=#loop-sub-templates>Sub-template Array Loops</a></li>
@@ -72,7 +81,8 @@
                   <li><a href=#loop-separators>Separators</a></li>
                </ol>
             </li>
-            <li><a href=#event>Events, Callbacks, and Forms</a>
+            <li>
+               <a href=#event>Events, Callbacks, and Forms</a>
                <ol>
                   <li><a href=#event-transform>Data Model Transformer</a></li>
                   <li><a href=#event-element-callback>Element Callback</a></li>
@@ -86,7 +96,8 @@
                   <li><a href=#event-on-load>On Load Functions</a></li>
                </ol>
             </li>
-            <li><a href=#structure>Structures and Conditional Logic</a>
+            <li>
+               <a href=#structure>Structures and Conditional Logic</a>
                <ol>
                   <li><a href=#structure-nested-object>Object Dot Notation (nested objects)</a></li>
                   <li><a href=#structure-placeholder>Template Placeholder</a></li>
@@ -103,7 +114,8 @@
                </ol>
                -->
             </li>
-            <li><a href=#panels>Panels (UI Tabs)</a>
+            <li>
+               <a href=#panels>Panels (UI Tabs)</a>
                <ol>
                   <li><a href=#panels-example>Example</a></li>
                   <li><a href=#panels-template>Template-Driven Panels</a></li>
@@ -112,7 +124,8 @@
                </ol>
             </li>
             <li><a href=#utils>Utilities</a></li>
-            <li><a href=#index>Index</a>
+            <li>
+               <a href=#index>Index</a>
                <ol>
                   <li><a href=#index-classes>Classes</a></li>
                   <li><a href=#index-attributes>Attributes</a></li>
@@ -582,7 +595,7 @@
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <div>
-      <h3 id=api>JavaScript API</h3>
+      <h3 id=api>JavaScript API (Essential)</h3>
       <h5>API Overview</h5>
       <ol>
          <li><b>dna.clone</b>(name, data, options)</li>
@@ -590,32 +603,7 @@
          <li><b>dna.getModel</b>(nameOrClone)</li>
          <li><b>dna.refresh</b>(clone, options)</li>
          <li><b>dna.insert</b>(name, data, options)</li>
-         <li><b>dna.cloneSub</b>(holderClone, arrayField, data, options)</li>
-         <li><b>dna.rest.get</b>(name, url, options)</li>
-         <li><b>dna.empty</b>(name, options)</li>
-         <li><b>dna.refreshAll</b>(name)</li>
-         <li><b>dna.destroy</b>(clone, options)</li>
-         <li><b>dna.getClones</b>(name)</li>
-         <li><b>dna.getIndex</b>(elem, options)</li>
-         <li><b>dna.up</b>(elemOrEventOrIndex)</li>
-         <li><b>dna.down</b>(elemOrEventOrIndex)</li>
-         <li><b>dna.bye</b>(elemOrEventOrIndex)</li>
-         <li><b>dna.registerInitializer</b>(callback, options)</li>
-         <li><b>dna.clearInitializers</b>()</li>
-         <li><b>dna.registerContext</b>(contextName, contextObjectOrFunction)</li>
-         <li><b>dna.info</b>()</li>
       </ol>
-      <p>
-         The essential, most commonly used dna.js functions are:<br>
-         <code>dna.clone()</code>,
-         <code>dna.getClone()</code>,
-         <code>dna.getModel()</code>,
-         <code>dna.refresh()</code>, and
-         <code>dna.insert()</code>.
-      </p>
-      <p>
-         The other functions are generally only needed for more advanced features.
-      </p>
    </div>
 
    <!-- dna.clone() -->
@@ -807,6 +795,28 @@
          </code></pre>
       </figure>
    </section>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <div>
+      <h3 id=api-extra>JavaScript API (Extra/Advanced)</h3>
+      <h5>API Overview</h5>
+      <ol>
+         <li><b>dna.cloneSub</b>(holderClone, arrayField, data, options)</li>
+         <li><b>dna.rest.get</b>(name, url, options)</li>
+         <li><b>dna.empty</b>(name, options)</li>
+         <li><b>dna.refreshAll</b>(name)</li>
+         <li><b>dna.destroy</b>(clone, options)</li>
+         <li><b>dna.getClones</b>(name)</li>
+         <li><b>dna.getIndex</b>(elem, options)</li>
+         <li><b>dna.up</b>(elemOrEventOrIndex)</li>
+         <li><b>dna.down</b>(elemOrEventOrIndex)</li>
+         <li><b>dna.bye</b>(elemOrEventOrIndex)</li>
+         <li><b>dna.registerInitializer</b>(callback, options)</li>
+         <li><b>dna.clearInitializers</b>()</li>
+         <li><b>dna.registerContext</b>(contextName, contextObjectOrFunction)</li>
+         <li><b>dna.info</b>()</li>
+      </ol>
+   </div>
 
    <!-- dna.cloneSub() -->
    <section id=api-clone-sub>
