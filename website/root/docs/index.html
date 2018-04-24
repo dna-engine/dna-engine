@@ -43,15 +43,16 @@
             <li><a href=#api>JavaScript API</a>
                <ol>
                   <li><a href=#api-clone>dna.clone()</a></li>
+                  <li><a href=#api-get-clone>dna.getClone()</a></li>
+                  <li><a href=#api-get-model>dna.getModel()</a></li>
+                  <li><a href=#api-refresh>dna.refresh()</a></li>
+                  <li><a href=#api-insert>dna.insert()</a></li>
                   <li><a href=#api-clone-sub>dna.cloneSub()</a></li>
                   <li><a href=#api-create>dna.createTemplate()</a></li>
                   <li><a href=#api-rest>dna.rest.get()</a></li>
-                  <li><a href=#api-get-model>dna.getModel()</a></li>
                   <li><a href=#api-empty>dna.empty()</a></li>
-                  <li><a href=#api-refresh>dna.refresh()</a></li>
                   <li><a href=#api-refresh-all>dna.refreshAll()</a></li>
                   <li><a href=#api-destroy>dna.destroy()</a></li>
-                  <li><a href=#api-get-clone>dna.getClone()</a></li>
                   <li><a href=#api-get-clones>dna.getClones()</a></li>
                   <li><a href=#api-get-index>dna.getIndex()</a></li>
                   <li><a href=#api-up>dna.up()</a></li>
@@ -203,7 +204,7 @@
       <figure>
          <figcaption>Load JavaScript libraries</figcaption>
          <pre><code class=language-html>
-            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js&gt;&lt;/script&gt;
             &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@1.3/dna.min.js&gt;&lt;/script&gt;
          </code></pre>
       </figure>
@@ -307,9 +308,27 @@
       <figure>
          <figcaption>Example HTML</figcaption>
          <pre><code class=language-html>
-            &lt;div id=book class=dna-template&gt;
+            &lt;p id=book class=dna-template&gt;
          </code></pre>
       </figure>
+      <p>
+         Best pracitce is to wrap each template in a container element.
+      </p>
+      <figure>
+         <figcaption>Example HTML for a wrapped template</figcaption>
+         <pre><code class=language-html>
+            &lt;h1&gt;List of Books&lt;/h1&gt;
+            &lt;section class=books&gt;
+               &lt;div id=book class=dna-template&gt;
+                  &lt;h2&gt;~~title~~&lt;/h2&gt;
+               &lt;/div&gt;
+            &lt;/section&gt;
+         </code></pre>
+      </figure>
+      <p>
+         Wrapping templates improves performance and is more semantic because multiple
+         clones (plural) are closely related and belong in a group (singular).
+      </p>
    </section>
 
    <section id=html-field>
@@ -567,14 +586,15 @@
       <h5>API Overview</h5>
       <ol>
          <li><b>dna.clone</b>(name, data, options)</li>
+         <li><b>dna.getClone</b>(elem, options)</li>
+         <li><b>dna.getModel</b>(nameOrClone)</li>
+         <li><b>dna.refresh</b>(clone, options)</li>
+         <li><b>dna.insert</b>(name, data, options)</li>
          <li><b>dna.cloneSub</b>(holderClone, arrayField, data, options)</li>
          <li><b>dna.rest.get</b>(name, url, options)</li>
-         <li><b>dna.getModel</b>(nameOrClone)</li>
          <li><b>dna.empty</b>(name, options)</li>
-         <li><b>dna.refresh</b>(clone, options)</li>
          <li><b>dna.refreshAll</b>(name)</li>
          <li><b>dna.destroy</b>(clone, options)</li>
-         <li><b>dna.getClone</b>(elem, options)</li>
          <li><b>dna.getClones</b>(name)</li>
          <li><b>dna.getIndex</b>(elem, options)</li>
          <li><b>dna.up</b>(elemOrEventOrIndex)</li>
@@ -585,6 +605,17 @@
          <li><b>dna.registerContext</b>(contextName, contextObjectOrFunction)</li>
          <li><b>dna.info</b>()</li>
       </ol>
+      <p>
+         The essential, most commonly used dna.js functions are:<br>
+         <code>dna.clone()</code>,
+         <code>dna.getClone()</code>,
+         <code>dna.getModel()</code>,
+         <code>dna.refresh()</code>, and
+         <code>dna.insert()</code>.
+      </p>
+      <p>
+         The other functions are generally only needed for more advanced features.
+      </p>
    </div>
 
    <!-- dna.clone() -->
@@ -608,6 +639,161 @@
                   @@include('website/templates/options/html.html')
                   @@include('website/templates/options/empty.html')
                   @@include('website/templates/options/holder.html')
+                  @@include('website/templates/options/transform.html')
+                  @@include('website/templates/options/callback.html')
+               </ul>
+            </li>
+         </ul>
+      </div>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            dna.clone('book', { title: 'The DOM', author: 'Bo' });
+         </code></pre>
+      </figure>
+   </section>
+
+   <!-- dna.getClone() -->
+   <section id=api-get-clone>
+      <h4>dna.getClone(elem[, options])</h4>
+      <p class=api-description>
+         Returns the clone (or <a href=#loop-sub-templates>sub-clone</a>) for the
+         specified element.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/elem.html')
+            <li>
+               <label><b>options</b> (Object) <i>[optional]</i>:</label>
+               <ul>
+                  @@include('website/templates/options/main.html')
+               </ul>
+            </li>
+         </ul>
+      </div>
+      <figure>
+         <figcaption>Example</figcaption>
+         <pre><code class=language-html>
+            &lt;div id=book class=dna-template&gt;
+               &lt;p&gt;~~title~~&lt;/p&gt;
+               &lt;button data-click=setFavorite&gt;I Like&lt;/button&gt;
+            &lt;/div&gt;
+            &lt;script&gt;
+               function setFavorite(buttonElem) {
+                  dna.getClone(buttonElem).addClass('favorite');
+                  }
+               dna.clone('book', { title: 'Go JavaScript!' });
+            &lt;/script&gt;
+         </code></pre>
+      </figure>
+      <!-- Start: Result -->
+      <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
+      <figure>
+         <figcaption>Resulting HTML (before clicking button)</figcaption>
+         <pre><code class=language-html>
+            &lt;div class=book&gt;
+               &lt;p&gt;Go JavaScript!&lt;/p&gt;
+               &lt;button&gt;I Like&lt;/button&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
+      <figure>
+         <figcaption>Resulting HTML (after clicking button)</figcaption>
+         <pre><code class=language-html>
+            &lt;div class="book favorite"&gt;
+               &lt;p&gt;Go JavaScript!&lt;/p&gt;
+               &lt;button&gt;I Like&lt;/button&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <!-- End: Result -->
+   </section>
+
+   <!-- dna.getModel() -->
+   <section id=api-get-model>
+      <h4>dna.getModel(clone)</h4>
+      <p class=api-description>
+         Returns the underlying data of the clone.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/clone.html')
+            <li>
+               <label><b>options</b> (Object) <i>[optional]</i>:</label>
+               <ul>
+                  @@include('website/templates/options/main.html')
+               </ul>
+            </li>
+         </ul>
+      </div>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            var book = { title: 'The DOM', author: 'Bo' };
+            var clone = dna.clone('book', book);
+            dna.getModel(clone).title = 'The DOM II';
+            dna.refresh(clone);  //updates ui (DOM element) with new title
+         </code></pre>
+      </figure>
+   </section>
+
+   <!-- dna.refresh() -->
+   <section id=api-refresh>
+      <h4>dna.refresh(clone[, options])</h4>
+      <p class=api-description>
+         Updates an existing clone to reflect changes to the data model.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/clone.html')
+            <li>
+               <label><b>options</b> (Object) <i>[optional]</i>:</label>
+               <ul>
+                  @@include('website/templates/options/data.html')
+                  @@include('website/templates/options/main.html')
+                  @@include('website/templates/options/html.html')
+               </ul>
+            </li>
+         </ul>
+      </div>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            var book = { title: 'The DOM', author: 'Bo' };
+            var clone = dna.clone('book', book);
+            dna.getModel(clone).title = 'The DOM II';
+            dna.refresh(clone);  //updates ui (DOM element) with new title
+         </code></pre>
+      </figure>
+   </section>
+
+   <!-- dna.insert() -->
+   <section id=api-insert>
+      <h4>dna.insert(name, data [, options])</h4>
+      <p class=api-description>
+         For the specified template, updates the first clone if it already exists otherwise
+         creates the first clone.
+      </p>
+      <p>
+         In cases where only a single clone is needed to provide simple templating for fields that
+         appear just once on a web page, call
+         <code>dna.insert()</code>.&nbsp;
+         Unlike <code>dna.clone()</code>, this function will only create a new clone if needed.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/name.html')
+            @@include('website/templates/params/data.html')
+            <li>
+               <label><b>options</b> (Object) <i>[optional]</i>:</label>
+               <ul>
+                  @@include('website/templates/options/fade.html')
+                  @@include('website/templates/options/html.html')
                   @@include('website/templates/options/transform.html')
                   @@include('website/templates/options/callback.html')
                </ul>
@@ -742,35 +928,6 @@
       </p>
    </section>
 
-   <!-- dna.getModel() -->
-   <section id=api-get-model>
-      <h4>dna.getModel(clone)</h4>
-      <p class=api-description>
-         Returns the underlying data of the clone.
-      </p>
-      <div class=api-parameters>
-         Parameters:
-         <ul>
-            @@include('website/templates/params/clone.html')
-            <li>
-               <label><b>options</b> (Object) <i>[optional]</i>:</label>
-               <ul>
-                  @@include('website/templates/options/main.html')
-               </ul>
-            </li>
-         </ul>
-      </div>
-      <figure>
-         <figcaption>Example JavaScript</figcaption>
-         <pre><code class=language-javascript>
-            var book = { title: 'The DOM', author: 'Bo' };
-            var clone = dna.clone('book', book);
-            dna.getModel(clone).title = 'The DOM II';
-            dna.refresh(clone);  //updates ui (DOM element) with new title
-         </code></pre>
-      </figure>
-   </section>
-
    <!-- dna.empty() -->
    <section id=api-empty>
       <h4>dna.empty(name[, options])</h4>
@@ -799,37 +956,6 @@
          The <code>dna.empty()</code> method does not delete sub-clones
          generated from nested templates.
       </p>
-   </section>
-
-   <!-- dna.refresh() -->
-   <section id=api-refresh>
-      <h4>dna.refresh(clone[, options])</h4>
-      <p class=api-description>
-         Updates an existing clone to reflect changes to the data model.
-      </p>
-      <div class=api-parameters>
-         Parameters:
-         <ul>
-            @@include('website/templates/params/clone.html')
-            <li>
-               <label><b>options</b> (Object) <i>[optional]</i>:</label>
-               <ul>
-                  @@include('website/templates/options/data.html')
-                  @@include('website/templates/options/main.html')
-                  @@include('website/templates/options/html.html')
-               </ul>
-            </li>
-         </ul>
-      </div>
-      <figure>
-         <figcaption>Example JavaScript</figcaption>
-         <pre><code class=language-javascript>
-            var book = { title: 'The DOM', author: 'Bo' };
-            var clone = dna.clone('book', book);
-            dna.getModel(clone).title = 'The DOM II';
-            dna.refresh(clone);  //updates ui (DOM element) with new title
-         </code></pre>
-      </figure>
    </section>
 
    <!-- dna.refreshAll() -->
@@ -887,64 +1013,6 @@
          If the only option being set is <code>fade</code> to <code>true</code>, it is simpler to user
          the <code><a href=#api-bye>dna.bye()</a></code> convenience method.
       </p>
-   </section>
-
-   <!-- dna.getClone() -->
-   <section id=api-get-clone>
-      <h4>dna.getClone(elem[, options])</h4>
-      <p class=api-description>
-         Returns the clone (or <a href=#loop-sub-templates>sub-clone</a>) for the
-         specified element.
-      </p>
-      <div class=api-parameters>
-         Parameters:
-         <ul>
-            @@include('website/templates/params/elem.html')
-            <li>
-               <label><b>options</b> (Object) <i>[optional]</i>:</label>
-               <ul>
-                  @@include('website/templates/options/main.html')
-               </ul>
-            </li>
-         </ul>
-      </div>
-      <figure>
-         <figcaption>Example</figcaption>
-         <pre><code class=language-html>
-            &lt;div id=book class=dna-template&gt;
-               &lt;p&gt;~~title~~&lt;/p&gt;
-               &lt;button data-click=setFavorite&gt;I Like&lt;/button&gt;
-            &lt;/div&gt;
-            &lt;script&gt;
-               function setFavorite(buttonElem) {
-                  dna.getClone(buttonElem).addClass('favorite');
-                  }
-               dna.clone('book', { title: 'Go JavaScript!' });
-            &lt;/script&gt;
-         </code></pre>
-      </figure>
-      <!-- Start: Result -->
-      <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
-      <figure>
-         <figcaption>Resulting HTML (before clicking button)</figcaption>
-         <pre><code class=language-html>
-            &lt;div class=book&gt;
-               &lt;p&gt;Go JavaScript!&lt;/p&gt;
-               &lt;button&gt;I Like&lt;/button&gt;
-            &lt;/div&gt;
-         </code></pre>
-      </figure>
-      <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
-      <figure>
-         <figcaption>Resulting HTML (after clicking button)</figcaption>
-         <pre><code class=language-html>
-            &lt;div class="book favorite"&gt;
-               &lt;p&gt;Go JavaScript!&lt;/p&gt;
-               &lt;button&gt;I Like&lt;/button&gt;
-            &lt;/div&gt;
-         </code></pre>
-      </figure>
-      <!-- End: Result -->
    </section>
 
    <!-- dna.getClones() -->
@@ -1546,6 +1614,13 @@
             jsfiddle.net/@@jsFiddle.dataClick
          </button>
       </p>
+      <p>
+         See how events can be used with <code>FileReader()</code> to make a resuable photo upload
+         component:
+         <button data-href=http://jsfiddle.net/@@jsFiddle.photoUpload class=external-site>
+            jsfiddle.net/@@jsFiddle.photoUpload
+         </button>
+      </p>
    </section>
 
    <section id=event-smart>
@@ -2033,8 +2108,8 @@
          <tbody>
             <tr><td><code>data-require</code></td><td>Data Field</td><td>Show element only if specified field has a value</td></tr>
             <tr><td><code>data-missing</code></td><td>Data Field</td><td>Show element only if specified field has no value</td></tr>
-            <tr><td><code>data-truthy</code></td><td>Data Field</td><td>Show element only if specified field means true*</td></tr>
-            <tr><td><code>data-falsey</code></td><td>Data Field</td><td>Show element only if specified field means false*</td></tr>
+            <tr><td><code>data-truth</code></td><td>Data Field</td><td>Show element only if specified field means true*</td></tr>
+            <tr><td><code>data-false</code></td><td>Data Field</td><td>Show element only if specified field means false*</td></tr>
          </tbody>
       </table>
       <figure>
@@ -2147,7 +2222,6 @@
          In most cases, a simple <a href=#loop-sub-templates>sub-template array loop</a>
          is the better solution.
       </p>
-
    </section>
 
    <section id=structure-hide>
@@ -2176,7 +2250,6 @@
       <p>
          Also see: <a href=#structure-placeholder><code>data-placeholder</code></a>
       </p>
-
    </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -2283,6 +2356,17 @@
       </figure>
    </section>
    -->
+
+   <section id=photo-upload-component>
+      <h4>Example Photo Upload Component</h4>
+      <p>
+         See how events can be used with <code>FileReader()</code> to make a resuable photo upload
+         component:
+         <button data-href=http://jsfiddle.net/@@jsFiddle.photoUpload class=external-site>
+            jsfiddle.net/@@jsFiddle.photoUpload
+         </button>
+      </p>
+   </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <div>
@@ -3140,7 +3224,7 @@
       <h4>dna.util.realTruth(value)</h4>
       <p class=api-description>
          Return the <a href=#real-truth>"real" boolean truth</a> of a value.&nbsp; Whereas
-         JavaScript truthy an falsey is more about existence, the "real" truth is for evaluating
+         JavaScript truthy and falsey are more about existence, the "real" truth is for evaluating
          boolean data as it is stored in databases or transmitted in REST calls.
       </p>
       <div class=api-parameters>
@@ -3247,7 +3331,7 @@
          <li><a href=#event-user>            <code>data-click</code></a>:          Callback to run on click event</li>
          <li><a href=#components>            <code>data-component</code></a>:      Mark a container element as a component</li>
          <li><a href=#event-user>            <code>data-enter-key</code></a>:      Callback to run on enter key event</li>
-         <li><a href=#structure-thimblerig>  <code>data-falsey</code></a>:         Show element only if field evaluates to false</li>
+         <li><a href=#structure-thimblerig>  <code>data-false</code></a>:          Show element only if field evaluates to false</li>
          <li><a href=#panels-routes>         <code>data-hash</code></a>:           Set the fragment ID (hash) for a panel's URL</li>
          <li><a href=#event-jump>            <code>data-href</code></a>:           Jumps to the URL (like an <code>&lt;a&gt;</code> link)</li>
          <li><a href=#event-user>            <code>data-input</code></a>:          Callback to run on input event</li>
@@ -3265,7 +3349,7 @@
          <li><a href=#event-smart>           <code>data-smart-throttle</code></a>: Delay (milliseconds) between smart update callbacks</li>
          <li><a href=#event-smart>           <code>data-smart-update</code></a>:   Throttled callback to run on change of an input value</li>
          <li><a href=#event-transform>       <code>data-transform</code></a>:      Callback to enhance data immediately before cloning</li>
-         <li><a href=#structure-thimblerig>  <code>data-truthy</code></a>:         Show element only if field evaluates to true</li>
+         <li><a href=#structure-thimblerig>  <code>data-truth</code></a>:          Show element only if field evaluates to true</li>
       </ol>
    </section>
 
@@ -3294,6 +3378,7 @@
             <tr><td><code>Live Model</code></td>      <td><a href=http://jsfiddle.net/@@jsFiddle.liveModel>     jsfiddle.net/@@jsFiddle.liveModel</a></td></tr>
             <tr><td><code>Panels Click</code></td>    <td><a href=http://jsfiddle.net/@@jsFiddle.panelsClick>   jsfiddle.net/@@jsFiddle.panelsClick</a></td></tr>
             <tr><td><code>Panels Drop-down</code></td><td><a href=http://jsfiddle.net/@@jsFiddle.panelsDropDown>jsfiddle.net/@@jsFiddle.panelsDropDown</a></td></tr>
+            <tr><td><code>Photo Upload</code></td>    <td><a href=http://jsfiddle.net/@@jsFiddle.photoUpload>   jsfiddle.net/@@jsFiddle.photoUpload</a></td></tr>
             <tr><td><code>Smart Updates</code></td>   <td><a href=http://jsfiddle.net/@@jsFiddle.smartUpdates>  jsfiddle.net/@@jsFiddle.smartUpdates</a></td></tr>
             <tr><td><code>To Do</code></td>           <td><a href=http://jsfiddle.net/@@jsFiddle.toDo>          jsfiddle.net/@@jsFiddle.toDo</a></td></tr>
          </tbody>
