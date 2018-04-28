@@ -200,8 +200,8 @@ var dna = {
 
 dna.array = {
    find: function(array, value, key) {
-      // Returns the index and a reference to first array element with a key equal to the supplied
-      // value.  The default key is "code".
+      // Returns the index and a reference to the first array element with a key equal to the
+      // supplied value.  The default key is "code".
       // Example:
       //    var array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
       //    dna.array.find(array, 'b').item.word === 'Bat';
@@ -428,6 +428,20 @@ dna.util = {
          findFn(fn.split('.'));
       return result;
       },
+   assign: function(data, field, value) {
+      // Sets the field in the data object to the new value and returns the updated data object.
+      // Example:
+      //    dna.util.assign({ a: { b: 7 } }, 'a.b', 21);  //{ a: { b: 21 } }
+      if (typeof field === 'string')
+         field = field.split('.');
+      var name = field[0];
+      if (field.length === 1)
+         data[name] = value;
+      else
+         dna.util.assign(data[name] === undefined ? data[name] = {} : data[name],
+            field.slice(1), value);
+      return data;
+      },
    printf: function(format) {
       // Builds a formatted string by replacing the format specifiers with the supplied arguments.
       // Usage:
@@ -462,11 +476,11 @@ dna.util = {
    value: function(data, field) {
       // Returns the value of the field from the data object.
       // Example:
-      //    dna.util.value({ a: { b: 7 }}, 'a.b') === 7
+      //    dna.util.value({ a: { b: 7 } }, 'a.b') === 7
       if (typeof field === 'string')
          field = field.split('.');
       return (data === null || data === undefined || field === undefined) ? null :
-         (field.length === 1 ? data[field[0]] : this.value(data[field[0]], field.slice(1)));
+         (field.length === 1 ? data[field[0]] : dna.util.value(data[field[0]], field.slice(1)));
       }
    };
 
@@ -809,7 +823,9 @@ dna.events = {
       function handle(event) {
          var target = $(event.target);
          function field(data) { return (data.dnaRules && data.dnaRules.option) || data.dnaField; }
-         function updateField(elem, calc) { dna.getModel(elem)[field(elem.data())] = calc(elem); }
+         function updateField(elem, calc) {
+            dna.util.assign(dna.getModel(elem), field(elem.data()), calc(elem));
+            }
          function getValue(elem) { return elem.val(); }
          function isChecked(elem) { return elem.is(':checked'); }
          function updateOption(i, elem) { updateField($(elem), isChecked); }

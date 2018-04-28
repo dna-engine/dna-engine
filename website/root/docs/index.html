@@ -2796,6 +2796,7 @@
          <li><a href=#ui-smooth-move><b>dna.ui.smoothMove</b>(elem, up)</a></li>
          <li><a href=#ui-to-elem><b>dna.ui.toElem</b>(elemOrEventOrIndex, that)</a></li>
          <li><a href=#util-apply><b>dna.util.apply</b>(func, params)</a></li>
+         <li><a href=#util-assign><b>dna.util.assign</b>(data, field, value)</a></li>
          <li><a href=#util-printf><b>dna.util.printf</b>(formatString, parameters...)</a></li>
          <li><a href=#util-real-truth><b>dna.util.realTruth</b>(value)</a></li>
          <li><a href=#util-to-camel><b>dna.util.toCamel</b>(kebabCaseStr)</a></li>
@@ -2808,7 +2809,8 @@
    <section id=array-find>
       <h4>dna.array.find(array, value, key)</h4>
       <p class=api-description>
-         Returns the first array element with a key equal to the supplied value.&nbsp;
+         Returns the index and a reference to the first array element with a key equal to the
+         supplied value.&nbsp;
          The default key is "code".
       </p>
       <div class=api-parameters>
@@ -2819,6 +2821,18 @@
             @@include('website/templates/params/key.html')
          </ul>
       </div>
+      <figure>
+         <figcaption>Examples</figcaption>
+         <pre><code class=language-javascript>
+            var things = [
+               { code: 'a', word: 'Ant' },
+               { code: 'b', word: 'Bat' }
+               ];
+            var x = dna.array.find(things, 'b');  //{ index: 1, item: { code: 'b', word: 'Bat' } }
+            var y = dna.array.find(things, 'b').index;  //1
+            var z = dna.array.find(things, 'x');  //{ index: -1, item: undefined }
+         </code></pre>
+      </figure>
    </section>
 
    <!-- dna.array.fromMap() -->
@@ -2835,6 +2849,18 @@
             @@include('website/templates/params/key.html')
          </ul>
       </div>
+      <figure>
+         <figcaption>Examples</figcaption>
+         <pre><code class=language-javascript>
+            var map = {
+               a: { word: 'Ant' },
+               b: { word: 'Bat' }
+               };
+            var array = dna.array.fromMap(map);
+            // New array:
+            //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
+         </code></pre>
+      </figure>
    </section>
 
    <!-- dna.array.last() -->
@@ -2849,6 +2875,12 @@
             @@include('website/templates/params/array.html')
          </ul>
       </div>
+      <figure>
+         <figcaption>Examples</figcaption>
+         <pre><code class=language-javascript>
+            dna.array.last([3, 21, 7]) === 7;  //true
+         </code></pre>
+      </figure>
    </section>
 
    <!-- dna.array.toMap() -->
@@ -2865,6 +2897,18 @@
             @@include('website/templates/params/key.html')
          </ul>
       </div>
+      <figure>
+         <figcaption>Examples</figcaption>
+         <pre><code class=language-javascript>
+            var words = [
+               { code: 'a', word: 'Ant' },
+               { code: 'b', word: 'Bat' }
+               ];
+            var wordMap = dna.array.toMap(words);
+            // wordMap:
+            //    { a: { code: 'a', word: 'Ant' }, b: { code: 'b', word: 'Bat' } }
+         </code></pre>
+      </figure>
    </section>
 
    <!-- dna.browser.getUrlParams() -->
@@ -3205,6 +3249,30 @@
             dna.util.apply('fadeIn', $('h1'));      //$('h1').fadeIn();
             dna.util.apply('css', [$('h1'), { color: 'red' }]);
             dna.util.apply('css', [$('h1'), 'color', 'gold']);
+         </code></pre>
+      </figure>
+   </section>
+
+   <!-- dna.util.assign() -->
+   <section id=util-assign>
+      <h4>dna.util.assign(data, field, value)</h4>
+      <p class=api-description>
+         Sets the field in the data object to the new value and returns the updated data object.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/data(object).html')
+            @@include('website/templates/params/field.html')
+            @@include('website/templates/params/value.html')
+         </ul>
+      </div>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            var data = { cart: { items: 7 } };
+            dna.util.assign(data, 'cart.items', 8);
+            // New data: { cart: { items: 8 } }
          </code></pre>
       </figure>
    </section>
