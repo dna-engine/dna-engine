@@ -17,7 +17,7 @@ const html = `
         <section class=books>
             <div id=book class=dna-template>
                 <h2>~~title~~</h2>
-                Author: <span class=author>~~author~~</span>
+                Author: <b class=author>~~author~~</b>
             </div>
         </section>
     </body>

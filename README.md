@@ -22,7 +22,7 @@ Enclose data fields in double tildes `~~`.
 <h1>Featured Books</h1>
 <div id=book class=dna-template>
    <h2>~~title~~</h2>
-   Author: <span>~~author~~</span>
+   Author: <b>~~author~~</b>
 </div>
 ```
 
@@ -42,7 +42,7 @@ the DOM and kept for additional cloning.
 <h1>Featured Books</h1>
 <div class=book>
    <h2>The DOM</h2>
-   Author: <span>Jan</span>
+   Author: <b>Jan</b>
 </div>
 ```
 

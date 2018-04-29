@@ -3,34 +3,10 @@
 
 var app = {
    setup: function() {
-      var newsItemsToShow = 3;
-      function hideOldNews() {
-         var revealButtonHtml = '<div class=reveal-action data-reveal=more-news>more...</div>';
-         var hideSectionHtml =  '<div class=reveal-target data-reveal=more-news></div>';
-         $('section.news h2').nextAll().eq(newsItemsToShow - 1).after($(revealButtonHtml)).next()
-            .nextAll().wrapAll(hideSectionHtml);
-         }
       app.nav.setup();
       app.documenation.setup();
-      hideOldNews();
       }
    };
-
-app.start = {
-   go: function() {
-      var newsItemsToShow = 3;
-      function hideOldNews() {
-         var revealButtonHtml = '<div class=reveal-action data-reveal=more-news>more...</div>';
-         var hideSectionHtml =  '<div class=reveal-target data-reveal=more-news></div>';
-         $('section.news h2').nextAll().eq(newsItemsToShow - 1).after($(revealButtonHtml)).next()
-            .nextAll().wrapAll(hideSectionHtml);
-         }
-      app.nav.setup();
-      app.documenation.setup();
-      hideOldNews();
-      }
-   };
-
 
 app.bookstore = {
    books: [
@@ -67,7 +43,7 @@ app.documenation = {
          $(elem).text(letter + '. ' + $(elem).text());
          }
       if (window.location.pathname.indexOf('/docs') !== -1)
-         $('h3').each(addOutlineNumber);
+         $('main >div >h3').each(addOutlineNumber);
       }
    };
 

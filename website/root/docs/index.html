@@ -139,12 +139,12 @@
    </header>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <div>
-      <h3 id=system>Terminology and Browser Support</h3>
+   <div id=system>
+      <h3>Terminology and Browser Support</h3>
    </div>
 
-   <section>
-      <h4 id=system-terms>Terminology</h4>
+   <section id=system-terms>
+      <h4>Terminology</h4>
       <dl>
          <dt>Template:</dt>
          <dd>
@@ -170,8 +170,8 @@
       </dl>
    </section>
 
-   <section>
-      <h4 id=system-browsers>Browser Support</h4>
+   <section id=system-browsers>
+      <h4>Browser Support</h4>
       <dl>
          <dt>Web Browsers:</dt>
          <dd>
@@ -190,8 +190,8 @@
    </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <div>
-      <h3 id=setup>Setup JS and CSS Assets</h3>
+   <div id=setup>
+      <h3>Setup JS and CSS Assets</h3>
       <ol>
          <li><a href=#setup-cdn>CDN</a></li>
          <li><a href=#setup-npm>Install with npm</a></li>
@@ -308,8 +308,8 @@
    </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <div>
-      <h3 id=html>HTML &mdash; Classes, Fields, Attributes, and Properties</h3>
+   <div id=html>
+      <h3>HTML &mdash; Classes, Fields, Attributes, and Properties</h3>
    </div>
 
    <section id=html-template>
@@ -485,7 +485,7 @@
          <figcaption>Example HTML</figcaption>
          <pre><code class=language-html>
             &lt;div id=book class=dna-template&gt;
-               &lt;p data-class=~~onSale,highlight,no-highlight~~&gt;~~title~~&lt;/p&gt;
+               &lt;h2 data-class=~~onSale,highlight,no-highlight~~&gt;~~title~~&lt;/h2&gt;
             &lt;/div&gt;
          </code></pre>
       </figure>
@@ -506,10 +506,10 @@
          <figcaption>Resulting HTML</figcaption>
          <pre><code class=language-html>
             &lt;div class=book&gt;
-               &lt;p class=highlight&gt;The DOM&lt;/p&gt;
+               &lt;h2 class=highlight&gt;The DOM&lt;/h2&gt;
             &lt;/div&gt;
             &lt;div class=book&gt;
-               &lt;p class=no-highlight&gt;Styling CSS&lt;/p&gt;
+               &lt;h2 class=no-highlight&gt;Styling CSS&lt;/h2&gt;
             &lt;/div&gt;
          </code></pre>
       </figure>
@@ -525,11 +525,9 @@
          <figcaption>Example HTML</figcaption>
          <pre><code class=language-html>
             &lt;div id=book class=dna-template&gt;
-               &lt;div id=~~code~~&gt;
-                  Title: &lt;span&gt;~~title~~&lt;/span&gt;
-               &lt;/div&gt;
+               &lt;h2 id=~~code~~&gt;~~title~~&lt;/h2&gt;
                &lt;div data-class=~~type~~&gt;
-                  Author: &lt;span&gt;~~author~~&lt;/span&gt;
+                  Author: &lt;b&gt;~~author~~&lt;/b&gt;
                &lt;/div&gt;
             &lt;/div&gt;
          </code></pre>
@@ -2245,8 +2243,8 @@
          <pre><code class=language-html>
             &lt;section data-component=bookshelf class=dna-hide&gt;
                &lt;h2&gt;Bookshelf&lt;/h2&gt;
-               &lt;div&gt;
-                  &lt;p id=book class=dna-template&gt;~~title~~&lt;/p&gt;
+               &lt;div class=books&gt;
+                  &lt;h3 id=book class=dna-template&gt;~~title~~&lt;/h3&gt;
                &lt;/div&gt;
             &lt;/section&gt;
          </code></pre>
@@ -2283,25 +2281,26 @@
       <figure>
          <figcaption>Bookshelf Component CSS</figcaption>
          <pre><code class=language-css>
-           [data-component=bookshelf] .my-book {
-              width: 25em;
-              background-color: plum;
-              padding: 5px 15px;
-              }
+            [data-component=bookshelf] .my-books .my-book {
+               max-width: 400px;
+               background-color: plum;
+               padding: 5px 15px;
+               margin-bottom: 15px;
+               }
          </code></pre>
       </figure>
       <p class=big-symbol><i class=icon data-icon=plus></i></p>
       <figure>
-         <figcaption>Bookshelf Component HTML</figcaption>
+         <figcaption>Bookshelf Component HTML and JavaScript</figcaption>
          <pre><code class=language-html>
             &lt;div data-component=bookshelf data-on-load=bookshelf.setup&gt;
                &lt;h2&gt;Bookshelf&lt;/h2&gt;
-               &lt;div&gt;
-                  &lt;p id=my-book class=dna-template&gt;
-                     &lt;span&gt;Title: &lt;b&gt;~~title~~&lt;/b&gt;&lt;/span&gt;&lt;br&gt;
-                     &lt;span&gt;Author: &lt;b&gt;~~author~~&lt;/b&gt;&lt;/span&gt;
-                  &lt;/p&gt;
-               &lt;/div&gt;
+               &lt;section class=my-books&gt;
+                  &lt;div id=my-book class=dna-template&gt;
+                     &lt;h3&gt;~~title~~&lt;/h3&gt;
+                     Author: &lt;b&gt;~~author~~&lt;/b&gt;
+                  &lt;/div&gt;
+               &lt;/section&gt;
                &lt;button data-click=bookshelf.show&gt;Show component name&lt;/button&gt;
                &lt;script&gt;
                   var bookshelf = {
@@ -2326,12 +2325,12 @@
             <!-- Component: start -->
             <div data-component=bookshelf data-on-load=bookshelf.setup>
                <h2>Bookshelf</h2>
-               <div>
-                  <p id=my-book class=dna-template>
-                     <span>Title: <b>~~title~~</b></span><br>
-                     <span>Author: <b>~~author~~</b></span>
-                  </p>
-               </div>
+               <section class=my-books>
+                  <div id=my-book class=dna-template>
+                     <h3>~~title~~</h3>
+                     Author: <b>~~author~~</b>
+                  </div>
+               </section>
                <button data-click=bookshelf.show class=no-disable>Show component name</button>
                <script>
                   var bookshelf = {
@@ -2398,21 +2397,23 @@
       <figure>
          <figcaption>Example CSS</figcaption>
          <pre><code class=language-css>
-            [data-component=author] .dna-menu {
-               list-style-type: none;
-               padding: 0px;
-               margin-top: 10px;
-               }
-            [data-component=author] .menu-item {
-               display: inline;
-               background-color: lightskyblue;
-               border: 2px solid silver;
-               border-radius: 5px;
-               padding: 5px 10px;
-               }
-            [data-component=author] .menu-item.selected,
-            [data-component=author] .menu-item:hover {
-               border-color: dimgray;
+            [data-component=author] {
+               .dna-menu {
+                  list-style-type: none;
+                  padding: 0px;
+                  margin-top: 10px;
+                  .menu-item {
+                     display: inline;
+                     background-color: lightskyblue;
+                     border: 2px solid silver;
+                     border-radius: 5px;
+                     padding: 5px 10px;
+                     transition: all 0.4s;
+                     &amp;.selected, &amp;:hover {
+                        border-color: dimgray;
+                        }
+                     }
+                  }
                }
          </code></pre>
       </figure>
