@@ -8,11 +8,12 @@
 <meta charset=utf-8>
 <title>Book Finder</title>
 <style>
-   body       { font-family: sans-serif; margin: 30px; }
-   .book      { display: table; background-color: lightblue;
-                padding: 10px; margin: 10px; }
-   .book img  { width: 80px; margin-right: 10px; }
-   .book >div { display: inline-block; width: 400px; vertical-align: top; }
+   body      { font-family: system-ui, sans-serif; margin: 30px; }
+   .book     { display: flex; align-items: flex-start;
+               width: 400px; background-color: skyblue;
+               padding: 10px; margin: 10px 0px; }
+   .book img { width: 100px; margin-right: 10px; }
+   .book h2  { margin: 0px; }
 </style>
 </head>
 <body>
@@ -24,16 +25,16 @@
       <input placeholder="Enter terms" autofocus>
    </label>
    <button>Find</button>
-   <div class=books>
+   <section class=books>
       <div class=book>
          <img src=http://dnajs.org/graphics/sample-book-cover.jpg alt=cover>
          <div>
-            <b>Title</b>
+            <h2>Title</h2>
             <p>Publisher</p>
             <i>Price</i>
          </div>
       </div>
-   </div>
+   </section>
 </main>
 
 </body>

@@ -14,12 +14,12 @@ const html = `
     </head>
     <body>
         <h1>Featured Books</h1>
-        <div class=books>
+        <section class=books>
             <div id=book class=dna-template>
-                <p>Title:  <span class=title>~~title~~</span></p>
-                <p>Author: <span class=author>~~author~~</span></p>
+                <h2>~~title~~</h2>
+                Author: <span class=author>~~author~~</span>
             </div>
-        </div>
+        </section>
     </body>
 </html>
 `;
@@ -36,7 +36,7 @@ describe('Template cloning function dna.clone()', () => {
     dna.clone('book', { title: 'The DOM', author: 'Jan' });
 
     it('creates a book with the correct title', () => {
-        const actual   = $('.book .title').text();
+        const actual   = $('.book h2').text();
         const expected = 'The DOM';
         assert.strictEqual(actual, expected);
         });

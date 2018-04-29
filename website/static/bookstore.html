@@ -8,20 +8,23 @@
 <title>Bookstore</title>
 <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@1.3/dna.css>
 <style>
-   body   { font-family: sans-serif; margin: 30px; }
-   .books { width: 250px; }
-   .book  { background-color: gold; padding: 10px; margin: 15px; }
+   body     { font-family: system-ui, sans-serif; margin: 30px; }
+   .books   { width: 250px; }
+   .book    { background-color: gold; padding: 10px; margin-bottom: 15px; }
+   .book h2 { font-size: 1.1rem; margin: 0px; }
 </style>
 </head>
 <body>
 
-<h1>Bookstore</h1>
-<div class=books>
-   <div id=book class=dna-template>
-      <div>Title:  <span>~~title~~</span></div>
-      <div>Author: <span>~~author~~</span></div>
-   </div>
-</div>
+<main>
+   <h1>Bookstore</h1>
+   <section class=books>
+      <div id=book class=dna-template>
+         <h2>~~title~~</h2>
+         Author: <b>~~author~~</b>
+      </div>
+   </section>
+</main>
 
 <script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js></script>
 <script src=https://cdn.jsdelivr.net/npm/dna.js@1.3/dna.min.js></script>

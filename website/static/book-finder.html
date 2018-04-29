@@ -10,11 +10,12 @@
 <link rel=icon       href=graphics/bookmark.png>
 <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@1.3/dna.css>
 <style>
-   body       { font-family: sans-serif; margin: 30px; }
-   .book      { display: table; background-color: lightblue;
-                padding: 10px; margin: 10px; }
-   .book img  { width: 80px; margin-right: 10px; }
-   .book >div { display: inline-block; width: 400px; vertical-align: top; }
+   body      { font-family: system-ui, sans-serif; margin: 30px; }
+   .book     { display: flex; align-items: flex-start;
+               width: 400px; background-color: skyblue;
+               padding: 10px; margin: 10px 0px; }
+   .book img { width: 100px; margin-right: 10px; }
+   .book h2  { margin: 0px; }
 </style>
 </head>
 <body>
@@ -29,16 +30,16 @@
    <button data-click=findBooks>Find</button>
    -->
    <img src=http://books.google.com/googlebooks/images/poweredby.png alt=google>
-   <div class=books>
+   <section class=books>
       <div id=book class=dna-template>
          <img src=# data-attr-src=~~volumeInfo.imageLinks.thumbnail~~ alt=cover>
          <div>
-            <b>~~volumeInfo.title~~</b>
+            <h2>~~volumeInfo.title~~</h2>
             <p>~~volumeInfo.publisher~~</p>
             <i>~~saleInfo.listPrice.amount~~</i>
          </div>
       </div>
-   </div>
+   </section>
 </main>
 
 <script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js></script>

@@ -21,8 +21,8 @@ Enclose data fields in double tildes `~~`.
 ```html
 <h1>Featured Books</h1>
 <div id=book class=dna-template>
-   <p>Title:  <span>~~title~~</span></p>
-   <p>Author: <span>~~author~~</span></p>
+   <h2>~~title~~</h2>
+   Author: <span>~~author~~</span>
 </div>
 ```
 
@@ -41,8 +41,8 @@ the DOM and kept for additional cloning.
 ```html
 <h1>Featured Books</h1>
 <div class=book>
-   <p>Title:  <span>The DOM</span></p>
-   <p>Author: <span>Jan</span></p>
+   <h2>The DOM</h2>
+   Author: <span>Jan</span>
 </div>
 ```
 

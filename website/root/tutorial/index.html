@@ -98,22 +98,23 @@
    <section id=step3>
       <h3>Step 3: Add search results component</h3>
       <p>
-         Just after the search component you added in the previous step, insert a <code>div</code>
+         Just after the search component you added in the previous step, insert a
+         <code>section</code>
          tag to hold a list of books.&nbsp; Then add the static HTML for a single book.
       </p>
       <figure>
          <figcaption>HTML for books</figcaption>
          <pre><code class=language-html>
-            &lt;div class=books&gt;
+            &lt;section class=books&gt;
                &lt;div class=book&gt;
                   &lt;img src=http://dnajs.org/graphics/sample-book-cover.jpg alt=cover&gt;
                   &lt;div&gt;
-                     &lt;b&gt;Title&lt;/b&gt;
+                     &lt;h2&gt;Title&lt;/h2&gt;
                      &lt;p&gt;Publisher&lt;/p&gt;
                      &lt;i&gt;Price&lt;/i&gt;
                   &lt;/div&gt;
                &lt;/div&gt;
-            &lt;/div&gt;
+            &lt;/section&gt;
          </code></pre>
       </figure>
       <p>
@@ -132,12 +133,12 @@
          <figcaption>Example HTML</figcaption>
          <pre><code class=language-html>
             &lt;style&gt;
-               body       { font-family: sans-serif; margin: 30px; }
-               .book      { display: table; background-color: lightblue;
-                            padding: 10px; margin: 10px; }
-               .book img  { width: 80px; margin-right: 10px; }
-               .book &gt;div { display: inline-block; width: 400px;
-                            vertical-align: top; }
+               body      { font-family: system-ui, sans-serif; margin: 30px; }
+               .book     { display: flex; align-items: flex-start;
+                           width: 400px; background-color: skyblue;
+                           padding: 10px; margin: 10px 0px; }
+               .book img { width: 100px; margin-right: 10px; }
+               .book h2  { margin: 0px; }
             &lt;/style&gt;
          </code></pre>
       </figure>
@@ -208,7 +209,7 @@
             &lt;div id=book class=dna-template&gt;
                &lt;img src=~~volumeInfo.imageLinks.thumbnail~~ alt=cover&gt;
                &lt;div&gt;
-                  &lt;b&gt;~~volumeInfo.title~~&lt;/b&gt;
+                  &lt;h2&gt;~~volumeInfo.title~~&lt;/h2&gt;
                   &lt;p&gt;~~volumeInfo.publisher~~&lt;/p&gt;
                   &lt;i&gt;~~saleInfo.listPrice.amount~~&lt;/i&gt;
                &lt;/div&gt;
@@ -360,7 +361,7 @@
          </code></pre>
       </figure>
       <p>
-         dna.js always passes the event target element into the callback.&nbsp;
+         dna.js passes the event target element into the callback.&nbsp;
          The callback event now happens on the <code>&lt;input&gt;</code> element, so we can
          replace the old <code>var terms = $('input').val();</code> line with a more robust line of
          code:
@@ -400,12 +401,12 @@
             &lt;title&gt;Book Finder&lt;/title&gt;
             &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@1.3/dna.css&gt;
             &lt;style&gt;
-               body       { font-family: sans-serif; margin: 30px; }
-               .book      { display: table; background-color: lightblue;
-                            padding: 10px; margin: 10px; }
-               .book img  { width: 80px; margin-right: 10px; }
-               .book &gt;div { display: inline-block; width: 400px;
-                            vertical-align: top; }
+               body      { font-family: system-ui, sans-serif; margin: 30px; }
+               .book     { display: flex; align-items: flex-start;
+                           width: 400px; background-color: skyblue;
+                           padding: 10px; margin: 10px 0px; }
+               .book img { width: 100px; margin-right: 10px; }
+               .book h2  { margin: 0px; }
             &lt;/style&gt;
             &lt;/head&gt;
             &lt;body&gt;
@@ -416,16 +417,16 @@
                   Search:
                   &lt;input data-smart-update=findBooks placeholder=&quot;Enter terms&quot; autofocus&gt;
                &lt;/label&gt;
-               &lt;div class=books&gt;
+               &lt;section class=books&gt;
                   &lt;div id=book class=dna-template&gt;
                      &lt;img src=~~volumeInfo.imageLinks.thumbnail~~ alt=cover&gt;
                      &lt;div&gt;
-                        &lt;b&gt;~~volumeInfo.title~~&lt;/b&gt;
+                        &lt;h2&gt;~~volumeInfo.title~~&lt;/h2&gt;
                         &lt;p&gt;~~volumeInfo.publisher~~&lt;/p&gt;
                         &lt;i&gt;~~saleInfo.listPrice.amount~~&lt;/i&gt;
                      &lt;/div&gt;
                   &lt;/div&gt;
-               &lt;/div&gt;
+               &lt;/section&gt;
             &lt;/main&gt;
 
             &lt;script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js&gt;&lt;/script&gt;

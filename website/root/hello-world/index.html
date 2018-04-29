@@ -14,8 +14,8 @@
       </p>
    </header>
 
-   <section>
-      <h3 id=code>Bookstore Code</h3>
+   <section id=code>
+      <h3>Bookstore Code</h3>
       <figure class=full-screen-code>
          <figcaption>bookstore.html</figcaption>
          <pre><code class=language-html>
@@ -29,22 +29,25 @@
             &lt;title&gt;Bookstore&lt;/title&gt;
             &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@1.3/dna.css&gt;
             &lt;style&gt;
-               body   { font-family: sans-serif; margin: 30px; }
-               .books { width: 250px; }
-               .book  { background-color: gold; padding: 10px; margin: 15px; }
+               body     { font-family: system-ui, sans-serif; margin: 30px; }
+               .books   { width: 250px; }
+               .book    { background-color: gold; padding: 10px; margin-bottom: 15px; }
+               .book h2 { font-size: 1.1rem; margin: 0px; }
             &lt;/style&gt;
             &lt;/head&gt;
             &lt;body&gt;
 
-            &lt;h1&gt;Bookstore&lt;/h1&gt;
-            &lt;div class=books&gt;
-               &lt;div id=book class=dna-template&gt;
-                  &lt;div&gt;Title:  &lt;span&gt;~~title~~&lt;/span&gt;&lt;/div&gt;
-                  &lt;div&gt;Author: &lt;span&gt;~~author~~&lt;/span&gt;&lt;/div&gt;
-               &lt;/div&gt;
-            &lt;/div&gt;
+            &lt;main&gt;
+               &lt;h1&gt;Bookstore&lt;/h1&gt;
+               &lt;section class=books&gt;
+                  &lt;div id=book class=dna-template&gt;
+                     &lt;h2&gt;~~title~~&lt;/h2&gt;
+                     Author: &lt;b&gt;~~author~~&lt;/b&gt;
+                  &lt;/div&gt;
+               &lt;/section&gt;
+            &lt;/main&gt;
 
-            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js&gt;&lt;/script&gt;
             &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@1.3/dna.min.js&gt;&lt;/script&gt;
             &lt;script&gt;
                var books = [
@@ -60,8 +63,8 @@
       </figure>
    </section>
 
-   <section>
-      <h3 id=page>Bookstore Web Page</h3>
+   <section id=page>
+      <h3>Bookstore Web Page</h3>
       <p class=image-frame>
          <a href=../bookstore.html class=external-site>
             <img src=../graphics/bookstore.png class=plain alt=screenshot>
@@ -72,14 +75,19 @@
       </div>
    </section>
 
-   <section>
-      <h3 id=jsFiddle>Bookstore on jsFiddle</h3>
+   <section id=experiment>
+      <h3>Bookstore on jsFiddle</h3>
       <p>
          Experiment with the code at:
          <button data-href=http://jsfiddle.net/@@jsFiddle.addABook class=external-site>
             jsfiddle.net/@@jsFiddle.addABook
          </button>
       </p>
+   </section>
+
+   <section id=comments>
+      <h3>Questions and comments</h3>
+      @@include('website/templates/comments.html')
    </section>
 
 </main>

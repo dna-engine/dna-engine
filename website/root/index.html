@@ -85,8 +85,8 @@
           <pre><code class=language-html>
              &lt;h1&gt;Featured Books&lt;/h1&gt;
              &lt;div id=book class=dna-template&gt;
-                &lt;div&gt;Title:  &lt;span&gt;~~title~~&lt;/span&gt;&lt;/div&gt;
-                &lt;div&gt;Author: &lt;span&gt;~~author~~&lt;/span&gt;&lt;/div&gt;
+                &lt;p&gt;Title:  &lt;span&gt;~~title~~&lt;/span&gt;&lt;/p&gt;
+                &lt;p&gt;Author: &lt;span&gt;~~author~~&lt;/span&gt;&lt;/p&gt;
              &lt;/div&gt;
           </code></pre>
        </figure>
@@ -103,8 +103,8 @@
           <pre><code class=language-html>
              &lt;h1&gt;Featured Books&lt;/h1&gt;
              &lt;div class=book&gt;
-                &lt;div&gt;Title:  &lt;span&gt;The DOM&lt;/span&gt;&lt;/div&gt;
-                &lt;div&gt;Author: &lt;span&gt;Jan&lt;/span&gt;&lt;/div&gt;
+                &lt;p&gt;Title:  &lt;span&gt;The DOM&lt;/span&gt;&lt;/p&gt;
+                &lt;p&gt;Author: &lt;span&gt;Jan&lt;/span&gt;&lt;/p&gt;
              &lt;/div&gt;
           </code></pre>
        </figure>
@@ -214,14 +214,9 @@
    </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <section id=feedback>
-       <h3>Issues</h3>
-       <p>
-          Submit bugs, feature requests, and questions at:
-          <span class=block-indent>
-             <a href=https://github.com/dnajs/dna.js/issues>github.com/dnajs/dna.js/issues</a>
-          </span>
-       </p>
+   <section id=comments>
+      <h3>Questions and comments</h3>
+      @@include('website/templates/comments.html')
    </section>
 
 </main>
