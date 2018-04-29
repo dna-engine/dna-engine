@@ -249,8 +249,8 @@
    <section id=setup-webpack>
       <h4>Install with webpack</h4>
       <p>
-         webpack treats the dna.js library as a module.&nbsp; Use <code>require</code> statements in
-         your application to pull in the library's CSS and JavaScript.
+         webpack treats the dna.js library as a module.&nbsp; Use <code>require</code> statements
+         in your application to pull in the library's CSS and JavaScript.
       </p>
       <p>
          Then use <a href=#api-register-context><code>dna.registerContext()</code></a>
@@ -260,10 +260,10 @@
          <figcaption>webpack</figcaption>
          <pre><code class=language-javascript>
             require('dna.js/dna.css');
-            var $ =   require('jquery');
-            var dna = require('dna.js')(window, $);
+            const $ =   require('jquery');
+            const dna = require('dna.js')(window, $);
 
-            var myApp = {
+            const myApp = {
                doSomething: function() { ... }
                };
             dna.registerContext('myApp', myApp);
