@@ -414,7 +414,13 @@ dna.util = {
       function findFn(names) {
          if (elem instanceof $)
             args.push(dna.ui.getComponent(elem));
-         contextApply(dna.events.context[names[0]] ? dna.events.context : window, names);
+         var name = names[0];
+         var identifierPattern = /^[_$a-zA-Z][_$a-zA-Z0-9]*$/;
+         var topLevelGet = (null, eval);
+         if (window[name] === undefined && !dna.events.context[name] &&
+            identifierPattern.test(name) && topLevelGet('typeof ' + name) === 'object')
+               dna.registerContext(name, topLevelGet(name));
+         contextApply(dna.events.context[name] ? dna.events.context : window, names);
          }
       if (elem instanceof $ && elem.length === 0)  //noop for emply list of elems
          result = elem;
@@ -576,7 +582,7 @@ dna.compile = {
    // array        <p data-array=~~tags~~>           class=dna-nucleotide + array='tags'
    // field        <p>~~tag~~</p>                    class=dna-nucleotide + text='tag'
    // attribute    <p id=~~num~~>                    class=dna-nucleotide + attrs=['id', ['', 'num', '']]
-   // rule         <p data-truthy=~~on~~>            class=dna-nucleotide + truthy='on'
+   // rule         <p data-true=~~on~~>              class=dna-nucleotide + true='on'
    // attr rule    <p data-attr-src=~~url~~>         class=dna-nucleotide + attrs=['src', ['', 'url', '']]
    // prop rule    <input data-prop-checked=~~on~~>  class=dna-nucleotide + props=['checked', 'on']
    // select rule  <select data-option=~~day~~>      class=dna-nucleotide + option='day'

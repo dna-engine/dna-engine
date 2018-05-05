@@ -415,7 +415,7 @@ var spec07 = {
             <div>Title:   <span>~~title~~</span></div>
             <div>Authors:
                <span data-array=~~authors~~>
-                  *<span data-callback=spec08.configure>~~[value]~~</span>
+                  *<span data-callback=spec08alt.configure>~~[value]~~</span>
                </span>
             </div>
             <div>Score:   <span>~~score~~</span></div>
@@ -460,10 +460,12 @@ var spec07 = {
    </fieldset>
 </section>
 <script>
-var spec08 = {
+const spec08alt = {
    configure: function(elem) {
       elem.addClass('color-change');
       },
+   };
+var spec08 = {
    run: function() {
       dna.clone('s08-book-authors1', ['Jan']);
       dna.clone('s08-book-authors2', ['Jan', 'Bo']);
@@ -1103,7 +1105,7 @@ var spec16 = {
          cover:    cover,
          purposes: purposes,
          category: 'computers',
-         meta:     { info: { tags: [{ english: { code: 'tech' } },  { english: { code: 'color' } }] }},  //verify dot notation
+         meta:     { info: { tags: [{ english: { code: 'tech' } },  { english: { code: 'color' } }] } },  //verify dot notation
          secret:   'Signed!',
          pubDate:  '2014-06-22',
          coverColor: '#daa520',
@@ -1201,8 +1203,8 @@ var spec17 = {
       <input type=range value=5>
       <div>
          <p class=chapter-box>1</p>
-         <p class=chapter-box>1</p>
-         <p class=chapter-box>1</p>
+         <p class=chapter-box>2</p>
+         <p class=chapter-box>3</p>
       </div>
       <button>Pulse</button>
    </fieldset>
@@ -1221,7 +1223,9 @@ var spec18 = {
       dna.ui.smoothHeightAnimate();
       },
    run: function() {
-      spec18.makeChapterBoxes($('#spec18 input[type=range]').first())
+      spec18.makeChapterBoxes($('#spec18 input[type=range]').first());
+      function clickButton() { $('#spec18 button[data-click]').click(); }
+      window.setInterval(clickButton, 3000);
       }
    };
 </script>
@@ -1240,7 +1244,7 @@ var spec18 = {
             <h2>~~title~~</h2>
             <p>~~author~~</p>
             <p>~~displayPrice~~</p>
-            <p data-truthy=sale>On SALE</p>
+            <p data-true=sale>On SALE</p>
          </section>
       </div>
    </fieldset>
