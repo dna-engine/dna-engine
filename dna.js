@@ -61,8 +61,8 @@ var dna = {
       // Clones a sub-template to append onto an array loop.
       var name = dna.compile.subTemplateName(holderClone, arrayField);
       var selector = '.dna-contains-' + name;
-      var settings = $.extend({ container: holderClone.find(selector).addBack(selector) }, options);
-      dna.clone(name, data, settings);
+      var settings = { container: holderClone.find(selector).addBack(selector) };
+      dna.clone(name, data, $.extend(settings, options));
       var array = dna.getModel(holderClone)[arrayField];
       function append(i, value) { array.push(value); }
       $.each(data instanceof Array ? data : [data], append);
@@ -101,7 +101,10 @@ var dna = {
    empty: function(name, options) {
       // Deletes all clones generated from the template.
       var settings = $.extend({ fade: false }, options);
-      var clones = dna.store.getTemplate(name).container.find('.dna-clone');
+      var template = dna.store.getTemplate(name);
+      var clones = template.container.find('.dna-clone');
+      if (template.container.data().dnaCountsMap)
+         template.container.data().dnaCountsMap[name] = 0;
       return settings.fade ? dna.ui.slideFadeDelete(clones) : dna.core.remove(clones);
       },
    insert: function(name, data, options) {
@@ -115,7 +118,7 @@ var dna = {
       var settings = $.extend({ html: false }, options);
       var elem = dna.getClone(clone, options);
       var data = settings.data ? settings.data : dna.getModel(elem);
-      return dna.core.inject(elem, data, null, settings);
+      return dna.core.inject(elem, data, elem.data().dnaCount, settings);
       },
    refreshAll: function(name) {
       // Updates all the clones of the specified template.
@@ -186,11 +189,11 @@ var dna = {
    info: function() {
       // Returns status information about templates on the current web page.
       var names = Object.keys(dna.store.templates);
-      function addToSum(sum, name) { return sum + dna.store.templates[name].clones; }
       return {
          version:      '1.3.9',
          templates:    names.length,
-         clones:       names.reduce(addToSum, 0),
+         clones:       $('.dna-clone:not(.dna-sub-clone)').length,
+         subs:         $('.dna-sub-clone').length,
          names:        names,
          store:        dna.store.templates,
          initializers: dna.events.initializers
@@ -765,8 +768,7 @@ dna.store = {
             container:  container.addClass('dna-container').addClass('dna-contains-' + name),
             nested:     container.closest('.dna-clone').length !== 0,
             separators: elem.find('.dna-separator, .dna-last-separator').length,
-            wrapped:    wrapped,
-            clones:     0
+            wrapped:    wrapped
             };
          dna.store.templates[name] = template;
          elem.removeClass('dna-template').addClass('dna-clone').addClass(name).detach();
@@ -911,10 +913,10 @@ dna.events = {
    };
 
 dna.core = {
-   inject: function(clone, data, index, settings) {
+   inject: function(clone, data, count, settings) {
       // Inserts data into clone and runs rules
       function injectField(elem, field) {
-         var value = field === '[count]' ? index + 1 : field === '[value]' ? data :
+         var value = field === '[count]' ? count : field === '[value]' ? data :
             dna.util.value(data, field);
          var printable = { string: true, number: true, boolean: true };
          if (printable[typeof value])
@@ -957,7 +959,9 @@ dna.core = {
       function processLoop(elem, loop) {
          var dataArray = dna.util.value(data, loop.field);
          var subClones = elem.children('.' + loop.name.replace(/[.]/g, '\\.'));
-         function injectSubClone(i, elem) { dna.core.inject($(elem), dataArray[i], i, settings); }
+         function injectSubClone(i, elem) {
+            dna.core.inject($(elem), dataArray[i], i + 1, settings);
+            }
          function rebuildSubClones() {
             subClones.remove();
             dna.clone(loop.name, dataArray, { container: elem, html: settings.html });
@@ -1006,6 +1010,7 @@ dna.core = {
          settings.transform(data);
       dig(clone);
       clone.data().dnaModel = data;
+      clone.data().dnaCount = count;
       return clone;
       },
    replicate: function(template, data, index, settings) {  //make and setup the clone
@@ -1015,19 +1020,23 @@ dna.core = {
          clones.find('.dna-last-separator').hide().end().eq(-2).find('.dna-last-separator').show()
             .closest('.dna-clone').find('.dna-separator').hide();
          }
-      var clone = template.elem.clone(true, true);
-      template.clones++;
-      dna.core.inject(clone, data, index, settings);
       var selector =  '.dna-contains-' + template.name.replace(/[.]/g, '\\.');
       var container = settings.container ?
          settings.container.find(selector).addBack(selector) : template.container;
+      var clone = template.elem.clone(true, true);
+      var countsMap = container.data().dnaCountsMap;
+      if (!countsMap)
+         countsMap = container.data().dnaCountsMap = {};
+      var name = clone.data().dnaRules.template;
+      var count = countsMap[name] ? ++countsMap[name] : countsMap[name] = 1;
+      dna.core.inject(clone, data, count, settings);
       function intoUnwrapped() {
          function firstClone() {
             var contents = container.data().dnaContents;
             var i = contents.indexOf(template.name);
-            function adjustment(count, name) {
-               return count +
-                  (name && contents.indexOf(name) < i ? allClones.filter('.' + name).length - 1 : 0);
+            function adjustment(clonesAbove, name) {
+               return clonesAbove + (name && contents.indexOf(name) < i ?
+                  allClones.filter('.' + name).length - 1 : 0);
                }
             var target = container.children().eq(i + contents.reduce(adjustment, 0));
             if (target.length)

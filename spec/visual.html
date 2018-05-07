@@ -41,6 +41,9 @@
    .border-change2     { border: 2px solid darkslateblue; }
    .chapter-box        { display: inline-block; background-color: lightsteelblue; padding: 15px; margin: 5px }
 </style>
+<script>
+    const spec = {};
+</script>
 </head>
 <body>
 
@@ -84,7 +87,7 @@
    </fieldset>
 </section>
 <script>
-var spec01 = {
+spec.spec01 = {
    run: function() {
       var book1 = { title: 'The DOM',      author: 'Jan' };
       var book2 = { title: 'Styling CSS3', author: 'Abby' };
@@ -128,7 +131,7 @@ var spec01 = {
    </fieldset>
 </section>
 <script>
-var spec02 = {
+spec.spec02 = {
    run: function() {
       var book1 = { title: 'The DOM',     author: 'Jan' };
       var book2 = { title: 'Howdy HTML5', author: 'Ed' };
@@ -178,7 +181,7 @@ var spec02 = {
    </fieldset>
 </section>
 <script>
-var spec03 = {
+spec.spec03 = {
    run: function() {
       var book1 = { title: '1<sup>st</sup> &bull;', author: 'Jan' };
       var book2 = { title: '2nd', author: 'Jan' };
@@ -217,7 +220,7 @@ var spec03 = {
    </fieldset>
 </section>
 <script>
-var spec04 = {
+spec.spec04 = {
    run: function() {
       var book = {
          title:  '<b>Text</b>&bull;',
@@ -241,43 +244,48 @@ var spec04 = {
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone>
-            <div>Title:  <span>1st!!</span></div>
-            <div>Author: <span>Lee</span></div>
-            <div>Code:   <span>11</span></div>
+            <div>Title:    <span>1st!!</span></div>
+            <div>Author:   <span>Lee</span></div>
+            <div>Code:     <span>1100</span></div>
+            <div>Location: <span>1</span></div>
          </div>
          <div class=dna-clone>
-            <div>Title:  <span>2st!!</span></div>
+            <div>Title:  <span>2nd!!</span></div>
             <div>Author: <span>Jan</span></div>
-            <div>Code:   <span>9</span></div>
+            <div>Code:   <span>900</span></div>
+            <div>Location: <span>2</span></div>
          </div>
          <div class="dna-clone color-change">
             <div>Title:  <span>1st!!!</span></div>
             <div>Author: <span>Lee</span></div>
-            <div>Code:   <span>11</span></div>
+            <div>Code:   <span>1100</span></div>
+            <div>Location: <span>3</span></div>
          </div>
          <div class="dna-clone color-change">
-            <div>Title:  <span>2st!!!</span></div>
+            <div>Title:  <span>2nd!!!</span></div>
             <div>Author: <span>Jan</span></div>
-            <div>Code:   <span>9</span></div>
+            <div>Code:   <span>900</span></div>
+            <div>Location: <span>4</span></div>
          </div>
       </div>
    </fieldset>
 </section>
 <script>
-var spec05 = {
+spec.spec05 = {
    html:
-      '<div data-transform=spec05.generateCode>' +
-      '   <div>Title:  <span>~~title~~</span></div>' +
-      '   <div>Author: <span>~~author~~</span></div>' +
-      '   <div>Code:   <span>~~code~~</span></div>' +
+      '<div data-transform=spec.spec05.generateCode>' +
+      '   <div>Title:    <span>~~title~~</span></div>' +
+      '   <div>Author:   <span>~~author~~</span></div>' +
+      '   <div>Code:     <span>~~code~~</span></div>' +
+      '   <div>Location: <span>~~[count]~~</span></div>' +
       '</div>',
    generateCode: function(data) {
-      data.code = data.author.charCodeAt(0) % 13;
+      data.code = data.author.charCodeAt(0) % 13 * 100;
       },
    run: function() {
-      dna.createTemplate('s05-book', spec05.html, $('#s05-book-list'));
-      var book1 = { title: '1st', author: 'Lee' };  //code: 11
-      var book2 = { title: '2nd', author: 'Jan' };  //code: 9
+      dna.createTemplate('s05-book', spec.spec05.html, $('#s05-book-list'));
+      var book1 = { title: '1st', author: 'Lee' };  //code: 1100
+      var book2 = { title: '2nd', author: 'Jan' };  //code: 900
       function bang(book) { book.title = book.title + '!'; return book; }
       dna.clone('s05-book', [book1, book2], { transform: bang }).addClass('color-change');
       dna.clone('s05-book', [book1, book2], { transform: bang, empty: true });
@@ -312,7 +320,7 @@ var spec05 = {
    </fieldset>
 </section>
 <script>
-var spec06 = {
+spec.spec06 = {
    run: function() {
       var bouquin = {
          title:    'Les Attributs',
@@ -372,7 +380,7 @@ var spec06 = {
    </fieldset>
 </section>
 <script>
-var spec07 = {
+spec.spec07 = {
    run: function() {
       var book1 = { author: { name: 'Ed' } };
       var book2 = { author: { name: 'Jan' } };
@@ -415,7 +423,7 @@ var spec07 = {
             <div>Title:   <span>~~title~~</span></div>
             <div>Authors:
                <span data-array=~~authors~~>
-                  *<span data-callback=spec08alt.configure>~~[value]~~</span>
+                  *<span data-callback=spec08var.configure>~~[value]~~</span>
                </span>
             </div>
             <div>Score:   <span>~~score~~</span></div>
@@ -460,12 +468,12 @@ var spec07 = {
    </fieldset>
 </section>
 <script>
-const spec08alt = {
+var spec08var = {
    configure: function(elem) {
       elem.addClass('color-change');
       },
    };
-var spec08 = {
+spec.spec08 = {
    run: function() {
       dna.clone('s08-book-authors1', ['Jan']);
       dna.clone('s08-book-authors2', ['Jan', 'Bo']);
@@ -523,7 +531,7 @@ var spec08 = {
    </fieldset>
 </section>
 <script>
-var spec09 = {
+spec.spec09 = {
    run: function() {
       dna.clone('s09-rest-link', ['http://dnajs.org/rest/book/1/', 'http://dnajs.org/rest/book/2/']);
       dna.rest.get('s09-book', 'http://dnajs.org/rest/book/1/');
@@ -564,7 +572,7 @@ var spec09 = {
    </fieldset>
 </section>
 <script>
-var spec10 = {
+spec.spec10 = {
    run: function() {
       var applyBackgnd = function(elem, data) {
          elem.css({ height: '60px', color: 'white',
@@ -621,7 +629,7 @@ var spec10 = {
    </fieldset>
 </section>
 <script>
-var spec11 = {
+spec.spec11 = {
    run: function() {
       var book1 = { author: 'Jan',        available: 1, onSale: 'true' };
       var book2 = { title: 'Howdy HTML5', available: 0, onSale: [] };
@@ -650,6 +658,7 @@ var spec11 = {
                </span>
             </span>
             <div class=color-change data-array=~~chapters~~>
+               <span>~~[count]~~</span>.
                <span data-class=~~type~~ data-type=~~type~~>~~type~~</span>:
                <span id=~~type~~>~~header~~</span>
             </div>
@@ -675,9 +684,9 @@ var spec11 = {
                <span class="dna-clone color-change2"> (2) <span>Jake</span> </span>
                <span class=dna-clone> (3) <span>Abby</span> </span>
             </span>
-            <div class="dna-clone color-change"><span data-type=front>front</span>:
+            <div class="dna-clone color-change"><span data-type=front>1. front</span>:
             <span class=id-front>Preface &amp;star;</span></div>
-            <div class="dna-clone color-change"><span data-type=back>back</span>:
+            <div class="dna-clone color-change"><span data-type=back>2. back</span>:
             <span class=id-back>Index</span></div>
          </div>
          <div class=dna-clone>
@@ -694,20 +703,22 @@ var spec11 = {
                <span class="dna-clone color-change2"> (2) <span>Jake</span> </span>
                <span class=dna-clone> (3) <span>Abby</span> </span>
             </span>
-            <div class="dna-clone color-change"><span data-type=front>front</span>:
+            <div class="dna-clone color-change"><span data-type=front>1. front</span>:
             <span class=id-front>Preface &star;</span></div>
-            <div class="dna-clone color-change"><span data-type=back>back</span>:
+            <div class="dna-clone color-change"><span data-type=back>2. back</span>:
             <span class=id-back>Index</span></div>
-            <div class="dna-clone color-change"><span data-type=back>back</span>:
+            <div class="dna-clone color-change"><span data-type=back>3. back</span>:
             <span class=id-back>Bio</span></div>
-            <div class="dna-clone color-change"><span data-type=back>back</span>:
+            <div class="dna-clone color-change"><span data-type=back>5. back</span>:
             <span class=id-back>Bio 3</span></div>
+            <div class="dna-clone color-change"><span data-type=back>6. back</span>:
+            <span class=id-back>Bio X</span></div>
          </div>
       </div>
    </fieldset>
 </section>
 <script>
-var spec12 = {
+spec.spec12 = {
    run: function() {
       var chapters = [
          { header: 'Preface &star;', type: 'front' },
@@ -717,6 +728,8 @@ var spec12 = {
          { header: 'Bio 2', type: 'back' },
          { header: 'Bio 3', type: 'back' }
          ];
+      var lastChapter =
+         { header: 'Bio X', type: 'back' };
       var authors = ['Ed', 'Jake', 'Abby'];
       var book1 = { title: 'The DOM' };
       var book2 = { title: 'Howdy HTML5',  authors: authors, chapters: chapters };
@@ -731,6 +744,7 @@ var spec12 = {
       dna.cloneSub(clone, 'chapters', { header: 'Bio', type: 'back' });
       dna.cloneSub(clone, 'chapters', moreChapters);
       dna.destroy($('.s12-book').find(':contains(Bio 2)'), { main: false });
+      dna.cloneSub(clone, 'chapters', lastChapter);
       clone.toggleClass('border-change', dna.getModel(clone).chapters.length === 4);
       $('.s12-book').find('[data-author=Jake]').addClass('color-change2');
       }
@@ -765,7 +779,7 @@ var spec12 = {
    </fieldset>
 </section>
 <script>
-var spec13 = {
+spec.spec13 = {
    run: function() {
       dna.clone('s13-book', '<script>alert(1);<\/script>');
       dna.clone('s13-book', '<script>alert(2);<\/script>', { html: false });
@@ -826,7 +840,7 @@ var spec13 = {
    </fieldset>
 </section>
 <script>
-var spec14 = {
+spec.spec14 = {
    run: function() {
       var books = ['The DOM', 'Howdy HTML5', 'Styling CSS3'];
       dna.clone('s14-book', books);
@@ -841,13 +855,13 @@ var spec14 = {
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
-         <div id=s15-book class=dna-template data-callback=spec15.configure>
+         <div id=s15-book class=dna-template data-callback=spec.spec15.configure>
             <div class=surrounded>
                <span class=count>~~[count]~~</span>: <span>~~[value]~~</span>
             </div>
             <button class=1 data-click=dna.bye>Bye 1</button>
             <button class=2>Bye 2</button>
-            <button class=3 data-click=spec15.bye>Bye 3</button>
+            <button class=3 data-click=spec.spec15.bye>Bye 3</button>
          </div>
       </div>
       <div data-placeholder=s15-book>No more clones!</div>
@@ -876,7 +890,7 @@ var spec14 = {
    </fieldset>
 </section>
 <script>
-var spec15 = {
+spec.spec15 = {
    configure: function(elem) {
       elem.addClass('color-change');
       },
@@ -893,10 +907,10 @@ var spec15 = {
          dna.bye(elem);
       },
    run: function() {
-      dna.registerInitializer('spec15.surround', { selector: '.surrounded' });
+      dna.registerInitializer('spec.spec15.surround', { selector: '.surrounded' });
       dna.registerInitializer('css', { selector: '.surrounded', params: { color: 'white' } });
       dna.registerInitializer('css', { selector: '.surrounded', params: ['padding', '10px'] });
-      dna.registerInitializer(spec15.surround2);  //apply to each clone
+      dna.registerInitializer(spec.spec15.surround2);  //apply to each clone
       var titles = ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE'];
       dna.clone('s15-book', titles);
       $('.s15-book button.2').click(dna.bye);  //add handler
@@ -927,7 +941,7 @@ var spec15 = {
             <div>
                <label data-array=~~options~~ data-class=~~set,border-change,border-change2~~>
                   <input type=checkbox value=~~code~~ data-prop-checked=~~set~~>
-                  <span>~~name~~</span>
+                  <span>~~name~~</span> [<span>~~[count]~~</span>]
                </label>
             </div>
             Cover:
@@ -935,7 +949,7 @@ var spec15 = {
                <label data-array=~~cover~~ data-input-name=cover data-class=~~set,border-change~~>
                   <input type=radio value=~~code~~ name=cover
                      data-prop-disabled=~~unavailable~~ data-prop-checked=~~set~~>
-                  <span>~~name~~</span>
+                  <span>~~name~~</span> [<span>~~[count]~~</span>]
                </label>
             </div>
             Purpose:
@@ -979,7 +993,7 @@ var spec15 = {
             </p>
             Note (2s smart updates):
             <p>
-               <input data-smart-update=spec16.submitNote data-smart-throttle=2000 value=~~note~~><br>
+               <input data-smart-update=spec.spec16.submitNote data-smart-throttle=2000 value=~~note~~><br>
                <code>~~note~~</code>
             </p>
          </div>
@@ -997,30 +1011,30 @@ var spec15 = {
             <div>
                <label class=border-change>
                   <input type=checkbox value=fast checked>
-                  <span>Overnight</span>
+                  <span>Overnight [1]</span>
                </label>
                <label class=border-change2>
                   <input type=checkbox value=share>
-                  <span>Social share</span>
+                  <span>Social share [2]</span>
                </label>
                <label class=border-change>
                   <input type=checkbox value=gift checked>
-                  <span>Gift</span>
+                  <span>Gift [3]</span>
                </label>
             </div>
             Cover:
             <div>
                <label>
                   <input type=radio value=soft name=cover-expected>
-                  <span>Paperback</span>
+                  <span>Paperback [1]</span>
                </label>
                <label class=border-change>
                   <input type=radio value=hard name=cover-expected checked>
-                  <span>Hardcover</span>
+                  <span>Hardcover [2]</span>
                </label>
                <label>
                   <input type=radio value=ebook name=cover-expected disabled>
-                  <span>Digital</span>
+                  <span>Digital [3]</span>
                </label>
             </div>
             Purpose:
@@ -1077,10 +1091,10 @@ var spec15 = {
    </fieldset>
 </section>
 <script>
-var spec16 = {
+spec.spec16 = {
    start: Date.now(),
    submitNote: function(elem) {
-      var time = Date.now() - spec16.start;
+      var time = Date.now() - spec.spec16.start;
       dna.clone('note', { ms: time, note: elem.val() }, { top: true, fade: true });
       },
    run: function() {
@@ -1100,16 +1114,16 @@ var spec16 = {
          { code: 'edu',  name: 'School',   set: 'T' }  //selected
          ];
       var book = {
-         title:    'The DOM',
-         options:  options,
-         cover:    cover,
-         purposes: purposes,
-         category: 'computers',
-         meta:     { info: { tags: [{ english: { code: 'tech' } },  { english: { code: 'color' } }] } },  //verify dot notation
-         secret:   'Signed!',
-         pubDate:  '2014-06-22',
+         title:      'The DOM',
+         options:    options,
+         cover:      cover,
+         purposes:   purposes,
+         category:   'computers',
+         meta:       { info: { tags: [{ english: { code: 'tech' } },  { english: { code: 'color' } }] } },  //verify dot notation
+         secret:     'Signed!',
+         pubDate:    '2014-06-22',
          coverColor: '#daa520',
-         note:     'Award winning'
+         note:       'Award winning'
          };
       var clone = dna.clone('s16-book', book);
       var titleElem = clone.find('input:text').first().val('The DOM!').change();  //simulate user edit
@@ -1179,7 +1193,7 @@ var spec16 = {
    </fieldset>
 </section>
 <script>
-var spec17 = {
+spec.spec17 = {
    run: function() {
       // Nothing to do as component knows how to initialize itself.
       }
@@ -1192,7 +1206,7 @@ var spec17 = {
    <p>Smooth container and pulse button</p>
    <fieldset>
       <legend>Actual</legend>
-      <input type=range value=3 data-change=spec18.smooth>
+      <input type=range value=3 data-change=spec.spec18.smooth>
       <div class=smooth-container>
          <p id=chapter-box class=dna-template>~~[count]~~</p>
       </div>
@@ -1210,7 +1224,7 @@ var spec17 = {
    </fieldset>
 </section>
 <script>
-var spec18 = {
+spec.spec18 = {
    iEvent: function(elem, event) {
       console.log(Date.now(), elem.val(), event.type);
       },
@@ -1219,11 +1233,11 @@ var spec18 = {
       },
    smooth: function(range) {
       dna.ui.smoothHeightSetBaseline($('#spec18 .smooth-container'));
-      spec18.makeChapterBoxes(range);
+      spec.spec18.makeChapterBoxes(range);
       dna.ui.smoothHeightAnimate();
       },
    run: function() {
-      spec18.makeChapterBoxes($('#spec18 input[type=range]').first());
+      spec.spec18.makeChapterBoxes($('#spec18 input[type=range]').first());
       function clickButton() { $('#spec18 button[data-click]').click(); }
       window.setInterval(clickButton, 3000);
       }
@@ -1236,11 +1250,11 @@ var spec18 = {
    <p>Panels - nav buttons</p>
    <fieldset>
       <legend>Actual</legend>
-      <nav id=s19-books class=dna-menu data-callback=spec19.displayPanel>
+      <nav id=s19-books class=dna-menu data-callback=spec.spec19.displayPanel>
          <button id=s19-book-title class=dna-template>~~title~~</button>
       </nav>
       <div id=s19-books-panels class=dna-panels>
-         <section id=s19-book class=dna-template data-transform=spec19.enhance>
+         <section id=s19-book class=dna-template data-transform=spec.spec19.enhance>
             <h2>~~title~~</h2>
             <p>~~author~~</p>
             <p>~~displayPrice~~</p>
@@ -1266,7 +1280,7 @@ var spec18 = {
    </fieldset>
 </section>
 <script>
-var spec19 = {
+spec.spec19 = {
    enhance: function(data) {
       data.code = dna.util.toKebab(data.title);
       data.displayPrice = '$' + (data.price / 100).toFixed(2);
@@ -1350,7 +1364,7 @@ var spec19 = {
    </fieldset>
 </section>
 <script>
-var spec20 = {
+spec.spec20 = {
    run: function() {
       function postRenderClick() { $('#s20-category .menu-item:contains(W3C)').click(); }
       window.setTimeout(postRenderClick, 1000);
@@ -1391,7 +1405,7 @@ var spec20 = {
    </fieldset>
 </section>
 <script>
-var spec21 = {
+spec.spec21 = {
    run: function() {
       dna.clone('s21-book-author-nav-button', specRunner.catalog);
       dna.clone('s21-book-author',            specRunner.catalog);
@@ -1438,7 +1452,7 @@ var spec21 = {
    </fieldset>
 </section>
 <script>
-var spec22 = {
+spec.spec22 = {
    run: function() {
       function sumPrice(sum, book) { return sum + book.price; }
       function addTitleWords(words, book) { return words.concat(book.title.split(' ')); }
@@ -1467,32 +1481,33 @@ var spec22 = {
 <script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js></script>
 <script src=../dna.js></script>
 <script>
-var specRunner = {
+const specRunner = {
    catalog: [
       { title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en' },
       { title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr' },
       { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 }
       ],
    setup: function() {
+      function makePageRed() { $('body').css({ backgroundColor: 'pink' }); }
+      window.onerror = makePageRed;
       function minifiedMode() {
          $('#file-name').text('dna.min.js');
          $('#switch').attr('href', 'visual.html');
          }
       if (window.location.pathname.endsWith('-min.html'))
          minifiedMode();
-      var info = dna.info();
       function run(i, specSection) {
          var name = $(specSection).attr('id');
          console.log(name);
-         window[name].run();
+         spec[name].run();
          }
       console.log('~~ dna.js ~~');
-      console.log('Version: ' + info.version);
+      console.log('Version: ' + dna.info().version);
       console.log('Specifications:');
       var start = Date.now();
       $('main >section').each(run);
       console.log('Run time (ms):', Date.now() - start);
-      console.log('Report:', info);
+      console.log('Report:', dna.info());
       console.log('');
       }
    };
