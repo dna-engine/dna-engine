@@ -45,7 +45,7 @@ describe('Utility function dna.util.toKebab()', () => {
    it('converts kebab (dashes) name to camelCase', () => {
       const dataSet = [
            { input: 'readySetGo', expected: 'ready-set-go' },
-           { input: 'dna',          expected: 'dna' }
+           { input: 'dna',        expected: 'dna' }
            ];
       function evalData(data) {
          assert.strictEqual(dna.util.toKebab(data.input), data.expected);
@@ -59,7 +59,7 @@ describe('Utility function dna.util.toKebab()', () => {
 describe('Utility function dna.util.value()', () => {
 
    it('returns value from key', () => {
-      const actual =   dna.util.value({ a: { b: 7 }}, 'a.b');
+      const actual =   dna.util.value({ a: { b: 7 } }, 'a.b');
       const expected = 7;
       assert.strictEqual(actual, expected);
       });
@@ -108,6 +108,29 @@ describe('Utility function dna.util.apply()', () => {
       const actual =   dna.util.apply('app.cart.buy', 7);
       const expected = 14.95;
       assert.strictEqual(actual, expected);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Utility function dna.util.assign()', () => {
+
+   const app = { cart: { items: 3, total: 43.21 } };
+
+   it('updates an existing field in an object', () => {
+      const actual =   dna.util.assign(app, 'cart.total', 79.95);
+      const expected = { cart: { items: 3, total: 79.95 } };
+      assert.deepEqual(actual, expected);
+      });
+   it('creates a new field in an object', () => {
+      const actual =   dna.util.assign(app, 'cart.status.level', 'gold');
+      const expected = { cart: { items: 3, total: 79.95, status: { level: 'gold' } } };
+      assert.deepEqual(actual, expected);
+      });
+   it('creates a new object if needed', () => {
+      const actual =   dna.util.assign(null, 'cart.status.level', 'silver');
+      const expected = { cart: { status: { level: 'silver' } } };
+      assert.deepEqual(actual, expected);
       });
 
    });

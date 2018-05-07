@@ -444,6 +444,8 @@ dna.util = {
       if (typeof field === 'string')
          field = field.split('.');
       var name = field[0];
+      if (!$.isPlainObject(data))
+         data = {};
       if (field.length === 1)
          data[name] = value;
       else
