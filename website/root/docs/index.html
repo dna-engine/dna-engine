@@ -1466,7 +1466,7 @@
          <pre><code class=language-html>
             &lt;div id=book class=dna-template data-transform=enhanceBook&gt;
                &lt;span&gt;~~title~~&lt;/span&gt;
-               &lt;img src=star.png alt=star data-truthy=~~displayStar~~&gt;
+               &lt;img src=star.png alt=star data-true=~~displayStar~~&gt;
             &lt;/div&gt;
          </code></pre>
       </figure>
@@ -1913,7 +1913,7 @@
          <pre><code class=language-html>
             &lt;div id=book class=dna-template&gt;
                &lt;span&gt;~~title~~&lt;/span&gt;
-               &lt;img src=star.png alt=star data-truthy=~~displayStar~~&gt;
+               &lt;img src=star.png alt=star data-true=~~displayStar~~&gt;
             &lt;/div&gt;
          </code></pre>
       </figure>
@@ -2192,7 +2192,7 @@
       <figure>
          <figcaption>Example HTML</figcaption>
          <pre><code class=language-html>
-            &lt;p class=warning data-truthy=~~overdue~~&gt;Invoice past due!&lt;/p&gt;
+            &lt;p class=warning data-true=~~overdue~~&gt;Invoice past due!&lt;/p&gt;
          </code></pre>
       </figure>
       <figure>
@@ -3302,7 +3302,7 @@
    <section id=util-real-truth>
       <h4>dna.util.realTruth(value)</h4>
       <p class=api-description>
-         Return the <a href=#real-truth>"real" boolean truth</a> of a value.&nbsp; Whereas
+         Returns the <a href=#real-truth>"real" boolean truth</a> of a value.&nbsp; Whereas
          JavaScript truthy and falsey are more about existence, the "real" truth is for evaluating
          boolean data as it is stored in databases or transmitted in REST calls.
       </p>

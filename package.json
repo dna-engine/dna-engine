@@ -1,6 +1,6 @@
 {
    "name": "dna.js",
-   "version": "1.3.9",
+   "version": "1.4.0",
    "description": "An uncomplicated user interface library for semantic templates",
    "summary": "dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications.",
    "license": "MIT",
@@ -53,9 +53,9 @@
       "gulp-uglify": "~3.0",
       "gulp-w3cjs": "~1.3",
       "jquery": "~3.3",
-      "jsdom": "~11.6",
+      "jsdom": "~11.10",
       "jshint": "~2.9",
       "merge-stream": "~1.0",
-      "mocha": "~5.0"
+      "mocha": "~5.1"
    }
 }

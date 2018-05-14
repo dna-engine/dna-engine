@@ -118,13 +118,13 @@ describe('Utility function dna.util.assign()', () => {
    const app = { cart: { items: 3, total: 43.21 } };
 
    it('updates an existing field in an object', () => {
-      const actual =   dna.util.assign(app, 'cart.total', 79.95);
-      const expected = { cart: { items: 3, total: 79.95 } };
+      const actual =   dna.util.assign(app, 'cart.total', 123.45);
+      const expected = { cart: { items: 3, total: 123.45 } };
       assert.deepEqual(actual, expected);
       });
    it('creates a new field in an object', () => {
       const actual =   dna.util.assign(app, 'cart.status.level', 'gold');
-      const expected = { cart: { items: 3, total: 79.95, status: { level: 'gold' } } };
+      const expected = { cart: { items: 3, total: 123.45, status: { level: 'gold' } } };
       assert.deepEqual(actual, expected);
       });
    it('creates a new object if needed', () => {

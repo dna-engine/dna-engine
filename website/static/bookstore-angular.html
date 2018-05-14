@@ -12,12 +12,12 @@
 <body data-ng-app=Books>
 
 <h1>Bookstore</h1>
-<div class=books data-ng-controller=BooksController>
+<section class=books data-ng-controller=BooksController>
    <div class=book data-ng-repeat="book in books">
-      <div>Title:  <span>{{book.title}}</span></div>
-      <div>Author: <span>{{book.author}}</span></div>
+      <h2>{{book.title}}</h2>
+      Author: <b>{{book.author}}</b>
    </div>
-</div>
+</section>
 
 <script src=https://cdn.jsdelivr.net/angularjs/1.5.0/angular.min.js></script>
 <script>
