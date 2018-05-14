@@ -946,7 +946,7 @@ spec.spec15 = {
             </div>
             Cover:
             <div>
-               <label data-array=~~cover~~ data-input-name=cover data-class=~~set,border-change~~>
+               <label data-array=~~covers~~ data-input-name=cover data-class=~~set,border-change~~>
                   <input type=radio value=~~code~~ name=cover
                      data-prop-disabled=~~unavailable~~ data-prop-checked=~~set~~>
                   <span>~~name~~</span> [<span>~~[count]~~</span>]
@@ -980,6 +980,7 @@ spec.spec15 = {
                   <input value=~~secret~~ size=10 type=password>
                   <code>~~secret~~</code>
                </span>
+               <textarea>~~secret~~</textarea>
             </p>
             Published:
             <p>
@@ -1067,9 +1068,10 @@ spec.spec15 = {
             Secret:
             <p>
                <span class=in-a-row>
-                  <input value="Signed!" size=10 type=password>
-                  <code>Signed!</code>
+                  <input value="0xDEADBEEF" size=10 type=password>
+                  <code>0xDEADBEEF</code>
                </span>
+               <textarea>0xDEADBEEF</textarea>
             </p>
             Published:
             <p>
@@ -1103,7 +1105,7 @@ spec.spec16 = {
          { code: 'share', name: 'Social Share', set: false },
          { code: 'gift',  name: 'Gift',         set: false }
          ];
-      var cover = [
+      var covers = [
          { code: 'soft',  name: 'Paperback', unavailable: 0, set: 1 },  //selected
          { code: 'hard',  name: 'Hardcover', unavailable: 0, set: 0 },
          { code: 'ebook', name: 'Digital',   unavailable: 1, set: 0 }
@@ -1116,11 +1118,11 @@ spec.spec16 = {
       var book = {
          title:      'The DOM',
          options:    options,
-         cover:      cover,
+         covers:     covers,
          purposes:   purposes,
          category:   'computers',
          meta:       { info: { tags: [{ english: { code: 'tech' } },  { english: { code: 'color' } }] } },  //verify dot notation
-         secret:     'Signed!',
+         secret:     '0xDEADBEEF',
          pubDate:    '2014-06-22',
          coverColor: '#daa520',
          note:       'Award winning'
@@ -1151,7 +1153,7 @@ spec.spec16 = {
          <h2 data-click=bookshelf.showMsg>Bookshelf</h2>
          <button>View book data</button>
          <div id=s17-book class=dna-template>
-            <div>Title: <b>~~title~~</b></div>
+            <div>Title:  <b>~~title~~</b></div>
             <div>Author: <b>~~author~~</b></div>
          </div>
          <script>

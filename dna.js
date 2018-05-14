@@ -625,7 +625,10 @@ dna.compile = {
       // Example:
       //    <p>~~name~~</p>  ==>  <p class=dna-nucleotide data-dnaRules={ text: 'name' }></p>
       elem = dna.compile.setupNucleotide($(elem));
-      elem.data().dnaRules.text = $.trim(elem.text()).replace(dna.compile.regexDnaBasePairs, '');
+      var field = $.trim(elem.text()).replace(dna.compile.regexDnaBasePairs, '');
+      elem.data().dnaRules.text = field;
+      if (elem.is('textarea'))
+         elem.addClass('dna-update-model').data().dnaField = field;
       return elem.empty();
       },
    propsAndAttrs: function(i, elem) {
@@ -854,6 +857,8 @@ dna.events = {
                updateField(target, getValue);
             else if (target.is('select'))
                target.find('option').each(updateOption);
+            if (target.is('textarea'))
+               updateField(target, getValue);
             dna.refresh(mainClone);
             }
          if (target.hasClass('dna-update-model'))
