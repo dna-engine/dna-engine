@@ -737,15 +737,16 @@ spec.spec12 = {
       dna.clone('s12-book', [book1, book2, book3, book1], { html: false });
       dna.cloneSub(dna.getClones('s12-book').first(), 'authors', 'Bo I');
       dna.cloneSub(dna.getClones('s12-book').first(), 'authors', 'Bo II');
-      $('.s12-book').first().toggleClass('border-change', $('.s12-book').first().data().title === 'The DOM');
-      var elem = $('.s12-book').first().find('.s12-book-authors-instance').last();
+      var clone = $('.s12-book').first();
+      clone.toggleClass('border-change', clone.data().title === 'The DOM');
+      var elem = clone.find('.s12-book-authors-instance').last();
       elem.addClass(elem.data().author === 'Bo II' ? 'color-change' : 'color-change2');
-      var clone = dna.refresh($('.s12-book').last(), { data: book2, html: true });
+      clone = dna.refresh($('.s12-book').last(), { data: book2, html: true });
       dna.cloneSub(clone, 'chapters', { header: 'Bio', type: 'back' });
       dna.cloneSub(clone, 'chapters', moreChapters);
       dna.destroy($('.s12-book').find(':contains(Bio 2)'), { main: false });
       dna.cloneSub(clone, 'chapters', lastChapter);
-      clone.toggleClass('border-change', dna.getModel(clone).chapters.length === 4);
+      clone.toggleClass('border-change', dna.getModel(clone).chapters.length === 5);
       $('.s12-book').find('[data-author=Jake]').addClass('color-change2');
       }
    };
@@ -796,7 +797,7 @@ spec.spec13 = {
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
-         <div id=s14-book class=dna-template>
+         <div id=s14-book class=dna-template data-count=~~[count]~~>
             <div>
                <button data-click=dna.up>&uarr;</button>
                <button data-click=dna.down>&darr;</button>
@@ -827,7 +828,7 @@ spec.spec13 = {
             </div>
             Book #<span>2</span>: <span>Howdy HTML5</span>
          </div>
-         <div class=dna-clone>
+         <div class="dna-clone border-change">
             <div>
                <button>&uarr;</button>
                <button>&darr;</button>
@@ -844,6 +845,8 @@ spec.spec14 = {
    run: function() {
       var books = ['The DOM', 'Howdy HTML5', 'Styling CSS3'];
       dna.clone('s14-book', books);
+      function countIsThree(i, elem) { return parseInt($(elem).data().count) === 3; }
+      dna.getClones('s14-book').filter(countIsThree).addClass('border-change');
       }
    };
 </script>

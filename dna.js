@@ -636,7 +636,8 @@ dna.compile = {
       //    <option data-prop-selected=~~set~~>  ==>  <option class=dna-nucleotide + data-dnaRules={ props: ['selected', 'set'] }>
       //    <p id=~~num~~>                       ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['id', ['', 'num', '']] }>
       //    <p data-attr-src=~~url~~>            ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['src', ['', 'url', '']] }>
-      //    <p data-tag=~~[value]~~>             ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['data-tag', ['', true, '']] }>
+      //    <p data-tag=~~[count]~~>             ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['data-tag', ['', 1, '']] }>
+      //    <p data-tag=~~[value]~~>             ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['data-tag', ['', 2, '']] }>
       elem = $(elem);
       var props = [];
       var attrs = [];
@@ -653,8 +654,10 @@ dna.compile = {
          }
       function compileAttr(key, value) {
          var parts = value.split(dna.compile.regexDnaBasePair);
-         if (parts[1] === '[value]')
-            parts[1] = true;
+         if (parts[1] === '[count]')
+            parts[1] = 1;
+         else if (parts[1] === '[value]')
+            parts[1] = 2;
          attrs.push(key.replace(/^data-attr-/, ''), parts);
          names.push(key);
          var textInput = 'input:not(:checkbox, :radio)';
@@ -938,7 +941,8 @@ dna.core = {
          for (var attr = 0; attr < attrs.length / 2; attr++) {  //each attr has a key and parts
             var key = attrs[attr*2];
             var parts = attrs[attr*2 + 1];  //example: 'J~~code.num~~' ==> ['J', 'code.num', '']
-            var core = parts[1] === true ? data : dna.util.value(data, parts[1]);
+            var field = parts[1];
+            var core = field === 1 ? count : field === 2 ? data : dna.util.value(data, field);
             var value = [parts[0], core, parts[2]].join('');
             elem.attr(key, value);
             if (/^data-./.test(key))
