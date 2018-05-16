@@ -22,7 +22,7 @@ const webContext = {
       tutorial: 'juIru5qHZFM'
       },
    jsFiddle: {
-      addABook:       'eo3gpfmo',
+      addABook:       'Lspfc8t5',
       bookFinder:     'zxb2x6dv',
       dataClick:      '5dsbvacd',
       liveModel:      '8gnyLovu',
@@ -34,6 +34,7 @@ const webContext = {
       }
    };
 webContext.title = 'dna.js';  //default page title
+webContext.minorVersion = webContext.pkg.version.split('.').slice(0,2).join('.');
 const banner = '// dna.js v' + webContext.pkg.version + ' ~~ dnajs.org ~~ MIT\n';
 const versionPatternStrs = [
    'dna[.]js v',     //example (dna.css):      /* dna.js v1.0.0 ~~ dnajs.org ~~ MIT */

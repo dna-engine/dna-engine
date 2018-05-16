@@ -206,19 +206,21 @@
    <section id=setup-cdn>
       <h4>CDN</h4>
       <p>
-         The jsDelivr CDN makes it easy to get started.
+         The
+         <a href=https://www.jsdelivr.com/package/npm/dna.js class=external-site>jsDelivr CDN</a>
+         makes it easy to get started.
       </p>
       <figure>
          <figcaption>Load CSS file</figcaption>
          <pre><code class=language-html>
-            &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@1.4/dna.css&gt;
+            &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dna.css&gt;
          </code></pre>
       </figure>
       <figure>
          <figcaption>Load JavaScript libraries</figcaption>
          <pre><code class=language-html>
             &lt;script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js&gt;&lt;/script&gt;
-            &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@1.4/dna.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dna.min.js&gt;&lt;/script&gt;
          </code></pre>
       </figure>
       <p>
@@ -237,6 +239,18 @@
          <figcaption>npm</figcaption>
          <pre><code class=language-bash>
             $ npm install dna.js
+         </code></pre>
+      </figure>
+      <p class=big-symbol><i class=icon data-icon=arrow-down></i></p>
+      <figure>
+         <figcaption>package.json</figcaption>
+         <pre><code class=language-json>
+            ...
+            "dependencies": {
+               "dna.js": "~@@minorVersion",
+               "jquery": "~3.3"
+            }
+            ...
          </code></pre>
       </figure>
       <p>
@@ -1512,7 +1526,7 @@
       <p>
          Use the <code>data-callback</code> attribute to declare a callback function for a
          template.&nbsp; Cloning the template triggers the callback for each new clone, and the clone
-         element is passed into the function.
+         element and its data model are passed into the function.
       </p>
       <p>
          In the example below, the <code>span</code> node of each new book clone is passed into
