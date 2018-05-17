@@ -55,10 +55,9 @@ const jsHintConfig = {
    };
 
 function setVersionNumber() {
-   const stream = gulp.src(['dna.js', 'dna.css'])
+   return gulp.src(['dna.js', 'dna.css'])
       .pipe(replace(versionPatterns, '$1' + webContext.pkg.version))
       .pipe(gulp.dest('.'));
-   return stream;
    }
 
 function runJsHint() {
@@ -68,7 +67,7 @@ function runJsHint() {
    }
 
 function runUglify() {
-   gulp.src('dna.js')
+   return gulp.src('dna.js')
       .pipe(rename('dna.min.js'))
       .pipe(uglify())
       .pipe(header(banner))
@@ -89,36 +88,46 @@ function cleanWebsite() {
     }
 
 function buildWebsite() {
+   return mergeStream(
+      gulp.src(['website/static/**', '!website/static/**/*.html'])
+         .pipe(gulp.dest(httpdocsFolder)),
+      gulp.src(['website/static/**/*.html', 'website/root/**/*.html'])
+         .pipe(fileInclude({ basepath: '@root', indent: true, context: webContext }))
+         .pipe(w3cJs())
+         .pipe(w3cJs.reporter())
+         .pipe(htmlHint(htmlHintConfig))
+         .pipe(htmlHint.reporter())
+         .pipe(gulp.dest(httpdocsFolder))
+         .pipe(size({ showFiles: true }))
+      );
+   }
+
+function otherStuff() {
    const findToDoLine = /.*To-Do Application.*/;
    const findIntroLine = /.*Introduction to dna.js.*/;
    const newToDoLine =
       '* [Sample To-Do Application](http://jsfiddle.net/' + webContext.jsFiddle.toDo + '/) (jsfiddle)';
    const newIntroLine =
       '* [Introduction to dna.js](https://youtu.be/' + webContext.youTube.intro + ') (YouTube)';
-   gulp.src('README.md')
-      .pipe(replace(findToDoLine,  newToDoLine))
-      .pipe(replace(findIntroLine, newIntroLine))
-      .pipe(size({ showFiles: true }))
-      .pipe(gulp.dest('.'));
-   gulp.src('website/static/**')
-      .pipe(gulp.dest(httpdocsFolder));
-   gulp.src(['website/static/**/*.html', 'spec/visual.html'])
-      .pipe(w3cJs())
-      .pipe(w3cJs.reporter())
-      .pipe(htmlHint(htmlHintConfig))
-      .pipe(htmlHint.reporter());
-   gulp.src('website/root/**/*.html')
-      .pipe(fileInclude({ basepath: '@root', indent: true, context: webContext }))
-      .pipe(w3cJs())
-      .pipe(w3cJs.reporter())
-      .pipe(htmlHint(htmlHintConfig))
-      .pipe(htmlHint.reporter())
-      .pipe(gulp.dest(httpdocsFolder));
+   return mergeStream(
+      gulp.src('README.md')
+         .pipe(replace(findToDoLine,  newToDoLine))
+         .pipe(replace(findIntroLine, newIntroLine))
+         .pipe(size({ showFiles: true }))
+         .pipe(gulp.dest('.')),
+      gulp.src('spec/visual.html')
+         .pipe(w3cJs())
+         .pipe(w3cJs.reporter())
+         .pipe(htmlHint(htmlHintConfig))
+         .pipe(htmlHint.reporter())
+         .pipe(size({ showFiles: true }))
+      );
    }
 
 gulp.task('set-version', setVersionNumber);
 gulp.task('lint',        runJsHint);
-gulp.task('minify',      ['set-version'], runUglify);
-gulp.task('build',       ['lint', 'minify'], reportSize);
+gulp.task('minify',      runUglify);
+gulp.task('report-size', reportSize);
 gulp.task('clean-web',   cleanWebsite);
-gulp.task('web',         ['clean-web'], buildWebsite);
+gulp.task('build-web',   buildWebsite);
+gulp.task('other-stuff', otherStuff);

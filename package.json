@@ -33,9 +33,12 @@
       "mocha": true
    },
    "scripts": {
-      "pretest": "jshint gulpfile.js spec/*.js && gulp build",
+      "pretest": "jshint gulpfile.js spec/*.js && gulp set-version && gulp lint && gulp minify",
       "test": "mocha spec/*.js",
-      "web": "gulp web"
+      "posttest": "gulp report-size",
+      "preweb": "gulp clean-web",
+      "web": "gulp build-web",
+      "postweb": "gulp other-stuff"
    },
    "peerDependencies": {
       "jquery": ">=2.2"
