@@ -1,4 +1,4 @@
-@@include('website/templates/page-begin.html')
+@@include('website/templates/page-begin.html', { "title": "@@pkg.description" })
 
 <main>
 
@@ -8,7 +8,7 @@
          <h2>Download v@@pkg.version</h2>
          <p>
             <button data-href=https://raw.github.com/dnajs/dna.js/current/dna.min.js class=external-site>
-               <i data-icon=download></i> dna.min.js (@@size)
+               <i data-icon=download></i> dna.min.js (@@gzipSize)
             </button>
          </p>
          <p>
@@ -28,9 +28,8 @@
          generated DOM elements.
       </p>
       <p>
-         The project is open source and available for free.&nbsp; The code is hosted on
-         <a href=https://github.com/dnajs/dna.js>GitHub</a> under the
-         <a href=license>MIT License</a>.
+         The dna.js project is open source under the <a href=license>MIT License</a> and hosted on
+         <a href=https://github.com/dnajs/dna.js>GitHub</a>.
       </p>
       <div style="max-width: 400px; text-align: center; margin: 0px auto;">
          <figure class=video-container-link>
@@ -43,31 +42,6 @@
             <a href=https://plus.google.com/+DnajsOrg><i data-icon=google-plus-official></i></a>
          </span>
       </div>
-   </section>
-
-   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <section id=todo>
-       <h3>To-Do List Application</h3>
-       <div class=push-right>
-          <a href=http://jsfiddle.net/@@jsFiddle.toDo class=external-site>
-             <img class=side-image src=graphics/icon-todo-app.png alt=screenshot>
-          </a>
-       </div>
-       <p>
-          Looking under the hood of a simple to-do list application is a good way to quickly
-          understand a library.<br>
-       </p>
-       <p>
-          Experiment with the dna.js to-do list application at:
-          <button data-href=http://jsfiddle.net/@@jsFiddle.toDo class=external-site>
-             jsfiddle.net/@@jsFiddle.toDo
-          </button>
-       </p>
-       <p>
-          The core of the to-do list application is not even <b>10 lines of JavaScript</b>, yet the
-          application includes add a task, complete a task with style change, delete a task, and
-          smooth animation effects.
-       </p>
    </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -174,6 +148,31 @@
    </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=todo>
+       <h3>To-Do List Application</h3>
+       <div class=push-right>
+          <a href=http://jsfiddle.net/@@jsFiddle.toDo class=external-site>
+             <img class=side-image src=graphics/icon-todo-app.png alt=screenshot>
+          </a>
+       </div>
+       <p>
+          Looking under the hood of a simple to-do list application is a good way to quickly
+          understand a library.<br>
+       </p>
+       <p>
+          Experiment with the dna.js to-do list application at:
+          <button data-href=http://jsfiddle.net/@@jsFiddle.toDo class=external-site>
+             jsfiddle.net/@@jsFiddle.toDo
+          </button>
+       </p>
+       <p>
+          The core of the to-do list application is not even <b>10 lines of JavaScript</b>, yet the
+          application includes add a task, complete a task with style change, delete a task, and
+          smooth animation effects.
+       </p>
+   </section>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <section id=philosophy>
        <h3>Philosophy</h3>
        <p>
@@ -182,12 +181,13 @@
           applications using dna.js is familiar to all web developers, enabling developers to be
           productive on the first day of using dna.js.
        </p>
-       Templating should be lightweight, clean, and simple:
+       Templating should be unobtrusive, clean, and simple:
        <ol>
           <li>Be completely web framework agnostic</li>
           <li>Put no HTML in your JavaScript</li>
-          <li>Templates should be real HTML that <a href="https://validator.w3.org/nu/?doc=http://dnajs.org"
-             class=external-site>validate</a></li>
+          <li>Templates should be real HTML that pass
+             <a href="https://validator.w3.org/nu/?doc=http://dnajs.org"
+             class=external-site>W3C validatation</a></li>
           <li>Templates can be inline (no need for separate template files)</li>
           <li>Iteration is best done with <a href=docs/#loop-templates>data arrays</a> not messy
              template <code>for</code> loops</li>

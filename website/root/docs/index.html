@@ -734,10 +734,16 @@
          <pre><code class=language-javascript>
             var book = { title: 'The DOM', author: 'Bo' };
             var clone = dna.clone('book', book);
-            dna.getModel(clone).title = 'The DOM II';
+            var model = dna.getModel(clone);
+            model.title = 'The DOM II';
             dna.refresh(clone);  //updates ui (DOM element) with new title
          </code></pre>
       </figure>
+      <p>
+         <em>Note:</em>
+         To get the data for all the clones of a template, pass in the template name (String).&nbsp;
+         For example, <code>dna.getModel('book')</code> will return an array of book objects.
+      </p>
    </section>
 
    <!-- dna.refresh() -->
@@ -765,7 +771,8 @@
          <pre><code class=language-javascript>
             var book = { title: 'The DOM', author: 'Bo' };
             var clone = dna.clone('book', book);
-            dna.getModel(clone).title = 'The DOM II';
+            var model = dna.getModel(clone);
+            model.title = 'The DOM II';
             dna.refresh(clone);  //updates ui (DOM element) with new title
          </code></pre>
       </figure>
@@ -2128,10 +2135,10 @@
             <tr><th>Attribute</th><th>Value</th><th>Logic</th></tr>
          </thead>
          <tbody>
-            <tr><td><code>data-require</code></td><td>Data Field</td><td>Show element only if specified field has a value</td></tr>
-            <tr><td><code>data-missing</code></td><td>Data Field</td><td>Show element only if specified field has no value</td></tr>
-            <tr><td><code>data-truth</code></td><td>Data Field</td><td>Show element only if specified field means true*</td></tr>
-            <tr><td><code>data-false</code></td><td>Data Field</td><td>Show element only if specified field means false*</td></tr>
+            <tr><td><code>data-require</code></td><td>Data Field</td><td>Show element only if specified field does exists*</td></tr>
+            <tr><td><code>data-missing</code></td><td>Data Field</td><td>Show element only if specified field does not exist*</td></tr>
+            <tr><td><code>data-true</code></td><td>Data Field</td><td>Show element only if specified field means true**</td></tr>
+            <tr><td><code>data-false</code></td><td>Data Field</td><td>Show element only if specified field means false**</td></tr>
          </tbody>
       </table>
       <figure>
@@ -2168,7 +2175,11 @@
          </code></pre>
       </figure>
       <!-- End: Result -->
-      <h5 id=real-truth>Real Truth</h5>
+      <h5 id=field-exists>*Field Exists</h5>
+      <p>
+         A field exists if it is not <code>undefined</code> or <code>null</code>.
+      </p>
+      <h5 id=real-truth>**Real Truth</h5>
       <p>
          dna.js evaluates if a data field is <code>true</code> or <code>false</code> based on rules
          designed to match the boolean meaning of data as it would be stored in a database or how the
@@ -3290,6 +3301,11 @@
             // New data: { cart: { items: 8 } }
          </code></pre>
       </figure>
+      <p>
+         <em>Note:</em>
+         See <a href=#util-value>dna.util.value()</a> for the complementary action of reading a
+         field value from an object.
+      </p>
    </section>
 
    <!-- dna.util.printf() -->
@@ -3394,6 +3410,11 @@
             var count = dna.util.value(data, 'cart.items');  //7
          </code></pre>
       </figure>
+      <p>
+         <em>Note:</em>
+         See <a href=#util-assign>dna.util.assign()</a> for the complementary action of setting a
+         value in an object.
+      </p>
    </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -3431,7 +3452,7 @@
          <li><a href=#event-user>            <code>data-key-down</code></a>:       Callback to run on key down event</li>
          <li><a href=#event-user>            <code>data-key-press</code></a>:      Callback to run on key press event</li>
          <li><a href=#event-user>            <code>data-key-up</code></a>:         Callback to run on key up event</li>
-         <li><a href=#structure-thimblerig>  <code>data-missing</code></a>:        Show element only if field us not defined</li>
+         <li><a href=#structure-thimblerig>  <code>data-missing</code></a>:        Show element only if field does not exist</li>
          <li><a href=#event-on-load>         <code>data-on-load</code></a>:        Pass element into function after HTML is loaded</li>
          <li><a href=#html-option>           <code>data-option</code></a>:         Set option in a select drop-down</li>
          <li><a href=#structure-placeholder> <code>data-placeholder</code></a>:    Show element only if named template is empty</li>
@@ -3442,7 +3463,7 @@
          <li><a href=#event-smart>           <code>data-smart-throttle</code></a>: Delay (milliseconds) between smart update callbacks</li>
          <li><a href=#event-smart>           <code>data-smart-update</code></a>:   Throttled callback to run on change of an input value</li>
          <li><a href=#event-transform>       <code>data-transform</code></a>:      Callback to enhance data immediately before cloning</li>
-         <li><a href=#structure-thimblerig>  <code>data-truth</code></a>:          Show element only if field evaluates to true</li>
+         <li><a href=#structure-thimblerig>  <code>data-true</code></a>:           Show element only if field evaluates to true</li>
       </ol>
    </section>
 

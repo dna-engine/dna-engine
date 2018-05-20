@@ -9,8 +9,8 @@
 [![Package Quality](http://npm.packagequality.com/shield/dna.js.svg)](http://packagequality.com/#?package=dna.js)
 [![Hits](https://data.jsdelivr.com/v1/package/npm/dna.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/dna.js)
 
-dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build maintainable
-JavaScript applications.
+dna.js is a lightweight easy-to-use UI library for jQuery enabling developers to rapidly build
+maintainable JavaScript applications.
 
 ### 1. Bookstore Example
 Designate templates with the `dna-template` class, and put the templates directly into the HTML
