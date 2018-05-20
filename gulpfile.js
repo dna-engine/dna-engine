@@ -16,7 +16,7 @@ const del =          require('del');
 
 const webContext = {
    pkg:  require('./package.json'),
-   size: '16 kb',
+   gzipSize: '6 kb gzip',
    youTube: {
       intro:    'jMOZOI-UkNI',
       tutorial: 'juIru5qHZFM'
@@ -115,7 +115,7 @@ function otherStuff() {
          .pipe(replace(findIntroLine, newIntroLine))
          .pipe(size({ showFiles: true }))
          .pipe(gulp.dest('.')),
-      gulp.src('spec/visual.html')
+      gulp.src(['spec/visual.html', 'spec/simple.html'])
          .pipe(w3cJs())
          .pipe(w3cJs.reporter())
          .pipe(htmlHint(htmlHintConfig))

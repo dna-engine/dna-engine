@@ -1,0 +1,54 @@
+<!doctype html>
+<!-- - - - - - - - - - - - - - -->
+<!-- dna.js                    -->
+<!-- Simple Specification Case -->
+<!-- - - - - - - - - - - - - - -->
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title>dna.js &bull; Simple Specification Case</title>
+<link rel=icon       href=../graphics/bookmark.png>
+<link rel=stylesheet href=../dna.css?force-reload>
+<style>
+   body            { font-family: system-ui, sans-serif; margin: 30px; }
+   main            { max-width: 500px; }
+   .books .book    { background-color: lightsteelblue; padding: 10px; margin-bottom: 20px; }
+   .books .book h2 { margin: 0px; }
+</style>
+</head>
+<body>
+
+<main>
+   <h1>Books</h1>
+   <div class=books>
+      <section id=book class=dna-template data-attr-id=~~id~~>
+         <h2>~~title~~</h2>
+         Author: <b>~~author~~</b>
+      </section>
+   </div>
+</main>
+
+<script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js></script>
+<script src=../dna.js?force-reload></script>
+<script>
+   const app = {
+      books: [
+         { id: 'B003', title: 'The DOM',      author: 'Jan',  price: 2495 },
+         { id: 'B005', title: 'Styling CSS3', author: 'Abby', price: 1995 },
+         { id: 'B007', title: 'Howdy HTML5',  author: 'Ed',   price: 2995 }
+         ],
+      setup: function() {
+         function makePageRed() { $('body').css({ backgroundColor: 'pink' }); }
+         window.onerror = makePageRed;
+         var start = Date.now();
+         dna.clone('book', app.books);
+         console.log('Run time (ms):', Date.now() - start);
+         console.log(dna.info());
+         console.log(dna.getModel('book'));
+         }
+      };
+   $(app.setup);
+</script>
+</body>
+</html>
