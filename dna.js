@@ -968,6 +968,10 @@ dna.core = {
                elem.toggleClass(classList[2], !truth);
             }
          }
+      function fieldExists(fieldName) {
+         var value = dna.util.value(data, fieldName);
+         return value !== undefined && value !== null;
+         }
       function processLoop(elem, loop) {
          var dataArray = dna.util.value(data, loop.field);
          var subClones = elem.children('.' + loop.name.replace(/[.]/g, '\\.'));
@@ -999,9 +1003,9 @@ dna.core = {
          if (dnaRules.class)
             injectClass(elem, dnaRules.class);
          if (dnaRules.require)
-            elem.toggle(dna.util.value(data, dnaRules.require) !== undefined);
+            elem.toggle(fieldExists(dnaRules.require));
          if (dnaRules.missing)
-            elem.toggle(dna.util.value(data, dnaRules.missing) === undefined);
+            elem.toggle(!fieldExists(dnaRules.missing));
          if (dnaRules.true)
             elem.toggle(dna.util.realTruth(dna.util.value(data, dnaRules.true)));
          if (dnaRules.false)
