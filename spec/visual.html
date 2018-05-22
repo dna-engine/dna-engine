@@ -8,9 +8,9 @@
 <head>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width, initial-scale=1">
-<title>dna.js &bull; Specification Runner</title>
-<link rel=icon       href=../graphics/bookmark.png>
-<link rel=stylesheet href=../dna.css>
+<title>dna.js ~~ Specification Runner</title>
+<link rel=icon       href=http://dnajs.org/graphics/bookmark.png>
+<link rel=stylesheet href=../dna.css?force-reload>
 <style>
    body                { font-family: system-ui, sans-serif; margin: 30px; }
    body >header        { margin-bottom: 30px; }
@@ -956,9 +956,8 @@ spec.spec15 = {
                </label>
             </div>
             Purpose:
-            <select>
-               <option data-array=~~purposes~~ value=~~code~~
-                  data-prop-selected=~~set~~>~~name~~</option>
+            <select data-option=~~purpose~~>
+               <option data-array=~~purposes~~ value=~~code~~>~~name~~</option>
             </select>
             <hr>
             Category:
@@ -1114,14 +1113,15 @@ spec.spec16 = {
          { code: 'ebook', name: 'Digital',   unavailable: 1, set: 0 }
          ];
       var purposes = [
-         { code: 'work', name: 'Business', set: 'F' },
-         { code: 'fun',  name: 'Personal', set: 'F' },
-         { code: 'edu',  name: 'School',   set: 'T' }  //selected
+         { code: 'work', name: 'Business' },
+         { code: 'fun',  name: 'Personal' },
+         { code: 'edu',  name: 'School' }
          ];
       var book = {
          title:      'The DOM',
          options:    options,
          covers:     covers,
+         purpose:    'edu',
          purposes:   purposes,
          category:   'computers',
          meta:       { info: { tags: [{ english: { code: 'tech' } },  { english: { code: 'color' } }] } },  //verify dot notation
@@ -1140,7 +1140,7 @@ spec.spec16 = {
       var purposeElem = clone.find('select').first();
       if (purposeElem.val() === 'edu')  //expect "School" selected
          purposeElem.val('fun').change();  //change to "Personal"
-      purposeElem.toggleClass('border-change', book.purposes[1].set === true);
+      purposeElem.toggleClass('border-change', book.purpose === 'fun');
       }
    };
 </script>
@@ -1484,7 +1484,7 @@ spec.spec22 = {
 </footer>
 
 <script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js></script>
-<script src=../dna.js></script>
+<script src=../dna.js?force-reload></script>
 <script>
 const specRunner = {
    catalog: [

@@ -622,22 +622,28 @@ dna.compile = {
          firstNode.nodeValue.match(dna.compile.regexDnaField);
       },
    field: function(i, elem) {
-      // Example:
-      //    <p>~~name~~</p>  ==>  <p class=dna-nucleotide data-dnaRules={ text: 'name' }></p>
+      // Examples:
+      //    <p>~~name~~</p>  ==>
+      //       <p class=dna-nucleotide data-dnaField=name data-dnaRules={ text: true }></p>
+      //    <textarea>~~address~~</textarea>  ==>
+      //       <textarea class=dna-nucleotide data-dnaField=address data-dnaRules={ textarea: true }></p>
       elem = dna.compile.setupNucleotide($(elem));
-      var field = $.trim(elem.text()).replace(dna.compile.regexDnaBasePairs, '');
-      elem.data().dnaRules.text = field;
+      elem.data().dnaField = $.trim(elem.text()).replace(dna.compile.regexDnaBasePairs, '');
       if (elem.is('textarea'))
-         elem.addClass('dna-update-model').data().dnaField = field;
+         elem.addClass('dna-update-model').data().dnaRules.val = true;
+      else
+         elem.data().dnaRules.text = true;
       return elem.empty();
       },
    propsAndAttrs: function(i, elem) {
       // Examples:
-      //    <option data-prop-selected=~~set~~>  ==>  <option class=dna-nucleotide + data-dnaRules={ props: ['selected', 'set'] }>
-      //    <p id=~~num~~>                       ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['id', ['', 'num', '']] }>
-      //    <p data-attr-src=~~url~~>            ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['src', ['', 'url', '']] }>
-      //    <p data-tag=~~[count]~~>             ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['data-tag', ['', 1, '']] }>
-      //    <p data-tag=~~[value]~~>             ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['data-tag', ['', 2, '']] }>
+      //    <p id=~~num~~>                  ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['id', ['', 'num', '']] }>
+      //    <p data-attr-src=~~url~~>       ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['src', ['', 'url', '']] }>
+      //    <p data-tag=~~[count]~~>        ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['data-tag', ['', 1, '']] }>
+      //    <p data-tag=~~[value]~~>        ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['data-tag', ['', 2, '']] }>
+      //    <input type=checkbox data-prop-checked=~~set~~>
+      //                                    ==>  <option class=dna-nucleotide + data-dnaRules={ props: ['selected', 'set'] }>
+      //    <select data-option=~~color~~>  ==>  <select class=dna-nucleotide + data-dnaRules={ val: true } + data-dnaField=color>
       elem = $(elem);
       var props = [];
       var attrs = [];
@@ -649,8 +655,6 @@ dna.compile = {
          props.push(key, value);
          if (key === 'checked' && elem.is('input'))
             elem.addClass('dna-update-model').data().dnaField = value;
-         else if (key === 'selected' && elem.is('option'))
-            elem.parent().addClass('dna-update-model').end().data().dnaField = value;
          }
       function compileAttr(key, value) {
          var parts = value.split(dna.compile.regexDnaBasePair);
@@ -660,9 +664,15 @@ dna.compile = {
             parts[1] = 2;
          attrs.push(key.replace(/^data-attr-/, ''), parts);
          names.push(key);
+         function makeUpdatable() {
+            dna.compile.setupNucleotide(elem).addClass('dna-update-model');
+            elem.data().dnaField = parts[1];
+            elem.data().dnaRules.val = true;
+            }
          var textInput = 'input:not(:checkbox, :radio)';
-         if (key === 'value' && elem.is(textInput) && parts[0] === '' && parts[2] === '')
-            elem.addClass('dna-update-model').data().dnaField = parts[1];
+         if ((elem.is(textInput) && key === 'value' && parts[0] === '' && parts[2] === '') ||
+               (elem.is('select') && key === 'data-option'))
+            makeUpdatable();
          }
       function compile(i, attr) {
          if (/^data-prop-/.test(attr.name))
@@ -739,7 +749,6 @@ dna.compile = {
       dna.compile.rules(elems, 'missing');
       dna.compile.rules(elems, 'true');
       dna.compile.rules(elems, 'false');
-      dna.compile.rules(elems.filter('select'), 'option').addClass('dna-update-model');
       elems.each(dna.compile.propsAndAttrs);
       dna.compile.separators(elem);
       //support html5 values for "type" attribute
@@ -839,9 +848,8 @@ dna.events = {
          }
       function handle(event) {
          var target = $(event.target);
-         function field(data) { return (data.dnaRules && data.dnaRules.option) || data.dnaField; }
          function updateField(elem, calc) {
-            dna.util.assign(dna.getModel(elem), field(elem.data()), calc(elem));
+            dna.util.assign(dna.getModel(elem), elem.data().dnaField, calc(elem));
             }
          function getValue(elem) { return elem.val(); }
          function isChecked(elem) { return elem.is(':checked'); }
@@ -856,11 +864,7 @@ dna.events = {
                updateField(target, isChecked);
             else if (target.is('input:radio'))
                $('input:radio[name=' + target.attr('name') + ']').each(updateOption);
-            else if (target.is('input') || target.data().dnaRules.option)
-               updateField(target, getValue);
-            else if (target.is('select'))
-               target.find('option').each(updateOption);
-            if (target.is('textarea'))
+            else if (target.data().dnaRules.val)
                updateField(target, getValue);
             dna.refresh(mainClone);
             }
@@ -933,6 +937,12 @@ dna.core = {
          if (printable[typeof value])
             elem = settings.html ? elem.html(value) : elem.text(value);
          }
+      function injectValue(elem, field) {
+         var value = field === '[count]' ? count : field === '[value]' ? data :
+            dna.util.value(data, field);
+         if (value !== null && value !== elem.val())
+            elem.val(value);
+         }
       function injectProps(elem, props) {  //example props: ['selected', 'set']
          for (var prop = 0; prop < props.length/2; prop++)  //each prop has a key and a field name
             elem.prop(props[prop*2], dna.util.realTruth(dna.util.value(data, props[prop*2 + 1])));
@@ -950,10 +960,6 @@ dna.core = {
             if (key === 'value' && value !== elem.val())  //set elem val for input fields (example: <input value=~~tag~~>)
                elem.val(value);
             }
-         }
-      function injectDropDown(elem, value) {
-         if (value !== null)
-            elem.val(value);
          }
       function injectClass(elem, classList) {
          // classList = ['field', 'class-true', 'class-false']
@@ -976,7 +982,9 @@ dna.core = {
          var dataArray = dna.util.value(data, loop.field);
          var subClones = elem.children('.' + loop.name.replace(/[.]/g, '\\.'));
          function injectSubClone(i, elem) {
-            dna.core.inject($(elem), dataArray[i], i + 1, settings);
+            elem = $(elem);
+            if (!elem.is('option'))  //prevent select from closing on chrome
+               dna.core.inject(elem, dataArray[i], i + 1, settings);
             }
          function rebuildSubClones() {
             subClones.remove();
@@ -994,8 +1002,12 @@ dna.core = {
          var dnaRules = elem.data().dnaRules;
          if (dnaRules.transform)  //alternate version of the "transform" option
             dna.util.apply(dnaRules.transform, data);
+         if (dnaRules.loop)
+            processLoop(elem, dnaRules.loop);
          if (dnaRules.text)
-            injectField(elem, dnaRules.text);
+            injectField(elem, elem.data().dnaField);
+         if (dnaRules.val)
+            injectValue(elem, elem.data().dnaField);
          if (dnaRules.props)
             injectProps(elem, dnaRules.props);
          if (dnaRules.attrs)
@@ -1010,10 +1022,6 @@ dna.core = {
             elem.toggle(dna.util.realTruth(dna.util.value(data, dnaRules.true)));
          if (dnaRules.false)
             elem.toggle(!dna.util.realTruth(dna.util.value(data, dnaRules.false)));
-         if (dnaRules.loop)
-            processLoop(elem, dnaRules.loop);
-         if (dnaRules.option)
-            injectDropDown(elem, dna.util.value(data, dnaRules.option));
          if (dnaRules.callback)
             dna.util.apply(dnaRules.callback, elem);
          }

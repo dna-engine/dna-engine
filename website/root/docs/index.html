@@ -430,7 +430,7 @@
          <figcaption>Example HTML</figcaption>
          <pre><code class=language-html>
             &lt;select data-option=~~category~~&gt;
-               &lt;option selected disabled&gt;Select category&lt;/option&gt;
+               &lt;option disabled selected&gt;Select category&lt;/option&gt;
                &lt;option value=art&gt;Arts and humanities&lt;/option&gt;
                &lt;option value=sci&gt;Science&lt;/option&gt;
                &lt;option value=med&gt;Medical&lt;/option&gt;
@@ -442,6 +442,33 @@
          with the <code>data-option</code> attribute to fire a callback that gets the current data
          model whenever the user selects a new drop-down option.
       </p>
+      <p>
+         To make the drop-down list data-driven, the options can be defined by an array in the data
+         object.
+      </p>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            {
+               category: 'sci',
+               categories: [
+                  { code: 'art', label: 'Arts and humanities' },
+                  { code: 'sci', label: 'Science' },
+                  { code: 'med', label: 'Medical' }
+               ]
+            }
+         </code></pre>
+      </figure>
+      <p class=big-symbol><i class=icon data-icon=plus></i></p>
+      <figure>
+         <figcaption>Example HTML with data-driven options</figcaption>
+         <pre><code class=language-html>
+            &lt;select data-option=~~category~~&gt;
+               &lt;option disabled selected&gt;Select category&lt;/option&gt;
+               &lt;option data-array=~~categories~~ value=~~code~~&gt;~~label~~&lt;/option&gt;
+            &lt;/select&gt;
+         </code></pre>
+      </figure>
    </section>
 
    <section id=html-class>
@@ -2135,7 +2162,7 @@
             <tr><th>Attribute</th><th>Value</th><th>Logic</th></tr>
          </thead>
          <tbody>
-            <tr><td><code>data-require</code></td><td>Data Field</td><td>Show element only if specified field does exists*</td></tr>
+            <tr><td><code>data-require</code></td><td>Data Field</td><td>Show element only if specified field exists*</td></tr>
             <tr><td><code>data-missing</code></td><td>Data Field</td><td>Show element only if specified field does not exist*</td></tr>
             <tr><td><code>data-true</code></td><td>Data Field</td><td>Show element only if specified field means true**</td></tr>
             <tr><td><code>data-false</code></td><td>Data Field</td><td>Show element only if specified field means false**</td></tr>
@@ -2177,7 +2204,8 @@
       <!-- End: Result -->
       <h5 id=field-exists>*Field Exists</h5>
       <p>
-         A field exists if it is not <code>undefined</code> or <code>null</code>.
+         A field in a data object exists if the field's value is not <code>undefined</code> or
+         <code>null</code>.
       </p>
       <h5 id=real-truth>**Real Truth</h5>
       <p>

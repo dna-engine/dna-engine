@@ -7,8 +7,8 @@
 <head>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width, initial-scale=1">
-<title>dna.js &bull; Simple Specification Case</title>
-<link rel=icon       href=../graphics/bookmark.png>
+<title>dna.js ~~ Simple Specification Case</title>
+<link rel=icon       href=http://dnajs.org/graphics/bookmark.png>
 <link rel=stylesheet href=../dna.css?force-reload>
 <style>
    body            { font-family: system-ui, sans-serif; margin: 30px; }
@@ -25,6 +25,13 @@
       <section id=book class=dna-template data-attr-id=~~id~~>
          <h2>~~title~~</h2>
          Author: <b>~~author~~</b>
+         <div>
+            <select data-option=~~color~~>
+               <option disabled selected>Select a color</option>
+               <option data-array=~~colors~~ value=~~code~~>~~name~~</option>
+            </select>
+            <code>~~color~~</code>
+         </div>
       </section>
    </div>
 </main>
@@ -34,15 +41,20 @@
 <script>
    const app = {
       books: [
-         { id: 'B003', title: 'The DOM',      author: 'Jan',  price: 2495 },
-         { id: 'B005', title: 'Styling CSS3', author: 'Abby', price: 1995 },
-         { id: 'B007', title: 'Howdy HTML5',  author: 'Ed',   price: 2995 }
+         { id: 'B003', title: 'The DOM',      author: 'Jan',  price: 2495, color: 'r' },
+         { id: 'B005', title: 'Styling CSS3', author: 'Abby', price: 1995, color: 'b' },
+         { id: 'B007', title: 'Howdy HTML5',  author: 'Ed',   price: 2995, color: null }
+         ],
+      colors: [
+         { code: 'r', name: 'Red' },
+         { code: 'b', name: 'Blue' }
          ],
       setup: function() {
          function makePageRed() { $('body').css({ backgroundColor: 'pink' }); }
          window.onerror = makePageRed;
          var start = Date.now();
-         dna.clone('book', app.books);
+         function addCodes(book) { book.colors = app.colors; }
+         dna.clone('book', app.books, { transform: addCodes });
          console.log('Run time (ms):', Date.now() - start);
          console.log(dna.info());
          console.log(dna.getModel('book'));
