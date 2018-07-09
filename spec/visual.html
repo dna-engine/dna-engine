@@ -1255,7 +1255,7 @@ spec.spec18 = {
    <p>Panels - nav buttons</p>
    <fieldset>
       <legend>Actual</legend>
-      <nav id=s19-books class=dna-menu data-callback=spec.spec19.displayPanel>
+      <nav id=s19-books-menu class=dna-menu data-callback=spec.spec19.displayPanel>
          <button id=s19-book-title class=dna-template>~~title~~</button>
       </nav>
       <div id=s19-books-panels class=dna-panels>
@@ -1296,7 +1296,7 @@ spec.spec19 = {
    run: function() {
       dna.clone('s19-book-title', specRunner.catalog);
       dna.clone('s19-book',       specRunner.catalog);
-      $('#s19-books .menu-item:contains(Styling CSS3)').click();
+      $('#s19-books-menu .menu-item:contains(Styling CSS3)').click();
       }
    };
 </script>
@@ -1307,7 +1307,7 @@ spec.spec19 = {
    <p>Panels - nested</p>
    <fieldset>
       <legend>Actual</legend>
-      <ul id=s20-category class=dna-menu>
+      <ul id=s20-category-menu class=dna-menu>
          <li><div>Web</div>
             <ul>
                <li><div>Technologies</div>
@@ -1371,7 +1371,7 @@ spec.spec19 = {
 <script>
 spec.spec20 = {
    run: function() {
-      function postRenderClick() { $('#s20-category .menu-item:contains(W3C)').click(); }
+      function postRenderClick() { $('#s20-category-menu .menu-item:contains(W3C)').click(); }
       window.setTimeout(postRenderClick, 1000);
       }
    };
@@ -1383,7 +1383,7 @@ spec.spec20 = {
    <p>Panels - drop-down</p>
    <fieldset>
       <legend>Actual</legend>
-      <select id=s21-author-info class=dna-menu>
+      <select id=s21-author-info-menu class=dna-menu>
          <option id=s21-book-author-nav-button class=dna-template
             value=~~author~~>~~author~~</option>
       </select>
@@ -1414,7 +1414,7 @@ spec.spec21 = {
    run: function() {
       dna.clone('s21-book-author-nav-button', specRunner.catalog);
       dna.clone('s21-book-author',            specRunner.catalog);
-      $('#s21-author-info ').val('Abby').change();
+      $('#s21-author-info-menu ').val('Abby').change();
       }
    };
 </script>

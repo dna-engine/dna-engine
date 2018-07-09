@@ -87,6 +87,9 @@ main >header >h2 {
 body >footer {
    padding: 40px 0px 0px 0px;
    }
+body >footer .badges img {
+   margin: 0px 2px;
+   }
 
 /* Sidebar */
 aside {
