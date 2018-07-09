@@ -1,4 +1,4 @@
-// dna.js v1.4.2 ~~ dnajs.org ~~ MIT
+// dna.js v1.4.3 ~~ dnajs.org ~~ MIT
 // Copyright (c) 2013-2018 individual contributors to dna.js
 
 var dna = {
@@ -190,7 +190,7 @@ var dna = {
       // Returns status information about templates on the current web page.
       var names = Object.keys(dna.store.templates);
       return {
-         version:      '1.4.2',
+         version:      '1.4.3',
          templates:    names.length,
          clones:       $('.dna-clone:not(.dna-sub-clone)').length,
          subs:         $('.dna-sub-clone').length,
@@ -561,7 +561,7 @@ dna.panels = {
       var menu = $(elem);
       if (menu.hasClass('dna-panels'))  //special case for panels that are templates
          menu = $('#' + menu.attr('id').replace(/-panels$/, '') + '-menu');
-      if (!menu.length && menu.hasClass('dna-panels'))  //temporary: backwards compatibility
+      if (!menu.length && $(elem).hasClass('dna-panels'))  //temporary: backwards compatibility
          menu = $('#' + menu.attr('id').replace(/-panels$/, ''));
       var hash = window.location.hash.slice(1);
       var key = menu.data().dnaKey = '#' + menu.attr('id').replace(/-menu$/, '') + '-panels';
