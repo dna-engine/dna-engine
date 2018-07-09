@@ -1215,6 +1215,7 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
+                  @@include('website/templates/options/on-document-load.html')
                   @@include('website/templates/options/selector.html')
                </ul>
             </li>
@@ -2448,7 +2449,7 @@
          The interactive example below displays information for the user selected author.
       </p>
       <figure>
-         <figcaption>Example CSS</figcaption>
+         <figcaption>Example CSS Less</figcaption>
          <pre><code class=language-css>
             [data-component=author] {
                .dna-menu {
@@ -2477,7 +2478,7 @@
             &lt;div data-component=author&gt;
                &lt;h2&gt;Author Information&lt;/h2&gt;
                Select:
-               &lt;ul id=author-info class=dna-menu&gt;
+               &lt;ul id=author-info-menu class=dna-menu&gt;
                   &lt;li&gt;Jake&lt;/li&gt;
                   &lt;li&gt;Abby&lt;/li&gt;
                   &lt;li&gt;Ed&lt;/li&gt;
@@ -2510,7 +2511,7 @@
             <div data-component=author>
                <h2>Author Information</h2>
                Select:
-               <ul id=author-info class=dna-menu>
+               <ul id=author-info-menu class=dna-menu>
                   <li>Jake</li>
                   <li>Abby</li>
                   <li>Ed</li>
@@ -2560,7 +2561,7 @@
          <pre><code class=language-html>
             &lt;div data-component=book-catalog data-on-load=bookCatalog.setup&gt;
                &lt;h2&gt;Book Catalog&lt;/h2&gt;
-               &lt;nav id=book-catalog class=dna-menu&gt;
+               &lt;nav id=book-catalog-menu class=dna-menu&gt;
                   &lt;button id=book-menu-item class=dna-template&gt;
                      ~~[count]~~
                   &lt;/button&gt;
@@ -2600,7 +2601,7 @@
          <div>
             <div data-component=book-catalog data-on-load=bookCatalog.setup>
                <h2>Book Catalog</h2>
-               <nav id=book-catalog class=dna-menu>
+               <nav id=book-catalog-menu class=dna-menu>
                   <button id=book-menu-item class=dna-template>
                      ~~[count]~~
                   </button>
@@ -2653,7 +2654,7 @@
          <figcaption>Example HTML</figcaption>
          <pre><code class=language-html>
                &lt;h2&gt;Publishers&lt;/h2&gt;
-               &lt;nav id=publisher-info class=dna-menu data-callback=updatePanel&gt;
+               &lt;nav id=publisher-info-menu class=dna-menu data-callback=updatePanel&gt;
                   &lt;button&gt;Pearson&lt;/button&gt;
                   &lt;button&gt;Shueisha&lt;/button&gt;
                   &lt;button&gt;Wiley&lt;/button&gt;
@@ -2693,7 +2694,7 @@
          <div>
             <div>
                <h2>Publishers</h2>
-               <nav id=publisher-info class=dna-menu data-callback=updatePanel>
+               <nav id=publisher-info-menu class=dna-menu data-callback=updatePanel>
                   <button>Pearson</button>
                   <button>Shueisha</button>
                   <button>Wiley</button>
@@ -2737,7 +2738,7 @@
          <figcaption>Example HTML for flat tabs styling</figcaption>
          <pre><code class=language-html>
                &lt;h2&gt;Book format&lt;/h2&gt;
-               &lt;nav id=book-format class=dna-menu data-style=flat-tabs&gt;
+               &lt;nav id=book-format-menu class=dna-menu data-style=flat-tabs&gt;
                   &lt;span&gt;Hardcover&lt;/span&gt;
                   &lt;span&gt;Paperback&lt;/span&gt;
                   &lt;span&gt;eBook&lt;/span&gt;
@@ -2756,7 +2757,7 @@
          <div>
             <div>
                <h2>Book format</h2>
-               <nav id=book-format class=dna-menu data-style=flat-tabs>
+               <nav id=book-format-menu class=dna-menu data-style=flat-tabs>
                   <span>Hardcover</span>
                   <span>Paperback</span>
                   <span>eBook</span>
@@ -2775,7 +2776,7 @@
          <figcaption>Example HTML for pillbox tabs</figcaption>
          <pre><code class=language-html>
                &lt;h2&gt;Book type&lt;/h2&gt;
-               &lt;nav id=book-type class=dna-menu data-style=pillbox-tabs&gt;
+               &lt;nav id=book-type-menu class=dna-menu data-style=pillbox-tabs&gt;
                   &lt;span&gt;Action&lt;/span&gt;
                   &lt;span&gt;Mystery&lt;/span&gt;
                   &lt;span&gt;Sciense Fiction&lt;/span&gt;
@@ -2794,7 +2795,7 @@
          <div>
             <div>
                <h2>Book type</h2>
-               <nav id=book-type class=dna-menu data-style=pillbox-tabs>
+               <nav id=book-type-menu class=dna-menu data-style=pillbox-tabs>
                   <span>Action</span>
                   <span>Mystery</span>
                   <span>Science fiction</span>

@@ -1,4 +1,4 @@
-// dna.js v1.4.1 ~~ dnajs.org ~~ MIT
+// dna.js v1.4.2 ~~ dnajs.org ~~ MIT
 // Copyright (c) 2013-2018 individual contributors to dna.js
 
 var dna = {
@@ -190,7 +190,7 @@ var dna = {
       // Returns status information about templates on the current web page.
       var names = Object.keys(dna.store.templates);
       return {
-         version:      '1.4.1',
+         version:      '1.4.2',
          templates:    names.length,
          clones:       $('.dna-clone:not(.dna-sub-clone)').length,
          subs:         $('.dna-sub-clone').length,
@@ -513,11 +513,11 @@ dna.panels = {
    // Each click of a menu item displays its corresponding panel and optionally passes the panel
    // element and hash to the function specified by the "data-callback" attribute.
    // Usage:
-   //    <nav id={ID} class=dna-menu data-callback=app.displayPanel>
+   //    <nav id={NAME}-menu class=dna-menu data-callback=app.displayPanel>
    //       <button>See X1</button>
    //       <button>See X2</button>
    //    </nav>
-   //    <div id={ID}-panels class=dna-panels>
+   //    <div id={NAME}-panels class=dna-panels>
    //       <section data-hash=x1>The X1</section>
    //       <section data-hash=x2>The X2</section>
    //    </div>
@@ -560,9 +560,11 @@ dna.panels = {
    refresh: function(i, elem) {
       var menu = $(elem);
       if (menu.hasClass('dna-panels'))  //special case for panels that are templates
-         menu = $('#' + menu.attr('id').replace('-panels', ''));
+         menu = $('#' + menu.attr('id').replace(/-panels$/, '') + '-menu');
+      if (!menu.length && menu.hasClass('dna-panels'))  //temporary: backwards compatibility
+         menu = $('#' + menu.attr('id').replace(/-panels$/, ''));
       var hash = window.location.hash.slice(1);
-      var key = menu.data().dnaKey = '#' + menu.attr('id') + '-panels';
+      var key = menu.data().dnaKey = '#' + menu.attr('id').replace(/-menu$/, '') + '-panels';
       var panels = $(key).children().addClass('panel');
       if (menu.find('.menu-item').length === 0)  //set .menu-item elems if not set in the html
          menu.children().addClass('menu-item');
