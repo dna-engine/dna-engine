@@ -1,4 +1,4 @@
-http://dnajs.org
+https://dnajs.org
 Introduction to dna.js
 Video ~~ Transcript
 

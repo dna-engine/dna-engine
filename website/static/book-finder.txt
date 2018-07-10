@@ -1,4 +1,4 @@
-http://dnajs.org/tutorial
+https://dnajs.org/tutorial
 dna.js REST-driven Search Component
 Video Tutorial ~~ Transcript
 

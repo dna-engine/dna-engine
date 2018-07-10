@@ -8,7 +8,7 @@
    "repository": "dnajs/dna.js",
    "homepage": "https://github.com/dnajs/dna.js",
    "bugs": "https://github.com/dnajs/dna.js/issues",
-   "docs": "http://dnajs.org/docs",
+   "docs": "https://dnajs.org/docs",
    "keywords": [
       "clone",
       "dom",
@@ -22,7 +22,7 @@
    ],
    "author": {
       "name": "Center Key",
-      "url": "http://centerkey.com"
+      "url": "https://centerkey.com"
    },
    "jshintConfig": {
       "esversion": 6,

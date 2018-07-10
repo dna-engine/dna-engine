@@ -3,7 +3,7 @@
    align=right width=160 alt=logo>
 *An uncomplicated user interface library for semantic templates*
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](http://dnajs.org/license)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://dnajs.org/license)
 [![npm](https://img.shields.io/npm/v/dna.js.svg)](https://www.npmjs.com/package/dna.js)
 [![Build Status](https://travis-ci.org/dnajs/dna.js.svg)](https://travis-ci.org/dnajs/dna.js)
 [![Package Quality](http://npm.packagequality.com/shield/dna.js.svg)](http://packagequality.com/#?package=dna.js)
@@ -50,13 +50,13 @@ Need to clone the template multiple times?&nbsp;  Simply pass an array of data o
 `dna.clone()` function.
 
 ### 2. Additional Information
-* [dnajs.org](http://dnajs.org) (see the "Try It Out" section for a live example)
+* [dnajs.org](https://dnajs.org) (see the "Try It Out" section for a live example)
 * [Sample To-Do Application](http://jsfiddle.net/wo6og0z8/) (jsfiddle)
 * [Introduction to dna.js](https://youtu.be/jMOZOI-UkNI) (YouTube)
-* [Documentation](http://dnajs.org/docs)
+* [Documentation](https://dnajs.org/docs)
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)
 
 ---
-dna.js is open source under the [MIT License](http://dnajs.org/license).&nbsp;
+dna.js is open source under the [MIT License](https://dnajs.org/license).&nbsp;
 The website and documentation are published under the
 [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0) license.

@@ -23,7 +23,7 @@ var dna = {
    //    dna.clearInitializers()
    //    dna.registerContext()
    //    dna.info()
-   // See: http://dnajs.org/docs/#api
+   // See: https://dnajs.org/docs/#api
    clone: function(name, data, options) {
       // Generates a copy of the template and populates the fields, attributes, and
       // classes from the supplied data.
@@ -907,7 +907,7 @@ dna.events = {
          }
       function jumpToUrl(event) {
          // Usage:
-         //    <button data-href=http://dnajs.org>dna.js</button>
+         //    <button data-href=https://dnajs.org>dna.js</button>
          // If element (or parent) has the class "external-site", page will be opened in a new tab.
          var elem = $(event.target);
          var newTab = !dna.browser.iOS() && elem.closest('.external-site').length;

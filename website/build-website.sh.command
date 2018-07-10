@@ -1,8 +1,8 @@
 #!/bin/sh
-####################
-# dna.js Website   #
-# http://dnajs.org #
-####################
+#####################
+# dna.js Website    #
+# https://dnajs.org #
+#####################
 
 # To make this file runnable:
 #    $ chmod +x *.sh.command

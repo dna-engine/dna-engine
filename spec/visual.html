@@ -9,7 +9,7 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width, initial-scale=1">
 <title>dna.js ~~ Specification Runner</title>
-<link rel=icon       href=http://dnajs.org/graphics/bookmark.png>
+<link rel=icon       href=https://dnajs.org/graphics/bookmark.png>
 <link rel=stylesheet href=../dna.css?force-reload>
 <style>
    body                { font-family: system-ui, sans-serif; margin: 30px; }
@@ -49,8 +49,8 @@
 
 <header>
    <aside>
-      <p><button data-href=http://dnajs.org>dnajs.org</button></p>
-      <p><button data-href=http://dnajs.org class=external-site>dnajs.org <span>(new tab)</span></button></p>
+      <p><button data-href=https://dnajs.org>dnajs.org</button></p>
+      <p><button data-href=https://dnajs.org class=external-site>dnajs.org <span>(new tab)</span></button></p>
       <p><span id=file-name>dna.js</span> &mdash; <a id=switch href=visual-min.html>switch</a></p>
    </aside>
    <h1>dna.js</h1>
@@ -214,7 +214,7 @@ spec.spec03 = {
          <div class=dna-clone>
             <div>Title:  <span>&lt;b&gt;Text&lt;/b&gt;&amp;bull;</span></div>
             <div>Author: <span>Lee</span></div>
-            <div>Cover: <img src=http://dnajs.org/graphics/dnajs-logo.png alt=cover></div>
+            <div>Cover: <img src=https://dnajs.org/graphics/dnajs-logo.png alt=cover></div>
          </div>
       </div>
    </fieldset>
@@ -225,7 +225,7 @@ spec.spec04 = {
       var book = {
          title:  '<b>Text</b>&bull;',
          author: 'Lee',
-         image:  'http://dnajs.org/graphics/dnajs-logo.png'
+         image:  'https://dnajs.org/graphics/dnajs-logo.png'
          };
       dna.clone('s04-book', book);
       }
@@ -533,10 +533,10 @@ spec.spec08 = {
 <script>
 spec.spec09 = {
    run: function() {
-      dna.clone('s09-rest-link', ['http://dnajs.org/rest/book/1/', 'http://dnajs.org/rest/book/2/']);
-      dna.rest.get('s09-book', 'http://dnajs.org/rest/book/1/');
-      dna.rest.get('s09-book', 'http://dnajs.org/rest/book/2/');
-      dna.rest.get('s09-book', 'http://dnajs.org/rest/book/7/');  //verify call to missing resource
+      dna.clone('s09-rest-link', ['https://dnajs.org/rest/book/1/', 'https://dnajs.org/rest/book/2/']);
+      dna.rest.get('s09-book', 'https://dnajs.org/rest/book/1/');
+      dna.rest.get('s09-book', 'https://dnajs.org/rest/book/2/');
+      dna.rest.get('s09-book', 'https://dnajs.org/rest/book/7/');  //verify call to missing resource
       }
    };
 </script>
@@ -557,15 +557,15 @@ spec.spec09 = {
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone
-            style="height: 60px; color: white; background-image: url(http://dnajs.org/graphics/dnajs-logo.png); background-size: 80px;">
+            style="height: 60px; color: white; background-image: url(https://dnajs.org/graphics/dnajs-logo.png); background-size: 80px;">
             <div>Background</div>
          </div>
          <div class=dna-clone
-            style="height: 60px; color: white; background-image: url(http://dnajs.org/graphics/dnajs-logo.png); background-size: 80px;">
+            style="height: 60px; color: white; background-image: url(https://dnajs.org/graphics/dnajs-logo.png); background-size: 80px;">
             <div>Background</div>
          </div>
          <div class=dna-clone
-            style="height: 60px; color: white; background-image: url(http://dnajs.org/graphics/dnajs-logo.png); background-size: 80px;">
+            style="height: 60px; color: white; background-image: url(https://dnajs.org/graphics/dnajs-logo.png); background-size: 80px;">
             <div>Background</div>
          </div>
       </div>
@@ -578,7 +578,7 @@ spec.spec10 = {
          elem.css({ height: '60px', color: 'white',
             'background-image': data.image, 'background-size': '80px' });
          };
-      var book = { title: 'Background', image: 'url(http://dnajs.org/graphics/dnajs-logo.png)' };
+      var book = { title: 'Background', image: 'url(https://dnajs.org/graphics/dnajs-logo.png)' };
       var options = { fade: true, callback: applyBackgnd, clones: 3 };
       dna.clone('s10-book', book, options);
       }
@@ -1165,7 +1165,7 @@ spec.spec16 = {
                   elem.text(component.data().msg + event.timeStamp);
                   },
                setup: function(elem, component) {
-                  var booksUrl = 'http://dnajs.org/rest/book/list/';
+                  var booksUrl = 'https://dnajs.org/rest/book/list/';
                   component.children('button')
                      .attr({ 'data-href': booksUrl })
                      .addClass('external-site');
