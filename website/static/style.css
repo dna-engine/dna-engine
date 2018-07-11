@@ -180,7 +180,7 @@ button {
 button:hover {
    background-color: royalblue;
    }
-button i[data-icon] {
+button i.font-icon {
    vertical-align: middle;
    font-size: 120%;
    padding-right: 0.2em;
@@ -337,7 +337,7 @@ code.block-indent {
    text-align: center;
    margin: -10px 0px 7px 0px;
    }
-.big-symbol >i[data-icon] {
+.big-symbol >i.font-icon {
    font-size: 3.0rem;
    color: steelblue;
    }
@@ -350,7 +350,7 @@ code.block-indent {
 .twitter a {
    font-size: 0.8rem;
    }
-.twitter a i[data-icon] {
+.twitter a i.font-icon {
    display: block;
    font-size: 1.4rem;
    line-height: 0.6em;
@@ -373,7 +373,7 @@ a.twitter:hover {
    vertical-align: top;
    margin-left: 10px;
    }
-.google-plus i[data-icon] {
+.google-plus i.font-icon {
    font-size: 1.8rem;
    color: #db4437;  /* Google+ red */
    }
