@@ -897,13 +897,17 @@ dna.events = {
                   else
                      doCallback();
                }
-            if (event.type === 'keydown' && data.dnaLastValue === undefined)
-               data.dnaLastValue = elem.val();
-            if (event.type !== 'keydown' && elem.val() !== data.dnaLastValue)
+            function updateLastValue() {
+               if (data.dnaLastValue === undefined)
+                  data.dnaLastValue = elem.val();
+               }
+            if (event.type === 'keydown')
+               updateLastValue();
+            else if (elem.val() !== data.dnaLastValue)
                handleChange();
             }
          if (data.smartUpdate)
-            smartUpdate();
+            window.setTimeout(smartUpdate);  //requeue so elem.val() is ready on paste event
          }
       function jumpToUrl(event) {
          // Usage:
@@ -922,7 +926,8 @@ dna.events = {
          .keypress(handle)
          .keydown(handleSmartUpdate)
          .keyup(handleSmartUpdate)
-         .change(handleSmartUpdate)  //TODO: handle paste events on iOS
+         .change(handleSmartUpdate)
+         .on({ cut: handleSmartUpdate, paste: handleSmartUpdate })
          .on({ input: handle })
          .on({ click: jumpToUrl }, '[data-href]');
       dna.events.runOnLoads();
