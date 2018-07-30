@@ -7,7 +7,7 @@ package=https://raw.githubusercontent.com/dnajs/dna.js/master/package.json
 releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/current
 port=3482  #dna -> d9a -> 0xD9A -> 3482
 
-info() {
+setupTools() {
    # Check for Node.js installation and download project dependencies
    cd $projectHome
    pwd
@@ -36,5 +36,5 @@ setupWebServer() {
    echo
    }
 
-info
+setupTools
 setupWebServer
