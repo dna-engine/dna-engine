@@ -1,5 +1,5 @@
-// dna.js v1.4.4 ~~ dnajs.org ~~ MIT
-// Copyright (c) 2013-2018 individual contributors to dna.js
+//! dna.js v1.4.4 ~~ dnajs.org ~~ MIT License
+//! Copyright (c) 2013-2018 individual contributors to dna.js
 
 var dna = {
    // API:
