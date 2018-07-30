@@ -37,7 +37,7 @@ webContext.title = 'dna.js';  //default page title
 webContext.minorVersion = webContext.pkg.version.split('.').slice(0,2).join('.');
 const banner = '//! dna.js v' + webContext.pkg.version + ' ~~ dnajs.org ~~ MIT License\n';
 const versionPatternStrs = [
-   'dna[.]js v',     //example (dna.css):      /* dna.js v1.0.0 ~~ dnajs.org ~~ MIT */
+   'dna[.]js v',     //example (dna.css):      /*! dna.js v1.0.0 ~~ dnajs.org ~~ MIT License */
    "version:\\s*'",  //example (dna.js):       version: '1.0.0',
    '"version":\\s*"' //example (package.json): "version":  "1.0.0",
    ];
@@ -54,80 +54,76 @@ const jsHintConfig = {
    globals: { dna: false, $: true, window: true }
    };
 
-function setVersionNumber() {
-   return gulp.src(['dna.js', 'dna.css'])
-      .pipe(replace(versionPatterns, '$1' + webContext.pkg.version))
-      .pipe(gulp.dest('.'));
-   }
+const task = {
+   setVersionNumber: function() {
+      return gulp.src(['dna.js', 'dna.css'])
+         .pipe(replace(versionPatterns, '$1' + webContext.pkg.version))
+         .pipe(gulp.dest('.'));
+      },
+   runJsHint: function() {
+      return gulp.src(['dna.js', 'website/static/**/*.js'])
+         .pipe(jsHint(jsHintConfig))
+         .pipe(jsHint.reporter());
+      },
+   runUglify: function() {
+      return gulp.src('dna.js')
+         .pipe(rename('dna.min.js'))
+         .pipe(uglify())
+         .pipe(header(banner))
+         .pipe(gulp.dest('.'));
+      },
+   reportSize: function() {
+      return mergeStream(
+         gulp.src('dna.*')
+            .pipe(size({ showFiles: true })),
+         gulp.src('dna.min.js')
+            .pipe(size({ gzip: true, title: 'dna.min.js gzipped:' }))
+         );
+      },
+   cleanWebsite: function() {
+      return del(websiteTargetFolder);
+      },
+   buildWebsite: function() {
+      return mergeStream(
+         gulp.src(['website/static/**', '!website/static/**/*.html'])
+            .pipe(gulp.dest(websiteTargetFolder)),
+         gulp.src(['website/static/**/*.html', 'website/root/**/*.html'])
+            .pipe(fileInclude({ basepath: '@root', indent: true, context: webContext }))
+            .pipe(w3cJs())
+            .pipe(w3cJs.reporter())
+            .pipe(htmlHint(htmlHintConfig))
+            .pipe(htmlHint.reporter())
+            .pipe(gulp.dest(websiteTargetFolder))
+            .pipe(size({ showFiles: true }))
+         );
+      },
+   otherStuff: function() {
+      const findToDoLine =  /.*To-Do Application.*/;
+      const findIntroLine = /.*Introduction to dna.js.*/;
+      const newToDoLine =
+         '* [Sample To-Do Application](http://jsfiddle.net/' + webContext.jsFiddle.toDo + '/) (jsfiddle)';
+      const newIntroLine =
+         '* [Introduction to dna.js](https://youtu.be/' + webContext.youTube.intro + ') (YouTube)';
+      return mergeStream(
+         gulp.src('README.md')
+            .pipe(replace(findToDoLine,  newToDoLine))
+            .pipe(replace(findIntroLine, newIntroLine))
+            .pipe(size({ showFiles: true }))
+            .pipe(gulp.dest('.')),
+         gulp.src(['spec/visual.html', 'spec/simple.html'])
+            .pipe(w3cJs())
+            .pipe(w3cJs.reporter())
+            .pipe(htmlHint(htmlHintConfig))
+            .pipe(htmlHint.reporter())
+            .pipe(size({ showFiles: true }))
+         );
+      }
+   };
 
-function runJsHint() {
-   return gulp.src(['dna.js', 'website/static/**/*.js'])
-      .pipe(jsHint(jsHintConfig))
-      .pipe(jsHint.reporter());
-   }
-
-function runUglify() {
-   return gulp.src('dna.js')
-      .pipe(rename('dna.min.js'))
-      .pipe(uglify())
-      .pipe(header(banner))
-      .pipe(gulp.dest('.'));
-   }
-
-function reportSize() {
-   return mergeStream(
-      gulp.src('dna.*')
-         .pipe(size({ showFiles: true })),
-      gulp.src('dna.min.js')
-         .pipe(size({ gzip: true, title: 'dna.min.js gzipped:' }))
-      );
-   }
-
-function cleanWebsite() {
-    return del(websiteTargetFolder);
-    }
-
-function buildWebsite() {
-   return mergeStream(
-      gulp.src(['website/static/**', '!website/static/**/*.html'])
-         .pipe(gulp.dest(websiteTargetFolder)),
-      gulp.src(['website/static/**/*.html', 'website/root/**/*.html'])
-         .pipe(fileInclude({ basepath: '@root', indent: true, context: webContext }))
-         .pipe(w3cJs())
-         .pipe(w3cJs.reporter())
-         .pipe(htmlHint(htmlHintConfig))
-         .pipe(htmlHint.reporter())
-         .pipe(gulp.dest(websiteTargetFolder))
-         .pipe(size({ showFiles: true }))
-      );
-   }
-
-function otherStuff() {
-   const findToDoLine =  /.*To-Do Application.*/;
-   const findIntroLine = /.*Introduction to dna.js.*/;
-   const newToDoLine =
-      '* [Sample To-Do Application](http://jsfiddle.net/' + webContext.jsFiddle.toDo + '/) (jsfiddle)';
-   const newIntroLine =
-      '* [Introduction to dna.js](https://youtu.be/' + webContext.youTube.intro + ') (YouTube)';
-   return mergeStream(
-      gulp.src('README.md')
-         .pipe(replace(findToDoLine,  newToDoLine))
-         .pipe(replace(findIntroLine, newIntroLine))
-         .pipe(size({ showFiles: true }))
-         .pipe(gulp.dest('.')),
-      gulp.src(['spec/visual.html', 'spec/simple.html'])
-         .pipe(w3cJs())
-         .pipe(w3cJs.reporter())
-         .pipe(htmlHint(htmlHintConfig))
-         .pipe(htmlHint.reporter())
-         .pipe(size({ showFiles: true }))
-      );
-   }
-
-gulp.task('set-version', setVersionNumber);
-gulp.task('lint',        runJsHint);
-gulp.task('minify',      runUglify);
-gulp.task('report-size', reportSize);
-gulp.task('clean-web',   cleanWebsite);
-gulp.task('build-web',   buildWebsite);
-gulp.task('other-stuff', otherStuff);
+gulp.task('set-version', task.setVersionNumber);
+gulp.task('lint',        task.runJsHint);
+gulp.task('minify',      task.runUglify);
+gulp.task('report-size', task.reportSize);
+gulp.task('clean-web',   task.cleanWebsite);
+gulp.task('build-web',   task.buildWebsite);
+gulp.task('other-stuff', task.otherStuff);
