@@ -26,7 +26,7 @@ buildHtmlFiles() {
 
 downloadProjectCode() {
    echo "Downloading:"
-   cd $projectHome/website/httpdocs
+   cd $projectHome/website-target
    curl --remote-name --silent $releasedOrigin/dna.css
    curl --remote-name --silent $releasedOrigin/dna.js
    curl --remote-name --silent $releasedOrigin/dna.min.js
@@ -40,7 +40,7 @@ downloadProjectCode() {
    }
 
 publish() {
-   cd $projectHome/website/httpdocs
+   cd $projectHome/website-target
    publishWebRoot=$(grep ^DocumentRoot /private/etc/apache2/httpd.conf | awk -F\" '{ print $2 }')
    publishFolder=$publishWebRoot/centerkey.com/www.dnajs.org
    copyWebFiles() {
@@ -55,7 +55,7 @@ publish() {
    }
 
 launchBrowser() {
-   url=http://localhost:$port/website/httpdocs
+   url=http://localhost:$port/website-target
    echo "Website:"
    echo $url
    echo

@@ -3,7 +3,7 @@
 # Downloaded and generated files
 /node_modules/
 /package-lock.json
-/website/httpdocs/
+/website-target/
 /spec/visual-min.html
 
 # Extraneous system files

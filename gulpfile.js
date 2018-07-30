@@ -1,18 +1,18 @@
 // dna.js
 // gulp configuration and tasks
 
-const gulp =         require('gulp');
-const fileInclude =  require('gulp-file-include');
-const header =       require('gulp-header');
-const htmlHint =     require('gulp-htmlhint');
-const jsHint =       require('gulp-jshint');
-const mergeStream =  require('merge-stream');
-const rename =       require('gulp-rename');
-const replace =      require('gulp-replace');
-const size =         require('gulp-size');
-const uglify =       require('gulp-uglify');
-const w3cJs =        require('gulp-w3cjs');
-const del =          require('del');
+const gulp =        require('gulp');
+const fileInclude = require('gulp-file-include');
+const header =      require('gulp-header');
+const htmlHint =    require('gulp-htmlhint');
+const jsHint =      require('gulp-jshint');
+const mergeStream = require('merge-stream');
+const rename =      require('gulp-rename');
+const replace =     require('gulp-replace');
+const size =        require('gulp-size');
+const uglify =      require('gulp-uglify');
+const w3cJs =       require('gulp-w3cjs');
+const del =         require('del');
 
 const webContext = {
    pkg:  require('./package.json'),
@@ -35,14 +35,14 @@ const webContext = {
    };
 webContext.title = 'dna.js';  //default page title
 webContext.minorVersion = webContext.pkg.version.split('.').slice(0,2).join('.');
-const banner = '// dna.js v' + webContext.pkg.version + ' ~~ dnajs.org ~~ MIT\n';
+const banner = '//! dna.js v' + webContext.pkg.version + ' ~~ dnajs.org ~~ MIT License\n';
 const versionPatternStrs = [
    'dna[.]js v',     //example (dna.css):      /* dna.js v1.0.0 ~~ dnajs.org ~~ MIT */
    "version:\\s*'",  //example (dna.js):       version: '1.0.0',
    '"version":\\s*"' //example (package.json): "version":  "1.0.0",
    ];
 const versionPatterns = new RegExp('(' + versionPatternStrs.join('|') + ')[0-9.]*', 'g');
-const httpdocsFolder = 'website/httpdocs';
+const websiteTargetFolder = 'website-target';
 const htmlHintConfig = { 'attr-value-double-quotes': false };
 const jsHintConfig = {
    strict: 'implied',
@@ -84,26 +84,26 @@ function reportSize() {
    }
 
 function cleanWebsite() {
-    return del(httpdocsFolder + '/**');
+    return del(websiteTargetFolder);
     }
 
 function buildWebsite() {
    return mergeStream(
       gulp.src(['website/static/**', '!website/static/**/*.html'])
-         .pipe(gulp.dest(httpdocsFolder)),
+         .pipe(gulp.dest(websiteTargetFolder)),
       gulp.src(['website/static/**/*.html', 'website/root/**/*.html'])
          .pipe(fileInclude({ basepath: '@root', indent: true, context: webContext }))
          .pipe(w3cJs())
          .pipe(w3cJs.reporter())
          .pipe(htmlHint(htmlHintConfig))
          .pipe(htmlHint.reporter())
-         .pipe(gulp.dest(httpdocsFolder))
+         .pipe(gulp.dest(websiteTargetFolder))
          .pipe(size({ showFiles: true }))
       );
    }
 
 function otherStuff() {
-   const findToDoLine = /.*To-Do Application.*/;
+   const findToDoLine =  /.*To-Do Application.*/;
    const findIntroLine = /.*Introduction to dna.js.*/;
    const newToDoLine =
       '* [Sample To-Do Application](http://jsfiddle.net/' + webContext.jsFiddle.toDo + '/) (jsfiddle)';
