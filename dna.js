@@ -263,7 +263,7 @@ dna.browser = {
    getUrlParams: function() {
       // Returns the query parameters as an object literal.
       // Example:
-      //    http://example.com?lang=jp&code=7 ==> { lang: 'jp', code: 7 }
+      //    https://example.com?lang=jp&code=7 ==> { lang: 'jp', code: 7 }
       var params = {};
       function addParam(pair) { if (pair) params[pair.split('=')[0]] = pair.split('=')[1]; }
       window.location.search.slice(1).split('&').forEach(addParam);

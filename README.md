@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://dnajs.org/license)
 [![npm](https://img.shields.io/npm/v/dna.js.svg)](https://www.npmjs.com/package/dna.js)
 [![Build Status](https://travis-ci.org/dnajs/dna.js.svg)](https://travis-ci.org/dnajs/dna.js)
-[![Package Quality](http://npm.packagequality.com/shield/dna.js.svg)](http://packagequality.com/#?package=dna.js)
+[![Package Quality](https://npm.packagequality.com/shield/dna.js.svg)](https://packagequality.com/#?package=dna.js)
 [![Hits](https://data.jsdelivr.com/v1/package/npm/dna.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/dna.js)
 
 dna.js is a lightweight easy-to-use UI library for jQuery enabling developers to rapidly build
@@ -51,7 +51,7 @@ Need to clone the template multiple times?&nbsp;  Simply pass an array of data o
 
 ### 2. Additional Information
 * [dnajs.org](https://dnajs.org) (see the "Try It Out" section for a live example)
-* [Sample To-Do Application](http://jsfiddle.net/wo6og0z8/) (jsfiddle)
+* [Sample To-Do Application](https://jsfiddle.net/wo6og0z8/) (jsfiddle)
 * [Introduction to dna.js](https://youtu.be/jMOZOI-UkNI) (YouTube)
 * [Documentation](https://dnajs.org/docs)
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)
@@ -59,4 +59,4 @@ Need to clone the template multiple times?&nbsp;  Simply pass an array of data o
 ---
 dna.js is open source under the [MIT License](https://dnajs.org/license).&nbsp;
 The website and documentation are published under the
-[CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0) license.
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) license.

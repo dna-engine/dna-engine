@@ -101,7 +101,7 @@ const task = {
       const findToDoLine =  /.*To-Do Application.*/;
       const findIntroLine = /.*Introduction to dna.js.*/;
       const newToDoLine =
-         '* [Sample To-Do Application](http://jsfiddle.net/' + webContext.jsFiddle.toDo + '/) (jsfiddle)';
+         '* [Sample To-Do Application](https://jsfiddle.net/' + webContext.jsFiddle.toDo + '/) (jsfiddle)';
       const newIntroLine =
          '* [Introduction to dna.js](https://youtu.be/' + webContext.youTube.intro + ') (YouTube)';
       return mergeStream(

@@ -30,7 +30,7 @@
 
 /* Layout */
 html {
-   background: lightsteelblue url(graphics/bkgnd.jpg) fixed;  /* http://www.nist.gov/oles/forensics/images/DNA-Strand.jpg */
+   background: lightsteelblue url(graphics/bkgnd.jpg) fixed;  /* https://www.nist.gov/oles/forensics/images/DNA-Strand.jpg */
    background-size: cover;
    }
 body {
