@@ -5,7 +5,7 @@
 #####################
 
 # To make this file runnable:
-#    $ chmod +x *.sh.command
+#     $ chmod +x *.sh.command
 
 projectHome=$(cd $(dirname $0)/..; pwd)
 
@@ -39,19 +39,20 @@ downloadProjectCode() {
    echo
    }
 
-publish() {
-   cd $projectHome/website-target
+publishWebFiles() {
+   cd $projectHome
    publishWebRoot=$(grep ^DocumentRoot /private/etc/apache2/httpd.conf | awk -F\" '{ print $2 }')
-   publishFolder=$publishWebRoot/centerkey.com/www.dnajs.org
-   copyWebFiles() {
+   publishSite=$publishWebRoot/centerkey.com
+   publishFolder=$publishSite/www.dnajs.org
+   publish() {
       echo "Publishing:"
-      echo $publishFolder
-      cp -R * $publishFolder
-      mkdir -p $publishFolder/../www.dnajs.com/
-      mv placeholder.html $publishFolder/../www.dnajs.com/index.html
+      mkdir -p $publishFolder
+      cp -R website-target/* $publishFolder
+      mkdir -p $publishFolder/../www.dnajs.com
+      mv $publishFolder/placeholder.html $publishFolder/../www.dnajs.com/index.html
       echo
       }
-   test -w $publishFolder && copyWebFiles
+   test -w $publishSite && publish
    }
 
 launchBrowser() {
@@ -69,5 +70,5 @@ echo "~~~~~~~~~~~~~~~~~"
 source $projectHome/setup.sh
 buildHtmlFiles
 downloadProjectCode
-publish
+publishWebFiles
 launchBrowser

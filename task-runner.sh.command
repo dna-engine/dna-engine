@@ -5,7 +5,7 @@
 ###############
 
 # To make this file runnable:
-#    $ chmod +x *.sh.command
+#     $ chmod +x *.sh.command
 
 projectHome=$(cd $(dirname $0); pwd)
 
