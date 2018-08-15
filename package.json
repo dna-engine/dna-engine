@@ -33,6 +33,7 @@
       "mocha": true
    },
    "scripts": {
+      "web-server": "http-server -p 3482 &",
       "pretest": "jshint gulpfile.js spec/*.js && gulp set-version && gulp lint && gulp minify",
       "test": "mocha spec/*.js",
       "posttest": "gulp report-size",
@@ -55,6 +56,7 @@
       "gulp-size": "~3.0",
       "gulp-uglify": "~3.0",
       "gulp-w3cjs": "~1.3",
+      "http-server": "~0.11",
       "jquery": "~3.3",
       "jsdom": "~11.12",
       "jshint": "~2.9",

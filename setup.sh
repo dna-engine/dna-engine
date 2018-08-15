@@ -5,11 +5,12 @@
 
 package=https://raw.githubusercontent.com/dnajs/dna.js/master/package.json
 releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/current
-port=3482  #dna -> d9a -> 0xD9A -> 3482
 
 setupTools() {
-   # Check for Node.js installation and download project dependencies
    cd $projectHome
+   echo
+   echo $banner
+   echo $(echo $banner | sed -e "s/./=/g")
    pwd
    echo
    echo "Node.js:"
@@ -22,19 +23,17 @@ setupTools() {
    }
 
 setupWebServer() {
-   # Startup SimpleHTTPServer
    cd $projectHome
-   echo "Web server (localhost:$port):"
-   process=$(pgrep -lf "SimpleHTTPServer $port")
-   launch() {
-      echo "Launching SimpleHTTPServer..."
-      screen -dm python -m SimpleHTTPServer $port
-      }
-   test -z "$process" && launch
-   pwd
-   pgrep -lf "^python -m SimpleHTTPServer"
+   port=$(grep web-server package.json | sed -e "s/[^0-9]//g")
+   # Requires package.json script: "web-server": "http-server -p 8080 &"
+   echo "Web Server (indexzero/http-server on node):"
+   test -z $(pgrep -f $projectHome) && npm run web-server
+   pgrep -fl http-server
+   echo "To stop web server:"
+   echo "   $ pgrep -fl http-server"
+   echo "   $ pkill -f $projectHome"
    echo
    }
 
 setupTools
-setupWebServer
+setupWebServer  #port: dna -> d9a -> 0xD9A -> 3482

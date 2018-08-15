@@ -7,6 +7,7 @@
 # To make this file runnable:
 #     $ chmod +x *.sh.command
 
+banner="dnajs.org Website"
 projectHome=$(cd $(dirname $0)/..; pwd)
 
 buildHtmlFiles() {
@@ -64,9 +65,6 @@ launchBrowser() {
    open $url
    }
 
-echo
-echo "dnajs.org website"
-echo "~~~~~~~~~~~~~~~~~"
 source $projectHome/setup.sh
 buildHtmlFiles
 downloadProjectCode

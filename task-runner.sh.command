@@ -7,6 +7,7 @@
 # To make this file runnable:
 #     $ chmod +x *.sh.command
 
+banner="dna.js Task Runner"
 projectHome=$(cd $(dirname $0); pwd)
 
 runTasks() {
@@ -93,9 +94,6 @@ specRunner() {
    open $url
    }
 
-echo
-echo "dna.js Task Runner"
-echo "~~~~~~~~~~~~~~~~~~"
 source $projectHome/setup.sh
 runTasks
 getVersions
