@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #####################
 # dna.js Website    #
 # https://dnajs.org #
