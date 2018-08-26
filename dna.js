@@ -882,32 +882,30 @@ dna.events = {
          var defaultThrottle = 1000;  //default 1 second delay between callbacks
          var elem = $(event.target);
          var data = elem.data();
-         function smartUpdate() {
-            function doCallback() {
-               data.dnaLastUpdated = Date.now();
-               data.dnaTimeoutId = undefined;
-               runner(elem, 'smart-update', event);
-               }
-            function handleChange() {
-               var throttle = data.smartThrottle ? +data.smartThrottle : defaultThrottle;
-               data.dnaLastValue = elem.val();
-               if (!data.dnaTimeoutId)
-                  if (Date.now() < data.dnaLastUpdated + throttle)
-                     data.dnaTimeoutId = window.setTimeout(doCallback, throttle);
-                  else
-                     doCallback();
-               }
-            function updateLastValue() {
-               if (data.dnaLastValue === undefined)
-                  data.dnaLastValue = elem.val();
-               }
-            if (event.type === 'keydown')
-               updateLastValue();
-            else if (elem.val() !== data.dnaLastValue)
+         function doCallback() {
+            data.dnaLastUpdated = Date.now();
+            data.dnaLastValue = elem.val();
+            data.dnaTimeoutId = null;
+            runner(elem, 'smart-update', event);
+            }
+         function handleChange() {
+            var throttle = data.smartThrottle ? +data.smartThrottle : defaultThrottle;
+            if (Date.now() < data.dnaLastUpdated + throttle)
+               data.dnaTimeoutId = window.setTimeout(doCallback, throttle);
+            else
+               doCallback();
+            }
+         function checkForValueChange() {
+            if (elem.val() !== data.dnaLastValue && !data.dnaTimeoutId)
                handleChange();
             }
+         function processSmartUpdate()  {
+            if (event.type === 'keydown' && data.dnaLastValue === undefined)
+               data.dnaLastValue = elem.val();
+            window.setTimeout(checkForValueChange);  //requeue so elem.val() is ready on paste event
+            }
          if (data.smartUpdate)
-            window.setTimeout(smartUpdate);  //requeue so elem.val() is ready on paste event
+            processSmartUpdate();
          }
       function jumpToUrl(event) {
          // Usage:
