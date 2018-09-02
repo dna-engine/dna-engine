@@ -22,9 +22,9 @@ Video Tutorial ~~ Transcript
 
 10) Now for the fun part: writing the JavaScript to make the REST call and display the search results.  Create a function named "findBooks".  The first line of code reads the user's search terms by getting the value of the <input> element.
 
-11) Remember that URL we used for the sample REST call?  Use that same URL but with the search terms appended dynamically.  Then to make the actual REST call, use jQuery's handy getJSON function.  The first parameter is the URL of the REST call, and the second parameter is the callback function to handle the results.
+11) Remember that URL we used for the sample REST call?  Use that same URL but with the search terms appended dynamically.  Then to make the actual REST call, use the fetchJson.get() function.  The first parameter is the URL of the REST call, and the second parameter is the callback function to handle the results.
 
-12) Of course, now we need to define the handleResults function.  jQuery passes the response JSON into the callback function, and we are going to use that data to tell dna.js to clone the "book" template -- one clone for each book.  The first parameter for the dna.clone function is the name of the template and the second parameter is the data.  For the Google Books API, we'll use the "items" field which is the actual array of books.  Options are passed as the third parameter.  We need any previous results emptied out before displaying the new results, and we want to smoothly fade in the new results.
+12) Of course, now we need to define the handleResults function.  The promise from fetchJson passes the response JSON into the callback function, and we are going to use that data to tell dna.js to clone the "book" template -- one clone for each book.  The first parameter for the dna.clone function is the name of the template and the second parameter is the data.  For the Google Books API, we'll use the "items" field which is the actual array of books.  Options are passed as the third parameter.  We need any previous results emptied out before displaying the new results, and we want to smoothly fade in the new results.
 
 13) To make this all work, we have to actually call the findBooks function.  Use the "data-click" attribute to tell dna.js to call the function.  Add the attribute to the <button> tag with a value of "findBooks" so that when the user clicks the "Find" button, the findBooks function is called.
 
@@ -34,7 +34,7 @@ Video Tutorial ~~ Transcript
 
 16) Return to the browser and refresh the page to see the improved UI.  Let's search for "fireworks china".  Relevant books are displayed as the user types in the search terms.  Let's hop back to the code and step though the the process of going from user input to the REST call to displaying search results.
 
-17) The findBooks function is called when the user updates the text in the <input> field.  dna.js passes the <input> element into the findBooks function where we read the value of the element.  Then the URL is constructed and passed into jQuery's getJSON function to make the REST call to the Google Books API.  And the handleResults function is called once the JSON response is received.  That data is passed into the clone function to make copies of the "book" template.  And that's all you need to make a REST-driven search component.
+17) The findBooks function is called when the user updates the text in the <input> field.  dna.js passes the <input> element into the findBooks function where we read the value of the element.  Then the URL is constructed and passed into the fetchJson() function to make the REST call to the Google Books API.  And the handleResults function is called once the JSON response is received.  That data is passed into the clone function to make copies of the "book" template.  And that's all you need to make a REST-driven search component.
 
 18) Visit dnajs.org for more information.  If you have any questions, follow the link to the GitHub project and submit an issue with your question.  Thanks.
 

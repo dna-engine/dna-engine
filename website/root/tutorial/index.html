@@ -231,7 +231,7 @@
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <section id=step6>
-      <h3>Step 6: Load jQuery and dna.js</h3>
+      <h3>Step 6: Load jQuery, dna.js, and browser-fetch-json</h3>
       <p>
          The easiest way to get the necessary CSS and JavaScript libraries is the pull them from a
          <a href=https://en.wikipedia.org/wiki/Content_delivery_network
@@ -247,13 +247,14 @@
          </code></pre>
       </figure>
       <p>
-         Then, add the following two lines just before the closing <code>&lt;/body&gt;</code> tag:
+         Then, add the following three lines just before the closing <code>&lt;/body&gt;</code> tag:
       </p>
       <figure>
          <figcaption>JS link at bottom of the <code>body</code> section</figcaption>
          <pre><code class=language-html>
             &lt;script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js&gt;&lt;/script&gt;
             &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dna.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/npm/browser-fetch-json@0.2/fetch-json.min.js&gt;&lt;/script&gt;
          </code></pre>
       </figure>
       <p>
@@ -280,7 +281,7 @@
          <pre><code class=language-html>
             &lt;script&gt;
                function findBooks(elem) {
-                  var terms = $('input').val();
+                  const terms = $('input').val();
                   console.log(terms);
                   }
             &lt;/script&gt;
@@ -316,11 +317,11 @@
       <figure>
          <figcaption>REST   </figcaption>
          <pre><code class=language-javascript>
-            var url = 'https://www.googleapis.com/books/v1/volumes?q=' + terms;
+            const url = 'https://www.googleapis.com/books/v1/volumes?q=' + terms;
             function handleResults(data) {
                dna.clone('book', data.items, { empty: true, fade: true });
                }
-            $.getJSON(url, handleResults);
+            fetchJson.get(url).then(handleResults);
          </code></pre>
       </figure>
       The code:
@@ -363,13 +364,13 @@
       <p>
          dna.js passes the event target element into the callback.&nbsp;
          The callback event now happens on the <code>&lt;input&gt;</code> element, so we can
-         replace the old <code>var terms = $('input').val();</code> line with a more robust line of
+         replace the old <code>const terms = $('input').val();</code> line with a more robust line of
          code:
       </p>
       <figure>
          <figcaption>Smart update</figcaption>
          <pre><code class=language-javascript>
-            var terms = elem.val();
+            const terms = elem.val();
          </code></pre>
       </figure>
       <p>
@@ -431,15 +432,16 @@
 
             &lt;script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js&gt;&lt;/script&gt;
             &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dna.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/npm/browser-fetch-json@0.2/fetch-json.min.js&gt;&lt;/script&gt;
             &lt;script&gt;
                function findBooks(elem) {
-                  var terms = elem.val();
+                  const terms = elem.val();
                   console.log(terms);
-                  var url = 'https://www.googleapis.com/books/v1/volumes?q=' + terms;
+                  const url = 'https://www.googleapis.com/books/v1/volumes?q=' + terms;
                   function handleResults(data) {
                      dna.clone('book', data.items, { empty: true, fade: true });
                      }
-                  $.getJSON(url, handleResults);
+                  fetchJson.get(url).then(handleResults);
                   }
             &lt;/script&gt;
             &lt;/body&gt;

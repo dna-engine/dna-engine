@@ -44,16 +44,17 @@
 
 <script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js></script>
 <script src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dna.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/browser-fetch-json@0.2/fetch-json.min.js></script>
 <script>
    function findBooks(elem) {
-      //var terms = $('input').val();
-      var terms = elem.val();
+      //const terms = $('input').val();
+      const terms = elem.val();
       console.log(terms);
-      var url = 'https://www.googleapis.com/books/v1/volumes?q=' + terms;
+      const url = 'https://www.googleapis.com/books/v1/volumes?q=' + terms;
       function handleResults(data) {
          dna.clone('book', data.items, { empty: true, fade: true });
          }
-      $.getJSON(url, handleResults);
+      fetchJson.get(url).then(handleResults);
       }
 </script>
 </body>
