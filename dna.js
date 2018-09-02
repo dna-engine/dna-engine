@@ -6,7 +6,6 @@ var dna = {
    //    dna.clone()
    //    dna.cloneSub()
    //    dna.createTemplate()
-   //    dna.rest.get()
    //    dna.getModel()
    //    dna.empty()
    //    dna.insert()
@@ -72,18 +71,6 @@ var dna = {
       // Generates a template from an HTML string.
       $(html).attr({ id: name }).addClass('dna-template').appendTo(holder);
       return dna.store.getTemplate(name);
-      },
-   rest: {
-      // Makes a GET request to the url and then generates a copy of the template
-      // and populates the fields, attributes, and classes from the JSON response.
-      // NOTE: Experimental -- currently very limited functionality
-      get: function(name, url, options) {
-         function processJson(data) {
-            if (!data.error)
-               dna.clone(name, data, options);
-            }
-         return $.getJSON(url, processJson);
-         }
       },
    getModel: function(elemOrName, options) {
       // Returns the underlying data of the clone.

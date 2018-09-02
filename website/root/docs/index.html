@@ -57,7 +57,6 @@
                <ol>
                   <li><a href=#api-clone-sub>dna.cloneSub()</a></li>
                   <li><a href=#api-create>dna.createTemplate()</a></li>
-                  <li><a href=#api-rest>dna.rest.get()</a></li>
                   <li><a href=#api-empty>dna.empty()</a></li>
                   <li><a href=#api-refresh-all>dna.refreshAll()</a></li>
                   <li><a href=#api-destroy>dna.destroy()</a></li>
@@ -848,7 +847,6 @@
       <h5>API Overview</h5>
       <ol>
          <li><b>dna.cloneSub</b>(holderClone, arrayField, data, options)</li>
-         <li><b>dna.rest.get</b>(name, url, options)</li>
          <li><b>dna.empty</b>(name, options)</li>
          <li><b>dna.refreshAll</b>(name)</li>
          <li><b>dna.destroy</b>(clone, options)</li>
@@ -937,51 +935,6 @@
          </code></pre>
       </figure>
       <!-- End: Result -->
-   </section>
-
-   <!-- dna.rest.get() -->
-   <section id=api-rest>
-      <h4>dna.rest.get(name, url [, options])</h4>
-      <p class=api-description>
-         Makes a GET request to the url and then generates a copy of the template
-         and populates the fields, attributes, and classes from the JSON response.
-      </p>
-      <p>
-         <em>Note:</em>
-         This feature is currently experimental with very limited functionality.
-      </p>
-      <div class=api-parameters>
-         Parameters:
-         <ul>
-            @@include('website/templates/params/name.html')
-            @@include('website/templates/params/url.html')
-            <li>
-               <label><b>options</b> (Object) <i>[optional]</i>:</label>
-               <ul>
-                  @@include('website/templates/options/fade.html')
-                  @@include('website/templates/options/top.html')
-                  @@include('website/templates/options/html.html')
-                  @@include('website/templates/options/empty.html')
-                  @@include('website/templates/options/holder.html')
-                  @@include('website/templates/options/callback.html')
-               </ul>
-            </li>
-         </ul>
-      </div>
-      <figure>
-         <figcaption>Example JavaScript</figcaption>
-         <pre><code class=language-javascript>
-            dna.rest.get('book', 'https://dnajs.org/rest/book/3');
-         </code></pre>
-      </figure>
-      <p>
-         The <code>dna.rest.get()</code> method will not create a clone if the REST
-         call returns an <code>error</code> field equal to <code>true</code>.
-      </p>
-      <p>
-         For <a href=https://dnajs.org/rest/book/7 class=external-site>example</a>:
-         <code class=block-indent>{ "error": true, "message": "Resource not found" }</code>
-      </p>
    </section>
 
    <!-- dna.empty() -->
@@ -2364,7 +2317,7 @@
                         },
                      setup: function(elem) {
                         function handle(data) { dna.clone('my-book', data); }
-                        $.getJSON(bookshelf.booksUrl, handle);
+                        fetchJson.get(bookshelf.booksUrl).then(handle);
                         }
                      };
                &lt;/script&gt;
@@ -2394,7 +2347,7 @@
                         },
                      setup: function(elem) {
                         function handle(data) { dna.clone('my-book', data); }
-                        $.getJSON(bookshelf.booksUrl, handle);
+                        fetchJson.get(bookshelf.booksUrl).then(handle);
                         }
                      };
                </script>

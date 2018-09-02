@@ -534,9 +534,10 @@ spec.spec08 = {
 spec.spec09 = {
    run: function() {
       dna.clone('s09-rest-link', ['https://dnajs.org/rest/book/1/', 'https://dnajs.org/rest/book/2/']);
-      dna.rest.get('s09-book', 'https://dnajs.org/rest/book/1/');
-      dna.rest.get('s09-book', 'https://dnajs.org/rest/book/2/');
-      dna.rest.get('s09-book', 'https://dnajs.org/rest/book/7/');  //verify call to missing resource
+      function insertBook(book) { return dna.clone('s09-book', book); }
+      fetchJson.enableLogger();
+      fetchJson.get('https://dnajs.org/rest/book/1/').then(insertBook);
+      fetchJson.get('https://dnajs.org/rest/book/2/').then(insertBook);
       }
    };
 </script>
@@ -1170,7 +1171,7 @@ spec.spec16 = {
                      .attr({ 'data-href': booksUrl })
                      .addClass('external-site');
                   function handle(data) { dna.clone('s17-book', data); }
-                  $.getJSON(booksUrl, handle);
+                  fetchJson.get(booksUrl).then(handle);
                   }
                };
          </script>
@@ -1483,6 +1484,7 @@ spec.spec22 = {
    dna.js
 </footer>
 
+<script src=https://cdn.jsdelivr.net/npm/browser-fetch-json@0.2/fetch-json.min.js></script>
 <script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js></script>
 <script src=../dna.js?force-reload></script>
 <script>
