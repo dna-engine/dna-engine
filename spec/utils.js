@@ -1,40 +1,24 @@
 // dna.js
 // Mocha Specification Cases
-//
-// Run specs:
-//    $ cd dna.js
-//    $ npm test
 
-const html = `
-<!doctype html>
-<html lang=en>
-   <head>
-      <meta charset=utf-8>
-      <title>Specification Runner</title>
-   </head>
-   <body>
-   </body>
-</html>
-`;
-
-const assert =    require('assert');
+// Imports
+const assert =    require('assert').strict;
 const { JSDOM } = require('jsdom');
-const window =    new JSDOM(html).window;
-const $ =         require('jquery')(window);
-const dna =       require('../dna.js')(window, $);
+
+// Setup
+const window = new JSDOM('').window;
+const $ =      require('jquery')(window);
+const dna =    require('../dna.js')(window, $);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Utility function dna.util.toCamel()', () => {
 
    it('converts a kebab (dashes) name to camelCase', () => {
-      const dataSet = [
-         { input: 'ready-set-go', expected: 'readySetGo' },
-         { input: 'dna',          expected: 'dna' }
-         ];
-      function evalData(data) {
-         assert.strictEqual(dna.util.toCamel(data.input), data.expected);
-         }
-      dataSet.forEach(evalData);
+      const input =  ['ready-set-go', 'dna'];
+      const output = ['readySetGo',   'dna'];
+      const actual =   { camels: input .map(dna.util.toCamel) };
+      const expected = { camels: output };
+      assert.deepEqual(actual, expected);
       });
 
    });
@@ -43,14 +27,11 @@ describe('Utility function dna.util.toCamel()', () => {
 describe('Utility function dna.util.toKebab()', () => {
 
    it('converts kebab (dashes) name to camelCase', () => {
-      const dataSet = [
-           { input: 'readySetGo', expected: 'ready-set-go' },
-           { input: 'dna',        expected: 'dna' }
-           ];
-      function evalData(data) {
-         assert.strictEqual(dna.util.toKebab(data.input), data.expected);
-         }
-      dataSet.forEach(evalData);
+      const input =  ['readySetGo',   'dna'];
+      const output = ['ready-set-go', 'dna'];
+      const actual =   { kebabs: input.map(dna.util.toKebab) };
+      const expected = { kebabs: output };
+      assert.deepEqual(actual, expected);
       });
 
    });
@@ -59,9 +40,9 @@ describe('Utility function dna.util.toKebab()', () => {
 describe('Utility function dna.util.value()', () => {
 
    it('returns value from key', () => {
-      const actual =   dna.util.value({ a: { b: 7 } }, 'a.b');
-      const expected = 7;
-      assert.strictEqual(actual, expected);
+      const actual =   { value: dna.util.value({ a: { b: 7 } }, 'a.b') };
+      const expected = { value: 7 };
+      assert.deepEqual(actual, expected);
       });
 
    });
@@ -69,13 +50,20 @@ describe('Utility function dna.util.value()', () => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Utility function dna.util.realTruth()', () => {
 
-   it('returns a boolean', () => {
-      const dataSet = [
-         { input: '7', expected: true },
-         { input: '0', expected: false }
-         ];
-      function evalData(data) { assert.strictEqual(dna.util.realTruth(data.input), data.expected); }
-      dataSet.forEach(evalData);
+   it('returns true for really true things', () => {
+      const input =  [true, 1,    '1', 't',   'T',  'TRue', '77', 77,   [5],  {},   'Colbert'];
+      const output = [true, true, true, true, true, true,   true, true, true, true, true];
+      const actual =   { truth: input.map(dna.util.realTruth) };
+      const expected = { truth: output };
+      assert.deepEqual(actual, expected);
+      });
+
+   it('returns false for really untrue things', () => {
+      const input =  [false, 0,     '0',   'f',   'F',   'faLSE', '',    [],    null,  undefined, NaN];
+      const output = [false, false, false, false, false, false,   false, false, false, false,     false];
+      const actual =   { untruth: input.map(dna.util.realTruth) };
+      const expected = { untruth: output };
+      assert.deepEqual(actual, expected);
       });
 
    });
@@ -84,9 +72,9 @@ describe('Utility function dna.util.realTruth()', () => {
 describe('Utility function dna.util.printf()', () => {
 
    it('builds a string from variables', () => {
-      const actual =   dna.util.printf('%s: %s', 'Lives', 3);
-      const expected = 'Lives: 3';
-      assert.strictEqual(actual, expected);
+      const actual =   { string: dna.util.printf('%s: %s', 'Lives', 3) };
+      const expected = { string: 'Lives: 3' };
+      assert.deepEqual(actual, expected);
       });
 
    });
@@ -97,17 +85,15 @@ describe('Utility function dna.util.apply()', () => {
    const app = {
       priceCatalog: { 3: 19.95, 7: 14.95, 21: 39.95 },
       cart: {
-         buy: function(itemNum) {
-            return app.priceCatalog[itemNum];
-            }
+         buy: function(itemNum) { return app.priceCatalog[itemNum]; }
          }
       };
-   dna.registerContext('app', app);
 
    it('calls fn (string name or actual function) passing in params', () => {
-      const actual =   dna.util.apply('app.cart.buy', 7);
-      const expected = 14.95;
-      assert.strictEqual(actual, expected);
+      dna.registerContext('app', app);  //alternative: declare "app" using: "window.app = {"
+      const actual =   { price: dna.util.apply('app.cart.buy', 7) };
+      const expected = { price: 14.95 };
+      assert.deepEqual(actual, expected);
       });
 
    });
