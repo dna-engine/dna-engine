@@ -1,19 +1,21 @@
 // dna.js
 // gulp configuration and tasks
 
-const gulp =        require('gulp');
-const fileInclude = require('gulp-file-include');
-const header =      require('gulp-header');
-const htmlHint =    require('gulp-htmlhint');
-const jsHint =      require('gulp-jshint');
-const mergeStream = require('merge-stream');
-const rename =      require('gulp-rename');
-const replace =     require('gulp-replace');
-const size =        require('gulp-size');
-const uglify =      require('gulp-uglify');
-const w3cJs =       require('gulp-w3cjs');
-const del =         require('del');
+// Imports
+const gulp =             require('gulp');
+const fileInclude =      require('gulp-file-include');
+const header =           require('gulp-header');
+const htmlHint =         require('gulp-htmlhint');
+const jsHint =           require('gulp-jshint');
+const mergeStream =      require('merge-stream');
+const rename =           require('gulp-rename');
+const replace =          require('gulp-replace');
+const size =             require('gulp-size');
+const uglify =           require('gulp-uglify');
+const w3cHtmlValidator = require('gulp-w3cjs');
+const del =              require('del');
 
+// Setup
 const webContext = {
    pkg:  require('./package.json'),
    gzipSize: '6 kb gzip',
@@ -54,6 +56,7 @@ const jsHintConfig = {
    globals: { dna: false, $: true, window: true }
    };
 
+// Tasks
 const task = {
    setVersionNumber: function() {
       return gulp.src(['dna.js', 'dna.css'])
@@ -89,8 +92,8 @@ const task = {
             .pipe(gulp.dest(websiteTargetFolder)),
          gulp.src(['website/static/**/*.html', 'website/root/**/*.html'])
             .pipe(fileInclude({ basepath: '@root', indent: true, context: webContext }))
-            .pipe(w3cJs())
-            .pipe(w3cJs.reporter())
+            .pipe(w3cHtmlValidator())
+            .pipe(w3cHtmlValidator.reporter())
             .pipe(htmlHint(htmlHintConfig))
             .pipe(htmlHint.reporter())
             .pipe(gulp.dest(websiteTargetFolder))
@@ -111,8 +114,8 @@ const task = {
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('.')),
          gulp.src(['spec/visual.html', 'spec/simple.html'])
-            .pipe(w3cJs())
-            .pipe(w3cJs.reporter())
+            .pipe(w3cHtmlValidator())
+            .pipe(w3cHtmlValidator.reporter())
             .pipe(htmlHint(htmlHintConfig))
             .pipe(htmlHint.reporter())
             .pipe(size({ showFiles: true }))
@@ -120,6 +123,7 @@ const task = {
       }
    };
 
+// Gulp
 gulp.task('set-version', task.setVersionNumber);
 gulp.task('lint',        task.runJsHint);
 gulp.task('minify',      task.runUglify);
