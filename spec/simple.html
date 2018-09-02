@@ -52,7 +52,7 @@
       setup: function() {
          function makePageRed() { $('body').css({ backgroundColor: 'pink' }); }
          window.onerror = makePageRed;
-         var start = Date.now();
+         const start = Date.now();
          function addCodes(book) { book.colors = app.colors; }
          dna.clone('book', app.books, { transform: addCodes });
          console.log('Run time (ms):', Date.now() - start);

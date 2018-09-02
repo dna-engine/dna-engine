@@ -111,7 +111,7 @@
 <script src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dna.min.js></script>
 <script src=https://centerkey.com/js/library.js></script>
 <script>
-   var circles = [
+   const circles = [
       { x:  5, y: 50, color: 'forestgreen' },
       { x: 65, y: 50, color: 'crimson' },
       { x: 15, y: 30, color: 'darkgoldenrod' },
@@ -124,7 +124,7 @@
    dna.clone('circle', circles, { callback: addStyle });
    $('#circle-data').text(JSON.stringify(circles));
    function scaleRange(range) {
-      var scale = Math.max(range.val(), 5) / 100;
+      const scale = Math.max(range.val(), 5) / 100;
       $('figure#logo-canvas').css({ transform: `scale(${scale})` });
       }
 </script>

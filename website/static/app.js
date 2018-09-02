@@ -1,7 +1,7 @@
 // dna.js Website ~~ dnajs.org ~~ MIT
 // Copyright (c) 2013-2018 individual contributors to dna.js
 
-var app = {
+const app = {
    setup: function() {
       app.nav.setup();
       app.documenation.setup();
@@ -18,7 +18,7 @@ app.bookstore = {
       dna.empty('book', { fade: true });
       },
    feelLucky: function() {
-      var lucky = Math.floor(Math.random() * app.bookstore.books.length);
+      const lucky = Math.floor(Math.random() * app.bookstore.books.length);
       dna.clone('book', app.bookstore.books[lucky], { fade: true });
       },
    setup: function() {
@@ -28,8 +28,8 @@ app.bookstore = {
 
 app.nav = {
    setup: function() {
-      var folder = window.location.pathname.split('/').slice(-2)[0];
-      var current = $('header nav a[href$="' + folder + '"]').closest('li');
+      const folder = window.location.pathname.split('/').slice(-2)[0];
+      const current = $('header nav a[href$="' + folder + '"]').closest('li');
       if (!current.length)
          current = $('header nav li').first();
       current.addClass('current');
@@ -39,7 +39,7 @@ app.nav = {
 app.documenation = {
    setup: function() {
       function addOutlineNumber(i, elem) {
-         var letter = String.fromCharCode('A'.charCodeAt() + i);
+         const letter = String.fromCharCode('A'.charCodeAt() + i);
          $(elem).text(letter + '. ' + $(elem).text());
          }
       if (window.location.pathname.indexOf('/docs') !== -1)

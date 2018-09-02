@@ -58,13 +58,13 @@ input[type=checkbox], button {
 </style>
 -->
 <script>
-var todo = {
+const todo = {
    add: function() {  //create task
-      var task = { title: $('#task-title').val() };
+      const task = { title: $('#task-title').val() };
       dna.clone('task', task, { fade: true });
       },
    setup: function() {  //start with one task
-      var task = {
+      const task = {
          title: 'Check out: dnajs.org',
          done:  false
          };
@@ -106,15 +106,15 @@ button {
 </style>
 -->
 <script>
-var store = {
+const store = {
    books: [
       { title: 'JavaScript!', author: 'Jake' },
       { title: 'CSS3!',       author: 'Abby' },
       { title: 'HTML5!',      author: 'Ed' }
       ],
    add: function() {
-      var i = $('.book').length % store.books.length;
-      var options = { fade: true };
+      const i = $('.book').length % store.books.length;
+      const options = { fade: true };
       dna.clone('book', store.books[i], options);
       },
    clear: function() {

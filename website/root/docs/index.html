@@ -533,7 +533,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-               var books = [
+               const books = [
                   { title: 'The DOM',     onSale: true },
                   { title: 'Styling CSS', onSale: false }
                   ];
@@ -758,9 +758,9 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var book = { title: 'The DOM', author: 'Bo' };
-            var clone = dna.clone('book', book);
-            var model = dna.getModel(clone);
+            const book = { title: 'The DOM', author: 'Bo' };
+            const clone = dna.clone('book', book);
+            const model = dna.getModel(clone);
             model.title = 'The DOM II';
             dna.refresh(clone);  //updates ui (DOM element) with new title
          </code></pre>
@@ -795,9 +795,9 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var book = { title: 'The DOM', author: 'Bo' };
-            var clone = dna.clone('book', book);
-            var model = dna.getModel(clone);
+            const book = { title: 'The DOM', author: 'Bo' };
+            const clone = dna.clone('book', book);
+            const model = dna.getModel(clone);
             model.title = 'The DOM II';
             dna.refresh(clone);  //updates ui (DOM element) with new title
          </code></pre>
@@ -885,8 +885,8 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var book = { title: 'Interwebz', chapters: ['ARPANET', 'TCP/IP'] };
-            var clone = dna.clone('book', book);
+            const book = { title: 'Interwebz', chapters: ['ARPANET', 'TCP/IP'] };
+            const clone = dna.clone('book', book);
             dna.cloneSub(clone, 'chapters', 'CERN');  //append chapter
          </code></pre>
       </figure>
@@ -912,12 +912,12 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var books = [
+            const books = [
                { title: 'The DOM' },
                { title: 'Go JavaScript!' },
                { title: 'Styling CSS3' }
                ];
-            var html = '&lt;li&gt;~~title~~&lt;/li&gt;';
+            const html = '&lt;li&gt;~~title~~&lt;/li&gt;';
             dna.createTemplate('book', html, $('ol#book-list'));
             dna.clone('book', books);
          </code></pre>
@@ -982,8 +982,8 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var clone1 = dna.clone('book', { title: 'The DOM' });
-            var clone2 = dna.clone('book', { title: 'Styling CSS' });
+            const clone1 = dna.clone('book', { title: 'The DOM' });
+            const clone2 = dna.clone('book', { title: 'Styling CSS' });
             dna.getModel(clone1).title = 'The DOM II';    //modified title
             dna.getModel(clone2).title = 'Styling CSS3';  //modified title
             dna.refreshAll('book');  //updates ui with new titles
@@ -1013,7 +1013,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var clone = dna.clone('book', book);
+            const clone = dna.clone('book', book);
             dna.destroy(clone, { fade: true });
          </code></pre>
       </figure>
@@ -1039,7 +1039,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var books = dna.getClones('book');
+            const books = dna.getClones('book');
          </code></pre>
       </figure>
    </section>
@@ -1141,7 +1141,7 @@
       <figure>
          <figcaption>Example 3: Direct function call</figcaption>
          <pre><code class=language-javascript>
-            var clone = dna.clone('book', { title: 'The DOM' });
+            const clone = dna.clone('book', { title: 'The DOM' });
             dna.bye(clone);  //deletes 'The DOM'
          </code></pre>
       </figure>
@@ -1271,7 +1271,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var books = [
+            const books = [
                { title: 'The DOM' },
                { title: 'Interwebz' }
                ];
@@ -1317,7 +1317,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var book = {
+            const book = {
                title:    'Interwebz',
                authors:  ['Ed', 'Jake', 'Abby'],
                chapters: { header: 'ARPANET', header: 'TCP/IP' }
@@ -1370,7 +1370,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var books = ['The DOM', 'Interwebz'];
+            const books = ['The DOM', 'Interwebz'];
             dna.clone('book', books);
          </code></pre>
       </figure>
@@ -1406,7 +1406,7 @@
                &lt;span&gt;~~name~~&lt;/span&gt;
             &lt;/span&gt;
             &lt;script&gt;
-               var authors = [{ name: 'Ed' }, { name: 'Bo'}, { name: 'Jan' }];
+               const authors = [{ name: 'Ed' }, { name: 'Bo'}, { name: 'Jan' }];
                dna.clone('author', authors);
             &lt;/script&gt;
          </code></pre>
@@ -1479,7 +1479,7 @@
             function enhanceBook(data) {
                data.displayStar = data.rating &gt; 3;  //good books get a star
                }
-            var books = [
+            const books = [
                { title: 'The DOM',   rating: 2 },
                { title: 'Interwebz', rating: 5 }
                ];
@@ -1585,7 +1585,7 @@
             &lt;p id=message&gt;&lt;/p&gt;
             &lt;script&gt;
                function showMsg(elem, event) {
-                  var msg = 'Value "' + elem.val() + '" on ' + event.type;
+                  const msg = 'Value "' + elem.val() + '" on ' + event.type;
                   $('#message').text(msg).stop().hide().fadeIn();
                   }
             &lt;/script&gt;
@@ -1606,7 +1606,7 @@
             <p id=message><br></p>
             <script>
                function showMsg(elem, event) {
-                  var msg = 'Value "' + elem.val() + '" on ' + event.type;
+                  const msg = 'Value "' + elem.val() + '" on ' + event.type;
                   $('#message').text(msg).stop().hide().fadeIn();
                   }
             </script>
@@ -1653,7 +1653,7 @@
             &lt;/div&gt;
             &lt;script&gt;
                function logNow(elem) {
-                  var msg = Date.now() + ': ' + elem.val();
+                  const msg = Date.now() + ': ' + elem.val();
                   dna.clone('log-message', { message: msg }, { fade: true });
                   }
             &lt;/script&gt;
@@ -1670,7 +1670,7 @@
             </div>
             <script>
                function logNow(elem) {
-                  var msg = Date.now() + ': ' + elem.val();
+                  const msg = Date.now() + ': ' + elem.val();
                   dna.clone('log-message', { message: msg }, { fade: true });
                   }
             </script>
@@ -1773,13 +1773,13 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var bookInfo = {
+            const bookInfo = {
                update: function(elem) {
-                  var data = JSON.stringify(dna.getModel(elem));
+                  const data = JSON.stringify(dna.getModel(elem));
                   $('#data').text(data).hide().fadeIn();
                   },
                setup: function() {
-                  var book = { title: 'Styling CSS', ebook: true };
+                  const book = { title: 'Styling CSS', ebook: true };
                   dna.clone('book', book);
                   }
                };
@@ -1801,13 +1801,13 @@
             <br>
             <div>Data: <code id=data>[YOUR MOVE]</code></div>
             <script>
-            var bookInfo = {
+            const bookInfo = {
                update: function(elem) {
-                  var data = JSON.stringify(dna.getModel(elem));
+                  const data = JSON.stringify(dna.getModel(elem));
                   $('#data').text(data).hide().fadeIn();
                   },
                setup: function() {
-                  var book = { title: 'Styling CSS', ebook: true };
+                  const book = { title: 'Styling CSS', ebook: true };
                   dna.clone('book', book);
                   }
                };
@@ -1863,7 +1863,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var app = {
+            const app = {
                setup: function() {
 
                   function highlight(elem) {
@@ -1877,7 +1877,7 @@
                   dna.registerInitializer('qtip', { selector: '.tooltip' });
 
                   // Style each new clone:  $('.gap').css({ padding: '8px' });
-                  var options = { selector: '.gap', params: { padding: '8px' } }
+                  const options = { selector: '.gap', params: { padding: '8px' } }
                   dna.registerInitializer('css', options);
 
                   }
@@ -1926,7 +1926,7 @@
             function enhanceBook(data) {
                data.displayStar = data.rating &gt; 3;  //good books get a star
                }
-            var books = [
+            const books = [
                { title: 'The DOM',   rating: 2 },
                { title: 'Interwebz', rating: 5 }
                ];
@@ -1982,8 +1982,8 @@
             function applyBkgnd(elem, data) {
                elem.css({ backgroundImage: data.cover });
                };
-            var options = { fade: true, callback: applyBkgnd };
-            var book = { title: 'Taskmaster', cover: 'url(cover.png)' };
+            const options = { fade: true, callback: applyBkgnd };
+            const book = { title: 'Taskmaster', cover: 'url(cover.png)' };
             dna.clone('book', book, options);
          </code></pre>
       </figure>
@@ -2061,7 +2061,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var book = {
+            const book = {
                title: 'The DOM',
                author: { first: 'Bo', last: 'Smith' }
                };
@@ -2135,7 +2135,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var books = [
+            const books = [
                { author: 'Bo', title: 'The DOM' },
                { author: 'Jan' }
                ];
@@ -2205,7 +2205,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var invoice = { amount: 125.00, due: 'April 3, 2015' },
+            const invoice = { amount: 125.00, due: 'April 3, 2015' },
             invoice.overdue = new Date(invoice.due).getTime() &lt; Date.now();
             dna.clone('invoice', invoice);
          </code></pre>
@@ -2310,7 +2310,7 @@
                &lt;/section&gt;
                &lt;button data-click=bookshelf.show&gt;Show component name&lt;/button&gt;
                &lt;script&gt;
-                  var bookshelf = {
+                  const bookshelf = {
                      booksUrl: 'https://dnajs.org/rest/book/list/',
                      show: function(elem, event, component) {
                         elem.text(component.data().component + '!');
@@ -2340,7 +2340,7 @@
                </section>
                <button data-click=bookshelf.show class=no-disable>Show component name</button>
                <script>
-                  var bookshelf = {
+                  const bookshelf = {
                      booksUrl: 'https://dnajs.org/rest/book/list/',
                      show: function(elem, event, component) {
                         elem.text(component.data().component + '!');
@@ -2527,7 +2527,7 @@
                   &lt;/section&gt;
                &lt;/div&gt;
                &lt;script&gt;
-                  var bookCatalog = {
+                  const bookCatalog = {
                      data: [
                         { id: &#39;RLG21IfQDckC&#39;, title: &#39;Designing Apps&#39; },
                         { id: &#39;_xB0PyT9Y24C&#39;, title: &#39;CSS3 Guide&#39; },
@@ -2567,7 +2567,7 @@
                   </section>
                </div>
                <script>
-                  var bookCatalog = {
+                  const bookCatalog = {
                      data: [
                         { id: 'RLG21IfQDckC', title: 'Designing Apps' },
                         { id: '_xB0PyT9Y24C', title: 'CSS3 Guide' },
@@ -2633,7 +2633,7 @@
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
             function updatePanel(panel, hash) {
-               var url = location.origin + location.pathname + '#' + hash;
+               const url = location.origin + location.pathname + '#' + hash;
                if (!panel.find('a').length)
                   panel.append($('&lt;a&gt;', { text: url, href: url }));
                }
@@ -2668,7 +2668,7 @@
                </div>
                <script>
                   function updatePanel(panel, hash) {
-                     var url = location.origin + location.pathname + '#' + hash;
+                     const url = location.origin + location.pathname + '#' + hash;
                      if (!panel.find('a').length)
                         panel.append($('<a>', { text: url, href: url }));
                      }
@@ -2832,13 +2832,13 @@
       <figure>
          <figcaption>Examples</figcaption>
          <pre><code class=language-javascript>
-            var things = [
+            const things = [
                { code: 'a', word: 'Ant' },
                { code: 'b', word: 'Bat' }
                ];
-            var x = dna.array.find(things, 'b');  //{ index: 1, item: { code: 'b', word: 'Bat' } }
-            var y = dna.array.find(things, 'b').index;  //1
-            var z = dna.array.find(things, 'x');  //{ index: -1, item: undefined }
+            const x = dna.array.find(things, 'b');  //{ index: 1, item: { code: 'b', word: 'Bat' } }
+            const y = dna.array.find(things, 'b').index;  //1
+            const z = dna.array.find(things, 'x');  //{ index: -1, item: undefined }
          </code></pre>
       </figure>
    </section>
@@ -2860,11 +2860,11 @@
       <figure>
          <figcaption>Examples</figcaption>
          <pre><code class=language-javascript>
-            var map = {
+            const map = {
                a: { word: 'Ant' },
                b: { word: 'Bat' }
                };
-            var array = dna.array.fromMap(map);
+            const array = dna.array.fromMap(map);
             // New array:
             //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
          </code></pre>
@@ -2908,11 +2908,11 @@
       <figure>
          <figcaption>Examples</figcaption>
          <pre><code class=language-javascript>
-            var words = [
+            const words = [
                { code: 'a', word: 'Ant' },
                { code: 'b', word: 'Bat' }
                ];
-            var wordMap = dna.array.toMap(words);
+            const wordMap = dna.array.toMap(words);
             // wordMap:
             //    { a: { code: 'a', word: 'Ant' }, b: { code: 'b', word: 'Bat' } }
          </code></pre>
@@ -2964,9 +2964,9 @@
       <figure>
          <figcaption>Example using a direct function call</figcaption>
          <pre><code class=language-javascript>
-            var a = dna.pageToken.get('favorite', 0);  //a === 0
+            const a = dna.pageToken.get('favorite', 0);  //a === 0
             dna.pageToken.put('favorite', 7);
-            var b = dna.pageToken.get('favorite', 0);  //b === 7
+            const b = dna.pageToken.get('favorite', 0);  //b === 7
          </code></pre>
       </figure>
    </section>
@@ -3065,8 +3065,8 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var elem = $('#msg').text('Error!');
-            var options = { interval: 7000, out: 2000 };
+            const elem = $('#msg').text('Error!');
+            const options = { interval: 7000, out: 2000 };
             dna.ui.pulse(elem, options);  //show for 7 seconds then slowly fade
          </code></pre>
       </figure>
@@ -3143,7 +3143,7 @@
             &lt;/div&gt;
             &lt;script&gt;
                function makeChapters(range) {
-                  var options = { empty: true, clones: +range.val() };
+                  const options = { empty: true, clones: +range.val() };
                   dna.clone('chapter-box', {}, options);
                   }
                function smooth(range) {
@@ -3167,7 +3167,7 @@
             </div>
             <script>
                function makeChapters(range) {
-                  var options = { empty: true, clones: +range.val() };
+                  const options = { empty: true, clones: +range.val() };
                   dna.clone('chapter-box', {}, options);
                   }
                function smooth(range) {
@@ -3278,7 +3278,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var data = { cart: { items: 7 } };
+            const data = { cart: { items: 7 } };
             dna.util.assign(data, 'cart.items', 8);
             // New data: { cart: { items: 8 } }
          </code></pre>
@@ -3388,8 +3388,8 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            var data = { cart: { items: 7 } };
-            var count = dna.util.value(data, 'cart.items');  //7
+            const data = { cart: { items: 7 } };
+            const count = dna.util.value(data, 'cart.items');  //7
          </code></pre>
       </figure>
       <p>
