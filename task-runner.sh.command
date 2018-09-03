@@ -49,9 +49,9 @@ releaseInstructions() {
       echo "   npm publish"
       }
    checkStatus() {
-      test $version ">" $pushed && nextActionCommit || nextActionUpdate
+      test "$version" ">" "$pushed" && nextActionCommit || nextActionUpdate
       }
-   test $pushed ">" $released && nextActionTag || checkStatus
+   test "$pushed" ">" "$released" && nextActionTag || checkStatus
    echo
    }
 
