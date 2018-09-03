@@ -38,7 +38,7 @@
       "test": "mocha spec/*.js",
       "posttest": "gulp report-size",
       "preweb": "gulp clean-web",
-      "web": "export dnaReleasedVersion=$(git tag | tail -1) && gulp build-web",
+      "web": "export dnaReleasedVersion=$(git describe) && gulp build-web",
       "postweb": "gulp other-stuff"
    },
    "peerDependencies": {
