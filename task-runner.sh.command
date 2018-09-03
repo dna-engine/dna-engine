@@ -10,6 +10,51 @@
 banner="dna.js Task Runner"
 projectHome=$(cd $(dirname $0); pwd)
 
+releaseInstructions() {
+   cd $projectHome
+   repository=$(grep repository package.json | awk -F'"' '{print $4}' | sed s/github://)
+   package=https://raw.githubusercontent.com/$repository/master/package.json
+   version=$(grep '"version"' package.json | awk -F'"' '{print $4}')
+   pushed=$(curl --silent $package | grep '"version":' | awk -F'"' '{print $4}')
+   released=$(git tag | tail -1)
+   echo "Local changes:"
+   git status --short
+   echo
+   echo "Recent releases:"
+   git tag | tail -5
+   echo
+   echo "Release progress:"
+   echo "   $version (local) --> $pushed (pushed) --> $released (released)"
+   echo
+   echo "Next release action:"
+   nextActionUpdate() {
+      echo "   === Increment version ==="
+      echo "   Edit pacakge.json to bump version $version to next version number"
+      echo "   $projectHome/package.json"
+      }
+   nextActionCommit() {
+      echo "   === Commit and push ==="
+      echo "   Check in changed source files for v$version with the message:"
+      echo "   Set version for next release"
+      }
+   nextActionTag() {
+      echo "   === Release checkin ==="
+      echo "   Check in remaining changed files with the message:"
+      echo "   Release v$version"
+      echo "   === Tag and publish ==="
+      echo "   cd $projectHome"
+      echo "   git tag --annotate --message 'Release' $version"
+      echo "   git remote --verbose"
+      echo "   git push origin --tags"
+      echo "   npm publish"
+      }
+   checkStatus() {
+      test $version ">" $pushed && nextActionCommit || nextActionUpdate
+      }
+   test $pushed ">" $released && nextActionTag || checkStatus
+   echo
+   }
+
 runTasks() {
    cd $projectHome
    echo "Tasks:"
@@ -17,77 +62,11 @@ runTasks() {
    echo
    }
 
-releaseInstructions() {
-   cd $projectHome
-   if [ "$versionLocal" != "$versionRemote" ]
-      then
-         status="LOCAL VERSION NOT CHECKED IN"
-         echo "***********************"
-         echo "*** Action Required ***"
-         echo "Check in local version number with commit comment:"
-         echo "   Version number updated for next release"
-         echo "then rerun:"
-         echo "   $(pwd)/task-runner.sh.command"
-         echo "(you may need to wait and rerun again so GitHub has time to update)"
-         echo "***********************"
-         echo
-      elif [ "$versionRemote" == "$versionReleased" ]; then
-         status="RELEASED"
-         echo "***********************"
-         echo "*** Action Required ***"
-         echo "Increment version number in:"
-         echo "   $(pwd)/package.json"
-         echo "then rerun:"
-         echo "   $(pwd)/task-runner.sh.command"
-         echo "***********************"
-         echo
-      else
-         status="NOT RELEASED (in development)"
-      fi
-   echo "Status: $status"
-   echo
-   echo "To release this version:"
-   echo "   cd $(pwd)"
-   echo "   website/build-website.sh.command"
-   echo "   *** Check in local changes with the comment:"
-   echo "      Release $versionLocal"
-   echo
-   if [ -n "$(git status --short)" ]; then
-      echo "   *** After local changes checked in, tag release:"
-      fi
-   echo "   cd $(pwd)"
-   echo "   git tag --annotate --force --message 'Stable release' $versionRemote"
-   echo "   git tag --annotate --force --message 'Current release' current"
-   echo "   git remote --verbose"
-   echo "   git push origin --tags --force"
-   echo "   git tag | tail -10"
-   echo "   npm publish"
-   echo
-   echo "   *** Finally, update:"
-   echo "   https://github.com/dnajs/dna.js/wiki/Release-Notes"
-   echo
-   }
-
-getVersions() {
-   cd $projectHome
-   echo "Local changes:"
-   git status --short
-   versionLocal=v$(grep '"version"' package.json | awk -F'"' '{print $4}')
-   versionRemote=v$(curl --silent $package | grep '"version":' | awk -F'"' '{print $4}')
-   versionReleased=$(git tag | tail -1)
-   echo
-   echo "Versions:"
-   echo "   $versionLocal (local)"
-   echo "   $versionRemote (checked in)"
-   echo "   $versionReleased (released)"
-   echo
-   }
-
-specRunner() {
+launchVisualSpecs() {
    cd $projectHome
    sed s/src=dna.js/src=dna.min.js/ spec/visual.html > spec/visual-min.html
    url=http://localhost:$port/spec/visual.html
-   echo "Specification Runner:"
+   echo "Visual specifications:"
    echo $url
    echo
    sleep 2
@@ -95,7 +74,6 @@ specRunner() {
    }
 
 source $projectHome/setup.sh
-runTasks
-getVersions
 releaseInstructions
-specRunner
+runTasks
+launchVisualSpecs
