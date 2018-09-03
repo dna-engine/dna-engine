@@ -28,6 +28,9 @@ buildHtmlFiles() {
 downloadProjectCode() {
    echo "Downloading:"
    cd $projectHome/website-target
+   released=$(git tag | tail -1)
+   releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/$released
+   echo $releasedOrigin
    curl --remote-name --silent $releasedOrigin/dna.css
    curl --remote-name --silent $releasedOrigin/dna.js
    curl --remote-name --silent $releasedOrigin/dna.min.js
@@ -47,10 +50,12 @@ publishWebFiles() {
    publishFolder=$publishSite/www.dnajs.org
    publish() {
       echo "Publishing:"
+      echo $publishSite
       mkdir -p $publishFolder
       cp -R website-target/* $publishFolder
       mkdir -p $publishFolder/../www.dnajs.com
       mv $publishFolder/placeholder.html $publishFolder/../www.dnajs.com/index.html
+      ls -o $publishSite | grep dna
       echo
       }
    test -w $publishSite && publish

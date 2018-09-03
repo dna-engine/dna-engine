@@ -17,7 +17,8 @@ const del =              require('del');
 
 // Setup
 const webContext = {
-   pkg:  require('./package.json'),
+   pkg:      require('./package.json'),
+   released: process.env.dnaReleasedVersion,
    gzipSize: '6 kb gzip',
    youTube: {
       intro:    'jMOZOI-UkNI',
@@ -47,13 +48,14 @@ const versionPatterns = new RegExp('(' + versionPatternStrs.join('|') + ')[0-9.]
 const websiteTargetFolder = 'website-target';
 const htmlHintConfig = { 'attr-value-double-quotes': false };
 const jsHintConfig = {
-   strict: 'implied',
-   undef:   true,
-   unused:  true,
-   browser: true,
-   jquery:  true,
-   node:    true,
-   globals: { dna: false, $: true, window: true }
+   esversion: 6,
+   strict:    'implied',
+   undef:     true,
+   unused:    true,
+   browser:   true,
+   jquery:    true,
+   node:      true,
+   globals:   { dna: false, $: true, window: true }
    };
 
 // Tasks

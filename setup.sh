@@ -3,9 +3,6 @@
 # dna.js #
 ##########
 
-package=https://raw.githubusercontent.com/dnajs/dna.js/master/package.json
-releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/current
-
 setupTools() {
    cd $projectHome
    echo
