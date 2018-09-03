@@ -16,7 +16,7 @@ releaseInstructions() {
    package=https://raw.githubusercontent.com/$repository/master/package.json
    version=v$(grep '"version"' package.json | awk -F'"' '{print $4}')
    pushed=v$(curl --silent $package | grep '"version":' | awk -F'"' '{print $4}')
-   released=$(git describe)
+   released=$(git tag | tail -1)
    echo "Local changes:"
    git status --short
    echo

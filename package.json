@@ -1,6 +1,6 @@
 {
    "name": "dna.js",
-   "version": "1.4.6",
+   "version": "1.4.7",
    "description": "An uncomplicated user interface library for semantic templates",
    "summary": "dna.js is a lightweight easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications.",
    "license": "MIT",
@@ -38,7 +38,7 @@
       "test": "mocha spec/*.js",
       "posttest": "gulp report-size",
       "preweb": "gulp clean-web",
-      "web": "export dnaReleasedVersion=$(git describe) && gulp build-web",
+      "web": "export dnaReleasedVersion=$(git tag | tail -1) && gulp build-web",
       "postweb": "gulp other-stuff"
    },
    "peerDependencies": {

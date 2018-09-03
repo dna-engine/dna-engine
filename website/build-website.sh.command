@@ -12,15 +12,9 @@ projectHome=$(cd $(dirname $0)/..; pwd)
 
 buildHtmlFiles() {
    cd $projectHome
-   find . -name ".DS_Store" -delete
-   versionReleased=$(git describe)
-   versionHtml=$(grep --max-count 1 version package.json | awk -F'"' '{print $4}')
-   echo "Versions:"
-   echo "   $versionReleased (released)"
-   echo "   v$versionHtml (local)"
-   echo
    echo "Tasks:"
    pwd
+   find . -name ".DS_Store" -delete
    npm run web
    echo
    }
@@ -28,7 +22,7 @@ buildHtmlFiles() {
 downloadProjectCode() {
    echo "Downloading:"
    cd $projectHome/website-target
-   released=$(git describe)
+   released=$(git tag | tail -1)
    releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/$released
    echo $releasedOrigin
    curl --remote-name --silent $releasedOrigin/dna.css
