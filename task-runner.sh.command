@@ -35,7 +35,7 @@ releaseInstructions() {
    nextActionCommit() {
       echo "   === Commit and push ==="
       echo "   Check in changed source files for $version with the message:"
-      echo "   Set version for next release"
+      echo "   Next release"
       }
    nextActionTag() {
       echo "   === Release checkin ==="
