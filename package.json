@@ -45,8 +45,8 @@
       "jquery": ">=2.2"
    },
    "devDependencies": {
-      "browser-fetch-json": "~0.2",
       "del": "~3.0",
+      "fetch-json2": "~0.3",
       "gulp": "~4.0",
       "gulp-file-include": "~2.0",
       "gulp-header": "~2.0",
