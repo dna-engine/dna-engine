@@ -544,8 +544,6 @@ dna.panels = {
       var menu = $(elem);
       if (menu.hasClass('dna-panels'))  //special case for panels that are templates
          menu = $('#' + menu.attr('id').replace(/-panels$/, '') + '-menu');
-      if (!menu.length && $(elem).hasClass('dna-panels'))  //temporary: backwards compatibility
-         menu = $('#' + menu.attr('id').replace(/-panels$/, ''));
       var hash = window.location.hash.slice(1);
       var key = menu.data().dnaKey = '#' + menu.attr('id').replace(/-menu$/, '') + '-panels';
       var panels = $(key).children().addClass('panel');
