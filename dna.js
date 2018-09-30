@@ -262,7 +262,6 @@ dna.browser = {
          /Apple/.test(window.navigator.vendor);
       }
    };
-dna.browser.getParams = dna.browser.getUrlParams;  //DEPRECATED
 
 dna.pageToken = {
    // A simple key/value store specific to the page (URL path) that is cleared out when the
@@ -338,9 +337,6 @@ dna.ui = {
    slideFadeDelete: function(elem) {
       // Smooth slide plus fade effect.
       return dna.ui.slideFadeOut(elem, dna.ui.deleteElem);
-      },
-   slidingFlasher: function(elem) {  //DEPRECATED
-      return dna.ui.pulse(elem);
       },
    smoothHeightSetBaseline: function(container) {
       // See: smoothHeightAnimate below
@@ -725,12 +721,6 @@ dna.compile = {
       function saveName(i, elem) { $(elem).data().dnaRules = { template: $(elem).attr('id') }; }
       elem.find('.dna-template').addBack().each(saveName).removeAttr('id');
       var elems = elem.find('*').addBack();
-      function backwardsCompatibleThimblerig(deprecated, type) {
-         function moveDataAttr(i, elem) { $(elem).attr('data-' + type, $(elem).data(deprecated)); }
-         elems.filter('[data-' + deprecated + ']').each(moveDataAttr).removeAttr('data-' + deprecated);
-         }
-      backwardsCompatibleThimblerig('truthy', 'true');
-      backwardsCompatibleThimblerig('falsey', 'false');
       elems.filter(dna.compile.isDnaField).each(dna.compile.field);
       dna.compile.rules(elems, 'array').addClass('dna-sub-clone');
       dna.compile.rules(elems, 'class', true);
