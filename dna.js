@@ -311,15 +311,15 @@ dna.ui = {
    slideFade: function(elem, callback, show) {
       // Smooth slide plus fade effect.
       var obscure = { opacity: 0, transition: 'opacity 0s' };
-      var easyIn =  { opacity: 1, transition: 'opacity 0.4s' };
-      var easyOut = { opacity: 0, transition: 'opacity 0.4s' };
+      var easeIn =  { opacity: 1, transition: 'opacity 0.4s' };
+      var easeOut = { opacity: 0, transition: 'opacity 0.4s' };
       var reset =   { transition: 'opacity 0s' };
       function clearOpacityTransition() { elem.css(reset); }
       window.setTimeout(clearOpacityTransition, 1000);  //keep clean for other animations
       if (show)
-         elem.css(obscure).hide().slideDown({ complete: callback }).css(easyIn);
+         elem.css(obscure).hide().slideDown(callback).css(easeIn);
       else
-         elem.css(easyOut).slideUp({ complete: callback });
+         elem.css(easeOut).delay(100).slideUp(callback);
       return elem;
       },
    slideFadeIn: function(elem, callback) {
