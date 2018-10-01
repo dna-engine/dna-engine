@@ -28,7 +28,7 @@ const webContext = {
       addABook:       'Lspfc8t5',
       bookFinder:     'zxb2x6dv',
       dataClick:      '5dsbvacd',
-      liveModel:      '8gnyLovu',
+      liveModel:      'y24pshbn',
       panelsClick:    'uzm44vrf',
       panelsDropDown: 'qt95wt46',
       photoUpload:    'ac0d784e/3',

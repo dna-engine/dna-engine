@@ -211,7 +211,7 @@ header .logo img {
    padding: 15px;
    }
 
-.reveal-action {
+.reveal-button {
    font-size: 0.8rem;
    }
 
@@ -419,10 +419,10 @@ figure.hljs-enhance .dna-panels {
    }
 
 /* Reveal action */
-.reveal-action {
+.reveal-button {
    color: steelblue;
    }
-.reveal-action:hover {
+.reveal-button:hover {
    background-color: steelblue;
    }
 
@@ -484,6 +484,9 @@ figure.hljs-enhance .dna-panels {
       }
    aside section {
       font-size: 1.0rem;
+      }
+   main.docs-page >section {
+      overflow: scroll;
       }
    section table {
       max-width: 100%;
