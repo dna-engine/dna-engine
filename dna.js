@@ -452,9 +452,9 @@ dna.util = {
    realTruth: function(value) {
       // Returns the "real" boolean truth of a value.
       // Examples:
-      //    true values  ==> true,  7, '7', [5], 't', 'T', 'TRue',  {},   'Colbert'
-      //    false values ==> false, 0, '0', [],  'f', 'F', 'faLSE', null, undefined, NaN
-      function falseyStr() { return /^(f|false|0)$/i.test(value); }
+      //    const trues =  [true,  1, '1', 't', 'T', 'TRue',  'Y', 'yes', 77, [5], {}, 'Colbert',  Infinity];
+      //    const falses = [false, 0, '0', 'f', 'F', 'faLSE', 'N', 'no',  '', [], null, undefined, NaN];
+      function falseyStr() { return /^(f|false|n|no|0)$/i.test(value); }
       function emptyArray() { return value instanceof Array && value.length === 0; }
       return value ? !emptyArray() && !falseyStr() : false;
       },

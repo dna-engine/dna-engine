@@ -51,18 +51,16 @@ describe('Utility function dna.util.value()', () => {
 describe('Utility function dna.util.realTruth()', () => {
 
    it('returns true for really true things', () => {
-      const input =  [true, 1,    '1', 't',   'T',  'TRue', '77', 77,   [5],  {},   'Colbert'];
-      const output = [true, true, true, true, true, true,   true, true, true, true, true];
-      const actual =   { truth: input.map(dna.util.realTruth) };
-      const expected = { truth: output };
+      const input = [true, 1, '1', 't', 'T', 'TRue', 'Y', 'yes', 77, [5], {}, 'Colbert', Infinity];
+      const actual =   input.map((value) => ({ in: value, out: dna.util.realTruth(value) }));
+      const expected = input.map((value) => ({ in: value, out: true }));
       assert.deepEqual(actual, expected);
       });
 
    it('returns false for really untrue things', () => {
-      const input =  [false, 0,     '0',   'f',   'F',   'faLSE', '',    [],    null,  undefined, NaN];
-      const output = [false, false, false, false, false, false,   false, false, false, false,     false];
-      const actual =   { untruth: input.map(dna.util.realTruth) };
-      const expected = { untruth: output };
+      const input = [false, 0, '0', 'f', 'F', 'faLSE', 'N', 'no', '', [], null, undefined, NaN];
+      const actual =   input.map((value) => ({ in: value, out: dna.util.realTruth(value) }));
+      const expected = input.map((value) => ({ in: value, out: false }));
       assert.deepEqual(actual, expected);
       });
 
