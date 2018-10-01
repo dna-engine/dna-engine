@@ -314,12 +314,13 @@ dna.ui = {
       var easeIn =  { opacity: 1, transition: 'opacity 0.4s' };
       var easeOut = { opacity: 0, transition: 'opacity 0.4s' };
       var reset =   { transition: 'opacity 0s' };
-      function clearOpacityTransition() { elem.css(reset); }
-      window.setTimeout(clearOpacityTransition, 1000);  //keep clean for other animations
-      if (show)
-         elem.css(obscure).hide().slideDown(callback).css(easeIn);
+      function doEaseIn() { elem.css(easeIn); }
+      function clearTransition() { elem.css(reset); }
+      if (show && window.setTimeout(doEaseIn, 200))
+         elem.css(obscure).hide().delay(100).slideDown(callback);
       else
          elem.css(easeOut).delay(100).slideUp(callback);
+      elem.delay(200).promise().then(clearTransition);  //keep clean for other animations
       return elem;
       },
    slideFadeIn: function(elem, callback) {
@@ -366,8 +367,11 @@ dna.ui = {
             elem.after(submissiveElem.hide()).before(ghostElem);
          else
             elem.before(submissiveElem.hide()).after(ghostElem);
-         dna.ui.slideFadeIn(submissiveElem);
-         dna.ui.slideFadeDelete(ghostElem);
+         function animate() {
+            dna.ui.slideFadeIn(submissiveElem);
+            dna.ui.slideFadeDelete(ghostElem);
+            }
+         window.setTimeout(animate);
          }
       var submissiveElem = up ? elem.prev() : elem.next();
       if (submissiveElem.length)
