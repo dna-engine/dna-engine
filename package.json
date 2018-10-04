@@ -46,7 +46,7 @@
    },
    "devDependencies": {
       "del": "~3.0",
-      "fetch-json2": "~0.3",
+      "fetch-json": "~2.1",
       "gulp": "~4.0",
       "gulp-file-include": "~2.0",
       "gulp-header": "~2.0",
