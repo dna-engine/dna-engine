@@ -2,18 +2,18 @@
 // gulp configuration and tasks
 
 // Imports
-const gulp =             require('gulp');
-const fileInclude =      require('gulp-file-include');
-const header =           require('gulp-header');
-const htmlHint =         require('gulp-htmlhint');
-const jsHint =           require('gulp-jshint');
-const mergeStream =      require('merge-stream');
-const rename =           require('gulp-rename');
-const replace =          require('gulp-replace');
-const size =             require('gulp-size');
-const uglify =           require('gulp-uglify');
-const w3cHtmlValidator = require('gulp-w3cjs');
-const del =              require('del');
+const gulp =          require('gulp');
+const fileInclude =   require('gulp-file-include');
+const header =        require('gulp-header');
+const htmlHint =      require('gulp-htmlhint');
+const htmlValidator = require('gulp-w3c-html-validator');
+const jsHint =        require('gulp-jshint');
+const mergeStream =   require('merge-stream');
+const rename =        require('gulp-rename');
+const replace =       require('gulp-replace');
+const size =          require('gulp-size');
+const uglify =        require('gulp-uglify');
+const del =           require('del');
 
 // Setup
 const webContext = {
@@ -94,10 +94,10 @@ const task = {
             .pipe(gulp.dest(websiteTargetFolder)),
          gulp.src(['website/static/**/*.html', 'website/root/**/*.html'])
             .pipe(fileInclude({ basepath: '@root', indent: true, context: webContext }))
-            .pipe(w3cHtmlValidator())
-            .pipe(w3cHtmlValidator.reporter())
             .pipe(htmlHint(htmlHintConfig))
             .pipe(htmlHint.reporter())
+            .pipe(htmlValidator())
+            .pipe(htmlValidator.reporter())
             .pipe(gulp.dest(websiteTargetFolder))
             .pipe(size({ showFiles: true }))
          );
@@ -116,10 +116,10 @@ const task = {
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('.')),
          gulp.src(['spec/visual.html', 'spec/simple.html'])
-            .pipe(w3cHtmlValidator())
-            .pipe(w3cHtmlValidator.reporter())
             .pipe(htmlHint(htmlHintConfig))
             .pipe(htmlHint.reporter())
+            .pipe(htmlValidator())
+            .pipe(htmlValidator.reporter())
             .pipe(size({ showFiles: true }))
          );
       }
