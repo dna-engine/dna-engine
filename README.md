@@ -3,9 +3,9 @@
 
 _An uncomplicated user interface library for semantic templates_
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://dnajs.org/license)
+[![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://dnajs.org/license)
 [![npm](https://img.shields.io/npm/v/dna.js.svg)](https://www.npmjs.com/package/dna.js)
-[![Build Status](https://travis-ci.org/dnajs/dna.js.svg)](https://travis-ci.org/dnajs/dna.js)
+[![Build](https://travis-ci.org/dnajs/dna.js.svg)](https://travis-ci.org/dnajs/dna.js)
 [![Package Quality](https://npm.packagequality.com/shield/dna.js.svg)](https://packagequality.com/#?package=dna.js)
 [![Hits](https://data.jsdelivr.com/v1/package/npm/dna.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/dna.js)
 

@@ -1,6 +1,6 @@
 {
    "name": "dna.js",
-   "version": "1.4.7",
+   "version": "1.4.8",
    "description": "An uncomplicated user interface library for semantic templates",
    "summary": "dna.js is a lightweight easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications.",
    "license": "MIT",
@@ -9,6 +9,7 @@
    "homepage": "https://github.com/dnajs/dna.js",
    "bugs": "https://github.com/dnajs/dna.js/issues",
    "docs": "https://dnajs.org/docs",
+   "author": "Center Key (https://centerkey.com)",
    "keywords": [
       "clone",
       "dom",
@@ -20,10 +21,6 @@
       "templating",
       "ui"
    ],
-   "author": {
-      "name": "Center Key",
-      "url": "https://centerkey.com"
-   },
    "jshintConfig": {
       "esversion": 6,
       "strict": "implied",
@@ -62,6 +59,7 @@
       "jsdom": "~12.2",
       "jshint": "~2.9",
       "merge-stream": "~1.0",
-      "mocha": "~5.2"
+      "mocha": "~5.2",
+      "web-ignition": "~0.0"
    }
 }
