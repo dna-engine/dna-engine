@@ -1,17 +1,21 @@
 /* dna.js ~~ MIT ~~ dnajs.org/license                        */
 /* Copyright (c) 2013-2018 individual contributors to dna.js */
 
-/*******************************/
-/* Panel navigation styles:    */
-/*    1) flat-tabs             */
-/*    2) pillbox-tabs          */
-/*                             */
-/* HTML structure:             */
-/*    nav.dna-menu[data-style] */
-/*       span                  */
-/*       span                  */
-/*       span                  */
-/*******************************/
+/*****************************************/
+/* Panel navigation styles:              */
+/*    1) flat-tabs                       */
+/*    2) pillbox-tabs                    */
+/*                                       */
+/* HTML structure:                       */
+/*    nav#NAME-menu.dna-menu[data-style] */
+/*       span                            */
+/*       span                            */
+/*       span                            */
+/*    div#NAME-panels.dna-panels         */
+/*       div                             */
+/*       div                             */
+/*       div                             */
+/*****************************************/
 
 /*********************************************/
 /* Flat tabs                                 */
@@ -22,7 +26,6 @@ nav.dna-menu[data-style=flat-tabs] {
    font-weight: bold;
    text-transform: uppercase;
    letter-spacing: 0.08em;
-   background-color: indianred;
    }
 nav.dna-menu[data-style=flat-tabs] span {
    color: gainsboro;
@@ -32,20 +35,25 @@ nav.dna-menu[data-style=flat-tabs] span {
 nav.dna-menu[data-style=flat-tabs] span.selected,
 nav.dna-menu[data-style=flat-tabs] span:hover {
    color: white;
-   background-color: brown;
    }
 nav.dna-menu[data-style=flat-tabs] span.selected {
    cursor: default;
    }
 nav.dna-menu[data-style=flat-tabs]+.dna-panels {
    min-height: 80px;
+   border: 10px solid;
    padding: 10px;
-   border: 10px solid brown;
+   margin-bottom: 20px;
    }
 @media (max-width: 667px) {  /* mobile: selects iPhone 6/6s/7/8 landscape and anything narrower */
    nav.dna-menu[data-style=flat-tabs] { font-size: 0.8rem; }
    nav.dna-menu[data-style=flat-tabs] span { padding: 8px 20px; }
    }
+/* dna.js panel navigation -- customize colors */
+nav.dna-menu[data-style=flat-tabs]               { background-color: indianred; }
+nav.dna-menu[data-style=flat-tabs] span.selected { background-color: brown; }
+nav.dna-menu[data-style=flat-tabs] span:hover    { background-color: brown; }
+nav.dna-menu[data-style=flat-tabs]+.dna-panels   { border-color: brown; }
 
 /************************************************/
 /* Pillbox tabs                                 */
@@ -73,12 +81,17 @@ nav.dna-menu[data-style=pillbox-tabs] span:last-child {
 nav.dna-menu[data-style=pillbox-tabs] span.selected,
 nav.dna-menu[data-style=pillbox-tabs] span:hover {
    color: darkslategray;
-   background-color: lightsteelblue;
    }
 nav.dna-menu[data-style=pillbox-tabs] span.selected {
    cursor: default;
+   }
+nav.dna-menu[data-style=pillbox-tabs]+.dna-panels {
+   margin-bottom: 20px;
    }
 @media (max-width: 667px) {  /* mobile: selects iPhone 6/6s/7/8 landscape and anything narrower */
    nav.dna-menu[data-style=pillbox-tabs] { font-size: 0.8rem; }
    nav.dna-menu[data-style=pillbox-tabs] span { padding: 7px 25px; }
    }
+/* dna.js panel navigation -- customize colors */
+nav.dna-menu[data-style=pillbox-tabs] span.selected { background-color: lightsteelblue; }
+nav.dna-menu[data-style=pillbox-tabs] span:hover    { background-color: lightsteelblue; }
