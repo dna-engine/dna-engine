@@ -1,4 +1,4 @@
-//! dna.js v1.4.8 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.4.9 ~~ dnajs.org ~~ MIT License
 //! Copyright (c) 2013-2018 individual contributors to dna.js
 
 var dna = {
@@ -177,7 +177,7 @@ var dna = {
       // Returns status information about templates on the current web page.
       var names = Object.keys(dna.store.templates);
       return {
-         version:      '1.4.8',
+         version:      '1.4.9',
          templates:    names.length,
          clones:       $('.dna-clone:not(.dna-sub-clone)').length,
          subs:         $('.dna-sub-clone').length,
