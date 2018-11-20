@@ -55,7 +55,7 @@ nav.dna-menu[data-style=flat-tabs]+.dna-panels {
 nav.dna-menu[data-style=flat-tabs]               { background-color: indianred; }
 nav.dna-menu[data-style=flat-tabs] span.selected { background-color: brown; }
 nav.dna-menu[data-style=flat-tabs] span:hover    { background-color: brown; }
-nav.dna-menu[data-style=flat-tabs]+.dna-panels   { border-color: brown; }
+nav.dna-menu[data-style=flat-tabs]+.dna-panels   { border-color:     brown; }
 
 /************************************************/
 /* Pillbox tabs                                 */
