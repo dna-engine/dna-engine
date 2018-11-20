@@ -1113,7 +1113,7 @@ dna.core = {
       }
    };
 
-if (typeof module === 'object')           //Node.js module loading system (CommonJS)
+if (typeof module === 'object')           //node module loading system (CommonJS)
    module.exports = dna.core.initModule;  //const dna = require('dna.js')(window, jQuery);
 else
    dna.core.setup();

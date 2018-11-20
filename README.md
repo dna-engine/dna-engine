@@ -51,7 +51,7 @@ Need to clone the template multiple times?&nbsp;  Simply pass an array of data o
 `dna.clone()` function.
 
 ### 2. Additional Information
-* [dnajs.org](https://dnajs.org) (see the "Try It Out" section for a live example)
+* [https://dnajs.org](https://dnajs.org/) (see the *"Try it out"* section for an interactive example)
 * [Sample To-Do Application](https://jsfiddle.net/wo6og0z8/) (jsfiddle)
 * [Introduction to dna.js](https://youtu.be/jMOZOI-UkNI) (YouTube)
 * [Documentation](https://dnajs.org/docs)
