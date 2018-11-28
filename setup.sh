@@ -14,7 +14,7 @@ setupTools() {
    which node || { echo "Need to install Node.js: https://nodejs.org"; exit; }
    node --version
    npm install
-   npm update
+   npm update --no-save
    npm outdated
    echo
    }

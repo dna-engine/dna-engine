@@ -17,6 +17,7 @@ releaseInstructions() {
    version=v$(grep '"version"' package.json | awk -F'"' '{print $4}')
    pushed=v$(curl --silent $package | grep '"version":' | awk -F'"' '{print $4}')
    released=$(git tag | tail -1)
+   minorVersion=$(echo ${pushed:1} | awk -F"." '{ print $1 "." $2 }')
    echo "Local changes:"
    git status --short
    echo
