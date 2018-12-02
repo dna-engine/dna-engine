@@ -25,9 +25,9 @@ downloadProjectCode() {
    released=$(git tag | tail -1)
    releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/$released
    echo $releasedOrigin
-   curl --remote-name --silent $releasedOrigin/dna.css
-   curl --remote-name --silent $releasedOrigin/dna.js
-   curl --remote-name --silent $releasedOrigin/dna.min.js
+   curl --remote-name --silent $releasedOrigin/dist/dna.css
+   curl --remote-name --silent $releasedOrigin/dist/dna.js
+   curl --remote-name --silent $releasedOrigin/dist/dna.min.js
    ls -1 dna*
    mkdir spec
    cd spec
