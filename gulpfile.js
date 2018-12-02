@@ -60,24 +60,26 @@ const jsHintConfig = {
 
 // Tasks
 const task = {
-   setVersionNumber: function() {
+   setVersionNumber: () => {
       return gulp.src(['dna.js', 'dna.css'])
          .pipe(replace(versionPatterns, '$1' + webContext.pkg.version))
-         .pipe(gulp.dest('.'));
+         .pipe(gulp.dest('.'))
+         .pipe(gulp.dest('dist'));
       },
-   runJsHint: function() {
+   runJsHint: () => {
       return gulp.src(['dna.js', 'website/static/**/*.js'])
          .pipe(jsHint(jsHintConfig))
          .pipe(jsHint.reporter());
       },
-   runUglify: function() {
+   runUglify: () => {
       return gulp.src('dna.js')
-         .pipe(rename('dna.min.js'))
+         .pipe(rename({ extname: '.min.js' }))
          .pipe(uglify())
          .pipe(header(banner))
-         .pipe(gulp.dest('.'));
+         .pipe(gulp.dest('.'))
+         .pipe(gulp.dest('dist'));
       },
-   reportSize: function() {
+   reportSize: () => {
       return mergeStream(
          gulp.src('dna.*')
             .pipe(size({ showFiles: true })),
@@ -85,10 +87,10 @@ const task = {
             .pipe(size({ gzip: true, title: 'dna.min.js gzipped:' }))
          );
       },
-   cleanWebsite: function() {
+   cleanWebsite: () => {
       return del(websiteTargetFolder);
       },
-   buildWebsite: function() {
+   buildWebsite: () => {
       return mergeStream(
          gulp.src(['website/static/**', '!website/static/**/*.html'])
             .pipe(gulp.dest(websiteTargetFolder)),
@@ -102,7 +104,7 @@ const task = {
             .pipe(size({ showFiles: true }))
          );
       },
-   otherStuff: function() {
+   otherStuff: () => {
       const findToDoLine =  /.*To-Do Application.*/;
       const findIntroLine = /.*Introduction to dna.js.*/;
       const newToDoLine =
