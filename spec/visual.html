@@ -533,7 +533,9 @@ spec.spec08 = {
 spec.spec09 = {
    run: function() {
       dna.clone('s09-rest-link', ['https://dnajs.org/rest/book/1/', 'https://dnajs.org/rest/book/2/']);
-      function insertBook(book) { return dna.clone('s09-book', book); }
+      function insertBook(book) {
+         return dna.clone('s09-book', book, { top: book.id === 1, fade: true });
+         }
       fetchJson.enableLogger();
       fetchJson.get('https://dnajs.org/rest/book/1/').then(insertBook);
       fetchJson.get('https://dnajs.org/rest/book/2/').then(insertBook);
