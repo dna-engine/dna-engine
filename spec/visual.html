@@ -1498,7 +1498,7 @@ const specRunner = {
    setup: function() {
       function makePageRed() { $('body').css({ backgroundColor: 'pink' }); }
       window.onerror = makePageRed;
-      $('.version').text(dna.version.replace('[VERSION]', ''));
+      $('.version').text(dna.version === '[VERSION]' ? '' : 'v' + dna.version);
       function minifiedMode() {
          $('#file-name').text('dna.min.js');
          $('#switch').attr('href', 'visual.html');
