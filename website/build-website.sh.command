@@ -19,20 +19,16 @@ buildHtmlFiles() {
    echo
    }
 
-downloadProjectCode() {
-   echo "Downloading:"
+downloadVisualSpec() {
+   echo "Visual Specification:"
    cd $projectHome/website-target
    released=$(git tag | tail -1)
-   releasedOrigin=https://raw.githubusercontent.com/dnajs/dna.js/$released
-   echo $releasedOrigin
-   curl --remote-name --silent $releasedOrigin/dist/dna.css
-   curl --remote-name --silent $releasedOrigin/dist/dna.js
-   curl --remote-name --silent $releasedOrigin/dist/dna.min.js
-   ls -1 dna*
+   visualSpec=https://raw.githubusercontent.com/dnajs/dna.js/$released/spec/visual.html
+   cdnBase=https://cdn.jsdelivr.net/npm/dna.js@$released/dist/dna
    mkdir spec
    cd spec
-   curl --silent $releasedOrigin/spec/visual.html | sed s/href=website[/]static[/]/href=/ > visual.html
-   sed s/src=dna.js/src=dna.min.js/ visual.html > visual-min.html
+   curl $visualSpec | sed "s|[.][.]/dna|$cdnBase|" > visual.html
+   sed "s|/dna.js>|/dna.min.js>|" visual.html > visual-min.html
    ls -1 visual*.html
    echo
    }
@@ -66,6 +62,6 @@ launchBrowser() {
 
 source $projectHome/setup.sh
 buildHtmlFiles
-downloadProjectCode
+downloadVisualSpec
 publishWebFiles
 launchBrowser

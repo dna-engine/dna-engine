@@ -65,7 +65,7 @@ runTasks() {
 
 launchVisualSpecs() {
    cd $projectHome
-   sed s/src=dna.js/src=dna.min.js/ spec/visual.html > spec/visual-min.html
+   sed "s|/dna.js>|/dist/dna.min.js>|" spec/visual.html > spec/visual-min.html
    url=http://localhost:$port/spec/visual.html
    echo "Visual specifications:"
    echo $url

@@ -1,7 +1,7 @@
 <!doctype html>
 <!-- - - - - - - - - - - - - - - -->
 <!-- dna.js                      -->
-<!-- Specification Runner        -->
+<!-- Visual Specification Runner -->
 <!-- dnajs.org/spec/visual.html  -->
 <!-- - - - - - - - - - - - - - - -->
 <html lang=en>
@@ -52,7 +52,7 @@
       <p><button data-href=https://dnajs.org class=external-site>dnajs.org <span>(new tab)</span></button></p>
       <p><span id=file-name>dna.js</span> &mdash; <a id=switch href=visual-min.html>switch</a></p>
    </aside>
-   <h1>dna.js</h1>
+   <h1>dna.js <span class=version></span></h1>
    <h2>Visual Specification Runner</h2>
 </header>
 
@@ -1496,6 +1496,7 @@ const specRunner = {
    setup: function() {
       function makePageRed() { $('body').css({ backgroundColor: 'pink' }); }
       window.onerror = makePageRed;
+      $('.version').text(dna.version.replace('[VERSION]', ''));
       function minifiedMode() {
          $('#file-name').text('dna.min.js');
          $('#switch').attr('href', 'visual.html');
