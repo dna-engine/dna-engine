@@ -31,7 +31,7 @@
    },
    "scripts": {
       "web-server": "http-server -p 3482 &",
-      "pretest": "jshint gulpfile.js spec/*.js && gulp set-version && gulp lint && gulp minify",
+      "pretest": "jshint gulpfile.js spec/*.js && gulp build-dist && gulp lint",
       "test": "mocha spec/*.js",
       "posttest": "gulp report-size",
       "preweb": "gulp clean-web",
@@ -42,6 +42,11 @@
       "jquery": ">=2.2"
    },
    "devDependencies": {
+      "@babel/core": "~7.1",
+      "@babel/preset-env": "~7.1",
+      "gulp-append-prepend": "~1.0",
+      "gulp-babel": "~8.0",
+      "gulp-babel-minify": "~0.5",
       "@fortawesome/fontawesome-free": "~5.5",
       "del": "~3.0",
       "fetch-json": "~2.1",
@@ -53,7 +58,6 @@
       "gulp-rename": "~1.4",
       "gulp-replace": "~1.0",
       "gulp-size": "~3.0",
-      "gulp-uglify": "~3.0",
       "gulp-w3c-html-validator": "~1.4",
       "http-server": "~0.11",
       "jquery": "~3.3",
