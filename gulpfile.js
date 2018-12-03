@@ -10,7 +10,6 @@ const gulp =          require('gulp');
 const header =        require('gulp-header');
 const htmlHint =      require('gulp-htmlhint');
 const htmlValidator = require('gulp-w3c-html-validator');
-const jsHint =        require('gulp-jshint');
 const mergeStream =   require('merge-stream');
 const rename =        require('gulp-rename');
 const replace =       require('gulp-replace');
@@ -53,16 +52,6 @@ const headerComments =      { css: /^[/][*].*[*][/]$/gm, js: /^[/][/].*\n/gm };
 const transpileES6 =        ['@babel/env', { modules: false }];
 const babelMinifyJs =       { presets: [transpileES6, 'minify'], comments: false };
 const newLine =             '\n';
-const jsHintConfig = {
-   esversion: 6,
-   strict:    'implied',
-   undef:     true,
-   unused:    true,
-   browser:   true,
-   jquery:    true,
-   node:      true,
-   globals:   { dna: false, $: true, window: true }
-   };
 
 // Tasks
 const task = {
@@ -87,11 +76,6 @@ const task = {
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('dist'));
       return mergeStream(buildCss(), buildJs());
-      },
-   runJsHint: () => {
-      return gulp.src(['dna.js', 'website/static/**/*.js'])
-         .pipe(jsHint(jsHintConfig))
-         .pipe(jsHint.reporter());
       },
    reportSize: () => {
       return gulp.src('dist/dna.*')
@@ -139,7 +123,6 @@ const task = {
 
 // Gulp
 gulp.task('build-dist',  task.buildDistribution);
-gulp.task('lint',        task.runJsHint);
 gulp.task('report-size', task.reportSize);
 gulp.task('clean-web',   task.cleanWebsite);
 gulp.task('build-web',   task.buildWebsite);

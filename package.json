@@ -26,12 +26,18 @@
       "strict": "implied",
       "undef": true,
       "unused": true,
+      "browser": true,
+      "mocha": true,
       "node": true,
-      "mocha": true
+      "globals": {
+         "dna": true,
+         "$": true,
+         "window": true
+      }
    },
    "scripts": {
       "web-server": "http-server -p 3482 &",
-      "pretest": "jshint gulpfile.js spec/*.js && gulp build-dist && gulp lint",
+      "pretest": "jshint *.js spec/*.js website/**/*.js && gulp build-dist",
       "test": "mocha spec/*.js",
       "posttest": "gulp report-size",
       "preweb": "gulp clean-web",
@@ -54,7 +60,6 @@
       "gulp-file-include": "~2.0",
       "gulp-header": "~2.0",
       "gulp-htmlhint": "~2.2",
-      "gulp-jshint": "~2.1",
       "gulp-rename": "~1.4",
       "gulp-replace": "~1.0",
       "gulp-size": "~3.0",

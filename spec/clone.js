@@ -30,7 +30,9 @@ const scripts = [
    'dna.js',
    ];
 const window = new JSDOM(html, { runScripts: 'outside-only' }).window;
-function loadScript(file) { window.eval(fs.readFileSync(file).toString()); }
+function loadScript(file) {
+   window.eval(fs.readFileSync(file).toString());  //jshint ignore:line
+   }
 scripts.forEach(loadScript);
 const { $, dna } = window;
 
