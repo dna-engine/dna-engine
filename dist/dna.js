@@ -1,7 +1,7 @@
-//! dna.js v1.5.0 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.5.1 ~~ dnajs.org ~~ MIT License
 
 const dna = {
-   version: '1.5.0',
+   version: '1.5.1',
    // API:
    //    dna.clone()
    //    dna.cloneSub()
@@ -42,7 +42,7 @@ const dna = {
          dna.core.berserk('Container missing for nested template: ' + name);
       if (settings.empty)
          dna.empty(name);
-      let list = [];
+      var list = [];
       while (settings.clones--)
          list = list.concat(data);
       let clones = $();
