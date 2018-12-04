@@ -6,9 +6,12 @@ const assert =    require('assert').strict;
 const { JSDOM } = require('jsdom');
 
 // Setup
-const window = new JSDOM('').window;
-const $ =      require('jquery')(window);
-const dna =    require('../dna.js')(window, $);
+const dnaPath = process.env.useMinified === 'true' ? '../dist/dna.min.js' : '../dist/dna.js';
+const window =  new JSDOM('').window;
+const $ =       require('jquery')(window);
+const dna =     require(dnaPath)(window, $);
+
+describe(require('path').basename(__filename) + ': ' + dnaPath, () => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Array utility function dna.array.find()', () => {
@@ -114,3 +117,6 @@ describe('Array utility function dna.array.toMap()', () => {
       });
 
    });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+});

@@ -7,6 +7,7 @@ const assert =    require('assert').strict;
 const { JSDOM } = require('jsdom');
 
 // Setup
+const dnaPath = process.env.useMinified === 'true' ? 'dist/dna.min.js' : 'dist/dna.js';
 const html = `
 <!doctype html>
 <html>
@@ -27,7 +28,7 @@ const html = `
 `;
 const scripts = [
    'node_modules/jquery/dist/jquery.js',
-   'dna.js',
+   dnaPath,
    ];
 const window = new JSDOM(html, { runScripts: 'outside-only' }).window;
 function loadScript(file) {
@@ -42,6 +43,8 @@ const bookCatalog = [
    { title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr' },
    { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 }
    ];
+
+describe(require('path').basename(__filename) + ': ' + dnaPath, () => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Template cloning function dna.clone()', () => {
@@ -72,3 +75,6 @@ describe('Function dna.getModel()', () => {
       });
 
    });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+});

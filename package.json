@@ -5,6 +5,7 @@
    "summary": "dna.js is a lightweight easy-to-use UI library for jQuery enabling developers to rapidly build maintainable JavaScript applications.",
    "license": "MIT",
    "main": "dna.js",
+   "browser": "dist/dna.min.js",
    "repository": "github:dnajs/dna.js",
    "homepage": "https://github.com/dnajs/dna.js",
    "bugs": "https://github.com/dnajs/dna.js/issues",
@@ -38,7 +39,7 @@
    "scripts": {
       "web-server": "http-server -p 3482 &",
       "pretest": "jshint *.js spec/*.js website/**/*.js && gulp build-dist",
-      "test": "mocha spec/*.js",
+      "test": "mocha spec/*.js && useMinified=true mocha spec/*.js",
       "posttest": "gulp report-size",
       "preweb": "gulp clean-web",
       "web": "export dnaReleasedVersion=$(git tag | tail -1) && gulp build-web",
