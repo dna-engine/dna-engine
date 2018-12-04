@@ -40,7 +40,7 @@ const webContext = {
    pkg:          pkg,
    released:     released,
    minorVersion: minorVersion,
-   gzipSize:     '6 kb gzip',
+   gzipSize:     '7 kb gzip',
    title:        pkg.description,  //default page title
    youTube:      linkInfo.youTube,
    jsFiddle:     linkInfo.jsFiddle
