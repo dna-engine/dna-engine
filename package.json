@@ -39,7 +39,7 @@
    "scripts": {
       "web-server": "http-server -p 3482 &",
       "pretest": "jshint *.js spec/*.js website/**/*.js && gulp build-dist",
-      "test": "mocha spec/*.js && useMinified=true mocha spec/*.js",
+      "test": "mocha spec/*.js && env specMode=minified mocha spec/*.js",
       "posttest": "gulp report-size",
       "preweb": "gulp clean-web",
       "web": "export dnaReleasedVersion=$(git tag | tail -1) && gulp build-web",
@@ -49,8 +49,8 @@
       "jquery": ">=2.2"
    },
    "devDependencies": {
-      "@babel/core": "~7.1",
-      "@babel/preset-env": "~7.1",
+      "@babel/core": "~7.2",
+      "@babel/preset-env": "~7.2",
       "@fortawesome/fontawesome-free": "~5.5",
       "del": "~3.0",
       "fetch-json": "~2.1",

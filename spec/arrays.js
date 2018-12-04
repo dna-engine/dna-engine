@@ -6,7 +6,7 @@ const assert =    require('assert').strict;
 const { JSDOM } = require('jsdom');
 
 // Setup
-const dnaPath = process.env.useMinified === 'true' ? '../dist/dna.min.js' : '../dist/dna.js';
+const dnaPath = process.env.specMode === 'minified' ? '../dist/dna.min.js' : '../dist/dna.js';
 const window =  new JSDOM('').window;
 const $ =       require('jquery')(window);
 const dna =     require(dnaPath)(window, $);

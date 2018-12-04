@@ -7,7 +7,7 @@ const assert =    require('assert').strict;
 const { JSDOM } = require('jsdom');
 
 // Setup
-const dnaPath = process.env.useMinified === 'true' ? 'dist/dna.min.js' : 'dist/dna.js';
+const dnaPath = process.env.specMode === 'minified' ? 'dist/dna.min.js' : 'dist/dna.js';
 const html = `
 <!doctype html>
 <html>
