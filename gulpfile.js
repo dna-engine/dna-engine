@@ -1,5 +1,5 @@
-// dna.js
-// gulp configuration and tasks
+// dna.js ~~ MIT License
+// Gulp configuration and tasks
 
 // Imports
 const babel =         require('gulp-babel');
@@ -15,10 +15,7 @@ const rename =        require('gulp-rename');
 const replace =       require('gulp-replace');
 const size =          require('gulp-size');
 
-// Setup
-const pkg = require('./package.json');
-const released = process.env.dnaReleasedVersion;
-const minorVersion = pkg.version.split('.').slice(0,2).join('.');
+// Link information
 const linkInfo = {
    youTube: {
       intro:    'jMOZOI-UkNI',
@@ -36,6 +33,18 @@ const linkInfo = {
       toDo:           'wo6og0z8'
       }
    };
+
+// Setup
+const pkg =            require('./package.json');
+const released =       process.env.dnaReleasedVersion;
+const minorVersion =   pkg.version.split('.').slice(0,2).join('.');
+const banner =         'dna.js v' + pkg.version + ' ~~ dnajs.org ~~ MIT License';
+const websiteTarget =  'website-target';
+const htmlHintConfig = { 'attr-value-double-quotes': false };
+const headerComments = { css: /^[/][*].*[*][/]$/gm, js: /^[/][/].*\n/gm };
+const transpileES6 =   ['@babel/env', { modules: false }];
+const babelMinifyJs =  { presets: [transpileES6, 'minify'], comments: false };
+const newLine =        '\n';
 const webContext = {
    pkg:          pkg,
    released:     released,
@@ -45,13 +54,6 @@ const webContext = {
    youTube:      linkInfo.youTube,
    jsFiddle:     linkInfo.jsFiddle
    };
-const banner =              'dna.js v' + pkg.version + ' ~~ dnajs.org ~~ MIT License';
-const websiteTargetFolder = 'website-target';
-const htmlHintConfig =      { 'attr-value-double-quotes': false };
-const headerComments =      { css: /^[/][*].*[*][/]$/gm, js: /^[/][/].*\n/gm };
-const transpileES6 =        ['@babel/env', { modules: false }];
-const babelMinifyJs =       { presets: [transpileES6, 'minify'], comments: false };
-const newLine =             '\n';
 
 // Tasks
 const task = {
@@ -82,42 +84,44 @@ const task = {
          .pipe(size({ showFiles: true, gzip: true }));
       },
    cleanWebsite: () => {
-      return del(websiteTargetFolder);
+      return del(websiteTarget);
       },
    buildWebsite: () => {
-      return mergeStream(
+      const copyStaticFiles = () =>
          gulp.src(['website/static/**', '!website/static/**/*.html'])
-            .pipe(gulp.dest(websiteTargetFolder)),
+            .pipe(gulp.dest(websiteTarget));
+      const buildHtml = () =>
          gulp.src(['website/static/**/*.html', 'website/root/**/*.html'])
             .pipe(fileInclude({ basepath: '@root', indent: true, context: webContext }))
             .pipe(htmlHint(htmlHintConfig))
             .pipe(htmlHint.reporter())
             .pipe(htmlValidator())
             .pipe(htmlValidator.reporter())
-            .pipe(gulp.dest(websiteTargetFolder))
-            .pipe(size({ showFiles: true }))
-         );
+            .pipe(gulp.dest(websiteTarget))
+            .pipe(size({ showFiles: true }));
+      return mergeStream(copyStaticFiles(), buildHtml());
       },
    otherStuff: () => {
-      const findToDoLine =  /.*To-Do Application.*/;
-      const findIntroLine = /.*Introduction to dna.js.*/;
-      const newToDoLine =
-         '* [Sample To-Do Application](https://jsfiddle.net/' + linkInfo.jsFiddle.toDo + '/) (jsfiddle)';
-      const newIntroLine =
-         '* [Introduction to dna.js](https://youtu.be/' + linkInfo.youTube.intro + ') (YouTube)';
-      return mergeStream(
+      const line = {
+         findToDo:  /.*To-Do Application.*/,
+         findIntro: /.*Introduction to dna.js.*/,
+         newToDo:   '* [Sample To-Do Application](https://jsfiddle.net/' + linkInfo.jsFiddle.toDo + '/) (jsfiddle)',
+         newIntro:  '* [Introduction to dna.js](https://youtu.be/' + linkInfo.youTube.intro + ') (YouTube)'
+         };
+      const updateReadMe = () =>
          gulp.src('README.md')
-            .pipe(replace(findToDoLine,  newToDoLine))
-            .pipe(replace(findIntroLine, newIntroLine))
+            .pipe(replace(line.findToDo,  line.newToDo))
+            .pipe(replace(line.findIntro, line.newIntro))
             .pipe(size({ showFiles: true }))
-            .pipe(gulp.dest('.')),
+            .pipe(gulp.dest('.'));
+      const validateHtml = () =>
          gulp.src(['spec/visual.html', 'spec/simple.html'])
             .pipe(htmlHint(htmlHintConfig))
             .pipe(htmlHint.reporter())
             .pipe(htmlValidator())
             .pipe(htmlValidator.reporter())
-            .pipe(size({ showFiles: true }))
-         );
+            .pipe(size({ showFiles: true }));
+      return mergeStream(updateReadMe(), validateHtml());
       }
    };
 
