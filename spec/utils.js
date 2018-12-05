@@ -11,6 +11,7 @@ const window =  new JSDOM('').window;
 const $ =       require('jquery')(window);
 const dna =     require(dnaPath)(window, $);
 
+// Specification suite
 describe(require('path').basename(__filename) + ': ' + dnaPath, () => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

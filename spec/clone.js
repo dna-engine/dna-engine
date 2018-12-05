@@ -31,9 +31,7 @@ const scripts = [
    dnaPath,
    ];
 const window = new JSDOM(html, { runScripts: 'outside-only' }).window;
-function loadScript(file) {
-   window.eval(fs.readFileSync(file).toString());  //jshint ignore:line
-   }
+const loadScript = (file) => window.eval(fs.readFileSync(file).toString());  //jshint ignore:line
 scripts.forEach(loadScript);
 const { $, dna } = window;
 
@@ -44,6 +42,7 @@ const bookCatalog = [
    { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 }
    ];
 
+// Specification suite
 describe(require('path').basename(__filename) + ': ' + dnaPath, () => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
