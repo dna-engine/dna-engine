@@ -23,6 +23,7 @@
    body                    { text-align: center; padding: 20px 140px; }
    body >header figure     { display: inline-block; max-width: 200px; }
    body >header figure img { border: none; }
+   body >main >nav         { margin-bottom: 30px; }
    body >main >p           { margin-bottom: 30px; }
    @media (max-width: 667px) { body { padding: 10px; } }
 </style>
@@ -30,7 +31,7 @@
 <body>
 
 <header>
-   <figure data-click=https://github.com/dnajs/dna.js>
+   <figure data-href=https://github.com/dnajs/dna.js>
       <img src=https://dnajs.org/graphics/dnajs-logo.png alt=logo>
    </figure>
    <h1>dna.js</h1>
@@ -38,6 +39,14 @@
 </header>
 
 <main>
+   <nav>
+      <a href=https://github.com/dnajs/dna.js/blob/master/LICENSE.txt><img src=https://img.shields.io/badge/License-MIT-blue.svg alt=license></a>
+      <a href=https://www.npmjs.com/package/dna.js><img src=https://img.shields.io/npm/v/dna.js.svg alt=npm></a>
+      <a href=https://david-dm.org/dnajs/dna.js><img src=https://david-dm.org/dnajs/dna.js/status.svg alt=dependencies></a>
+      <a href=https://snyk.io/test/github/dnajs/dna.js><img src=https://snyk.io/test/github/dnajs/dna.js/badge.svg alt=vulnerabilities></a>
+      <a href=https://www.jsdelivr.com/package/npm/dna.js><img src=https://data.jsdelivr.com/v1/package/npm/dna.js/badge alt=downloads></a>
+      <a href=https://travis-ci.org/dnajs/dna.js><img src=https://travis-ci.org/dnajs/dna.js.svg alt=build></a>
+   </nav>
    <b>Project:</b>
    <p>
       <a href=https://github.com/dnajs/dna.js>github.com/dnajs/dna.js</a>
@@ -48,7 +57,7 @@
       converts your JSON data into dynamically generated DOM elements.
    </p>
    <p>
-      dna.js is open source and available under the MIT License.
+      dna.js v<span class=version-number></span> &mdash; open source under the MIT License.
    </p>
 </main>
 
@@ -56,5 +65,6 @@
 <script src=https://cdn.jsdelivr.net/npm/dna.js@1.5/dist/dna.min.js></script>
 <script src=https://cdn.jsdelivr.net/npm/fetch-json@2.2/dist/fetch-json.min.js></script>
 <script src=https://cdn.jsdelivr.net/npm/web-ignition@1.0/dist/library.min.js></script>
+<script>$('.version-number').text(dna.version);</script>
 </body>
 </html>
