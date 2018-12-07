@@ -49,11 +49,11 @@
          { code: 'r', name: 'Red' },
          { code: 'b', name: 'Blue' }
          ],
-      setup: function() {
-         function makePageRed() { $('body').css({ backgroundColor: 'pink' }); }
+      setup: () => {
+         const makePageRed = () => $('body').css({ backgroundColor: 'pink' });
          window.onerror = makePageRed;
          const start = Date.now();
-         function addCodes(book) { book.colors = app.colors; }
+         const addCodes = (book) => book.colors = app.colors;
          dna.clone('book', app.books, { transform: addCodes });
          console.log('Run time (ms):', Date.now() - start);
          console.log(dna.info());

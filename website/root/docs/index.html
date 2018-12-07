@@ -277,7 +277,7 @@
             const dna = require('dna.js')(window, $);
 
             const myApp = {
-               doSomething: function() { ... }
+               doSomething: () =&gt; { ... }
                };
             dna.registerContext('myApp', myApp);
          </code></pre>
@@ -706,9 +706,9 @@
                &lt;button data-click=setFavorite&gt;I Like&lt;/button&gt;
             &lt;/div&gt;
             &lt;script&gt;
-               function setFavorite(buttonElem) {
+               const setFavorite = (buttonElem) =&gt; {
                   dna.getClone(buttonElem).addClass('favorite');
-                  }
+                  };
                dna.clone('book', { title: 'Go JavaScript!' });
             &lt;/script&gt;
          </code></pre>
@@ -1476,9 +1476,9 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            function enhanceBook(data) {
+            const enhanceBook = (data) =&gt; {
                data.displayStar = data.rating &gt; 3;  //good books get a star
-               }
+               };
             const books = [
                { title: 'The DOM',   rating: 2 },
                { title: 'Interwebz', rating: 5 }
@@ -1532,9 +1532,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            function blink(elem) {
-               elem.fadeOut().fadeIn().fadeOut().fadeIn();
-               }
+            const blink = (elem) =&gt; elem.fadeOut().fadeIn().fadeOut().fadeIn();
          </code></pre>
       </figure>
       <p>
@@ -1584,10 +1582,10 @@
             &lt;p&gt;Submit: &lt;input  data-enter-key=showMsg value=7&gt;&lt;/p&gt;
             &lt;p id=message&gt;&lt;/p&gt;
             &lt;script&gt;
-               function showMsg(elem, event) {
+               const showMsg = (elem, event) =&gt; {
                   const msg = 'Value "' + elem.val() + '" on ' + event.type;
                   $('#message').text(msg).stop().hide().fadeIn();
-                  }
+                  };
             &lt;/script&gt;
          </code></pre>
       </figure>
@@ -1605,10 +1603,10 @@
             <p>Submit: <input  data-enter-key=showMsg value=7></p>
             <p id=message><br></p>
             <script>
-               function showMsg(elem, event) {
+               const showMsg = (elem, event) => {
                   const msg = 'Value "' + elem.val() + '" on ' + event.type;
                   $('#message').text(msg).stop().hide().fadeIn();
-                  }
+                  };
             </script>
          </div>
       </figure>
@@ -1652,10 +1650,10 @@
                &lt;code&gt;~~message~~&lt;/code&gt;
             &lt;/div&gt;
             &lt;script&gt;
-               function logNow(elem) {
+               const logNow = (elem) =&gt; {
                   const msg = Date.now() + ': ' + elem.val();
                   dna.clone('log-message', { message: msg }, { fade: true });
-                  }
+                  };
             &lt;/script&gt;
          </code></pre>
       </figure>
@@ -1669,10 +1667,10 @@
                <code>~~message~~</code>
             </div>
             <script>
-               function logNow(elem) {
+               const logNow = (elem) => {
                   const msg = Date.now() + ': ' + elem.val();
                   dna.clone('log-message', { message: msg }, { fade: true });
-                  }
+                  };
             </script>
          </div>
       </figure>
@@ -1774,11 +1772,11 @@
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
             const bookInfo = {
-               update: function(elem) {
+               update: (elem) =&gt; {
                   const data = JSON.stringify(dna.getModel(elem));
                   $('#data').text(data).hide().fadeIn();
                   },
-               setup: function() {
+               setup: () =&gt; {
                   const book = { title: 'Styling CSS', ebook: true };
                   dna.clone('book', book);
                   }
@@ -1802,11 +1800,11 @@
             <div>Data: <code id=data>[YOUR MOVE]</code></div>
             <script>
             const bookInfo = {
-               update: function(elem) {
+               update: (elem) => {
                   const data = JSON.stringify(dna.getModel(elem));
                   $('#data').text(data).hide().fadeIn();
                   },
-               setup: function() {
+               setup: () => {
                   const book = { title: 'Styling CSS', ebook: true };
                   dna.clone('book', book);
                   }
@@ -1864,11 +1862,9 @@
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
             const app = {
-               setup: function() {
 
-                  function highlight(elem) {
-                     elem.css({ backgroundColor: 'gold' });
-                     }
+               setup: () =&gt; {
+                  const highlight = (elem) =&gt; elem.css({ backgroundColor: 'gold' });
 
                   // Highlight each new clone
                   dna.registerInitializer(highlight);
@@ -1879,9 +1875,10 @@
                   // Style each new clone:  $('.gap').css({ padding: '8px' });
                   const options = { selector: '.gap', params: { padding: '8px' } }
                   dna.registerInitializer('css', options);
-
                   }
+
                };
+
             $(app.setup);
          </code></pre>
       </figure>
@@ -1923,9 +1920,9 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            function enhanceBook(data) {
+            const enhanceBook = (data) =&gt; {
                data.displayStar = data.rating &gt; 3;  //good books get a star
-               }
+               };
             const books = [
                { title: 'The DOM',   rating: 2 },
                { title: 'Interwebz', rating: 5 }
@@ -1979,7 +1976,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            function applyBkgnd(elem, data) {
+            const applyBkgnd = (elem, data) =&gt; {
                elem.css({ backgroundImage: data.cover });
                };
             const options = { fade: true, callback: applyBkgnd };
@@ -2025,9 +2022,7 @@
                This paragraph will blink on page load!
             &lt;/p&gt;
             &lt;script&gt;
-               function blink(elem) {
-                  elem.fadeOut().fadeIn().fadeOut().fadeIn();
-                  }
+               const blink = (elem) =&gt; elem.fadeOut().fadeIn().fadeOut().fadeIn();
             &lt;/script&gt;
          </code></pre>
       </figure>
@@ -2314,11 +2309,11 @@
                &lt;script&gt;
                   const bookshelf = {
                      booksUrl: 'https://dnajs.org/rest/book/list/',
-                     show: function(elem, event, component) {
+                     show: (elem, event, component) =&gt; {
                         elem.text(component.data().component + '!');
                         },
-                     setup: function(elem) {
-                        function handle(data) { dna.clone('my-book', data); }
+                     setup: (elem) =&gt; {
+                        const handle = (data) =&gt; dna.clone('my-book', data);
                         fetchJson.get(bookshelf.booksUrl).then(handle);
                         }
                      };
@@ -2344,11 +2339,11 @@
                <script>
                   const bookshelf = {
                      booksUrl: 'https://dnajs.org/rest/book/list/',
-                     show: function(elem, event, component) {
+                     show: (elem, event, component) => {
                         elem.text(component.data().component + '!');
                         },
-                     setup: function(elem) {
-                        function handle(data) { dna.clone('my-book', data); }
+                     setup: (elem) => {
+                        const handle = (data) => dna.clone('my-book', data);
                         fetchJson.get(bookshelf.booksUrl).then(handle);
                         }
                      };
@@ -2536,11 +2531,11 @@
                         { id: &#39;PXa2bby0oQ0C&#39;, title: &#39;The Good Parts&#39; },
                         { id: &#39;4x6Gj_0UHMsC&#39;, title: &#39;Pro jQuery&#39; }
                         ],
-                     addCover: function(data) {
+                     addCover: (data) =&gt; {
                         data.cover = &#39;https://books.google.com/books?id=&#39; +
                            data.id + &#39;&amp;printsec=frontcover&amp;img=1&amp;zoom=1&#39;;
                         },
-                     setup: function() {
+                     setup: () =&gt; {
                         dna.clone(&#39;book-menu-item&#39;, bookCatalog.data);
                         dna.clone(&#39;book-panel&#39;,     bookCatalog.data);
                         }
@@ -2576,11 +2571,11 @@
                         { id: 'PXa2bby0oQ0C', title: 'The Good Parts' },
                         { id: '4x6Gj_0UHMsC', title: 'Pro jQuery' }
                         ],
-                     addCover: function(data) {
+                     addCover: (data) => {
                         data.cover = 'https://books.google.com/books?id=' +
                            data.id + '&printsec=frontcover&img=1&zoom=1';
                         },
-                     setup: function() {
+                     setup: () => {
                         dna.clone('book-menu-item', bookCatalog.data);
                         dna.clone('book-panel',     bookCatalog.data);
                         }
@@ -2634,11 +2629,11 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            function updatePanel(panel, hash) {
+            const updatePanel = (panel, hash) =&gt; {
                const url = location.origin + location.pathname + '#' + hash;
                if (!panel.find('a').length)
                   panel.append($('&lt;a&gt;', { text: url, href: url }));
-               }
+               };
          </code></pre>
       </figure>
       <!-- Start: Result -->
@@ -2669,11 +2664,11 @@
                   </section>
                </div>
                <script>
-                  function updatePanel(panel, hash) {
+                  const updatePanel = (panel, hash) => {
                      const url = location.origin + location.pathname + '#' + hash;
                      if (!panel.find('a').length)
                         panel.append($('<a>', { text: url, href: url }));
-                     }
+                     };
                </script>
             </div>
          </div>
@@ -3146,15 +3141,15 @@
                &lt;button id=chapter-box class=dna-template&gt;~~[count]~~&lt;/button&gt;
             &lt;/div&gt;
             &lt;script&gt;
-               function makeChapters(range) {
+               const makeChapters = (range) =&gt; {
                   const options = { empty: true, clones: +range.val() };
                   dna.clone('chapter-box', {}, options);
-                  }
-               function smooth(range) {
+                  };
+               const smooth = (range) =&gt; {
                   dna.ui.smoothHeightSetBaseline($('#smooth-container'));
                   makeChapters(range);
                   dna.ui.smoothHeightAnimate();
-                  }
+                  };
             &lt;/script&gt;
          </code></pre>
       </figure>
@@ -3170,15 +3165,15 @@
                <button id=chapter-box class=dna-template>~~[count]~~</button>
             </div>
             <script>
-               function makeChapters(range) {
+               const makeChapters = (range) => {
                   const options = { empty: true, clones: +range.val() };
                   dna.clone('chapter-box', {}, options);
-                  }
-               function smooth(range) {
+                  };
+               const smooth = (range) => {
                   dna.ui.smoothHeightSetBaseline($('#smooth-container'));
                   makeChapters(range);
                   dna.ui.smoothHeightAnimate();
-                  }
+                  };
             </script>
          </div>
       </figure>

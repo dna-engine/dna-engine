@@ -10,7 +10,11 @@
    <script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js></script>
    <script src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js></script>
    <script src=https://cdn.jsdelivr.net/npm/web-ignition@1.0/dist/library.min.js></script>
-   <style>section { border: 5px solid tomato; padding: 10px; }</style>
+   <style>
+      body       { font-family: system-ui, sans-serif; margin: 30px; }
+      section    { border: 5px solid tomato; padding: 10px; }
+      .dna-clone { background-color: lightblue; padding: 10px; margin-bottom: 10px; }
+   </style>
 </head>
 <body>
 
@@ -19,7 +23,6 @@
 <section>
    <input id=task-title data-enter-key=todo.add value="Make hay">
    <button data-click=todo.add>Add Task</button>
-
    <h2>To-Do List</h2>
    <div id=task class=dna-template>
       <label>
@@ -58,21 +61,20 @@ input[type=checkbox], button {
 </style>
 -->
 <script>
-const todo = {
-   add: function() {  //create task
-      const task = { title: $('#task-title').val() };
-      dna.clone('task', task, { fade: true });
-      },
-   setup: function() {  //start with one task
-      const task = {
-         title: 'Check out: dnajs.org',
-         done:  false
-         };
-      dna.clone('task', task);
-      }
-   };
-
-$(todo.setup);
+   const todo = {
+      add: () => {  //create task
+         const task = { title: $('#task-title').val() };
+         dna.clone('task', task, { fade: true });
+         },
+      setup: () => {  //start with one task
+         const task = {
+            title: 'Check out: dnajs.org',
+            done:  false
+            };
+         dna.clone('task', task);
+         }
+      };
+   $(todo.setup);
 </script>
 
 
@@ -82,7 +84,6 @@ $(todo.setup);
    <h2>Featured Books</h2>
    <button data-click=store.add>Add a Book</button>
    <button data-click=store.clear>Clear List</button>
-
    <div id=book class=dna-template>
       <h3>~~title~~</h3>
       Author: <b>~~author~~</b>
@@ -106,29 +107,28 @@ button {
 </style>
 -->
 <script>
-const store = {
-   books: [
-      { title: 'JavaScript!', author: 'Jake' },
-      { title: 'CSS3!',       author: 'Abby' },
-      { title: 'HTML5!',      author: 'Ed' }
-      ],
-   add: function() {
-      const i = $('.book').length % store.books.length;
-      const options = { fade: true };
-      dna.clone('book', store.books[i], options);
-      },
-   clear: function() {
-      dna.empty('book', { fade: true });
-      }
-   };
-
-$(store.add);
+   const store = {
+      books: [
+         { title: 'JavaScript!', author: 'Jake' },
+         { title: 'CSS3!',       author: 'Abby' },
+         { title: 'HTML5!',      author: 'Ed' }
+         ],
+      add: () => {
+         const i = $('.book').length % store.books.length;
+         const options = { fade: true };
+         dna.clone('book', store.books[i], options);
+         },
+      clear: () => {
+         dna.empty('book', { fade: true });
+         }
+      };
+   $(store.add);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<p>
+<footer>
    <a href=https://dnajs.org/docs/#index-examples>Index of jsFiddle Examples</a>
-</p>
+</footer>
 
 </body>
 </html>
