@@ -39,12 +39,13 @@ const pkg =            require('./package.json');
 const released =       process.env.dnaReleasedVersion;
 const minorVersion =   pkg.version.split('.').slice(0,2).join('.');
 const banner =         'dna.js v' + pkg.version + ' ~~ dnajs.org ~~ MIT License';
+const bannerCss =      '/*! ' + banner + ' */';
+const bannerJs =       '//! ' + banner + '\n';
 const websiteTarget =  'website-target';
 const htmlHintConfig = { 'attr-value-double-quotes': false };
 const headerComments = { css: /^[/][*].*[*][/]$/gm, js: /^[/][/].*\n/gm };
 const transpileES6 =   ['@babel/env', { modules: false }];
 const babelMinifyJs =  { presets: [transpileES6, 'minify'], comments: false };
-const newLine =        '\n';
 const webContext = {
    pkg:          pkg,
    released:     released,
@@ -61,20 +62,20 @@ const task = {
       const buildCss = () =>
          gulp.src('dna.css')
             .pipe(replace(headerComments.css, ''))
-            .pipe(header('/*! ' + banner + ' */'))
+            .pipe(header(bannerCss))
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('dist'));
       const buildJs = () =>
          gulp.src('dna.js')
             .pipe(replace(headerComments.js, ''))
-            .pipe(header('//! ' + banner + newLine))
+            .pipe(header(bannerJs))
             .pipe(replace('[VERSION]', pkg.version))
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('dist'))
             .pipe(babel(babelMinifyJs))
             .pipe(rename({ extname: '.min.js' }))
-            .pipe(header('//! ' + banner + newLine))
-            .pipe(gap.appendText(newLine))
+            .pipe(header(bannerJs))
+            .pipe(gap.appendText('\n'))
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('dist'));
       return mergeStream(buildCss(), buildJs());
