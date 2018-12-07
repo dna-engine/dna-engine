@@ -1,7 +1,7 @@
 # dna.js
 <img src=https://dnajs.org/graphics/dnajs-logo.png align=right width=160 alt=logo>
 
-_An uncomplicated user interface library for semantic templates_
+_An uncomplicated user interface library for building data-driven semantic templates_
 
 [![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://dnajs.org/license)
 [![npm](https://img.shields.io/npm/v/dna.js.svg)](https://www.npmjs.com/package/dna.js)

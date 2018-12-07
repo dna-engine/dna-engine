@@ -16,6 +16,7 @@ buildHtmlFiles() {
    pwd
    find . -name ".DS_Store" -delete
    npm run web
+   cp -v website-target/project.html docs/index.html
    echo
    }
 
@@ -44,7 +45,7 @@ publishWebFiles() {
       mkdir -p $publishFolder
       cp -R website-target/* $publishFolder
       mkdir -p $publishFolder/../www.dnajs.com
-      mv $publishFolder/placeholder.html $publishFolder/../www.dnajs.com/index.html
+      mv $publishFolder/project.html $publishFolder/../www.dnajs.com/index.html
       ls -o $publishSite | grep dna
       echo
       }

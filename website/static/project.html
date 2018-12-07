@@ -7,54 +7,50 @@
    `-!-' `-!-"   `-!-' `-!-'   `-!-' `-
 
 -->
-<!-- - - - - - - - - - - - - - - -->
-<!-- dna.js ~~ https://dnajs.org -->
-<!-- - - - - - - - - - - - - - - -->
 <html>
 <head>
 <meta charset=utf-8>
 <meta name=viewport                   content="width=device-width, initial-scale=1">
 <meta name=apple-mobile-web-app-title content="dna.js">
-<title>dna.js ~~ An uncomplicated user interface library for semantic templates</title>
+<title>dna.js ~~ An uncomplicated user interface library for building data-driven semantic templates</title>
 <link rel=icon             href=https://dnajs.org/graphics/bookmark.png>
 <link rel=apple-touch-icon href=https://dnajs.org/graphics/mobile-home-screen.png>
 <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.5/css/all.min.css>
 <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.css>
 <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/web-ignition@1.0/dist/reset.min.css>
-<link rel=stylesheet       href=https://dnajs.org/dist/dna.css>
+<link rel=stylesheet       href=https://dnajs.org/style.css>
 <style>
-   body   { width: 550px; text-align: center; margin: 120px auto; }
-   header { margin-bottom: 35px; }
-   main   { margin-bottom: 20px; }
-   footer { display: block; font-size: 0.7rem; color: darkgray; padding: 30px 25%; }
-   .logo  { width: 100px; margin-bottom: 20px; }
+   body                    { text-align: center; padding: 20px 140px; }
+   body >header figure     { display: inline-block; max-width: 200px; }
+   body >header figure img { border: none; }
+   body >main >p           { margin-bottom: 30px; }
+   @media (max-width: 667px) { body { padding: 10px; } }
 </style>
 </head>
 <body>
 
 <header>
-   <a href=https://dnajs.org>
-      <img class=logo src=https://dnajs.org/graphics/dnajs-logo.png alt=logo>
-   </a>
+   <figure data-click=https://github.com/dnajs/dna.js>
+      <img src=https://dnajs.org/graphics/dnajs-logo.png alt=logo>
+   </figure>
    <h1>dna.js</h1>
-   <h2>An uncomplicated user interface library for semantic templates</h2>
+   <h2>An uncomplicated user interface library for building data-driven semantic templates</h2>
 </header>
 
 <main>
+   <b>Project:</b>
    <p>
-      Visit:<br><a href=https://dnajs.org>dnajs.org</a>
+      <a href=https://github.com/dnajs/dna.js>github.com/dnajs/dna.js</a>
    </p>
-   <br>
    <p>
       dna.js is an easy-to-use UI library for jQuery enabling developers to rapidly build
       maintainable JavaScript applications.&nbsp; You write semantic templates and then dna.js
       converts your JSON data into dynamically generated DOM elements.
    </p>
+   <p>
+      dna.js is open source and available under the MIT License.
+   </p>
 </main>
-
-<footer>
-   dna.js is open source and available for free under the MIT License.
-</footer>
 
 <script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js></script>
 <script src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js></script>
