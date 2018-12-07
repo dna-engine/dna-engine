@@ -87,7 +87,7 @@
 </section>
 <script>
 spec.spec01 = {
-   run: function() {
+   run: () => {
       const book1 = { title: 'The DOM',      author: 'Jan' };
       const book2 = { title: 'Styling CSS3', author: 'Abby' };
       const book3 = { title: 'Howdy HTML5',  author: 'Ed' };
@@ -131,7 +131,7 @@ spec.spec01 = {
 </section>
 <script>
 spec.spec02 = {
-   run: function() {
+   run: () => {
       const book1 = { title: 'The DOM',     author: 'Jan' };
       const book2 = { title: 'Howdy HTML5', author: 'Ed' };
       const book3 = { title: 'The One',     author: 'Lee', class: 'color-change', sale: false };
@@ -181,7 +181,7 @@ spec.spec02 = {
 </section>
 <script>
 spec.spec03 = {
-   run: function() {
+   run: () => {
       const book1 = { title: '1<sup>st</sup> &bull;', author: 'Jan' };
       const book2 = { title: '2nd', author: 'Jan' };
       const book3 = { title: '3rd', author: 'Jan' };
@@ -220,7 +220,7 @@ spec.spec03 = {
 </section>
 <script>
 spec.spec04 = {
-   run: function() {
+   run: () => {
       const book = {
          title:  '<b>Text</b>&bull;',
          author: 'Lee',
@@ -278,14 +278,15 @@ spec.spec05 = {
       '   <div>Code:     <span>~~code~~</span></div>' +
       '   <div>Location: <span>~~[count]~~</span></div>' +
       '</div>',
-   generateCode: function(data) {
-      data.code = data.author.charCodeAt(0) % 13 * 100;
-      },
-   run: function() {
+   generateCode: (data) => data.code = data.author.charCodeAt(0) % 13 * 100,
+   run: () => {
       dna.createTemplate('s05-book', spec.spec05.html, $('#s05-book-list'));
       const book1 = { title: '1st', author: 'Lee' };  //code: 1100
       const book2 = { title: '2nd', author: 'Jan' };  //code: 900
-      function bang(book) { book.title = book.title + '!'; return book; }
+      const bang = (book) => {
+         book.title = book.title + '!';
+         return book;
+         };
       dna.clone('s05-book', [book1, book2], { transform: bang }).addClass('color-change');
       dna.clone('s05-book', [book1, book2], { transform: bang, empty: true });
       dna.clone('s05-book', [book1, book2], { transform: bang }).addClass('color-change');
@@ -320,7 +321,7 @@ spec.spec05 = {
 </section>
 <script>
 spec.spec06 = {
-   run: function() {
+   run: () => {
       const bouquin = {
          title:    'Les Attributs',
          info:     { isbn: 123 },
@@ -380,7 +381,7 @@ spec.spec06 = {
 </section>
 <script>
 spec.spec07 = {
-   run: function() {
+   run: () => {
       const book1 = { author: { name: 'Ed' } };
       const book2 = { author: { name: 'Jan' } };
       const book3 = { author: { name: 'Lee' } };
@@ -425,8 +426,8 @@ spec.spec07 = {
                   *<span data-callback=spec08var.configure>~~[value]~~</span>
                </span>
             </div>
-            <div>Score:   <span>~~score~~</span></div>
-            <div>On Sale: <span>~~sale~~</span></div>
+            <div data-callback=spec08constConfigure>Score:   <span>~~score~~</span></div>
+            <div>On Sale: <span data-callback=spec08letConfigure>~~sale~~</span></div>
          </div>
       </div>
    </fieldset>
@@ -449,31 +450,31 @@ spec.spec07 = {
       </p>
       <div class=book-list>
          <div class=dna-clone>
-            <div>Title:   <span>The New DOM</span></div>
-            <div>Authors: <span> *<span class=color-change>Jan II</span></span><span>
-               *<span class=color-change>Bo</span></span>
+            <div>Title: <span>The New DOM</span></div>
+            <div>Authors: <span>
+               *<span class=color-change2>Jan II</span></span><span>
+               *<span class=color-change2>Bo</span></span>
             </div>
-            <div>Score:   <span>81</span></div>
-            <div>On Sale: <span>true</span></div>
+            <div class=color-change>Score: <span>81</span></div>
+            <div>On Sale: <span class=color-change2>true</span></div>
          </div>
          <div class="dna-clone border-change">
-            <div>Title:   <span>Howdy HTML5</span></div>
-            <div>Authors: <span> *<span class=color-change>Ed II</span></span>
+            <div>Title: <span>Howdy HTML5</span></div>
+            <div>Authors: <span>
+               *<span class=color-change2>Ed II</span></span>
             </div>
-            <div>Score:   <span>97</span></div>
-            <div>On Sale: <span>false</span></div>
+            <div class=color-change>Score: <span>97</span></div>
+            <div>On Sale: <span class=color-change2>false</span></div>
          </div>
       </div>
    </fieldset>
 </section>
 <script>
-var spec08var = {
-   configure: function(elem) {
-      elem.addClass('color-change');
-      },
-   };
+var spec08var = { configure: (elem) => elem.addClass('color-change2') };
+const spec08constConfigure = (elem) => elem.addClass('color-change');
+let   spec08letConfigure =   (elem) => elem.addClass('color-change2');
 spec.spec08 = {
-   run: function() {
+   run: () => {
       dna.clone('s08-book-authors1', ['Jan']);
       dna.clone('s08-book-authors2', ['Jan', 'Bo']);
       dna.clone('s08-book-authors3', ['Jan', 'Bo', 'Ed']);
@@ -531,11 +532,11 @@ spec.spec08 = {
 </section>
 <script>
 spec.spec09 = {
-   run: function() {
+   run: () => {
       dna.clone('s09-rest-link', ['https://dnajs.org/rest/book/1/', 'https://dnajs.org/rest/book/2/']);
-      function insertBook(book) {
+      const insertBook = (book) => {
          return dna.clone('s09-book', book, { top: book.id === 1, fade: true });
-         }
+         };
       fetchJson.enableLogger();
       fetchJson.get('https://dnajs.org/rest/book/1/').then(insertBook);
       fetchJson.get('https://dnajs.org/rest/book/2/').then(insertBook);
@@ -575,10 +576,9 @@ spec.spec09 = {
 </section>
 <script>
 spec.spec10 = {
-   run: function() {
-      const applyBackgnd = function(elem, data) {
-         elem.css({ height: '60px', color: 'white',
-            'background-image': data.image, 'background-size': '80px' });
+   run: () => {
+      const applyBackgnd = (elem, data) => {
+         elem.css({ height: '60px', color: 'white', backgroundImage: data.image, backgroundSize: '80px' });
          };
       const book = { title: 'Background', image: 'url(https://dnajs.org/graphics/dnajs-logo.png)' };
       const options = { fade: true, callback: applyBackgnd, clones: 3 };
@@ -632,7 +632,7 @@ spec.spec10 = {
 </section>
 <script>
 spec.spec11 = {
-   run: function() {
+   run: () => {
       const book1 = { author: 'Jan',        available: 1, onSale: 'true' };
       const book2 = { title: 'Howdy HTML5', available: 0, onSale: [] };
       dna.clone('s11-book', book1);
@@ -721,7 +721,7 @@ spec.spec11 = {
 </section>
 <script>
 spec.spec12 = {
-   run: function() {
+   run: () => {
       const chapters = [
          { header: 'Preface &star;', type: 'front' },
          { header: 'Index',          type: 'back' }
@@ -783,11 +783,10 @@ spec.spec12 = {
 </section>
 <script>
 spec.spec13 = {
-   run: function() {
+   run: () => {
       dna.clone('s13-book', '<script>alert(1);<\/script>');
       dna.clone('s13-book', '<script>alert(2);<\/script>', { html: false });
-      dna.clone('s13-book', '<script>$(".s13-book").last().find("span").text(3);<\/script>',
-         { html: true });
+      dna.clone('s13-book', '<script>$(".s13-book").last().find("span").text(3);<\/script>', { html: true });
       }
    };
 </script>
@@ -844,10 +843,10 @@ spec.spec13 = {
 </section>
 <script>
 spec.spec14 = {
-   run: function() {
+   run: () => {
       const books = ['The DOM', 'Howdy HTML5', 'Styling CSS3'];
       dna.clone('s14-book', books);
-      function countIsThree(i, elem) { return parseInt($(elem).data().count) === 3; }
+      const countIsThree = (i, elem) => parseInt($(elem).data().count) === 3;
       dna.getClones('s14-book').filter(countIsThree).addClass('border-change');
       }
    };
@@ -896,22 +895,18 @@ spec.spec14 = {
 </section>
 <script>
 spec.spec15 = {
-   configure: function(elem) {
-      elem.addClass('color-change');
-      },
-   surround: function(elem) {
+   configure: (elem) => elem.addClass('color-change'),
+   surround: (elem) => {
       elem.addClass('border-change');
-      function addHr() { $('#spec15 fieldset').first().append('<hr>'); }
+      const addHr = () => { $('#spec15 fieldset').first().append('<hr>'); }
       elem.each(addHr);  //exactly 8 times (one for each clone)
       },
-   surround2: function(elem) {
-      elem.addClass('border-change2');
-      },
-   bye: function(elem, e) {
+   surround2: (elem) => elem.addClass('border-change2'),
+   bye: (elem, e) => {
       if (e.type === 'click')
          dna.bye(elem);
       },
-   run: function() {
+   run: () => {
       dna.registerInitializer('spec.spec15.surround', { selector: '.surrounded' });
       dna.registerInitializer('css', { selector: '.surrounded', params: { color: 'white' } });
       dna.registerInitializer('css', { selector: '.surrounded', params: ['padding', '10px'] });
@@ -919,9 +914,9 @@ spec.spec15 = {
       const titles = ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE'];
       dna.clone('s15-book', titles);
       $('.s15-book button.2').click(dna.bye);  //add handler
-      function getClone(count) {
+      const getClone = (count) => {
          return $('.s15-book .count:contains(' + count + ')').closest('.dna-clone');
-         }
+         };
       getClone(1).find('button.1').click();                  //nuke 1st (bye w/data-click)
       getClone(2).find('button.2').click();                  //nuke 2nd (bye w/event handler)
       getClone(8).find('button.3').click();                  //nuke 8th (remove w/dna click callback)
@@ -1099,11 +1094,11 @@ spec.spec15 = {
 <script>
 spec.spec16 = {
    start: Date.now(),
-   submitNote: function(elem) {
+   submitNote: (elem) => {
       const time = Date.now() - spec.spec16.start;
       dna.clone('note', { ms: time, note: elem.val() }, { top: true, fade: true });
       },
-   run: function() {
+   run: () => {
       const options = [
          { code: 'fast',  name: 'Overnight',    set: true },  //selected
          { code: 'share', name: 'Social Share', set: false },
@@ -1163,15 +1158,15 @@ spec.spec16 = {
          </div>
          <script>
             const bookshelf = {
-               showMsg: function(elem, event, component) {
+               showMsg: (elem, event, component) => {
                   elem.text(component.data().msg + event.timeStamp);
                   },
-               setup: function(elem, component) {
+               setup: (elem, component) => {
                   const booksUrl = 'https://dnajs.org/rest/book/list/';
                   component.children('button')
                      .attr({ 'data-href': booksUrl })
                      .addClass('external-site');
-                  function handle(data) { dna.clone('s17-book', data); }
+                  const handle = (data) => dna.clone('s17-book', data);
                   fetchJson.get(booksUrl).then(handle);
                   }
                };
@@ -1201,7 +1196,7 @@ spec.spec16 = {
 </section>
 <script>
 spec.spec17 = {
-   run: function() {
+   run: () => {
       // Nothing to do as component knows how to initialize itself.
       }
    };
@@ -1232,20 +1227,18 @@ spec.spec17 = {
 </section>
 <script>
 spec.spec18 = {
-   iEvent: function(elem, event) {
-      console.log(Date.now(), elem.val(), event.type);
-      },
-   makeChapterBoxes: function(range) {
+   iEvent: (elem, event) => console.log(Date.now(), elem.val(), event.type),
+   makeChapterBoxes: (range) => {
       dna.clone('chapter-box', {}, { empty: true, clones: +range.val() }).hide().fadeIn();
       },
-   smooth: function(range) {
+   smooth: (range) => {
       dna.ui.smoothHeightSetBaseline($('#spec18 .smooth-container'));
       spec.spec18.makeChapterBoxes(range);
       dna.ui.smoothHeightAnimate();
       },
-   run: function() {
+   run: () => {
       spec.spec18.makeChapterBoxes($('#spec18 input[type=range]').first());
-      function clickButton() { $('#spec18 button[data-click]').click(); }
+      const clickButton = () => $('#spec18 button[data-click]').click();
       window.setInterval(clickButton, 3000);
       }
    };
@@ -1288,14 +1281,12 @@ spec.spec18 = {
 </section>
 <script>
 spec.spec19 = {
-   enhance: function(data) {
+   enhance: (data) => {
       data.code = dna.util.toKebab(data.title);
       data.displayPrice = '$' + (data.price / 100).toFixed(2);
       },
-   displayPanel: function(elem) {
-      elem.addClass('border-change');
-      },
-   run: function() {
+   displayPanel: (elem) => elem.addClass('border-change'),
+   run: () => {
       dna.clone('s19-book-title', specRunner.catalog);
       dna.clone('s19-book',       specRunner.catalog);
       $('#s19-books-menu .menu-item:contains(Styling CSS3)').click();
@@ -1372,8 +1363,8 @@ spec.spec19 = {
 </section>
 <script>
 spec.spec20 = {
-   run: function() {
-      function postRenderClick() { $('#s20-category-menu .menu-item:contains(W3C)').click(); }
+   run: () => {
+      const postRenderClick = () => $('#s20-category-menu .menu-item:contains(W3C)').click();
       window.setTimeout(postRenderClick, 1000);
       }
    };
@@ -1413,7 +1404,7 @@ spec.spec20 = {
 </section>
 <script>
 spec.spec21 = {
-   run: function() {
+   run: () => {
       dna.clone('s21-book-author-nav-button', specRunner.catalog);
       dna.clone('s21-book-author',            specRunner.catalog);
       $('#s21-author-info-menu ').val('Abby').change();
@@ -1460,10 +1451,10 @@ spec.spec21 = {
 </section>
 <script>
 spec.spec22 = {
-   run: function() {
-      function sumPrice(sum, book) { return sum + book.price; }
-      function addTitleWords(words, book) { return words.concat(book.title.split(' ')); }
-      function addAuthorNames(names, book) { return names.concat(book.author.split(' ')); }
+   run: () => {
+      const sumPrice =       (sum, book) =>   sum + book.price;
+      const addTitleWords =  (words, book) => words.concat(book.title.split(' '));
+      const addAuthorNames = (names, book) => names.concat(book.author.split(' '));
       const summary = {
          numBooks:   specRunner.catalog.length,
          totalPrice: specRunner.catalog.reduce(sumPrice, 0) / 100
@@ -1471,7 +1462,7 @@ spec.spec22 = {
       const analytics = {
          titleWords:  specRunner.catalog.reduce(addTitleWords,  []).sort(),
          authorNames: specRunner.catalog.reduce(addAuthorNames, []).sort()
-         }
+         };
       dna.insert('s22-summary',   summary);
       dna.insert('s22-analytics', { titleWords: ['bogus'], authorNames: ['also bogus'] });
       dna.insert('s22-analytics', analytics);
@@ -1495,21 +1486,21 @@ const specRunner = {
       { title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr' },
       { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 }
       ],
-   setup: function() {
-      function makePageRed() { $('body').css({ backgroundColor: 'pink' }); }
+   setup: () => {
+      const makePageRed = () => $('body').css({ backgroundColor: 'pink' });
       window.onerror = makePageRed;
       $('.version-number').text(dna.version === '[VERSION]' ? '' : 'v' + dna.version);
-      function minifiedMode() {
+      const minifiedMode = () => {
          $('#file-name').text('dna.min.js');
          $('#switch').attr('href', 'visual.html');
-         }
+         };
       if (window.location.pathname.endsWith('-min.html'))
          minifiedMode();
-      function run(i, specSection) {
+      const run = (i, specSection) => {
          const name = $(specSection).attr('id');
          console.log(name);
          spec[name].run();
-         }
+         };
       console.log('~~ dna.js ~~');
       console.log('Version: ' + dna.info().version);
       console.log('Specifications:');

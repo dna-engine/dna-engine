@@ -404,10 +404,11 @@ dna.util = {
             args.push(dna.ui.getComponent(elem));
          const name = names[0];
          const identifierPattern = /^[_$a-zA-Z][_$a-zA-Z0-9]*$/;
+         const unknown = (name) => window[name] === undefined && !dna.events.context[name];
          const topLevelGet = (null, eval);
-         if (window[name] === undefined && !dna.events.context[name] &&
-            identifierPattern.test(name) && topLevelGet('typeof ' + name) === 'object')
-               dna.registerContext(name, topLevelGet(name));
+         const callable = (name) => ['object', 'function'].includes(topLevelGet('typeof ' + name));
+         if (identifierPattern.test(name) && unknown(name) && callable(name))
+            dna.registerContext(name, topLevelGet(name));
          contextApply(dna.events.context[name] ? dna.events.context : window, names);
          };
       if (elem instanceof $ && elem.length === 0)  //noop for emply list of elems
