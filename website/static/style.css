@@ -379,15 +379,6 @@ a.twitter:hover {
    }
 
 /* Highlight.js (hljs-enhance) */
-figure.hljs-enhance {
-   width: 80%;
-   }
-figure.hljs-enhance.full-screen-code {
-   width: 100%;
-   }
-section figure.hljs-enhance {
-   width: 90%;
-   }
 figure.hljs-enhance figcaption {
    font-size: 1.0rem;
    color: white;
@@ -402,9 +393,6 @@ figure.hljs-enhance >div {
 figure.hljs-enhance pre code,
 figure.hljs-enhance >div {
    background-color: white;
-   }
-figure.full-screen-code pre code {
-   font-size: 0.8rem;
    }
 figure.hljs-enhance .dna-menu button {
    transition: all 0.4s;
