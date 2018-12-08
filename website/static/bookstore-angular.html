@@ -19,7 +19,7 @@
    </div>
 </section>
 
-<script src=https://cdn.jsdelivr.net/angularjs/1.5.0/angular.min.js></script>
+<script src=https://cdn.jsdelivr.net/angularjs/1.5/angular.min.js></script>
 <script>
    const books = [
       { title: 'The DOM',      author: 'Jan' },
@@ -27,9 +27,7 @@
       { title: 'Styling CSS3', author: 'Abby' }
       ];
    angular.module('Books', []);
-   function bookConstructor($scope) {
-      $scope.books = books;
-      }
+   const bookConstructor = ($scope) => $scope.books = books;
    angular.module('Books').controller('BooksController', ['$scope', bookConstructor]);
 </script>
 </body>

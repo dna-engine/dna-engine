@@ -136,9 +136,10 @@
          <figcaption>Example HTML</figcaption>
          <pre><code class=language-html>
             &lt;style&gt;
-               body      { font-family: system-ui, sans-serif; margin: 30px; }
+               body      { font-family: system-ui; margin: 30px; }
+               input     { font-size: 1.2rem; background-color: aliceblue; }
                .book     { display: flex; align-items: flex-start;
-                           width: 400px; background-color: skyblue;
+                           max-width: 400px; background-color: skyblue;
                            padding: 10px; margin: 10px 0px; }
                .book img { width: 100px; margin-right: 10px; }
                .book h2  { margin: 0px; }
@@ -283,10 +284,10 @@
          <figcaption>Callback event for button</figcaption>
          <pre><code class=language-html>
             &lt;script&gt;
-               function findBooks(elem) {
+               const findBooks = (elem) =&gt; {
                   const terms = $('input').val();
                   console.log(terms);
-                  }
+                  };
             &lt;/script&gt;
          </code></pre>
       </figure>
@@ -318,22 +319,21 @@
          Immediately after the <code>console.log</code> line, insert the following code:
       </p>
       <figure>
-         <figcaption>REST   </figcaption>
+         <figcaption>REST</figcaption>
          <pre><code class=language-javascript>
-            const url = 'https://www.googleapis.com/books/v1/volumes?q=' + terms;
-            function handleResults(data) {
+            const url = 'https://www.googleapis.com/books/v1/volumes';
+            const handleResults = (data) =&gt;
                dna.clone('book', data.items, { empty: true, fade: true });
-               }
-            fetchJson.get(url).then(handleResults);
+            fetchJson.get(url, { q: terms }).then(handleResults);
          </code></pre>
       </figure>
       The code:
       <ol>
          <li>Builds the REST URL</li>
-         <li>Invokes jQuery's <a href=https://api.jquery.com/jquery.getjson
-            class=external-site>getJSON()</a> function to call the Google Books API</li>
-         <li>Passes the search results data to the
-            <a href=docs/#api-clone>templating engine</a>.</li>
+         <li>Invokes <a href=https://github.com/center-key/fetch-json#http-get
+            class=external-site>fetchJson.get()</a> function to call the Google Books API</li>
+         <li>Passes the search results data to the templating engine:
+            <a href=docs/#api-clone>dna.clone()</a></li>
       </ol>
       <p>
          The options <code>{ empty: true, fade: true }</code> tell dna.js to delete any previous
@@ -405,9 +405,10 @@
             &lt;title&gt;Book Finder&lt;/title&gt;
             &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.css&gt;
             &lt;style&gt;
-               body      { font-family: system-ui, sans-serif; margin: 30px; }
+               body      { font-family: system-ui; margin: 30px; }
+               input     { font-size: 1.2rem; background-color: aliceblue; }
                .book     { display: flex; align-items: flex-start;
-                           width: 400px; background-color: skyblue;
+                           max-width: 400px; background-color: skyblue;
                            padding: 10px; margin: 10px 0px; }
                .book img { width: 100px; margin-right: 10px; }
                .book h2  { margin: 0px; }
@@ -437,15 +438,14 @@
             &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js&gt;&lt;/script&gt;
             &lt;script src=https://cdn.jsdelivr.net/npm/fetch-json@2.2/dist/fetch-json.min.js&gt;&lt;/script&gt;
             &lt;script&gt;
-               function findBooks(elem) {
+               const findBooks = (elem) =&gt; {
                   const terms = elem.val();
                   console.log(terms);
-                  const url = 'https://www.googleapis.com/books/v1/volumes?q=' + terms;
-                  function handleResults(data) {
+                  const url = 'https://www.googleapis.com/books/v1/volumes';
+                  const handleResults = (data) =&gt;
                      dna.clone('book', data.items, { empty: true, fade: true });
-                     }
-                  fetchJson.get(url).then(handleResults);
-                  }
+                  fetchJson.get(url, { q: terms }).then(handleResults);
+                  };
             &lt;/script&gt;
             &lt;/body&gt;
             &lt;/html&gt;

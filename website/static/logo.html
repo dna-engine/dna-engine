@@ -118,15 +118,14 @@
       { x: 50, y: 30, color: 'darkblue' },
       { x:  5, y:  5, color: 'darkviolet' }
       ];
-   function addStyle(circleElem, data) {
+   const addStyle = (circleElem, data) =>
       circleElem.css({ backgroundColor: data.color, left: data.x + '%', bottom: data.y + '%' });
-      }
    dna.clone('circle', circles, { callback: addStyle });
    $('#circle-data').text(JSON.stringify(circles));
-   function scaleRange(range) {
+   const scaleRange = (range) => {
       const scale = Math.max(range.val(), 5) / 100;
       $('figure#logo-canvas').css({ transform: `scale(${scale})` });
-      }
+      };
 </script>
 </body>
 </html>

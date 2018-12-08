@@ -10,9 +10,10 @@
 <link rel=icon       href=graphics/bookmark.png>
 <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.css>
 <style>
-   body      { font-family: system-ui, sans-serif; margin: 30px; }
+   body      { font-family: system-ui; margin: 30px; }
+   input     { font-size: 1.2rem; background-color: aliceblue; }
    .book     { display: flex; align-items: flex-start;
-               width: 400px; background-color: skyblue;
+               max-width: 400px; background-color: skyblue;
                padding: 10px; margin: 10px 0px; }
    .book img { width: 100px; margin-right: 10px; }
    .book h2  { margin: 0px; }
@@ -46,16 +47,15 @@
 <script src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js></script>
 <script src=https://cdn.jsdelivr.net/npm/fetch-json@2.2/dist/fetch-json.min.js></script>
 <script>
-   function findBooks(elem) {
+   const findBooks = (elem) => {
       //const terms = $('input').val();
       const terms = elem.val();
       console.log(terms);
-      const url = 'https://www.googleapis.com/books/v1/volumes?q=' + terms;
-      function handleResults(data) {
+      const url = 'https://www.googleapis.com/books/v1/volumes';
+      const handleResults = (data) =>
          dna.clone('book', data.items, { empty: true, fade: true });
-         }
-      fetchJson.get(url).then(handleResults);
-      }
+      fetchJson.get(url, { q: terms }).then(handleResults);
+      };
 </script>
 </body>
 </html>
