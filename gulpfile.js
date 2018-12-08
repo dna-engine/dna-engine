@@ -27,10 +27,10 @@ const linkInfo = {
       dataClick:      'zry7b8fm',
       liveModel:      'qnpsh5cw',
       panelsClick:    'w4t6zrnj',
-      panelsDropDown: '2pjahsn6',
+      panelsDropDown: 'r16deufb',
       photoUpload:    'bcyqdep8',
       smartUpdates:   'ab4hgvL5',
-      toDo:           'y1ms3b7x'
+      toDo:           'uLrc7kmp'
       }
    };
 

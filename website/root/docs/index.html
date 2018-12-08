@@ -11,6 +11,10 @@
          For richer examples, view the HTML source of the project
          <a href=../spec/visual.html>visual specification runner</a>.
       </p>
+      <p>
+         dna.js <b>v<span class=version-number></span></b>
+         is powering the interactive examples on this page.
+      </p>
       <aside>
          <figure class=video-container-link>
             <iframe src=https://www.youtube.com/embed/@@youTube.intro></iframe>
@@ -2309,9 +2313,8 @@
                &lt;script&gt;
                   const bookshelf = {
                      booksUrl: 'https://dnajs.org/rest/book/list/',
-                     show: (elem, event, component) =&gt; {
-                        elem.text(component.data().component + '!');
-                        },
+                     show: (elem, event, component) =&gt;
+                        elem.text(component.data().component + '!'),
                      setup: (elem) =&gt; {
                         const handle = (data) =&gt; dna.clone('my-book', data);
                         fetchJson.get(bookshelf.booksUrl).then(handle);
@@ -2339,9 +2342,8 @@
                <script>
                   const bookshelf = {
                      booksUrl: 'https://dnajs.org/rest/book/list/',
-                     show: (elem, event, component) => {
-                        elem.text(component.data().component + '!');
-                        },
+                     show: (elem, event, component) =>
+                        elem.text(component.data().component + '!'),
                      setup: (elem) => {
                         const handle = (data) => dna.clone('my-book', data);
                         fetchJson.get(bookshelf.booksUrl).then(handle);

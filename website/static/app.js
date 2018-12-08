@@ -5,6 +5,7 @@ const app = {
    setup: () => {
       app.nav.setup();
       app.documenation.setup();
+      $('.version-number').text(dna.version);
       }
    };
 
