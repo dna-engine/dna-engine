@@ -89,13 +89,11 @@ body >footer {
    }
 
 /* Sidebar */
-aside {
-   float: right;
-   width: 325px;
-   max-width: 100%;
-   margin-left: 40px;
+main >section aside {
+   background-color: white;
    }
 main h2+aside {
+   max-width: none;
    font-size: 0.8rem;
    text-align: center;
    background-color: gainsboro;
@@ -103,19 +101,6 @@ main h2+aside {
    border-radius: 2px;
    padding: 5px 15px;
    margin-bottom: 30px;
-   }
-main h2+aside h2 {
-   font-size: 1.0rem;
-   font-weight: bold;
-   text-align: center;
-   }
-main h2+aside header {
-   display: inline-block;
-   font-size: 0.8rem;
-   color: white;
-   background-color: gray;
-   padding: 3px 10px;
-   margin-bottom: 3px;
    }
 
 /* General style */
@@ -203,12 +188,6 @@ header .logo {
 header .logo img {
    height: 90px;
    opacity: 1;
-   }
-.side-image {
-   width: 260px;
-   background-color: white;
-   border: 1px solid silver;
-   padding: 15px;
    }
 
 .reveal-button {
@@ -452,10 +431,13 @@ figure.hljs-enhance .dna-panels {
    html {
       font-size: 90%;
       background: none;
-      background-color: ghostwhite;
+      background-color: aliceblue;
       }
    body {
       padding: 20px 10px;
+      }
+   body >header nav ul {
+      padding: 0px 40px;
       }
    header h1 {
       font-size: 1.6rem;
@@ -464,13 +446,6 @@ figure.hljs-enhance .dna-panels {
       font-size: 1.0rem;
       }
    main >h2 {
-      font-size: 1.0rem;
-      }
-   aside {
-      width: 280px;
-      margin: 0px 10px 10px 10px;
-      }
-   aside section {
       font-size: 1.0rem;
       }
    main.docs-page >section {
