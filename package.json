@@ -38,7 +38,7 @@
    },
    "scripts": {
       "web-server": "http-server -p 3482 &",
-      "pretest": "jshint *.js spec/*.js website/**/*.js && gulp build-dist",
+      "pretest": "jshint *.js spec website && gulp build-dist",
       "test": "mocha spec/*.js && env specMode=minified mocha spec/*.js",
       "posttest": "gulp report-size",
       "preweb": "gulp clean-web",
@@ -67,7 +67,7 @@
       "gulp-w3c-html-validator": "~1.4",
       "http-server": "~0.11",
       "jquery": "~3.3",
-      "jsdom": "~13.0",
+      "jsdom": "~13.1",
       "jshint": "~2.9",
       "merge-stream": "~1.0",
       "mocha": "~5.2",
