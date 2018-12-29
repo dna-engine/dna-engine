@@ -46,14 +46,12 @@ const dna = {
       while (settings.clones--)
          list = list.concat(data);
       let clones = $();
-      const addClone = (index, data) => {
+      const addClone = (index, data) =>
          clones = clones.add(dna.core.replicate(template, data, index, settings));
-         };
       $.each(list, addClone);
-      dna.placeholder.setup();  //TODO: optimize
-      const first = clones.first();
-      first.closest('.dna-menu, .dna-panels').each(dna.panels.refresh);
-      first.parents('.dna-hide').removeClass('dna-hide').addClass('dna-unhide');
+      dna.placeholder.setup();
+      dna.panels.initialize(clones.first().closest('.dna-panels'));
+      clones.first().parents('.dna-hide').removeClass('dna-hide').addClass('dna-unhide');
       return clones;
       },
    cloneSub: (holderClone, arrayField, data, options) => {
@@ -510,17 +508,17 @@ dna.panels = {
    // location bar.
    display: (menu, loc, updateUrl) => {
       // Shows the panel at the given index (loc)
-      let panels, panel;
-      const key = menu.data().dnaKey;
+      const panels =    menu.data().dnaPanels;
+      const key =       menu.data().dnaPanelsKey;
       const menuItems = menu.find('.menu-item');
       if (loc === undefined)
          loc = dna.pageToken.get(key, 0);
       loc = Math.max(0, Math.min(loc, menuItems.length - 1));
       menu[0].selectedIndex = loc;  //case where menu is a drop-down elem (<select>)
-      menuItems.removeClass('selected').addClass('unselected')
-         .eq(loc).addClass('selected').removeClass('unselected');
-      panels = $(key).children().hide().removeClass('displayed').addClass('hidden');
-      panel = panels.eq(loc).fadeIn().addClass('displayed').removeClass('hidden');
+      menuItems.removeClass('selected').addClass('unselected');
+      menuItems.eq(loc).addClass('selected').removeClass('unselected');
+      panels.hide().removeClass('displayed').addClass('hidden');
+      const panel = panels.eq(loc).fadeIn().addClass('displayed').removeClass('hidden');
       const hash = panel.data().hash;
       dna.pageToken.put(key, loc);
       if (updateUrl && hash)
@@ -538,27 +536,27 @@ dna.panels = {
       const menu = $(event.target);
       dna.panels.display(menu, menu.find('option:selected').index(), true);
       },
-   reload: (name) => {
-      // Refreshes the currently displayed panel
-      dna.panels.display($('#' + name));
-      },
-   refresh: (i, elem) => {
-      let menu = $(elem);
-      if (menu.hasClass('dna-panels'))  //special case for panels that are templates
-         menu = $('#' + menu.attr('id').replace(/-panels$/, '') + '-menu');
-      const hash = window.location.hash.slice(1);
-      const key = menu.data().dnaKey = '#' + menu.attr('id').replace(/-menu$/, '') + '-panels';
-      const panels = $(key).children().addClass('panel');
-      if (menu.find('.menu-item').length === 0)  //set .menu-item elems if not set in the html
-         menu.children().addClass('menu-item');
-      const partOfTemplate = (elems) => elems.first().closest('.dna-template').length > 0;
-      const findPanelLoc = (panels) => hash && panels.first().data().hash ?
-         panels.filter('[data-hash=' + hash + ']').index() : dna.pageToken.get(key, 0);
-      if (!partOfTemplate(panels) && !partOfTemplate(menu.children()))
-         dna.panels.display(menu, findPanelLoc(panels));
+   initialize: (panelHolder) => {
+      const initialized = 'dna-panels-initialized';
+      const init = () => {
+         const key =        '#' + panelHolder.attr('id').replace(/-panels$/, '');
+         const panels =     panelHolder.addClass(initialized).children().addClass('panel');
+         const menu =       $(key + '-menu').addClass(initialized);
+         const hash =       window.location.hash.slice(1);
+         const hashIndex =  () => panels.filter('[data-hash=' + hash + ']').index();
+         const savedIndex = () => dna.pageToken.get(key, 0);
+         const loc =        hash && panels.first().data().hash ? hashIndex() : savedIndex();
+         menu.data().dnaPanels = panels;
+         menu.data().dnaPanelsKey = key;
+         if (!menu.find('.menu-item').length)  //set .menu-item elems if not set in the html
+            menu.children().addClass('menu-item');
+         dna.panels.display(menu, loc);
+         };
+      if (panelHolder.length && !panelHolder.hasClass(initialized) && !panelHolder.children().hasClass('dna-template'))
+         init();
       },
    setup: () => {
-      $('.dna-menu').each(dna.panels.refresh);
+      $('.dna-panels').each((i, elem) => dna.panels.initialize($(elem)));
       $(window.document).on({ click:  dna.panels.clickRotate },  '.dna-menu .menu-item');
       $(window.document).on({ change: dna.panels.selectRotate }, '.dna-menu');
       }
