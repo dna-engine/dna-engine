@@ -11,29 +11,30 @@
 <link rel=icon       href=https://dnajs.org/graphics/bookmark.png>
 <link rel=stylesheet href=../dna.css>
 <style>
-   body            { font-family: system-ui, sans-serif; margin: 30px; }
-   main            { max-width: 500px; }
-   .books .book    { background-color: lightsteelblue; padding: 10px; margin-bottom: 20px; }
-   .books .book h2 { margin: 0px; }
+   body               { font-family: system-ui, sans-serif; margin: 30px; }
+   main               { max-width: 500px; }
+   book-list .book    { background-color: lightsteelblue; padding: 10px; margin-bottom: 20px; }
+   book-list .book h2 { margin: 0px; }
 </style>
 </head>
 <body>
 
 <main>
    <h1>Books</h1>
-   <div class=books>
+   <book-list>
       <section id=book class=dna-template data-attr-id=~~id~~>
          <h2>~~title~~</h2>
-         Author: <b>~~author~~</b>
+         Author: <cite>~~author~~</cite>
          <div>
             <select data-option=~~color~~>
                <option disabled selected>Select a color</option>
+               <option disabled>--------------</option>
                <option data-array=~~colors~~ value=~~code~~>~~name~~</option>
             </select>
             <code>~~color~~</code>
          </div>
       </section>
-   </div>
+   </book-list>
 </main>
 
 <script src=https://cdn.jsdelivr.net/npm/jquery@3.3/dist/jquery.min.js></script>
@@ -49,12 +50,15 @@
          { code: 'r', name: 'Red' },
          { code: 'b', name: 'Blue' }
          ],
+      doSomeStuff: () => {
+         const addCodes = (book) => book.colors = app.colors;
+         dna.clone('book', app.books, { transform: addCodes });
+         },
       setup: () => {
          const makePageRed = () => $('body').css({ backgroundColor: 'pink' });
          window.onerror = makePageRed;
          const start = Date.now();
-         const addCodes = (book) => book.colors = app.colors;
-         dna.clone('book', app.books, { transform: addCodes });
+         app.doSomeStuff(),
          console.log('Run time (ms):', Date.now() - start);
          console.log(dna.info());
          console.log(dna.getModel('book'));
