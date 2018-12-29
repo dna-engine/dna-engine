@@ -67,7 +67,7 @@
       <div class=book-list>
          <div id=s01-book class=dna-template>
             <div>Title:  <span>~~title~~</span></div>
-            <div>Author: <span>~~author~~</span></div>
+            <div>Author: <cite>~~author~~</cite></div>
          </div>
       </div>
    </fieldset>
@@ -76,11 +76,11 @@
       <div class=book-list>
          <div class=dna-clone>
             <div>Title:  <span>The DOM</span></div>
-            <div>Author: <span>Jan</span></div>
+            <div>Author: <cite>Jan</cite></div>
          </div>
          <div class=dna-clone>
             <div>Title:  <span>Howdy HTML5</span></div>
-            <div>Author: <span>Ed</span></div>
+            <div>Author: <cite>Ed</cite></div>
          </div>
       </div>
    </fieldset>
@@ -111,7 +111,7 @@ spec.spec01 = {
          <div id=s02-book class=dna-template>
             <div data-class=class>Title: <span>{{title}}</span></div>
             <div data-class=~~sale,wow,color-change~~>
-               Author: <span data-class=~~sale,color-change~~>{{author}}</span>
+               Author: <cite data-class=~~sale,color-change~~>{{author}}</cite>
             </div>
          </div>
          <hr>
@@ -123,7 +123,7 @@ spec.spec01 = {
          <hr>
          <div class=dna-clone>
             <div class=color-change>Title: <span class=color-change2>The One</span></div>
-            <div class=color-change>Author: <span>Lee</span></div>
+            <div class=color-change>Author: <cite>Lee</cite></div>
          </div>
          <hr>
       </div>
@@ -154,7 +154,7 @@ spec.spec02 = {
          <hr>
          <div id=s03-book class=dna-template>
             <div>Title:  <span>~~title~~</span></div>
-            <div>Author: <span>~~author~~</span></div>
+            <div>Author: <cite>~~author~~</cite></div>
          </div>
          <hr>
       </div>
@@ -165,15 +165,15 @@ spec.spec02 = {
          <hr>
          <div class=dna-clone>
             <div>Title:  <span>3rd</span></div>
-            <div>Author: <span>Jan</span></div>
+            <div>Author: <cite>Jan</cite></div>
          </div>
          <div class=dna-clone>
             <div>Title:  <span>2nd</span></div>
-            <div>Author: <span>Jan</span></div>
+            <div>Author: <cite>Jan</cite></div>
          </div>
          <div class="dna-clone color-change">
             <div>Title:  <span>1<sup>st</sup> &bull;</span></div>
-            <div>Author: <span>Jan</span></div>
+            <div>Author: <cite>Jan</cite></div>
          </div>
          <hr>
       </div>
@@ -202,7 +202,7 @@ spec.spec03 = {
       <div class=book-list>
          <div id=s04-book class=dna-template>
             <div>Title:  <span>~~title~~</span></div>
-            <div>Author: <span>~~author~~</span></div>
+            <div>Author: <cite>~~author~~</cite></div>
             <div>Cover: <img data-attr-src=~~image~~ src=# alt=cover></div>
          </div>
       </div>
@@ -212,7 +212,7 @@ spec.spec03 = {
       <div class=book-list>
          <div class=dna-clone>
             <div>Title:  <span>&lt;b&gt;Text&lt;/b&gt;&amp;bull;</span></div>
-            <div>Author: <span>Lee</span></div>
+            <div>Author: <cite>Lee</cite></div>
             <div>Cover: <img src=https://dnajs.org/graphics/dnajs-logo.png alt=cover></div>
          </div>
       </div>
@@ -244,25 +244,25 @@ spec.spec04 = {
       <div class=book-list>
          <div class=dna-clone>
             <div>Title:    <span>1st!!</span></div>
-            <div>Author:   <span>Lee</span></div>
+            <div>Author:   <cite>Lee</cite></div>
             <div>Code:     <span>1100</span></div>
             <div>Location: <span>1</span></div>
          </div>
          <div class=dna-clone>
             <div>Title:  <span>2nd!!</span></div>
-            <div>Author: <span>Jan</span></div>
+            <div>Author: <cite>Jan</cite></div>
             <div>Code:   <span>900</span></div>
             <div>Location: <span>2</span></div>
          </div>
          <div class="dna-clone color-change">
             <div>Title:  <span>1st!!!</span></div>
-            <div>Author: <span>Lee</span></div>
+            <div>Author: <cite>Lee</cite></div>
             <div>Code:   <span>1100</span></div>
             <div>Location: <span>3</span></div>
          </div>
          <div class="dna-clone color-change">
             <div>Title:  <span>2nd!!!</span></div>
-            <div>Author: <span>Jan</span></div>
+            <div>Author: <cite>Jan</cite></div>
             <div>Code:   <span>900</span></div>
             <div>Location: <span>4</span></div>
          </div>
@@ -274,7 +274,7 @@ spec.spec05 = {
    html:
       '<div data-transform=spec.spec05.generateCode>' +
       '   <div>Title:    <span>~~title~~</span></div>' +
-      '   <div>Author:   <span>~~author~~</span></div>' +
+      '   <div>Author:   <cite>~~author~~</cite></div>' +
       '   <div>Code:     <span>~~code~~</span></div>' +
       '   <div>Location: <span>~~[count]~~</span></div>' +
       '</div>',
@@ -342,7 +342,7 @@ spec.spec06 = {
       <legend>Actual</legend>
       <div class=book-list>
          <div id=s07-book class=dna-template>
-            <div>Author: <span>~~author.name~~</span></div>
+            <div>Author: <cite>~~author.name~~</cite></div>
             <div>
                <div id=s07-book-chapter class=dna-template>
                   <div>Chapter: <span>~~header~~</span><span>~~author.name~~</span></div>
@@ -355,12 +355,12 @@ spec.spec06 = {
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone>
-            <div>Author: <span>Ed</span></div>
+            <div>Author: <cite>Ed</cite></div>
             <div>
             </div>
          </div>
          <div class=dna-clone>
-            <div>Author: <span>Jan</span></div>
+            <div>Author: <cite>Jan</cite></div>
             <div>
                <div class="dna-clone color-change">
                   <div>Chapter: <span>Preface</span><span></span></div>
@@ -372,7 +372,7 @@ spec.spec06 = {
             </div>
          </div>
          <div class=dna-clone>
-            <div>Author: <span>Lee</span></div>
+            <div>Author: <cite>Lee</cite></div>
             <div>
             </div>
          </div>
@@ -512,7 +512,7 @@ spec.spec08 = {
       <div class=book-list>
          <div id=s09-book class=dna-template>
             <div>Title:  <span>~~title~~</span></div>
-            <div>Author: <span>~~author~~</span></div>
+            <div>Author: <cite>~~author~~</cite></div>
          </div>
       </div>
    </fieldset>
@@ -521,11 +521,11 @@ spec.spec08 = {
       <div class=book-list>
          <div class=dna-clone>
             <div>Title:  <span>Go JavaScript</span></div>
-            <div>Author: <span>Jake</span></div>
+            <div>Author: <cite>Jake</cite></div>
          </div>
          <div class=dna-clone>
             <div>Title:  <span>Styling CSS3</span></div>
-            <div>Author: <span>Abby</span></div>
+            <div>Author: <cite>Abby</cite></div>
          </div>
       </div>
    </fieldset>
@@ -599,7 +599,7 @@ spec.spec10 = {
                <span data-require=~~title~~>~~title~~</span>
                <span data-missing=~~title~~><i>[Gone with the Wind]</i></span>
             </div>
-            <div data-require=~~author~~>Author: <span>~~author~~</span></div>
+            <div data-require=~~author~~>Author: <cite>~~author~~</cite></div>
             <div data-missing=~~author~~><i>[no author]</i></div>
             <div data-true=~~available~~>Available</div>
             <div data-false=~~available~~>Out of stock</div>
@@ -615,7 +615,7 @@ spec.spec10 = {
             <div>Title:
                <span><i>[Gone with the Wind]</i></span>
             </div>
-            <div>Author: <span>Jan</span></div>
+            <div>Author: <cite>Jan</cite></div>
             <div>Available</div>
             <div>ON SALE!</div>
          </div>
@@ -656,7 +656,7 @@ spec.spec11 = {
             <span>
                <span data-array=~~authors~~ data-author=~~[value]~~>
                   (<span>~~[count]~~</span>)
-                  <span>~~[value]~~</span>
+                  <cite>~~[value]~~</cite>
                </span>
             </span>
             <div class=color-change data-array=~~chapters~~>
@@ -682,9 +682,9 @@ spec.spec11 = {
             <div>Title: <span>Howdy HTML5</span></div>
             Authors:
             <span>
-               <span class=dna-clone> (1) <span>Ed</span> </span>
-               <span class="dna-clone color-change2"> (2) <span>Jake</span> </span>
-               <span class=dna-clone> (3) <span>Abby</span> </span>
+               <span class=dna-clone> (1) <cite>Ed</cite> </span>
+               <span class="dna-clone color-change2"> (2) <cite>Jake</cite> </span>
+               <span class=dna-clone> (3) <cite>Abby</cite> </span>
             </span>
             <div class="dna-clone color-change"><span data-type=front>1. front</span>:
             <span class=id-front>Preface &amp;star;</span></div>
@@ -701,9 +701,9 @@ spec.spec11 = {
             <div>Title: <span>Howdy HTML5</span></div>
             Authors:
             <span>
-               <span class=dna-clone> (1) <span>Ed</span> </span>
-               <span class="dna-clone color-change2"> (2) <span>Jake</span> </span>
-               <span class=dna-clone> (3) <span>Abby</span> </span>
+               <span class=dna-clone> (1) <cite>Ed</cite> </span>
+               <span class="dna-clone color-change2"> (2) <cite>Jake</cite> </span>
+               <span class=dna-clone> (3) <cite>Abby</cite> </span>
             </span>
             <div class="dna-clone color-change"><span data-type=front>1. front</span>:
             <span class=id-front>Preface &star;</span></div>
@@ -1154,7 +1154,7 @@ spec.spec16 = {
          <button>View book data</button>
          <div id=s17-book class=dna-template>
             <div>Title:  <b>~~title~~</b></div>
-            <div>Author: <b>~~author~~</b></div>
+            <div>Author: <cite>~~author~~</cite></div>
          </div>
          <script>
             const bookshelf = {
@@ -1181,15 +1181,15 @@ spec.spec16 = {
          <button>View book data</button>
          <div class=dna-clone>
             <div>Title:  <b>Go JavaScript</b></div>
-            <div>Author: <b>Jake</b></div>
+            <div>Author: <cite>Jake</cite></div>
          </div>
          <div class=dna-clone>
             <div>Title:  <b>Styling CSS</b></div>
-            <div>Author: <b>Abby</b></div>
+            <div>Author: <cite>Abby</cite></div>
          </div>
          <div class=dna-clone>
             <div>Title:  <b>Howdy HTML5</b></div>
-            <div>Author: <b>Ed</b></div>
+            <div>Author: <cite>Ed</cite></div>
          </div>
       </div>
    </fieldset>
@@ -1256,7 +1256,7 @@ spec.spec18 = {
       <div id=s19-books-panels class=dna-panels>
          <section id=s19-book class=dna-template data-transform=spec.spec19.enhance>
             <h2>~~title~~</h2>
-            <p>~~author~~</p>
+            <cite>~~author~~</cite>
             <p>~~displayPrice~~</p>
             <p data-true=sale>On SALE</p>
          </section>
@@ -1272,7 +1272,7 @@ spec.spec18 = {
       <div>
          <section class="dna-clone border-change">
             <h2>Styling CSS3</h2>
-            <p>Abby</p>
+            <cite>Abby</cite>
             <p>$19.99</p>
             <p>On SALE</p>
          </section>
@@ -1382,8 +1382,8 @@ spec.spec20 = {
       </select>
       <div id=s21-author-info-panels class=dna-panels>
          <section id=s21-book-author class=dna-template>
-            <p>Author:   <b>~~author~~</b></p>
-            <p>Language: <b>~~language~~</b></p>
+            <p>Author:   <cite>~~author~~</cite></p>
+            <p>Language: <code>~~language~~</code></p>
          </section>
       </div>
    </fieldset>
@@ -1396,8 +1396,8 @@ spec.spec20 = {
       </select>
       <div>
          <section class=dna-clone>
-            <p>Author:   <b>Abby</b></p>
-            <p>Language: <b>fr</b></p>
+            <p>Author:   <cite>Abby</cite></p>
+            <p>Language: <code>fr</code></p>
          </section>
       </div>
    </fieldset>

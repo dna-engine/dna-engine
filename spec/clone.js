@@ -20,7 +20,7 @@ const html = `
       <section class=books>
          <div id=book class=dna-template>
             <h2>~~title~~</h2>
-            Author: <b class=author>~~author~~</b>
+            Author: <cite>~~author~~</cite>
          </div>
       </section>
    </body>
@@ -56,7 +56,7 @@ describe('Template cloning function dna.clone()', () => {
       });
 
    it('creates a book with the correct author', () => {
-      const actual   = { author: $('.book .author').text() };
+      const actual   = { author: $('.book cite').text() };
       const expected = { author: bookCatalog[0].author };
       assert.deepEqual(actual, expected);
       });

@@ -3,6 +3,7 @@
 <head>
 <meta charset=utf-8>
 <title>Bookstore</title>
+<link rel=icon href=https://dnajs.org/graphics/bookmark.png>
 <style>
    body   { font-family: system-ui, sans-serif; margin: 30px; }
    .books { width: 250px; }
@@ -15,7 +16,7 @@
 <section class=books data-ng-controller=BooksController>
    <div class=book data-ng-repeat="book in books">
       <h2>{{book.title}}</h2>
-      Author: <b>{{book.author}}</b>
+      Author: <cite>{{book.author}}</cite>
    </div>
 </section>
 
