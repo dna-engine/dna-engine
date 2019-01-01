@@ -1,5 +1,5 @@
 // dna.js Website ~~ dnajs.org ~~ MIT
-// Copyright (c) 2013-2018 individual contributors to dna.js
+// Copyright (c) 2013-2019 individual contributors to dna.js
 
 const app = {
    setup: () => {
