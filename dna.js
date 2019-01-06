@@ -170,7 +170,8 @@ const dna = {
       },
    info: () => {
       // Returns status information about templates on the current web page.
-      const names = Object.keys(dna.store.templates);
+      const names =  Object.keys(dna.store.templates);
+      const panels = $('.dna-menu.dna-panels-initialized');
       return {
          version:      dna.version,
          templates:    names.length,
@@ -178,7 +179,8 @@ const dna = {
          subs:         $('.dna-sub-clone').length,
          names:        names,
          store:        dna.store.templates,
-         initializers: dna.events.initializers
+         initializers: dna.events.initializers,
+         panels:       panels.toArray().map(elem => $(elem).attr('data-nav'))
          };
       }
    };
@@ -537,6 +539,7 @@ dna.panels = {
       const menu = $(event.target);
       dna.panels.display(menu, menu.find('option:selected').index(), true);
       },
+   nextNav: 1,
    initialize: (panelHolder) => {
       const initialized = 'dna-panels-initialized';
       const supportLegacyIDs = (navName) => {  //TODO: remove backward compatibility
@@ -545,7 +548,7 @@ dna.panels = {
          panelHolder.data().nav = navName;
          };
       const generateNavName = () => {
-         const navName = (Math.random() + '').substring(2);
+         const navName = 'dna-panels-' + dna.panels.nextNav++;
          panelHolder.attr('data-nav', navName).prev('.dna-menu').attr('data-nav', navName);
          return navName;
          };

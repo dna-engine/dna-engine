@@ -1250,10 +1250,10 @@ spec.spec18 = {
    <p>Panels - nav buttons</p>
    <fieldset>
       <legend>Actual</legend>
-      <nav class=dna-menu data-nav=s19-books data-callback=spec.spec19.displayPanel>
+      <nav class=dna-menu data-callback=spec.spec19.displayPanel>
          <button id=s19-book-title class=dna-template>~~title~~</button>
       </nav>
-      <div class=dna-panels data-nav=s19-books>
+      <div class=dna-panels>
          <section id=s19-book class=dna-template data-transform=spec.spec19.enhance>
             <h2>~~title~~</h2>
             <cite>~~author~~</cite>
@@ -1289,7 +1289,7 @@ spec.spec19 = {
    run: () => {
       dna.clone('s19-book-title', specRunner.catalog);
       dna.clone('s19-book',       specRunner.catalog);
-      $('.dna-menu[data-nav=s19-books] .menu-item:contains(Styling CSS3)').click();
+      $('#spec19 .dna-menu .menu-item:contains(Styling CSS3)').click();
       }
    };
 </script>
@@ -1300,7 +1300,7 @@ spec.spec19 = {
    <p>Panels - nested</p>
    <fieldset>
       <legend>Actual</legend>
-      <ul class=dna-menu>
+      <ul class=dna-menu data-nav=s20-books>
          <li><div>Web</div>
             <ul>
                <li><div>Technologies</div>
@@ -1323,7 +1323,7 @@ spec.spec19 = {
             </ol>
          </li>
       </ul>
-      <div class=dna-panels>
+      <div class=dna-panels data-nav=s20-books>
          <p>HTML!</p>
          <p>CSS!</p>
          <p>W3C!</p>
@@ -1376,11 +1376,11 @@ spec.spec20 = {
    <p>Panels - drop-down</p>
    <fieldset>
       <legend>Actual</legend>
-      <select class=dna-menu data-nav=s21-author-info>
+      <select class=dna-menu>
          <option id=s21-book-author-nav-button class=dna-template
             value=~~author~~>~~author~~</option>
       </select>
-      <div class=dna-panels data-nav=s21-author-info>
+      <div class=dna-panels>
          <section id=s21-book-author class=dna-template>
             <p>Author:   <cite>~~author~~</cite></p>
             <p>Language: <code>~~language~~</code></p>
@@ -1407,7 +1407,7 @@ spec.spec21 = {
    run: () => {
       dna.clone('s21-book-author-nav-button', specRunner.catalog);
       dna.clone('s21-book-author',            specRunner.catalog);
-      $('.dna-menu[data-nav=s21-author-info]').val('Abby').change();
+      $('#spec21 .dna-menu').val('Abby').change();
       }
    };
 </script>
