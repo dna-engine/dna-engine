@@ -496,23 +496,24 @@ dna.panels = {
    // Each click of a menu item displays its corresponding panel and optionally passes the panel
    // element and hash to the function specified by the "data-callback" attribute.
    // Usage:
-   //    <nav id={NAME}-menu class=dna-menu data-callback=app.displayPanel>
+   //    <nav class=dna-menu data-nav={NAME} data-callback=app.displayPanel>
    //       <button>See X1</button>
    //       <button>See X2</button>
    //    </nav>
-   //    <div id={NAME}-panels class=dna-panels>
+   //    <div class=dna-panels data-nav={NAME}>
    //       <section data-hash=x1>The X1</section>
    //       <section data-hash=x2>The X2</section>
    //    </div>
    // The optional "data-hash" attribute specifies the hash (URL fragment ID) and updates the
-   // location bar.
+   // location bar.  The "data-nav" attributes can be omitted if the ".dna-panels" element
+   // immediately follows the ".dna-menu" element.
    display: (menu, loc, updateUrl) => {
       // Shows the panel at the given index (loc)
       const panels =    menu.data().dnaPanels;
-      const key =       menu.data().dnaPanelsKey;
+      const navName =   menu.data().nav;
       const menuItems = menu.find('.menu-item');
       if (loc === undefined)
-         loc = dna.pageToken.get(key, 0);
+         loc = dna.pageToken.get(navName, 0);
       loc = Math.max(0, Math.min(loc, menuItems.length - 1));
       menu[0].selectedIndex = loc;  //case where menu is a drop-down elem (<select>)
       menuItems.removeClass('selected').addClass('unselected');
@@ -520,7 +521,7 @@ dna.panels = {
       panels.hide().removeClass('displayed').addClass('hidden');
       const panel = panels.eq(loc).fadeIn().addClass('displayed').removeClass('hidden');
       const hash = panel.data().hash;
-      dna.pageToken.put(key, loc);
+      dna.pageToken.put(navName, loc);
       if (updateUrl && hash)
          window.history.pushState(null, null, '#' + hash);
       dna.util.apply(menu.data().callback, [panel, hash]);
@@ -538,16 +539,29 @@ dna.panels = {
       },
    initialize: (panelHolder) => {
       const initialized = 'dna-panels-initialized';
+      const supportLegacyIDs = (navName) => {  //TODO: remove backward compatibility
+         panelHolder.attr('data-nav', navName).addClass('dna-legacy-id');
+         $('#' + navName + '-menu').attr('data-nav', navName).addClass('dna-legacy-id');
+         panelHolder.data().nav = navName;
+         };
+      const generateNavName = () => {
+         const navName = (Math.random() + '').substring(2);
+         panelHolder.attr('data-nav', navName).prev('.dna-menu').attr('data-nav', navName);
+         return navName;
+         };
       const init = () => {
-         const key =        '#' + panelHolder.attr('id').replace(/-panels$/, '');
+         if (!panelHolder.data().nav && /-panels$/.test(panelHolder.attr('id')))
+            supportLegacyIDs(panelHolder.attr('id').replace(/-panels$/, ''));
+         const navName =    panelHolder.data().nav || generateNavName();
+         const menu =       $('.dna-menu[data-nav=' + navName + ']').addClass(initialized);
          const panels =     panelHolder.addClass(initialized).children().addClass('panel');
-         const menu =       $(key + '-menu').addClass(initialized);
          const hash =       window.location.hash.slice(1);
          const hashIndex =  () => panels.filter('[data-hash=' + hash + ']').index();
-         const savedIndex = () => dna.pageToken.get(key, 0);
+         const savedIndex = () => dna.pageToken.get(navName, 0);
          const loc =        hash && panels.first().data().hash ? hashIndex() : savedIndex();
+         if (!menu.length)
+            dna.core.berserk('Menu not found for panels: ' + navName);
          menu.data().dnaPanels = panels;
-         menu.data().dnaPanelsKey = key;
          if (!menu.find('.menu-item').length)  //set .menu-item elems if not set in the html
             menu.children().addClass('menu-item');
          dna.panels.display(menu, loc);
@@ -1074,7 +1088,7 @@ dna.core = {
       return clone;
       },
    berserk: (message) => {  //oops, file a tps report
-      throw new Error('dna.js -> ' + message);
+      throw Error('dna.js -> ' + message);
       },
    plugin: function() {
       // Example:

@@ -120,6 +120,7 @@
             <li>
                <a href=#panels>Panels (UI Tabs)</a>
                <ol>
+                  <li><a href=#panels-basics>Basics</a></li>
                   <li><a href=#panels-example>Example</a></li>
                   <li><a href=#panels-template>Template-Driven Panels</a></li>
                   <li><a href=#panels-routes>Panel Routes</a></li>
@@ -2390,13 +2391,44 @@
          Panels are content elements associated with menu items.&nbsp;
          When the user clicks a menu item, the corresponding panel is displayed (faded in) and the panel
          element is passed to the callback.&nbsp;
-         Think of dna.js panels as a minimalistic implementation of jQuery UI tabs stripped of all
-         styling.
       </p>
    </div>
 
+   <section id=panels-basics>
+      <h4>Panel basics</h4>
+      <p>
+         Add the <code>dna-menu</code> class to the container of clickable menu items.&nbsp;
+         Add the <code>dna-panels</code> class to the container of panel elements.
+      </p>
+      <figure>
+         <figcaption>Basic format for panels</figcaption>
+         <pre><code class=language-html>
+            &lt;nav class=dna-menu data-nav=author-info&gt;
+               &lt;span&gt;Menu item #1&lt;/span&gt;
+               &lt;span&gt;Menu item #2&lt;/span&gt;
+               &lt;span&gt;Menu item #3&lt;/span&gt;
+            &lt;/nav&gt;
+            &lt;div class=dna-panels data-nav=author-info&gt;
+               &lt;section&gt;Content of panel #1&lt;/section&gt;
+               &lt;section&gt;Content of panel #2&lt;/section&gt;
+               &lt;section&gt;Content of panel #3&lt;/section&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <p>
+         Link the menu to the panels by setting their respective <code>data-nav</code> attributes
+         to the same name.&nbsp;
+         The <code>data-nav</code> attributes can be omitted if the panels container immediately
+         follows the menu items container.
+      </p>
+      <p>
+         For an example of tabbed panel navigation, check out DataDashboard:<br>
+         <a href=https://data-dashboard.js.org class=external-site>https://data-dashboard.js.org</a>
+      </p>
+   </section>
+
    <section id=panels-example>
-      <h4>Example</h4>
+      <h4>Example panels</h4>
       <p>
          The interactive example below displays information for the user selected author.
       </p>
@@ -2430,12 +2462,12 @@
             &lt;div data-component=author&gt;
                &lt;h2&gt;Author Information&lt;/h2&gt;
                Select:
-               &lt;ul id=author-info-menu class=dna-menu&gt;
+               &lt;ul class=dna-menu data-nav=author-info&gt;
                   &lt;li&gt;Jake&lt;/li&gt;
                   &lt;li&gt;Abby&lt;/li&gt;
                   &lt;li&gt;Ed&lt;/li&gt;
                &lt;/ul&gt;
-               &lt;div id=author-info-panels class=dna-panels&gt;
+               &lt;div class=dna-panels data-nav=author-info&gt;
                   &lt;section&gt;
                      &lt;h5&gt;Name: Jake&lt;/h5&gt;
                      &lt;p&gt;Publisher: O'Reilly&lt;/p&gt;
@@ -2463,12 +2495,12 @@
             <div data-component=author>
                <h2>Author Information</h2>
                Select:
-               <ul id=author-info-menu class=dna-menu>
+               <ul class=dna-menu data-nav=author-info>
                   <li>Jake</li>
                   <li>Abby</li>
                   <li>Ed</li>
                </ul>
-               <div id=author-info-panels class=dna-panels>
+               <div class=dna-panels data-nav=author-info>
                   <section>
                      <h5>Name: Jake</h5>
                      <p>Publisher: O'Reilly</p>
@@ -2513,12 +2545,12 @@
          <pre><code class=language-html>
             &lt;div data-component=book-catalog data-on-load=bookCatalog.setup&gt;
                &lt;h2&gt;Book Catalog&lt;/h2&gt;
-               &lt;nav id=book-catalog-menu class=dna-menu&gt;
+               &lt;nav class=dna-menu data-nav=book-catalog&gt;
                   &lt;button id=book-menu-item class=dna-template&gt;
                      ~~[count]~~
                   &lt;/button&gt;
                &lt;/nav&gt;
-               &lt;div id=book-catalog-panels class=dna-panels&gt;
+               &lt;div class=dna-panels data-nav=book-catalog&gt;
                   &lt;section id=book-panel class=dna-template
                         data-transform=bookCatalog.addCover&gt;
                      &lt;h4&gt;~~title~~&lt;/h4&gt;
@@ -2553,12 +2585,12 @@
          <div>
             <div data-component=book-catalog data-on-load=bookCatalog.setup>
                <h2>Book Catalog</h2>
-               <nav id=book-catalog-menu class=dna-menu>
+               <nav class=dna-menu data-nav=book-catalog>
                   <button id=book-menu-item class=dna-template>
                      ~~[count]~~
                   </button>
                </nav>
-               <div id=book-catalog-panels class=dna-panels>
+               <div class=dna-panels data-nav=book-catalog>
                   <section id=book-panel class=dna-template
                         data-transform=bookCatalog.addCover>
                      <h4>~~title~~</h4>
@@ -2606,12 +2638,12 @@
          <figcaption>Example HTML</figcaption>
          <pre><code class=language-html>
                &lt;h2&gt;Publishers&lt;/h2&gt;
-               &lt;nav id=publisher-info-menu class=dna-menu data-callback=updatePanel&gt;
+               &lt;nav class=dna-menu data-nav=publisher-info data-callback=updatePanel&gt;
                   &lt;button&gt;Pearson&lt;/button&gt;
                   &lt;button&gt;Shueisha&lt;/button&gt;
                   &lt;button&gt;Wiley&lt;/button&gt;
                &lt;/nav&gt;
-               &lt;div id=publisher-info-panels class=dna-panels&gt;
+               &lt;div class=dna-panels data-nav=publisher-info&gt;
                   &lt;section data-hash=pearson&gt;
                      &lt;h2&gt;Pearson&lt;/h2&gt;
                      &lt;p&gt;UK&lt;/p&gt;
@@ -2646,12 +2678,12 @@
          <div>
             <div>
                <h2>Publishers</h2>
-               <nav id=publisher-info-menu class=dna-menu data-callback=updatePanel>
+               <nav class=dna-menu data-nav=publisher-info data-callback=updatePanel>
                   <button>Pearson</button>
                   <button>Shueisha</button>
                   <button>Wiley</button>
                </nav>
-               <div id=publisher-info-panels class=dna-panels>
+               <div class=dna-panels data-nav=publisher-info>
                   <section data-hash=pearson>
                      <h2>Pearson</h2>
                      <p>UK</p>
@@ -2692,12 +2724,12 @@
          <figcaption>Example HTML for flat tabs styling</figcaption>
          <pre><code class=language-html>
                &lt;h2&gt;Book format&lt;/h2&gt;
-               &lt;nav id=book-format-menu class=dna-menu data-style=flat-tabs&gt;
+               &lt;nav class=dna-menu data-nav=book-format data-style=flat-tabs&gt;
                   &lt;span&gt;Hardcover&lt;/span&gt;
                   &lt;span&gt;Paperback&lt;/span&gt;
                   &lt;span&gt;eBook&lt;/span&gt;
                &lt;/nav&gt;
-               &lt;div id=book-format-panels class=dna-panels&gt;
+               &lt;div class=dna-panels data-nav=book-format&gt;
                   &lt;p&gt;Hardcovers are the nicest.&lt;/p&gt;
                   &lt;p&gt;Paperbacks are the easiest.&lt;/p&gt;
                   &lt;p&gt;EBooks are the future.&lt;/p&gt;
@@ -2711,12 +2743,12 @@
          <div>
             <div>
                <h2>Book format</h2>
-               <nav id=book-format-menu class=dna-menu data-style=flat-tabs>
+               <nav class=dna-menu data-nav=book-format data-style=flat-tabs>
                   <span>Hardcover</span>
                   <span>Paperback</span>
                   <span>eBook</span>
                </nav>
-               <div id=book-format-panels class=dna-panels>
+               <div class=dna-panels data-nav=book-format>
                   <p>Hardcovers are the nicest.</p>
                   <p>Paperbacks are the easiest.</p>
                   <p>eBooks are the future.</p>
@@ -2730,12 +2762,12 @@
          <figcaption>Example HTML for pillbox tabs</figcaption>
          <pre><code class=language-html>
                &lt;h2&gt;Book type&lt;/h2&gt;
-               &lt;nav id=book-type-menu class=dna-menu data-style=pillbox-tabs&gt;
+               &lt;nav class=dna-menu data-nav=book-type data-style=pillbox-tabs&gt;
                   &lt;span&gt;Action&lt;/span&gt;
                   &lt;span&gt;Mystery&lt;/span&gt;
                   &lt;span&gt;Sciense Fiction&lt;/span&gt;
                &lt;/nav&gt;
-               &lt;div id=book-type-panels class=dna-panels&gt;
+               &lt;div class=dna-panels data-nav=book-type&gt;
                   &lt;p&gt;Action books&lt;/p&gt;
                   &lt;p&gt;Mystery books&lt;/p&gt;
                   &lt;p&gt;Science fiction books are the best!&lt;/p&gt;
@@ -2749,12 +2781,12 @@
          <div>
             <div>
                <h2>Book type</h2>
-               <nav id=book-type-menu class=dna-menu data-style=pillbox-tabs>
+               <nav class=dna-menu data-nav=book-type data-style=pillbox-tabs>
                   <span>Action</span>
                   <span>Mystery</span>
                   <span>Science fiction</span>
                </nav>
-               <div id=book-type-panels class=dna-panels>
+               <div class=dna-panels data-nav=book-type>
                   <p>Action books rock!</p>
                   <p>Mystery books rule!</p>
                   <p>Science fiction books are the best!</p>
