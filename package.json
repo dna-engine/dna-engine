@@ -39,7 +39,7 @@
    "scripts": {
       "web-server": "http-server -p 3482 &",
       "pretest": "jshint *.js spec website && gulp build-dist",
-      "test": "mocha spec/*.js && env specMode=minified mocha spec/*.js",
+      "test": "mocha spec && env specMode=minified mocha spec",
       "posttest": "gulp report-size",
       "preweb": "gulp clean-web",
       "web": "export dnaReleasedVersion=$(git tag | tail -1) && gulp build-web",
