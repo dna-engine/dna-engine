@@ -57,8 +57,9 @@ describe('Function dna.info()', () => {
          clones:       0,
          subs:         0,
          names:        [],
-         store:        { },
-         initializers: []
+         store:        {},
+         initializers: [],
+         panels:       []
          };
       assert.deepEqual(actual, expected);
       });
