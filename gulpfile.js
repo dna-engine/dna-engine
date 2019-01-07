@@ -26,8 +26,8 @@ const linkInfo = {
       bookFinder:     '0u3f6ab5',
       dataClick:      'zry7b8fm',
       liveModel:      'qnpsh5cw',
-      panelsClick:    'w4t6zrnj',
-      panelsDropDown: 'r16deufb',
+      panelsClick:    'o4amg5jx',
+      panelsDropDown: 'zfwe3m8o',
       photoUpload:    'bcyqdep8',
       smartUpdates:   'ab4hgvL5',
       toDo:           'uLrc7kmp'

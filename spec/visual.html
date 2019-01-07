@@ -913,13 +913,13 @@ spec.spec15 = {
       dna.registerInitializer(spec.spec15.surround2);  //apply to each clone
       const titles = ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE'];
       dna.clone('s15-book', titles);
-      $('.s15-book button.2').click(dna.bye);  //add handler
+      $('.s15-book button.2').on({ click: dna.bye });  //add handler
       const getClone = (count) => {
          return $('.s15-book .count:contains(' + count + ')').closest('.dna-clone');
          };
-      getClone(1).find('button.1').click();                  //nuke 1st (bye w/data-click)
-      getClone(2).find('button.2').click();                  //nuke 2nd (bye w/event handler)
-      getClone(8).find('button.3').click();                  //nuke 8th (remove w/dna click callback)
+      getClone(1).find('button.1').trigger('click');         //nuke 1st (bye w/data-click)
+      getClone(2).find('button.2').trigger('click');         //nuke 2nd (bye w/event handler)
+      getClone(8).find('button.3').trigger('click');         //nuke 8th (remove w/dna click callback)
       dna.bye(getClone(4));                                  //nuke 4th (bye w/jQuery elem)
       dna.getClone(getClone(7).find('span:last')).remove();  //nuke 7th (remove w/sub-node)
       getClone(6).each(dna.bye);                             //nuke 6th (bye w/jQuery loop)
@@ -1128,15 +1128,15 @@ spec.spec16 = {
          note:       'Award winning'
          };
       const clone = dna.clone('s16-book', book);
-      const titleElem = clone.find('input:text').first().val('The DOM!').change();  //simulate user edit
+      const titleElem = clone.find('input:text').first().val('The DOM!').trigger('change');  //simulate user edit
       titleElem.toggleClass('border-change', book.title === 'The DOM!');
       if (clone.find('input[value=fast]').prop('checked'))  //expect "Overnight" selected
-         clone.find('input[value=gift]').click();  //also select "Gift" option
+         clone.find('input[value=gift]').trigger('click');  //also select "Gift" option
       if (clone.find('input[name=cover]:checked').val() === 'soft')  //expect "Paperback" selected
-         clone.find('input[value=hard]').prop({ checked: true }).click();  //change to "Hardcover"
+         clone.find('input[value=hard]').prop({ checked: true }).trigger('click');  //change to "Hardcover"
       const purposeElem = clone.find('select').first();
       if (purposeElem.val() === 'edu')  //expect "School" selected
-         purposeElem.val('fun').change();  //change to "Personal"
+         purposeElem.val('fun').trigger('change');  //change to "Personal"
       purposeElem.toggleClass('border-change', book.purpose === 'fun');
       }
    };
@@ -1238,7 +1238,7 @@ spec.spec18 = {
       },
    run: () => {
       spec.spec18.makeChapterBoxes($('#spec18 input[type=range]').first());
-      const clickButton = () => $('#spec18 button[data-click]').click();
+      const clickButton = () => $('#spec18 button[data-click]').trigger('click');
       window.setInterval(clickButton, 3000);
       }
    };
@@ -1289,7 +1289,7 @@ spec.spec19 = {
    run: () => {
       dna.clone('s19-book-title', specRunner.catalog);
       dna.clone('s19-book',       specRunner.catalog);
-      $('#spec19 .dna-menu .menu-item:contains(Styling CSS3)').click();
+      $('#spec19 .dna-menu .menu-item:contains(Styling CSS3)').trigger('click');
       }
    };
 </script>
@@ -1364,7 +1364,7 @@ spec.spec19 = {
 <script>
 spec.spec20 = {
    run: () => {
-      const postRenderClick = () => $('#spec20 .dna-menu .menu-item:contains(W3C)').click();
+      const postRenderClick = () => $('#spec20 .dna-menu .menu-item:contains(W3C)').trigger('click');
       window.setTimeout(postRenderClick, 1000);
       }
    };
@@ -1407,7 +1407,7 @@ spec.spec21 = {
    run: () => {
       dna.clone('s21-book-author-nav-button', specRunner.catalog);
       dna.clone('s21-book-author',            specRunner.catalog);
-      $('#spec21 .dna-menu').val('Abby').change();
+      $('#spec21 .dna-menu').val('Abby').trigger('change');
       }
    };
 </script>

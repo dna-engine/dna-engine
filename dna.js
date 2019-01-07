@@ -252,11 +252,6 @@ dna.browser = {
       const addParam = (pair) => { if (pair) params[pair.split('=')[0]] = pair.split('=')[1]; };
       window.location.search.slice(1).split('&').forEach(addParam);
       return params;
-      },
-   iOS: () => {
-      // Returns a boolean indicating if the browser is running on an iOS device.
-      return /iPad|iPhone|iPod/.test(window.navigator.userAgent) &&
-         /Apple/.test(window.navigator.vendor);
       }
    };
 
@@ -901,21 +896,28 @@ dna.events = {
          //    <button data-href=https://dnajs.org>dna.js</button>
          // If element (or parent) has the class "external-site", page will be opened in a new tab.
          const elem = $(event.target);
-         const newTab = !dna.browser.iOS() && elem.closest('.external-site').length;
+         const iOS = /iPad|iPhone|iPod/.test(window.navigator.userAgent) &&
+            /Apple/.test(window.navigator.vendor);
+         const newTab = !iOS && elem.closest('.external-site').length;
          window.open(elem.closest('[data-href]').data().href, newTab ? '_blank' : '_self');
          };
       $(window.document)
-         .click(handle)
-         .change(handle)
-         .keyup(handle)
-         .keyup(handleEnterKey)
-         .keydown(handle)
-         .keypress(handle)
-         .keydown(handleSmartUpdate)
-         .keyup(handleSmartUpdate)
-         .change(handleSmartUpdate)
-         .on({ cut: handleSmartUpdate, paste: handleSmartUpdate })
-         .on({ input: handle })
+         .on({
+            click:    handle,
+            change:   handle,
+            keydown:  handle,
+            keypress: handle,
+            keyup:    handle,
+            input:    handle
+            })
+         .on({
+            keydown: handleSmartUpdate,
+            keyup:   handleSmartUpdate,
+            change:  handleSmartUpdate,
+            cut:     handleSmartUpdate,
+            paste:   handleSmartUpdate
+            })
+         .on({ keyup: handleEnterKey })
          .on({ click: jumpToUrl }, '[data-href]');
       dna.events.runOnLoads();
       }
