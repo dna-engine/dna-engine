@@ -6,6 +6,7 @@
    "license": "MIT",
    "main": "dist/dna.js",
    "browser": "dist/dna.min.js",
+   "style": "dist/dna.css",
    "repository": "github:dnajs/dna.js",
    "homepage": "https://github.com/dnajs/dna.js",
    "bugs": "https://github.com/dnajs/dna.js/issues",
