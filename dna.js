@@ -42,9 +42,7 @@ const dna = {
          dna.core.berserk('Container missing for nested template: ' + name);
       if (settings.empty)
          dna.empty(name);
-      var list = [];
-      while (settings.clones--)
-         list = list.concat(data);
+      const list = [].concat(...Array(settings.clones).fill(data));
       let clones = $();
       const addClone = (index, data) =>
          clones = clones.add(dna.core.replicate(template, data, index, settings));

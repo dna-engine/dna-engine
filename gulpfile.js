@@ -44,7 +44,7 @@ const bannerJs =       '//! ' + banner + '\n';
 const websiteTarget =  'website-target';
 const htmlHintConfig = { 'attr-value-double-quotes': false };
 const headerComments = { css: /^[/][*].*[*][/]$/gm, js: /^[/][/].*\n/gm };
-const transpileES6 =   ['@babel/env', { modules: false }];
+const transpileES6 =   ['@babel/preset-env', { modules: false }];
 const babelMinifyJs =  { presets: [transpileES6, 'minify'], comments: false };
 const webContext = {
    pkg:          pkg,
