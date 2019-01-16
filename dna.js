@@ -44,9 +44,9 @@ const dna = {
          dna.empty(name);
       const list = [].concat(...Array(settings.clones).fill(data));
       let clones = $();
-      const addClone = (index, data) =>
+      const addClone = (data, index) =>
          clones = clones.add(dna.core.replicate(template, data, index, settings));
-      $.each(list, addClone);
+      list.forEach(addClone);
       dna.placeholder.setup();
       dna.panels.initialize(clones.first().closest('.dna-panels'));
       clones.first().parents('.dna-hide').removeClass('dna-hide').addClass('dna-unhide');
@@ -59,8 +59,9 @@ const dna = {
       const settings = { container: holderClone.find(selector).addBack(selector) };
       dna.clone(name, data, $.extend(settings, options));
       const array = dna.getModel(holderClone)[arrayField];
-      const append = (i, value) => array.push(value);
-      $.each(data instanceof Array ? data : [data], append);
+      const append = (value) => array.push(value);
+      const arrayData = data instanceof Array ? data : [data];
+      arrayData.forEach(append);
       return holderClone;
       },
    createTemplate: (name, html, holder) => {
@@ -665,13 +666,16 @@ dna.compile = {
                (elem.is('select') && key === 'data-option'))
             makeUpdatable();
          };
-      const compile = (i, attr) => {
+      const compile = (attr) => {
          if (/^data-prop-/.test(attr.name))
             compileProp(attr.name, attr.value);
          else if (attr.value.split(dna.compile.regexDnaBasePair).length === 3)
             compileAttr(attr.name, attr.value);
          };
-      $.each(elem.get(0).attributes, compile);
+      const attributes = elem.get(0).attributes;
+      if (attributes instanceof Array) {
+         attributes.forEach(compile);
+      }
       if (props.length > 0)
          dna.compile.setupNucleotide(elem).data().dnaRules.props = props;
       if (attrs.length > 0)
@@ -811,13 +815,13 @@ dna.events = {
       },
    runInitializers: (elem) => {
       // Executes data-callback functions plus registered initializers
-      const init = (i, initializer) => {
+      const init = (initializer) => {
          const elems = initializer.selector ?
             elem.find(initializer.selector).addBack(initializer.selector) : elem;
          dna.util.apply(initializer.func,
             [elems.addClass('dna-initialized')].concat(initializer.params));
          };
-      $.each(dna.events.initializers, init);
+      dna.events.initializers.forEach(init);
       return elem;
       },
    setup: () => {
