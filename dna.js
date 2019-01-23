@@ -36,7 +36,7 @@ const dna = {
          transform: null,
          callback:  null
          };
-      const settings = $.extend(defaults, options);
+      const settings = Object.assign(defaults, options);
       const template = dna.store.getTemplate(name);
       if (template.nested && !settings.container)
          dna.core.berserk('Container missing for nested template: ' + name);
@@ -57,7 +57,7 @@ const dna = {
       const name = dna.compile.subTemplateName(holderClone, arrayField);
       const selector = '.dna-contains-' + name;
       const settings = { container: holderClone.find(selector).addBack(selector) };
-      dna.clone(name, data, $.extend(settings, options));
+      dna.clone(name, data, Object.assign(settings, options));
       const array = dna.getModel(holderClone)[arrayField];
       const append = (value) => array.push(value);
       const arrayData = data instanceof Array ? data : [data];
@@ -82,7 +82,7 @@ const dna = {
       },
    empty: (name, options) => {
       // Deletes all clones generated from the template.
-      const settings = $.extend({ fade: false }, options);
+      const settings = Object.assign({ fade: false }, options);
       const template = dna.store.getTemplate(name);
       const clones = template.container.find('.dna-clone');
       if (template.container.data().dnaCountsMap)
@@ -97,7 +97,7 @@ const dna = {
       },
    refresh: (clone, options) => {
       // Updates an existing clone to reflect changes to the data model.
-      const settings = $.extend({ html: false }, options);
+      const settings = Object.assign({ html: false }, options);
       const elem = dna.getClone(clone, options);
       const data = settings.data ? settings.data : dna.getModel(elem);
       return dna.core.inject(elem, data, elem.data().dnaCount, settings);
@@ -109,7 +109,7 @@ const dna = {
       },
    destroy: (clone, options) => {
       // Removes an existing clone from the DOM.
-      const settings = $.extend({ fade: false }, options);
+      const settings = Object.assign({ fade: false }, options);
       clone = dna.getClone(clone, options);
       const removeArrayItem = field =>
          dna.getModel(clone.parent())[field].splice(dna.getIndex(clone), 1);
@@ -119,7 +119,7 @@ const dna = {
       },
    getClone: (elem, options) => {
       // Returns the clone (or sub-clone) for the specified element.
-      const settings = $.extend({ main: false }, options);
+      const settings = Object.assign({ main: false }, options);
       const selector = settings.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone';
       return elem instanceof $ ? elem.closest(selector) : $();
       },
@@ -148,7 +148,7 @@ const dna = {
       },
    registerInitializer: (func, options) => {
       // Adds a callback function to the list of initializers that are run on all DOM elements.
-      const settings = $.extend({ onDocumentLoad: true }, options);
+      const settings = Object.assign({ onDocumentLoad: true }, options);
       if (settings.onDocumentLoad)
          dna.util.apply(func, [settings.selector ? $(settings.selector).not(
             '.dna-template ' + settings.selector).addClass('dna-initialized') :
@@ -217,7 +217,7 @@ dna.array = {
       //    { a: { word: 'Ant' }, b: { word: 'Bat' } }
       // to:
       //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
-      const settings = $.extend({ key: 'code', kebabCodes: false }, options);
+      const settings = Object.assign({ key: 'code', kebabCodes: false }, options);
       const array = [];
       const toObj = (item) => item instanceof Object ? item : { value: item };
       for (let property in map)
@@ -233,7 +233,7 @@ dna.array = {
       //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
       // to:
       //    { a: { code: 'a', word: 'Ant' }, b: { code: 'b', word: 'Bat' } }
-      const settings = $.extend({ key: 'code', camelKeys: false }, options);
+      const settings = Object.assign({ key: 'code', camelKeys: false }, options);
       const map = {};
       const addObj = (obj) => map[obj[settings.key]] = obj;
       const addObjCamelKey = (obj) => map[dna.util.toCamel(obj[settings.key])] = obj;
@@ -292,7 +292,7 @@ dna.ui = {
    pulse: (elem, options) => {
       // Fades in an element after hiding it to create a single smooth flash effect.  The optional
       // interval fades out the element.
-      const settings = $.extend({ duration: 400, interval: null, out: 5000 }, options);
+      const settings = Object.assign({ duration: 400, interval: null, out: 5000 }, options);
       const css = { hide: { opacity: 0 }, show: { opacity: 1 } };
       elem.stop(true).slideDown().css(css.hide).animate(css.show, settings.duration);
       if (settings.interval)
