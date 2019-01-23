@@ -59,9 +59,7 @@ const dna = {
       const settings = { container: holderClone.find(selector).addBack(selector) };
       dna.clone(name, data, Object.assign(settings, options));
       const array = dna.getModel(holderClone)[arrayField];
-      const append = (value) => array.push(value);
-      const arrayData = data instanceof Array ? data : [data];
-      arrayData.forEach(append);
+      dna.array.wrap(data).forEach(value => array.push(value));
       return holderClone;
       },
    createTemplate: (name, html, holder) => {
@@ -239,6 +237,9 @@ dna.array = {
       const addObjCamelKey = (obj) => map[dna.util.toCamel(obj[settings.key])] = obj;
       array.forEach(settings.camelKeys ? addObjCamelKey : addObj);
       return map;
+      },
+   wrap: (objOrArray) => {
+      return !objOrArray ? [] : objOrArray instanceof Array ? objOrArray : [objOrArray];
       }
    };
 
@@ -283,6 +284,10 @@ dna.ui = {
    focus: (elem) => {
       // Sets focus on an element.
       return elem.focus();
+      },
+   getAttrs: (elem) => {
+      // Returns the attributes of the DOM node in a regular array.
+      return elem[0] ? Object.keys(elem[0].attributes).map(key => elem[0].attributes[key]) : [];
       },
    getComponent: (elem) => {
       // Returns the component (container element with a <code>data-component</code> attribute) to
@@ -661,9 +666,9 @@ dna.compile = {
             elem.data().dnaField = parts[1];
             elem.data().dnaRules.val = true;
             };
-         const textInput = 'input:not(:checkbox, :radio)';
-         if ((elem.is(textInput) && key === 'value' && parts[0] === '' && parts[2] === '') ||
-               (elem.is('select') && key === 'data-option'))
+         const hasTextVal = elem.is('input:not(:checkbox, :radio)') &&
+            key === 'value' && parts[0] === '' && parts[2] === '';
+         if (hasTextVal || (elem.is('select') && key === 'data-option'))
             makeUpdatable();
          };
       const compile = (attr) => {
@@ -672,10 +677,7 @@ dna.compile = {
          else if (attr.value.split(dna.compile.regexDnaBasePair).length === 3)
             compileAttr(attr.name, attr.value);
          };
-      const attributes = elem.get(0).attributes;
-      if (attributes instanceof Array) {
-         attributes.forEach(compile);
-      }
+      dna.ui.getAttrs(elem).forEach(compile);
       if (props.length > 0)
          dna.compile.setupNucleotide(elem).data().dnaRules.props = props;
       if (attrs.length > 0)
