@@ -78,7 +78,7 @@ describe('Function dna.getModel()', () => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Plugin call clone.dna("refresh")', () => {
 
-   it('updates a displayed field (title) of a clone (book)', () => {
+   it('updates the displayed title of a book', () => {
       const clones = dna.clone('book', bookCatalog, { empty: true });
       dna.getModel(clones.first()).title = 'The DOM 2.0!';
       clones.first().dna('refresh');
@@ -93,7 +93,7 @@ describe('Plugin call clone.dna("refresh")', () => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Plugin call clone.dna("destroy")', () => {
 
-   it('deletes a clone (book) from the DOM', () => {
+   it('deletes a book from the DOM', () => {
       dna.getClones('book').last().last().dna('destroy');
       const titles = $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
       const actual   = { titles: Array.from(titles) };
