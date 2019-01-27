@@ -158,11 +158,11 @@ const dna = {
       // Deletes all initializers.
       dna.events.initializers = [];
       },
-   registerContext: (contextName, contextObjectOrFunction) => {
+   registerContext: (contextName, contextObjOrFn) => {
       // Registers an application object or individual function to enable it to be used for event
       // callbacks.  Registration is needed when global namespace is not available to dna.js, such
       // as when using webpack to load dna.js as a module.
-      dna.events.context[contextName] = contextObjectOrFunction;
+      dna.events.context[contextName] = contextObjOrFn;
       return dna.events.context;
       },
    info: () => {
@@ -441,7 +441,7 @@ dna.util = {
    printf: function(format) {
       // Builds a formatted string by replacing the format specifiers with the supplied arguments.
       // Usage:
-      //    dna.util.printf('%s: %s', 'Lives', 3) === 'Lives: 3';
+      //    dna.util.printf('%s: %s', 'Items in cart', 3) === 'Items in cart: 3';
       const values = Array.prototype.slice.call(arguments, 1);
       const insert = (str, val) => str.replace(/%s/, val);
       return values.reduce(insert, format);
@@ -1099,7 +1099,7 @@ dna.core = {
    berserk: (message) => {  //oops, file a tps report
       throw Error('dna.js -> ' + message);
       },
-   plugin: function() {
+   plugin: () => {
       // Example:
       //    dna.getClone(elem).dna('up');
       // Supported actions:

@@ -74,8 +74,8 @@ describe('Utility function dna.util.realTruth()', () => {
 describe('Utility function dna.util.printf()', () => {
 
    it('builds a string from variables', () => {
-      const actual =   { string: dna.util.printf('%s: %s', 'Lives', 3) };
-      const expected = { string: 'Lives: 3' };
+      const actual =   { string: dna.util.printf('%s: %s', 'Items in cart', 3) };
+      const expected = { string: 'Items in cart: 3' };
       assert.deepEqual(actual, expected);
       });
 

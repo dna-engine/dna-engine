@@ -76,4 +76,32 @@ describe('Function dna.getModel()', () => {
    });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Plugin call clone.dna("refresh")', () => {
+
+   it('updates a displayed field (title) of a clone (book)', () => {
+      const clones = dna.clone('book', bookCatalog, { empty: true });
+      dna.getModel(clones.first()).title = 'The DOM 2.0!';
+      clones.first().dna('refresh');
+      const titles = $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
+      const actual   = { titles: Array.from(titles) };
+      const expected = { titles: ['The DOM 2.0!', 'Styling CSS3', 'Howdy HTML5'] };
+      assert.deepEqual(actual.titles, expected.titles);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Plugin call clone.dna("destroy")', () => {
+
+   it('deletes a clone (book) from the DOM', () => {
+      dna.getClones('book').last().last().dna('destroy');
+      const titles = $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
+      const actual   = { titles: Array.from(titles) };
+      const expected = { titles: ['The DOM 2.0!', 'Styling CSS3'] };
+      assert.deepEqual(actual.titles, expected.titles);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 });
