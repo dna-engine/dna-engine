@@ -346,17 +346,6 @@ a.twitter:hover {
    color: royalblue;
    }
 
-/* Google+ */
-.google-plus {
-   display: inline-block;
-   vertical-align: top;
-   margin-left: 10px;
-   }
-.google-plus i.font-icon {
-   font-size: 1.8rem;
-   color: #db4437;  /* Google+ red */
-   }
-
 /* Highlight.js (hljs-enhance) */
 figure.hljs-enhance figcaption {
    font-size: 1.0rem;
