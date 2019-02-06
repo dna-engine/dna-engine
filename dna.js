@@ -287,7 +287,7 @@ dna.ui = {
       },
    getAttrs: (elem) => {
       // Returns the attributes of the DOM node in a regular array.
-      return elem[0] ? Object.keys(elem[0].attributes).map(key => elem[0].attributes[key]) : [];
+      return elem[0] ? Object.values(elem[0].attributes) : [];
       },
    getComponent: (elem) => {
       // Returns the component (container element with a <code>data-component</code> attribute) to
@@ -459,7 +459,7 @@ dna.util = {
       // Converts a kebab-case string (a code made of lowercase letters and dashes) to camelCase.
       // Example:
       //    dna.util.toCamel('ready-set-go') === 'readySetGo'
-      const hump = (match, char) => char.toUpperCase();
+      const hump = (match, letter) => letter.toUpperCase();
       return ('' + kebabStr).replace(/\-(.)/g, hump);
       },
    toKebab: (camelStr) => {
