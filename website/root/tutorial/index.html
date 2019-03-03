@@ -21,7 +21,7 @@
          </span>
       </p>
       <br>
-      <aside>
+      <aside style="width: 240px;">
          <figure class=video-container-link>
             <iframe src=https://www.youtube.com/embed/@@youTube.tutorial></iframe>
          </figure>
@@ -286,7 +286,7 @@
             &lt;script&gt;
                const findBooks = (elem) =&gt; {
                   const terms = $('input').val();
-                  console.log(terms);
+                  console.log(terms);  //verify user input
                   };
             &lt;/script&gt;
          </code></pre>
@@ -440,11 +440,11 @@
             &lt;script&gt;
                const findBooks = (elem) =&gt; {
                   const terms = elem.val();
-                  console.log(terms);
                   const url = 'https://www.googleapis.com/books/v1/volumes';
                   const handleResults = (data) =&gt;
                      dna.clone('book', data.items, { empty: true, fade: true });
                   fetchJson.get(url, { q: terms }).then(handleResults);
+                  console.log(terms);  //verify user input
                   };
             &lt;/script&gt;
             &lt;/body&gt;
