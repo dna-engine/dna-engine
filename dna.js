@@ -438,13 +438,11 @@ dna.util = {
             field.slice(1), value);
       return data;
       },
-   printf: function(format) {
+   printf: (format, ...values) => {
       // Builds a formatted string by replacing the format specifiers with the supplied arguments.
       // Usage:
       //    dna.util.printf('%s: %s', 'Items in cart', 3) === 'Items in cart: 3';
-      const values = Array.prototype.slice.call(arguments, 1);
-      const insert = (str, val) => str.replace(/%s/, val);
-      return values.reduce(insert, format);
+      return values.reduce((str, value) => str.replace(/%s/, value), format);
       },
    realTruth: (value) => {
       // Returns the "real" boolean truth of a value.

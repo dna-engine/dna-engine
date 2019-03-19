@@ -36,19 +36,17 @@ const dna = {
          transform: null,
          callback:  null
          };
-      const settings = $.extend(defaults, options);
+      const settings = Object.assign(defaults, options);
       const template = dna.store.getTemplate(name);
       if (template.nested && !settings.container)
          dna.core.berserk('Container missing for nested template: ' + name);
       if (settings.empty)
          dna.empty(name);
-      var list = [];
-      while (settings.clones--)
-         list = list.concat(data);
+      const list = [].concat(...Array(settings.clones).fill(data));
       let clones = $();
-      const addClone = (index, data) =>
+      const addClone = (data, index) =>
          clones = clones.add(dna.core.replicate(template, data, index, settings));
-      $.each(list, addClone);
+      list.forEach(addClone);
       dna.placeholder.setup();
       dna.panels.initialize(clones.first().closest('.dna-panels'));
       clones.first().parents('.dna-hide').removeClass('dna-hide').addClass('dna-unhide');
@@ -59,10 +57,9 @@ const dna = {
       const name = dna.compile.subTemplateName(holderClone, arrayField);
       const selector = '.dna-contains-' + name;
       const settings = { container: holderClone.find(selector).addBack(selector) };
-      dna.clone(name, data, $.extend(settings, options));
+      dna.clone(name, data, Object.assign(settings, options));
       const array = dna.getModel(holderClone)[arrayField];
-      const append = (i, value) => array.push(value);
-      $.each(data instanceof Array ? data : [data], append);
+      dna.array.wrap(data).forEach(value => array.push(value));
       return holderClone;
       },
    createTemplate: (name, html, holder) => {
@@ -83,7 +80,7 @@ const dna = {
       },
    empty: (name, options) => {
       // Deletes all clones generated from the template.
-      const settings = $.extend({ fade: false }, options);
+      const settings = Object.assign({ fade: false }, options);
       const template = dna.store.getTemplate(name);
       const clones = template.container.find('.dna-clone');
       if (template.container.data().dnaCountsMap)
@@ -98,7 +95,7 @@ const dna = {
       },
    refresh: (clone, options) => {
       // Updates an existing clone to reflect changes to the data model.
-      const settings = $.extend({ html: false }, options);
+      const settings = Object.assign({ html: false }, options);
       const elem = dna.getClone(clone, options);
       const data = settings.data ? settings.data : dna.getModel(elem);
       return dna.core.inject(elem, data, elem.data().dnaCount, settings);
@@ -110,7 +107,7 @@ const dna = {
       },
    destroy: (clone, options) => {
       // Removes an existing clone from the DOM.
-      const settings = $.extend({ fade: false }, options);
+      const settings = Object.assign({ fade: false }, options);
       clone = dna.getClone(clone, options);
       const removeArrayItem = field =>
          dna.getModel(clone.parent())[field].splice(dna.getIndex(clone), 1);
@@ -120,7 +117,7 @@ const dna = {
       },
    getClone: (elem, options) => {
       // Returns the clone (or sub-clone) for the specified element.
-      const settings = $.extend({ main: false }, options);
+      const settings = Object.assign({ main: false }, options);
       const selector = settings.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone';
       return elem instanceof $ ? elem.closest(selector) : $();
       },
@@ -149,7 +146,7 @@ const dna = {
       },
    registerInitializer: (func, options) => {
       // Adds a callback function to the list of initializers that are run on all DOM elements.
-      const settings = $.extend({ onDocumentLoad: true }, options);
+      const settings = Object.assign({ onDocumentLoad: true }, options);
       if (settings.onDocumentLoad)
          dna.util.apply(func, [settings.selector ? $(settings.selector).not(
             '.dna-template ' + settings.selector).addClass('dna-initialized') :
@@ -161,16 +158,17 @@ const dna = {
       // Deletes all initializers.
       dna.events.initializers = [];
       },
-   registerContext: (contextName, contextObjectOrFunction) => {
+   registerContext: (contextName, contextObjOrFn) => {
       // Registers an application object or individual function to enable it to be used for event
       // callbacks.  Registration is needed when global namespace is not available to dna.js, such
       // as when using webpack to load dna.js as a module.
-      dna.events.context[contextName] = contextObjectOrFunction;
+      dna.events.context[contextName] = contextObjOrFn;
       return dna.events.context;
       },
    info: () => {
       // Returns status information about templates on the current web page.
-      const names = Object.keys(dna.store.templates);
+      const names =  Object.keys(dna.store.templates);
+      const panels = $('.dna-menu.dna-panels-initialized');
       return {
          version:      dna.version,
          templates:    names.length,
@@ -178,7 +176,8 @@ const dna = {
          subs:         $('.dna-sub-clone').length,
          names:        names,
          store:        dna.store.templates,
-         initializers: dna.events.initializers
+         initializers: dna.events.initializers,
+         panels:       panels.toArray().map(elem => $(elem).attr('data-nav'))
          };
       }
    };
@@ -216,7 +215,7 @@ dna.array = {
       //    { a: { word: 'Ant' }, b: { word: 'Bat' } }
       // to:
       //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
-      const settings = $.extend({ key: 'code', kebabCodes: false }, options);
+      const settings = Object.assign({ key: 'code', kebabCodes: false }, options);
       const array = [];
       const toObj = (item) => item instanceof Object ? item : { value: item };
       for (let property in map)
@@ -232,12 +231,15 @@ dna.array = {
       //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
       // to:
       //    { a: { code: 'a', word: 'Ant' }, b: { code: 'b', word: 'Bat' } }
-      const settings = $.extend({ key: 'code', camelKeys: false }, options);
+      const settings = Object.assign({ key: 'code', camelKeys: false }, options);
       const map = {};
       const addObj = (obj) => map[obj[settings.key]] = obj;
       const addObjCamelKey = (obj) => map[dna.util.toCamel(obj[settings.key])] = obj;
       array.forEach(settings.camelKeys ? addObjCamelKey : addObj);
       return map;
+      },
+   wrap: (objOrArray) => {
+      return !objOrArray ? [] : objOrArray instanceof Array ? objOrArray : [objOrArray];
       }
    };
 
@@ -250,11 +252,6 @@ dna.browser = {
       const addParam = (pair) => { if (pair) params[pair.split('=')[0]] = pair.split('=')[1]; };
       window.location.search.slice(1).split('&').forEach(addParam);
       return params;
-      },
-   iOS: () => {
-      // Returns a boolean indicating if the browser is running on an iOS device.
-      return /iPad|iPhone|iPod/.test(window.navigator.userAgent) &&
-         /Apple/.test(window.navigator.vendor);
       }
    };
 
@@ -288,6 +285,10 @@ dna.ui = {
       // Sets focus on an element.
       return elem.focus();
       },
+   getAttrs: (elem) => {
+      // Returns the attributes of the DOM node in a regular array.
+      return elem[0] ? Object.values(elem[0].attributes) : [];
+      },
    getComponent: (elem) => {
       // Returns the component (container element with a <code>data-component</code> attribute) to
       // which the element belongs.
@@ -296,7 +297,7 @@ dna.ui = {
    pulse: (elem, options) => {
       // Fades in an element after hiding it to create a single smooth flash effect.  The optional
       // interval fades out the element.
-      const settings = $.extend({ duration: 400, interval: null, out: 5000 }, options);
+      const settings = Object.assign({ duration: 400, interval: null, out: 5000 }, options);
       const css = { hide: { opacity: 0 }, show: { opacity: 1 } };
       elem.stop(true).slideDown().css(css.hide).animate(css.show, settings.duration);
       if (settings.interval)
@@ -437,13 +438,11 @@ dna.util = {
             field.slice(1), value);
       return data;
       },
-   printf: function(format) {
+   printf: (format, ...values) => {
       // Builds a formatted string by replacing the format specifiers with the supplied arguments.
       // Usage:
-      //    dna.util.printf('%s: %s', 'Lives', 3) === 'Lives: 3';
-      const values = Array.prototype.slice.call(arguments, 1);
-      const insert = (str, val) => str.replace(/%s/, val);
-      return values.reduce(insert, format);
+      //    dna.util.printf('%s: %s', 'Items in cart', 3) === 'Items in cart: 3';
+      return values.reduce((str, value) => str.replace(/%s/, value), format);
       },
    realTruth: (value) => {
       // Returns the "real" boolean truth of a value.
@@ -458,7 +457,7 @@ dna.util = {
       // Converts a kebab-case string (a code made of lowercase letters and dashes) to camelCase.
       // Example:
       //    dna.util.toCamel('ready-set-go') === 'readySetGo'
-      const hump = (match, char) => char.toUpperCase();
+      const hump = (match, letter) => letter.toUpperCase();
       return ('' + kebabStr).replace(/\-(.)/g, hump);
       },
    toKebab: (camelStr) => {
@@ -537,6 +536,7 @@ dna.panels = {
       const menu = $(event.target);
       dna.panels.display(menu, menu.find('option:selected').index(), true);
       },
+   nextNav: 1,
    initialize: (panelHolder) => {
       const initialized = 'dna-panels-initialized';
       const supportLegacyIDs = (navName) => {  //TODO: remove backward compatibility
@@ -545,7 +545,7 @@ dna.panels = {
          panelHolder.data().nav = navName;
          };
       const generateNavName = () => {
-         const navName = (Math.random() + '').substring(2);
+         const navName = 'dna-panels-' + dna.panels.nextNav++;
          panelHolder.attr('data-nav', navName).prev('.dna-menu').attr('data-nav', navName);
          return navName;
          };
@@ -664,18 +664,18 @@ dna.compile = {
             elem.data().dnaField = parts[1];
             elem.data().dnaRules.val = true;
             };
-         const textInput = 'input:not(:checkbox, :radio)';
-         if ((elem.is(textInput) && key === 'value' && parts[0] === '' && parts[2] === '') ||
-               (elem.is('select') && key === 'data-option'))
+         const hasTextVal = elem.is('input:not(:checkbox, :radio)') &&
+            key === 'value' && parts[0] === '' && parts[2] === '';
+         if (hasTextVal || (elem.is('select') && key === 'data-option'))
             makeUpdatable();
          };
-      const compile = (i, attr) => {
+      const compile = (attr) => {
          if (/^data-prop-/.test(attr.name))
             compileProp(attr.name, attr.value);
          else if (attr.value.split(dna.compile.regexDnaBasePair).length === 3)
             compileAttr(attr.name, attr.value);
          };
-      $.each(elem.get(0).attributes, compile);
+      dna.ui.getAttrs(elem).forEach(compile);
       if (props.length > 0)
          dna.compile.setupNucleotide(elem).data().dnaRules.props = props;
       if (attrs.length > 0)
@@ -815,13 +815,13 @@ dna.events = {
       },
    runInitializers: (elem) => {
       // Executes data-callback functions plus registered initializers
-      const init = (i, initializer) => {
+      const init = (initializer) => {
          const elems = initializer.selector ?
             elem.find(initializer.selector).addBack(initializer.selector) : elem;
          dna.util.apply(initializer.func,
             [elems.addClass('dna-initialized')].concat(initializer.params));
          };
-      $.each(dna.events.initializers, init);
+      dna.events.initializers.forEach(init);
       return elem;
       },
    setup: () => {
@@ -898,21 +898,28 @@ dna.events = {
          //    <button data-href=https://dnajs.org>dna.js</button>
          // If element (or parent) has the class "external-site", page will be opened in a new tab.
          const elem = $(event.target);
-         const newTab = !dna.browser.iOS() && elem.closest('.external-site').length;
+         const iOS = /iPad|iPhone|iPod/.test(window.navigator.userAgent) &&
+            /Apple/.test(window.navigator.vendor);
+         const newTab = !iOS && elem.closest('.external-site').length;
          window.open(elem.closest('[data-href]').data().href, newTab ? '_blank' : '_self');
          };
       $(window.document)
-         .click(handle)
-         .change(handle)
-         .keyup(handle)
-         .keyup(handleEnterKey)
-         .keydown(handle)
-         .keypress(handle)
-         .keydown(handleSmartUpdate)
-         .keyup(handleSmartUpdate)
-         .change(handleSmartUpdate)
-         .on({ cut: handleSmartUpdate, paste: handleSmartUpdate })
-         .on({ input: handle })
+         .on({
+            click:    handle,
+            change:   handle,
+            keydown:  handle,
+            keypress: handle,
+            keyup:    handle,
+            input:    handle
+            })
+         .on({
+            keydown: handleSmartUpdate,
+            keyup:   handleSmartUpdate,
+            change:  handleSmartUpdate,
+            cut:     handleSmartUpdate,
+            paste:   handleSmartUpdate
+            })
+         .on({ keyup: handleEnterKey })
          .on({ click: jumpToUrl }, '[data-href]');
       dna.events.runOnLoads();
       }
@@ -1090,7 +1097,7 @@ dna.core = {
    berserk: (message) => {  //oops, file a tps report
       throw Error('dna.js -> ' + message);
       },
-   plugin: function() {
+   plugin: () => {
       // Example:
       //    dna.getClone(elem).dna('up');
       // Supported actions:
