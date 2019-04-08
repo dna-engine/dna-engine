@@ -10,8 +10,8 @@ _An uncomplicated user interface library for building data-driven semantic templ
 [![Hits](https://data.jsdelivr.com/v1/package/npm/dna.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/dna.js)
 [![Build](https://travis-ci.org/dnajs/dna.js.svg)](https://travis-ci.org/dnajs/dna.js)
 
-dna.js is a lightweight easy-to-use UI library for jQuery enabling developers to rapidly build
-maintainable JavaScript applications.
+dna.js is a lightweight easy-to-use UI library enabling developers to rapidly build maintainable
+JavaScript applications.
 
 ### 1. Bookstore Example
 Designate templates with the `dna-template` class, and put the templates directly into the HTML
@@ -52,7 +52,7 @@ Need to clone the template multiple times?&nbsp;  Simply pass an array of data o
 
 ### 2. Additional Information
 * [https://dnajs.org](https://dnajs.org/) (see the *"Try it out"* section for an interactive example)
-* [Sample To-Do Application](https://jsfiddle.net/uLrc7kmp/) (jsfiddle)
+* [Sample To-Do Application](https://jsfiddle.net/ydafcuLv/) (jsfiddle)
 * [Introduction to dna.js](https://youtu.be/jMOZOI-UkNI) (YouTube)
 * [Documentation](https://dnajs.org/docs)
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)

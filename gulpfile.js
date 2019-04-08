@@ -25,19 +25,19 @@ const linkInfo = {
       addABook:       '6p7t0cvu',
       bookFinder:     '0u3f6ab5',
       dataClick:      'zry7b8fm',
-      liveModel:      'qnpsh5cw',
+      liveModel:      'n4m1ysda',
       panelsClick:    'o4amg5jx',
       panelsDropDown: 'zfwe3m8o',
       photoUpload:    'bcyqdep8',
       smartUpdates:   'ab4hgvL5',
-      toDo:           'uLrc7kmp'
+      toDo:           'ydafcuLv'
       }
    };
 
 // Setup
 const pkg =            require('./package.json');
 const released =       process.env.dnaReleasedVersion;
-const minorVersion =   pkg.version.split('.').slice(0,2).join('.');
+const minorVersion =   pkg.version.split('.').slice(0, 2).join('.');
 const banner =         'dna.js v' + pkg.version + ' ~~ dnajs.org ~~ MIT License';
 const bannerCss =      '/*! ' + banner + ' */';
 const bannerJs =       '//! ' + banner + '\n';
