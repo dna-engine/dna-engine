@@ -69,11 +69,11 @@
       "gulp-w3c-html-validator": "~1.4",
       "highlight.js": "~9.15",
       "http-server": "~0.11",
-      "jquery": "~3.3",
+      "jquery": "~3.4",
       "jsdom": "~14.0",
       "jshint": "~2.10",
       "merge-stream": "~1.0",
-      "mocha": "~6.0",
+      "mocha": "~6.1",
       "request": "~2.88",
       "web-ignition": "~1.1"
    }
