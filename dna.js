@@ -283,7 +283,7 @@ dna.ui = {
       },
    focus: (elem) => {
       // Sets focus on an element.
-      return elem.focus();
+      return elem.focus(); // this call is depredated
       },
    getAttrs: (elem) => {
       // Returns the attributes of the DOM node in a regular array.
