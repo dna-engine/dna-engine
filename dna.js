@@ -623,7 +623,7 @@ dna.compile = {
       //    <textarea>~~address~~</textarea>  ==>
       //       <textarea class=dna-nucleotide data-dnaField=address data-dnaRules={ textarea: true }></p>
       elem = dna.compile.setupNucleotide($(elem));
-      elem.data().dnaField = $.trim(elem.text()).replace(dna.compile.regexDnaBasePairs, '');
+      elem.data().dnaField = elem.text().replace(dna.compile.regexDnaBasePairs, '').trim();
       if (elem.is('textarea'))
          elem.addClass('dna-update-model').data().dnaRules.val = true;
       else
