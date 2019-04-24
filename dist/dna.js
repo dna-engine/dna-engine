@@ -1,7 +1,7 @@
-//! dna.js v1.5.4 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.5.5 ~~ dnajs.org ~~ MIT License
 
 const dna = {
-   version: '1.5.4',
+   version: '1.5.5',
    // API:
    //    dna.clone()
    //    dna.cloneSub()
@@ -283,7 +283,7 @@ dna.ui = {
       },
    focus: (elem) => {
       // Sets focus on an element.
-      return elem.focus();
+      return elem.trigger('focus');
       },
    getAttrs: (elem) => {
       // Returns the attributes of the DOM node in a regular array.
@@ -623,7 +623,7 @@ dna.compile = {
       //    <textarea>~~address~~</textarea>  ==>
       //       <textarea class=dna-nucleotide data-dnaField=address data-dnaRules={ textarea: true }></p>
       elem = dna.compile.setupNucleotide($(elem));
-      elem.data().dnaField = $.trim(elem.text()).replace(dna.compile.regexDnaBasePairs, '');
+      elem.data().dnaField = elem.text().replace(dna.compile.regexDnaBasePairs, '').trim();
       if (elem.is('textarea'))
          elem.addClass('dna-update-model').data().dnaRules.val = true;
       else
