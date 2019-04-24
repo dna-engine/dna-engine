@@ -1,6 +1,6 @@
 {
    "name": "dna.js",
-   "version": "1.5.4",
+   "version": "1.5.5",
    "description": "An uncomplicated user interface library for building data-driven semantic templates",
    "summary": "dna.js is a lightweight easy-to-use UI library enabling developers to rapidly build maintainable JavaScript applications.",
    "license": "MIT",
@@ -70,7 +70,7 @@
       "highlight.js": "~9.15",
       "http-server": "~0.11",
       "jquery": "~3.4",
-      "jsdom": "~14.0",
+      "jsdom": "~15.0",
       "jshint": "~2.10",
       "merge-stream": "~1.0",
       "mocha": "~6.1",
