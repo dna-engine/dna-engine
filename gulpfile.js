@@ -29,7 +29,7 @@ const linkInfo = {
       panelsClick:    'o4amg5jx',
       panelsDropDown: 'zfwe3m8o',
       photoUpload:    'bcyqdep8',
-      smartUpdates:   'ab4hgvL5',
+      smartUpdates:   'bny63sxd',
       toDo:           'ydafcuLv'
       }
    };
