@@ -85,7 +85,7 @@ const task = {
          .pipe(size({ showFiles: true, gzip: true }));
       },
    cleanWebsite: () => {
-      return del(websiteTarget);
+      return del([websiteTarget, '**/.DS_Store']);
       },
    buildWebsite: () => {
       const copyStaticFiles = () =>

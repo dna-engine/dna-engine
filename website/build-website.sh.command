@@ -14,7 +14,6 @@ buildHtmlFiles() {
    cd $projectHome
    echo "Tasks:"
    pwd
-   find . -name ".DS_Store" -delete
    npm run web
    cp -v website-target/project.html docs/index.html
    echo
