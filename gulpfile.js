@@ -89,7 +89,7 @@ const task = {
       },
    buildWebsite: () => {
       const copyStaticFiles = () =>
-         gulp.src(['website/static/**', '!website/static/**/*.html'])
+         gulp.src(['website/static/**', '!website/static/**/*.html', 'website/static/**/.htaccess'])
             .pipe(gulp.dest(websiteTarget));
       const buildHtml = () =>
          gulp.src(['website/static/**/*.html', 'website/root/**/*.html'])
