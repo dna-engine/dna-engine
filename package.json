@@ -48,7 +48,7 @@
       "postweb": "gulp other-stuff"
    },
    "peerDependencies": {
-      "jquery": ">=2.2"
+      "jquery": ">=3.4"
    },
    "devDependencies": {
       "@babel/core": "~7.4",
@@ -70,9 +70,9 @@
       "highlight.js": "~9.15",
       "http-server": "~0.11",
       "jquery": "~3.4",
-      "jsdom": "~15.0",
+      "jsdom": "~15.1",
       "jshint": "~2.10",
-      "merge-stream": "~1.0",
+      "merge-stream": "~2.0",
       "mocha": "~6.1",
       "request": "~2.88",
       "web-ignition": "~1.1"
