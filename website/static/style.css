@@ -144,11 +144,11 @@ td >code {
 
 
 figure img {
-    border: 3px solid steelblue;
-    }
+   border: 3px solid steelblue;
+   }
 figure figcaption {
-    font-style: italic;
-    }
+   font-style: italic;
+   }
 
 /* Flat buttons */
 button {
