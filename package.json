@@ -52,11 +52,11 @@
       "jquery": ">=3.4"
    },
    "devDependencies": {
-      "@babel/core": "~7.4",
-      "@babel/preset-env": "~7.4",
+      "@babel/core": "~7.6",
+      "@babel/preset-env": "~7.6",
       "@fortawesome/fontawesome-free": "~5.10",
       "babel-minify": "~0.5",
-      "del": "~4.1",
+      "del": "~5.1",
       "fetch-json": "~2.2",
       "gulp": "~4.0",
       "gulp-append-prepend": "~1.0",
@@ -74,7 +74,7 @@
       "jsdom": "~15.1",
       "jshint": "~2.10",
       "merge-stream": "~2.0",
-      "mocha": "~6.1",
+      "mocha": "~6.2",
       "request": "~2.88",
       "web-ignition": "~1.1"
    }
