@@ -249,8 +249,8 @@ dna.browser = {
       // Example:
       //    https://example.com?lang=jp&code=7 ==> { lang: 'jp', code: 7 }
       const params = {};
-      const addParam = (pair) => { if (pair) params[pair.split('=')[0]] = pair.split('=')[1]; };
-      window.location.search.slice(1).split('&').forEach(addParam);
+      const addParam = (pair) => params[pair.split('=')[0]] = pair.split('=')[1];
+      window.location.search.slice(1).split('&').forEach(pair => pair && addParam(pair));
       return params;
       }
    };
