@@ -426,17 +426,15 @@ dna.util = {
       // Sets the field in the data object to the new value and returns the updated data object.
       // Example:
       //    dna.util.assign({ a: { b: 7 } }, 'a.b', 21);  //{ a: { b: 21 } }
-      if (typeof field === 'string')
-         field = field.split('.');
-      const name = field[0];
-      if (!$.isPlainObject(data))
-         data = {};
-      if (field.length === 1)
-         data[name] = value;
+      const fields = typeof field === 'string' ? field.split('.') : field;
+      const name = fields[0];
+      const dataObj = $.isPlainObject(data) ? data : {};
+      const nestedData = () => dataObj[name] === undefined ? dataObj[name] = {} : dataObj[name];
+      if (fields.length === 1)
+         dataObj[name] = value;
       else
-         dna.util.assign(data[name] === undefined ? data[name] = {} : data[name],
-            field.slice(1), value);
-      return data;
+         dna.util.assign(nestedData(), fields.slice(1), value);
+      return dataObj;
       },
    printf: (format, ...values) => {
       // Builds a formatted string by replacing the format specifiers with the supplied arguments.
