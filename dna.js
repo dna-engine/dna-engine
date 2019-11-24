@@ -504,21 +504,20 @@ dna.panels = {
    // The optional "data-hash" attribute specifies the hash (URL fragment ID) and updates the
    // location bar.  The "data-nav" attributes can be omitted if the ".dna-panels" element
    // immediately follows the ".dna-menu" element.
-   display: (menu, loc, updateUrl) => {
-      // Shows the panel at the given index (loc)
+   display: (menu, location, updateUrl) => {
+      // Shows the panel at the given location (index)
       const panels =    menu.data().dnaPanels;
       const navName =   menu.data().nav;
       const menuItems = menu.find('.menu-item');
-      if (loc === undefined)
-         loc = dna.pageToken.get(navName, 0);
-      loc = Math.max(0, Math.min(loc, menuItems.length - 1));
-      menu[0].selectedIndex = loc;  //case where menu is a drop-down elem (<select>)
+      const bound = (loc) => Math.max(0, Math.min(loc, menuItems.length - 1));
+      const index = bound(location === undefined ? dna.pageToken.get(navName, 0) : location);
+      menu[0].selectedIndex = index;  //case where menu is a drop-down elem (<select>)
       menuItems.removeClass('selected').addClass('unselected');
-      menuItems.eq(loc).addClass('selected').removeClass('unselected');
+      menuItems.eq(index).addClass('selected').removeClass('unselected');
       panels.hide().removeClass('displayed').addClass('hidden');
-      const panel = panels.eq(loc).fadeIn().addClass('displayed').removeClass('hidden');
+      const panel = panels.eq(index).fadeIn().addClass('displayed').removeClass('hidden');
       const hash = panel.data().hash;
-      dna.pageToken.put(navName, loc);
+      dna.pageToken.put(navName, index);
       if (updateUrl && hash)
          window.history.pushState(null, null, '#' + hash);
       dna.util.apply(menu.data().callback, [panel, hash]);
