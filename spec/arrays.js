@@ -76,8 +76,8 @@ describe('Array utility function dna.array.toMap()', () => {
 
    it('converts an array of objects into an object (hash map)', () => {
       const array = [
-         { code: 'a',   word: 'Ant' },
-         { code: 'b-z', word: 'Bat' },
+         { code: 'a',        word: 'Ant' },
+         { code: 'b-z',      word: 'Bat' },
          { code: 'J30X-W77', price: 34.99 }
          ];
       const actual = dna.array.toMap(array);
@@ -91,8 +91,8 @@ describe('Array utility function dna.array.toMap()', () => {
 
    it('converts an array of objects into an object (hash map) with camel case keys', () => {
       const array = [
-         { code: 'a',   word: 'Ant' },
-         { code: 'b-z', word: 'Bat' },
+         { code: 'a',        word: 'Ant' },
+         { code: 'b-z',      word: 'Bat' },
          { code: 'J30X-W77', price: 34.99 }
          ];
       const actual = dna.array.toMap(array, { key: 'code', camelKeys: true });
