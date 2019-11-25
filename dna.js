@@ -788,8 +788,8 @@ dna.store = {
          elem = $(elem);
          const field = elem.data().dnaRules.array;
          const sub = dna.compile.subTemplateName(name, field);
-         dna.compile.setupNucleotide(elem.parent().addClass('dna-array')).data().dnaRules.loop =
-            { name: sub, field: field };
+         const parent = elem.parent().addClass('dna-array');
+         dna.compile.setupNucleotide(parent).data().dnaRules.loop = { name: sub, field: field };
          elem.data().dnaRules.template = sub;
          };
       elem.find('.dna-template').addBack().each(move);
@@ -813,10 +813,10 @@ dna.events = {
    runInitializers: (elem) => {
       // Executes data-callback functions plus registered initializers
       const init = (initializer) => {
-         const elems = initializer.selector ?
-            elem.find(initializer.selector).addBack(initializer.selector) : elem;
-         dna.util.apply(initializer.func,
-            [elems.addClass('dna-initialized')].concat(initializer.params));
+         const find = () => elem.find(initializer.selector).addBack(initializer.selector);
+         const elems = initializer.selector ? find() : elem;
+         const params = [elems.addClass('dna-initialized')].concat(initializer.params);
+         dna.util.apply(initializer.func, params);
          };
       dna.events.initializers.forEach(init);
       return elem;
