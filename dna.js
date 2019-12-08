@@ -375,11 +375,12 @@ dna.ui = {
       return elem;
       },
    toElem: (elemOrEventOrIndex, that) => {
-      // A flexible way to get the jQuery element whether it is passed in directly, the target of
-      // an event, or comes from the jQuery context.
-      return elemOrEventOrIndex instanceof $ ? elemOrEventOrIndex :
-         $(elemOrEventOrIndex ? elemOrEventOrIndex.target : that);
-      }
+      // A flexible way to get the jQuery element whether it is passed in directly, is a DOM
+      // element, is the target of an event, or comes from the jQuery context.
+      const elem = elemOrEventOrIndex instanceof $ && elemOrEventOrIndex;
+      const target = elemOrEventOrIndex && elemOrEventOrIndex.target;
+      return elem || $(target || elemOrEventOrIndex || that);
+      },
    };
 
 dna.util = {
