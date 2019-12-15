@@ -892,7 +892,7 @@
          <pre><code class=language-javascript>
             const book = { title: 'Interwebz', chapters: ['ARPANET', 'TCP/IP'] };
             const clone = dna.clone('book', book);
-            dna.cloneSub(clone, 'chapters', 'CERN');  //append chapter
+            dna.cloneSub(clone, 'chapters', 'CERN', { fade: true });  //append chapter
          </code></pre>
       </figure>
       <p>

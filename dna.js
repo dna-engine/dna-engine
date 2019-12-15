@@ -69,14 +69,14 @@ const dna = {
       },
    getModel: (elemOrName, options) => {
       // Returns the underlying data of the clone.
-      const getOneModel = (elem) => dna.getClone(elem, options).data('dnaModel');
       const getAllModels = (name) => {
          const model = [];
          const addToModel = (i, elem) => model.push(dna.getModel($(elem)));
          dna.getClones(name).each(addToModel);
          return model;
          };
-      return (elemOrName instanceof $ ? getOneModel : getAllModels)(elemOrName);
+      const getOneModel = (elem) => dna.getClone($(elem), options).data('dnaModel');
+      return typeof elemOrName === 'string' ? getAllModels(elemOrName) : getOneModel(elemOrName);
       },
    empty: (name, options) => {
       // Deletes all clones generated from the template.
@@ -133,12 +133,12 @@ const dna = {
    up: function(elemOrEventOrIndex) {
       // Smoothly moves a clone up one slot effectively swapping its position with the previous
       // clone.
-      return dna.ui.smoothMove(dna.getClone(dna.ui.toElem(elemOrEventOrIndex, this)), true);
+      return dna.ui.smoothMoveUp(dna.getClone(dna.ui.toElem(elemOrEventOrIndex, this)));
       },
    down: function(elemOrEventOrIndex) {
       // Smoothly moves a clone down one slot effectively swapping its position with the next
       // clone.
-      return dna.ui.smoothMove(dna.getClone(dna.ui.toElem(elemOrEventOrIndex, this)), false);
+      return dna.ui.smoothMoveDown(dna.getClone(dna.ui.toElem(elemOrEventOrIndex, this)));
       },
    bye: function(elemOrEventOrIndex) {
       // Performs a sliding fade out effect on the clone and then removes the element.
@@ -277,9 +277,7 @@ dna.ui = {
       // A flexible function for removing a jQuery element.
       // Example:
       //    $('.box').fadeOut(dna.ui.deleteElem);
-      const elem = dna.ui.toElem(elemOrEventOrIndex, this);
-      dna.core.remove(elem);
-      return elem;
+      return dna.core.remove(dna.ui.toElem(elemOrEventOrIndex, this));
       },
    focus: (elem) => {
       // Sets focus on an element.
@@ -358,7 +356,7 @@ dna.ui = {
    smoothMove: (elem, up) => {
       // Uses animation to smoothly slide an element up or down one slot amongst its siblings.
       const move = () => {
-         const ghostElem = submissiveElem.clone();
+         const ghostElem = submissiveElem.clone(true);
          if (up)
             elem.after(submissiveElem.hide()).before(ghostElem);
          else
@@ -373,6 +371,14 @@ dna.ui = {
       if (submissiveElem.length)
          move();
       return elem;
+      },
+   smoothMoveUp: (elem) => {
+      // Uses animation to smoothly slide an element up one slot amongst its siblings.
+      return dna.ui.smoothMove(elem, true);
+      },
+   smoothMoveDown: (elem) => {
+      // Uses animation to smoothly slide an element down one slot amongst its siblings.
+      return dna.ui.smoothMove(elem, false);
       },
    toElem: (elemOrEventOrIndex, that) => {
       // A flexible way to get the jQuery element whether it is passed in directly, is a DOM
@@ -605,7 +611,7 @@ dna.compile = {
    regexDnaBasePair: /~~|{{|}}/,  //matches the '~~' string
    regexDnaBasePairs: /~~|\{\{|\}\}/g,  //matches the two '~~' strings so they can be removed
    setupNucleotide: (elem) => {
-      if (elem.data().dnaRules === undefined)
+      if (!elem.data().dnaRules)
          elem.data().dnaRules = {};
       return elem.addClass('dna-nucleotide');
       },
@@ -1046,6 +1052,7 @@ dna.core = {
       const container = settings.container ?
          settings.container.find(selector).addBack(selector) : template.container;
       const clone = template.elem.clone(true, true);
+      clone.data().dnaRules.container = container;
       let countsMap = container.data().dnaCountsMap;
       if (!countsMap)
          countsMap = container.data().dnaCountsMap = {};
@@ -1089,10 +1096,21 @@ dna.core = {
          dna.ui.slideFadeIn(clone);
       return clone;
       },
-   remove: (clone) => {  //TODO: optimize
-      clone.remove();
+   updateArray: (subClone) => {
+      const update = () => {
+         const rules = subClone.data().dnaRules;
+         const arrayClones = rules.container.children('.' + rules.template);
+         dna.getModel(rules.container)[rules.array] = arrayClones.get().map(dna.getModel);
+         };
+      if (subClone.hasClass('dna-sub-clone'))
+         update();
+      return subClone;
+      },
+   remove: (clone) => {
+      clone.detach();
+      dna.core.updateArray(clone);
       dna.placeholder.setup();
-      return clone;
+      return clone.remove();
       },
    berserk: (message) => {  //oops, file a tps report
       throw Error('dna.js -> ' + message);
