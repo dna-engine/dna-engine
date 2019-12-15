@@ -36,7 +36,7 @@ html {
 body {
    max-width: 800px;
    min-height: 100vh;
-   background-color: rgba(255,255,255,0.9);
+   background-color: rgba(255, 255, 255, 0.9);
    border-left: 1px solid steelblue;
    border-right: 1px solid steelblue;
    padding: 20px 50px 30px 50px;
@@ -101,6 +101,9 @@ main h2+aside {
    border-radius: 2px;
    padding: 5px 15px;
    margin-bottom: 30px;
+   }
+main h2+aside >h2 {
+   font-size: 1.2rem;
    }
 
 /* General style */
