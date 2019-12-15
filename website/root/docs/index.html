@@ -883,6 +883,7 @@
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
                   @@include('website/templates/options/fade.html')
+                  @@include('website/templates/options/top.html')
                </ul>
             </li>
          </ul>
@@ -892,7 +893,8 @@
          <pre><code class=language-javascript>
             const book = { title: 'Interwebz', chapters: ['ARPANET', 'TCP/IP'] };
             const clone = dna.clone('book', book);
-            dna.cloneSub(clone, 'chapters', 'CERN', { fade: true });  //append chapter
+            const options = { fade: true, top: false };
+            dna.cloneSub(clone, 'chapters', 'CERN', options);  //append chapter
          </code></pre>
       </figure>
       <p>

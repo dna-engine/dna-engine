@@ -57,10 +57,9 @@ const dna = {
       const name = dna.compile.subTemplateName(holderClone, arrayField);
       const selector = '.dna-contains-' + name;
       const settings = { container: holderClone.find(selector).addBack(selector) };
-      dna.clone(name, data, Object.assign(settings, options));
-      const array = dna.getModel(holderClone)[arrayField];
-      dna.array.wrap(data).forEach(value => array.push(value));
-      return holderClone;
+      const clones = dna.clone(name, data, Object.assign(settings, options));
+      dna.core.updateArray(clones.first());
+      return clones;
       },
    createTemplate: (name, html, holder) => {
       // Generates a template from an HTML string.
@@ -239,6 +238,8 @@ dna.array = {
       return map;
       },
    wrap: (objOrArray) => {
+      // Returns the given array if it is an array or returns a new array with the given object as
+      // the first item.
       return !objOrArray ? [] : objOrArray instanceof Array ? objOrArray : [objOrArray];
       }
    };
