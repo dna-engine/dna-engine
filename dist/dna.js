@@ -1,7 +1,7 @@
-//! dna.js v1.5.6 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.5.7 ~~ dnajs.org ~~ MIT License
 
 const dna = {
-   version: '1.5.6',
+   version: '1.5.7',
    // API:
    //    dna.clone()
    //    dna.cloneSub()
@@ -699,9 +699,9 @@ dna.compile = {
    subTemplateName: (holder, arrayField) => {  //holder can be element or template name
       // Example:
       //    subTemplateName('book', 'authors') ==> 'book-authors-instance'
-      const getTemplateName = () => dna.getClone(holder).data().dnaRules.template;
-      const mainTemplateName = holder instanceof $ ? getTemplateName() : holder;
-      return mainTemplateName + '-' + arrayField + '-instance';
+      const getClone = () => dna.getClone(holder, { main: true });
+      const templateName = holder instanceof $ && getClone().data().dnaRules.template;
+      return (templateName || holder) + '-' + arrayField + '-instance';
       },
    rules: (elems, type, isList) => {
       // Example:
