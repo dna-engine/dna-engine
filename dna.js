@@ -81,7 +81,7 @@ const dna = {
       // Deletes all clones generated from the template.
       const settings = Object.assign({ fade: false }, options);
       const template = dna.store.getTemplate(name);
-      const clones = template.container.find('.dna-clone');
+      const clones = template.container.children('.dna-clone');
       if (template.container.data().dnaCountsMap)
          template.container.data().dnaCountsMap[name] = 0;
       return settings.fade ? dna.ui.slideFadeDelete(clones) : dna.core.remove(clones);
