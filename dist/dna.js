@@ -1,7 +1,7 @@
-//! dna.js v1.5.7 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.5.8 ~~ dnajs.org ~~ MIT License
 
 const dna = {
-   version: '1.5.7',
+   version: '1.5.8',
    // API:
    //    dna.clone()
    //    dna.cloneSub()
@@ -81,7 +81,7 @@ const dna = {
       // Deletes all clones generated from the template.
       const settings = Object.assign({ fade: false }, options);
       const template = dna.store.getTemplate(name);
-      const clones = template.container.find('.dna-clone');
+      const clones = template.container.children('.dna-clone');
       if (template.container.data().dnaCountsMap)
          template.container.data().dnaCountsMap[name] = 0;
       return settings.fade ? dna.ui.slideFadeDelete(clones) : dna.core.remove(clones);
@@ -1054,12 +1054,12 @@ dna.core = {
          settings.container.find(selector).addBack(selector) : template.container;
       const clone = template.elem.clone(true, true);
       clone.data().dnaRules.container = container;
-      let countsMap = container.data().dnaCountsMap;
-      if (!countsMap)
-         countsMap = container.data().dnaCountsMap = {};
       const name = clone.data().dnaRules.template;
-      const count = countsMap[name] ? ++countsMap[name] : countsMap[name] = 1;
-      dna.core.inject(clone, data, count, settings);
+      if (!container.data().dnaCountsMap)
+         container.data().dnaCountsMap = {};
+      const countsMap = container.data().dnaCountsMap;
+      countsMap[name] = (countsMap[name] || 0) + 1;
+      dna.core.inject(clone, data, countsMap[name], settings);
       const intoUnwrapped = () => {
          const firstClone = () => {
             const contents = container.data().dnaContents;
