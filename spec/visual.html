@@ -956,9 +956,20 @@ spec.spec15 = {
       elem.each(addHr);  //exactly 8 times (one for each clone)
       },
    surround2: (elem) => elem.addClass('border-change2'),
-   bye: (elem, e) => {
-      if (e.type === 'click')
-         dna.bye(elem);
+   bye: (elem, event) => {
+      const clone = dna.getClone(elem);
+      const start = Date.now();
+      let handled = false;
+      const handleByeDone = (param) => {
+         handled = true;
+         const delay = Date.now() - start;
+         if (delay < 300 || delay > 1000 || param[0] !== clone[0])
+            throw 'handleByeDone --> delay: ' + delay + 'ms, clone: ' + (param[0] === clone[0]);
+         };
+      if (event.type === 'click')
+         dna.bye(elem, handleByeDone);
+      if (event.type === 'click')
+         window.setTimeout(() => { if (!handled) throw 'handleByeDone --> not called!'; }, 1000);
       },
    run: () => {
       dna.registerInitializer('spec.spec15.surround', { selector: '.surrounded' });
