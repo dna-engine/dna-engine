@@ -22,13 +22,15 @@ setupTools() {
 setupWebServer() {
    cd $projectHome
    port=$(grep web-server package.json | sed -e "s/[^0-9]//g")
-   # Requires package.json script: "web-server": "http-server -p 8080 &"
+   # Requires package.json script: "web-server": "http-server --port 8080 &"
    echo "Web Server (indexzero/http-server on node):"
-   test -z "$(pgrep -f $projectHome)" && npm run web-server
+   # test -z "$(pgrep -f $projectHome)" && npm run web-server
+   test -z "$(pgrep -f http-server)" && npm run web-server
    pgrep -fl http-server
    echo "To stop web server:"
    echo "   $ pgrep -fl http-server"
-   echo "   $ pkill -f $projectHome"
+   # echo "   $ pkill -f $projectHome"
+   echo "   $ pkill -f http-server"
    echo
    }
 

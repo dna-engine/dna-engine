@@ -1,6 +1,6 @@
 {
    "name": "dna.js",
-   "version": "1.5.8",
+   "version": "1.5.9",
    "description": "An uncomplicated user interface library for building data-driven semantic templates",
    "summary": "dna.js is a lightweight easy-to-use UI library enabling developers to rapidly build maintainable JavaScript applications.",
    "license": "MIT",
@@ -40,7 +40,7 @@
       }
    },
    "scripts": {
-      "web-server": "http-server -p 3482 &",
+      "web-server": "http-server --port 3482 &",
       "pretest": "jshint *.js spec website && gulp build-dist",
       "test": "mocha spec && env specMode=minified mocha spec",
       "posttest": "gulp report-size",
