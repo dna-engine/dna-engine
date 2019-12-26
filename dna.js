@@ -100,10 +100,30 @@ const dna = {
       const data = settings.data ? settings.data : dna.getModel(elem);
       return dna.core.inject(elem, data, elem.data().dnaCount, settings);
       },
-   refreshAll: (name) => {
+   refreshAll: (name, options) => {
       // Updates all the clones of the specified template.
-      const refresh = (i, elem) => dna.refresh($(elem));
+      const refresh = (i, elem) => dna.refresh($(elem), options);
       return dna.getClones(name).each(refresh);
+      },
+   recount: (clone, options) => {
+      // Renumbers the counters starting from 1 for all the clone and its siblings based on DOM order.
+      clone = dna.getClone(clone);
+      const renumber = () => {
+         const rules = clone.data().dnaRules;
+         const selector = '.dna-clone.' + rules.template;
+         const update = (i, elem) => {
+            elem = $(elem);
+            elem.data().dnaCount = i + 1;
+            dna.refresh(elem, options);
+            };
+         const clones = rules.container.children(selector).each(update);
+         const containerData = rules.container.data();
+         containerData.dnaCountsMap = containerData.dnaCountsMap || {};
+         containerData.dnaCountsMap[rules.template] = clones.length;
+         };
+      if (clone.length)
+         renumber();
+      return clone;
       },
    destroy: (clone, options) => {
       // Removes an existing clone from the DOM.

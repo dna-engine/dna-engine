@@ -669,6 +669,7 @@ spec.spec11 = {
                   <button data-click=dna.bye>&times;</button>
                </nav>
             </div>
+            <div><button data-click=spec.spec12.recount>Recount</button></div>
          </div>
       </div>
    </fieldset>
@@ -682,6 +683,7 @@ spec.spec11 = {
                <span class=dna-clone                data-author="Bo I"> (1) <span>Bo I</span> </span>
                <span class="dna-clone color-change" data-author="Bo II"> (2) <span>Bo II</span> </span>
             </span>
+            <div><button>Recount</button></div>
          </div>
          <div class=dna-clone>
             <div>Title: <span>Howdy HTML5</span></div>
@@ -709,12 +711,14 @@ spec.spec11 = {
                   <button>&times;</button>
                </nav>
             </div>
+            <div><button>Recount</button></div>
          </div>
          <div class=dna-clone>
             <div>Title: <span>Styling CSS3</span></div>
             Authors:
             <span>
             </span>
+            <div><button>Recount</button></div>
          </div>
          <div class="dna-clone border-change">
             <div>Title: <span>Howdy HTML5</span></div>
@@ -769,12 +773,17 @@ spec.spec11 = {
                   <button>&times;</button>
                </nav>
             </div>
+            <div><button>Recount</button></div>
          </div>
       </div>
    </fieldset>
 </section>
 <script>
 spec.spec12 = {
+   recount: (button) => {
+      console.log(Date.now(), button, button.parent().prev());
+      dna.recount(button.parent().prev(), { html: true });
+      },
    run: () => {
       const chapters = [
          { header: 'Preface &star;', type: 'front' },
