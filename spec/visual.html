@@ -109,8 +109,10 @@ spec.spec01 = {
          <hr>
          <hr class=dna-hide>
          <div id=s02-book class=dna-template>
-            <div data-class=class>Title: <span>{{title}}</span></div>
-            <div data-class=~~sale,wow,color-change~~>
+            <div data-class=~~class;sale,border-change~~>
+               Title: <span>{{title}}</span>
+            </div>
+            <div data-class=~~sale,wow,border-change;class~~>
                Author: <cite data-class=~~sale,color-change~~>{{author}}</cite>
             </div>
          </div>
@@ -122,8 +124,12 @@ spec.spec01 = {
       <div class=book-list>
          <hr>
          <div class=dna-clone>
-            <div class=color-change>Title: <span class=color-change2>The One</span></div>
-            <div class=color-change>Author: <cite>Lee</cite></div>
+            <div class=color-change>
+               Title: <span class=color-change2>The One</span>
+            </div>
+            <div class="color-change border-change">
+               Author: <cite>Lee</cite>
+            </div>
          </div>
          <hr>
       </div>

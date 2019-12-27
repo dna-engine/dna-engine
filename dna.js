@@ -732,13 +732,14 @@ dna.compile = {
       const templateName = holder instanceof $ && getClone().data().dnaRules.template;
       return (templateName || holder) + '-' + arrayField + '-instance';
       },
-   rules: (elems, type, isList) => {
+   rules: (elems, type, isLists) => {
       // Example:
       //    <p data-require=~~title~~>, 'require'  ==>  <p data-dnaRules={ require: 'title' }>
       const addRule = (i, elem) => {
          elem = dna.compile.setupNucleotide($(elem));
          const field = dna.compile.getDataField(elem, type);
-         elem.data().dnaRules[type] = isList ? field.split(',') : field;
+         const makeLists = () => field.split(';').map(list => list.split(','));
+         elem.data().dnaRules[type] = isLists ? makeLists() : field;
          };
       return elems.filter('[data-' + type + ']').each(addRule).removeAttr('data-' + type);
       },
@@ -994,19 +995,22 @@ dna.core = {
                elem.val(value);
             }
          };
-      const injectClass = (elem, classList) => {
-         // classList = ['field', 'class-true', 'class-false']
-         const value = dna.util.value(data, classList[0]);
-         const truth = dna.util.realTruth(value);
-         const setBooleanClasses = () => {
-            elem.toggleClass(classList[1], truth);
-            if (classList[2])
-               elem.toggleClass(classList[2], !truth);
+      const injectClass = (elem, classLists) => {
+         // classLists = [['field', 'class-true', 'class-false'], ...]
+         const process = (classList) => {
+            const value = dna.util.value(data, classList[0]);
+            const truth = dna.util.realTruth(value);
+            const setBooleanClasses = () => {
+               elem.toggleClass(classList[1], truth);
+               if (classList[2])
+                  elem.toggleClass(classList[2], !truth);
+               };
+            if (classList.length === 1)
+               elem.addClass(value);
+            else if (classList.length > 1)
+               setBooleanClasses();
             };
-         if (classList.length === 1)
-            elem.addClass(value);
-         else if (classList.length > 1)
-            setBooleanClasses();
+         classLists.forEach(process);
          };
       const fieldExists = (fieldName) => {
          const value = dna.util.value(data, fieldName);
