@@ -58,7 +58,7 @@ const dna = {
       const selector = '.dna-contains-' + name;
       const settings = { container: holderClone.find(selector).addBack(selector) };
       const clones = dna.clone(name, data, Object.assign(settings, options));
-      dna.core.updateArray(clones.first());
+      dna.core.updateArray(clones);
       return clones;
       },
    createTemplate: (name, html, holder) => {
@@ -106,20 +106,19 @@ const dna = {
       return dna.getClones(name).each(refresh);
       },
    recount: (clone, options) => {
-      // Renumbers the counters starting from 1 for all the clone and its siblings based on DOM order.
+      // Renumbers the counters starting from 1 for the clone and its siblings based on DOM order.
       clone = dna.getClone(clone);
       const renumber = () => {
-         const rules = clone.data().dnaRules;
-         const selector = '.dna-clone.' + rules.template;
+         const name = clone.data().dnaRules.template;
          const update = (i, elem) => {
             elem = $(elem);
             elem.data().dnaCount = i + 1;
             dna.refresh(elem, options);
             };
-         const clones = rules.container.children(selector).each(update);
-         const containerData = rules.container.data();
-         containerData.dnaCountsMap = containerData.dnaCountsMap || {};
-         containerData.dnaCountsMap[rules.template] = clones.length;
+         const container = clone.parent();
+         const clones = container.children('.dna-clone.' + name).each(update);
+         container.data().dnaCountsMap = container.data().dnaCountsMap || {};
+         container.data().dnaCountsMap[name] = clones.length;
          };
       if (clone.length)
          renumber();
@@ -1083,7 +1082,6 @@ dna.core = {
       const container = settings.container ?
          settings.container.find(selector).addBack(selector) : template.container;
       const clone = template.elem.clone(true, true);
-      clone.data().dnaRules.container = container;
       const name = clone.data().dnaRules.template;
       if (!container.data().dnaCountsMap)
          container.data().dnaCountsMap = {};
@@ -1127,19 +1125,26 @@ dna.core = {
          dna.ui.slideFadeIn(clone);
       return clone;
       },
-   updateArray: (subClone) => {
-      subClone = dna.getClone(subClone);
+   updateArrayByName: (clone, arrayField) => {
+      const container = dna.getClone(clone);
       const update = () => {
-         const rules = subClone.data().dnaRules;
-         const arrayClones = rules.container.children('.' + rules.template);
-         dna.getModel(rules.container)[rules.array] = arrayClones.get().map(dna.getModel);
-         return subClone;
+         const template = container.data().dnaRules.template;
+         const arrayClones = container.find('.' + template + '-' + arrayField + '-instance');
+         dna.getModel(container)[arrayField] = arrayClones.get().map(dna.getModel);
+         return clone;
          };
-      return subClone.hasClass('dna-sub-clone') ? update() : subClone;
+      return container.hasClass('dna-container') && arrayField ? update() : clone;
+      },
+   updateArray: (subClone) => {
+      subClone = dna.getClone(subClone.first());
+      if (subClone.hasClass('dna-sub-clone'))
+         dna.core.updateArrayByName(subClone.parent(), subClone.data().dnaRules.array);
+      return subClone;
       },
    remove: (clone, callback) => {
+      const container = clone.parent();
       clone.detach();
-      dna.core.updateArray(clone);
+      dna.core.updateArrayByName(container, clone.length && clone.data().dnaRules.array);
       dna.placeholder.setup();
       clone.remove();
       if (callback)
