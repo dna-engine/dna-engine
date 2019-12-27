@@ -1180,7 +1180,7 @@ spec.spec16 = {
       },
    run: () => {
       const options = [
-         { code: 'fast',  name: 'Overnight',    set: true },  //selected
+         { code: 'fast',  name: 'Overnight',    set: false },
          { code: 'share', name: 'Social Share', set: false },
          { code: 'gift',  name: 'Gift',         set: false }
          ];
@@ -1195,19 +1195,22 @@ spec.spec16 = {
          { code: 'edu',  name: 'School' }
          ];
       const book = {
-         title:      'The DOM',
+         title:      '[change me]',
          options:    options,
          covers:     covers,
          purpose:    'edu',
          purposes:   purposes,
          category:   'computers',
          meta:       { info: { tags: [{ english: { code: 'tech' } },  { english: { code: 'color' } }] } },  //verify dot notation
-         secret:     '0xDEADBEEF',
+         secret:     '[change me]',
          pubDate:    '2014-06-22',
          coverColor: '#daa520',
-         note:       'Award winning'
+         note:       '[change me]'
          };
       const clone = dna.clone('s16-book', book);
+      dna.updateField(clone.find('input:checkbox[value=fast]'), true);
+      dna.updateField(clone.find('textarea'), '0xDEADBEEF');
+      dna.updateField(clone.find('input').last(), 'Award winning');
       const titleElem = clone.find('input:text').first().val('The DOM!').trigger('change');  //simulate user edit
       titleElem.toggleClass('border-change', book.title === 'The DOM!');
       if (clone.find('input[value=fast]').prop('checked'))  //expect "Overnight" selected

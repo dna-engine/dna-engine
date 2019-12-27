@@ -11,6 +11,8 @@ const dna = {
    //    dna.insert()
    //    dna.refresh()
    //    dna.refreshAll()
+   //    dna.updateField()
+   //    dna.recount()
    //    dna.destroy()
    //    dna.getClone()
    //    dna.getClones()
@@ -104,6 +106,21 @@ const dna = {
       // Updates all the clones of the specified template.
       const refresh = (i, elem) => dna.refresh($(elem), options);
       return dna.getClones(name).each(refresh);
+      },
+   updateField: (inputElem, value) => {
+      const field = inputElem.data() && inputElem.data().dnaField;
+      const update = () => {
+         if (inputElem.is('input:checkbox'))
+            inputElem.prop('checked', value);
+         else if (inputElem.is('input:radio'))
+            inputElem.prop('checked', value);  //TOOD: if true, deselect other buttons in model
+         else if (inputElem.is('input, select, textarea'))
+            inputElem.val(value);
+         dna.getModel(inputElem)[field] = value;
+         };
+      if (field)
+         update();
+      return inputElem;
       },
    recount: (clone, options) => {
       // Renumbers the counters starting from 1 for the clone and its siblings based on DOM order.
