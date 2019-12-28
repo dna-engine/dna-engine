@@ -1,7 +1,7 @@
-//! dna.js v1.5.9 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.6.0 ~~ dnajs.org ~~ MIT License
 
 const dna = {
-   version: '1.5.9',
+   version: '1.6.0',
    // API:
    //    dna.clone()
    //    dna.cloneSub()
@@ -145,10 +145,9 @@ const dna = {
       // Removes an existing clone from the DOM.
       const settings = Object.assign({ fade: false, callback: null }, options);
       clone = dna.getClone(clone, options);
-      const removeArrayItem = (field) =>
-         dna.getModel(clone.parent())[field].splice(dna.getIndex(clone), 1);
-      if (clone.hasClass('dna-sub-clone'))
-         removeArrayItem(clone.data().dnaRules.array);
+      const arrayField = dna.core.getArrayName(clone);
+      if (arrayField)
+         dna.getModel(clone.parent())[arrayField].splice(dna.getIndex(clone), 1);
       const fadeDelete = () => dna.ui.slideFadeDelete(clone, settings.callback);
       return settings.fade ? fadeDelete() : dna.core.remove(clone, settings.callback);
       },
@@ -781,11 +780,12 @@ dna.compile = {
       const elem = $('#' + name);
       if (!elem.length)
          dna.core.berserk('Template not found: ' + name);
-      const saveName = (i, elem) => $(elem).data().dnaRules = { template: $(elem).attr('id') };
-      elem.find('.dna-template').addBack().each(saveName).removeAttr('id');
+      const saveName = (i, elem) => $(elem).data().dnaRules = { template: $(elem).attr('id'), subs: [] };
+      const initSubs = (i, elem) => $(elem).data().dnaRules.subs = [];
+      elem.find('.dna-template').addBack().each(saveName).removeAttr('id').each(initSubs);
       const elems = elem.find('*').addBack();
       elems.filter(dna.compile.isDnaField).each(dna.compile.field).addClass('dna-field');
-      dna.compile.rules(elems, 'array').addClass('dna-sub-clone');
+      dna.compile.rules(elems, 'array').addClass('dna-sub-clone').each(initSubs);
       dna.compile.rules(elems, 'class', true);
       dna.compile.rules(elems, 'require');
       dna.compile.rules(elems, 'missing');
@@ -841,12 +841,11 @@ dna.store = {
          // Post (container)
          //    class=dna-nucleotide +
          //       data().dnaRules.loop={ name: '{NAME}-{FIELD}-instance', field: 'field' }
-         elem = $(elem);
-         const field = elem.data().dnaRules.array;
-         const sub = dna.compile.subTemplateName(name, field);
-         const parent = elem.parent().addClass('dna-array');
-         dna.compile.setupNucleotide(parent).data().dnaRules.loop = { name: sub, field: field };
-         elem.data().dnaRules.template = sub;
+         const rules = $(elem).data().dnaRules;
+         const parent = dna.compile.setupNucleotide($(elem).parent()).addClass('dna-array');
+         rules.template = dna.compile.subTemplateName(name, rules.array);
+         parent.data().dnaRules.loop = { name: rules.template, field: rules.array };
+         parent.closest('.dna-clone, .dna-sub-clone').data().dnaRules.subs.push(rules.array);
          };
       elem.find('.dna-template').addBack().each(move);
       elem.find('.dna-sub-clone').each(prepLoop).each(move);
@@ -1146,26 +1145,28 @@ dna.core = {
          dna.ui.slideFadeIn(clone);
       return clone;
       },
+   getArrayName: (subClone) => {
+      return subClone.hasClass('dna-sub-clone') ? subClone.data().dnaRules.array : null;
+      },
    updateArrayByName: (clone, arrayField) => {
-      const container = dna.getClone(clone);
       const update = () => {
-         const template = container.data().dnaRules.template;
-         const arrayClones = container.find('.' + template + '-' + arrayField + '-instance');
-         dna.getModel(container)[arrayField] = arrayClones.get().map(dna.getModel);
+         clone = dna.getClone(clone);
+         const name = dna.compile.subTemplateName(clone, arrayField);
+         if (clone.data().dnaRules.subs.includes(arrayField))
+            dna.getModel(clone)[arrayField] = clone.find('.' + name).get().map(dna.getModel);
          return clone;
          };
-      return container.hasClass('dna-container') && arrayField ? update() : clone;
+      return arrayField ? update() : clone;
       },
    updateArray: (subClone) => {
       subClone = dna.getClone(subClone.first());
-      if (subClone.hasClass('dna-sub-clone'))
-         dna.core.updateArrayByName(subClone.parent(), subClone.data().dnaRules.array);
+      dna.core.updateArrayByName(subClone.parent(), dna.core.getArrayName(subClone));
       return subClone;
       },
    remove: (clone, callback) => {
       const container = clone.parent();
       clone.detach();
-      dna.core.updateArrayByName(container, clone.length && clone.data().dnaRules.array);
+      dna.core.updateArrayByName(container, dna.core.getArrayName(clone));
       dna.placeholder.setup();
       clone.remove();
       if (callback)
