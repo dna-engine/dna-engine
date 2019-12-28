@@ -145,10 +145,9 @@ const dna = {
       // Removes an existing clone from the DOM.
       const settings = Object.assign({ fade: false, callback: null }, options);
       clone = dna.getClone(clone, options);
-      const removeArrayItem = (field) =>
-         dna.getModel(clone.parent())[field].splice(dna.getIndex(clone), 1);
-      if (clone.hasClass('dna-sub-clone'))
-         removeArrayItem(clone.data().dnaRules.array);
+      const arrayField = dna.core.getArrayName(clone);
+      if (arrayField)
+         dna.getModel(clone.parent())[arrayField].splice(dna.getIndex(clone), 1);
       const fadeDelete = () => dna.ui.slideFadeDelete(clone, settings.callback);
       return settings.fade ? fadeDelete() : dna.core.remove(clone, settings.callback);
       },
@@ -1146,6 +1145,9 @@ dna.core = {
          dna.ui.slideFadeIn(clone);
       return clone;
       },
+   getArrayName: (subClone) => {
+      return subClone.hasClass('dna-sub-clone') ? subClone.data().dnaRules.array : null;
+      },
    updateArrayByName: (clone, arrayField) => {
       const container = dna.getClone(clone);
       const update = () => {
@@ -1158,14 +1160,13 @@ dna.core = {
       },
    updateArray: (subClone) => {
       subClone = dna.getClone(subClone.first());
-      if (subClone.hasClass('dna-sub-clone'))
-         dna.core.updateArrayByName(subClone.parent(), subClone.data().dnaRules.array);
+      dna.core.updateArrayByName(subClone.parent(), dna.core.getArrayName(subClone));
       return subClone;
       },
    remove: (clone, callback) => {
       const container = clone.parent();
       clone.detach();
-      dna.core.updateArrayByName(container, clone.length && clone.data().dnaRules.array);
+      dna.core.updateArrayByName(container, dna.core.getArrayName(clone));
       dna.placeholder.setup();
       clone.remove();
       if (callback)
