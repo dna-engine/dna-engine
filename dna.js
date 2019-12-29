@@ -185,12 +185,13 @@ const dna = {
    registerInitializer: (func, options) => {
       // Adds a callback function to the list of initializers that are run on all DOM elements.
       const settings = Object.assign({ onDocumentLoad: true }, options);
+      const getElems = (selector) => !selector ? $(window.document) :
+         $(selector).not('.dna-template ' + selector).addClass('dna-initialized');
       if (settings.onDocumentLoad)
-         dna.util.apply(func, [settings.selector ? $(settings.selector).not(
-            '.dna-template ' + settings.selector).addClass('dna-initialized') :
-            $(window.document)].concat(settings.params));
-      return dna.events.initializers.push(
-         { func: func, selector: settings.selector, params: settings.params });
+         dna.util.apply(func, [getElems(settings.selector)].concat(settings.params));
+      const initializer = { func: func, selector: settings.selector, params: settings.params };
+      dna.events.initializers.push(initializer);
+      return dna.events.initializers;
       },
    clearInitializers: () => {
       // Deletes all initializers.
