@@ -75,7 +75,7 @@
       "jsdom": "~15.2",
       "jshint": "~2.10",
       "merge-stream": "~2.0",
-      "mocha": "~6.2",
+      "mocha": "~7.0",
       "request": "~2.88",
       "web-ignition": "~1.2"
    }
