@@ -115,11 +115,12 @@ const task = {
             .pipe(replace(line.findIntro, line.newIntro))
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('.'));
+      const skip = (type, message) => !/input type is not supported in all browsers/.test(message);
       const validateHtml = () =>
          gulp.src(['spec/visual.html', 'spec/simple.html'])
             .pipe(htmlHint(htmlHintConfig))
             .pipe(htmlHint.reporter())
-            .pipe(htmlValidator())
+            .pipe(htmlValidator({ verifyMessage: skip }))
             .pipe(htmlValidator.reporter())
             .pipe(size({ showFiles: true }));
       return mergeStream(updateReadMe(), validateHtml());

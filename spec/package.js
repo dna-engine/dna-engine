@@ -8,7 +8,7 @@ const { JSDOM } = require('jsdom');
 // Web page
 const html = `
 <!doctype html>
-<html>
+<html lang=en>
    <head>
       <meta charset=utf-8>
       <title>Specification Runner</title>

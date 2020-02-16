@@ -10,7 +10,7 @@ const { JSDOM } = require('jsdom');
 const dnaPath = process.env.specMode === 'minified' ? 'dist/dna.min.js' : 'dist/dna.js';
 const html = `
 <!doctype html>
-<html>
+<html lang=en>
    <head>
       <meta charset=utf-8>
       <title>Specification Runner</title>
