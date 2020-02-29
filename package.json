@@ -72,10 +72,10 @@
       "highlight.js": "~9.18",
       "http-server": "~0.12",
       "jquery": "~3.4",
-      "jsdom": "~16.1",
+      "jsdom": "~16.2",
       "jshint": "~2.11",
       "merge-stream": "~2.0",
-      "mocha": "~7.0",
+      "mocha": "~7.1",
       "request": "~2.88",
       "web-ignition": "~1.2"
    }
