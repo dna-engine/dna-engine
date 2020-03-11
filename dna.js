@@ -41,7 +41,7 @@ const dna = {
       const settings = Object.assign(defaults, options);
       const template = dna.store.getTemplate(name);
       if (template.nested && !settings.container)
-         dna.core.berserk('Container missing for nested template: ' + name);
+         dna.core.berserk('Container missing for nested template', name);
       if (settings.empty)
          dna.empty(name);
       const list = [].concat(...Array(settings.clones).fill(data));
@@ -446,7 +446,7 @@ dna.util = {
       let result;
       const contextApply = (context, names) => {
          if (!context || (names.length === 1 && typeof context[names[0]] !== 'function'))
-            dna.core.berserk('Callback function not found: ' + fn);
+            dna.core.berserk('Callback function not found', fn);
          else if (names.length === 1)
             result = context[names[0]].apply(elem, args);  //'app.cart.buy' ==> window['app']['cart']['buy']
          else
@@ -471,7 +471,7 @@ dna.util = {
       else if (elem && elem[fn])  //run element's jQuery function
          result = elem[fn](args[1], args[2], args[3]);
       else if (fn === '' || { number: true, boolean: true}[typeof fn])
-         dna.core.berserk('Invalid callback function: ' + fn);
+         dna.core.berserk('Invalid callback function', fn);
       else if (typeof fn === 'string' && fn.length > 0)
          findFn(fn.split('.'));
       return result;
@@ -611,7 +611,7 @@ dna.panels = {
          const savedIndex = () => dna.pageToken.get(navName, 0);
          const loc =        hash && panels.first().data().hash ? hashIndex() : savedIndex();
          if (!menu.length)
-            dna.core.berserk('Menu not found for panels: ' + navName);
+            dna.core.berserk('Menu not found for panels', navName);
          menu.data().dnaPanels = panels;
          if (!menu.find('.menu-item').length)  //set .menu-item elems if not set in the html
             menu.children().addClass('menu-item');
@@ -780,7 +780,7 @@ dna.compile = {
    template: (name) => {  //prepare and stash template so it can be cloned
       const elem = $('#' + name);
       if (!elem.length)
-         dna.core.berserk('Template not found: ' + name);
+         dna.core.berserk('Template not found', name);
       const saveName = (i, elem) => $(elem).data().dnaRules = { template: $(elem).attr('id'), subs: [] };
       const initSubs = (i, elem) => $(elem).data().dnaRules.subs = [];
       elem.find('.dna-template').addBack().each(saveName).removeAttr('id').each(initSubs);
@@ -1174,8 +1174,8 @@ dna.core = {
          callback(clone);
       return clone;
       },
-   berserk: (message) => {  //oops, file a tps report
-      throw Error('dna.js -> ' + message);
+   berserk: (message, info) => {  //oops, file a tps report
+      throw Error('dna.js ~~ ' + message + ' [' + info + ']');
       },
    plugin: () => {
       // Example:
@@ -1186,7 +1186,7 @@ dna.core = {
          const params = [arguments[1], arguments[2], arguments[3]];
          const dnaApi = dna[dna.util.toCamel(action)];
          if (!dnaApi)
-            dna.core.berserk('Unknown plugin action: ' + action);
+            dna.core.berserk('Unknown plugin action', action);
          const callApi = (i, elem) => dnaApi($(elem), params[0], params[1], params[2]);
          return this.each(callApi);
          };
