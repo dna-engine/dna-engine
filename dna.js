@@ -606,7 +606,7 @@ dna.panels = {
          const navName =    panelHolder.data().nav || generateNavName();
          const menu =       $('.dna-menu[data-nav=' + navName + ']').addClass(initialized);
          const panels =     panelHolder.addClass(initialized).children().addClass('panel');
-         const hash =       window.location.hash.slice(1);
+         const hash =       window.location.hash.replace(/[^\w-]/g, '');  //remove leading "#"
          const hashIndex =  () => panels.filter('[data-hash=' + hash + ']').index();
          const savedIndex = () => dna.pageToken.get(navName, 0);
          const loc =        hash && panels.first().data().hash ? hashIndex() : savedIndex();
@@ -617,7 +617,8 @@ dna.panels = {
             menu.children().addClass('menu-item');
          dna.panels.display(menu, loc);
          };
-      if (panelHolder.length && !panelHolder.hasClass(initialized) && !panelHolder.children().hasClass('dna-template'))
+      const isInitialized = !panelHolder.length || panelHolder.hasClass(initialized);
+      if (!isInitialized && !panelHolder.children().hasClass('dna-template'))
          init();
       },
    setup: () => {
