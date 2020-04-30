@@ -71,7 +71,7 @@
       "gulp-w3c-html-validator": "~2.0",
       "highlight.js": "~9.18",
       "http-server": "~0.12",
-      "jquery": "~3.4",
+      "jquery": "~3.5",
       "jsdom": "~16.2",
       "jshint": "~2.11",
       "merge-stream": "~2.0",
