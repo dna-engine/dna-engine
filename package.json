@@ -40,7 +40,7 @@
       }
    },
    "scripts": {
-      "web-server": "http-server --port 3482 &",
+      "web-server": "lsof -P -i TCP:3482 || http-server --port 3482 &",
       "pretest": "jshint *.js spec website && gulp build-dist",
       "test": "mocha spec && env specMode=minified mocha spec",
       "posttest": "gulp report-size",
