@@ -26,8 +26,8 @@ setupWebServer() {
    npm run web-server
    sleep 2  #ensure pid is ready to read
    echo "To stop web server:"
-   echo "   $ lsof -P -i TCP:$port"
-   echo "   $ kill $(lsof -Pt -i TCP:$port)"
+   echo "   $ lsof -P -i :$port"
+   echo "   $ kill $(lsof -Pt -i :$port)"
    echo
    }
 

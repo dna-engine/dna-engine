@@ -419,7 +419,7 @@ figure.hljs-enhance .dna-panels {
    }
 
 /* Mobile */
-@media (max-width: 667px) {  /* selects iPhone 6/6s/7/8 landscape and anything narrower */
+@media (max-width: 667px) {  /* selects iPhone 6/6s/7/8/SE(2020) landscape and anything narrower */
    html {
       font-size: 90%;
       background: none;

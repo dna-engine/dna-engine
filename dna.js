@@ -547,7 +547,7 @@ dna.panels = {
    // Each click of a menu item displays its corresponding panel and optionally passes the panel
    // element and hash to the function specified by the "data-callback" attribute.
    // Usage:
-   //    <nav class=dna-menu data-nav={NAME} data-callback=app.displayPanel>
+   //    <nav class=dna-menu data-nav={NAME} data-callback={CALLBACK}>
    //       <button>See X1</button>
    //       <button>See X2</button>
    //    </nav>
