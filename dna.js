@@ -38,7 +38,7 @@ const dna = {
          transform: null,
          callback:  null
          };
-      const settings = Object.assign(defaults, options);
+      const settings = {...defaults, ...options};
       const template = dna.store.getTemplate(name);
       if (template.nested && !settings.container)
          dna.core.berserk('Container missing for nested template', name);
@@ -59,7 +59,7 @@ const dna = {
       const name = dna.compile.subTemplateName(holderClone, arrayField);
       const selector = '.dna-contains-' + name;
       const settings = { container: holderClone.find(selector).addBack(selector) };
-      const clones = dna.clone(name, data, Object.assign(settings, options));
+      const clones = dna.clone(name, data, {...settings, ...options});
       dna.core.updateArray(clones);
       return clones;
       },
@@ -81,7 +81,7 @@ const dna = {
       },
    empty: (name, options) => {
       // Deletes all clones generated from the template.
-      const settings = Object.assign({ fade: false, callback: null }, options);
+      const settings = {...{ fade: false, callback: null }, ...options};
       const template = dna.store.getTemplate(name);
       const clones = template.container.children('.dna-clone');
       if (template.container.data().dnaCountsMap)
@@ -97,7 +97,7 @@ const dna = {
       },
    refresh: (clone, options) => {
       // Updates an existing clone to reflect changes to the data model.
-      const settings = Object.assign({ html: false }, options);
+      const settings = {...{ html: false }, ...options};
       const elem = dna.getClone(clone, options);
       const data = settings.data ? settings.data : dna.getModel(elem);
       return dna.core.inject(elem, data, elem.data().dnaCount, settings);
@@ -143,7 +143,7 @@ const dna = {
       },
    destroy: (clone, options) => {
       // Removes an existing clone from the DOM.
-      const settings = Object.assign({ fade: false, callback: null }, options);
+      const settings = {...{ fade: false, callback: null }, ...options};
       clone = dna.getClone(clone, options);
       const arrayField = dna.core.getArrayName(clone);
       if (arrayField)
@@ -153,7 +153,7 @@ const dna = {
       },
    getClone: (elem, options) => {
       // Returns the clone (or sub-clone) for the specified element.
-      const settings = Object.assign({ main: false }, options);
+      const settings = {...{ main: false }, ...options};
       const selector = settings.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone';
       return elem instanceof $ ? elem.closest(selector) : $();
       },
@@ -184,7 +184,7 @@ const dna = {
       },
    registerInitializer: (func, options) => {
       // Adds a callback function to the list of initializers that are run on all DOM elements.
-      const settings = Object.assign({ onDocumentLoad: true }, options);
+      const settings = {...{ onDocumentLoad: true }, ...options};
       const getElems = (selector) => !selector ? $(window.document) :
          $(selector).not('.dna-template ' + selector).addClass('dna-initialized');
       if (settings.onDocumentLoad)
@@ -254,7 +254,7 @@ dna.array = {
       //    { a: { word: 'Ant' }, b: { word: 'Bat' } }
       // to:
       //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
-      const settings = Object.assign({ key: 'code', kebabCodes: false }, options);
+      const settings = {...{ key: 'code', kebabCodes: false }, ...options};
       const array = [];
       const toObj = (item) => item instanceof Object ? item : { value: item };
       for (let property in map)
@@ -270,7 +270,7 @@ dna.array = {
       //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
       // to:
       //    { a: { code: 'a', word: 'Ant' }, b: { code: 'b', word: 'Bat' } }
-      const settings = Object.assign({ key: 'code', camelKeys: false }, options);
+      const settings = {...{ key: 'code', camelKeys: false }, ...options};
       const map = {};
       const addObj = (obj) => map[obj[settings.key]] = obj;
       const addObjCamelKey = (obj) => map[dna.util.toCamel(obj[settings.key])] = obj;
@@ -337,7 +337,7 @@ dna.ui = {
    pulse: (elem, options) => {
       // Fades in an element after hiding it to create a single smooth flash effect.  The optional
       // interval fades out the element.
-      const settings = Object.assign({ duration: 400, interval: null, out: 5000 }, options);
+      const settings = {...{ duration: 400, interval: null, out: 5000 }, ...options};
       const css = { hide: { opacity: 0 }, show: { opacity: 1 } };
       elem.stop(true).slideDown().css(css.hide).animate(css.show, settings.duration);
       if (settings.interval)
