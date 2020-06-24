@@ -31,7 +31,7 @@ nav.dna-menu[data-style=flat-tabs] {
 nav.dna-menu[data-style=flat-tabs] span {
    color: gainsboro;
    padding: 10px 35px;
-   transition: all 0.4s;
+   transition: all 400ms;
    }
 nav.dna-menu[data-style=flat-tabs] span.selected,
 nav.dna-menu[data-style=flat-tabs] span:hover {
@@ -72,7 +72,7 @@ nav.dna-menu[data-style=pillbox-tabs] span {
    color: dimgray;
    background-color: gainsboro;
    padding: 7px 35px;
-   transition: all 0.4s;
+   transition: all 400ms;
    }
 nav.dna-menu[data-style=pillbox-tabs] span:first-child {
    border-radius: 20px 0px 0px 20px;

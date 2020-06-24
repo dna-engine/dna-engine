@@ -163,7 +163,7 @@ button {
    background-color: cornflowerblue;
    padding: 0.6em 1.2em;
    outline: none;
-   transition: background-color 0.4s;
+   transition: background-color 400ms;
    }
 button:hover {
    background-color: royalblue;
@@ -366,7 +366,7 @@ figure.hljs-enhance >div {
    background-color: white;
    }
 figure.hljs-enhance .dna-menu button {
-   transition: all 0.4s;
+   transition: all 400ms;
    }
 figure.hljs-enhance .dna-menu button:hover,
 figure.hljs-enhance .dna-menu button.selected {
@@ -404,7 +404,7 @@ figure.hljs-enhance .dna-panels {
    border: 2px solid silver;
    border-radius: 5px;
    padding: 5px 10px;
-   transition: all 0.4s;
+   transition: all 400ms;
    }
 [data-component=author] .menu-item.selected,
 [data-component=author] .menu-item:hover {
