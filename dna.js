@@ -959,11 +959,11 @@ dna.events = {
          // Usage:
          //    <button data-href=https://dnajs.org>dna.js</button>
          // If element (or parent) has the class "external-site", page will be opened in a new tab.
-         const elem = $(event.target);
+         const elem = $(event.target).closest('[data-href]');
          const iOS = /iPad|iPhone|iPod/.test(window.navigator.userAgent) &&
             /Apple/.test(window.navigator.vendor);
-         const newTab = !iOS && elem.closest('.external-site').length;
-         window.open(elem.closest('[data-href]').data().href, newTab ? '_blank' : '_self');
+         const target = elem.closest('.external-site').length ? '_blank' : '_self';
+         window.open(elem.data().href, iOS ? '_self' : elem.data().target || target);
          };
       $(window.document)
          .on({
