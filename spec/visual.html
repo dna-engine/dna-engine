@@ -932,6 +932,13 @@ spec.spec14 = {
          <div id=s15-book class=dna-template data-callback=spec.spec15.configure>
             <div class=surrounded>
                <span class=count>~~[count]~~</span>: <span>~~[value]~~</span>
+               <button data-click=spec.spec15.animal>
+                  🐅
+                  <b>🐒</b>
+                  <b data-click=spec.spec15.elephant>🐘
+                     <span data-click=spec.spec15.mouse>🐁</span>
+                  </b>
+               </button>
             </div>
             <button class=1 data-click=dna.bye>Bye 1</button>
             <button class=2>Bye 2</button>
@@ -946,6 +953,7 @@ spec.spec14 = {
          <div class="dna-clone color-change border-change2">
             <div class=border-change style="color: white; padding: 10px;">
                <span class=count>3</span>: <span>Howdy HTML5</span>
+               <button> 🐅 <b>🐒</b> <b>🐘 <span>🐁</span> </b> </button>
             </div>
             <button>Bye 1</button>
             <button>Bye 2</button>
@@ -954,6 +962,7 @@ spec.spec14 = {
          <div class="dna-clone color-change border-change2">
             <div class=border-change style="color: white; padding: 10px;">
                <span>5</span>: <span>Styling CSS3</span>
+               <button> 🐅 <b>🐒</b> <b>🐘 <span>🐁</span> </b> </button>
             </div>
             <button>Bye 1</button>
             <button>Bye 2</button>
@@ -966,9 +975,22 @@ spec.spec14 = {
 <script>
 spec.spec15 = {
    configure: (elem) => elem.addClass('color-change'),
+   showMessage: (message, elem) => {
+      const p = $('<p>').text([Date.now() % 10000, message, elem[0].nodeName].join(' '));
+      $('#spec15 fieldset').first().append(p);
+      },
+   animal: (elem) => {
+      spec.spec15.showMessage('animal', elem);
+      },
+   elephant: (elem) => {
+      spec.spec15.showMessage('elephant', elem);
+      },
+   mouse: (elem) => {
+      spec.spec15.showMessage('mouse', elem);
+      },
    surround: (elem) => {
       elem.addClass('border-change');
-      const addHr = () => { $('#spec15 fieldset').first().append('<hr>'); }
+      const addHr = () => $('#spec15 fieldset').first().append('<hr>');
       elem.each(addHr);  //exactly 8 times (one for each clone)
       },
    surround2: (elem) => elem.addClass('border-change2'),
@@ -995,9 +1017,7 @@ spec.spec15 = {
       const titles = ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE'];
       dna.clone('s15-book', titles);
       $('.s15-book button.2').on({ click: dna.bye });  //add handler
-      const getClone = (count) => {
-         return $('.s15-book .count:contains(' + count + ')').closest('.dna-clone');
-         };
+      const getClone = (count) => $('.s15-book .count:contains(' + count + ')').closest('.dna-clone');
       getClone(1).find('button.1').trigger('click');         //nuke 1st (bye w/data-click)
       getClone(2).find('button.2').trigger('click');         //nuke 2nd (bye w/event handler)
       getClone(8).find('button.3').trigger('click');         //nuke 8th (remove w/dna click callback)
@@ -1369,7 +1389,9 @@ spec.spec19 = {
       data.code = dna.util.toKebab(data.title);
       data.displayPrice = '$' + (data.price / 100).toFixed(2);
       },
-   displayPanel: (elem) => elem.addClass('border-change'),
+   displayPanel: (elem) => {
+      return elem.addClass('border-change');
+      },
    run: () => {
       dna.clone('s19-book-title', specRunner.catalog);
       dna.clone('s19-book',       specRunner.catalog);
