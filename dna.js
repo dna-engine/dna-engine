@@ -893,11 +893,16 @@ dna.events = {
          // Types: click|change|input|key-up|key-down|key-press|enter-key
          const target = elem.closest('[data-' + type + ']');
          const fn = target.data(type);
-         if (type === 'click' && target.nodeName === 'A' && fn && fn.match(/^dna[.]/))
+         const isLink = target[0] && target[0].nodeName === 'A';
+         if (type === 'click' && isLink && fn && fn.match(/^dna[.]/))
             event.preventDefault();
+         const nextClickTarget = target.parent().closest('[data-click]');
+         if (type === 'click' && nextClickTarget.length)
+            runner(nextClickTarget, type, event);
          return dna.util.apply(fn, [target, event]);
          };
-      const processEvent = (event, target) => {
+      const handleEvent = (event) => {
+         const target =       $(event.target);
          const updateField =  (elem, calc) => dna.util.assign(dna.getModel(elem), elem.data().dnaField, calc(elem));
          const getValue =     (elem) => elem.val();
          const isChecked =    (elem) => elem.is(':checked');
@@ -920,9 +925,9 @@ dna.events = {
             updateModel();
          return runner(target, event.type.replace('key', 'key-'), event);
          };
-      const handleEvent = (event) => processEvent(event, $(event.target));
-      const handleEnterKey = (event) =>
-         event.which === 13 && runner($(event.target), 'enter-key', event);
+      const handleEnterKey = (event) => {
+         return event.which === 13 && runner($(event.target), 'enter-key', event);
+         };
       const handleSmartUpdate = (event) => {
          const defaultThrottle = 1000;  //default 1 second delay between callbacks
          const elem = $(event.target);
