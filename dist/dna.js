@@ -1,7 +1,7 @@
-//! dna.js v1.6.2 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.6.3 ~~ dnajs.org ~~ MIT License
 
 const dna = {
-   version: '1.6.2',
+   version: '1.6.3',
    // API:
    //    dna.clone()
    //    dna.cloneSub()
@@ -891,20 +891,23 @@ dna.events = {
          // Finds elements for given event type and executes callback passing in the element,
          //    event, and component (container element with "data-component" attribute)
          // Types: click|change|input|key-up|key-down|key-press|enter-key
-         elem = elem.closest('[data-' + type + ']');
-         const fn = elem.data(type);
-         if (type === 'click' && elem.prop('tagName') === 'A' && fn && fn.match(/^dna[.]/))
+         const target = elem.closest('[data-' + type + ']');
+         const fn = target.data(type);
+         const isLink = target[0] && target[0].nodeName === 'A';
+         if (type === 'click' && isLink && fn && fn.match(/^dna[.]/))
             event.preventDefault();
-         return dna.util.apply(fn, [elem, event]);
+         const nextClickTarget = target.parent().closest('[data-click]');
+         if (type === 'click' && nextClickTarget.length)
+            runner(nextClickTarget, type, event);
+         return dna.util.apply(fn, [target, event]);
          };
-      const handle = (event) => {
-         const target = $(event.target);
-         const updateField = (elem, calc) =>
-            dna.util.assign(dna.getModel(elem), elem.data().dnaField, calc(elem));
-         const getValue = (elem) => elem.val();
-         const isChecked = (elem) => elem.is(':checked');
+      const handleEvent = (event) => {
+         const target =       $(event.target);
+         const updateField =  (elem, calc) => dna.util.assign(dna.getModel(elem), elem.data().dnaField, calc(elem));
+         const getValue =     (elem) => elem.val();
+         const isChecked =    (elem) => elem.is(':checked');
          const updateOption = (i, elem) => updateField($(elem), isChecked);
-         const updateModel = () => {
+         const updateModel =  () => {
             const mainClone = dna.getClone(target, { main: true });
             if (mainClone.length === 0) {  //TODO: figure out why some events are captured on the template instead of the clone
                //console.log('Error -- event not on clone:', event.timeStamp, event.type, target);
@@ -923,8 +926,7 @@ dna.events = {
          return runner(target, event.type.replace('key', 'key-'), event);
          };
       const handleEnterKey = (event) => {
-         if (event.which === 13)
-            runner($(event.target), 'enter-key', event);
+         return event.which === 13 && runner($(event.target), 'enter-key', event);
          };
       const handleSmartUpdate = (event) => {
          const defaultThrottle = 1000;  //default 1 second delay between callbacks
@@ -965,22 +967,24 @@ dna.events = {
          const target = elem.closest('.external-site').length ? '_blank' : '_self';
          window.open(elem.data().href, iOS ? '_self' : elem.data().target || target);
          };
+      const events = {
+         click:    handleEvent,
+         change:   handleEvent,
+         keydown:  handleEvent,
+         keypress: handleEvent,
+         keyup:    handleEvent,
+         input:    handleEvent
+         };
+      const smartUpdateEvents = {
+         keydown: handleSmartUpdate,
+         keyup:   handleSmartUpdate,
+         change:  handleSmartUpdate,
+         cut:     handleSmartUpdate,
+         paste:   handleSmartUpdate
+         };
       $(window.document)
-         .on({
-            click:    handle,
-            change:   handle,
-            keydown:  handle,
-            keypress: handle,
-            keyup:    handle,
-            input:    handle
-            })
-         .on({
-            keydown: handleSmartUpdate,
-            keyup:   handleSmartUpdate,
-            change:  handleSmartUpdate,
-            cut:     handleSmartUpdate,
-            paste:   handleSmartUpdate
-            })
+         .on(events)
+         .on(smartUpdateEvents)
          .on({ keyup: handleEnterKey })
          .on({ click: jumpToUrl }, '[data-href]');
       dna.events.runOnLoads();
