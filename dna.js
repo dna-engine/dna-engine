@@ -230,16 +230,15 @@ dna.array = {
    find: (array, value, key) => {
       // Returns the index and a reference to the first array element with a key equal to the
       // supplied value.  The default key is "code".
-      // Example:
+      // Examples:
       //    const array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
-      //    dna.array.find(array, 'b').item.word === 'Bat';
-      //    dna.array.find(array, 'b').index === 1;
-      //    dna.array.find(array, 'x').item === undefined;
-      key = key || 'code';
+      //    result = dna.array.find(array, 'b');  //{ item: { code: 'b', word: 'Bat' }, index: 1 }
+      //    result = dna.array.find(array, 'x');  //{ item: undefined, index: -1 }
+      const searchKey = key || 'code';
       const valid = Array.isArray(array);
       let i = 0;
       if (valid)
-         while (i < array.length && array[i][key] !== value)
+         while (i < array.length && array[i][searchKey] !== value)
             i++;
       return valid && i < array.length ?
          { item: array[i],  index: i } :
