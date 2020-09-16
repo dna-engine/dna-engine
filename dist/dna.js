@@ -1,7 +1,7 @@
-//! dna.js v1.6.3 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.6.4 ~~ dnajs.org ~~ MIT License
 
 const dna = {
-   version: '1.6.3',
+   version: '1.6.4',
    // API:
    //    dna.clone()
    //    dna.cloneSub()
@@ -230,16 +230,15 @@ dna.array = {
    find: (array, value, key) => {
       // Returns the index and a reference to the first array element with a key equal to the
       // supplied value.  The default key is "code".
-      // Example:
+      // Examples:
       //    const array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
-      //    dna.array.find(array, 'b').item.word === 'Bat';
-      //    dna.array.find(array, 'b').index === 1;
-      //    dna.array.find(array, 'x').item === undefined;
-      key = key || 'code';
+      //    result = dna.array.find(array, 'b');  //{ item: { code: 'b', word: 'Bat' }, index: 1 }
+      //    result = dna.array.find(array, 'x');  //{ item: undefined, index: -1 }
+      const searchKey = key || 'code';
       const valid = Array.isArray(array);
       let i = 0;
       if (valid)
-         while (i < array.length && array[i][key] !== value)
+         while (i < array.length && array[i][searchKey] !== value)
             i++;
       return valid && i < array.length ?
          { item: array[i],  index: i } :
@@ -925,6 +924,10 @@ dna.events = {
             updateModel();
          return runner(target, event.type.replace('key', 'key-'), event);
          };
+      const handleHover = (event) => {
+         const type = event.type === 'mouseenter' ? 'hover-in' : 'hover-out';
+         return runner($(event.target), type, event);
+         };
       const handleEnterKey = (event) => {
          return event.which === 13 && runner($(event.target), 'enter-key', event);
          };
@@ -985,6 +988,8 @@ dna.events = {
       $(window.document)
          .on(events)
          .on(smartUpdateEvents)
+         .on({ mouseenter: handleHover }, '[data-hover-in]')
+         .on({ mouseleave: handleHover }, '[data-hover-out]')
          .on({ keyup: handleEnterKey })
          .on({ click: jumpToUrl }, '[data-href]');
       dna.events.runOnLoads();
