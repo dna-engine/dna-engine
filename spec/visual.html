@@ -938,6 +938,9 @@ spec.spec14 = {
                   <b data-click=spec.spec15.elephant>🐘
                      <span data-click=spec.spec15.mouse>🐁</span>
                   </b>
+                  <b data-hover-in=spec.spec15.ufoIn>
+                     <span data-hover-out=spec.spec15.ufoOut>🛸</span>
+                  </b>
                </button>
             </div>
             <button class=1 data-click=dna.bye>Bye 1</button>
@@ -953,7 +956,7 @@ spec.spec14 = {
          <div class="dna-clone color-change border-change2">
             <div class=border-change style="color: white; padding: 10px;">
                <span class=count>3</span>: <span>Howdy HTML5</span>
-               <button> 🐅 <b>🐒</b> <b>🐘 <span>🐁</span> </b> </button>
+               <button> 🐅 <b>🐒</b> <b>🐘 <span>🐁</span> </b> <b> <span>🛸</span> </b> </button>
             </div>
             <button>Bye 1</button>
             <button>Bye 2</button>
@@ -962,7 +965,7 @@ spec.spec14 = {
          <div class="dna-clone color-change border-change2">
             <div class=border-change style="color: white; padding: 10px;">
                <span>5</span>: <span>Styling CSS3</span>
-               <button> 🐅 <b>🐒</b> <b>🐘 <span>🐁</span> </b> </button>
+               <button> 🐅 <b>🐒</b> <b>🐘 <span>🐁</span> </b> <b> <span>🛸</span> </b> </button>
             </div>
             <button>Bye 1</button>
             <button>Bye 2</button>
@@ -976,7 +979,9 @@ spec.spec14 = {
 spec.spec15 = {
    configure: (elem) => elem.addClass('color-change'),
    showMessage: (message, elem) => {
-      const p = $('<p>').text([Date.now() % 10000, message, elem[0].nodeName].join(' '));
+      const tag = '<' + elem[0].nodeName + '>'
+      const msec = String(Date.now() % 10000).padStart(4, '0');
+      const p = $('<p>').text([msec, message, tag].join(' '));
       $('#spec15 fieldset').first().append(p);
       },
    animal: (elem) => {
@@ -987,6 +992,12 @@ spec.spec15 = {
       },
    mouse: (elem) => {
       spec.spec15.showMessage('mouse', elem);
+      },
+   ufoIn: (elem) => {
+      spec.spec15.showMessage('⎍⎎⍜ hover', elem);
+      },
+   ufoOut: (elem) => {
+      spec.spec15.showMessage('⎍⎎⍜ bye', elem);
       },
    surround: (elem) => {
       elem.addClass('border-change');

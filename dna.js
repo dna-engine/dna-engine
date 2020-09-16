@@ -924,6 +924,10 @@ dna.events = {
             updateModel();
          return runner(target, event.type.replace('key', 'key-'), event);
          };
+      const handleHover = (event) => {
+         const type = event.type === 'mouseenter' ? 'hover-in' : 'hover-out';
+         return runner($(event.target), type, event);
+         };
       const handleEnterKey = (event) => {
          return event.which === 13 && runner($(event.target), 'enter-key', event);
          };
@@ -984,6 +988,8 @@ dna.events = {
       $(window.document)
          .on(events)
          .on(smartUpdateEvents)
+         .on({ mouseenter: handleHover }, '[data-hover-in]')
+         .on({ mouseleave: handleHover }, '[data-hover-out]')
          .on({ keyup: handleEnterKey })
          .on({ click: jumpToUrl }, '[data-href]');
       dna.events.runOnLoads();
