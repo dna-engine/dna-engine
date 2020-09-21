@@ -1538,24 +1538,28 @@
       Element attributes for supported events:
       <ol>
          <li><code>data-click</code></li>
+         <li><code>data-hover-in</code></li>
+         <li><code>data-hover-out</code></li>
          <li><code>data-change</code></li>
          <li><code>data-input</code></li>
-         <li><code>data-key-up</code></li>
          <li><code>data-key-down</code></li>
          <li><code>data-key-press</code></li>
+         <li><code>data-key-up</code></li>
          <li><code>data-enter-key</code></li>
       </ol>
       <figure>
          <figcaption>Example</figcaption>
          <pre><code class=language-html>
-            &lt;p&gt;Click:  &lt;button data-click=showMsg     value=1&gt;1&lt;/button&gt;&lt;/p&gt;
-            &lt;p&gt;Change: &lt;input  data-change=showMsg    value=2&gt;&lt;/p&gt;
-            &lt;p&gt;Input:  &lt;input  data-input=showMsg     value=3&gt;&lt;/p&gt;
-            &lt;p&gt;Up:     &lt;input  data-key-up=showMsg    value=4&gt;&lt;/p&gt;
-            &lt;p&gt;Down:   &lt;input  data-key-down=showMsg  value=5&gt;&lt;/p&gt;
-            &lt;p&gt;Press:  &lt;input  data-key-press=showMsg value=6&gt;&lt;/p&gt;
-            &lt;p&gt;Submit: &lt;input  data-enter-key=showMsg value=7&gt;&lt;/p&gt;
-            &lt;p id=message&gt;&lt;/p&gt;
+            &lt;output id=message&gt;&lt;/output&gt;
+            &lt;p&gt;Click:     &lt;button data-click=showMsg     value=1&gt;1&lt;/button&gt;&lt;/p&gt;
+            &lt;p&gt;Hover in:  &lt;meter  data-hover-in=showMsg  value=2 max=4&gt;1&lt;/meter&gt;&lt;/p&gt;
+            &lt;p&gt;Hover out: &lt;meter  data-hover-out=showMsg value=3 max=4&gt;1&lt;/meter&gt;&lt;/p&gt;
+            &lt;p&gt;Change:    &lt;input  data-change=showMsg    value=4&gt;&lt;/p&gt;
+            &lt;p&gt;Input:     &lt;input  data-input=showMsg     value=5&gt;&lt;/p&gt;
+            &lt;p&gt;Key down:  &lt;input  data-key-down=showMsg  value=6&gt;&lt;/p&gt;
+            &lt;p&gt;Key press: &lt;input  data-key-press=showMsg value=7&gt;&lt;/p&gt;
+            &lt;p&gt;Key up:    &lt;input  data-key-up=showMsg    value=8&gt;&lt;/p&gt;
+            &lt;p&gt;Submit:    &lt;input  data-enter-key=showMsg value=9&gt;&lt;/p&gt;
             &lt;script&gt;
                const showMsg = (elem, event) =&gt; {
                   const msg = 'Value "' + elem.val() + '" on ' + event.type;
@@ -1569,14 +1573,16 @@
       <figure class=hljs-enhance>
          <figcaption>Result (interactive)</figcaption>
          <div class=no-disable>
-            <p>Click:  <button data-click=showMsg     value=1>1</button></p>
-            <p>Change: <input  data-change=showMsg    value=2></p>
-            <p>Input:  <input  data-input=showMsg     value=3></p>
-            <p>Up:     <input  data-key-up=showMsg    value=4></p>
-            <p>Down:   <input  data-key-down=showMsg  value=5></p>
-            <p>Press:  <input  data-key-press=showMsg value=6></p>
-            <p>Submit: <input  data-enter-key=showMsg value=7></p>
-            <p id=message><br></p>
+            <output id=message>&nbsp;</output>
+            <p>Click:     <button data-click=showMsg     value=1>1</button></p>
+            <p>Hover in:  <meter  data-hover-in=showMsg  value=2 max=4></meter></p>
+            <p>Hover out: <meter  data-hover-out=showMsg value=3 max=4></meter></p>
+            <p>Change:    <input  data-change=showMsg    value=4></p>
+            <p>Input:     <input  data-input=showMsg     value=5></p>
+            <p>Key down:  <input  data-key-down=showMsg  value=6></p>
+            <p>Key press: <input  data-key-press=showMsg value=7></p>
+            <p>Key up:    <input  data-key-up=showMsg    value=8></p>
+            <p>Submit:    <input  data-enter-key=showMsg value=9></p>
             <script>
                const showMsg = (elem, event) => {
                   const msg = 'Value "' + elem.val() + '" on ' + event.type;
@@ -3427,6 +3433,8 @@
          <li><a href=#event-user>            <code>data-enter-key</code></a>:      Callback to run on enter key event</li>
          <li><a href=#structure-thimblerig>  <code>data-false</code></a>:          Show element only if field evaluates to false</li>
          <li><a href=#panels-routes>         <code>data-hash</code></a>:           Set the fragment ID (hash) for a panel's URL</li>
+         <li><a href=#event-user>            <code>data-hover-in</code></a>:       Callback to run on mouse enter event</li>
+         <li><a href=#event-user>            <code>data-hover-out</code></a>:      Callback to run on mouse leave event</li>
          <li><a href=#event-jump>            <code>data-href</code></a>:           Jumps to the URL (like an <code>&lt;a&gt;</code> link)</li>
          <li><a href=#event-user>            <code>data-input</code></a>:          Callback to run on input event</li>
          <li><a href=#event-user>            <code>data-key-down</code></a>:       Callback to run on key down event</li>

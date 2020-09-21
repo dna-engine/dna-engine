@@ -146,7 +146,6 @@ td >code {
    font-weight: bold;
    }
 
-
 figure img {
    border: 3px solid steelblue;
    }
@@ -248,6 +247,14 @@ main.docs-page >section {
    }
 main.docs-page >section >h3:first-child {
    margin: 10px 0px 20px 0px;
+   }
+main.docs-page >section output {
+   display: block;
+   font-family: monospace;
+   font-size: 1.4rem;
+   font-weight: bold;
+   color: mediumorchid;
+   margin-bottom: 5px;
    }
 section >p >em {
    display: block;
