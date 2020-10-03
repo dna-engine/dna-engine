@@ -64,6 +64,7 @@ local clone.&nbsp; Make your edits and rerun the tests.&nbsp; Pull requests welc
 Pull requests should not update the `version` number in **package.json** or any files in the `dist` folder.&nbsp; The `version` number and `dist` files are all updated as part of the release process.
 
 <br>
+
 ---
 Feel free to submit questions at:<br>
 [github.com/dnajs/dna.js/issues](https://github.com/dnajs/dna.js/issues)
