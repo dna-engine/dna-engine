@@ -57,7 +57,17 @@ Need to clone the template multiple times?&nbsp;  Simply pass an array of data o
 * [Documentation](https://dnajs.org/docs)
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)
 
+### 3. Contributor Notes
+To be a contributor, fork the project and run the commands `npm install` and `npm test` on your
+local clone.&nbsp; Make your edits and rerun the tests.&nbsp; Pull requests welcome.
+
+Pull requests should not update the `version` number in **package.json** or any files in the `dist` folder.&nbsp; The `version` number and `dist` files are all updated as part of the release process.
+
+<br>
 ---
+Feel free to submit questions at:<br>
+[github.com/dnajs/dna.js/issues](https://github.com/dnajs/dna.js/issues)
+
 dna.js is open source under the [MIT License](https://dnajs.org/license).&nbsp;
 The website and documentation are published under the
 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) license.
