@@ -452,7 +452,7 @@ dna.util = {
       const elem = args[0];
       let result;
       const contextApply = (context, names) => {
-         if (!context || (names.length === 1 && typeof context[names[0]] !== 'function'))
+         if (!context || names.length === 1 && typeof context[names[0]] !== 'function')
             dna.core.berserk('Callback function not found', fn);
          else if (names.length === 1)
             result = context[names[0]].apply(elem, args);  //'app.cart.buy' ==> window['app']['cart']['buy']
@@ -532,8 +532,8 @@ dna.util = {
       //    dna.util.value({ a: { b: 7 } }, 'a.b') === 7
       if (typeof field === 'string')
          field = field.split('.');
-      return (data === null || data === undefined || field === undefined) ? null :
-         (field.length === 1 ? data[field[0]] : dna.util.value(data[field[0]], field.slice(1)));
+      return data === null || data === undefined || field === undefined ? null :
+         field.length === 1 ? data[field[0]] : dna.util.value(data[field[0]], field.slice(1));
       }
    };
 
@@ -725,7 +725,7 @@ dna.compile = {
             };
          const hasTextVal = elem.is('input:not(:checkbox, :radio)') &&
             key === 'value' && parts[0] === '' && parts[2] === '';
-         if (hasTextVal || (elem.is('select') && key === 'data-option'))
+         if (hasTextVal || elem.is('select') && key === 'data-option')
             makeUpdatable();
          };
       const compile = (attr) => {
