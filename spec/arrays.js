@@ -107,7 +107,7 @@ describe('Array utility function dna.array.toMap()', () => {
    it('converts an array of objects into an object (hash map) with custom key field', () => {
       const array =    [
          { code: 'a',   word: 'Ant' },
-         { code: 'b-z', word: 'Bat' },
+         { code: 'b-z', word: 'Bat' }
          ];
       const actual = dna.array.toMap(array, { key: 'word' });
       const expected = {

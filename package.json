@@ -33,6 +33,7 @@
       "browser": true,
       "mocha": true,
       "node": true,
+      "singleGroups": true,
       "globals": {
          "$": true,
          "dna": true,
