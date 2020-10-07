@@ -85,7 +85,7 @@ describe('Plugin call clone.dna("refresh")', () => {
       const titles = $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
       const actual   = { titles: Array.from(titles) };
       const expected = { titles: ['The DOM 2.0!', 'Styling CSS3', 'Howdy HTML5'] };
-      assert.deepEqual(actual.titles, expected.titles);
+      assert.deepEqual(actual, expected);
       });
 
    });
@@ -98,7 +98,7 @@ describe('Plugin call clone.dna("destroy")', () => {
       const titles = $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
       const actual   = { titles: Array.from(titles) };
       const expected = { titles: ['The DOM 2.0!', 'Styling CSS3'] };
-      assert.deepEqual(actual.titles, expected.titles);
+      assert.deepEqual(actual, expected);
       });
 
    });
