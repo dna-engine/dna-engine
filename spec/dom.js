@@ -50,13 +50,13 @@ describe('Template cloning function dna.clone()', () => {
 
    it('creates a book with the correct title', () => {
       dna.clone('book', bookCatalog[0]);
-      const actual   = { title: $('.book h2').text() };
+      const actual =   { title: $('.book h2').text() };
       const expected = { title: bookCatalog[0].title };
       assert.deepEqual(actual, expected);
       });
 
    it('creates a book with the correct author', () => {
-      const actual   = { author: $('.book cite').text() };
+      const actual =   { author: $('.book cite').text() };
       const expected = { author: bookCatalog[0].author };
       assert.deepEqual(actual, expected);
       });
@@ -68,7 +68,7 @@ describe('Function dna.getModel()', () => {
 
    it('returns the data object for the clone', () => {
       dna.clone('book', bookCatalog[1]);
-      const actual   = { model: dna.getModel($('.book').last()) };
+      const actual =   { model: dna.getModel($('.book').last()) };
       const expected = { model: bookCatalog[1] };
       assert.deepEqual(actual, expected);
       });
@@ -82,8 +82,8 @@ describe('Plugin call clone.dna("refresh")', () => {
       const clones = dna.clone('book', bookCatalog, { empty: true });
       dna.getModel(clones.first()).title = 'The DOM 2.0!';
       clones.first().dna('refresh');
-      const titles = $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
-      const actual   = { titles: Array.from(titles) };
+      const titles =   $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
+      const actual =   { titles: Array.from(titles) };
       const expected = { titles: ['The DOM 2.0!', 'Styling CSS3', 'Howdy HTML5'] };
       assert.deepEqual(actual, expected);
       });
@@ -95,8 +95,8 @@ describe('Plugin call clone.dna("destroy")', () => {
 
    it('deletes a book from the DOM', () => {
       dna.getClones('book').last().last().dna('destroy');
-      const titles = $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
-      const actual   = { titles: Array.from(titles) };
+      const titles =   $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
+      const actual =   { titles: Array.from(titles) };
       const expected = { titles: ['The DOM 2.0!', 'Styling CSS3'] };
       assert.deepEqual(actual, expected);
       });
