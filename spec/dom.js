@@ -104,4 +104,13 @@ describe('Plugin call clone.dna("destroy")', () => {
    });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Function dna.templateExists()', () => {
+   it('identifies if a template is present', () => {
+      const actual =   [dna.templateExists('book'), dna.templateExists('bogus')];
+      const expected = [true, false];
+      assert.deepEqual(actual, expected);
+      });
+   });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 });
