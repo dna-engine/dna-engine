@@ -68,6 +68,9 @@ const dna = {
       $(html).attr({ id: name }).addClass('dna-template').appendTo(holder);
       return dna.store.getTemplate(name);
       },
+   templateExists: (name) => {
+      return !!dna.store.templates[name] || $('.dna-template#' + name).length > 0;
+      },
    getModel: (elemOrName, options) => {
       // Returns the underlying data of the clone.
       const getAllModels = (name) => {
