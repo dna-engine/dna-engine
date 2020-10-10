@@ -46,6 +46,17 @@ const bookCatalog = [
 describe(require('path').basename(__filename) + ': ' + dnaPath, () => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Function dna.templateExists()', () => {
+
+   it('identifies if a template is present before cloning', () => {
+      const actual =   [dna.templateExists('book'), dna.templateExists('bogus')];
+      const expected = [true, false];
+      assert.deepEqual(actual, expected);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Template cloning function dna.clone()', () => {
 
    it('creates a book with the correct title', () => {
@@ -105,11 +116,13 @@ describe('Plugin call clone.dna("destroy")', () => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Function dna.templateExists()', () => {
-   it('identifies if a template is present', () => {
+
+   it('identifies if a template is present after cloning', () => {
       const actual =   [dna.templateExists('book'), dna.templateExists('bogus')];
       const expected = [true, false];
       assert.deepEqual(actual, expected);
       });
+
    });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

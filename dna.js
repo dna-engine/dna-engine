@@ -6,6 +6,7 @@ const dna = {
    //    dna.clone()
    //    dna.cloneSub()
    //    dna.createTemplate()
+   //    dna.templateExists()
    //    dna.getModel()
    //    dna.empty()
    //    dna.insert()

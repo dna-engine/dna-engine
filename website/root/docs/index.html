@@ -60,6 +60,7 @@
                <ol>
                   <li><a href=#api-clone-sub>dna.cloneSub()</a></li>
                   <li><a href=#api-create>dna.createTemplate()</a></li>
+                  <li><a href=#api-exists>dna.templateExists()</a></li>
                   <li><a href=#api-empty>dna.empty()</a></li>
                   <li><a href=#api-refresh-all>dna.refreshAll()</a></li>
                   <li><a href=#api-destroy>dna.destroy()</a></li>
@@ -910,6 +911,27 @@
          </code></pre>
       </figure>
       <!-- End: Result -->
+   </section>
+
+   <!-- dna.templateExists() -->
+   <section id=api-exists>
+      <h4>dna.templateExists(name)</h4>
+      <p class=api-description>
+         Reports if a template is present.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/name.html')
+         </ul>
+      </div>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            if (dna.templateExists('book'));
+               dna.clone('book', books);
+         </code></pre>
+      </figure>
    </section>
 
    <!-- dna.empty() -->
