@@ -38,7 +38,8 @@
          "$": true,
          "dna": true,
          "window": true
-      }
+      },
+      "varstmt": true
    },
    "scripts": {
       "web-server": "lsof -P -i :3482 || http-server --port 3482 &",
