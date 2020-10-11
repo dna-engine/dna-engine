@@ -26,7 +26,7 @@ const dna = {
    //    dna.registerContext()
    //    dna.info()
    // See: https://dnajs.org/docs/#api
-   clone: (name, data, options) => {
+   clone(name, data, options) {
       // Generates a copy of the template and populates the fields, attributes, and
       // classes from the supplied data.
       const defaults = {
@@ -55,7 +55,7 @@ const dna = {
       clones.first().parents('.dna-hide').removeClass('dna-hide').addClass('dna-unhide');
       return clones;
       },
-   cloneSub: (holderClone, arrayField, data, options) => {
+   cloneSub(holderClone, arrayField, data, options) {
       // Clones a sub-template to append onto an array loop.
       const name = dna.compile.subTemplateName(holderClone, arrayField);
       const selector = '.dna-contains-' + name;
@@ -64,15 +64,15 @@ const dna = {
       dna.core.updateArray(clones);
       return clones;
       },
-   createTemplate: (name, html, holder) => {
+   createTemplate(name, html, holder) {
       // Generates a template from an HTML string.
       $(html).attr({ id: name }).addClass('dna-template').appendTo(holder);
       return dna.store.getTemplate(name);
       },
-   templateExists: (name) => {
+   templateExists(name) {
       return !!dna.store.templates[name] || $('.dna-template#' + name).length > 0;
       },
-   getModel: (elemOrName, options) => {
+   getModel(elemOrName, options) {
       // Returns the underlying data of the clone.
       const getAllModels = (name) => {
          const model = [];
@@ -83,7 +83,7 @@ const dna = {
       const getOneModel = (elem) => dna.getClone($(elem), options).data('dnaModel');
       return typeof elemOrName === 'string' ? getAllModels(elemOrName) : getOneModel(elemOrName);
       },
-   empty: (name, options) => {
+   empty(name, options) {
       // Deletes all clones generated from the template.
       const defaults = { fade: false, callback: null };
       const settings = { ...defaults, ...options };
@@ -94,13 +94,13 @@ const dna = {
       const fadeDelete = () => dna.ui.slideFadeDelete(clones, settings.callback);
       return settings.fade ? fadeDelete() : dna.core.remove(clones, settings.callback);
       },
-   insert: (name, data, options) => {
+   insert(name, data, options) {
       // Updates the first clone if it already exists otherwise creates the first clone.
       const clone = dna.getClones(name).first();
       return clone.length ? dna.refresh(clone, { data: data, html: options && options.html }) :
          dna.clone(name, data, options);
       },
-   refresh: (clone, options) => {
+   refresh(clone, options) {
       // Updates an existing clone to reflect changes to the data model.
       const defaults = { html: false };
       const settings = { ...defaults, ...options };
@@ -108,12 +108,12 @@ const dna = {
       const data = settings.data ? settings.data : dna.getModel(elem);
       return dna.core.inject(elem, data, elem.data().dnaCount, settings);
       },
-   refreshAll: (name, options) => {
+   refreshAll(name, options) {
       // Updates all the clones of the specified template.
       const refresh = (i, elem) => dna.refresh($(elem), options);
       return dna.getClones(name).each(refresh);
       },
-   updateField: (inputElem, value) => {
+   updateField(inputElem, value) {
       const field = inputElem.data() && inputElem.data().dnaField;
       const update = () => {
          if (inputElem.is('input:checkbox'))
@@ -128,7 +128,7 @@ const dna = {
          update();
       return inputElem;
       },
-   recount: (clone, options) => {
+   recount(clone, options) {
       // Renumbers the counters starting from 1 for the clone and its siblings based on DOM order.
       clone = dna.getClone(clone);
       const renumber = () => {
@@ -147,7 +147,7 @@ const dna = {
          renumber();
       return clone;
       },
-   destroy: (clone, options) => {
+   destroy(clone, options) {
       // Removes an existing clone from the DOM.
       const defaults = { fade: false, callback: null };
       const settings = { ...defaults, ...options };
@@ -158,39 +158,39 @@ const dna = {
       const fadeDelete = () => dna.ui.slideFadeDelete(clone, settings.callback);
       return settings.fade ? fadeDelete() : dna.core.remove(clone, settings.callback);
       },
-   getClone: (elem, options) => {
+   getClone(elem, options) {
       // Returns the clone (or sub-clone) for the specified element.
       const defaults = { main: false };
       const settings = { ...defaults, ...options };
       const selector = settings.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone';
       return elem instanceof $ ? elem.closest(selector) : $();
       },
-   getClones: (name) => {
+   getClones(name) {
       // Returns an array of all the existing clones for the given template.
       return dna.store.getTemplate(name).container.children('.dna-clone.' + name);
       },
-   getIndex: (elem, options) => {
+   getIndex(elem, options) {
       // Returns the index of the clone.
       const clone = dna.getClone(elem, options);
       return clone.parent().children('.dna-clone.' + clone.data().dnaRules.template).index(clone);
       },
-   up: function(elemOrEventOrIndex, callback) {
+   up(elemOrEventOrIndex, callback) {
       // Smoothly moves a clone up one slot effectively swapping its position with the previous
       // clone.
       return dna.ui.smoothMoveUp(dna.getClone(dna.ui.toElem(elemOrEventOrIndex, this)), callback);
       },
-   down: function(elemOrEventOrIndex, callback) {
+   down(elemOrEventOrIndex, callback) {
       // Smoothly moves a clone down one slot effectively swapping its position with the next
       // clone.
       return dna.ui.smoothMoveDown(dna.getClone(dna.ui.toElem(elemOrEventOrIndex, this)), callback);
       },
-   bye: function(elemOrEventOrIndex, callback) {
+   bye(elemOrEventOrIndex, callback) {
       // Performs a sliding fade out effect on the clone and then removes the element.
       const elem = dna.ui.toElem(elemOrEventOrIndex, this);
       const options = { fade: true, callback: typeof callback === 'function' ? callback : null };
       return dna.destroy(elem, options);
       },
-   registerInitializer: (func, options) => {
+   registerInitializer(func, options) {
       // Adds a callback function to the list of initializers that are run on all DOM elements.
       const defaults = { onDocumentLoad: true };
       const settings = { ...defaults, ...options };
@@ -202,18 +202,18 @@ const dna = {
       dna.events.initializers.push(initializer);
       return dna.events.initializers;
       },
-   clearInitializers: () => {
+   clearInitializers() {
       // Deletes all initializers.
       dna.events.initializers = [];
       },
-   registerContext: (contextName, contextObjOrFn) => {
+   registerContext(contextName, contextObjOrFn) {
       // Registers an application object or individual function to enable it to be used for event
       // callbacks.  Registration is needed when global namespace is not available to dna.js, such
       // as when using webpack to load dna.js as a module.
       dna.events.context[contextName] = contextObjOrFn;
       return dna.events.context;
       },
-   info: () => {
+   info() {
       // Returns status information about templates on the current web page.
       const names =  Object.keys(dna.store.templates);
       const panels = $('.dna-menu.dna-panels-initialized');
