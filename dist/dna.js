@@ -1,8 +1,7 @@
-//! dna.js v1.6.4 ~~ dnajs.org ~~ MIT License
-// dna.js ~~ MIT License
+//! dna.js v1.6.5 ~~ dnajs.org ~~ MIT License
 
 const dna = {
-   version: '1.6.4',
+   version: '1.6.5',
    // API:
    //    dna.clone()
    //    dna.cloneSub()
@@ -753,7 +752,7 @@ dna.compile = {
    getDataField: (elem, type) => {
       // Example:
       //    <p data-array=~~tags~~>, 'array'  ==>  'tags'
-      return elem.data(type).replace(dna.compile.regexDnaBasePairs, '');
+      return elem.data(type).replace(dna.compile.regexDnaBasePairs, '').trim();
       },
    subTemplateName: (holder, arrayField) => {  //holder can be element or template name
       // Example:
