@@ -974,6 +974,9 @@ dna.events = {
          const target = elem.closest('.external-site').length ? '_blank' : '_self';
          window.open(elem.data().href, iOS ? '_self' : elem.data().target || target);
          };
+      const handleFocus = (event) => {
+         return runner($(event.target), event.type , event);
+         };
       const events = {
          click:    handleEvent,
          change:   handleEvent,
@@ -995,7 +998,9 @@ dna.events = {
          .on({ mouseenter: handleHover }, '[data-hover-in]')
          .on({ mouseleave: handleHover }, '[data-hover-out]')
          .on({ keyup: handleEnterKey })
-         .on({ click: jumpToUrl }, '[data-href]');
+         .on({ click: jumpToUrl }, '[data-href]')
+         .on({ focus: handleFocus }, '[data-focus]')
+         .on({ blur: handleFocus }, '[data-blur]');
       dna.events.runOnLoads();
       }
    };
