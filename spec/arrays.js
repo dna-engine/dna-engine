@@ -78,13 +78,13 @@ describe('Array utility function dna.array.toMap()', () => {
       const array = [
          { code: 'a',        word: 'Ant' },
          { code: 'b-z',      word: 'Bat' },
-         { code: 'J30X-W77', price: 34.99 }
+         { code: 'J30X-W77', price: 34.99 },
          ];
       const actual = dna.array.toMap(array);
       const expected = {
          'a':        { code: 'a',        word: 'Ant' },
          'b-z':      { code: 'b-z',      word: 'Bat' },
-         'J30X-W77': { code: 'J30X-W77', price: 34.99 }
+         'J30X-W77': { code: 'J30X-W77', price: 34.99 },
          };
       assert.deepStrictEqual(actual, expected);
       });
@@ -93,13 +93,13 @@ describe('Array utility function dna.array.toMap()', () => {
       const array = [
          { code: 'a',        word: 'Ant' },
          { code: 'b-z',      word: 'Bat' },
-         { code: 'J30X-W77', price: 34.99 }
+         { code: 'J30X-W77', price: 34.99 },
          ];
       const actual = dna.array.toMap(array, { key: 'code', camelKeys: true });
       const expected = {
          a:       { code: 'a',        word: 'Ant' },
          bZ:      { code: 'b-z',      word: 'Bat' },
-         J30XW77: { code: 'J30X-W77', price: 34.99 }
+         J30XW77: { code: 'J30X-W77', price: 34.99 },
          };
       assert.deepStrictEqual(actual, expected);
       });
@@ -107,12 +107,12 @@ describe('Array utility function dna.array.toMap()', () => {
    it('converts an array of objects into an object (hash map) with custom key field', () => {
       const array = [
          { code: 'a',   word: 'Ant' },
-         { code: 'b-z', word: 'Bat' }
+         { code: 'b-z', word: 'Bat' },
          ];
       const actual = dna.array.toMap(array, { key: 'word' });
       const expected = {
          Ant: { code: 'a',   word: 'Ant' },
-         Bat: { code: 'b-z', word: 'Bat' }
+         Bat: { code: 'b-z', word: 'Bat' },
          };
       assert.deepStrictEqual(actual, expected);
       });
