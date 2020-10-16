@@ -2,7 +2,7 @@
 // Mocha Specification Cases
 
 // Imports
-const assert =    require('assert').strict;
+const assert =    require('assert');
 const { JSDOM } = require('jsdom');
 
 // Web page
@@ -41,7 +41,7 @@ describe('Library version number', () => {
       const semVerPattern = /\d+[.]\d+[.]\d+/;
       const actual =   { version: dna.version, valid: semVerPattern.test(dna.version) };
       const expected = { version: dna.version, valid: true };
-      assert.deepEqual(actual, expected);
+      assert.deepStrictEqual(actual, expected);
       });
 
    });
@@ -61,7 +61,7 @@ describe('Function dna.info()', () => {
          initializers: [],
          panels:       []
          };
-      assert.deepEqual(actual, expected);
+      assert.deepStrictEqual(actual, expected);
       });
 
    });
