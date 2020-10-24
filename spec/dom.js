@@ -9,23 +9,23 @@ const { JSDOM } = require('jsdom');
 // Setup
 const dnaPath = process.env.specMode === 'minified' ? 'dist/dna.min.js' : 'dist/dna.js';
 const html = `
-<!doctype html>
-<html lang=en>
-   <head>
-      <meta charset=utf-8>
-      <title>Specification Runner</title>
-   </head>
-   <body>
-      <h1>Featured Books</h1>
-      <section class=books>
-         <div id=book class=dna-template>
-            <h2>~~title~~</h2>
-            Author: <cite>~~author~~</cite>
-         </div>
-      </section>
-   </body>
-</html>
-`;
+   <!doctype html>
+   <html lang=en>
+      <head>
+         <meta charset=utf-8>
+         <title>Specification Runner</title>
+      </head>
+      <body>
+         <h1>Featured Books</h1>
+         <section class=books>
+            <div id=book class=dna-template>
+               <h2>~~title~~</h2>
+               Author: <cite>~~author~~</cite>
+            </div>
+         </section>
+      </body>
+   </html>
+   `;
 const scripts = [
    'node_modules/jquery/dist/jquery.js',
    dnaPath,
@@ -49,8 +49,8 @@ describe(require('path').basename(__filename) + ': ' + dnaPath, () => {
 describe('Function dna.templateExists()', () => {
 
    it('identifies if a template is present before cloning', () => {
-      const actual =   [dna.templateExists('book'), dna.templateExists('bogus'),];
-      const expected = [true, false,];
+      const actual =   [dna.templateExists('book'), dna.templateExists('bogus')];
+      const expected = [true, false];
       assert.deepStrictEqual(actual, expected);
       });
 
@@ -95,7 +95,7 @@ describe('Plugin call clone.dna("refresh")', () => {
       clones.first().dna('refresh');
       const titles =   $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
       const actual =   { titles: Array.from(titles) };
-      const expected = { titles: ['The DOM 2.0!', 'Styling CSS3', 'Howdy HTML5',] };
+      const expected = { titles: ['The DOM 2.0!', 'Styling CSS3', 'Howdy HTML5'] };
       assert.deepStrictEqual(actual, expected);
       });
 
@@ -108,7 +108,7 @@ describe('Plugin call clone.dna("destroy")', () => {
       dna.getClones('book').last().last().dna('destroy');
       const titles =   $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
       const actual =   { titles: Array.from(titles) };
-      const expected = { titles: ['The DOM 2.0!', 'Styling CSS3',] };
+      const expected = { titles: ['The DOM 2.0!', 'Styling CSS3'] };
       assert.deepStrictEqual(actual, expected);
       });
 
@@ -118,8 +118,8 @@ describe('Plugin call clone.dna("destroy")', () => {
 describe('Function dna.templateExists()', () => {
 
    it('identifies if a template is present after cloning', () => {
-      const actual =   [dna.templateExists('book'), dna.templateExists('bogus'),];
-      const expected = [true, false,];
+      const actual =   [dna.templateExists('book'), dna.templateExists('bogus')];
+      const expected = [true, false];
       assert.deepStrictEqual(actual, expected);
       });
 

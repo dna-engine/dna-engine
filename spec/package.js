@@ -7,23 +7,23 @@ const { JSDOM } = require('jsdom');
 
 // Web page
 const html = `
-<!doctype html>
-<html lang=en>
-   <head>
-      <meta charset=utf-8>
-      <title>Specification Runner</title>
-   </head>
-   <body>
-      <h1>Featured Books</h1>
-      <section class=books>
-         <div id=book class=dna-template>
-            <h2>~~title~~</h2>
-            Author: <cite>~~author~~</cite>
-         </div>
-      </section>
-   </body>
-</html>
-`;
+   <!doctype html>
+   <html lang=en>
+      <head>
+         <meta charset=utf-8>
+         <title>Specification Runner</title>
+      </head>
+      <body>
+         <h1>Featured Books</h1>
+         <section class=books>
+            <div id=book class=dna-template>
+               <h2>~~title~~</h2>
+               Author: <cite>~~author~~</cite>
+            </div>
+         </section>
+      </body>
+   </html>
+   `;
 
 // Setup
 const dnaPath = process.env.specMode === 'minified' ? '../dist/dna.min.js' : '../dist/dna.js';

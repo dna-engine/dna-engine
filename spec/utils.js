@@ -87,8 +87,8 @@ describe('Utility function dna.util.apply()', () => {
    const app = {
       priceCatalog: { 3: 19.95, 7: 14.95, 21: 39.95 },
       cart: {
-         buy: (itemNum) => app.priceCatalog[itemNum]
-         }
+         buy: (itemNum) => app.priceCatalog[itemNum],
+         },
       };
 
    it('calls fn (string name or actual function) passing in params', () => {
