@@ -39,7 +39,7 @@ const { $, dna } = window;
 const bookCatalog = [
    { title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en' },
    { title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr' },
-   { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 }
+   { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 },
    ];
 
 // Specification suite
@@ -49,8 +49,8 @@ describe(require('path').basename(__filename) + ': ' + dnaPath, () => {
 describe('Function dna.templateExists()', () => {
 
    it('identifies if a template is present before cloning', () => {
-      const actual =   [dna.templateExists('book'), dna.templateExists('bogus')];
-      const expected = [true, false];
+      const actual =   [dna.templateExists('book'), dna.templateExists('bogus'),];
+      const expected = [true, false,];
       assert.deepStrictEqual(actual, expected);
       });
 
@@ -95,7 +95,7 @@ describe('Plugin call clone.dna("refresh")', () => {
       clones.first().dna('refresh');
       const titles =   $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
       const actual =   { titles: Array.from(titles) };
-      const expected = { titles: ['The DOM 2.0!', 'Styling CSS3', 'Howdy HTML5'] };
+      const expected = { titles: ['The DOM 2.0!', 'Styling CSS3', 'Howdy HTML5',] };
       assert.deepStrictEqual(actual, expected);
       });
 
@@ -108,7 +108,7 @@ describe('Plugin call clone.dna("destroy")', () => {
       dna.getClones('book').last().last().dna('destroy');
       const titles =   $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
       const actual =   { titles: Array.from(titles) };
-      const expected = { titles: ['The DOM 2.0!', 'Styling CSS3'] };
+      const expected = { titles: ['The DOM 2.0!', 'Styling CSS3',] };
       assert.deepStrictEqual(actual, expected);
       });
 
@@ -118,8 +118,8 @@ describe('Plugin call clone.dna("destroy")', () => {
 describe('Function dna.templateExists()', () => {
 
    it('identifies if a template is present after cloning', () => {
-      const actual =   [dna.templateExists('book'), dna.templateExists('bogus')];
-      const expected = [true, false];
+      const actual =   [dna.templateExists('book'), dna.templateExists('bogus'),];
+      const expected = [true, false,];
       assert.deepStrictEqual(actual, expected);
       });
 
