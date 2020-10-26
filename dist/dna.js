@@ -1,7 +1,7 @@
-//! dna.js v1.6.5 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.6.6 ~~ dnajs.org ~~ MIT License
 
 const dna = {
-   version: '1.6.5',
+   version: '1.6.6',
    // API:
    //    dna.clone()
    //    dna.cloneSub()
@@ -928,10 +928,6 @@ dna.events = {
             updateModel();
          return runner(target, event.type.replace('key', 'key-'), event);
          };
-      const handleHover = (event) => {
-         const type = event.type === 'mouseenter' ? 'hover-in' : 'hover-out';
-         return runner($(event.target), type, event);
-         };
       const handleEnterKey = (event) => {
          return event.which === 13 && runner($(event.target), 'enter-key', event);
          };
@@ -974,6 +970,8 @@ dna.events = {
          const target = elem.closest('.external-site').length ? '_blank' : '_self';
          window.open(elem.data().href, iOS ? '_self' : elem.data().target || target);
          };
+      const handleCallbackEvent = (type) =>
+         (event) => runner($(event.target), type, event);
       const events = {
          click:    handleEvent,
          change:   handleEvent,
@@ -992,10 +990,12 @@ dna.events = {
       $(window.document)
          .on(events)
          .on(smartUpdateEvents)
-         .on({ mouseenter: handleHover }, '[data-hover-in]')
-         .on({ mouseleave: handleHover }, '[data-hover-out]')
-         .on({ keyup: handleEnterKey })
-         .on({ click: jumpToUrl }, '[data-href]');
+         .on({ keyup:      handleEnterKey })
+         .on({ click:      jumpToUrl }, '[data-href]')
+         .on({ focusin:    handleCallbackEvent('focus-in') },  '[data-focus-in]')
+         .on({ focusout:   handleCallbackEvent('focus-out') }, '[data-focus-out]')
+         .on({ mouseenter: handleCallbackEvent('hover-in') },  '[data-hover-in]')
+         .on({ mouseleave: handleCallbackEvent('hover-out') }, '[data-hover-out]');
       dna.events.runOnLoads();
       }
    };
