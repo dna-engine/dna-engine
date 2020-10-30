@@ -7,6 +7,9 @@
    "main": "dist/dna.js",
    "browser": "dist/dna.min.js",
    "style": "dist/dna.css",
+   "files": [
+      "dist"
+   ],
    "repository": "github:dnajs/dna.js",
    "homepage": "https://github.com/dnajs/dna.js",
    "bugs": "https://github.com/dnajs/dna.js/issues",
@@ -64,8 +67,8 @@
       "jquery": ">=3.5"
    },
    "devDependencies": {
-      "@babel/core": "~7.11",
-      "@babel/preset-env": "~7.11",
+      "@babel/core": "~7.12",
+      "@babel/preset-env": "~7.12",
       "@fortawesome/fontawesome-free": "~5.15",
       "babel-minify": "~0.5",
       "canvas": "~2.6",
@@ -81,14 +84,14 @@
       "gulp-replace": "~1.0",
       "gulp-size": "~3.0",
       "gulp-w3c-html-validator": "~2.0",
-      "highlight.js": "~10.2",
+      "highlight.js": "~10.3",
       "hljs-enhance": "~0.0",
       "http-server": "~0.12",
       "jquery": "~3.5",
       "jsdom": "~16.4",
       "jshint": "~2.12",
       "merge-stream": "~2.0",
-      "mocha": "~8.1",
+      "mocha": "~8.2",
       "web-ignition": "~1.3"
    }
 }
