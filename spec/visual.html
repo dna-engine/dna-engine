@@ -285,7 +285,7 @@ spec.spec05 = {
       '   <div>Code:     <span>~~code~~</span></div>' +
       '   <div>Location: <span>~~[count]~~</span></div>' +
       '</div>',
-   generateCode: (data) => data.code = data.author.charCodeAt(0) % 13 * 100,
+   generateCode(data) { data.code = data.author.charCodeAt(0) % 13 * 100 },
    run() {
       dna.createTemplate('s05-book', spec.spec05.html, $('#s05-book-list'));
       const book1 = { title: '1st', author: 'Lee' };  //code: 1100
@@ -477,7 +477,7 @@ spec.spec07 = {
    </fieldset>
 </section>
 <script>
-var spec08var = { configure: (elem) => elem.addClass('color-change2') };
+var spec08var = { configure(elem) { elem.addClass('color-change2') } };
 const spec08constConfigure = (elem) => elem.addClass('color-change');
 let   spec08letConfigure =   (elem) => elem.addClass('color-change2');
 spec.spec08 = {
@@ -787,7 +787,7 @@ spec.spec11 = {
 </section>
 <script>
 spec.spec12 = {
-   recount: (button) => {
+   recount(button) {
       const isFourthBook = dna.getClone(button).index() === 3;
       dna.recount(button.parent().prev().filter('.dna-sub-clone'), { html: isFourthBook });
       },
@@ -977,35 +977,35 @@ spec.spec14 = {
 </section>
 <script>
 spec.spec15 = {
-   configure: (elem) => elem.addClass('color-change'),
-   showMessage: (message, elem) => {
+   configure(elem) { elem.addClass('color-change') },
+   showMessage(message, elem) {
       const tag = '<' + elem[0].nodeName + '>'
       const msec = String(Date.now() % 10000).padStart(4, '0');
       const p = $('<p>').text([msec, message, tag].join(' '));
       $('#spec15 fieldset').first().append(p);
       },
-   animal: (elem) => {
+   animal(elem) {
       spec.spec15.showMessage('animal', elem);
       },
-   elephant: (elem) => {
+   elephant(elem) {
       spec.spec15.showMessage('elephant', elem);
       },
-   mouse: (elem) => {
+   mouse(elem) {
       spec.spec15.showMessage('mouse', elem);
       },
-   ufoIn: (elem) => {
+   ufoIn(elem) {
       spec.spec15.showMessage('⎍⎎⍜ hover', elem);
       },
-   ufoOut: (elem) => {
+   ufoOut(elem) {
       spec.spec15.showMessage('⎍⎎⍜ bye', elem);
       },
-   surround: (elem) => {
+   surround(elem) {
       elem.addClass('border-change');
       const addHr = () => $('#spec15 fieldset').first().append('<hr>');
       elem.each(addHr);  //exactly 8 times (one for each clone)
       },
-   surround2: (elem) => elem.addClass('border-change2'),
-   bye: (elem, event) => {
+   surround2(elem) { elem.addClass('border-change2') },
+   bye(elem, event) {
       const clone = dna.getClone(elem);
       const start = Date.now();
       let handled = false;
@@ -1206,7 +1206,7 @@ spec.spec15 = {
 <script>
 spec.spec16 = {
    start: Date.now(),
-   submitNote: (elem) => {
+   submitNote(elem) {
       const time = Date.now() - spec.spec16.start;
       dna.clone('note', { ms: time, note: elem.val() }, { top: true, fade: true });
       },
@@ -1273,10 +1273,10 @@ spec.spec16 = {
          </div>
          <script>
             const bookshelf = {
-               showMsg: (elem, event, component) => {
+               showMsg(elem, event, component) {
                   elem.text(component.data().msg + event.timeStamp);
                   },
-               setup: (elem, component) => {
+               setup(elem, component) {
                   const booksUrl = 'https://dnajs.org/rest/book/';
                   component.children('button')
                      .attr({ 'data-href': booksUrl })
@@ -1342,11 +1342,11 @@ spec.spec17 = {
 </section>
 <script>
 spec.spec18 = {
-   iEvent: (elem, event) => console.log(Date.now(), elem.val(), event.type),
-   makeChapterBoxes: (range) => {
+   iEvent(elem, event) { console.log(Date.now(), elem.val(), event.type) },
+   makeChapterBoxes(range) {
       dna.clone('chapter-box', {}, { empty: true, clones: +range.val() }).hide().fadeIn();
       },
-   smooth: (range) => {
+   smooth(range) {
       dna.ui.smoothHeightSetBaseline($('#spec18 .smooth-container'));
       spec.spec18.makeChapterBoxes(range);
       dna.ui.smoothHeightAnimate();
@@ -1396,11 +1396,11 @@ spec.spec18 = {
 </section>
 <script>
 spec.spec19 = {
-   enhance: (data) => {
+   enhance(data) {
       data.code = dna.util.toKebab(data.title);
       data.displayPrice = '$' + (data.price / 100).toFixed(2);
       },
-   displayPanel: (elem) => {
+   displayPanel(elem) {
       return elem.addClass('border-change');
       },
    run() {
