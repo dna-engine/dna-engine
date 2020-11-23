@@ -52,7 +52,7 @@ Need to clone the template multiple times?&nbsp;  Simply pass an array of data o
 
 ### 2. Additional Information
 * [https://dnajs.org](https://dnajs.org/) (see the *"Try it out"* section for an interactive example)
-* [Sample To-Do Application](https://jsfiddle.net/ydafcuLv/) (jsfiddle)
+* [Sample To-Do Application](https://jsfiddle.net/3qbkjguy/) (jsfiddle)
 * [Introduction to dna.js](https://youtu.be/jMOZOI-UkNI) (YouTube)
 * [Documentation](https://dnajs.org/docs)
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)

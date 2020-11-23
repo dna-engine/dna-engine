@@ -22,15 +22,15 @@ const linkInfo = {
       tutorial: 'juIru5qHZFM'
       },
    jsFiddle: {
-      addABook:       '6p7t0cvu',
-      bookFinder:     '0u3f6ab5',
-      dataClick:      'zry7b8fm',
-      liveModel:      'n4m1ysda',
-      panelsClick:    'o4amg5jx',
-      panelsDropDown: 'zfwe3m8o',
-      photoUpload:    'bcyqdep8',
-      smartUpdates:   'bny63sxd',
-      toDo:           'ydafcuLv'
+      addABook:       'Lv4pjt0g',
+      bookFinder:     'r8hwk0Lq',
+      dataClick:      '50gwncj3',
+      liveModel:      'xez27s0o',
+      panelsClick:    'm7b9h53a',
+      panelsDropDown: 'rdjb6cka',
+      photoUpload:    'o5p0wjd1',
+      smartUpdates:   'a5rsLcb2',
+      toDo:           '3qbkjguy'
       }
    };
 
