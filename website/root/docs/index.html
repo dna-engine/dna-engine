@@ -2396,12 +2396,12 @@
       <figure>
          <figcaption>Basic format for panels</figcaption>
          <pre><code class=language-html>
-            &lt;nav class=dna-menu data-nav=author-info&gt;
+            &lt;nav class=dna-menu&gt;
                &lt;span&gt;Menu item #1&lt;/span&gt;
                &lt;span&gt;Menu item #2&lt;/span&gt;
                &lt;span&gt;Menu item #3&lt;/span&gt;
             &lt;/nav&gt;
-            &lt;div class=dna-panels data-nav=author-info&gt;
+            &lt;div class=dna-panels&gt;
                &lt;section&gt;Content of panel #1&lt;/section&gt;
                &lt;section&gt;Content of panel #2&lt;/section&gt;
                &lt;section&gt;Content of panel #3&lt;/section&gt;
@@ -2409,11 +2409,30 @@
          </code></pre>
       </figure>
       <p>
-         Link the menu to the panels by setting their respective <code>data-nav</code> attributes
-         to the same name.&nbsp;
-         The <code>data-nav</code> attributes can be omitted if the panels container immediately
-         follows the menu items container.
+         Place the panels container (<code>.dna-panels</code>) in the DOM immediately after the
+         menu container (<code>.dna-menu</code>).
       </p>
+      <p>
+         If the menu container and panels container need to be separeted in the DOM, link the menu
+         to the panels by setting their respective <code>data-nav</code> attributes to the same
+         name.
+      </p>
+      <figure>
+         <figcaption>Linked menu and panels using <code>data-nav</code></figcaption>
+         <pre><code class=language-html>
+            &lt;nav class=dna-menu data-nav=author-info&gt;
+               &lt;span&gt;Menu item #1&lt;/span&gt;
+               &lt;span&gt;Menu item #2&lt;/span&gt;
+               &lt;span&gt;Menu item #3&lt;/span&gt;
+            &lt;/nav&gt;
+            &lt;meter value=7 min=0 max=10&gt;&lt;/meter&gt;
+            &lt;div class=dna-panels data-nav=author-info&gt;
+               &lt;section&gt;Content of panel #1&lt;/section&gt;
+               &lt;section&gt;Content of panel #2&lt;/section&gt;
+               &lt;section&gt;Content of panel #3&lt;/section&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
       <p>
          For an example of tabbed panel navigation, check out DataDashboard:<br>
          <a href=https://data-dashboard.js.org class=external-site>https://data-dashboard.js.org</a>
