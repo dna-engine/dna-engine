@@ -10,6 +10,24 @@
 banner="dna.js Task Runner"
 projectHome=$(cd $(dirname $0); pwd)
 
+setupTools() {
+   # Check for Node.js installation and download project dependencies
+   cd $projectHome
+   echo
+   echo $banner
+   echo $(echo $banner | sed s/./=/g)
+   pwd
+   test -d .git && git pull --ff-only
+   echo
+   echo "Node.js:"
+   which node || { echo "Need to install Node.js: https://nodejs.org"; exit; }
+   node --version
+   npm install --no-fund
+   npm update
+   npm outdated
+   echo
+   }
+
 releaseInstructions() {
    cd $projectHome
    repository=$(grep repository package.json | awk -F'"' '{print $4}' | sed s/github://)
@@ -64,16 +82,12 @@ runTasks() {
 
 launchVisualSpecs() {
    cd $projectHome
+   echo "Visual specs:"
    sed "s|/dna.js>|/dist/dna.min.js>|" spec/visual.html > spec/visual-min.html
-   url=http://localhost:$port/spec/visual.html
-   echo "Visual specifications:"
-   echo $url
-   echo
-   sleep 2
-   open $url
+   npm run interactive
    }
 
-source $projectHome/setup.sh
+setupTools
 releaseInstructions
 runTasks
 launchVisualSpecs

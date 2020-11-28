@@ -10,11 +10,29 @@
 banner="dnajs.org Website"
 projectHome=$(cd $(dirname $0)/..; pwd)
 
+setupTools() {
+   # Check for Node.js installation and download project dependencies
+   cd $projectHome
+   echo
+   echo $banner
+   echo $(echo $banner | sed s/./=/g)
+   pwd
+   test -d .git && git pull --ff-only
+   echo
+   echo "Node.js:"
+   which node || { echo "Need to install Node.js: https://nodejs.org"; exit; }
+   node --version
+   npm install --no-fund
+   npm update
+   npm outdated
+   echo
+   }
+
 buildHtmlFiles() {
    cd $projectHome
    echo "Tasks:"
    pwd
-   npm run web
+   npm run website
    cp -v website-target/project.html docs/index.html
    echo
    }
@@ -52,15 +70,12 @@ publishWebFiles() {
    }
 
 launchBrowser() {
-   url=http://localhost:$port/website-target
-   echo "Website:"
-   echo $url
-   echo
-   sleep 2
-   open $url
+   echo "View website:"
+   cd $projectHome
+   npx browser-sync website-target
    }
 
-source $projectHome/setup.sh
+setupTools
 buildHtmlFiles
 downloadVisualSpec
 publishWebFiles

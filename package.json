@@ -46,13 +46,13 @@
       }
    },
    "scripts": {
-      "web-server": "lsof -P -i :3482 || http-server --port 3482 &",
       "pretest": "jshint *.js spec website && gulp build-dist",
       "test": "mocha spec && env specMode=minified mocha spec",
       "posttest": "gulp report-size",
-      "preweb": "gulp clean-web",
-      "web": "export dnaReleasedVersion=$(git tag | tail -1) && gulp build-web",
-      "postweb": "gulp other-stuff"
+      "interactive": "browser-sync . --startPath spec/visual.html",
+      "prewebsite": "gulp clean-website",
+      "website": "dnaReleasedVersion=$(git tag | tail -1) gulp build-website",
+      "postwebsite": "gulp update-readme && gulp validate-html"
    },
    "cdnVersion": {
       "fetchJson": "2.2",
@@ -71,6 +71,7 @@
       "@babel/preset-env": "~7.12",
       "@fortawesome/fontawesome-free": "~5.15",
       "babel-minify": "~0.5",
+      "browser-sync": "~2.26",
       "canvas": "~2.6",
       "del": "~6.0",
       "fetch-json": "~2.2",
@@ -86,7 +87,6 @@
       "gulp-w3c-html-validator": "~2.0",
       "highlight.js": "~10.4",
       "hljs-enhance": "~0.0",
-      "http-server": "~0.12",
       "jquery": "~3.5",
       "jsdom": "~16.4",
       "jshint": "~2.12",

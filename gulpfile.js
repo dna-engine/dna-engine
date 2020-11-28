@@ -102,34 +102,34 @@ const task = {
             .pipe(size({ showFiles: true }));
       return mergeStream(copyStaticFiles(), buildHtml());
       },
-   otherStuff: () => {
+   updateReadMe: () => {
       const line = {
          findToDo:  /.*To-Do Application.*/,
          findIntro: /.*Introduction to dna.js.*/,
          newToDo:   '* [Sample To-Do Application](https://jsfiddle.net/' + linkInfo.jsFiddle.toDo + '/) (jsfiddle)',
          newIntro:  '* [Introduction to dna.js](https://youtu.be/' + linkInfo.youTube.intro + ') (YouTube)'
          };
-      const updateReadMe = () =>
-         gulp.src('README.md')
-            .pipe(replace(line.findToDo,  line.newToDo))
-            .pipe(replace(line.findIntro, line.newIntro))
-            .pipe(size({ showFiles: true }))
-            .pipe(gulp.dest('.'));
+      return gulp.src('README.md')
+         .pipe(replace(line.findToDo,  line.newToDo))
+         .pipe(replace(line.findIntro, line.newIntro))
+         .pipe(size({ showFiles: true }))
+         .pipe(gulp.dest('.'));
+      },
+   validateHtml: () => {
       const skip = (type, message) => !/input type is not supported in all browsers/.test(message);
-      const validateHtml = () =>
-         gulp.src(['spec/visual.html', 'spec/simple.html'])
-            .pipe(htmlHint(htmlHintConfig))
-            .pipe(htmlHint.reporter())
-            .pipe(htmlValidator({ verifyMessage: skip }))
-            .pipe(htmlValidator.reporter())
-            .pipe(size({ showFiles: true }));
-      return mergeStream(updateReadMe(), validateHtml());
+      return gulp.src(['spec/visual.html', 'spec/simple.html'])
+         .pipe(htmlHint(htmlHintConfig))
+         .pipe(htmlHint.reporter())
+         .pipe(htmlValidator({ verifyMessage: skip }))
+         .pipe(htmlValidator.reporter())
+         .pipe(size({ showFiles: true }));
       }
    };
 
 // Gulp
-gulp.task('build-dist',  task.buildDistribution);
-gulp.task('report-size', task.reportSize);
-gulp.task('clean-web',   task.cleanWebsite);
-gulp.task('build-web',   task.buildWebsite);
-gulp.task('other-stuff', task.otherStuff);
+gulp.task('build-dist',    task.buildDistribution);
+gulp.task('report-size',   task.reportSize);
+gulp.task('clean-website', task.cleanWebsite);
+gulp.task('build-website', task.buildWebsite);
+gulp.task('update-readme', task.updateReadMe);
+gulp.task('validate-html', task.validateHtml);
