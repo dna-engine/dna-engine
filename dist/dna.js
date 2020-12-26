@@ -1,7 +1,7 @@
-//! dna.js v1.6.6 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.6.7 ~~ dnajs.org ~~ MIT License
 
 const dna = {
-   version: '1.6.6',
+   version: '1.6.7',
    // API:
    //    dna.clone()
    //    dna.cloneSub()
@@ -679,6 +679,11 @@ dna.compile = {
       const matches = () => firstNode.nodeValue.match(dna.compile.regexDnaField);
       return firstNode && firstNode.nodeValue && matches();
       },
+   addFieldClass: (elem) => {
+      const field = elem.data().dnaField;
+      const htmlCase = () => dna.util.toKebab(field).replace(/[\[\]]/g, '').replace(/[.]/g, '-');
+      return field ? elem.addClass('dna-field-' + htmlCase()) : elem;
+      },
    field: (i, elem) => {
       // Examples:
       //    <p>~~name~~</p>  ==>
@@ -687,6 +692,7 @@ dna.compile = {
       //       <textarea class=dna-nucleotide data-dnaField=address data-dnaRules={ textarea: true }></p>
       elem = dna.compile.setupNucleotide($(elem));
       elem.data().dnaField = elem.text().replace(dna.compile.regexDnaBasePairs, '').trim();
+      dna.compile.addFieldClass(elem);
       if (elem.is('textarea'))
          elem.addClass('dna-update-model').data().dnaRules.val = true;
       else
@@ -747,6 +753,7 @@ dna.compile = {
          dna.compile.setupNucleotide(elem).data().dnaRules.transform = elem.data().transform;  //TODO: string to fn
       if (elem.data().callback)
          dna.compile.setupNucleotide(elem).data().dnaRules.callback = elem.data().callback;
+      dna.compile.addFieldClass(elem);
       return elem.removeAttr(names.join(' '));
       },
    getDataField: (elem, type) => {
