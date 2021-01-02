@@ -63,6 +63,7 @@
                   <li><a href=#api-exists>dna.templateExists()</a></li>
                   <li><a href=#api-empty>dna.empty()</a></li>
                   <li><a href=#api-refresh-all>dna.refreshAll()</a></li>
+                  <li><a href=#api-recount>dna.recount()</a></li>
                   <li><a href=#api-destroy>dna.destroy()</a></li>
                   <li><a href=#api-get-clones>dna.getClones()</a></li>
                   <li><a href=#api-get-index>dna.getIndex()</a></li>
@@ -278,8 +279,9 @@
          <pre><code class=language-javascript>
             require('dna.js/dist/dna.css');
             const $ =   require('jquery');
-            const dna = require('dna.js')(window, $);
+            const dna = require('dna.js');
 
+            dna.initModule(window, $);
             const myApp = {
                doSomething: () =&gt; { ... }
                };
@@ -823,6 +825,7 @@
          <li><b>dna.cloneSub</b>(holderClone, arrayField, data, options)</li>
          <li><b>dna.empty</b>(name, options)</li>
          <li><b>dna.refreshAll</b>(name)</li>
+         <li><b>dna.recount</b>(name, options)</li>
          <li><b>dna.destroy</b>(clone, options)</li>
          <li><b>dna.getClones</b>(name)</li>
          <li><b>dna.getIndex</b>(elem, options)</li>
@@ -974,6 +977,14 @@
          Parameters:
          <ul>
             @@include('website/templates/params/name.html')
+            <li>
+               <label><b>options</b> (Object) <i>[optional]</i>:</label>
+               <ul>
+                  @@include('website/templates/options/data.html')
+                  @@include('website/templates/options/main.html')
+                  @@include('website/templates/options/html.html')
+               </ul>
+            </li>
          </ul>
       </div>
       <figure>
@@ -984,6 +995,43 @@
             dna.getModel(clone1).title = 'The DOM II';    //modified title
             dna.getModel(clone2).title = 'Styling CSS3';  //modified title
             dna.refreshAll('book');  //updates ui with new titles
+         </code></pre>
+      </figure>
+   </section>
+
+   <!-- dna.recount() -->
+   <section id=api-recount>
+      <h4>dna.recount(clone[, options])</h4>
+      <p class=api-description>
+         Renumbers the counters starting from 1 for the clone and its siblings based on DOM order.
+      </p>
+      <p>
+         When using the special field <code><a href=#loop-primitives>[count]</a></code>, you may
+         need to renumber the counters after moving, inserting or deleting clones.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/clone.html')
+            <li>
+               <label><b>options</b> (Object) <i>[optional]</i>:</label>
+               <ul>
+                  @@include('website/templates/options/html.html')
+               </ul>
+            </li>
+         </ul>
+      </div>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            const books = [
+               { title: 'The DOM' },         //count: 1
+               { title: 'Go JavaScript!' },  //count: 2
+               { title: 'Styling CSS3' }     //count: 3
+               ];
+            const clones = dna.clone('book', books);
+            dna.down(clones.first());   //move "The DOM" to be just after "Go JavaScript!"
+            dna.recount(clones.eq(1));  //set "Go JavaScript!" count to 1 and "The DOM" to 2
          </code></pre>
       </figure>
    </section>
@@ -1165,7 +1213,7 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
-                  @@include('website/templates/options/on-document-load.html')
+                  @@include('website/templates/options/on-doc-load.html')
                   @@include('website/templates/options/selector.html')
                </ul>
             </li>
@@ -1384,7 +1432,12 @@
             &lt;/div&gt;
          </code></pre>
       </figure>
-      <!-- End: Result -->
+      <p>
+         <em>Note:</em>
+         After moving, inserting, or removing clone elements, you can reset the counter for the
+         special field <code>[count]</code> by calling
+         <code><a href=#api-recount>dna.recount()</a></code>.
+      </p>
    </section>
 
    <section id=loop-separators>
@@ -2817,8 +2870,8 @@
    <div>
       <h3 id=utils>Utilities</h3>
       <p>
-         The utility functions built into dna.js are available to be called directly in the event that
-         they might be generally useful.
+         The utility functions built into dna.js are available to be called directly in the event
+         that they might be generally useful.
       </p>
       <h5>Utility Functions Overview</h5>
       <ol>
@@ -2850,6 +2903,7 @@
          <li><a href=#ui-to-elem><b>dna.ui.toElem</b>(elemOrEventOrIndex, that)</a></li>
          <li><a href=#util-apply><b>dna.util.apply</b>(func, params)</a></li>
          <li><a href=#util-assign><b>dna.util.assign</b>(data, field, value)</a></li>
+         <li><a href=#util-is-obj><b>dna.util.isObj</b>(value)</a></li>
          <li><a href=#util-printf><b>dna.util.printf</b>(formatString, parameters...)</a></li>
          <li><a href=#util-real-truth><b>dna.util.realTruth</b>(value)</a></li>
          <li><a href=#util-to-camel><b>dna.util.toCamel</b>(kebabCaseStr)</a></li>
@@ -3339,6 +3393,26 @@
          See <a href=#util-value>dna.util.value()</a> for the complementary action of reading a
          field value from an object.
       </p>
+   </section>
+
+   <!-- dna.util.isObj() -->
+   <section id=util-is-obj>
+      <h4>dna.util.isObj(value)</h4>
+      <p class=api-description>
+         Determins if something is a real object and not a primative or array.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/value.html')
+         </ul>
+      </div>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            return dna.util.isObj(it) ? it : { value: it };  //allways returns an object
+         </code></pre>
+      </figure>
    </section>
 
    <!-- dna.util.printf() -->
