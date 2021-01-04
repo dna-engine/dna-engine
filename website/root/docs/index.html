@@ -281,7 +281,7 @@
             const $ =   require('jquery');
             const dna = require('dna.js');
 
-            dna.initModule(window, $);
+            dna.initGlobal(window, $);
             const myApp = {
                doSomething: () =&gt; { ... }
                };
@@ -1051,6 +1051,7 @@
                <ul>
                   @@include('website/templates/options/fade.html')
                   @@include('website/templates/options/main.html')
+                  @@include('website/templates/options/callback.html')
                </ul>
             </li>
          </ul>
@@ -1064,8 +1065,8 @@
       </figure>
       <p>
          <em>Note:</em>
-         If the only option being set is <code>fade</code> to <code>true</code>, it is simpler to user
-         the <code><a href=#api-bye>dna.bye()</a></code> convenience method.
+         If the only option being set is <code>fade</code> to <code>true</code>, it is simpler to
+         user the <code><a href=#api-bye>dna.bye()</a></code> convenience method.
       </p>
    </section>
 
@@ -1213,8 +1214,9 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
-                  @@include('website/templates/options/on-doc-load.html')
                   @@include('website/templates/options/selector.html')
+                  @@include('website/templates/options/params.html')
+                  @@include('website/templates/options/on-doc-load.html')
                </ul>
             </li>
          </ul>
@@ -2879,6 +2881,7 @@
          <li><a href=#array-from-map><b>dna.array.fromMap</b>(map, key)</a></li>
          <li><a href=#array-last><b>dna.array.last</b>(array)</a></li>
          <li><a href=#array-to-map><b>dna.array.toMap</b>(array, key)</a></li>
+         <li><a href=#array-to-map><b>dna.array.wrap</b>(value)</a></li>
          <li><a href=#browser-get-url-params><b>dna.browser.getUrlParams</b>()</a></li>
          <li>dna.pageToken<br>
             <a href=#page-token><b>dna.pageToken.get</b>(key, value)</a><br>
@@ -3014,6 +3017,29 @@
             const wordMap = dna.array.toMap(words);
             // wordMap:
             //    { a: { code: 'a', word: 'Ant' }, b: { code: 'b', word: 'Bat' } }
+         </code></pre>
+      </figure>
+   </section>
+
+   <!-- dna.array.wrap() -->
+   <section id=array-wrap>
+      <h4>dna.array.wrap(value)</h4>
+      <p class=api-description>
+         Always returns an array.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            @@include('website/templates/params/value.html')
+         </ul>
+      </div>
+      <figure>
+         <figcaption>Examples</figcaption>
+         <pre><code class=language-javascript>
+            dna.array.wrap('hello');       //['hello']
+            dna.array.wrap([3, null, 7]);  //[3, null, 7]
+            dna.array.wrap();              //[]
+            dna.array.wrap(null);          //[]
          </code></pre>
       </figure>
    </section>
