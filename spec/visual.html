@@ -1010,28 +1010,34 @@ spec.spec15 = {
       elem.each(addHr);  //exactly 8 times (one for each clone)
       },
    surround2(elem) {
+      if (!elem.hasClass('s15-book'))
+         throw 'This is not the clone you are looking for: ' + (elem[0] && elem[0].nodeName);
       elem.addClass('border-change2');
       },
    bye(elem, event) {
       const clone = dna.getClone(elem);
+      const delayRange = { min: 300, max: 1600 };
       const start = Date.now();
       let handled = false;
+      const badNews = (msg) => { throw 'handleByeDone --> ' + msg; };
       const handleByeDone = (param) => {
-         handled = true;
          const delay = Date.now() - start;
-         if (delay < 300 || delay > 1000 || param[0] !== clone[0])
-            throw 'handleByeDone --> delay: ' + delay + 'ms, clone: ' + (param[0] === clone[0]);
+         const elemMissing = param[0] !== clone[0];
+         const inDom = !!clone.parent().length;
+         handled = true;
+         if (delay < delayRange.min || delay > delayRange.max || elemMissing || inDom)
+            badNews('delay: ' + delay + 'ms, clone: ' + !elemMissing + ' removed: ' + !inDom);
          };
       if (event.type === 'click')
          dna.bye(elem, handleByeDone);
       if (event.type === 'click')
-         window.setTimeout(() => { if (!handled) throw 'handleByeDone --> not called!'; }, 1000);
+         window.setTimeout(() => handled || badNews('delay exceeded: ' + delayRange.max), delayRange.max);
       },
    run() {
       dna.registerInitializer('spec.spec15.surround', { selector: '.surrounded' });
       dna.registerInitializer('css', { selector: '.surrounded', params: { color: 'white' } });
       dna.registerInitializer('css', { selector: '.surrounded', params: ['padding', '10px'] });
-      dna.registerInitializer(spec.spec15.surround2);  //apply to each clone
+      dna.registerInitializer(spec.spec15.surround2, { onDocLoad: false });  //apply to each clone
       const titles = ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE'];
       dna.clone('s15-book', titles);
       $('.s15-book button.2').on({ click: dna.bye });  //add handler
@@ -1555,8 +1561,8 @@ spec.spec21 = {
       <hr>
       <div id=s22-analytics class=dna-template>
          <h3>Analytics</h3>
-         <p>Title words:<br>  <b data-array=~~titleWords~~>  <code>~~[value]~~</code></b></p>
-         <p>Author names:<br> <b data-array=~~authorNames~~> <code>~~[value]~~</code></b></p>
+         <p>Title words:<br>  <big><b data-array=~~titleWords~~>  <code>~~[value]~~</code></b></big></p>
+         <p>Author names:<br> <big><b data-array=~~authorNames~~> <code>~~[value]~~</code></b></big></p>
       </div>
       <hr>
    </fieldset>
@@ -1571,8 +1577,8 @@ spec.spec21 = {
       <hr>
       <div class=dna-clone>
          <h3>Analytics</h3>
-         <p>Title words:<br>  <b><code>CSS3 DOM HTML5 Howdy Styling The</code></b></p>
-         <p>Author names:<br> <b><code>Abby Ed Jan</code></b></p>
+         <p>Title words:<br>  <big><b><code>css3 dom howdy html5 styling the</code></b></big></p>
+         <p>Author names:<br> <big><b><code>Abby Ed Jan</code></b></big></p>
       </div>
       <hr>
    </fieldset>
@@ -1581,7 +1587,7 @@ spec.spec21 = {
 spec.spec22 = {
    run() {
       const sumPrice =       (sum, book) =>   sum + book.price;
-      const addTitleWords =  (words, book) => words.concat(book.title.split(' '));
+      const addTitleWords =  (words, book) => words.concat(book.title.toLowerCase().split(' '));
       const addAuthorNames = (names, book) => names.concat(book.author.split(' '));
       const summary = {
          numBooks:   specRunner.catalog.length,
@@ -1606,7 +1612,7 @@ spec.spec22 = {
 
 <script src=https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js></script>
 <script src=https://cdn.jsdelivr.net/npm/fetch-json@2.2/dist/fetch-json.min.js></script>
-<script src=../dna.js></script>
+<script src=../dist/dna.js></script>
 <script>
 const specRunner = {
    catalog: [
@@ -1624,8 +1630,8 @@ const specRunner = {
          };
       if (window.location.pathname.endsWith('-min.html'))
          minifiedMode();
-      const run = (i, specSection) => {
-         const name = $(specSection).attr('id');
+      const runSpec = (sectionNode) => {
+         const name = $(sectionNode).attr('id');
          console.log(name);
          spec[name].run();
          };
@@ -1633,7 +1639,7 @@ const specRunner = {
       console.log('Version: ' + dna.info().version);
       console.log('Specifications:');
       const start = Date.now();
-      $('main >section').each(run);
+      $('main >section').toArray().forEach(runSpec);
       console.log('Run time (ms):', Date.now() - start);
       console.log('Report:', dna.info());
       console.log('');
