@@ -1264,5 +1264,4 @@ const dna = {
 };
 dna.core.setup();
 
-if (typeof module === "object") module.exports = { dna, default: dna }
-if (typeof window === "object") window.dna = dna;
+module.exports = { dna, default: dna };

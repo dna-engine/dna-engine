@@ -1263,6 +1263,4 @@ const dna = {
     core: dnaCore,
 };
 dna.core.setup();
-
-if (typeof module === "object") module.exports = { dna, default: dna }
-if (typeof window === "object") window.dna = dna;
+export { dna };
