@@ -711,8 +711,8 @@ const dnaStore = {
    // Handles storage and retrieval of templates
    getTemplateDb: (): DnaTemplateDb => {
       const store = $('body').data();
-      const initDb = () => store.dnaTemplateDb = {};
-      return store.dnaTemplateDb || initDb();
+      const initStore = () => store.dnaTemplateDb = {};
+      return store.dnaTemplateDb || initStore();
       },
    stash: (elem: JQuery): DnaTemplate => {
       const name = elem.data().dnaRules.template;
@@ -769,10 +769,14 @@ const dnaStore = {
 
 const dnaEvents = {
    getContextDb: (): DnaContext => {
-      return $('body').data().dnaContextDb;  //storage to register callbacks when dna.js is module loaded without window scope (webpack)
+      const store = $('body').data();
+      const initStore = () => store.dnaContextDb = {};
+      return store.dnaContextDb || initStore();  //storage to register callbacks when dna.js is module loaded without window scope (webpack)
       },
    getInitializers: (): DnaInitializer[] => {
-      return $('body').data().dnaInitializers;  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
+      const store = $('body').data();
+      const initStore = () => store.dnaInitializers = [];
+      return store.dnaInitializers || initStore();  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
       },
    runOnLoads: () => {
       // Example:
@@ -878,9 +882,6 @@ const dnaEvents = {
          };
       const makeEventHandler = (type: string) =>
          (event: JQuery.EventBase) => runner($(event.target), type, event);
-      const store = $('body').data();
-      store.dnaContextDb = <DnaContext>{};
-      store.dnaInitializers = <DnaInitializer[]>[];
       const events = {
          click:    handleEvent,
          change:   handleEvent,
