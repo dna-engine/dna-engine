@@ -2,12 +2,14 @@
 // Mocha Specification Cases
 
 // Imports
-const fs =        require('fs');
-const assert =    require('assert');
-const { JSDOM } = require('jsdom');
+import assert from    'assert';
+import { JSDOM } from 'jsdom';
+import jQuery from    'jquery';
 
 // Setup
-const dnaPath = process.env.specMode === 'minified' ? 'dist/dna.min.js' : 'dist/dna.js';
+import { dna } from '../dist/dna.esm.js';
+const mode =     { type: 'ES Module', file: 'dist/dna.esm.js' };
+const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const html = `
    <!doctype html>
    <html lang=en>
@@ -26,14 +28,9 @@ const html = `
       </body>
    </html>
    `;
-const scripts = [
-   'node_modules/jquery/dist/jquery.js',
-   dnaPath,
-   ];
-const window = new JSDOM(html, { runScripts: 'outside-only' }).window;
-const loadScript = (file) => window.eval(fs.readFileSync(file).toString());  //jshint ignore:line
-scripts.forEach(loadScript);
-const { $, dna } = window;
+const dom =      new JSDOM(html);
+const $ =        jQuery(dom.window);
+const setupEnv = (done) => dna.initGlobal(dom.window, $) && done();
 
 // Mock data
 const bookCatalog = [
@@ -43,7 +40,8 @@ const bookCatalog = [
    ];
 
 // Specification suite
-describe(require('path').basename(__filename) + ': ' + dnaPath, () => {
+describe(`Specifications: ${filename} - ${mode.type} (${mode.file})`, () => {
+   before(setupEnv);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Function dna.templateExists()', () => {
@@ -120,6 +118,26 @@ describe('Function dna.templateExists()', () => {
    it('identifies if a template is present after cloning', () => {
       const actual =   [dna.templateExists('book'), dna.templateExists('bogus')];
       const expected = [true, false];
+      assert.deepStrictEqual(actual, expected);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Function dna.info()', () => {
+
+   it('reports the correct number of templates and clone instances', () => {
+      const actual = JSON.parse(JSON.stringify(dna.info()));
+      delete actual.store;
+      delete actual.version;
+      const expected = {
+         clones:       2,
+         initializers: [],
+         names:        ['book'],
+         panels:       [],
+         subs:         0,
+         templates:    1,
+         };
       assert.deepStrictEqual(actual, expected);
       });
 

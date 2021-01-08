@@ -4,9 +4,12 @@
    "description": "An uncomplicated user interface library for building data-driven semantic templates",
    "summary": "dna.js is a lightweight easy-to-use UI library enabling developers to rapidly build maintainable JavaScript applications.",
    "license": "MIT",
+   "type": "module",
    "main": "dist/dna.js",
+   "module": "dist/dna.esm.js",
    "browser": "dist/dna.min.js",
    "style": "dist/dna.css",
+   "types": "dist/dna.d.ts",
    "files": [
       "dist"
    ],
@@ -25,10 +28,11 @@
       "json",
       "template",
       "templating",
+      "typescript",
       "ui"
    ],
    "jshintConfig": {
-      "esversion": 9,
+      "esversion": 10,
       "strict": "implied",
       "eqeqeq": true,
       "singleGroups": true,
@@ -46,9 +50,9 @@
       }
    },
    "scripts": {
-      "pretest": "jshint *.js spec website && gulp build-dist",
-      "test": "mocha spec && env specMode=minified mocha spec",
-      "posttest": "gulp report-size",
+      "lint": "jshint *.js spec website",
+      "pretest": "npm run lint && tsc --version && tsc --project . && gulp make-dist",
+      "test": "mocha spec && gulp report-size",
       "interactive": "browser-sync . --startPath spec/visual.html",
       "prewebsite": "gulp clean-website",
       "website": "dnaReleasedVersion=$(git tag | tail -1) gulp build-website",
@@ -70,6 +74,8 @@
       "@babel/core": "~7.12",
       "@babel/preset-env": "~7.12",
       "@fortawesome/fontawesome-free": "~5.15",
+      "@types/jquery": "~3.5",
+      "@types/node": "~14.14",
       "babel-minify": "~0.5",
       "browser-sync": "~2.26",
       "canvas": "~2.6",
@@ -92,6 +98,7 @@
       "jshint": "~2.12",
       "merge-stream": "~2.0",
       "mocha": "~8.2",
+      "typescript": "~4.1",
       "web-ignition": "~1.3"
    }
 }

@@ -2,18 +2,19 @@
 // Gulp configuration and tasks
 
 // Imports
-const babel =         require('gulp-babel');
-const del =           require('del');
-const fileInclude =   require('gulp-file-include');
-const gap =           require('gulp-append-prepend');
-const gulp =          require('gulp');
-const header =        require('gulp-header');
-const htmlHint =      require('gulp-htmlhint');
-const htmlValidator = require('gulp-w3c-html-validator');
-const mergeStream =   require('merge-stream');
-const rename =        require('gulp-rename');
-const replace =       require('gulp-replace');
-const size =          require('gulp-size');
+import babel from         'gulp-babel';
+import del from           'del';
+import fileInclude from   'gulp-file-include';
+import gap from           'gulp-append-prepend';
+import gulp from          'gulp';
+import header from        'gulp-header';
+import htmlHint from      'gulp-htmlhint';
+import htmlValidator from 'gulp-w3c-html-validator';
+import mergeStream from   'merge-stream';
+import rename from        'gulp-rename';
+import replace from       'gulp-replace';
+import size from          'gulp-size';
+import { readFileSync } from 'fs';
 
 // Link information
 const linkInfo = {
@@ -35,17 +36,18 @@ const linkInfo = {
    };
 
 // Setup
-const pkg =            require('./package.json');
-const released =       process.env.dnaReleasedVersion;
-const minorVersion =   pkg.version.split('.').slice(0, 2).join('.');
-const banner =         'dna.js v' + pkg.version + ' ~~ dnajs.org ~~ MIT License';
-const bannerCss =      '/*! ' + banner + ' */';
-const bannerJs =       '//! ' + banner + '\n';
-const websiteTarget =  'website-target';
-const htmlHintConfig = { 'attr-value-double-quotes': false };
-const headerComments = { css: /^\/[*].*[*]\/$/gm, js: /^\/\/.*\n/gm };
-const transpileES6 =   ['@babel/preset-env', { modules: false }];
-const babelMinifyJs =  { presets: [transpileES6, 'minify'], comments: false };
+const pkg =             JSON.parse(readFileSync('./package.json'));
+const released =        process.env.dnaReleasedVersion;
+const minorVersion =    pkg.version.split('.').slice(0, 2).join('.');
+const banner =          'dna.js v' + pkg.version + ' ~~ dnajs.org ~~ MIT License';
+const bannerCss =       '/*! ' + banner + ' */';
+const bannerJs =        '//! ' + banner + '\n\n';
+const websiteTarget =   'website-target';
+const htmlHintConfig =  { 'attr-value-double-quotes': false };
+const headerComments =  { css: /^\/[*].*[*]\/$/gm, js: /^\/\/.*\n/gm };
+const transpileES6 =    ['@babel/preset-env', { modules: false }];
+const babelMinifyJs =   { presets: [transpileES6, 'minify'], comments: false };
+const exportStatement = /^export { (.*) };/m;
 const webContext = {
    pkg:          pkg,
    released:     released,
@@ -58,36 +60,67 @@ const webContext = {
 
 // Tasks
 const task = {
-   buildDistribution: () => {
+
+   makeDistribution() {
+      const umd = '\n' +
+         'if (typeof module === "object") module.exports = { $1, default: $1 }\n' +
+         'if (typeof window === "object") window.$1 = $1;';
       const buildCss = () =>
          gulp.src('dna.css')
-            .pipe(replace(headerComments.css, ''))
+            .pipe(replace(/.*License.*\n/, ''))
             .pipe(header(bannerCss))
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('dist'));
-      const buildJs = () =>
-         gulp.src('dna.js')
-            .pipe(replace(headerComments.js, ''))
+      const buildDef = () =>
+         gulp.src('build/dna.d.ts')
+            .pipe(header(bannerJs))
+            .pipe(size({ showFiles: true }))
+            .pipe(gulp.dest('dist'));
+      const buildEs = () =>
+         gulp.src('build/dna.js')
+            .pipe(replace(headerComments, ''))
             .pipe(header(bannerJs))
             .pipe(replace('[VERSION]', pkg.version))
+            .pipe(size({ showFiles: true }))
+            .pipe(rename({ extname: '.esm.js' }))
+            .pipe(gulp.dest('dist'));
+      const buildCjs = () =>
+         gulp.src('build/dna.js')
+            .pipe(replace(headerComments, ''))
+            .pipe(header(bannerJs))
+            .pipe(replace('[VERSION]', pkg.version))
+            .pipe(replace(exportStatement, '\nmodule.exports = { $1, default: $1 };'))
+            .pipe(rename({ extname: '.cjs.js' }))
+            .pipe(size({ showFiles: true }))
+            .pipe(gulp.dest('dist'));
+      const buildJs = () =>
+         gulp.src('build/dna.js')
+            .pipe(replace(headerComments, ''))
+            .pipe(header(bannerJs))
+            .pipe(replace('[VERSION]', pkg.version))
+            .pipe(replace(exportStatement, umd))
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('dist'))
             .pipe(babel(babelMinifyJs))
             .pipe(rename({ extname: '.min.js' }))
-            .pipe(header(bannerJs))
+            .pipe(header(bannerJs.replace('\n\n', '\n')))
             .pipe(gap.appendText('\n'))
             .pipe(size({ showFiles: true }))
+            .pipe(size({ showFiles: true, gzip: true }))
             .pipe(gulp.dest('dist'));
-      return mergeStream(buildCss(), buildJs());
+      return mergeStream(buildCss(), buildDef(), buildEs(), buildCjs(), buildJs());
       },
-   reportSize: () => {
+
+   reportSize() {
       return gulp.src('dist/dna.*')
          .pipe(size({ showFiles: true, gzip: true }));
       },
-   cleanWebsite: () => {
+
+   cleanWebsite() {
       return del([websiteTarget, '**/.DS_Store']);
       },
-   buildWebsite: () => {
+
+   buildWebsite() {
       const copyStaticFiles = () =>
          gulp.src(['website/static/**', '!website/static/**/*.html', 'website/static/**/.htaccess'])
             .pipe(gulp.dest(websiteTarget));
@@ -102,7 +135,8 @@ const task = {
             .pipe(size({ showFiles: true }));
       return mergeStream(copyStaticFiles(), buildHtml());
       },
-   updateReadMe: () => {
+
+   updateReadMe() {
       const line = {
          findToDo:  /.*To-Do Application.*/,
          findIntro: /.*Introduction to dna.js.*/,
@@ -115,7 +149,8 @@ const task = {
          .pipe(size({ showFiles: true }))
          .pipe(gulp.dest('.'));
       },
-   validateHtml: () => {
+
+   validateHtml() {
       const skip = (type, message) => !/input type is not supported in all browsers/.test(message);
       return gulp.src(['spec/visual.html', 'spec/simple.html'])
          .pipe(htmlHint(htmlHintConfig))
@@ -123,11 +158,12 @@ const task = {
          .pipe(htmlValidator({ verifyMessage: skip }))
          .pipe(htmlValidator.reporter())
          .pipe(size({ showFiles: true }));
-      }
+      },
+
    };
 
 // Gulp
-gulp.task('build-dist',    task.buildDistribution);
+gulp.task('make-dist',     task.makeDistribution);
 gulp.task('report-size',   task.reportSize);
 gulp.task('clean-website', task.cleanWebsite);
 gulp.task('build-website', task.buildWebsite);

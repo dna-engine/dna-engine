@@ -2,37 +2,21 @@
 // Mocha Specification Cases
 
 // Imports
-const assert =    require('assert');
-const { JSDOM } = require('jsdom');
-
-// Web page
-const html = `
-   <!doctype html>
-   <html lang=en>
-      <head>
-         <meta charset=utf-8>
-         <title>Specification Runner</title>
-      </head>
-      <body>
-         <h1>Featured Books</h1>
-         <section class=books>
-            <div id=book class=dna-template>
-               <h2>~~title~~</h2>
-               Author: <cite>~~author~~</cite>
-            </div>
-         </section>
-      </body>
-   </html>
-   `;
+import assert from    'assert';
+import { JSDOM } from 'jsdom';
+import jQuery from    'jquery';
 
 // Setup
-const dnaPath = process.env.specMode === 'minified' ? '../dist/dna.min.js' : '../dist/dna.js';
-const window =  new JSDOM(html).window;
-const $ =       require('jquery')(window);
-const dna =     require(dnaPath)(window, $);
+import { dna } from '../dist/dna.esm.js';
+const mode =     { type: 'ES Module', file: 'dist/dna.esm.js' };
+const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
+const dom =      new JSDOM('');
+const $ =        jQuery(dom.window);
+const setupEnv = (done) => dna.initGlobal(dom.window, $) && done();
 
 // Specification suite
-describe(require('path').basename(__filename) + ': ' + dnaPath, () => {
+describe(`Specifications: ${filename} - ${mode.type} (${mode.file})`, () => {
+   before(setupEnv);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Library version number', () => {

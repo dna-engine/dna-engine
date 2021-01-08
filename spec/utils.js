@@ -2,17 +2,21 @@
 // Mocha Specification Cases
 
 // Imports
-const assert =    require('assert');
-const { JSDOM } = require('jsdom');
+import assert from    'assert';
+import { JSDOM } from 'jsdom';
+import jQuery from    'jquery';
 
 // Setup
-const dnaPath = process.env.specMode === 'minified' ? '../dist/dna.min.js' : '../dist/dna.js';
-const window =  new JSDOM('').window;
-const $ =       require('jquery')(window);
-const dna =     require(dnaPath)(window, $);
+import { dna } from '../dist/dna.esm.js';
+const mode =     { type: 'ES Module', file: 'dist/dna.esm.js' };
+const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
+const dom =      new JSDOM('');
+const $ =        jQuery(dom.window);
+const setupEnv = (done) => dna.initGlobal(dom.window, $) && done();
 
 // Specification suite
-describe(require('path').basename(__filename) + ': ' + dnaPath, () => {
+describe(`Specifications: ${filename} - ${mode.type} (${mode.file})`, () => {
+   before(setupEnv);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Utility function dna.util.toCamel()', () => {
