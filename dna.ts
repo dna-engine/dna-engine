@@ -425,13 +425,15 @@ const dnaUtil = {
 const dnaPlaceholder = {  //TODO: optimize
    // A template placeholder is only shown when its corresponding template is empty (has zero
    // clones).  The "data-placeholder" attribute specifies the name of the template.
-   setup: () => {
+   setup: (): JQuery => {
       $('option.dna-template').closest('select').addClass('dna-hide');
-      const fade = (index: number, node: HTMLElement) => {
-         const input = $(node).stop(true);
-         dna.getClones(input.data().placeholder).length ? input.fadeOut() : input.fadeIn();
+      const fade = (node: HTMLElement) => {
+         const elem = $(node).stop(true);
+         dna.getClones(elem.data().placeholder).length ? elem.fadeOut() : elem.fadeIn();
          };
-      $('[data-placeholder]').each(fade);
+      const placeholders = $('[data-placeholder]');
+      placeholders.toArray().forEach(fade);
+      return placeholders;
       }
    };
 
@@ -450,7 +452,7 @@ const dnaPanels = {
    // The optional "data-hash" attribute specifies the hash (URL fragment ID) and updates the
    // location bar.  The "data-nav" attributes can be omitted if the ".dna-panels" element
    // immediately follows the ".dna-menu" element.
-   display: (menu: JQuery, location?: number, updateUrl?: boolean) => {
+   display: (menu: JQuery, location?: number, updateUrl?: boolean): JQuery => {
       // Shows the panel at the given location (index)
       const panels =    menu.data().dnaPanels;
       const navName =   menu.data().nav;
@@ -470,19 +472,20 @@ const dnaPanels = {
       if (updateUrl && hash)
          window.history.pushState(null, '', '#' + hash);
       dna.util.apply(menu.data().callback, [panel, hash]);
+      return panel;
       },
-   clickRotate: (event: JQuery.EventBase) => {
+   clickRotate: (event: JQuery.EventBase): JQuery => {
       // Moves to the selected panel
       const item = $(event.target).closest('.menu-item');
       const menu = item.closest('.dna-menu');
-      dna.panels.display(menu, menu.find('.menu-item').index(item), true);
+      return dna.panels.display(menu, menu.find('.menu-item').index(item), true);
       },
-   selectRotate: (event: JQuery.EventBase) => {
+   selectRotate: (event: JQuery.EventBase): JQuery => {
       // Moves to the selected panel
       const menu = $(event.target);
-      dna.panels.display(menu, menu.find('option:selected').index(), true);
+      return dna.panels.display(menu, menu.find('option:selected').index(), true);
       },
-   initialize: (panelHolder: JQuery) => {
+   initialize: (panelHolder: JQuery): JQuery => {
       const initialized = 'dna-panels-initialized';
       const generateNavName = (): string => {
          const navName = 'dna-panels-' + $('body').data().dnaPanelNextNav++;
@@ -507,12 +510,15 @@ const dnaPanels = {
       const isInitialized = !panelHolder.length || panelHolder.hasClass(initialized);
       if (!isInitialized && !panelHolder.children().hasClass('dna-template'))
          init();
+      return panelHolder;
       },
-   setup: () => {
+   setup: (): JQuery => {
       $('body').data().dnaPanelNextNav = 1;
-      $('.dna-panels').each((index: number, node: HTMLElement) => dna.panels.initialize($(node)));
+      const panels = $('.dna-panels');
+      panels.toArray().forEach((node: HTMLElement) => dna.panels.initialize($(node)));
       $(window.document).on({ click:  dna.panels.clickRotate },  '.dna-menu .menu-item');
       $(window.document).on({ change: dna.panels.selectRotate }, '.dna-menu');
+      return panels;
       }
    };
 
@@ -651,13 +657,15 @@ const dnaCompile = {
    rules: (elems: JQuery, type: string, isLists?: boolean): JQuery => {
       // Example:
       //    <p data-require=~~title~~>, 'require'  ==>  <p data-dnaRules={ require: 'title' }>
-      const addRule = (index: number, node: HTMLElement) => {
+      const typedElems = elems.filter('[data-' + type + ']');
+      const addRule = (node: HTMLElement) => {
          const elem = dna.compile.setupNucleotide($(node));
          const field = dna.compile.getDataField(elem, type);
          const makeLists = () => field.split(';').map((list: string) => list.split(','));
          elem.data().dnaRules[type] = isLists ? makeLists() : field;
          };
-      return elems.filter('[data-' + type + ']').each(addRule).removeAttr('data-' + type);
+      typedElems.toArray().forEach(addRule);
+      return typedElems.removeAttr('data-' + type);
       },
    separators: (elem: JQuery): JQuery => {
       // Convert: data-separator=", "  ==>  <span class=dna-separator>, </span>
@@ -670,12 +678,14 @@ const dnaCompile = {
             };
          return text && doAppend();
          };
-      const processTemplate = (index: number, node: HTMLElement) => {
+      const processTemplate = (node: HTMLElement) => {
          const templateElem = $(node);
          append(templateElem, templateElem.data().separator,     'dna-separator');
          append(templateElem, templateElem.data().lastSeparator, 'dna-last-separator');
          };
-      return elem.find('.dna-template, .dna-sub-clone').addBack().each(processTemplate);
+      const clones = elem.find('.dna-template, .dna-sub-clone').addBack();
+      clones.toArray().forEach(processTemplate);
+      return clones;
       },
    template: (name: string): DnaTemplate => {  //prepare and stash template so it can be cloned
       const elem = $('#' + name);
@@ -778,11 +788,13 @@ const dnaEvents = {
       const initStore = () => store.dnaInitializers = [];
       return store.dnaInitializers || initStore();  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
       },
-   runOnLoads: () => {
+   runOnLoads: (): JQuery => {
       // Example:
       //    <p data-on-load=app.cart.setup>
-      const run = (index: number, node: HTMLElement) => dna.util.apply($(node).data().onLoad, $(node));
-      return $('[data-on-load]').not('.dna-loaded').each(run).addClass('dna-loaded');
+      const elems = $('[data-on-load]').not('.dna-loaded');
+      const run = (node: HTMLElement) => dna.util.apply($(node).data().onLoad, $(node));
+      elems.toArray().forEach(run);
+      return elems.addClass('dna-loaded');
       },
    runInitializers: (root: JQuery): JQuery => {
       // Executes data-callback functions plus registered initializers
@@ -1250,8 +1262,9 @@ const dna = {
    refreshAll(name: string, options?: DnaOptionsRefreshAll): JQuery {
       // Updates all the clones of the specified template.
       const clones = dna.getClones(name);
-      const refresh = (index: number, node: HTMLElement) => { dna.refresh($(node), options); };
-      return clones.each(refresh);
+      const refresh = (node: HTMLElement) => { dna.refresh($(node), options); };
+      clones.toArray().forEach(refresh);
+      return clones;
       },
    updateField(inputElem: JQuery, value: unknown): JQuery {
       const field = inputElem.data() && inputElem.data().dnaField;
@@ -1346,9 +1359,9 @@ const dna = {
       dna.events.getInitializers().push(initializer);
       return dna.events.getInitializers();
       },
-   clearInitializers() {
+   clearInitializers(): DnaInitializer[] {
       // Deletes all initializers.
-      dna.events.getInitializers().splice(0);
+      return dna.events.getInitializers().splice(0);
       },
    registerContext(contextName: string, contextObjOrFn: Record<string, unknown> | DnaCallback) {
       // Registers an application object or individual function to enable it to be used for event
