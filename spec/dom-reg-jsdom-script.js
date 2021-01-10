@@ -7,7 +7,7 @@ import { JSDOM } from        'jsdom';
 import { readFileSync } from 'fs';
 
 // Setup
-const mode =     { type: 'UMD', file: 'dist/dna.js' };
+const mode =     { type: 'Regular', file: 'dist/dna.js' };
 const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const html = `
    <!doctype html>
