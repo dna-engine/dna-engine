@@ -59,12 +59,8 @@ Need to clone the template multiple times?&nbsp;  Simply pass an array of data o
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)
 
 ### 3. Contributor Notes
-To be a contributor, fork the project and run the commands `npm install` and `npm test` on your
+To be a contributor, **fork** the project and run the commands `npm install` and `npm test` on your
 local clone.&nbsp; Make your edits and rerun the tests.&nbsp; Pull requests welcome.
-
-Pull requests (PRs) should not update the `version` number in **package.json** or any files in the
-`dist` folder.&nbsp; The `version` number and `dist` files are all updated as part of the release
-process.
 
 <br>
 

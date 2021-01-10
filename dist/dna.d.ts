@@ -1,4 +1,4 @@
-//! dna.js v1.7.1 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.7.2 ~~ dnajs.org ~~ MIT License
 
 /// <reference types="jquery" />
 declare type DnaOptionsClone = {
@@ -102,7 +102,7 @@ declare const dna: {
     down(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallback | undefined): JQuery<HTMLElement>;
     bye(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallback | undefined): JQuery<HTMLElement>;
     registerInitializer(fn: DnaCallback, options?: DnaOptionsRegisterInitializer | undefined): DnaInitializer[];
-    clearInitializers(): void;
+    clearInitializers(): DnaInitializer[];
     registerContext(contextName: string, contextObjOrFn: Record<string, unknown> | DnaCallback): DnaContext;
     initGlobal(thisWindow: Window & typeof globalThis, thisJQuery: JQueryStatic): any;
     info(): {
@@ -171,14 +171,14 @@ declare const dna: {
         isObj: (value: unknown) => boolean;
     };
     placeholder: {
-        setup: () => void;
+        setup: () => JQuery;
     };
     panels: {
-        display: (menu: JQuery, location?: number | undefined, updateUrl?: boolean | undefined) => void;
-        clickRotate: (event: JQuery.EventBase) => void;
-        selectRotate: (event: JQuery.EventBase) => void;
-        initialize: (panelHolder: JQuery) => void;
-        setup: () => void;
+        display: (menu: JQuery, location?: number | undefined, updateUrl?: boolean | undefined) => JQuery;
+        clickRotate: (event: JQuery.EventBase) => JQuery;
+        selectRotate: (event: JQuery.EventBase) => JQuery;
+        initialize: (panelHolder: JQuery) => JQuery;
+        setup: () => JQuery;
     };
     compile: {
         regex: {
@@ -205,7 +205,7 @@ declare const dna: {
     events: {
         getContextDb: () => DnaContext;
         getInitializers: () => DnaInitializer[];
-        runOnLoads: () => JQuery<HTMLElement>;
+        runOnLoads: () => JQuery;
         runInitializers: (root: JQuery) => JQuery;
         setup: () => void;
     };
