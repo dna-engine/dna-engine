@@ -5,7 +5,7 @@
    "summary": "dna.js is a lightweight easy-to-use UI library enabling developers to rapidly build maintainable JavaScript applications.",
    "license": "MIT",
    "type": "module",
-   "main": "dist/dna.js",
+   "main": "dist/dna.umd.js",
    "module": "dist/dna.esm.js",
    "browser": "dist/dna.min.js",
    "style": "dist/dna.css",
@@ -51,11 +51,11 @@
    },
    "scripts": {
       "lint": "jshint *.js spec website",
-      "pretest": "npm run lint && tsc --version && tsc --project . && gulp make-dist",
+      "tsc": "tsc --version && tsc --project . && tsc --project . --module UMD --removeComments --outDir build/umd",
+      "pretest": "npm run lint && rimraf build dist **/.DS_Store && npm run tsc && gulp make-dist",
       "test": "mocha spec && gulp report-size",
       "interactive": "browser-sync . --startPath spec/visual.html",
-      "prewebsite": "gulp clean-website",
-      "website": "dnaReleasedVersion=$(git tag | tail -1) gulp build-website",
+      "website": "gulp clean-website && dnaReleasedVersion=$(git tag | tail -1) gulp build-website",
       "postwebsite": "gulp update-readme && gulp validate-html"
    },
    "cdnVersion": {
@@ -98,6 +98,7 @@
       "jshint": "~2.12",
       "merge-stream": "~2.0",
       "mocha": "~8.2",
+      "rimraf": "~3.0",
       "typescript": "~4.1",
       "web-ignition": "~1.3"
    }

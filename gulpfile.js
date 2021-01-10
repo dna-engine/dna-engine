@@ -36,23 +36,22 @@ const linkInfo = {
    };
 
 // Setup
-const pkg =             JSON.parse(readFileSync('./package.json'));
-const released =        process.env.dnaReleasedVersion;
-const minorVersion =    pkg.version.split('.').slice(0, 2).join('.');
-const banner =          'dna.js v' + pkg.version + ' ~~ dnajs.org ~~ MIT License';
-const bannerCss =       '/*! ' + banner + ' */';
-const bannerJs =        '//! ' + banner + '\n\n';
-const websiteTarget =   'website-target';
-const htmlHintConfig =  { 'attr-value-double-quotes': false };
-const headerComments =  { css: /^\/[*].*[*]\/$/gm, js: /^\/\/.*\n/gm };
-const transpileES6 =    ['@babel/preset-env', { modules: false }];
-const babelMinifyJs =   { presets: [transpileES6, 'minify'], comments: false };
-const exportStatement = /^export { (.*) };/m;
+const pkg =            JSON.parse(readFileSync('./package.json'));
+const released =       process.env.dnaReleasedVersion;
+const minorVersion =   pkg.version.split('.').slice(0, 2).join('.');
+const banner =         'dna.js v' + pkg.version + ' ~~ dnajs.org ~~ MIT License';
+const bannerCss =      '/*! ' + banner + ' */\n';
+const bannerJs =       '//! ' + banner + '\n\n';
+const websiteTarget =  'website-target';
+const htmlHintConfig = { 'attr-value-double-quotes': false };
+const headerComments = { css: /^\/[*].*[*]\/$/gm, js: /^\/\/.*\n/gm };
+const transpileES6 =   ['@babel/preset-env', { modules: false }];
+const babelMinifyJs =  { presets: [transpileES6, 'minify'], comments: false };
 const webContext = {
    pkg:          pkg,
    released:     released,
    minorVersion: minorVersion,
-   gzipSize:     '7 kb gzip',
+   gzipSize:     '8 kb gzip',
    title:        pkg.description,  //default page title
    youTube:      linkInfo.youTube,
    jsFiddle:     linkInfo.jsFiddle
@@ -62,43 +61,38 @@ const webContext = {
 const task = {
 
    makeDistribution() {
-      const umd = '\n' +
-         'if (typeof module === "object") module.exports = { $1, default: $1 }\n' +
-         'if (typeof window === "object") window.$1 = $1;';
       const buildCss = () =>
          gulp.src('dna.css')
-            .pipe(replace(/.*License.*\n/, ''))
+            .pipe(replace(headerComments.css, ''))
             .pipe(header(bannerCss))
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('dist'));
-      const buildDef = () =>
+      const buildDts = () =>
          gulp.src('build/dna.d.ts')
             .pipe(header(bannerJs))
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('dist'));
-      const buildEs = () =>
+      const buildEsm = () =>
          gulp.src('build/dna.js')
-            .pipe(replace(headerComments, ''))
+            .pipe(replace(headerComments.js, ''))
             .pipe(header(bannerJs))
             .pipe(replace('[VERSION]', pkg.version))
             .pipe(size({ showFiles: true }))
             .pipe(rename({ extname: '.esm.js' }))
             .pipe(gulp.dest('dist'));
-      const buildCjs = () =>
-         gulp.src('build/dna.js')
-            .pipe(replace(headerComments, ''))
+      const buildUmd = () =>
+         gulp.src('build/umd/dna.js')
             .pipe(header(bannerJs))
             .pipe(replace('[VERSION]', pkg.version))
-            .pipe(replace(exportStatement, '\nmodule.exports = { $1, default: $1 };'))
-            .pipe(rename({ extname: '.cjs.js' }))
+            .pipe(rename({ extname: '.umd.js' }))
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('dist'));
       const buildJs = () =>
          gulp.src('build/dna.js')
-            .pipe(replace(headerComments, ''))
+            .pipe(replace(headerComments.js, ''))
             .pipe(header(bannerJs))
             .pipe(replace('[VERSION]', pkg.version))
-            .pipe(replace(exportStatement, umd))
+            .pipe(replace(/^export { (.*) };/m, 'if (typeof window === "object") window.$1 = $1;'))
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('dist'))
             .pipe(babel(babelMinifyJs))
@@ -108,7 +102,7 @@ const task = {
             .pipe(size({ showFiles: true }))
             .pipe(size({ showFiles: true, gzip: true }))
             .pipe(gulp.dest('dist'));
-      return mergeStream(buildCss(), buildDef(), buildEs(), buildCjs(), buildJs());
+      return mergeStream(buildCss(), buildDts(), buildEsm(), buildUmd(), buildJs());
       },
 
    reportSize() {
