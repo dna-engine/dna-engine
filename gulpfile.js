@@ -40,7 +40,7 @@ const pkg =            JSON.parse(readFileSync('./package.json'));
 const released =       process.env.dnaReleasedVersion;
 const minorVersion =   pkg.version.split('.').slice(0, 2).join('.');
 const banner =         'dna.js v' + pkg.version + ' ~~ dnajs.org ~~ MIT License';
-const bannerCss =      '/*! ' + banner + ' */\n';
+const bannerCss =      '/*! ' + banner + ' */';
 const bannerJs =       '//! ' + banner + '\n\n';
 const websiteTarget =  'website-target';
 const htmlHintConfig = { 'attr-value-double-quotes': false };
@@ -84,7 +84,7 @@ const task = {
          gulp.src('build/umd/dna.js')
             .pipe(header(bannerJs))
             .pipe(replace('[VERSION]', pkg.version))
-            .pipe(rename({ extname: '.umd.js' }))
+            .pipe(rename({ extname: '.umd.cjs' }))
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('dist'));
       const buildJs = () =>
