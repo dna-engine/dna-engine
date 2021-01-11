@@ -1,4 +1,4 @@
-//! dna.js v1.7.2 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.7.3 ~~ dnajs.org ~~ MIT License
 
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
@@ -228,7 +228,7 @@
         },
         toCamel: (kebabStr) => {
             const hump = (match, letter) => letter.toUpperCase();
-            return String(kebabStr).replace(/\-(.)/g, hump);
+            return String(kebabStr).replace(/-(.)/g, hump);
         },
         toKebab: (camelStr) => {
             const dash = (word) => '-' + word.toLowerCase();
@@ -341,7 +341,7 @@
         },
         addFieldClass: (elem) => {
             const field = elem.data().dnaField;
-            const htmlCase = () => dna.util.toKebab(field).replace(/[\[\]]/g, '').replace(/[.]/g, '-');
+            const htmlCase = () => dna.util.toKebab(field).replace(/[[\]]/g, '').replace(/[.]/g, '-');
             return field ? elem.addClass('dna-field-' + htmlCase()) : elem;
         },
         field: (index, node) => {
@@ -649,7 +649,7 @@
                 .on({ focusout: makeEventHandler('focus-out') }, '[data-focus-out]')
                 .on({ mouseenter: makeEventHandler('hover-in') }, '[data-hover-in]')
                 .on({ mouseleave: makeEventHandler('hover-out') }, '[data-hover-out]');
-            dna.events.runOnLoads();
+            return dna.events.runOnLoads();
         }
     };
     const dnaCore = {
@@ -854,8 +854,7 @@
             }
         },
         plugin: () => {
-            $.fn.dna = function (action) {
-                const params = [arguments[1], arguments[2], arguments[3]];
+            $.fn['dna'] = function (action, ...params) {
                 const dnaApi = dna[dna.util.toCamel(action)];
                 if (!dnaApi)
                     dna.core.berserk('Unknown plugin action', action);
@@ -876,7 +875,7 @@
         }
     };
     const dna = {
-        version: '1.7.2',
+        version: '1.7.3',
         clone(name, data, options) {
             const defaults = {
                 fade: false,
@@ -1043,7 +1042,7 @@
         initGlobal(thisWindow, thisJQuery) {
             global.window = thisWindow;
             global.document = thisWindow.document;
-            global.$ = thisJQuery;
+            global['$'] = thisJQuery;
             return dna.core.setup();
         },
         info() {

@@ -1,4 +1,4 @@
-//! dna.js v1.7.2 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.7.3 ~~ dnajs.org ~~ MIT License
 
 /// <reference types="jquery" />
 declare type DnaOptionsClone = {
@@ -57,7 +57,7 @@ declare type DnaOptionsRegisterInitializer = {
     params?: DnaDataObject | unknown[] | null;
     onDocLoad?: boolean;
 };
-declare type DnaModel = any[] | Record<string | number, any>;
+declare type DnaModel = unknown[] | Record<string | number, unknown>;
 declare type DnaDataObject = Record<string | number, unknown>;
 declare type DnaCallback = (arg1?: unknown, arg2?: unknown, arg3?: unknown, ...args: unknown[]) => unknown;
 declare type DnaElemEventIndex = JQuery | JQuery.EventBase | number;
@@ -84,7 +84,7 @@ declare type DnaFunctionName = string;
 declare const dna: {
     version: string;
     clone(name: string, data: DnaModel, options?: DnaOptionsClone | undefined): JQuery;
-    cloneSub(holderClone: JQuery, arrayField: string, data: DnaModel, options?: DnaOptionsCloneSub | undefined): JQuery<HTMLElement>;
+    cloneSub(holderClone: JQuery, arrayField: string, data: DnaModel, options?: DnaOptionsCloneSub | undefined): JQuery;
     createTemplate(name: string, html: string, holder: JQuery): DnaTemplate;
     templateExists(name: string): boolean;
     getModel(elemOrName: JQuery | string, options?: DnaOptionsGetModel | undefined): DnaModel | undefined;
@@ -96,25 +96,16 @@ declare const dna: {
     recount(clone: JQuery, options?: DnaOptionsRecount | undefined): JQuery;
     destroy(clone: JQuery, options?: DnaOptionsDestroy | undefined): JQuery;
     getClone(elem: JQuery, options?: DnaOptionsGetClone | undefined): JQuery;
-    getClones(name: string): JQuery<HTMLElement>;
+    getClones(name: string): JQuery;
     getIndex(elem: JQuery, options?: DnaOptionsGetIndex | undefined): number;
-    up(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallback | undefined): JQuery<HTMLElement>;
-    down(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallback | undefined): JQuery<HTMLElement>;
-    bye(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallback | undefined): JQuery<HTMLElement>;
+    up(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallback | undefined): JQuery;
+    down(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallback | undefined): JQuery;
+    bye(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallback | undefined): JQuery;
     registerInitializer(fn: DnaCallback, options?: DnaOptionsRegisterInitializer | undefined): DnaInitializer[];
     clearInitializers(): DnaInitializer[];
     registerContext(contextName: string, contextObjOrFn: Record<string, unknown> | DnaCallback): DnaContext;
-    initGlobal(thisWindow: Window & typeof globalThis, thisJQuery: JQueryStatic): any;
-    info(): {
-        version: string;
-        templates: number;
-        clones: number;
-        subs: number;
-        names: string[];
-        store: DnaTemplateDb;
-        initializers: DnaInitializer[];
-        panels: (string | undefined)[];
-    };
+    initGlobal(thisWindow: Window & typeof globalThis, thisJQuery: JQueryStatic): unknown;
+    info(): DnaDataObject;
     array: {
         find: (array: DnaDataObject[], value: unknown, key?: string) => {
             index: number;
@@ -161,7 +152,7 @@ declare const dna: {
         toElem: (elemOrEventOrIndex: DnaElemEventIndex, that?: unknown) => JQuery;
     };
     util: {
-        apply: (fn: string | DnaCallback, params?: unknown | unknown[] | JQuery) => any;
+        apply: (fn: string | DnaCallback, params?: unknown | unknown[] | JQuery) => unknown;
         assign: (data: DnaDataObject, field: string | string[], value: unknown) => DnaDataObject;
         printf: (format: string, ...values: unknown[]) => string;
         realTruth: (value: unknown) => boolean;
@@ -207,18 +198,18 @@ declare const dna: {
         getInitializers: () => DnaInitializer[];
         runOnLoads: () => JQuery;
         runInitializers: (root: JQuery) => JQuery;
-        setup: () => void;
+        setup: () => JQuery;
     };
     core: {
-        inject: (clone: JQuery, data: DnaModel, count: number, settings: DnaOptionsClone) => JQuery<HTMLElement>;
+        inject: (clone: JQuery, data: DnaModel, count: number, settings: DnaOptionsClone) => JQuery;
         replicate: (template: DnaTemplate, data: DnaModel, settings: DnaOptionsClone) => JQuery;
         getArrayName: (subClone: JQuery) => string | null;
-        updateArrayByName: (clone: JQuery, arrayField: string | null) => JQuery<HTMLElement>;
+        updateArrayByName: (clone: JQuery, arrayField: string | null) => JQuery;
         updateArray: (subClone: JQuery) => JQuery;
         remove: (clone: JQuery, callback?: DnaCallback | null | undefined) => JQuery;
-        berserk: (message: string, info: unknown) => never;
+        berserk: (message: string, info: unknown) => void;
         plugin: () => void;
-        setup: () => any;
+        setup: () => unknown;
     };
 };
 export { dna };
