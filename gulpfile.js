@@ -3,7 +3,6 @@
 
 // Imports
 import babel from         'gulp-babel';
-import del from           'del';
 import fileInclude from   'gulp-file-include';
 import gap from           'gulp-append-prepend';
 import gulp from          'gulp';
@@ -110,10 +109,6 @@ const task = {
          .pipe(size({ showFiles: true, gzip: true }));
       },
 
-   cleanWebsite() {
-      return del([websiteTarget, '**/.DS_Store']);
-      },
-
    buildWebsite() {
       const copyStaticFiles = () =>
          gulp.src(['website/static/**', '!website/static/**/*.html', 'website/static/**/.htaccess'])
@@ -159,7 +154,6 @@ const task = {
 // Gulp
 gulp.task('make-dist',     task.makeDistribution);
 gulp.task('report-size',   task.reportSize);
-gulp.task('clean-website', task.cleanWebsite);
 gulp.task('build-website', task.buildWebsite);
 gulp.task('update-readme', task.updateReadMe);
 gulp.task('validate-html', task.validateHtml);

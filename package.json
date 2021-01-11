@@ -71,7 +71,7 @@
       "pretest": "npm run lint && rimraf build dist **/.DS_Store && npm run tsc && gulp make-dist",
       "test": "mocha spec && gulp report-size",
       "interactive": "browser-sync . --startPath spec/visual.html",
-      "website": "gulp clean-website && dnaReleasedVersion=$(git tag | tail -1) gulp build-website",
+      "website": "rimraf website-target && dnaReleasedVersion=$(git tag | tail -1) gulp build-website",
       "postwebsite": "gulp update-readme && gulp validate-html"
    },
    "cdnVersion": {
@@ -97,7 +97,6 @@
       "babel-minify": "~0.5",
       "browser-sync": "~2.26",
       "canvas": "~2.6",
-      "del": "~6.0",
       "eslint": "~7.17",
       "fetch-json": "~2.4",
       "gulp": "~4.0",
