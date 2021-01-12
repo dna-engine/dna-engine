@@ -2,9 +2,9 @@
 // Mocha Specification Cases
 
 // Imports
-import assert from    'assert';
+import assert from 'assert';
 import { JSDOM } from 'jsdom';
-import jQuery from    'jquery';
+import jQuery from 'jquery';
 
 // Setup
 import { dna } from '../dist/dna.esm.js';
