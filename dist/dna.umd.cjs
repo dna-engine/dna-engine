@@ -1,4 +1,4 @@
-//! dna.js v1.7.3 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.7.4 ~~ dnajs.org ~~ MIT License
 
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
@@ -869,13 +869,13 @@
                 $(dna.panels.setup);
                 $(dna.events.setup);
             };
-            if (typeof window === 'object')
+            if (typeof window === 'object' && typeof $ === 'function')
                 setupBrowser();
             return dna;
         }
     };
     const dna = {
-        version: '1.7.3',
+        version: '1.7.4',
         clone(name, data, options) {
             const defaults = {
                 fade: false,

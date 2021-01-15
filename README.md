@@ -9,7 +9,7 @@ _An uncomplicated user interface library for building data-driven semantic templ
 [![Quality](https://npm.packagequality.com/shield/dna.js.svg)](https://packagequality.com/#?package=dna.js)
 [![Vulnerabilities](https://snyk.io/test/github/dnajs/dna.js/badge.svg)](https://snyk.io/test/github/dnajs/dna.js)
 [![Hits](https://data.jsdelivr.com/v1/package/npm/dna.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/dna.js)
-[![Build](https://travis-ci.org/dnajs/dna.js.svg)](https://travis-ci.org/dnajs/dna.js)
+[![Build](https://travis-ci.com/dnajs/dna.js.svg)](https://travis-ci.com/dnajs/dna.js)
 
 dna.js is a lightweight easy-to-use UI library enabling developers to rapidly build maintainable
 JavaScript applications.
