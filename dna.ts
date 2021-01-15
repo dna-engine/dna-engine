@@ -1146,7 +1146,7 @@ const dnaCore = {
          $(dna.panels.setup);
          $(dna.events.setup);
          };
-      if (typeof window === 'object')
+      if (typeof window === 'object' && typeof $ === 'function')
          setupBrowser();
       return dna;
       }
