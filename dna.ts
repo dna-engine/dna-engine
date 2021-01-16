@@ -1368,9 +1368,16 @@ const dna = {
       return dna.events.getContextDb();
       },
    initGlobal(thisWindow: Window & typeof globalThis, thisJQuery: JQueryStatic): unknown {
-      global.window =   thisWindow;
-      global.document = thisWindow.document;
-      global['$'] =     thisJQuery;
+      thisWindow['$'] =   thisJQuery;
+      thisWindow['dna'] = dna;
+      const setupGlobal = () => {
+         global.window =   thisWindow;
+         global.document = thisWindow.document;
+         global['$'] =     thisJQuery;
+         global['dna'] =   dna;
+         };
+      if (typeof global === 'object')
+         setupGlobal();
       return dna.core.setup();
       },
    info(): DnaDataObject {
