@@ -2,7 +2,6 @@
    "name": "dna.js",
    "version": "1.7.5",
    "description": "An uncomplicated user interface library for building data-driven semantic templates",
-   "summary": "dna.js is a lightweight easy-to-use UI library enabling developers to rapidly build maintainable JavaScript applications.",
    "license": "MIT",
    "type": "module",
    "main": "dist/dna.umd.cjs",
@@ -31,6 +30,9 @@
       "typescript",
       "ui"
    ],
+   "meta": {
+      "summary": "dna.js is a lightweight easy-to-use UI library enabling developers to rapidly build maintainable JavaScript applications."
+   },
    "jshintConfig": {
       "esversion": 10,
       "strict": "implied",
