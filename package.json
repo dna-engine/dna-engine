@@ -109,7 +109,7 @@
       "gulp-rename": "~2.0",
       "gulp-replace": "~1.0",
       "gulp-size": "~3.0",
-      "gulp-w3c-html-validator": "~2.0",
+      "gulp-w3c-html-validator": "~3.0",
       "highlight.js": "~10.5",
       "hljs-enhance": "~0.0",
       "jquery": "~3.5",

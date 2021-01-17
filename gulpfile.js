@@ -8,11 +8,11 @@ import gap from           'gulp-append-prepend';
 import gulp from          'gulp';
 import header from        'gulp-header';
 import htmlHint from      'gulp-htmlhint';
-import htmlValidator from 'gulp-w3c-html-validator';
 import mergeStream from   'merge-stream';
 import rename from        'gulp-rename';
 import replace from       'gulp-replace';
 import size from          'gulp-size';
+import { htmlValidator } from 'gulp-w3c-html-validator';
 import { readFileSync } from 'fs';
 
 // Link information
@@ -118,7 +118,7 @@ const task = {
             .pipe(fileInclude({ basepath: '@root', indent: true, context: webContext }))
             .pipe(htmlHint(htmlHintConfig))
             .pipe(htmlHint.reporter())
-            .pipe(htmlValidator())
+            .pipe(htmlValidator.analyzer())
             .pipe(htmlValidator.reporter())
             .pipe(gulp.dest(websiteTarget))
             .pipe(size({ showFiles: true }));
@@ -144,7 +144,7 @@ const task = {
       return gulp.src(['spec/visual.html', 'spec/simple.html'])
          .pipe(htmlHint(htmlHintConfig))
          .pipe(htmlHint.reporter())
-         .pipe(htmlValidator({ verifyMessage: skip }))
+         .pipe(htmlValidator.analyzer({ verifyMessage: skip }))
          .pipe(htmlValidator.reporter())
          .pipe(size({ showFiles: true }));
       },
