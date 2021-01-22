@@ -1,6 +1,6 @@
 // dna.js ~~ MIT License
 
-type DnaOptionsClone = {
+export type DnaOptionsClone = {
    fade?:      boolean,
    top?:       boolean,
    clones?:    number,
@@ -11,63 +11,63 @@ type DnaOptionsClone = {
    transform?: DnaCallback | null,
    callback?:  DnaCallback | null,
    };
-type DnaOptionsCloneSub = {
+export type DnaOptionsCloneSub = {
    fade?:      boolean,
    top?:       boolean,
    };
-type DnaOptionsGetModel = {
+export type DnaOptionsGetModel = {
    main?:      boolean,
    };
-type DnaOptionsEmpty = {
+export type DnaOptionsEmpty = {
    fade?:      boolean,
    };
-type DnaOptionsInsert = {
+export type DnaOptionsInsert = {
    fade?:      boolean,
    html?:      boolean,
    transform?: DnaCallback,
    callback?:  DnaCallback,
    };
-type DnaOptionsRefresh = {
+export type DnaOptionsRefresh = {
    data?:      unknown,
    main?:      boolean,
    html?:      boolean,
    };
-type DnaOptionsRefreshAll = {
+export type DnaOptionsRefreshAll = {
    data?:      unknown,
    main?:      boolean,
    html?:      boolean,
    };
-type DnaOptionsRecount = {
+export type DnaOptionsRecount = {
    html?:      boolean,
    };
-type DnaOptionsDestroy = {
+export type DnaOptionsDestroy = {
    main?:      boolean,
    fade?:      boolean,
    callback?:  DnaCallback | null,
    };
-type DnaOptionsGetClone = {
+export type DnaOptionsGetClone = {
    main?:      boolean,
    };
-type DnaOptionsGetIndex = {
+export type DnaOptionsGetIndex = {
    main?:      boolean,
    };
-type DnaOptionsRegisterInitializer = {
+export type DnaOptionsRegisterInitializer = {
    selector?:  string | null,
    params?:    DnaDataObject | unknown[] | null,
    onDocLoad?: boolean,
    };
 
-type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
-type DnaModel = unknown[] | Record<string | number, unknown>;
-type DnaDataObject = Record<string | number, unknown>;
-type DnaCallback = (arg1?: unknown, arg2?: unknown, arg3?: unknown, ...args: unknown[]) => unknown;
-type DnaElemEventIndex = JQuery | JQuery.EventBase | number;
-type DnaInitializer = {
+export type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
+export type DnaModel = unknown[] | Record<string | number, unknown>;
+export type DnaDataObject = Record<string | number, unknown>;
+export type DnaCallback = (arg1?: unknown, arg2?: unknown, arg3?: unknown, ...args: unknown[]) => unknown;
+export type DnaElemEventIndex = JQuery | JQuery.EventBase | number;
+export type DnaInitializer = {
    fn:       DnaFunctionName | DnaCallback,
    selector: string | null,
    params:   DnaDataObject | unknown[] | null,
    };
-type DnaTemplate = {
+export type DnaTemplate = {
    name:       string,
    elem:       JQuery,
    container:  JQuery,
@@ -75,16 +75,16 @@ type DnaTemplate = {
    separators: number,
    wrapped:    boolean,
    };
-type DnaTemplateDb = { [name: string]: DnaTemplate };
-type DnaTemplateName = string;
-type DnaContext = { [name: string]: Record<string, unknown> | DnaCallback };
-type DnaFieldName = string;
-type DnaFunctionName = string;
-type DnaClassName = string;
-type DnaAttrName = string;
-type DnaAttrItem = DnaAttrName | [string, DnaFieldName | 1 | 2, string];
-type DnaLoop = { name: string, field: DnaFieldName };
-type DnaRules = {
+export type DnaTemplateDb = { [name: string]: DnaTemplate };
+export type DnaTemplateName = string;
+export type DnaContext = { [name: string]: Record<string, unknown> | DnaCallback };
+export type DnaFieldName = string;
+export type DnaFunctionName = string;
+export type DnaClassName = string;
+export type DnaAttrName = string;
+export type DnaAttrItem = DnaAttrName | [string, DnaFieldName | 1 | 2, string];
+export type DnaLoop = { name: string, field: DnaFieldName };
+export type DnaRules = {
    template?:  DnaTemplateName,
    array?:     DnaFieldName,
    text?:      boolean,
