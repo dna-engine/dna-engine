@@ -1,0 +1,9 @@
+name: Run specifications on every push
+on: [push]
+jobs:
+   build:
+      steps:
+      - uses: actions/checkout
+      - uses: actions/setup-node
+      - run:  npm ci
+      - run:  npm test
