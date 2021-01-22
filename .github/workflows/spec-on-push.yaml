@@ -1,4 +1,4 @@
-name: Run specifications on every push
+name: build
 on: [push]
 jobs:
    build:
