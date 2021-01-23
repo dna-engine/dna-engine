@@ -1,4 +1,4 @@
-//! dna.js v1.7.5 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.7.6 ~~ dnajs.org ~~ MIT License
 
 const dnaArray = {
     find: (array, value, key = 'code') => {
@@ -863,7 +863,7 @@ const dnaCore = {
     }
 };
 const dna = {
-    version: '1.7.5',
+    version: '1.7.6',
     clone(name, data, options) {
         const defaults = {
             fade: false,
@@ -1028,16 +1028,13 @@ const dna = {
         return dna.events.getContextDb();
     },
     initGlobal(thisWindow, thisJQuery) {
+        const jQuery$ = String('$');
         thisWindow['$'] = thisJQuery;
         thisWindow['dna'] = dna;
-        const setupGlobal = () => {
-            global.window = thisWindow;
-            global.document = thisWindow.document;
-            global['$'] = thisJQuery;
-            global['dna'] = dna;
-        };
-        if (typeof global === 'object')
-            setupGlobal();
+        globalThis.window = thisWindow;
+        globalThis.document = thisWindow.document;
+        globalThis[jQuery$] = thisJQuery;
+        globalThis['dna'] = dna;
         return dna.core.setup();
     },
     info() {

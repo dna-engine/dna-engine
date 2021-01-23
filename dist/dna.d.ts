@@ -1,7 +1,7 @@
-//! dna.js v1.7.5 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.7.6 ~~ dnajs.org ~~ MIT License
 
 /// <reference types="jquery" />
-declare type DnaOptionsClone = {
+export declare type DnaOptionsClone = {
     fade?: boolean;
     top?: boolean;
     clones?: number;
@@ -12,61 +12,62 @@ declare type DnaOptionsClone = {
     transform?: DnaCallback | null;
     callback?: DnaCallback | null;
 };
-declare type DnaOptionsCloneSub = {
+export declare type DnaOptionsCloneSub = {
     fade?: boolean;
     top?: boolean;
 };
-declare type DnaOptionsGetModel = {
+export declare type DnaOptionsGetModel = {
     main?: boolean;
 };
-declare type DnaOptionsEmpty = {
+export declare type DnaOptionsEmpty = {
     fade?: boolean;
 };
-declare type DnaOptionsInsert = {
+export declare type DnaOptionsInsert = {
     fade?: boolean;
     html?: boolean;
     transform?: DnaCallback;
     callback?: DnaCallback;
 };
-declare type DnaOptionsRefresh = {
+export declare type DnaOptionsRefresh = {
     data?: unknown;
     main?: boolean;
     html?: boolean;
 };
-declare type DnaOptionsRefreshAll = {
+export declare type DnaOptionsRefreshAll = {
     data?: unknown;
     main?: boolean;
     html?: boolean;
 };
-declare type DnaOptionsRecount = {
+export declare type DnaOptionsRecount = {
     html?: boolean;
 };
-declare type DnaOptionsDestroy = {
+export declare type DnaOptionsDestroy = {
     main?: boolean;
     fade?: boolean;
     callback?: DnaCallback | null;
 };
-declare type DnaOptionsGetClone = {
+export declare type DnaOptionsGetClone = {
     main?: boolean;
 };
-declare type DnaOptionsGetIndex = {
+export declare type DnaOptionsGetIndex = {
     main?: boolean;
 };
-declare type DnaOptionsRegisterInitializer = {
+export declare type DnaOptionsRegisterInitializer = {
     selector?: string | null;
     params?: DnaDataObject | unknown[] | null;
     onDocLoad?: boolean;
 };
-declare type DnaModel = unknown[] | Record<string | number, unknown>;
-declare type DnaDataObject = Record<string | number, unknown>;
-declare type DnaCallback = (arg1?: unknown, arg2?: unknown, arg3?: unknown, ...args: unknown[]) => unknown;
-declare type DnaElemEventIndex = JQuery | JQuery.EventBase | number;
-declare type DnaInitializer = {
+export declare type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
+export declare type DnaModel = unknown[] | Record<string | number, unknown>;
+export declare type DnaDataObject = Record<string | number, unknown>;
+export declare type DnaCallback = (arg1?: unknown, arg2?: unknown, arg3?: unknown, ...args: unknown[]) => unknown;
+export declare type DnaElemEventIndex = JQuery | JQuery.EventBase | number;
+export declare type DnaInitializer = {
     fn: DnaFunctionName | DnaCallback;
     selector: string | null;
     params: DnaDataObject | unknown[] | null;
 };
-declare type DnaTemplate = {
+export declare type DnaTemplate = {
     name: string;
     elem: JQuery;
     container: JQuery;
@@ -74,13 +75,39 @@ declare type DnaTemplate = {
     separators: number;
     wrapped: boolean;
 };
-declare type DnaTemplateDb = {
+export declare type DnaTemplateDb = {
     [name: string]: DnaTemplate;
 };
-declare type DnaContext = {
+export declare type DnaTemplateName = string;
+export declare type DnaContext = {
     [name: string]: Record<string, unknown> | DnaCallback;
 };
-declare type DnaFunctionName = string;
+export declare type DnaFieldName = string;
+export declare type DnaFunctionName = string;
+export declare type DnaClassName = string;
+export declare type DnaAttrName = string;
+export declare type DnaAttrItem = DnaAttrName | [string, DnaFieldName | 1 | 2, string];
+export declare type DnaLoop = {
+    name: string;
+    field: DnaFieldName;
+};
+export declare type DnaRules = {
+    template?: DnaTemplateName;
+    array?: DnaFieldName;
+    text?: boolean;
+    val?: boolean;
+    attrs?: DnaAttrItem[];
+    props?: (string | DnaFieldName)[];
+    option?: DnaFieldName;
+    transform?: DnaFunctionName;
+    callback?: DnaFunctionName;
+    class?: [DnaFieldName, DnaClassName, DnaClassName][];
+    require?: DnaFieldName;
+    missing?: DnaFieldName;
+    true?: DnaFieldName;
+    false?: DnaFieldName;
+    loop?: DnaLoop;
+};
 declare const dna: {
     version: string;
     clone(name: string, data: DnaModel, options?: DnaOptionsClone | undefined): JQuery;
