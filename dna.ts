@@ -1369,12 +1369,18 @@ const dna = {
       },
    initGlobal(thisWindow: Window & typeof globalThis, thisJQuery: JQueryStatic): unknown {
       const jQuery$ = String('$');
-      thisWindow['$'] =     thisJQuery;
+      thisWindow[jQuery$] = thisJQuery;
       thisWindow['dna'] =   dna;
-      globalThis.window =   thisWindow;
-      globalThis.document = thisWindow.document;
-      globalThis[jQuery$] = thisJQuery;
-      globalThis['dna'] =   dna;
+      const writable = (prop: string): boolean =>
+         !globalThis[prop] || !!Object.getOwnPropertyDescriptor(globalThis, prop)?.writable;
+      if (writable('window'))
+         globalThis.window = thisWindow;
+      if (writable('document'))
+         globalThis.document = thisWindow.document;
+      if (writable(jQuery$))
+         globalThis[jQuery$] = thisJQuery;
+      if (writable('dna'))
+         globalThis['dna'] = dna;
       return dna.core.setup();
       },
    info(): DnaDataObject {
