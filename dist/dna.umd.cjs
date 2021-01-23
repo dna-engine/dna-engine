@@ -1,4 +1,4 @@
-//! dna.js v1.7.6 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.7.7 ~~ dnajs.org ~~ MIT License
 
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
@@ -875,7 +875,7 @@
         }
     };
     const dna = {
-        version: '1.7.6',
+        version: '1.7.7',
         clone(name, data, options) {
             const defaults = {
                 fade: false,
@@ -1041,12 +1041,17 @@
         },
         initGlobal(thisWindow, thisJQuery) {
             const jQuery$ = String('$');
-            thisWindow['$'] = thisJQuery;
+            thisWindow[jQuery$] = thisJQuery;
             thisWindow['dna'] = dna;
-            globalThis.window = thisWindow;
-            globalThis.document = thisWindow.document;
-            globalThis[jQuery$] = thisJQuery;
-            globalThis['dna'] = dna;
+            const writable = (prop) => !globalThis[prop] || !!Object.getOwnPropertyDescriptor(globalThis, prop)?.writable;
+            if (writable('window'))
+                globalThis.window = thisWindow;
+            if (writable('document'))
+                globalThis.document = thisWindow.document;
+            if (writable(jQuery$))
+                globalThis[jQuery$] = thisJQuery;
+            if (writable('dna'))
+                globalThis['dna'] = dna;
             return dna.core.setup();
         },
         info() {

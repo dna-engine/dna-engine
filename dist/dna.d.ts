@@ -1,4 +1,4 @@
-//! dna.js v1.7.6 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.7.7 ~~ dnajs.org ~~ MIT License
 
 /// <reference types="jquery" />
 export declare type DnaOptionsClone = {
