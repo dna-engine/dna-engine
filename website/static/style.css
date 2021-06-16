@@ -292,6 +292,7 @@ section >p >em {
    position: absolute;
    top: 0px;
    left: -190px;
+   white-space: nowrap;
    }
 
 .wrappable code,

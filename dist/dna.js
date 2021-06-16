@@ -1,4 +1,4 @@
-//! dna.js v1.7.7 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.7.8 ~~ dnajs.org ~~ MIT License
 
 const dnaArray = {
     find: (array, value, key = 'code') => {
@@ -863,7 +863,7 @@ const dnaCore = {
     }
 };
 const dna = {
-    version: '1.7.7',
+    version: '1.7.8',
     clone(name, data, options) {
         const defaults = {
             fade: false,

@@ -1,4 +1,4 @@
-//! dna.js v1.7.7 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.7.8 ~~ dnajs.org ~~ MIT License
 
 /// <reference types="jquery" />
 export declare type DnaOptionsClone = {
@@ -60,7 +60,7 @@ export declare type DnaOptionsRegisterInitializer = {
 export declare type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
 export declare type DnaModel = unknown[] | Record<string | number, unknown>;
 export declare type DnaDataObject = Record<string | number, unknown>;
-export declare type DnaCallback = (arg1?: unknown, arg2?: unknown, arg3?: unknown, ...args: unknown[]) => unknown;
+export declare type DnaCallback = (...args: unknown[]) => unknown;
 export declare type DnaElemEventIndex = JQuery | JQuery.EventBase | number;
 export declare type DnaInitializer = {
     fn: DnaFunctionName | DnaCallback;
