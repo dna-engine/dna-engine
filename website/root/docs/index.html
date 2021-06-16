@@ -242,7 +242,7 @@
       <figure>
          <figcaption>npm</figcaption>
          <pre><code class=language-bash>
-            $ npm install dna.js
+            $ npm install jquery dna.js
          </code></pre>
       </figure>
       <p class=big-symbol><i class=icon data-icon=arrow-alt-circle-down></i></p>
@@ -257,6 +257,12 @@
             ...
          </code></pre>
       </figure>
+      <figure>
+         <figcaption>Import into project</figcaption>
+         <pre><code class=javascript>
+            import { dna } from 'dna.js';
+         </code></pre>
+      </figure>
       <p>
          You can also run dna.js headless (no browser) on Node.js with the DOM provided by
          jsdom.&nbsp;  See the sample project:
@@ -267,7 +273,7 @@
    <section id=setup-webpack>
       <h4>Install with webpack</h4>
       <p>
-         webpack treats the dna.js library as a module.&nbsp; Use <code>require</code> statements
+         webpack treats the dna.js library as a module.&nbsp; Use <code>import</code> statements
          in your application to pull in the library's CSS and JavaScript.
       </p>
       <p>
@@ -277,14 +283,18 @@
       <figure>
          <figcaption>webpack</figcaption>
          <pre><code class=language-javascript>
-            require('dna.js/dist/dna.css');
-            const $ =       require('jquery');
-            const { dna } = require('dna.js');
+            // Imports
+            import 'dna.js/dist/dna.css';
+            import $ from 'jquery';
+            import 'dna.js';
 
-            dna.initGlobal(window, $);
+            // Application
             const myApp = {
-               doSomething: () =&gt; { ... }
+               doSomething() { ... },
                };
+
+            // Initialization
+            const dna = window.dna.initGlobal(window, $);
             dna.registerContext('myApp', myApp);
          </code></pre>
       </figure>
@@ -1752,7 +1762,7 @@
          </a>
       </p>
       <figure>
-         <img src=https://raw.githubusercontent.com/dnajs/dnajs-smart-update-websockets/master/screenshot.png
+         <img src=https://raw.githubusercontent.com/dnajs/dnajs-smart-update-websockets/main/screenshot.png
             alt=screenshot>
          <figcaption>
             Example WebSockets server and client showing throttled live updates using dna.js
@@ -2782,7 +2792,7 @@
       <p class=external-site>
          It's straightforward to style your panel navigation with CSS.&nbsp;
          See the CSS for the examples below:
-         <a href=https://github.com/dnajs/dna.js/blob/master/website/static/panel-nav.css>
+         <a href=https://github.com/dnajs/dna.js/blob/main/website/static/panel-nav.css>
             <code>panel-nav.css</code>
          </a>
       </p>
