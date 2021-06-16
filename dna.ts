@@ -60,7 +60,7 @@ export type DnaOptionsRegisterInitializer = {
 export type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
 export type DnaModel = unknown[] | Record<string | number, unknown>;
 export type DnaDataObject = Record<string | number, unknown>;
-export type DnaCallback = (arg1?: unknown, arg2?: unknown, arg3?: unknown, ...args: unknown[]) => unknown;
+export type DnaCallback = (...args: unknown[]) => unknown;
 export type DnaElemEventIndex = JQuery | JQuery.EventBase | number;
 export type DnaInitializer = {
    fn:       DnaFunctionName | DnaCallback,
