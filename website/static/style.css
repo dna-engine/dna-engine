@@ -256,6 +256,7 @@ main.docs-page >section output {
    color: mediumorchid;
    margin-bottom: 5px;
    }
+div >p >em,
 section >p >em {
    display: block;
    font-weight: bold;

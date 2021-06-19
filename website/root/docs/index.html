@@ -46,6 +46,12 @@
                </ol>
             </li>
             <li>
+               <a href=#formatters>Formatters</a>
+               <ol>
+                  <li><a href=#formatters-date>Date Formatters</a></li>
+               </ol>
+            </li>
+            <li>
                <a href=#api>JavaScript API (Essential)</a>
                <ol>
                   <li><a href=#api-clone>dna.clone()</a></li>
@@ -615,6 +621,79 @@
             format is "#rrggbb" where rr, gg, bb are two-digit hexadecimal numbers.</code>
          </li>
       </ul>
+   </section>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <div>
+      <h3 id=formatters>Formatters</h3>
+      <!--
+      <h5>Formetters Overview</h5>
+      <ol>
+         <li><a href=#formatters-date>Date Format</a></li>
+      </ol>
+      -->
+      <p>
+         A formatter converts a field of the data model so it is rendered in the desired format.
+      </p>
+      <p>
+         <em>Note:</em>
+         Formatters work on individual model fields while <a href=#event-transform>transformers</a>
+         work on data model objects.&nbsp;
+         A transformer can operate on multiple fields, but it's generally simpler and cleaner to
+         use a formatter.
+      </p>
+   </div>
+
+   <!-- Date Format -->
+   <section id=formatters-date>
+      <h4>Date Format</h4>
+      <p>
+         Use the <code>data-format-date</code> attribute to format the rendering of a date field.
+      </p>
+      <p>
+         The date field can be a <code>number</code> representing the milliseconds elapsed since
+         the UNIX epoch (example: <code>1904112000000</code>) or an ISO 8602 timestamp <code>string</code>
+         (example: <code>'2030-05-04T08:00:00.000Z'</code>).
+      </p>
+      <figure>
+         <figcaption>Example HTML for rendering <code>general</code> and <code>utc</code> dates</figcaption>
+         <pre><code class=language-html>
+            &lt;div id=event class=dna-template&gt;
+               &lt;p&gt;Date: &lt;span data-format-date=general&gt;~~timestamp~~&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;UTC: &lt;span data-format-date=utc&gt;~~timestamp~~&lt;/span&gt;&lt;/p&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <!-- Start: Result -->
+      <p class=big-symbol><i class=icon data-icon=arrow-alt-circle-down></i></p>
+      <figure>
+         <figcaption>Resulting HTML</figcaption>
+         <pre><code class=language-html>
+            &lt;div class=event&gt;
+               &lt;p&gt;Date: &lt;span&gt;2030-05-04 7:00pm&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;UTC: &lt;span&gt;Sat, 04 May 2030 08:00:00 GMT&lt;/span&gt;&lt;/p&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <!-- End: Result -->
+      <p>There are 9 format codes for the <code>data-format-date</code> attribute.</p>
+      <table>
+         <caption>Supported Date Formats</caption>
+         <thead>
+            <tr><th>Format Code</th><th>Example Output</th></tr>
+         </thead>
+         <tbody>
+            <tr><td><code>date</code></td>       <td>Sat May 4 2030</td></tr>
+            <tr><td><code>general</code></td>    <td>2030-05-04 7:00pm</td></tr>
+            <tr><td><code>iso</code></td>        <td>2030-05-04T08:00:00.000Z</td></tr>
+            <tr><td><code>locale</code></td>     <td>5/4/2030, 1:00:00 AM</td></tr>
+            <tr><td><code>locale-date</code></td><td>5/4/2030</td></tr>
+            <tr><td><code>locale-time</code></td><td>1:00:00 AM</td></tr>
+            <tr><td><code>string</code></td>     <td>Sat May 04 2030 01:00:00 GMT-0700 (PDT)</td></tr>
+            <tr><td><code>time</code></td>       <td>01:00:00 GMT-0700 (PDT)</td></tr>
+            <tr><td><code>utc</code></td>        <td>Sat, 04 May 2030 08:00:00 GMT</td></tr>
+         </tbody>
+      </table>
    </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1564,10 +1643,17 @@
       </figure>
       <!-- End: Result -->
       <p>
-         <em>Note:</em>
+         <em>Note 1:</em>
          The transform function can also be passed as an <a href=#event-transform-option>option</a>
          when cloning, such as:
          <code>dna.clone('book', books, { transform: enhanceBook })</code>
+      </p>
+      <p>
+         <em>Note 2:</em>
+         Transformers work on data model objects while <a href=#formatters>formatters</a> work on
+         individual model fields.&nbsp;
+         A transformer can operate on multiple fields, but it's generally simpler and cleaner to
+         use a formatter.
       </p>
    </section>
 
