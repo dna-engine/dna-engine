@@ -8,6 +8,7 @@ export type DnaOptionsClone = {
    empty?:     boolean,
    holder?:    JQuery,
    container?: JQuery | null,
+   formatter?: DnaFormatter | null,
    transform?: DnaCallback | null,
    callback?:  DnaCallback | null,
    };
@@ -60,6 +61,8 @@ export type DnaOptionsRegisterInitializer = {
 export type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
 export type DnaModel = unknown[] | Record<string | number, unknown>;
 export type DnaDataObject = Record<string | number, unknown>;
+export type DnaFormatter = (value: unknown) => string;
+export type DnaMSec = number | string;  //milliseconds UTC (or ISO 8601 string)
 export type DnaCallback = (...args: unknown[]) => unknown;
 export type DnaElemEventIndex = JQuery | JQuery.EventBase | number;
 export type DnaInitializer = {
@@ -92,6 +95,7 @@ export type DnaRules = {
    attrs?:     DnaAttrItem[],
    props?:     (string | DnaFieldName)[],
    option?:    DnaFieldName,
+   formatter?: DnaFormatter,
    transform?: DnaFunctionName,
    callback?:  DnaFunctionName,
    class?:     [DnaFieldName, DnaClassName, DnaClassName][],
@@ -532,6 +536,7 @@ const dnaCompile = {
    // prop rule    <input data-prop-checked=~~on~~>  class=dna-nucleotide + props=['checked', 'on']
    // select rule  <select data-option=~~day~~>      class=dna-nucleotide + option='day'
    // transform    <p data-transform=app.enhance>    class=dna-nucleotide + transform='app.enhance'
+   // format       <p data-format-date=iso>          class=dna-nucleotide + formatter=fn()
    // callback     <p data-callback=app.configure>   class=dna-nucleotide + callback='app.configure'
    //
    // Rules                                      data().dnaRules
@@ -544,8 +549,9 @@ const dnaCompile = {
    // data-missing=~~field~~                     missing='field'
    // data-true=~~field~~                        true='field'
    // data-false=~~field~~                       false='field'
-   // data-transform=func                        transform='func'
-   // data-callback=func                         callback='func'
+   // data-format=fn                             formatter=fn()
+   // data-transform=fn                          transform='fn'
+   // data-callback=fn                           callback='fn'
    //
    regex: {
       dnaField:     /^[\s]*(~~|\{\{).*(~~|\}\})[\s]*$/,  //example: ~~title~~
@@ -628,11 +634,28 @@ const dnaCompile = {
             compileAttr(attr.name, attr.value);
          };
       dna.ui.getAttrs(elem).forEach(compile);
+      const twoDigit = (value: number) => String(value).padStart(2, '0');
+      const generalTimestamp = (date: Date) =>
+         `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())} ` +
+         date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(' ', '').toLowerCase();
+      const dateFormatters = <{ [format: string]: DnaFormatter }>{            //ex: 1904112000000 (msec)
+         date:       (msec: DnaMSec) => new Date(msec).toDateString(),        //ex: 'Sat May 04 2030'
+         general:    (msec: DnaMSec) => generalTimestamp(new Date(msec)),     //ex: '2030-05-04 1:00am'
+         iso:        (msec: DnaMSec) => new Date(msec).toISOString(),         //ex: '2030-05-04T08:00:00.000Z'
+         locale:     (msec: DnaMSec) => new Date(msec).toLocaleString(),      //ex: '5/4/2030, 1:00:00 AM'
+         localeDate: (msec: DnaMSec) => new Date(msec).toLocaleDateString(),  //ex: '5/4/2030'
+         localeTime: (msec: DnaMSec) => new Date(msec).toLocaleTimeString(),  //ex: '1:00:00 AM'
+         string:     (msec: DnaMSec) => new Date(msec).toString(),            //ex: 'Sat May 04 2030 01:00:00 GMT-0700 (PDT)'
+         time:       (msec: DnaMSec) => new Date(msec).toTimeString(),        //ex: '01:00:00 GMT-0700 (PDT)'
+         utc:        (msec: DnaMSec) => new Date(msec).toUTCString(),         //ex: 'Sat, 04 May 2030 08:00:00 GMT'
+         };
       const getRules = (): DnaRules => dna.compile.setupNucleotide(elem).data().dnaRules;
       if (props.length > 0)
          getRules().props = props;
       if (attrs.length > 0)
          getRules().attrs = attrs;
+      if (elem.data().formatDate)
+         getRules().formatter = dateFormatters[dna.util.toCamel(elem.data().formatDate)];
       if (elem.data().transform)  //TODO: Determine if it's better to process only at top-level of clone
          getRules().transform = elem.data().transform;  //TODO: string to fn
       if (elem.data().callback)
@@ -923,11 +946,12 @@ const dnaEvents = {
 const dnaCore = {
    inject: (clone: JQuery, data: DnaModel, count: number, settings: DnaOptionsClone): JQuery => {
       // Inserts data into clone and runs rules
-      const injectField = (elem: JQuery, field: string) => {
+      const injectField = (elem: JQuery, field: string, dnaRules: DnaRules) => {  //example: <h2>~~title~~</h2>
          const value = field === '[count]' ? count : field === '[value]' ? data :
             dna.util.value(<DnaDataObject>data, field);
-         if (['string', 'number', 'boolean'].indexOf(typeof value) !== -1)
-            elem = settings.html ? elem.html(String(value)) : elem.text(String(value));
+         const formatted = () => dnaRules.formatter ? dnaRules.formatter(value) : String(value);
+         if (['string', 'number', 'boolean'].includes(typeof value))
+            elem = settings.html ? elem.html(formatted()) : elem.text(formatted());
          };
       const injectValue = (elem: JQuery, field: string) => {
          const value = field === '[count]' ? count : field === '[value]' ? data :
@@ -1002,7 +1026,7 @@ const dnaCore = {
          if (dnaRules.loop)
             processLoop(elem, dnaRules.loop);
          if (dnaRules.text)
-            injectField(elem, elem.data().dnaField);
+            injectField(elem, elem.data().dnaField, dnaRules);
          if (dnaRules.val)
             injectValue(elem, elem.data().dnaField);
          if (dnaRules.props)

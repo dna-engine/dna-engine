@@ -20,6 +20,10 @@
    p                   { margin: 0px 0px 3px 0px; }
    button              { font-size: 1.0rem; cursor: pointer; }
    label               { display: block; }
+   output              { font-size: 0.9rem; }
+   output >samp        { display: block; background-color: lightsteelblue; padding: 3px 8px; border: 2px solid transparent; transition: border-color 400ms; }
+   output >samp:nth-child(2n) { background-color: gainsboro; }
+   output >samp:hover  { border-color: darkorange; }
    .in-a-row           { display: inline-block; }
    main >section       { display: inline-block; vertical-align: top; border: 1px solid silver;
                            padding: 10px; margin: 0px 20px 20px 0px; }
@@ -27,6 +31,7 @@
    legend              { border: 1px solid silver; padding: 0px 10px; }
    input[type=range]   { -webkit-appearance: none; width: 100%; height: 20px;
                            background-color: mintcream; border: 1px solid silver; }
+   [title]             { cursor: help; }
    [data-component]    { background-color: gainsboro; padding: 15px; }
    .dna-clone          { background-color: darkseagreen; }
    div.dna-clone       { padding: 10px; margin-bottom: 15px; }
@@ -1609,6 +1614,93 @@ spec.spec22 = {
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<section id=spec23>
+   <h3>Specification: #23</h3>
+   <p>Formatting</p>
+   <fieldset>
+      <legend>Actual</legend>
+      <div class=book-list>
+         <div id=s23-book class=dna-template>
+            <div>Title: <span>~~title~~</span></div>
+            <div>Event:</div>
+            <output>
+               <samp data-format-date=bogus       title=milliseconds>~~event~~</samp>
+               <samp data-format-date=date        title=date>~~event~~</samp>
+               <samp data-format-date=general     title=general>~~event~~</samp>
+               <samp data-format-date=iso         title=iso>~~event~~</samp>
+               <samp data-format-date=locale      title=locale>~~event~~</samp>
+               <samp data-format-date=locale-date title=locale-date>~~event~~</samp>
+               <samp data-format-date=locale-time title=locale-time>~~event~~</samp>
+               <samp data-format-date=string      title=string>~~event~~</samp>
+               <samp data-format-date=time        title=time>~~event~~</samp>
+               <samp data-format-date=utc         title=utc>~~event~~</samp>
+            </output>
+         </div>
+      </div>
+   </fieldset>
+   <fieldset>
+      <legend>Expected</legend>
+      <div class=book-list>
+         <div class=dna-clone>
+            <div>Title:  <span>The DOM</span></div>
+            <div>Event:</div>
+            <output>
+               <samp title=milliseconds>47008800000</samp>
+               <samp title=date>Mon Jun 28 1971</samp>
+               <samp title=general>1971-06-28 7:00pm</samp>
+               <samp title=iso>1971-06-29T02:00:00.000Z</samp>
+               <samp title=locale>6/28/1971, 7:00:00 PM</samp>
+               <samp title=locale-date>6/28/1971</samp>
+               <samp title=locale-time>7:00:00 PM</samp>
+               <samp title=string>Mon Jun 28 1971 19:00:00 GMT-0700 (PDT)</samp>
+               <samp title=time>19:00:00 GMT-0700 (PDT)</samp>
+               <samp title=utc>Tue, 29 Jun 1971 02:00:00 GMT</samp>
+            </output>
+         </div>
+         <div class=dna-clone>
+            <div>Title: <span>Styling CSS3</span></div>
+            <div>Event:</div>
+            <output>
+               <samp title=milliseconds>1904112000000</samp>
+               <samp title=date>Sat May 4 2030</samp>
+               <samp title=general>2030-05-04 1:00am</samp>
+               <samp title=iso>2030-05-04T08:00:00.000Z</samp>
+               <samp title=locale>5/4/2030, 1:00:00 AM</samp>
+               <samp title=locale-date>5/4/2030</samp>
+               <samp title=locale-time>1:00:00 AM</samp>
+               <samp title=string>Sat May 04 2030 01:00:00 GMT-0700 (PDT)</samp>
+               <samp title=time>01:00:00 GMT-0700 (PDT)</samp>
+               <samp title=utc>Sat, 04 May 2030 08:00:00 GMT</samp>
+            </output>
+         </div>
+         <div class=dna-clone>
+            <div>Title: <span>Howdy HTML5</span></div>
+            <div>Event:</div>
+            <output>
+               <samp title=milliseconds></samp>
+               <samp title=date></samp>
+               <samp title=general></samp>
+               <samp title=iso></samp>
+               <samp title=locale></samp>
+               <samp title=locale-date></samp>
+               <samp title=locale-time></samp>
+               <samp title=string></samp>
+               <samp title=time></samp>
+               <samp title=utc></samp>
+            </output>
+         </div>
+      </div>
+   </fieldset>
+</section>
+<script>
+spec.spec23 = {
+   run() {
+      dna.clone('s23-book', specRunner.catalog);
+      },
+   };
+</script>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 </main>
 <footer>
    dna.js <span class=version-number></span>
@@ -1618,10 +1710,12 @@ spec.spec22 = {
 <script src=https://cdn.jsdelivr.net/npm/fetch-json@2.2/dist/fetch-json.min.js></script>
 <script src=../dist/dna.js></script>
 <script>
+const event1 = new Date('1971-06-28T19:00:00').getTime();  //June 28, 1971 at 7pm (local time)
+const event2 = new Date('2030-05-04T01:00:00').getTime();  //May 4, 2030 at 1:00am (local time)
 const specRunner = {
    catalog: [
-      { title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en' },
-      { title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr' },
+      { title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en', event: event1 },
+      { title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr', event: event2 },
       { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 }
       ],
    setup() {
@@ -1644,7 +1738,7 @@ const specRunner = {
       console.log('Specifications:');
       const start = Date.now();
       $('main >section').toArray().forEach(runSpec);
-      console.log('Run time (ms):', Date.now() - start);
+      console.log('Run time (msec):', Date.now() - start);
       console.log('Report:', dna.info());
       console.log('');
       },
