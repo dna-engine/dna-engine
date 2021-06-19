@@ -7,41 +7,13 @@ import { JSDOM } from 'jsdom';
 import jQuery from 'jquery';
 
 // Setup
+import { html, bookCatalog } from './mock-data.mjs';
 import { dna } from '../dist/dna.esm.js';
 const mode =     { type: 'ES Module', file: 'dist/dna.esm.js' };
 const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
-const html = `
-   <!doctype html>
-   <html lang=en>
-      <head>
-         <meta charset=utf-8>
-         <title>Specification Runner</title>
-      </head>
-      <body>
-         <h1>Featured Books</h1>
-         <section class=books>
-            <div id=book class=dna-template data-attr-id=~~isbn~~>
-               <h2>~~title~~</h2>
-               Author: <cite>~~author~~</cite>
-               Event:
-                  <output class=locale  data-format-date=locale>~~event~~</output>
-                  <output class=general data-format-date=general>~~event~~</output>
-            </div>
-         </section>
-      </body>
-   </html>
-   `;
 const dom =      new JSDOM(html);
 const $ =        jQuery(dom.window);
 const setupEnv = (done) => dna.initGlobal(dom.window, $) && done();
-
-// Mock data
-const timestamp = new Date('2030-05-04T01:00:00').getTime();  //May 4, 2030 at 1:00am (local time)
-const bookCatalog = [
-   { isbn: '978-1', title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en' },
-   { isbn: '978-2', title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr' },
-   { isbn: '978-3', title: 'Howdy HTML5',  author: 'Ed',   price: 2999, event: timestamp },
-   ];
 
 // Specification suite
 describe(`Specifications: ${filename} - ${mode.type} (${mode.file})`, () => {

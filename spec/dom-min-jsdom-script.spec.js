@@ -7,38 +7,14 @@ import { JSDOM } from 'jsdom';
 import { readFileSync } from 'fs';
 
 // Setup
+import { html, bookCatalog } from './mock-data.mjs';
 const mode =     { type: 'Minified', file: 'dist/dna.min.js' };
 const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
-const html = `
-   <!doctype html>
-   <html lang=en>
-      <head>
-         <meta charset=utf-8>
-         <title>Specification Runner</title>
-      </head>
-      <body>
-         <h1>Featured Books</h1>
-         <section class=books>
-            <div id=book class=dna-template>
-               <h2>~~title~~</h2>
-               Author: <cite>~~author~~</cite>
-            </div>
-         </section>
-      </body>
-   </html>
-   `;
 const dom =        new JSDOM(html, { runScripts: 'outside-only' });
 const scripts =    ['node_modules/jquery/dist/jquery.js', mode.file];
 const loadScript = (file) => dom.window.eval(readFileSync(file).toString());  //jshint ignore:line
 scripts.forEach(loadScript);
 const { $, dna } = dom.window;
-
-// Mock data
-const bookCatalog = [
-   { title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en' },
-   { title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr' },
-   { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 },
-   ];
 
 // Specification suite
 describe(`Specifications: ${filename} - ${mode.type} (${mode.file})`, () => {
