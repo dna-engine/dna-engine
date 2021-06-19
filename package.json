@@ -74,7 +74,7 @@
       "lint": "       jshint *.js spec website && eslint --max-warnings 0 . --ext .ts",
       "tsc": "        tsc --version && tsc --project . && tsc --project . --module UMD --outDir build/umd",
       "pretest": "    npm run lint && rimraf build dist **/.DS_Store && npm run tsc && gulp make-dist",
-      "test": "       mocha spec && gulp report-size",
+      "test": "       mocha spec/*.spec.js && gulp report-size",
       "interactive": "browser-sync . --startPath spec/visual.html",
       "website": "    rimraf website-target && dnaReleasedVersion=$(git tag | tail -1) gulp build-website",
       "postwebsite": "gulp update-readme && gulp validate-html"
@@ -103,7 +103,7 @@
       "babel-minify": "~0.5",
       "browser-sync": "~2.26",
       "canvas": "~2.8",
-      "eslint": "~7.28",
+      "eslint": "~7.29",
       "fetch-json": "~2.4",
       "gulp": "~4.0",
       "gulp-append-prepend": "~1.0",
