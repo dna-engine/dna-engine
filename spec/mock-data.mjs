@@ -14,6 +14,9 @@ const html = `
             <div id=book class=dna-template data-attr-id=~~isbn~~>
                <h2>~~title~~</h2>
                Author: <cite>~~author~~</cite>
+               Prices:
+                  <output class=usd   data-format-currency=usd>~~price~~</output>
+                  <output class=jpy   data-format-currency=jpy>~~price~~</output>
                Event:
                   <output class=locale  data-format-date=locale>~~event~~</output>
                   <output class=general data-format-date=general>~~event~~</output>
@@ -28,7 +31,7 @@ const timestamp = new Date('2030-05-04T01:00:00').getTime();  //May 4, 2030 at 1
 const bookCatalog = [
    { isbn: '978-1', title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en' },
    { isbn: '978-2', title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr' },
-   { isbn: '978-3', title: 'Howdy HTML5',  author: 'Ed',   price: 2999, event: timestamp },
+   { isbn: '978-3', title: 'Howdy HTML5',  author: 'Ed',   event: timestamp },
    ];
 
 export { html, timestamp, bookCatalog };

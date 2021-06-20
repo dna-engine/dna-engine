@@ -61,7 +61,8 @@ export type DnaOptionsRegisterInitializer = {
 export type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
 export type DnaModel = unknown[] | Record<string | number, unknown>;
 export type DnaDataObject = Record<string | number, unknown>;
-export type DnaFormatter = (value: unknown) => string;
+export type DnaFormatter = (value: DnaFormatterValue) => string;
+export type DnaFormatterValue = number | string | boolean;
 export type DnaMSec = number | string;  //milliseconds UTC (or ISO 8601 string)
 export type DnaCallback = (...args: unknown[]) => unknown;
 export type DnaElemEventIndex = JQuery | JQuery.EventBase | number;
@@ -650,10 +651,14 @@ const dnaCompile = {
          utc:        (msec: DnaMSec) => new Date(msec).toUTCString(),         //ex: 'Sat, 04 May 2030 08:00:00 GMT'
          };
       const getRules = (): DnaRules => dna.compile.setupNucleotide(elem).data().dnaRules;
+      const currencyFormatter = (code: string) => <DnaFormatter>new Intl.NumberFormat([],
+         { style: 'currency', currency: code.toUpperCase() }).format;
       if (props.length > 0)
          getRules().props = props;
       if (attrs.length > 0)
          getRules().attrs = attrs;
+      if (elem.data().formatCurrency)
+         getRules().formatter = currencyFormatter(elem.data().formatCurrency);
       if (elem.data().formatDate)
          getRules().formatter = dateFormatters[dna.util.toCamel(elem.data().formatDate)];
       if (elem.data().transform)  //TODO: Determine if it's better to process only at top-level of clone
@@ -949,7 +954,8 @@ const dnaCore = {
       const injectField = (elem: JQuery, field: string, dnaRules: DnaRules) => {  //example: <h2>~~title~~</h2>
          const value = field === '[count]' ? count : field === '[value]' ? data :
             dna.util.value(<DnaDataObject>data, field);
-         const formatted = () => dnaRules.formatter ? dnaRules.formatter(value) : String(value);
+         const formatted = () => dnaRules.formatter ?
+            dnaRules.formatter(<DnaFormatterValue>value) : String(value);
          if (['string', 'number', 'boolean'].includes(typeof value))
             elem = settings.html ? elem.html(formatted()) : elem.text(formatted());
          };

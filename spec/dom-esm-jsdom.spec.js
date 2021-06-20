@@ -14,6 +14,7 @@ const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =      new JSDOM(html);
 const $ =        jQuery(dom.window);
 const setupEnv = (done) => dna.initGlobal(dom.window, $) && done();
+const grabText = (elems) => elems.toArray().map(elem => $(elem).text());
 
 // Specification suite
 describe(`Specifications: ${filename} - ${mode.type} (${mode.file})`, () => {
@@ -61,10 +62,22 @@ describe('Function dna.getModel()', () => {
    });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-describe('Date formatter', () => {
+describe('Formatter', () => {
 
-   it('displays a book with correctly formatted timestamps', () => {
+   it('for currency displays correctly formatted prices', () => {
       dna.clone('book', bookCatalog[2]);
+      const actual = {
+         usd:   grabText($('output.usd')),
+         jpy:   grabText($('output.jpy')),
+         };
+      const expected = {
+         usd:   ['$2,499.00', '$1,999.00', ''],
+         jpy:   [   '¥2,499',    '¥1,999', ''],
+         };
+      assert.deepStrictEqual(actual, expected);
+      });
+
+   it('for dates displays correctly formatted timestamps', () => {
       const actual = {
          locale:  $('#978-3 output.locale').text(),
          general: $('#978-3 output.general').text(),
