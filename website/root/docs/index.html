@@ -48,7 +48,8 @@
             <li>
                <a href=#formatters>Formatters</a>
                <ol>
-                  <li><a href=#formatters-date>Date Formatters</a></li>
+                  <li><a href=#formatters-currency>Currency Format</a></li>
+                  <li><a href=#formatters-date>Date Format</a></li>
                </ol>
             </li>
             <li>
@@ -330,7 +331,7 @@
          </code></pre>
       </figure>
       <p>
-         Best pracitce is to wrap each template in a container element.
+         Best practice is to wrap each template in a container element.
       </p>
       <figure>
          <figcaption>Example HTML for a wrapped template</figcaption>
@@ -626,23 +627,122 @@
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <div>
       <h3 id=formatters>Formatters</h3>
-      <!--
-      <h5>Formetters Overview</h5>
+      <h5>Formatters Overview</h5>
       <ol>
+         <li><a href=#formatters-currency>Currency Format</a></li>
          <li><a href=#formatters-date>Date Format</a></li>
       </ol>
-      -->
       <p>
          A formatter converts a field of the data model so it is rendered in the desired format.
       </p>
       <p>
          <em>Note:</em>
          Formatters work on individual model fields while <a href=#event-transform>transformers</a>
-         work on data model objects.&nbsp;
+         work on the whole data model object.&nbsp;
          A transformer can operate on multiple fields, but it's generally simpler and cleaner to
          use a formatter.
       </p>
    </div>
+
+   <!-- Currency Format -->
+   <section id=formatters-currency>
+      <h4>Currency Format</h4>
+      <p>
+         Set the value of the <code>data-format-currency</code> attribute to an ISO 4217 currency
+         code, such as <code>jpy</code> or <code>usd</code>, to format a currency field to display
+         monetary values like <b>"&yen;3,000"</b> and <b>"&dollar;4.95"</b>.
+      </p>
+      <p>
+         For data stored as a minor unit currency, use <code>data-format-currency100</code>
+         instead.&nbsp;
+         Best practice is to store to monetary values as integers rather than floats.&nbsp;
+         For example, a price of <b>&dollar;29.99</b> should generally be stored as the integer
+         value <code>2999</code> not as a float.
+      </p>
+      <figure>
+         <figcaption>Example HTML for rendering <code>jpy</code> and <code>eur</code> currencies</figcaption>
+         <pre><code class=language-html>
+            &lt;div id=book class=dna-template&gt;
+               &lt;p&gt;Japan:  &lt;span data-format-currency=jpy&gt;~~price~~&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Greece: &lt;span data-format-currency100=eur&gt;~~price~~&lt;/span&gt;&lt;/p&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <!-- Start: Result -->
+      <p class=big-symbol><i class=icon data-icon=arrow-alt-circle-down></i></p>
+      <figure>
+         <figcaption>Resulting HTML</figcaption>
+         <pre><code class=language-html>
+            &lt;div class=book&gt;
+               &lt;p&gt;Japan:  &lt;span&gt;&yen;2,999&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Greece: &lt;span&gt;&euro;29.99&lt;/span&gt;&lt;/p&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <!-- End: Result -->
+      <p>
+         List of ISO 4217 currency codes:<br>
+         <a href=https://en.wikipedia.org/wiki/ISO_4217#Active_codes class=external-site>
+            https://en.wikipedia.org/wiki/ISO_4217#Active_codes
+         </a>
+      </p>
+      <table>
+         <caption>Example Currency Formatting</caption>
+         <thead>
+            <tr>
+               <th>Code</th>
+               <th>Minor Unit</th>
+               <th>Template HTML</th>
+               <th>Example Value</th>
+               <th>Example Display</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td><code>gbp</code></td>
+               <td><i class=icon data-icon=times-circle></i></td>
+               <td><code>data-format-currency=gbp</code></td>
+               <td><code>1234.5678</code></td>
+               <td><b>&pound;1,234.57</b></td>
+            </tr>
+            <tr>
+               <td><code>krw</code></td>
+               <td><i class=icon data-icon=times-circle></i></td>
+               <td><code>data-format-currency=krw</code></td>
+               <td><code>1234.5678</code></td>
+               <td><b>&#8361;1,235</b></td>
+            </tr>
+            <tr>
+               <td><code>eur</code></td>
+               <td><i class=icon data-icon=times-circle></i></td>
+               <td><code>data-format-currency=eur</code></td>
+               <td><code>2999</code></td>
+               <td><b>&euro;2,999.00</b></td>
+            </tr>
+            <tr>
+               <td><code>eur</code></td>
+               <td><i class=icon data-icon=check-circle></i></td>
+               <td><code>data-format-currency100=eur</code></td>
+               <td><code>2999</code></td>
+               <td><b>&euro;29.99</b></td>
+            </tr>
+            <tr>
+               <td><code>usd</code></td>
+               <td><i class=icon data-icon=times-circle></i></td>
+               <td><code>data-format-currency=usd</code></td>
+               <td><code>2999</code></td>
+               <td><b>&dollar;2,999.00</b></td>
+            </tr>
+            <tr>
+               <td><code>usd</code></td>
+               <td><i class=icon data-icon=check-circle></i></td>
+               <td><code>data-format-currency100=usd</code></td>
+               <td><code>2999</code></td>
+               <td><b>&dollar;29.99</b></td>
+            </tr>
+         </tbody>
+      </table>
+   </section>
 
    <!-- Date Format -->
    <section id=formatters-date>
@@ -676,7 +776,9 @@
          </code></pre>
       </figure>
       <!-- End: Result -->
-      <p>There are 9 format codes for the <code>data-format-date</code> attribute.</p>
+      <p>
+         There are 9 format codes for the <code>data-format-date</code> attribute.
+      </p>
       <table>
          <caption>Supported Date Formats</caption>
          <thead>
@@ -1020,7 +1122,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            if (dna.templateExists('book'));
+            if (dna.templateExists('book'))
                dna.clone('book', books);
          </code></pre>
       </figure>
@@ -1783,7 +1885,7 @@
          </button>
       </p>
       <p>
-         See how events can be used with <code>FileReader()</code> to make a resuable photo upload
+         See how events can be used with <code>FileReader()</code> to make a reusable photo upload
          component:
          <button data-href=https://jsfiddle.net/@@jsFiddle.photoUpload class=external-site>
             jsfiddle.net/@@jsFiddle.photoUpload
@@ -2520,7 +2622,7 @@
    <section id=photo-upload-component>
       <h4>Example Photo Upload Component</h4>
       <p>
-         See how events can be used with <code>FileReader()</code> to make a resuable photo upload
+         See how events can be used with <code>FileReader()</code> to make a reusable photo upload
          component:
          <button data-href=https://jsfiddle.net/@@jsFiddle.photoUpload class=external-site>
             jsfiddle.net/@@jsFiddle.photoUpload
@@ -2564,7 +2666,7 @@
          menu container (<code>.dna-menu</code>).
       </p>
       <p>
-         If the menu container and panels container need to be separeted in the DOM, link the menu
+         If the menu container and panels container need to be separated in the DOM, link the menu
          to the panels by setting their respective <code>data-nav</code> attributes to the same
          name.
       </p>
@@ -2928,7 +3030,7 @@
                &lt;nav class=dna-menu data-nav=book-type data-style=pillbox-tabs&gt;
                   &lt;span&gt;Action&lt;/span&gt;
                   &lt;span&gt;Mystery&lt;/span&gt;
-                  &lt;span&gt;Sciense Fiction&lt;/span&gt;
+                  &lt;span&gt;Science Fiction&lt;/span&gt;
                &lt;/nav&gt;
                &lt;div class=dna-panels data-nav=book-type&gt;
                   &lt;p&gt;Action books&lt;/p&gt;
@@ -3521,7 +3623,7 @@
    <section id=util-is-obj>
       <h4>dna.util.isObj(value)</h4>
       <p class=api-description>
-         Determins if something is a real object and not a primative or array.
+         Determines if something is a real object and not a primitive or array.
       </p>
       <div class=api-parameters>
          Parameters:
@@ -3532,7 +3634,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            return dna.util.isObj(it) ? it : { value: it };  //allways returns an object
+            return dna.util.isObj(it) ? it : { value: it };  //always returns an object
          </code></pre>
       </figure>
    </section>
@@ -3677,6 +3779,7 @@
          <li><a href=#structure-thimblerig>  <code>data-false</code></a>:          Show element only if field evaluates to false</li>
          <li><a href=#event-user>            <code>data-focus-in</code></a>:       Callback to run when an element receives focus</li>
          <li><a href=#event-user>            <code>data-focus-out</code></a>:      Callback to run when an element loses focus</li>
+         <li><a href=#formatters>            <code>data-format-{TYPE}</code></a>:  Format a value for proper rendering</li>
          <li><a href=#panels-routes>         <code>data-hash</code></a>:           Set the fragment ID (hash) for a panel's URL</li>
          <li><a href=#event-user>            <code>data-hover-in</code></a>:       Callback to run on mouse enter event</li>
          <li><a href=#event-user>            <code>data-hover-out</code></a>:      Callback to run on mouse leave event</li>
