@@ -5,9 +5,10 @@
 import assert from 'assert';
 import { JSDOM } from 'jsdom';
 import { readFileSync } from 'fs';
+import { grabText, toPlainObj } from './spec-tools.mjs';
+import { html, bookCatalog } from './mock-data.mjs';
 
 // Setup
-import { html, bookCatalog } from './mock-data.mjs';
 const mode =       { type: 'Regular', file: 'dist/dna.js' };
 const filename =   import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =        new JSDOM(html, { runScripts: 'outside-only' });
@@ -15,8 +16,6 @@ const scripts =    ['node_modules/jquery/dist/jquery.js', mode.file];
 const loadScript = (file) => dom.window.eval(readFileSync(file).toString());  //jshint ignore:line
 scripts.forEach(loadScript);
 const { $, dna } = dom.window;
-const toPlainObj = (obj) => JSON.parse(JSON.stringify(obj));
-const grabText =   (elems) => toPlainObj(elems.toArray().map(elem => $(elem).text()));
 
 // Specification suite
 describe(`Specifications: ${filename} - ${mode.type} (${mode.file})`, () => {

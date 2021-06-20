@@ -5,17 +5,16 @@
 import assert from 'assert';
 import { JSDOM } from 'jsdom';
 import jQuery from 'jquery';
+import { grabText, toPlainObj } from './spec-tools.mjs';
+import { html, bookCatalog } from './mock-data.mjs';
 
 // Setup
-import { html, bookCatalog } from './mock-data.mjs';
 import { dna } from '../dist/dna.esm.js';
 const mode =     { type: 'ES Module', file: 'dist/dna.esm.js' };
 const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =      new JSDOM(html);
 const $ =        jQuery(dom.window);
 const setupEnv = (done) => dna.initGlobal(dom.window, $) && done();
-const toPlainObj = (obj) => JSON.parse(JSON.stringify(obj));
-const grabText =   (elems) => toPlainObj(elems.toArray().map(elem => $(elem).text()));
 
 // Specification suite
 describe(`Specifications: ${filename} - ${mode.type} (${mode.file})`, () => {

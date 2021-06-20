@@ -5,6 +5,7 @@
 import assert from 'assert';
 import { JSDOM } from 'jsdom';
 import jQuery from 'jquery';
+import { toPlainObj } from './spec-tools.mjs';
 
 // Setup
 import { dna } from '../dist/dna.esm.js';
@@ -13,7 +14,6 @@ const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =      new JSDOM('');
 const $ =        jQuery(dom.window);
 const setupEnv = (done) => dna.initGlobal(dom.window, $) && done();
-const toPlainObj = (obj) => JSON.parse(JSON.stringify(obj));
 
 // Specification suite
 describe(`Specifications: ${filename} - ${mode.type} (${mode.file})`, () => {
