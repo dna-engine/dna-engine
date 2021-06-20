@@ -15,8 +15,9 @@ const html = `
                <h2>~~title~~</h2>
                Author: <cite>~~author~~</cite>
                Prices:
-                  <output class=usd   data-format-currency=usd>~~price~~</output>
-                  <output class=jpy   data-format-currency=jpy>~~price~~</output>
+                  <output class=usd    data-format-currency=usd>~~price~~</output>
+                  <output class=jpy    data-format-currency=jpy>~~price~~</output>
+                  <output class=usd100 data-format-currency100=usd>~~price~~</output>
                Event:
                   <output class=locale  data-format-date=locale>~~event~~</output>
                   <output class=general data-format-date=general>~~event~~</output>

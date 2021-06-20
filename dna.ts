@@ -635,6 +635,11 @@ const dnaCompile = {
             compileAttr(attr.name, attr.value);
          };
       dna.ui.getAttrs(elem).forEach(compile);
+      const currencyFormatter = (iso4217: string, units = 1): DnaFormatter => {
+         const currency = { style: 'currency', currency: iso4217.toUpperCase() };
+         const formatter = new Intl.NumberFormat([], currency).format;
+         return (value: DnaFormatterValue) => formatter(Number(value) / units);
+         };
       const twoDigit = (value: number) => String(value).padStart(2, '0');
       const generalTimestamp = (date: Date) =>
          `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())} ` +
@@ -651,14 +656,16 @@ const dnaCompile = {
          utc:        (msec: DnaMSec) => new Date(msec).toUTCString(),         //ex: 'Sat, 04 May 2030 08:00:00 GMT'
          };
       const getRules = (): DnaRules => dna.compile.setupNucleotide(elem).data().dnaRules;
-      const currencyFormatter = (code: string) => <DnaFormatter>new Intl.NumberFormat([],
-         { style: 'currency', currency: code.toUpperCase() }).format;
       if (props.length > 0)
          getRules().props = props;
       if (attrs.length > 0)
          getRules().attrs = attrs;
       if (elem.data().formatCurrency)
          getRules().formatter = currencyFormatter(elem.data().formatCurrency);
+      if (elem.data().formatCurrency100)
+         getRules().formatter = currencyFormatter(elem.data().formatCurrency100, 100);
+      if (elem.data().formatCurrency1000)
+         getRules().formatter = currencyFormatter(elem.data().formatCurrency100, 1000);
       if (elem.data().formatDate)
          getRules().formatter = dateFormatters[dna.util.toCamel(elem.data().formatDate)];
       if (elem.data().transform)  //TODO: Determine if it's better to process only at top-level of clone

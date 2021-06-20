@@ -14,7 +14,8 @@ const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =      new JSDOM(html);
 const $ =        jQuery(dom.window);
 const setupEnv = (done) => dna.initGlobal(dom.window, $) && done();
-const grabText = (elems) => elems.toArray().map(elem => $(elem).text());
+const toPlainObj = (obj) => JSON.parse(JSON.stringify(obj));
+const grabText =   (elems) => toPlainObj(elems.toArray().map(elem => $(elem).text()));
 
 // Specification suite
 describe(`Specifications: ${filename} - ${mode.type} (${mode.file})`, () => {
@@ -62,22 +63,24 @@ describe('Function dna.getModel()', () => {
    });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-describe('Formatter', () => {
+describe('Field formatter', () => {
 
-   it('for currency displays correctly formatted prices', () => {
+   it('for currency correctly formats prices', () => {
       dna.clone('book', bookCatalog[2]);
       const actual = {
-         usd:   grabText($('output.usd')),
-         jpy:   grabText($('output.jpy')),
+         usd:    grabText($('output.usd')),
+         jpy:    grabText($('output.jpy')),
+         usd100: grabText($('output.usd100')),
          };
       const expected = {
-         usd:   ['$2,499.00', '$1,999.00', ''],
-         jpy:   [   '¥2,499',    '¥1,999', ''],
+         usd:    ['$2,499.00', '$1,999.00', ''],
+         jpy:    [   '¥2,499',    '¥1,999', ''],
+         usd100: [   '$24.99',    '$19.99', ''],
          };
       assert.deepStrictEqual(actual, expected);
       });
 
-   it('for dates displays correctly formatted timestamps', () => {
+   it('for dates correctly formats timestamps', () => {
       const actual = {
          locale:  $('#978-3 output.locale').text(),
          general: $('#978-3 output.general').text(),
@@ -134,7 +137,7 @@ describe('Function dna.templateExists()', () => {
 describe('Function dna.info()', () => {
 
    it('reports the correct number of templates and clone instances', () => {
-      const actual = JSON.parse(JSON.stringify(dna.info()));
+      const actual = toPlainObj(dna.info());
       delete actual.store;
       delete actual.version;
       const expected = {
