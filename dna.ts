@@ -96,7 +96,7 @@ export type DnaRules = {
    attrs?:     DnaAttrItem[],
    props?:     (string | DnaFieldName)[],
    option?:    DnaFieldName,
-   formatter?: DnaFormatter,
+   formatter?: DnaFormatter | null,
    transform?: DnaFunctionName,
    callback?:  DnaFunctionName,
    class?:     [DnaFieldName, DnaClassName, DnaClassName][],
@@ -425,6 +425,37 @@ const dnaUtil = {
       },
    };
 
+const dnaFormat = {
+   getCurrencyFormatter(iso4217: string, units = 1): DnaFormatter {
+      // Returns a function to format monetary values into strings, like "¥2,499" and "$4.95".
+      const currency = { style: 'currency', currency: iso4217.toUpperCase() };
+      const formatter = new Intl.NumberFormat([], currency).format;
+      return (value: DnaFormatterValue) => formatter(Number(value) / units);
+      },
+   getDateFormatter(format: string): DnaFormatter {
+      // Returns a function to format dates into strings, like "2030-05-04 1:00am".
+      const twoDigit = (value: number) => String(value).padStart(2, '0');
+      const generalTimestamp = (date: Date) =>
+         `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())} ` +
+         date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(' ', '').toLowerCase();
+      const dateFormatters = <{ [format: string]: DnaFormatter }>{            //ex: 1904112000000 (msec)
+         date:       (msec: DnaMSec) => new Date(msec).toDateString(),        //ex: 'Sat May 04 2030'
+         general:    (msec: DnaMSec) => generalTimestamp(new Date(msec)),     //ex: '2030-05-04 1:00am'
+         iso:        (msec: DnaMSec) => new Date(msec).toISOString(),         //ex: '2030-05-04T08:00:00.000Z'
+         locale:     (msec: DnaMSec) => new Date(msec).toLocaleString(),      //ex: '5/4/2030, 1:00:00 AM'
+         localeDate: (msec: DnaMSec) => new Date(msec).toLocaleDateString(),  //ex: '5/4/2030'
+         localeTime: (msec: DnaMSec) => new Date(msec).toLocaleTimeString(),  //ex: '1:00:00 AM'
+         string:     (msec: DnaMSec) => new Date(msec).toString(),            //ex: 'Sat May 04 2030 01:00:00 GMT-0700 (PDT)'
+         time:       (msec: DnaMSec) => new Date(msec).toTimeString(),        //ex: '01:00:00 GMT-0700 (PDT)'
+         utc:        (msec: DnaMSec) => new Date(msec).toUTCString(),         //ex: 'Sat, 04 May 2030 08:00:00 GMT'
+         };
+      const formatter = dateFormatters[dna.util.toCamel(format)];
+      if (!formatter)
+         dna.core.berserk('Unknown date format code', format);
+      return <DnaFormatter>formatter;
+      },
+   };
+
 const dnaPlaceholder = {  //TODO: optimize
    // A template placeholder is only shown when its corresponding template is empty (has zero
    // clones).  The "data-placeholder" attribute specifies the name of the template.
@@ -635,39 +666,19 @@ const dnaCompile = {
             compileAttr(attr.name, attr.value);
          };
       dna.ui.getAttrs(elem).forEach(compile);
-      const currencyFormatter = (iso4217: string, units = 1): DnaFormatter => {
-         const currency = { style: 'currency', currency: iso4217.toUpperCase() };
-         const formatter = new Intl.NumberFormat([], currency).format;
-         return (value: DnaFormatterValue) => formatter(Number(value) / units);
-         };
-      const twoDigit = (value: number) => String(value).padStart(2, '0');
-      const generalTimestamp = (date: Date) =>
-         `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())} ` +
-         date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(' ', '').toLowerCase();
-      const dateFormatters = <{ [format: string]: DnaFormatter }>{            //ex: 1904112000000 (msec)
-         date:       (msec: DnaMSec) => new Date(msec).toDateString(),        //ex: 'Sat May 04 2030'
-         general:    (msec: DnaMSec) => generalTimestamp(new Date(msec)),     //ex: '2030-05-04 1:00am'
-         iso:        (msec: DnaMSec) => new Date(msec).toISOString(),         //ex: '2030-05-04T08:00:00.000Z'
-         locale:     (msec: DnaMSec) => new Date(msec).toLocaleString(),      //ex: '5/4/2030, 1:00:00 AM'
-         localeDate: (msec: DnaMSec) => new Date(msec).toLocaleDateString(),  //ex: '5/4/2030'
-         localeTime: (msec: DnaMSec) => new Date(msec).toLocaleTimeString(),  //ex: '1:00:00 AM'
-         string:     (msec: DnaMSec) => new Date(msec).toString(),            //ex: 'Sat May 04 2030 01:00:00 GMT-0700 (PDT)'
-         time:       (msec: DnaMSec) => new Date(msec).toTimeString(),        //ex: '01:00:00 GMT-0700 (PDT)'
-         utc:        (msec: DnaMSec) => new Date(msec).toUTCString(),         //ex: 'Sat, 04 May 2030 08:00:00 GMT'
-         };
       const getRules = (): DnaRules => dna.compile.setupNucleotide(elem).data().dnaRules;
       if (props.length > 0)
          getRules().props = props;
       if (attrs.length > 0)
          getRules().attrs = attrs;
       if (elem.data().formatCurrency)
-         getRules().formatter = currencyFormatter(elem.data().formatCurrency);
+         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.data().formatCurrency);
       if (elem.data().formatCurrency100)
-         getRules().formatter = currencyFormatter(elem.data().formatCurrency100, 100);
+         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.data().formatCurrency100, 100);
       if (elem.data().formatCurrency1000)
-         getRules().formatter = currencyFormatter(elem.data().formatCurrency100, 1000);
+         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.data().formatCurrency100, 1000);
       if (elem.data().formatDate)
-         getRules().formatter = dateFormatters[dna.util.toCamel(elem.data().formatDate)];
+         getRules().formatter = dnaFormat.getDateFormatter(elem.data().formatDate);
       if (elem.data().transform)  //TODO: Determine if it's better to process only at top-level of clone
          getRules().transform = elem.data().transform;  //TODO: string to fn
       if (elem.data().callback)
@@ -1440,6 +1451,7 @@ const dna = {
    pageToken:   dnaPageToken,
    ui:          dnaUi,
    util:        dnaUtil,
+   format:      dnaFormat,
    placeholder: dnaPlaceholder,
    panels:      dnaPanels,
    compile:     dnaCompile,
