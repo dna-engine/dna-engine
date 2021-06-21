@@ -50,6 +50,8 @@
                <ol>
                   <li><a href=#formatters-currency>Currency Format</a></li>
                   <li><a href=#formatters-date>Date Format</a></li>
+                  <li><a href=#formatters-number>Number Format</a></li>
+                  <li><a href=#formatters-percent>Percent Format</a></li>
                </ol>
             </li>
             <li>
@@ -631,6 +633,8 @@
       <ol>
          <li><a href=#formatters-currency>Currency Format</a></li>
          <li><a href=#formatters-date>Date Format</a></li>
+         <li><a href=#formatters-number>Number Format</a></li>
+         <li><a href=#formatters-percent>Percent Format</a></li>
       </ol>
       <p>
          A formatter converts a field of the data model so it is rendered in the desired format.
@@ -751,7 +755,7 @@
          Use the <code>data-format-date</code> attribute to format the rendering of a date field.
       </p>
       <p>
-         The date field can be a <code>number</code> representing the milliseconds elapsed since
+         The date field is a <code>number</code> representing the milliseconds elapsed since
          the UNIX epoch (example: <code>1904112000000</code>) or an ISO 8602 timestamp <code>string</code>
          (example: <code>'2030-05-04T08:00:00.000Z'</code>).
       </p>
@@ -770,7 +774,7 @@
          <figcaption>Resulting HTML</figcaption>
          <pre><code class=language-html>
             &lt;div class=event&gt;
-               &lt;p&gt;Date: &lt;span&gt;2030-05-04 7:00pm&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Date: &lt;span&gt;2030-05-04 1:00am&lt;/span&gt;&lt;/p&gt;
                &lt;p&gt;UTC: &lt;span&gt;Sat, 04 May 2030 08:00:00 GMT&lt;/span&gt;&lt;/p&gt;
             &lt;/div&gt;
          </code></pre>
@@ -785,8 +789,8 @@
             <tr><th>Format Code</th><th>Example Output</th></tr>
          </thead>
          <tbody>
-            <tr><td><code>date</code></td>       <td>Sat May 4 2030</td></tr>
-            <tr><td><code>general</code></td>    <td>2030-05-04 7:00pm</td></tr>
+            <tr><td><code>date</code></td>       <td>Sat May 04 2030</td></tr>
+            <tr><td><code>general</code></td>    <td>2030-05-04 1:00am</td></tr>
             <tr><td><code>iso</code></td>        <td>2030-05-04T08:00:00.000Z</td></tr>
             <tr><td><code>locale</code></td>     <td>5/4/2030, 1:00:00 AM</td></tr>
             <tr><td><code>locale-date</code></td><td>5/4/2030</td></tr>
@@ -794,6 +798,74 @@
             <tr><td><code>string</code></td>     <td>Sat May 04 2030 01:00:00 GMT-0700 (PDT)</td></tr>
             <tr><td><code>time</code></td>       <td>01:00:00 GMT-0700 (PDT)</td></tr>
             <tr><td><code>utc</code></td>        <td>Sat, 04 May 2030 08:00:00 GMT</td></tr>
+         </tbody>
+      </table>
+   </section>
+
+   <!-- Number Format -->
+   <section id=formatters-number>
+      <h4>Number Format</h4>
+      <p>
+         Use the <code>data-format-number</code> attribute to format numbers.
+         Set the value to <code>#</code>, <code>#.#</code>, <code>#.##</code>, <code>#.###</code>,
+         etc. to configure the fixed-point notation display.
+      </p>
+      <figure>
+         <figcaption>Example HTML for rendering an integer and a float</figcaption>
+         <pre><code class=language-html>
+            &lt;div id=book class=dna-template&gt;
+               &lt;p&gt;Copies Sold: &lt;span data-format-number=#&gt;~~copiesSold~~&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Score:       &lt;span data-format-number=#.#&gt;~~score~~&lt;/span&gt;&lt;/p&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <!-- Start: Result -->
+      <p class=big-symbol><i class=icon data-icon=arrow-alt-circle-down></i></p>
+      <figure>
+         <figcaption>Resulting HTML</figcaption>
+         <pre><code class=language-html>
+            &lt;div class=book&gt;
+               &lt;p&gt;Copies Sold: &lt;span&gt;1,327,842&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Score:       &lt;span&gt;9.0&lt;/span&gt;&lt;/p&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <!-- End: Result -->
+      <table>
+         <caption>Example number Formatting</caption>
+         <thead>
+            <tr>
+               <th>Template HTML</th>
+               <th>Example Value</th>
+               <th>Example Display</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td><code>data-format-number=#.####</code></td>
+               <td><code>-7</code></td>
+               <td><b>-7.0000</b></td>
+            </tr>
+            <tr>
+               <td><code>data-format-number=#</code></td>
+               <td><code>1234.5678</code></td>
+               <td><b>1,235</b></td>
+            </tr>
+            <tr>
+               <td><code>data-format-number=#.#</code></td>
+               <td><code>1234.5678</code></td>
+               <td><b>1,234.6</b></td>
+            </tr>
+            <tr>
+               <td><code>data-format-number=#.##</code></td>
+               <td><code>1234.5678</code></td>
+               <td><b>1,234.57</b></td>
+            </tr>
+            <tr>
+               <td><code>data-format-number=#.###</code></td>
+               <td><code>1234.5678</code></td>
+               <td><b>1,234.568</b></td>
+            </tr>
          </tbody>
       </table>
    </section>
