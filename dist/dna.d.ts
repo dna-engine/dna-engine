@@ -1,4 +1,4 @@
-//! dna.js v1.7.8 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.8.0 ~~ dnajs.org ~~ MIT License
 
 /// <reference types="jquery" />
 export declare type DnaOptionsClone = {
@@ -9,6 +9,7 @@ export declare type DnaOptionsClone = {
     empty?: boolean;
     holder?: JQuery;
     container?: JQuery | null;
+    formatter?: DnaFormatter | null;
     transform?: DnaCallback | null;
     callback?: DnaCallback | null;
 };
@@ -60,6 +61,9 @@ export declare type DnaOptionsRegisterInitializer = {
 export declare type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
 export declare type DnaModel = unknown[] | Record<string | number, unknown>;
 export declare type DnaDataObject = Record<string | number, unknown>;
+export declare type DnaFormatter = (value: DnaFormatterValue) => string;
+export declare type DnaFormatterValue = number | string | boolean;
+export declare type DnaMSec = number | string;
 export declare type DnaCallback = (...args: unknown[]) => unknown;
 export declare type DnaElemEventIndex = JQuery | JQuery.EventBase | number;
 export declare type DnaInitializer = {
@@ -99,6 +103,7 @@ export declare type DnaRules = {
     attrs?: DnaAttrItem[];
     props?: (string | DnaFieldName)[];
     option?: DnaFieldName;
+    formatter?: DnaFormatter | null;
     transform?: DnaFunctionName;
     callback?: DnaFunctionName;
     class?: [DnaFieldName, DnaClassName, DnaClassName][];
@@ -188,6 +193,12 @@ declare const dna: {
         value: (data: DnaDataObject, field: string | string[]) => unknown;
         isObj: (value: unknown) => boolean;
     };
+    format: {
+        getCurrencyFormatter(iso4217: string, units?: number): DnaFormatter;
+        getDateFormatter(format: string): DnaFormatter;
+        getNumberFormatter(format: string): DnaFormatter;
+        getPercentFormatter(format: string): DnaFormatter;
+    };
     placeholder: {
         setup: () => JQuery;
     };
@@ -234,7 +245,7 @@ declare const dna: {
         updateArrayByName: (clone: JQuery, arrayField: string | null) => JQuery;
         updateArray: (subClone: JQuery) => JQuery;
         remove: (clone: JQuery, callback?: DnaCallback | null | undefined) => JQuery;
-        berserk: (message: string, info: unknown) => void;
+        assert: (ok: boolean | unknown, message: string, info: unknown) => void;
         plugin: () => void;
         setup: () => unknown;
     };

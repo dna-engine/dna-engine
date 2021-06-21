@@ -1,0 +1,100 @@
+/* dna.js ~~ MIT ~~ dnajs.org/license                        */
+/* Copyright (c) 2013-2021 individual contributors to dna.js */
+
+/*****************************************/
+/* Panel navigation styles:              */
+/*    1) flat-tabs                       */
+/*    2) pillbox-tabs                    */
+/*                                       */
+/* HTML structure:                       */
+/*    nav#NAME-menu.dna-menu[data-style] */
+/*       span                            */
+/*       span                            */
+/*       span                            */
+/*    div#NAME-panels.dna-panels         */
+/*       div                             */
+/*       div                             */
+/*       div                             */
+/*****************************************/
+
+/*********************************************/
+/* Flat tabs                                 */
+/* <nav class=dna-menu data-style=flat-tabs> */
+nav.dna-menu[data-style=flat-tabs] {
+   display: flex;
+   font-size: 0.9rem;
+   font-weight: bold;
+   text-transform: uppercase;
+   letter-spacing: 0.08em;
+   margin: 0px;
+   }
+nav.dna-menu[data-style=flat-tabs] span {
+   color: gainsboro;
+   padding: 10px 35px;
+   transition: all 400ms;
+   }
+nav.dna-menu[data-style=flat-tabs] span.selected,
+nav.dna-menu[data-style=flat-tabs] span:hover {
+   color: white;
+   }
+nav.dna-menu[data-style=flat-tabs] span.selected {
+   cursor: default;
+   }
+nav.dna-menu[data-style=flat-tabs]+.dna-panels {
+   min-height: 80px;
+   text-align: left;
+   border: 10px solid;
+   padding: 10px;
+   margin-bottom: 20px;
+   }
+@media (max-width: 667px) {  /* mobile: selects iPhone 6/6s/7/8/SE(2020) landscape and anything narrower */
+   nav.dna-menu[data-style=flat-tabs] { font-size: 0.8rem; }
+   nav.dna-menu[data-style=flat-tabs] span { padding: 8px 20px; }
+   }
+/* dna.js panel navigation -- customize colors */
+nav.dna-menu[data-style=flat-tabs]               { background-color: indianred; }
+nav.dna-menu[data-style=flat-tabs] span.selected { background-color: brown; }
+nav.dna-menu[data-style=flat-tabs] span:hover    { background-color: brown; }
+nav.dna-menu[data-style=flat-tabs]+.dna-panels   { border-color:     brown; }
+
+/************************************************/
+/* Pillbox tabs                                 */
+/* <nav class=dna-menu data-style=pillbox-tabs> */
+nav.dna-menu[data-style=pillbox-tabs] {
+   display: flex;
+   font-size: 0.9rem;
+   font-weight: bold;
+   text-transform: uppercase;
+   letter-spacing: 0.08em;
+   margin-bottom: 8px;
+   }
+nav.dna-menu[data-style=pillbox-tabs] span {
+   color: dimgray;
+   background-color: gainsboro;
+   padding: 7px 35px;
+   transition: all 400ms;
+   }
+nav.dna-menu[data-style=pillbox-tabs] span:first-child {
+   border-radius: 20px 0px 0px 20px;
+   }
+nav.dna-menu[data-style=pillbox-tabs] span:last-child {
+   border-radius: 0px 20px 20px 0px;
+   }
+nav.dna-menu[data-style=pillbox-tabs] span.selected,
+nav.dna-menu[data-style=pillbox-tabs] span:hover {
+   color: darkslategray;
+   }
+nav.dna-menu[data-style=pillbox-tabs] span.selected {
+   cursor: default;
+   }
+nav.dna-menu[data-style=pillbox-tabs]+.dna-panels {
+   text-align: left;
+   margin-bottom: 20px;
+   }
+@media (max-width: 667px) {  /* mobile: selects iPhone 6/6s/7/8/SE(2020) landscape and anything narrower */
+   nav.dna-menu[data-style=pillbox-tabs] { font-size: 0.8rem; }
+   nav.dna-menu[data-style=pillbox-tabs] span { padding: 7px 25px; }
+   }
+/* dna.js panel navigation -- customize colors */
+nav.dna-menu[data-style=pillbox-tabs] span.selected { background-color: lightsteelblue; }
+nav.dna-menu[data-style=pillbox-tabs] span:hover    { background-color: lightsteelblue; }

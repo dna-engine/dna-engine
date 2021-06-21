@@ -1,4 +1,4 @@
-//! dna.js v1.7.8 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.8.0 ~~ dnajs.org ~~ MIT License
 
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
@@ -173,9 +173,10 @@
             let result;
             const contextApply = (context, names) => {
                 const getFn = () => context[names[0]];
-                if (!context || names.length === 1 && typeof context[names[0]] !== 'function')
-                    dna.core.berserk('Callback function not found', fn);
-                else if (names.length === 1)
+                const missing = !context ||
+                    names.length === 1 && typeof context[names[0]] !== 'function';
+                dna.core.assert(!missing, 'Callback function not found', fn);
+                if (names.length === 1)
                     result = getFn().apply(elem, args);
                 else
                     contextApply(getFn(), names.slice(1));
@@ -204,7 +205,7 @@
             else if (fn === undefined || fn === null)
                 result = null;
             else
-                dna.core.berserk('Invalid callback function', fn);
+                dna.core.assert(false, 'Invalid callback function', fn);
             return result;
         },
         assign: (data, field, value) => {
@@ -243,6 +244,44 @@
         },
         isObj: (value) => {
             return !!value && typeof value === 'object' && !Array.isArray(value);
+        },
+    };
+    const dnaFormat = {
+        getCurrencyFormatter(iso4217, units = 1) {
+            const currency = { style: 'currency', currency: iso4217.toUpperCase() };
+            const formatter = new Intl.NumberFormat([], currency).format;
+            return (value) => formatter(Number(value) / units);
+        },
+        getDateFormatter(format) {
+            const twoDigit = (value) => String(value).padStart(2, '0');
+            const generalTimestamp = (date) => `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())} ` +
+                date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(' ', '').toLowerCase();
+            const dateFormatters = {
+                date: (msec) => new Date(msec).toDateString(),
+                general: (msec) => generalTimestamp(new Date(msec)),
+                iso: (msec) => new Date(msec).toISOString(),
+                locale: (msec) => new Date(msec).toLocaleString(),
+                localeDate: (msec) => new Date(msec).toLocaleDateString(),
+                localeTime: (msec) => new Date(msec).toLocaleTimeString(),
+                string: (msec) => new Date(msec).toString(),
+                time: (msec) => new Date(msec).toTimeString(),
+                utc: (msec) => new Date(msec).toUTCString(),
+            };
+            const formatter = dateFormatters[dna.util.toCamel(format)];
+            dna.core.assert(formatter, 'Unknown date format code', format);
+            return formatter;
+        },
+        getNumberFormatter(format) {
+            dna.core.assert(/^#([.]#+)?$/.test(format), 'Unknown numeric format code', format);
+            const digits = format === '#' ? 0 : format.length - 2;
+            const numeric = { minimumFractionDigits: digits, maximumFractionDigits: digits };
+            return new Intl.NumberFormat([], numeric).format;
+        },
+        getPercentFormatter(format) {
+            dna.core.assert(/^#([.]#+)?$/.test(format), 'Unknown percent format code', format);
+            const digits = format === '#' ? 0 : format.length - 2;
+            const percent = { style: 'percent', minimumFractionDigits: digits, maximumFractionDigits: digits };
+            return new Intl.NumberFormat([], percent).format;
         },
     };
     const dnaPlaceholder = {
@@ -302,8 +341,7 @@
                 const hashIndex = () => panels.filter('[data-hash=' + hash + ']').index();
                 const savedIndex = () => dna.pageToken.get(navName, 0);
                 const loc = hash && panels.first().data().hash ? hashIndex() : savedIndex();
-                if (!menu.length)
-                    dna.core.berserk('Menu not found for panels', navName);
+                dna.core.assert(menu.length, 'Menu not found for panels', navName);
                 menu.data().dnaPanels = panels;
                 if (!menu.find('.menu-item').length)
                     menu.children().addClass('menu-item');
@@ -397,6 +435,18 @@
                 getRules().props = props;
             if (attrs.length > 0)
                 getRules().attrs = attrs;
+            if (elem.data().formatCurrency)
+                getRules().formatter = dnaFormat.getCurrencyFormatter(elem.data().formatCurrency);
+            if (elem.data().formatCurrency100)
+                getRules().formatter = dnaFormat.getCurrencyFormatter(elem.data().formatCurrency100, 100);
+            if (elem.data().formatCurrency1000)
+                getRules().formatter = dnaFormat.getCurrencyFormatter(elem.data().formatCurrency100, 1000);
+            if (elem.data().formatDate)
+                getRules().formatter = dnaFormat.getDateFormatter(elem.data().formatDate);
+            if (elem.data().formatNumber)
+                getRules().formatter = dnaFormat.getNumberFormatter(elem.data().formatNumber);
+            if (elem.data().formatPercent)
+                getRules().formatter = dnaFormat.getPercentFormatter(elem.data().formatPercent);
             if (elem.data().transform)
                 getRules().transform = elem.data().transform;
             if (elem.data().callback)
@@ -443,8 +493,7 @@
         },
         template: (name) => {
             const elem = $('#' + name);
-            if (!elem.length)
-                dna.core.berserk('Template not found', name);
+            dna.core.assert(elem.length, 'Template not found', name);
             const saveName = (index, node) => {
                 $(node).data().dnaRules = { template: $(node).attr('id'), subs: [] };
             };
@@ -654,11 +703,13 @@
     };
     const dnaCore = {
         inject: (clone, data, count, settings) => {
-            const injectField = (elem, field) => {
+            const injectField = (elem, field, dnaRules) => {
                 const value = field === '[count]' ? count : field === '[value]' ? data :
                     dna.util.value(data, field);
-                if (['string', 'number', 'boolean'].indexOf(typeof value) !== -1)
-                    elem = settings.html ? elem.html(String(value)) : elem.text(String(value));
+                const formatted = () => dnaRules.formatter ?
+                    dnaRules.formatter(value) : String(value);
+                if (['string', 'number', 'boolean'].includes(typeof value))
+                    elem = settings.html ? elem.html(formatted()) : elem.text(formatted());
             };
             const injectValue = (elem, field) => {
                 const value = field === '[count]' ? count : field === '[value]' ? data :
@@ -731,7 +782,7 @@
                 if (dnaRules.loop)
                     processLoop(elem, dnaRules.loop);
                 if (dnaRules.text)
-                    injectField(elem, elem.data().dnaField);
+                    injectField(elem, elem.data().dnaField, dnaRules);
                 if (dnaRules.val)
                     injectValue(elem, elem.data().dnaField);
                 if (dnaRules.props)
@@ -844,9 +895,10 @@
                 callback(clone);
             return clone;
         },
-        berserk: (message, info) => {
+        assert: (ok, message, info) => {
             try {
-                throw Error('dna.js ~~ ' + message + ' [' + String(info) + ']');
+                if (!ok)
+                    throw Error('dna.js ~~ ' + message + ' [' + String(info) + ']');
             }
             catch (e) {
                 console.error(e.stack);
@@ -856,8 +908,7 @@
         plugin: () => {
             $.fn['dna'] = function (action, ...params) {
                 const dnaApi = dna[dna.util.toCamel(action)];
-                if (!dnaApi)
-                    dna.core.berserk('Unknown plugin action', action);
+                dna.core.assert(dnaApi, 'Unknown plugin action', action);
                 const callApi = (index, node) => dnaApi($(node), params[0], params[1], params[2]);
                 this.each(callApi);
             };
@@ -875,7 +926,7 @@
         }
     };
     const dna = {
-        version: '1.7.8',
+        version: '1.8.0',
         clone(name, data, options) {
             const defaults = {
                 fade: false,
@@ -889,8 +940,8 @@
             };
             const settings = { ...defaults, ...options };
             const template = dna.store.getTemplate(name);
-            if (template.nested && !settings.container)
-                dna.core.berserk('Container missing for nested template', name);
+            const missing = template.nested && !settings.container;
+            dna.core.assert(!missing, 'Container missing for nested template', name);
             if (settings.empty)
                 dna.empty(name);
             const list = [].concat(...Array(settings.clones).fill(data));
@@ -1073,6 +1124,7 @@
         pageToken: dnaPageToken,
         ui: dnaUi,
         util: dnaUtil,
+        format: dnaFormat,
         placeholder: dnaPlaceholder,
         panels: dnaPanels,
         compile: dnaCompile,
