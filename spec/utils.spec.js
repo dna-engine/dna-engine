@@ -5,6 +5,7 @@
 import assert from 'assert';
 import { JSDOM } from 'jsdom';
 import jQuery from  'jquery';
+import { timestamp } from './mock-data.mjs';
 
 // Setup
 import { dna } from '../dist/dna.esm.js';
@@ -122,6 +123,29 @@ describe('Utility function dna.util.assign()', () => {
    it('creates a new object if needed', () => {
       const actual =   dna.util.assign(null, 'cart.status.level', 'silver');
       const expected = { cart: { status: { level: 'silver' } } };
+      assert.deepStrictEqual(actual, expected);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Formatter dna.format.getDateFormatter()', () => {
+
+   it('correctly renders Star Wars Day', () => {
+      const 皿 = (format) => dna.format.getDateFormatter(format)(timestamp);
+      const actual =   [       皿('date'),        皿('general'),           皿('locale')];
+      const expected = ['Sat May 04 2030', '2030-05-04 1:00am', '5/4/2030, 1:00:00 AM'];
+      assert.deepStrictEqual(actual, expected);
+      });
+   });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Formatter dna.format.getNumberFormatter()', () => {
+
+   it('correctly renders π', () => {
+      const π = (format) => dna.format.getNumberFormatter(format)(Math.PI);
+      const actual =   [π('#'), π('#.#'), π('#.##'), π('#.###'), π('#.####'), π('#.#####')];
+      const expected = [  '3' ,   '3.1',    '3.14' ,   '3.142',    '3.1416',    '3.14159' ];
       assert.deepStrictEqual(actual, expected);
       });
 

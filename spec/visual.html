@@ -20,7 +20,7 @@
    p                   { margin: 0px 0px 3px 0px; }
    button              { font-size: 1.0rem; cursor: pointer; }
    label               { display: block; }
-   output              { font-size: 0.9rem; }
+   output              { display: block; font-size: 0.9rem; margin-bottom: 8px; }
    output >samp        { display: block; background-color: lightsteelblue; padding: 3px 8px; border: 2px solid transparent; transition: border-color 400ms; }
    output >samp:nth-child(2n) { background-color: gainsboro; }
    output >samp:hover  { border-color: darkorange; }
@@ -1641,6 +1641,11 @@ spec.spec22 = {
                <samp data-format-currency=jpy    title=jpy>~~price~~</samp>
                <samp data-format-currency100=usd title=usd100>~~price~~</samp>
             </output>
+            <div>
+               <samp data-format-number=#          title=#>~~π~~</samp> |
+               <samp data-format-number=#.####     title=#.####>~~π~~</samp> |
+               <samp data-format-number=#.######## title=#.########>~~π~~</samp>
+            </div>
          </div>
       </div>
    </fieldset>
@@ -1648,7 +1653,7 @@ spec.spec22 = {
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone>
-            <div>Title:  <span>The DOM</span></div>
+            <div>Title: <span>The DOM</span></div>
             <div>Event:</div>
             <output>
                <samp title=milliseconds>47008800000</samp>
@@ -1668,13 +1673,18 @@ spec.spec22 = {
                <samp title=jpy>¥2,499</samp>
                <samp title=usd100>$24.99</samp>
             </output>
+            <div>
+               <samp title=#>3</samp> |
+               <samp title=#.####>3.1416</samp> |
+               <samp title=#.########>3.14159265</samp>
+            </div>
          </div>
          <div class=dna-clone>
             <div>Title: <span>Styling CSS3</span></div>
             <div>Event:</div>
             <output>
                <samp title=milliseconds>1904112000000</samp>
-               <samp title=date>Sat May 4 2030</samp>
+               <samp title=date>Sat May 04 2030</samp>
                <samp title=general>2030-05-04 1:00am</samp>
                <samp title=iso>2030-05-04T08:00:00.000Z</samp>
                <samp title=locale>5/4/2030, 1:00:00 AM</samp>
@@ -1690,6 +1700,11 @@ spec.spec22 = {
                <samp title=jpy>¥1,999</samp>
                <samp title=usd100>$19.99</samp>
             </output>
+            <div>
+               <samp title=#>3</samp> |
+               <samp title=#.####>3.1416</samp> |
+               <samp title=#.########>3.14159265</samp>
+            </div>
          </div>
          <div class=dna-clone>
             <div>Title: <span>Howdy HTML5</span></div>
@@ -1712,6 +1727,11 @@ spec.spec22 = {
                <samp title=jpy>¥2,499</samp>
                <samp title=usd100>$24.99</samp>
             </output>
+            <div>
+               <samp title=#>3</samp> |
+               <samp title=#.####>3.1416</samp> |
+               <samp title=#.########>3.14159265</samp>
+            </div>
          </div>
       </div>
    </fieldset>
@@ -1719,7 +1739,8 @@ spec.spec22 = {
 <script>
 spec.spec23 = {
    run() {
-      dna.clone('s23-book', specRunner.catalog);
+      const addπ = (book) => book.π = Math.PI;
+      dna.clone('s23-book', specRunner.catalog, { transform: addπ });
       },
    };
 </script>

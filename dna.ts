@@ -454,6 +454,15 @@ const dnaFormat = {
          dna.core.berserk('Unknown date format code', format);
       return <DnaFormatter>formatter;
       },
+   getNumberFormatter(format: string): DnaFormatter {
+      // Returns a function to format numeric values into strings, like "1,000.000" and "3.14",
+      // based on the supplied fixed-point notation format ("#", "#.#", "#.##", "#.###", ...).
+      if (!/^#([.]#+)?$/.test(format))
+         dna.core.berserk('Unknown numeric format code', format);
+      const digits = format === '#' ? 0 : format.length - 2;
+      const numeric = { minimumFractionDigits: digits, maximumFractionDigits: digits };
+      return <DnaFormatter>new Intl.NumberFormat([], numeric).format;
+      },
    };
 
 const dnaPlaceholder = {  //TODO: optimize
@@ -679,6 +688,8 @@ const dnaCompile = {
          getRules().formatter = dnaFormat.getCurrencyFormatter(elem.data().formatCurrency100, 1000);
       if (elem.data().formatDate)
          getRules().formatter = dnaFormat.getDateFormatter(elem.data().formatDate);
+      if (elem.data().formatNumber)
+         getRules().formatter = dnaFormat.getNumberFormatter(elem.data().formatNumber);
       if (elem.data().transform)  //TODO: Determine if it's better to process only at top-level of clone
          getRules().transform = elem.data().transform;  //TODO: string to fn
       if (elem.data().callback)
