@@ -330,9 +330,10 @@ const dnaUtil = {
       let result;
       const contextApply = (context: DnaCallback | Record<string, unknown> | Window, names: string[]) => {
          const getFn = (): DnaCallback => <DnaCallback>(<Record<string, unknown>>context)[<string>names[0]];
-         if (!context || names.length === 1 && typeof (<DnaDataObject>context)[<string>names[0]] !== 'function')
-            dna.core.berserk('Callback function not found', fn);
-         else if (names.length === 1)
+         const missing = !context ||
+            names.length === 1 && typeof (<DnaDataObject>context)[<string>names[0]] !== 'function';
+         dna.core.assert(!missing, 'Callback function not found', fn);
+         if (names.length === 1)
             result = getFn().apply(elem, args);  //'app.cart.buy' ==> window['app']['cart']['buy']
          else
             contextApply(getFn(), names.slice(1));
@@ -362,7 +363,7 @@ const dnaUtil = {
       else if (fn === undefined || fn === null)
          result = null;
       else
-         dna.core.berserk('Invalid callback function', fn);
+         dna.core.assert(false, 'Invalid callback function', fn);
       return result;
       },
    assign: (data: DnaDataObject, field: string | string[], value: unknown): DnaDataObject => {
@@ -450,15 +451,13 @@ const dnaFormat = {
          utc:        (msec: DnaMSec) => new Date(msec).toUTCString(),         //ex: 'Sat, 04 May 2030 08:00:00 GMT'
          };
       const formatter = dateFormatters[dna.util.toCamel(format)];
-      if (!formatter)
-         dna.core.berserk('Unknown date format code', format);
+      dna.core.assert(formatter, 'Unknown date format code', format);
       return <DnaFormatter>formatter;
       },
    getNumberFormatter(format: string): DnaFormatter {
       // Returns a function to format numeric values into strings, like "1,000.000" and "3.14",
       // based on the supplied fixed-point notation format ("#", "#.#", "#.##", "#.###", ...).
-      if (!/^#([.]#+)?$/.test(format))
-         dna.core.berserk('Unknown numeric format code', format);
+      dna.core.assert(/^#([.]#+)?$/.test(format), 'Unknown numeric format code', format);
       const digits = format === '#' ? 0 : format.length - 2;
       const numeric = { minimumFractionDigits: digits, maximumFractionDigits: digits };
       return <DnaFormatter>new Intl.NumberFormat([], numeric).format;
@@ -543,8 +542,7 @@ const dnaPanels = {
          const hashIndex =  (): number => panels.filter('[data-hash=' + hash + ']').index();
          const savedIndex = (): number => <number>dna.pageToken.get(navName, 0);
          const loc =        hash && panels.first().data().hash ? hashIndex() : savedIndex();
-         if (!menu.length)
-            dna.core.berserk('Menu not found for panels', navName);
+         dna.core.assert(menu.length, 'Menu not found for panels', navName);
          menu.data().dnaPanels = panels;
          if (!menu.find('.menu-item').length)  //set .menu-item elems if not set in the html
             menu.children().addClass('menu-item');
@@ -744,8 +742,7 @@ const dnaCompile = {
       },
    template: (name: string): DnaTemplate => {  //prepare and stash template so it can be cloned
       const elem = $('#' + name);
-      if (!elem.length)
-         dna.core.berserk('Template not found', name);
+      dna.core.assert(elem.length, 'Template not found', name);
       const saveName = (index: number, node: HTMLElement) => {
          $(node).data().dnaRules = <DnaRules>{ template: $(node).attr('id'), subs: [] };
          };
@@ -1175,9 +1172,11 @@ const dnaCore = {
          callback(clone);
       return clone;
       },
-   berserk: (message: string, info: unknown): void => {  //oops, file a tps report
+   assert: (ok: boolean | unknown, message: string, info: unknown): void => {
+      // Oops, file a tps report.
       try {
-         throw Error('dna.js ~~ ' + message + ' [' + String(info) + ']');
+         if (!ok)
+            throw Error('dna.js ~~ ' + message + ' [' + String(info) + ']');
          }
       catch (e) {
          console.error(e.stack);
@@ -1191,8 +1190,7 @@ const dnaCore = {
       //    'bye', 'clone-sub', 'destroy', 'down', 'refresh', 'up'
       $.fn['dna'] = function(action: DnaPluginAction, ...params: unknown[]) {  //any additional parameters are passed to the api call
          const dnaApi = dna[dna.util.toCamel(action)];
-         if (!dnaApi)
-            dna.core.berserk('Unknown plugin action', action);
+         dna.core.assert(dnaApi, 'Unknown plugin action', action);
          const callApi = (index: number, node: HTMLElement) =>
             dnaApi($(node), params[0], params[1], params[2]);
          this.each(callApi);
@@ -1251,8 +1249,8 @@ const dna = {
          };
       const settings = { ...defaults, ...options };
       const template = dna.store.getTemplate(name);
-      if (template.nested && !settings.container)
-         dna.core.berserk('Container missing for nested template', name);
+      const missing = template.nested && !settings.container;
+      dna.core.assert(!missing, 'Container missing for nested template', name);
       if (settings.empty)
          dna.empty(name);
       const list = [].concat(...Array(settings.clones).fill(data));
