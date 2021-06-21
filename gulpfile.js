@@ -50,7 +50,7 @@ const webContext = {
    pkg:          pkg,
    released:     released,
    minorVersion: minorVersion,
-   gzipSize:     '8 kb gzip',
+   gzipSize:     '9 kb gzip',
    title:        pkg.description,  //default page title
    youTube:      linkInfo.youTube,
    jsFiddle:     linkInfo.jsFiddle
@@ -64,6 +64,10 @@ const task = {
          gulp.src('dna.css')
             .pipe(replace(headerComments.css, ''))
             .pipe(header(bannerCss))
+            .pipe(size({ showFiles: true }))
+            .pipe(gulp.dest('dist'));
+      const copyCss = () =>
+         gulp.src('website/static/panel-nav.css')
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('dist'));
       const buildDts = () =>
@@ -101,7 +105,7 @@ const task = {
             .pipe(size({ showFiles: true }))
             .pipe(size({ showFiles: true, gzip: true }))
             .pipe(gulp.dest('dist'));
-      return mergeStream(buildCss(), buildDts(), buildEsm(), buildUmd(), buildJs());
+      return mergeStream(buildCss(), copyCss(), buildDts(), buildEsm(), buildUmd(), buildJs());
       },
 
    reportSize() {
