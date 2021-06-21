@@ -462,6 +462,15 @@ const dnaFormat = {
       const numeric = { minimumFractionDigits: digits, maximumFractionDigits: digits };
       return <DnaFormatter>new Intl.NumberFormat([], numeric).format;
       },
+   getPercentFormatter(format: string): DnaFormatter {
+      // Returns a function to format floats (generally from 0 to 1) into strings, like "82%"
+      // and "12.57%", representing a percent value based on the supplied fixed-point notation
+      // format ("#", "#.#", "#.##", "#.###", ...).
+      dna.core.assert(/^#([.]#+)?$/.test(format), 'Unknown percent format code', format);
+      const digits = format === '#' ? 0 : format.length - 2;
+      const percent = { style: 'percent', minimumFractionDigits: digits, maximumFractionDigits: digits };
+      return <DnaFormatter>new Intl.NumberFormat([], percent).format;
+      },
    };
 
 const dnaPlaceholder = {  //TODO: optimize
@@ -688,6 +697,8 @@ const dnaCompile = {
          getRules().formatter = dnaFormat.getDateFormatter(elem.data().formatDate);
       if (elem.data().formatNumber)
          getRules().formatter = dnaFormat.getNumberFormatter(elem.data().formatNumber);
+      if (elem.data().formatPercent)
+         getRules().formatter = dnaFormat.getPercentFormatter(elem.data().formatPercent);
       if (elem.data().transform)  //TODO: Determine if it's better to process only at top-level of clone
          getRules().transform = elem.data().transform;  //TODO: string to fn
       if (elem.data().callback)

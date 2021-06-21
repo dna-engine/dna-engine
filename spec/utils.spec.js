@@ -152,4 +152,16 @@ describe('Formatter dna.format.getNumberFormatter()', () => {
    });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Formatter dna.format.getPercentFormatter()', () => {
+
+   it('correctly renders √1/2 as a percentage', () => {
+      const σ = (format) => dna.format.getPercentFormatter(format)(Math.SQRT1_2);
+      const actual =   [σ('#'), σ('#.#'), σ('#.##'), σ('#.###'), σ('#.####'), σ('#.#####')];
+      const expected = [ '71%',  '70.7%',  '70.71%',  '70.711%',  '70.7107%',  '70.71068%'];
+      assert.deepStrictEqual(actual, expected);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 });

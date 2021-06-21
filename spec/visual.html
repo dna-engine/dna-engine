@@ -1616,11 +1616,11 @@ spec.spec22 = {
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <section id=spec23>
    <h3>Specification: #23</h3>
-   <p>Formatting</p>
+   <p>Formatters</p>
    <fieldset>
       <legend>Actual</legend>
       <div class=book-list>
-         <div id=s23-book class=dna-template>
+         <div id=s23-book class=dna-template data-transform=spec.spec23.addΣ>
             <div>Title: <span>~~title~~</span></div>
             <div>Event:</div>
             <output>
@@ -1645,6 +1645,11 @@ spec.spec22 = {
                <samp data-format-number=#          title=#>~~π~~</samp> |
                <samp data-format-number=#.####     title=#.####>~~π~~</samp> |
                <samp data-format-number=#.######## title=#.########>~~π~~</samp>
+            </div>
+            <div>
+               <samp data-format-percent=#    title=#>~~σ~~</samp> |
+               <samp data-format-percent=#.#  title=#.#>~~σ~~</samp> |
+               <samp data-format-percent=#.## title=#.###>~~σ~~</samp>
             </div>
          </div>
       </div>
@@ -1678,6 +1683,11 @@ spec.spec22 = {
                <samp title=#.####>3.1416</samp> |
                <samp title=#.########>3.14159265</samp>
             </div>
+            <div>
+               <samp title=#>71%</samp> |
+               <samp title=#.#>70.7%</samp> |
+               <samp title=#.##>70.71%</samp>
+            </div>
          </div>
          <div class=dna-clone>
             <div>Title: <span>Styling CSS3</span></div>
@@ -1704,6 +1714,11 @@ spec.spec22 = {
                <samp title=#>3</samp> |
                <samp title=#.####>3.1416</samp> |
                <samp title=#.########>3.14159265</samp>
+            </div>
+            <div>
+               <samp title=#>71%</samp> |
+               <samp title=#.#>70.7%</samp> |
+               <samp title=#.##>70.71%</samp>
             </div>
          </div>
          <div class=dna-clone>
@@ -1732,12 +1747,20 @@ spec.spec22 = {
                <samp title=#.####>3.1416</samp> |
                <samp title=#.########>3.14159265</samp>
             </div>
+            <div>
+               <samp title=#>71%</samp> |
+               <samp title=#.#>70.7%</samp> |
+               <samp title=#.##>70.71%</samp>
+            </div>
          </div>
       </div>
    </fieldset>
 </section>
 <script>
 spec.spec23 = {
+   addΣ(book) {
+      book.σ = Math.SQRT1_2;
+      },
    run() {
       const addπ = (book) => book.π = Math.PI;
       dna.clone('s23-book', specRunner.catalog, { transform: addπ });
