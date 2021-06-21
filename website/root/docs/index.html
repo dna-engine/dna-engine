@@ -815,7 +815,7 @@
          <pre><code class=language-html>
             &lt;div id=book class=dna-template&gt;
                &lt;p&gt;Copies Sold: &lt;span data-format-number=#&gt;~~copiesSold~~&lt;/span&gt;&lt;/p&gt;
-               &lt;p&gt;Score:       &lt;span data-format-number=#.#&gt;~~score~~&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Rating:      &lt;span data-format-number=#.#&gt;~~rating~~&lt;/span&gt;&lt;/p&gt;
             &lt;/div&gt;
          </code></pre>
       </figure>
@@ -826,13 +826,13 @@
          <pre><code class=language-html>
             &lt;div class=book&gt;
                &lt;p&gt;Copies Sold: &lt;span&gt;1,327,842&lt;/span&gt;&lt;/p&gt;
-               &lt;p&gt;Score:       &lt;span&gt;9.0&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Rating:      &lt;span&gt;4.0&lt;/span&gt;&lt;/p&gt;
             &lt;/div&gt;
          </code></pre>
       </figure>
       <!-- End: Result -->
       <table>
-         <caption>Example number Formatting</caption>
+         <caption>Example Number Formatting</caption>
          <thead>
             <tr>
                <th>Template HTML</th>
@@ -865,6 +865,70 @@
                <td><code>data-format-number=#.###</code></td>
                <td><code>1234.5678</code></td>
                <td><b>1,234.568</b></td>
+            </tr>
+         </tbody>
+      </table>
+   </section>
+
+   <!-- Percent Format -->
+   <section id=formatters-percent>
+      <h4>Percent Format</h4>
+      <p>
+         Use the <code>data-format-percent</code> attribute to format ratios (generally 0 to 1) as
+         percentages, such as <b>"93%"</b> or <b>"2.70%"</b>.&nbsp;
+         Set the value to <code>#</code>, <code>#.#</code>, <code>#.##</code>, <code>#.###</code>,
+         etc. to configure the fixed-point notation display.
+      </p>
+      <figure>
+         <figcaption>Example HTML for rendering an integer and a float</figcaption>
+         <pre><code class=language-html>
+            &lt;div id=book class=dna-template&gt;
+               &lt;p&gt;Score:         &lt;span data-format-percent=#&gt;~~score~~&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Foreign Sales: &lt;span data-format-percent=#.#&gt;~~sales.foreign~~&lt;/span&gt;&lt;/p&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <!-- Start: Result -->
+      <p class=big-symbol><i class=icon data-icon=arrow-alt-circle-down></i></p>
+      <figure>
+         <figcaption>Resulting HTML</figcaption>
+         <pre><code class=language-html>
+            &lt;div class=book&gt;
+               &lt;p&gt;Score:         &lt;span&gt;90%&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Foreign Sales: &lt;span&gt;12.2%&lt;/span&gt;&lt;/p&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <!-- End: Result -->
+      <table>
+         <caption>Example Percent Formatting</caption>
+         <thead>
+            <tr>
+               <th>Template HTML</th>
+               <th>Example Value</th>
+               <th>Example Display</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td><code>data-format-percent=#.###</code></td>
+               <td><code>-1</code></td>
+               <td><b>-100.000%</b></td>
+            </tr>
+            <tr>
+               <td><code>data-format-percent=#</code></td>
+               <td><code>0.12345678</code></td>
+               <td><b>12%</b></td>
+            </tr>
+            <tr>
+               <td><code>data-format-percent=#.#</code></td>
+               <td><code>0.12345678</code></td>
+               <td><b>12.3%</b></td>
+            </tr>
+            <tr>
+               <td><code>data-format-percent=#.##</code></td>
+               <td><code>0.12345678</code></td>
+               <td><b>12.35%</b></td>
             </tr>
          </tbody>
       </table>
