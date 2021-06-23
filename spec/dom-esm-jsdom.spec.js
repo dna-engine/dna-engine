@@ -2,7 +2,7 @@
 // Mocha Specification Cases
 
 // Imports
-import assert from 'assert';
+import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
 import jQuery from 'jquery';
 import { grabText, toPlainObj } from './spec-tools.mjs';
@@ -26,7 +26,7 @@ describe('Function dna.templateExists()', () => {
    it('identifies if a template is present before cloning', () => {
       const actual =   [dna.templateExists('book'), dna.templateExists('bogus')];
       const expected = [true, false];
-      assert.deepStrictEqual(actual, expected);
+      assertDeepStrictEqual(actual, expected);
       });
 
    });
@@ -38,13 +38,13 @@ describe('Template cloning function dna.clone()', () => {
       dna.clone('book', bookCatalog[0]);
       const actual =   { title: $('.book h2').text() };
       const expected = { title: bookCatalog[0].title };
-      assert.deepStrictEqual(actual, expected);
+      assertDeepStrictEqual(actual, expected);
       });
 
    it('creates a book with the correct author', () => {
       const actual =   { author: $('.book cite').text() };
       const expected = { author: bookCatalog[0].author };
-      assert.deepStrictEqual(actual, expected);
+      assertDeepStrictEqual(actual, expected);
       });
 
    });
@@ -56,7 +56,7 @@ describe('Function dna.getModel()', () => {
       dna.clone('book', bookCatalog[1]);
       const actual =   { model: dna.getModel($('.book').last()) };
       const expected = { model: bookCatalog[1] };
-      assert.deepStrictEqual(actual, expected);
+      assertDeepStrictEqual(actual, expected);
       });
 
    });
@@ -76,7 +76,7 @@ describe('Field formatter', () => {
          jpy:    [   '¥2,499',    '¥1,999', ''],
          usd100: [   '$24.99',    '$19.99', ''],
          };
-      assert.deepStrictEqual(actual, expected);
+      assertDeepStrictEqual(actual, expected);
       });
 
    it('for dates correctly formats timestamps', () => {
@@ -88,7 +88,7 @@ describe('Field formatter', () => {
          locale:  '5/4/2030, 1:00:00 AM',
          general: '2030-05-04 1:00am',
          };
-      assert.deepStrictEqual(actual, expected);
+      assertDeepStrictEqual(actual, expected);
       });
 
    });
@@ -103,7 +103,7 @@ describe('Plugin call clone.dna("refresh")', () => {
       const titles =   $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
       const actual =   { titles: Array.from(titles) };
       const expected = { titles: ['The DOM 2.0!', 'Styling CSS3', 'Howdy HTML5'] };
-      assert.deepStrictEqual(actual, expected);
+      assertDeepStrictEqual(actual, expected);
       });
 
    });
@@ -116,7 +116,7 @@ describe('Plugin call clone.dna("destroy")', () => {
       const titles =   $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
       const actual =   { titles: Array.from(titles) };
       const expected = { titles: ['The DOM 2.0!', 'Styling CSS3'] };
-      assert.deepStrictEqual(actual, expected);
+      assertDeepStrictEqual(actual, expected);
       });
 
    });
@@ -127,7 +127,7 @@ describe('Function dna.templateExists()', () => {
    it('identifies if a template is present after cloning', () => {
       const actual =   [dna.templateExists('book'), dna.templateExists('bogus')];
       const expected = [true, false];
-      assert.deepStrictEqual(actual, expected);
+      assertDeepStrictEqual(actual, expected);
       });
 
    });
@@ -147,7 +147,7 @@ describe('Function dna.info()', () => {
          subs:         0,
          templates:    1,
          };
-      assert.deepStrictEqual(actual, expected);
+      assertDeepStrictEqual(actual, expected);
       });
 
    });
