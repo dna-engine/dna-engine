@@ -35,7 +35,7 @@ html {
    background-size: cover;
    }
 body {
-   max-width: 800px;
+   max-width: 850px;
    min-height: 100vh;
    background-color: rgba(255, 255, 255, 0.9);
    border-left: 1px solid steelblue;
@@ -332,6 +332,11 @@ code.block-indent {
 .big-symbol >i.font-icon {
    font-size: 3.0rem;
    color: steelblue;
+   }
+
+/* Videos */
+.video-container-link {
+   clear: both;
    }
 
 /* Twitter */
