@@ -1,6 +1,6 @@
 {
    "name": "dna.js",
-   "version": "1.8.2",
+   "version": "1.8.3",
    "description": "An uncomplicated user interface library for building data-driven semantic templates (written in TypeScript)",
    "license": "MIT",
    "type": "module",
