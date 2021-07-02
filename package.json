@@ -6,7 +6,6 @@
    "type": "module",
    "module": "dist/dna.esm.js",
    "main": "dist/dna.umd.cjs",
-   "browser": "dist/dna.min.js",
    "style": "dist/dna.css",
    "types": "dist/dna.d.ts",
    "files": [
@@ -104,7 +103,7 @@
       "@fortawesome/fontawesome-free": "~5.15",
       "@types/jquery": "~3.5",
       "@types/jsdom": "~16.2",
-      "@types/node": "~15.12",
+      "@types/node": "~15.14",
       "@typescript-eslint/eslint-plugin": "~4.28",
       "@typescript-eslint/parser": "~4.28",
       "assert-deep-strict-equal": "~0.0",
