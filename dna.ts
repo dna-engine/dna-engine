@@ -436,19 +436,23 @@ const dnaFormat = {
    getDateFormatter(format: string): DnaFormatter {
       // Returns a function to format dates into strings, like "2030-05-04 1:00am".
       const twoDigit = (value: number) => String(value).padStart(2, '0');
-      const generalTimestamp = (date: Date) =>
-         `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())} ` +
+      const generalDate = (date: Date) =>
+         `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())}`;
+      const generalTime = (date: Date) =>
          date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(' ', '').toLowerCase();
-      const dateFormatters = <{ [format: string]: DnaFormatter }>{            //ex: 1904112000000 (msec)
-         date:       (msec: DnaMSec) => new Date(msec).toDateString(),        //ex: 'Sat May 04 2030'
-         general:    (msec: DnaMSec) => generalTimestamp(new Date(msec)),     //ex: '2030-05-04 1:00am'
-         iso:        (msec: DnaMSec) => new Date(msec).toISOString(),         //ex: '2030-05-04T08:00:00.000Z'
-         locale:     (msec: DnaMSec) => new Date(msec).toLocaleString(),      //ex: '5/4/2030, 1:00:00 AM'
-         localeDate: (msec: DnaMSec) => new Date(msec).toLocaleDateString(),  //ex: '5/4/2030'
-         localeTime: (msec: DnaMSec) => new Date(msec).toLocaleTimeString(),  //ex: '1:00:00 AM'
-         string:     (msec: DnaMSec) => new Date(msec).toString(),            //ex: 'Sat May 04 2030 01:00:00 GMT-0700 (PDT)'
-         time:       (msec: DnaMSec) => new Date(msec).toTimeString(),        //ex: '01:00:00 GMT-0700 (PDT)'
-         utc:        (msec: DnaMSec) => new Date(msec).toUTCString(),         //ex: 'Sat, 04 May 2030 08:00:00 GMT'
+      const generalTimestamp = (date: Date) => generalDate(date) + ' ' + generalTime(date);
+      const dateFormatters = <{ [format: string]: DnaFormatter }>{             //ex: 1904112000000 (msec)
+         date:        (msec: DnaMSec) => new Date(msec).toDateString(),        //ex: 'Sat May 04 2030'
+         general:     (msec: DnaMSec) => generalTimestamp(new Date(msec)),     //ex: '2030-05-04 1:00am'
+         generalDate: (msec: DnaMSec) => generalDate(new Date(msec)),          //ex: '2030-05-04'
+         generalTime: (msec: DnaMSec) => generalTime(new Date(msec)),          //ex: '1:00am'
+         iso:         (msec: DnaMSec) => new Date(msec).toISOString(),         //ex: '2030-05-04T08:00:00.000Z'
+         locale:      (msec: DnaMSec) => new Date(msec).toLocaleString(),      //ex: '5/4/2030, 1:00:00 AM'
+         localeDate:  (msec: DnaMSec) => new Date(msec).toLocaleDateString(),  //ex: '5/4/2030'
+         localeTime:  (msec: DnaMSec) => new Date(msec).toLocaleTimeString(),  //ex: '1:00:00 AM'
+         string:      (msec: DnaMSec) => new Date(msec).toString(),            //ex: 'Sat May 04 2030 01:00:00 GMT-0700 (PDT)'
+         time:        (msec: DnaMSec) => new Date(msec).toTimeString(),        //ex: '01:00:00 GMT-0700 (PDT)'
+         utc:         (msec: DnaMSec) => new Date(msec).toUTCString(),         //ex: 'Sat, 04 May 2030 08:00:00 GMT'
          };
       const formatter = dateFormatters[dna.util.toCamel(format)];
       dna.core.assert(formatter, 'Unknown date format code', format);
