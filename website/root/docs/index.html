@@ -2712,7 +2712,7 @@
                &lt;button data-click=bookshelf.show&gt;Show component name&lt;/button&gt;
                &lt;script&gt;
                   const bookshelf = {
-                     booksUrl: 'https://dnajs.org/rest/book/',
+                     booksUrl: 'https://dnajs.org/api/books/',
                      show: (elem, event, component) =&gt;
                         elem.text(component.data().component + '!'),
                      setup: (elem) =&gt; {
@@ -2741,7 +2741,7 @@
                <button data-click=bookshelf.show class=no-disable>Show component name</button>
                <script>
                   const bookshelf = {
-                     booksUrl: 'https://dnajs.org/rest/book/',
+                     booksUrl: 'https://dnajs.org/api/books/',
                      show: (elem, event, component) =>
                         elem.text(component.data().component + '!'),
                      setup: (elem) => {

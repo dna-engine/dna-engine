@@ -547,11 +547,11 @@ spec.spec08 = {
 <script>
 spec.spec09 = {
    run() {
-      dna.clone('s09-rest-link', ['https://dnajs.org/rest/book/1/', 'https://dnajs.org/rest/book/2/']);
+      dna.clone('s09-rest-link', ['https://dnajs.org/api/books/1/', 'https://dnajs.org/api/books/2/']);
       const insertBook = (book) => dna.clone('s09-book', book, { top: book.id === 1, fade: true });
       fetchJson.enableLogger();
-      fetchJson.get('https://dnajs.org/rest/book/1/').then(insertBook);
-      fetchJson.get('https://dnajs.org/rest/book/2/').then(insertBook);
+      fetchJson.get('https://dnajs.org/api/books/1/').then(insertBook);
+      fetchJson.get('https://dnajs.org/api/books/2/').then(insertBook);
       },
    };
 </script>
@@ -1295,7 +1295,7 @@ spec.spec16 = {
                   elem.text(component.data().msg + event.timeStamp);
                   },
                setup(elem, component) {
-                  const booksUrl = 'https://dnajs.org/rest/book/';
+                  const booksUrl = 'https://dnajs.org/api/books/';
                   component.children('button')
                      .attr({ 'data-href': booksUrl })
                      .addClass('external-site');
