@@ -5,7 +5,6 @@
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
 import jQuery from 'jquery';
-import { toPlainObj } from './spec-tools.mjs';
 
 // Setup
 import { dna } from '../dist/dna.esm.js';
@@ -24,10 +23,10 @@ describe('Array utility function dna.array.find()', () => {
 
    it('finds an item by key in an array and returns the item and index', () => {
       const array =    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
-      const actual =   toPlainObj([
+      const actual =   [
          dna.array.find(array, 'b'),
          dna.array.find(array, 'Ant', 'word'),
-         ]);
+         ];
       const expected = [
          { item: { code: 'b', word: 'Bat' }, index: 1 },
          { item: { code: 'a', word: 'Ant' }, index: 0 },
@@ -37,7 +36,7 @@ describe('Array utility function dna.array.find()', () => {
 
    it('returns undefined for the item when the key does not exist', () => {
       const array =    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
-      const actual =   toPlainObj(dna.array.find(array, 'bogus'));
+      const actual =   dna.array.find(array, 'bogus');
       const expected = { index: -1 };
       assertDeepStrictEqual(actual, expected);
       });
@@ -61,21 +60,21 @@ describe('Array utility function dna.array.fromMap()', () => {
 
    it('converts a map of objects into an array of maps', () => {
       const map =      { a: { word: 'Ant' }, bZ: { word: 'Bat' } };
-      const actual =   toPlainObj(dna.array.fromMap(map));
+      const actual =   dna.array.fromMap(map);
       const expected = [{ code: 'a', word: 'Ant' }, { code: 'bZ', word: 'Bat' }];
       assertDeepStrictEqual(actual, expected);
       });
 
    it('converts a map of objects into an array of maps with kebab case codes', () => {
       const map =      { a: { word: 'Ant' }, bZ: { word: 'Bat' } };
-      const actual =   toPlainObj(dna.array.fromMap(map, { kebabCodes: true }));
+      const actual =   dna.array.fromMap(map, { kebabCodes: true });
       const expected = [{ code: 'a', word: 'Ant' }, { code: 'b-z', word: 'Bat' }];
       assertDeepStrictEqual(actual, expected);
       });
 
    it('converts a map of values into an array of maps with a custom code name', () => {
       const map =      { x0: 100, x1: 101, x2: 102 };
-      const actual =   toPlainObj(dna.array.fromMap(map, { key: 'key' }));
+      const actual =   dna.array.fromMap(map, { key: 'key' });
       const expected = [{ key: 'x0', value: 100 }, { key: 'x1', value: 101 }, { key: 'x2', value: 102 }];
       assertDeepStrictEqual(actual, expected);
       });
@@ -91,7 +90,7 @@ describe('Array utility function dna.array.toMap()', () => {
          { code: 'b-z',      word: 'Bat' },
          { code: 'J30X-W77', price: 34.99 },
          ];
-      const actual = toPlainObj(dna.array.toMap(array));
+      const actual = dna.array.toMap(array);
       const expected = {
          'a':        { code: 'a',        word: 'Ant' },
          'b-z':      { code: 'b-z',      word: 'Bat' },
@@ -106,7 +105,7 @@ describe('Array utility function dna.array.toMap()', () => {
          { code: 'b-z',      word: 'Bat' },
          { code: 'J30X-W77', price: 34.99 },
          ];
-      const actual = toPlainObj(dna.array.toMap(array, { key: 'code', camelKeys: true }));
+      const actual = dna.array.toMap(array, { key: 'code', camelKeys: true });
       const expected = {
          a:       { code: 'a',        word: 'Ant' },
          bZ:      { code: 'b-z',      word: 'Bat' },
@@ -120,7 +119,7 @@ describe('Array utility function dna.array.toMap()', () => {
          { code: 'a',   word: 'Ant' },
          { code: 'b-z', word: 'Bat' },
          ];
-      const actual = toPlainObj(dna.array.toMap(array, { key: 'word' }));
+      const actual = dna.array.toMap(array, { key: 'word' });
       const expected = {
          Ant: { code: 'a',   word: 'Ant' },
          Bat: { code: 'b-z', word: 'Bat' },

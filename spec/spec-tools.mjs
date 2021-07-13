@@ -3,8 +3,6 @@
 
 import jQuery from 'jquery';
 
-const toPlainObj = (obj) => JSON.parse(JSON.stringify(obj));
+const grabText = (elems) => elems.toArray().map(elem => $(elem).text());
 
-const grabText = (elems) => toPlainObj(elems.toArray().map(elem => $(elem).text()));
-
-export { toPlainObj, grabText };
+export { grabText };

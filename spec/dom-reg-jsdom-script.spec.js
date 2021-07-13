@@ -5,7 +5,7 @@
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
 import { readFileSync } from 'fs';
-import { grabText, toPlainObj } from './spec-tools.mjs';
+import { grabText } from './spec-tools.mjs';
 import { html, bookCatalog } from './mock-data.mjs';
 
 // Setup
@@ -136,7 +136,7 @@ describe('Function dna.templateExists()', () => {
 describe('Function dna.info()', () => {
 
    it('reports the correct number of templates and clone instances', () => {
-      const actual = toPlainObj(dna.info());
+      const actual = dna.info();
       delete actual.store;
       delete actual.version;
       const expected = {
