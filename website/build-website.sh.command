@@ -69,14 +69,7 @@ publishWebFiles() {
    test -w $publishSite && publish
    }
 
-launchBrowser() {
-   echo "View website:"
-   cd $projectHome
-   npx browser-sync website-target
-   }
-
 setupTools
 buildHtmlFiles
 downloadVisualSpec
 publishWebFiles
-launchBrowser

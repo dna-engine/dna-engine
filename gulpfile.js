@@ -7,12 +7,10 @@ import fileInclude from   'gulp-file-include';
 import gap from           'gulp-append-prepend';
 import gulp from          'gulp';
 import header from        'gulp-header';
-import htmlHint from      'gulp-htmlhint';
 import mergeStream from   'merge-stream';
 import rename from        'gulp-rename';
 import replace from       'gulp-replace';
 import size from          'gulp-size';
-import { htmlValidator } from 'gulp-w3c-html-validator';
 import { readFileSync } from 'fs';
 
 // Link information
@@ -42,7 +40,6 @@ const banner =         'dna.js v' + pkg.version + ' ~~ dnajs.org ~~ MIT License'
 const bannerCss =      '/*! ' + banner + ' */';
 const bannerJs =       '//! ' + banner + '\n\n';
 const websiteTarget =  'website-target';
-const htmlHintConfig = { 'attr-value-double-quotes': false };
 const headerComments = { css: /^\/[*].*[*]\/$/gm, js: /^\/\/.*\n/gm };
 const transpileES6 =   ['@babel/preset-env', { modules: false }];
 const babelMinifyJs =  { presets: [transpileES6, 'minify'], comments: false };
@@ -120,12 +117,8 @@ const task = {
       const buildHtml = () =>
          gulp.src(['website/static/**/*.html', 'website/root/**/*.html'])
             .pipe(fileInclude({ basepath: '@root', indent: true, context: webContext }))
-            .pipe(htmlHint(htmlHintConfig))
-            .pipe(htmlHint.reporter())
-            .pipe(htmlValidator.analyzer())
-            .pipe(htmlValidator.reporter())
-            .pipe(gulp.dest(websiteTarget))
-            .pipe(size({ showFiles: true }));
+            .pipe(size({ showFiles: true }))
+            .pipe(gulp.dest(websiteTarget));
       return mergeStream(copyStaticFiles(), buildHtml());
       },
 
@@ -143,16 +136,6 @@ const task = {
          .pipe(gulp.dest('.'));
       },
 
-   validateHtml() {
-      const skip = (type, message) => !/input type is not supported in all browsers/.test(message);
-      return gulp.src(['spec/visual.html', 'spec/simple.html'])
-         .pipe(htmlHint(htmlHintConfig))
-         .pipe(htmlHint.reporter())
-         .pipe(htmlValidator.analyzer({ verifyMessage: skip }))
-         .pipe(htmlValidator.reporter())
-         .pipe(size({ showFiles: true }));
-      },
-
    };
 
 // Gulp
@@ -160,4 +143,3 @@ gulp.task('make-dist',     task.makeDistribution);
 gulp.task('report-size',   task.reportSize);
 gulp.task('build-website', task.buildWebsite);
 gulp.task('update-readme', task.updateReadMe);
-gulp.task('validate-html', task.validateHtml);
