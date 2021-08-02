@@ -1,5 +1,5 @@
 // dna.js
-// Mocha Specification Cases
+// Mocha Specification Suite
 
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';

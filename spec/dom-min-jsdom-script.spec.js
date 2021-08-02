@@ -1,12 +1,12 @@
 // dna.js
-// Mocha Specification Cases
+// Mocha Specification Suite
 
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
 import { readFileSync } from 'fs';
-import { grabText } from './spec-tools.mjs';
-import { html, bookCatalog } from './mock-data.mjs';
+import { grabText } from './fixtures/spec-tools.mjs';
+import { html, bookCatalog } from './fixtures/mock-data.mjs';
 
 // Setup
 const mode =       { type: 'Minified', file: 'dist/dna.min.js' };

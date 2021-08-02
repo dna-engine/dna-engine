@@ -1,11 +1,11 @@
 // dna.js
-// Mocha Specification Cases
+// Mocha Specification Suite
 
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
 import jQuery from  'jquery';
-import { timestamp } from './mock-data.mjs';
+import { timestamp } from './fixtures/mock-data.mjs';
 
 // Setup
 import { dna } from '../dist/dna.esm.js';
