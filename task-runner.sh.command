@@ -78,17 +78,10 @@ runTasks() {
    cd $projectHome
    echo "Tasks:"
    npm test
-   echo
-   }
-
-launchVisualSpecs() {
-   cd $projectHome
-   echo "Visual specs:"
-   sed "s|/dist/dna.js>|/dist/dna.min.js>|" spec/visual.html > spec/visual-min.html
    npm run interactive
+   echo
    }
 
 setupTools
 releaseInstructions
 runTasks
-launchVisualSpecs

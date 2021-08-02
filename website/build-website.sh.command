@@ -32,8 +32,7 @@ buildHtmlFiles() {
    cd $projectHome
    echo "Tasks:"
    pwd
-   npm run website
-   cp -v website-target/project.html docs/index.html
+   npm run build-website
    echo
    }
 

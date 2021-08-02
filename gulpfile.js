@@ -2,15 +2,15 @@
 // Gulp configuration and tasks
 
 // Imports
-import babel from         'gulp-babel';
-import fileInclude from   'gulp-file-include';
-import gap from           'gulp-append-prepend';
-import gulp from          'gulp';
-import header from        'gulp-header';
-import mergeStream from   'merge-stream';
-import rename from        'gulp-rename';
-import replace from       'gulp-replace';
-import size from          'gulp-size';
+import babel from       'gulp-babel';
+import fileInclude from 'gulp-file-include';
+import gap from         'gulp-append-prepend';
+import gulp from        'gulp';
+import header from      'gulp-header';
+import mergeStream from 'merge-stream';
+import rename from      'gulp-rename';
+import replace from     'gulp-replace';
+import size from        'gulp-size';
 import { readFileSync } from 'fs';
 
 // Link information
@@ -105,11 +105,6 @@ const task = {
       return mergeStream(buildCss(), copyCss(), buildDts(), buildEsm(), buildUmd(), buildJs());
       },
 
-   reportSize() {
-      return gulp.src('dist/dna.*')
-         .pipe(size({ showFiles: true, gzip: true }));
-      },
-
    buildWebsite() {
       const copyStaticFiles = () =>
          gulp.src(['website/static/**', '!website/static/**/*.html', 'website/static/**/.htaccess'])
@@ -140,6 +135,5 @@ const task = {
 
 // Gulp
 gulp.task('make-dist',     task.makeDistribution);
-gulp.task('report-size',   task.reportSize);
 gulp.task('build-website', task.buildWebsite);
 gulp.task('update-readme', task.updateReadMe);
