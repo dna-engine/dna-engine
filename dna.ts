@@ -1,5 +1,11 @@
 // dna.js ~~ MIT License
 
+export type Json = string | number | boolean | null | Json[] | { [key: string]: Json };
+export type JsonObject = { [key: string]: Json };
+export type JsonArray = Json[];
+export type JsonData = JsonObject | JsonArray;
+export type DnaModel = JsonData;
+export type DnaDataObject = JsonObject;
 export type DnaOptionsClone = {
    fade?:      boolean,
    top?:       boolean,
@@ -57,10 +63,7 @@ export type DnaOptionsRegisterInitializer = {
    params?:    DnaDataObject | unknown[] | null,
    onDocLoad?: boolean,
    };
-
 export type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
-export type DnaModel = unknown[] | Record<string | number, unknown>;
-export type DnaDataObject = Record<string | number, unknown>;
 export type DnaFormatter = (value: DnaFormatterValue) => string;
 export type DnaFormatterValue = number | string | boolean;
 export type DnaMSec = number | string;  //milliseconds UTC (or ISO 8601 string)
@@ -106,9 +109,19 @@ export type DnaRules = {
    false?:     DnaFieldName,
    loop?:      DnaLoop,
    };
+export type DnaInfo = {
+   version:      string,
+   templates:    number,
+   clones:       number,
+   subs:         number,
+   names:        string[],
+   store:        DnaTemplateDb,
+   initializers: DnaInitializer[],
+   panels:       string[],
+   };
 
 const dnaArray = {
-   find: (array: DnaDataObject[], value: unknown, key = 'code'): { index: number, item?: DnaDataObject } => {
+   find: <T>(array: T[], value: unknown, key = 'code'): { index: number, item?: T } => {
       // Returns the index and a reference to the first array element with a key equal to the
       // supplied value.  The default key is "code".
       // Examples:
@@ -120,15 +133,15 @@ const dnaArray = {
       if (valid)
          while (i < array.length && array[i]?.[key] !== value)
             i++;
-      return valid && i < array.length ? { index: i, item: <DnaDataObject>array[i] } : { index: -1 };
+      return valid && i < array.length ? { index: i, item: array[i] } : { index: -1 };
       },
-   last: (array: unknown[]): unknown | null => {
+   last: <T>(array: T[]): T | undefined => {
       // Returns the last element of the array (or undefined if not possible).
       // Example:
       //    dna.array.last([3, 21, 7]) === 7;
-      return Array.isArray(array) && array.length ? array[array.length - 1] : null;
+      return Array.isArray(array) ? array[array.length - 1] : undefined;
       },
-   fromMap: (map: DnaDataObject, options?: { key?: string, kebabCodes?: boolean }): DnaDataObject[] => {
+   fromMap: (map: JsonObject, options?: { key?: string, kebabCodes?: boolean }): JsonObject[] => {
       // Converts an object (hash map) into an array of objects.  The default key is "code".
       // Example:
       //    dna.array.fromMap({ a: { word: 'Ant' }, b: { word: 'Bat' } })
@@ -139,8 +152,8 @@ const dnaArray = {
       const defaults = { key: 'code', kebabCodes: false };
       const settings = { ...defaults, ...options };
       const codeValue = (key: string): string => settings.kebabCodes ? dna.util.toKebab(key) : key;
-      const toObj = (item: unknown): DnaDataObject => dna.util.isObj(item) ? <DnaDataObject>item : { value: item };
-      return Object.keys(map).map(key => ({ ...{ [settings.key]: codeValue(key) }, ...toObj(map[key]) }));
+      const toObj = (item: Json) => dna.util.isObj(item) ? <JsonObject>item : { value: item };
+      return Object.keys(map).map(key => ({ ...{ [settings.key]: codeValue(key) }, ...toObj(map[key]!) }));
       },
    toMap: (array: DnaDataObject[], options?: { key: string, camelKeys: boolean }): DnaDataObject => {
       // Converts an array of objects into an object (hash map).  The default key is "code".
@@ -366,7 +379,7 @@ const dnaUtil = {
          dna.core.assert(false, 'Invalid callback function', fn);
       return result;
       },
-   assign: (data: DnaDataObject, field: string | string[], value: unknown): DnaDataObject => {
+   assign: (data: DnaDataObject, field: string | string[], value: Json): DnaDataObject => {
       // Sets the field in the data object to the new value and returns the updated data object.
       // Example:
       //    dna.util.assign({ a: { b: 7 } }, 'a.b', 21);  //{ a: { b: 21 } }
@@ -893,7 +906,7 @@ const dnaEvents = {
       const handleEvent = (event: JQuery.EventBase) => {
          const target =       $(event.target);
          const updateField =  (elem: JQuery, calc: DnaCallback) =>
-            dna.util.assign(<DnaDataObject>dna.getModel(elem), elem.data().dnaField, calc(elem));
+            dna.util.assign(<DnaDataObject>dna.getModel(elem), elem.data().dnaField, <Json>calc(elem));
          const getValue =     (elem: JQuery) => elem.val();
          const isChecked =    (elem: JQuery): boolean => elem.is(':checked');
          const updateOption = (index: number, node: HTMLElement) => {
@@ -1167,7 +1180,7 @@ const dnaCore = {
          const name = dna.compile.subTemplateName(elem, field);
          if (elem.data().dnaRules.subs.includes(field))
             (<DnaDataObject>dna.getModel(elem))[field] =
-               elem.find('.' + name).toArray().map(node => dna.getModel($(node)));
+               <JsonArray>elem.find('.' + name).toArray().map(node => dna.getModel($(node)));
          return elem;
          };
       return arrayField ? update(dna.getClone(clone), arrayField) : clone;
@@ -1335,7 +1348,7 @@ const dna = {
       clones.toArray().forEach(refresh);
       return clones;
       },
-   updateField(inputElem: JQuery, value: unknown): JQuery {
+   updateField(inputElem: JQuery, value: Json): JQuery {
       const field = inputElem.data() && inputElem.data().dnaField;
       const update = () => {
          if (inputElem.is('input:checkbox'))
@@ -1455,7 +1468,7 @@ const dna = {
          globalThis['dna'] = dna;
       return dna.core.setup();
       },
-   info(): DnaDataObject {
+   info(): DnaInfo {
       // Returns status information about templates on the current web page.
       const names =  Object.keys(dna.store.getTemplateDb());
       const panels = $('.dna-menu.dna-panels-initialized');
@@ -1467,7 +1480,7 @@ const dna = {
          names:        names,
          store:        dna.store.getTemplateDb(),
          initializers: dna.events.getInitializers(),
-         panels:       panels.toArray().map(elem => $(elem).attr('data-nav'))
+         panels:       panels.toArray().map(elem => <string>$(elem).attr('data-nav')),
          };
       },
    array:       dnaArray,

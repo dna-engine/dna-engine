@@ -46,7 +46,7 @@ describe('Array utility function dna.array.find()', () => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Array utility function dna.array.last()', () => {
 
-   it('returns last object in array', () => {
+   it('returns the last object in an array', () => {
       const array =    [3, 21, 7];
       const actual =   [dna.array.last(array), dna.array.last(Object.keys($('body').data()))];
       const expected = [7, 'dnaPanelNextNav'];
