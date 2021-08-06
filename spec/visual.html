@@ -17,6 +17,7 @@
    body >footer        { text-align: center; background: silver; padding: 10px 10px; }
    h1, h3              { margin: 0px 0px 5px 0px; }
    h2                  { margin: 0px; }
+   h4                  { margin: 0px; min-height: 1.6em; font-weight: normal; }
    p                   { margin: 0px 0px 3px 0px; }
    button              { font-size: 1.0rem; cursor: pointer; }
    label               { display: block; }
@@ -31,6 +32,7 @@
    legend              { border: 1px solid silver; padding: 0px 10px; }
    input[type=range]   { -webkit-appearance: none; width: 100%; height: 20px;
                            background-color: mintcream; border: 1px solid silver; }
+   input[type=number]  { width: 7em; font-family: monospace; text-align: right; }
    [title]             { cursor: help; }
    [data-component]    { background-color: gainsboro; padding: 15px; }
    .dna-clone          { background-color: darkseagreen; }
@@ -42,6 +44,7 @@
    .border-change      { border: 2px solid darkorange; }
    .border-change2     { border: 2px solid darkslateblue; }
    .chapter-box        { display: inline-block; background-color: lightsteelblue; padding: 15px; margin: 5px }
+   [title=usd], [title=usd100], [title=jpy] { text-align: right; }
 </style>
 <script>
    const spec = {};
@@ -1621,11 +1624,11 @@ spec.spec22 = {
       <legend>Actual</legend>
       <div class=book-list>
          <div id=s23-book class=dna-template data-transform=spec.spec23.addΣ>
-            <div>
+            <h4>
                <span data-format=spec.spec23.up>~~title~~</span> *
                <span data-format=spec.spec23.up>~~author~~</span> *
                <span data-format=String.fromCharCode>~~price~~</span>
-            </div>
+            </h4>
             <div>Event:</div>
             <output>
                <samp                               title=milliseconds>~~event~~</samp>
@@ -1641,11 +1644,11 @@ spec.spec22 = {
                <samp data-format-date=time         title=time>~~event~~</samp>
                <samp data-format-date=utc          title=utc>~~event~~</samp>
             </output>
-            <div>Price:</div>
+            <div>Price: <input type=number value=~~price~~></div>
             <output>
+               <samp data-format-currency100=usd title=usd100>~~price~~</samp>
                <samp data-format-currency=usd    title=usd>~~price~~</samp>
                <samp data-format-currency=jpy    title=jpy>~~price~~</samp>
-               <samp data-format-currency100=usd title=usd100>~~price~~</samp>
             </output>
             <div>
                <samp data-format-number=#          title=#>~~π~~</samp> |
@@ -1664,7 +1667,7 @@ spec.spec22 = {
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone>
-            <div><span>THE DOM</span> * <span>JAN</span> * <span>&#2499;</span></div>
+            <h4><span>THE DOM</span> * <span>JAN</span> * <span>&#2499;</span></h4>
             <div>Event:</div>
             <output>
                <samp title=milliseconds>47008800000</samp>
@@ -1680,11 +1683,11 @@ spec.spec22 = {
                <samp title=time>19:00:00 GMT-0700 (PDT)</samp>
                <samp title=utc>Tue, 29 Jun 1971 02:00:00 GMT</samp>
             </output>
-            <div>Price:</div>
+            <div>Price: <input type=number value=2499></div>
             <output>
+               <samp title=usd100>$24.99</samp>
                <samp title=usd>$2,499.00</samp>
                <samp title=jpy>¥2,499</samp>
-               <samp title=usd100>$24.99</samp>
             </output>
             <div>
                <samp title=#>3</samp> |
@@ -1698,7 +1701,7 @@ spec.spec22 = {
             </div>
          </div>
          <div class=dna-clone>
-            <div><span>STYLING CSS3</span> * <span>ABBY</span> * <span>&#1999;</span></div>
+            <h4><span>STYLING CSS3</span> * <span>ABBY</span> * <span>&#1999;</span></h4>
             <div>Event:</div>
             <output>
                <samp title=milliseconds>1904112000000</samp>
@@ -1714,11 +1717,11 @@ spec.spec22 = {
                <samp title=time>01:00:00 GMT-0700 (PDT)</samp>
                <samp title=utc>Sat, 04 May 2030 08:00:00 GMT</samp>
             </output>
-            <div>Price:</div>
+            <div>Price: <input type=number value=1999></div>
             <output>
+               <samp title=usd100>$19.99</samp>
                <samp title=usd>$1,999.00</samp>
                <samp title=jpy>¥1,999</samp>
-               <samp title=usd100>$19.99</samp>
             </output>
             <div>
                <samp title=#>3</samp> |
@@ -1732,7 +1735,7 @@ spec.spec22 = {
             </div>
          </div>
          <div class=dna-clone>
-            <div><span>HOWDY HTML5</span> * <span>ED</span> * <span>&#2999;</span></div>
+            <h4><span>HOWDY HTML5</span> * <span>ED</span> * <span>&#2999;</span></h4>
             <div>Event:</div>
             <output>
                <samp title=milliseconds></samp>
@@ -1748,11 +1751,11 @@ spec.spec22 = {
                <samp title=time></samp>
                <samp title=utc></samp>
             </output>
-            <div>Price:</div>
+            <div>Price: <input type=number value=2499></div>
             <output>
+               <samp title=usd100>$24.99</samp>
                <samp title=usd>$2,499.00</samp>
                <samp title=jpy>¥2,499</samp>
-               <samp title=usd100>$24.99</samp>
             </output>
             <div>
                <samp title=#>3</samp> |
