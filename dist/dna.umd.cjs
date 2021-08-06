@@ -1,4 +1,4 @@
-//! dna.js v1.8.3 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.8.4 ~~ dnajs.org ~~ MIT License
 
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
@@ -22,7 +22,7 @@
             return valid && i < array.length ? { index: i, item: array[i] } : { index: -1 };
         },
         last: (array) => {
-            return Array.isArray(array) && array.length ? array[array.length - 1] : null;
+            return Array.isArray(array) ? array[array.length - 1] : undefined;
         },
         fromMap: (map, options) => {
             const defaults = { key: 'code', kebabCodes: false };
@@ -254,11 +254,14 @@
         },
         getDateFormatter(format) {
             const twoDigit = (value) => String(value).padStart(2, '0');
-            const generalTimestamp = (date) => `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())} ` +
-                date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(' ', '').toLowerCase();
+            const generalDate = (date) => `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())}`;
+            const generalTime = (date) => date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(' ', '').toLowerCase();
+            const generalTimestamp = (date) => generalDate(date) + ' ' + generalTime(date);
             const dateFormatters = {
                 date: (msec) => new Date(msec).toDateString(),
                 general: (msec) => generalTimestamp(new Date(msec)),
+                generalDate: (msec) => generalDate(new Date(msec)),
+                generalTime: (msec) => generalTime(new Date(msec)),
                 iso: (msec) => new Date(msec).toISOString(),
                 locale: (msec) => new Date(msec).toLocaleString(),
                 localeDate: (msec) => new Date(msec).toLocaleDateString(),
@@ -282,6 +285,9 @@
             const digits = format === '#' ? 0 : format.length - 2;
             const percent = { style: 'percent', minimumFractionDigits: digits, maximumFractionDigits: digits };
             return new Intl.NumberFormat([], percent).format;
+        },
+        getFormatter(fn) {
+            return (value) => String(dna.util.apply(fn, value));
         },
     };
     const dnaPlaceholder = {
@@ -447,6 +453,8 @@
                 getRules().formatter = dnaFormat.getNumberFormatter(elem.data().formatNumber);
             if (elem.data().formatPercent)
                 getRules().formatter = dnaFormat.getPercentFormatter(elem.data().formatPercent);
+            if (elem.data().format)
+                getRules().formatter = dnaFormat.getFormatter(elem.data().format);
             if (elem.data().transform)
                 getRules().transform = elem.data().transform;
             if (elem.data().callback)
@@ -926,7 +934,7 @@
         }
     };
     const dna = {
-        version: '1.8.3',
+        version: '1.8.4',
         clone(name, data, options) {
             const defaults = {
                 fade: false,
@@ -1116,7 +1124,7 @@
                 names: names,
                 store: dna.store.getTemplateDb(),
                 initializers: dna.events.getInitializers(),
-                panels: panels.toArray().map(elem => $(elem).attr('data-nav'))
+                panels: panels.toArray().map(elem => $(elem).attr('data-nav')),
             };
         },
         array: dnaArray,

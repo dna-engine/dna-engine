@@ -1,6 +1,16 @@
-//! dna.js v1.8.3 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.8.4 ~~ dnajs.org ~~ MIT License
 
 /// <reference types="jquery" />
+export declare type Json = string | number | boolean | null | Json[] | {
+    [key: string]: Json;
+};
+export declare type JsonObject = {
+    [key: string]: Json;
+};
+export declare type JsonArray = Json[];
+export declare type JsonData = JsonObject | JsonArray;
+export declare type DnaModel = JsonData;
+export declare type DnaDataObject = JsonObject;
 export declare type DnaOptionsClone = {
     fade?: boolean;
     top?: boolean;
@@ -59,8 +69,6 @@ export declare type DnaOptionsRegisterInitializer = {
     onDocLoad?: boolean;
 };
 export declare type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
-export declare type DnaModel = unknown[] | Record<string | number, unknown>;
-export declare type DnaDataObject = Record<string | number, unknown>;
 export declare type DnaFormatter = (value: DnaFormatterValue) => string;
 export declare type DnaFormatterValue = number | string | boolean;
 export declare type DnaMSec = number | string;
@@ -113,6 +121,16 @@ export declare type DnaRules = {
     false?: DnaFieldName;
     loop?: DnaLoop;
 };
+export declare type DnaInfo = {
+    version: string;
+    templates: number;
+    clones: number;
+    subs: number;
+    names: string[];
+    store: DnaTemplateDb;
+    initializers: DnaInitializer[];
+    panels: string[];
+};
 declare const dna: {
     version: string;
     clone(name: string, data: DnaModel, options?: DnaOptionsClone | undefined): JQuery;
@@ -124,7 +142,7 @@ declare const dna: {
     insert(name: string, data: DnaModel, options?: DnaOptionsInsert | undefined): JQuery;
     refresh(clone: JQuery, options?: DnaOptionsRefresh | undefined): JQuery;
     refreshAll(name: string, options?: DnaOptionsRefreshAll | undefined): JQuery;
-    updateField(inputElem: JQuery, value: unknown): JQuery;
+    updateField(inputElem: JQuery, value: Json): JQuery;
     recount(clone: JQuery, options?: DnaOptionsRecount | undefined): JQuery;
     destroy(clone: JQuery, options?: DnaOptionsDestroy | undefined): JQuery;
     getClone(elem: JQuery, options?: DnaOptionsGetClone | undefined): JQuery;
@@ -137,17 +155,17 @@ declare const dna: {
     clearInitializers(): DnaInitializer[];
     registerContext(contextName: string, contextObjOrFn: Record<string, unknown> | DnaCallback): DnaContext;
     initGlobal(thisWindow: Window & typeof globalThis, thisJQuery: JQueryStatic): unknown;
-    info(): DnaDataObject;
+    info(): DnaInfo;
     array: {
-        find: (array: DnaDataObject[], value: unknown, key?: string) => {
+        find: <T>(array: T[], value: unknown, key?: string) => {
             index: number;
-            item?: DnaDataObject;
+            item?: T | undefined;
         };
-        last: (array: unknown[]) => unknown | null;
-        fromMap: (map: DnaDataObject, options?: {
+        last: <T_1>(array: T_1[]) => T_1 | undefined;
+        fromMap: (map: JsonObject, options?: {
             key?: string | undefined;
             kebabCodes?: boolean | undefined;
-        } | undefined) => DnaDataObject[];
+        } | undefined) => JsonObject[];
         toMap: (array: DnaDataObject[], options?: {
             key: string;
             camelKeys: boolean;
@@ -185,7 +203,7 @@ declare const dna: {
     };
     util: {
         apply: (fn: string | DnaCallback, params?: unknown | unknown[] | JQuery) => unknown;
-        assign: (data: DnaDataObject, field: string | string[], value: unknown) => DnaDataObject;
+        assign: (data: DnaDataObject, field: string | string[], value: Json) => DnaDataObject;
         printf: (format: string, ...values: unknown[]) => string;
         realTruth: (value: unknown) => boolean;
         toCamel: (kebabStr: string) => string;
@@ -198,6 +216,7 @@ declare const dna: {
         getDateFormatter(format: string): DnaFormatter;
         getNumberFormatter(format: string): DnaFormatter;
         getPercentFormatter(format: string): DnaFormatter;
+        getFormatter(fn: string): DnaFormatter;
     };
     placeholder: {
         setup: () => JQuery;
