@@ -488,6 +488,9 @@ const dnaFormat = {
       const percent = { style: 'percent', minimumFractionDigits: digits, maximumFractionDigits: digits };
       return <DnaFormatter>new Intl.NumberFormat([], percent).format;
       },
+   getFormatter(fn: string): DnaFormatter {
+      return (value: DnaFormatterValue) => String(dna.util.apply(fn, value));
+      },
    };
 
 const dnaPlaceholder = {  //TODO: optimize
@@ -716,6 +719,8 @@ const dnaCompile = {
          getRules().formatter = dnaFormat.getNumberFormatter(elem.data().formatNumber);
       if (elem.data().formatPercent)
          getRules().formatter = dnaFormat.getPercentFormatter(elem.data().formatPercent);
+      if (elem.data().format)
+         getRules().formatter = dnaFormat.getFormatter(elem.data().format);
       if (elem.data().transform)  //TODO: Determine if it's better to process only at top-level of clone
          getRules().transform = elem.data().transform;  //TODO: string to fn
       if (elem.data().callback)

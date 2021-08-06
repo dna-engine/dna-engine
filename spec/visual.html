@@ -1621,7 +1621,11 @@ spec.spec22 = {
       <legend>Actual</legend>
       <div class=book-list>
          <div id=s23-book class=dna-template data-transform=spec.spec23.addΣ>
-            <div>Title: <span>~~title~~</span></div>
+            <div>
+               <span data-format=spec.spec23.up>~~title~~</span> *
+               <span data-format=spec.spec23.up>~~author~~</span> *
+               <span data-format=String.fromCharCode>~~price~~</span>
+            </div>
             <div>Event:</div>
             <output>
                <samp                               title=milliseconds>~~event~~</samp>
@@ -1660,7 +1664,7 @@ spec.spec22 = {
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone>
-            <div>Title: <span>The DOM</span></div>
+            <div><span>THE DOM</span> * <span>JAN</span> * <span>&#2499;</span></div>
             <div>Event:</div>
             <output>
                <samp title=milliseconds>47008800000</samp>
@@ -1694,7 +1698,7 @@ spec.spec22 = {
             </div>
          </div>
          <div class=dna-clone>
-            <div>Title: <span>Styling CSS3</span></div>
+            <div><span>STYLING CSS3</span> * <span>ABBY</span> * <span>&#1999;</span></div>
             <div>Event:</div>
             <output>
                <samp title=milliseconds>1904112000000</samp>
@@ -1728,7 +1732,7 @@ spec.spec22 = {
             </div>
          </div>
          <div class=dna-clone>
-            <div>Title: <span>Howdy HTML5</span></div>
+            <div><span>HOWDY HTML5</span> * <span>ED</span> * <span>&#2999;</span></div>
             <div>Event:</div>
             <output>
                <samp title=milliseconds></samp>
@@ -1768,6 +1772,9 @@ spec.spec22 = {
 spec.spec23 = {
    addΣ(book) {
       book.σ = Math.SQRT1_2;
+      },
+   up(value) {
+      return value.toUpperCase();
       },
    run() {
       const addπ = (book) => book.π = Math.PI;

@@ -52,6 +52,7 @@
                   <li><a href=#formatters-date>Date Format</a></li>
                   <li><a href=#formatters-number>Number Format</a></li>
                   <li><a href=#formatters-percent>Percent Format</a></li>
+                  <li><a href=#formatters-custom>Custom Format Function</a></li>
                </ol>
             </li>
             <li>
@@ -528,11 +529,11 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-               const books = [
-                  { title: 'The DOM',     onSale: true },
-                  { title: 'Styling CSS', onSale: false }
-                  ];
-               dna.clone('book', books);
+            const books = [
+               { title: 'The DOM',     onSale: true },
+               { title: 'Styling CSS', onSale: false }
+               ];
+            dna.clone('book', books);
          </code></pre>
       </figure>
       <!-- Start: Result -->
@@ -635,6 +636,7 @@
          <li><a href=#formatters-date>Date Format</a></li>
          <li><a href=#formatters-number>Number Format</a></li>
          <li><a href=#formatters-percent>Percent Format</a></li>
+         <li><a href=#formatters-custom>Custom Format Function</a></li>
       </ol>
       <p>
          A formatter converts a field of the data model so it is rendered in the desired format.
@@ -934,6 +936,49 @@
             </tr>
          </tbody>
       </table>
+   </section>
+
+   <!-- Custom Format Function -->
+   <section id=formatters-custom>
+      <h4>Custom Format Function</h4>
+      <p>
+         Use the <code>data-format</code> attribute to specify a custom formatting function that
+         takes the value of the field and returns a string to render.
+      </p>
+      <figure>
+         <figcaption>Example HTML with two custom formatters</figcaption>
+         <pre><code class=language-html>
+            &lt;div id=book class=dna-template&gt;
+               &lt;p&gt;Title:     &lt;span data-format=app.formatTitle&gt;~~title~~&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Character: &lt;span data-format=String.fromCharCode&gt;~~ascii~~&lt;/span&gt;&lt;/p&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <p class=big-symbol><i class=icon data-icon=plus-circle></i></p>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            const app = {
+               formatTitle(title) {
+                  return `"${title.toUpperCase()}"`;
+                  },
+               };
+            const book = { title: 'Styling CSS', ascii: 8721 };  //sum symbol
+            dna.clone('book', books);
+         </code></pre>
+      </figure>
+      <!-- Start: Result -->
+      <p class=big-symbol><i class=icon data-icon=arrow-alt-circle-down></i></p>
+      <figure>
+         <figcaption>Resulting HTML</figcaption>
+         <pre><code class=language-html>
+            &lt;div class=book&gt;
+               &lt;p&gt;Title:     &lt;span&gt;&quot;STYLING CSS&quot;&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Character: &lt;span&gt;&#8721;&lt;/span&gt;&lt;/p&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <!-- End: Result -->
    </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -2267,7 +2312,7 @@
          <pre><code class=language-javascript>
             const app = {
 
-               setup: () =&gt; {
+               setup() {
                   const highlight = (elem) =&gt; elem.css({ backgroundColor: 'gold' });
 
                   // Highlight each new clone
@@ -2279,7 +2324,7 @@
                   // Style each new clone:  $('.gap').css({ padding: '8px' });
                   const options = { selector: '.gap', params: { padding: '8px' } }
                   dna.registerInitializer('css', options);
-                  }
+                  },
 
                };
 
@@ -3854,7 +3899,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-               dna.util.toKebab('readySetGo');  //'ready-set-go'
+            dna.util.toKebab('readySetGo');  //'ready-set-go'
          </code></pre>
       </figure>
    </section>
@@ -3918,6 +3963,7 @@
          <li><a href=#event-user>            <code>data-focus-in</code></a>:       Callback to run when an element receives focus</li>
          <li><a href=#event-user>            <code>data-focus-out</code></a>:      Callback to run when an element loses focus</li>
          <li><a href=#formatters>            <code>data-format-{TYPE}</code></a>:  Format a value for proper rendering</li>
+         <li><a href=#formatters-custom>     <code>data-format</code></a>:         Custom format function</li>
          <li><a href=#panels-routes>         <code>data-hash</code></a>:           Set the fragment ID (hash) for a panel's URL</li>
          <li><a href=#event-user>            <code>data-hover-in</code></a>:       Callback to run on mouse enter event</li>
          <li><a href=#event-user>            <code>data-hover-out</code></a>:      Callback to run on mouse leave event</li>
