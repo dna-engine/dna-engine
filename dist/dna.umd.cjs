@@ -1,4 +1,4 @@
-//! dna.js v1.8.4 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.8.5 ~~ dnajs.org ~~ MIT License
 
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
@@ -19,7 +19,7 @@
             if (valid)
                 while (i < array.length && array[i]?.[key] !== value)
                     i++;
-            return valid && i < array.length ? { index: i, item: array[i] } : { index: -1 };
+            return valid && i < array.length ? { index: i, item: array[i] } : { index: -1, item: null };
         },
         last: (array) => {
             return Array.isArray(array) ? array[array.length - 1] : undefined;
@@ -164,7 +164,7 @@
             const elem = elemOrEventOrIndex instanceof $ && elemOrEventOrIndex;
             const target = elemOrEventOrIndex && elemOrEventOrIndex.target;
             return elem || $(target || elemOrEventOrIndex || that);
-        }
+        },
     };
     const dnaUtil = {
         apply: (fn, params) => {
@@ -934,7 +934,7 @@
         }
     };
     const dna = {
-        version: '1.8.4',
+        version: '1.8.5',
         clone(name, data, options) {
             const defaults = {
                 fade: false,

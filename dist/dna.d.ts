@@ -1,7 +1,7 @@
-//! dna.js v1.8.4 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.8.5 ~~ dnajs.org ~~ MIT License
 
 /// <reference types="jquery" />
-export declare type Json = string | number | boolean | null | Json[] | {
+export declare type Json = string | number | boolean | null | undefined | Json[] | {
     [key: string]: Json;
 };
 export declare type JsonObject = {
@@ -157,9 +157,9 @@ declare const dna: {
     initGlobal(thisWindow: Window & typeof globalThis, thisJQuery: JQueryStatic): unknown;
     info(): DnaInfo;
     array: {
-        find: <T>(array: T[], value: unknown, key?: string) => {
+        find: <T, V>(array: T[], value: V, key?: string) => {
             index: number;
-            item?: T | undefined;
+            item: T | null;
         };
         last: <T_1>(array: T_1[]) => T_1 | undefined;
         fromMap: (map: JsonObject, options?: {
@@ -170,14 +170,16 @@ declare const dna: {
             key: string;
             camelKeys: boolean;
         } | undefined) => DnaDataObject;
-        wrap: (itemOrItems: unknown) => unknown[];
+        wrap: <T_2>(itemOrItems: T_2 | T_2[]) => T_2[];
     };
     browser: {
-        getUrlParams: () => Record<string, string>;
+        getUrlParams: () => {
+            [param: string]: string;
+        };
     };
     pageToken: {
-        put: (key: string, value: unknown) => unknown;
-        get: (key: string, defaultValue: unknown) => unknown;
+        put: (key: string, value: Json) => Json;
+        get: (key: string, defaultValue: Json) => Json;
     };
     ui: {
         deleteElem: (elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallback | null | undefined) => JQuery;
