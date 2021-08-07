@@ -171,7 +171,7 @@ const dnaArray = {
       array.forEach(settings.camelKeys ? addObjCamelKey : addObj);
       return map;
       },
-   wrap: (itemOrItems: unknown): unknown[] => {
+   wrap: <T>(itemOrItems: T | T[]): T[] => {
       // Always returns an array.
       const isNothing = itemOrItems === null || itemOrItems === undefined;
       return isNothing ? [] : Array.isArray(itemOrItems) ? itemOrItems : [itemOrItems];
@@ -179,11 +179,11 @@ const dnaArray = {
    };
 
 const dnaBrowser = {
-   getUrlParams: (): Record<string, string> => {
+   getUrlParams: (): { [param: string]: string } => {
       // Returns the query parameters as an object literal.
       // Example:
       //    https://example.com?lang=jp&code=7 ==> { lang: 'jp', code: '7' }
-      const params = <Record<string, string>>{};
+      const params: { [param: string]: string } = {};
       const addParam = (parts: [string, string]) => params[parts[0]] = parts[1];
       const addPair = (pair: string) => pair && addParam(<[string, string]>pair.split('='));
       window.location.search.slice(1).split('&').forEach(addPair);
@@ -194,13 +194,13 @@ const dnaBrowser = {
 const dnaPageToken = {
    // A simple key/value store specific to the page (URL path) that is cleared out when the
    // user's browser session ends.
-   put: (key: string, value: unknown): unknown => {
+   put: (key: string, value: Json): Json => {
       // Example:
       //   dna.pageToken.put('favorite', 7);  //saves 7
       window.sessionStorage[key + window.location.pathname] = JSON.stringify(value);
       return value;
       },
-   get: (key: string, defaultValue: unknown): unknown => {
+   get: (key: string, defaultValue: Json): Json => {
       // Example:
       //   dna.pageToken.get('favorite', 0);  //returns 0 if not set
       const value = window.sessionStorage[key + window.location.pathname];
@@ -330,7 +330,7 @@ const dnaUi = {
       const elem = elemOrEventOrIndex instanceof $ && <JQuery>elemOrEventOrIndex;
       const target = elemOrEventOrIndex && (<JQuery.EventBase>elemOrEventOrIndex).target;
       return elem || $(target || elemOrEventOrIndex || that);
-      }
+      },
    };
 
 const dnaUtil = {
