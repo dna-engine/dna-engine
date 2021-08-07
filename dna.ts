@@ -121,19 +121,19 @@ export type DnaInfo = {
    };
 
 const dnaArray = {
-   find: <T>(array: T[], value: unknown, key = 'code'): { index: number, item?: T } => {
+   find: <T, V>(array: T[], value: V, key = 'code'): { index: number, item: T | null } => {
       // Returns the index and a reference to the first array element with a key equal to the
       // supplied value.  The default key is "code".
       // Examples:
       //    const array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
-      //    result = dna.array.find(array, 'b');  //{ item: { code: 'b', word: 'Bat' }, index: 1 }
-      //    result = dna.array.find(array, 'x');  //{ index: -1 }
+      //    result = dna.array.find(array, 'b');  //{ index: 1, item: { code: 'b', word: 'Bat' } }
+      //    result = dna.array.find(array, 'x');  //{ index: -1, item: null }
       const valid = Array.isArray(array);
       let i = 0;
       if (valid)
          while (i < array.length && array[i]?.[key] !== value)
             i++;
-      return valid && i < array.length ? { index: i, item: array[i] } : { index: -1 };
+      return valid && i < array.length ? { index: i, item: array[i]! } : { index: -1, item: null };
       },
    last: <T>(array: T[]): T | undefined => {
       // Returns the last element of the array (or undefined if not possible).

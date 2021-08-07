@@ -34,10 +34,10 @@ describe('Array utility function dna.array.find()', () => {
       assertDeepStrictEqual(actual, expected);
       });
 
-   it('returns undefined for the item when the key does not exist', () => {
+   it('returns null for the item when the key does not exist', () => {
       const array =    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
       const actual =   dna.array.find(array, 'bogus');
-      const expected = { index: -1 };
+      const expected = { index: -1, item: null };
       assertDeepStrictEqual(actual, expected);
       });
 
