@@ -2,15 +2,15 @@
 // Gulp configuration and tasks
 
 // Imports
-import babel from       'gulp-babel';
+import babel       from 'gulp-babel';
 import fileInclude from 'gulp-file-include';
-import gap from         'gulp-append-prepend';
-import gulp from        'gulp';
-import header from      'gulp-header';
+import gap         from 'gulp-append-prepend';
+import gulp        from 'gulp';
+import header      from 'gulp-header';
 import mergeStream from 'merge-stream';
-import rename from      'gulp-rename';
-import replace from     'gulp-replace';
-import size from        'gulp-size';
+import rename      from 'gulp-rename';
+import replace     from 'gulp-replace';
+import size        from 'gulp-size';
 import { readFileSync } from 'fs';
 
 // Link information
@@ -101,7 +101,7 @@ const task = {
       },
 
    buildWebsite() {
-      const cdnSrcDist = `src=https://cdn.jsdelivr.net/npm/dna.js@${minorVersion}/dist/`;
+      const cdnDist = `https://cdn.jsdelivr.net/npm/dna.js@${minorVersion}/dist/`;
       const copyStaticFiles = () =>
          gulp.src(['website/static/**', '!website/static/**/*.html', 'website/static/**/.htaccess'])
             .pipe(gulp.dest(websiteTarget));
@@ -112,7 +112,7 @@ const task = {
             .pipe(gulp.dest(websiteTarget));
       const addVisualSpec = () =>
          gulp.src('spec/visual**.html')
-            .pipe(replace('src=../dist/', cdnSrcDist))
+            .pipe(replace('../dist/', cdnDist))
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest(websiteTarget + '/spec'));
       return mergeStream(copyStaticFiles(), buildHtml(), addVisualSpec());
