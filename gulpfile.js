@@ -72,13 +72,23 @@ const task = {
             .pipe(header(bannerJs))
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('dist'));
-      const buildEsm = () =>
+      const buildJs = () =>
          gulp.src('build/dna.js')
             .pipe(replace(headerComments.js, ''))
             .pipe(header(bannerJs))
             .pipe(replace('[VERSION]', pkg.version))
             .pipe(size({ showFiles: true }))
-            .pipe(rename({ extname: '.esm.js' }))
+            .pipe(gulp.dest('dist'))
+            .pipe(replace(/^export { (.*) };/m, 'if (typeof window === "object") window.$1 = $1;'))
+            .pipe(rename({ extname: '.dev.js' }))
+            .pipe(size({ showFiles: true }))
+            .pipe(gulp.dest('dist'))
+            .pipe(babel(babelMinifyJs))
+            .pipe(rename('dna.min.js'))
+            .pipe(header(bannerJs.replace('\n\n', '\n')))
+            .pipe(gap.appendText('\n'))
+            .pipe(size({ showFiles: true }))
+            .pipe(size({ showFiles: true, gzip: true }))
             .pipe(gulp.dest('dist'));
       const buildUmd = () =>
          gulp.src('build/umd/dna.js')
@@ -87,25 +97,11 @@ const task = {
             .pipe(rename({ extname: '.umd.cjs' }))
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest('dist'));
-      const buildJs = () =>
-         gulp.src('build/dna.js')
-            .pipe(replace(headerComments.js, ''))
-            .pipe(header(bannerJs))
-            .pipe(replace('[VERSION]', pkg.version))
-            .pipe(replace(/^export { (.*) };/m, 'if (typeof window === "object") window.$1 = $1;'))
-            .pipe(size({ showFiles: true }))
-            .pipe(gulp.dest('dist'))
-            .pipe(babel(babelMinifyJs))
-            .pipe(rename({ extname: '.min.js' }))
-            .pipe(header(bannerJs.replace('\n\n', '\n')))
-            .pipe(gap.appendText('\n'))
-            .pipe(size({ showFiles: true }))
-            .pipe(size({ showFiles: true, gzip: true }))
-            .pipe(gulp.dest('dist'));
-      return mergeStream(buildCss(), copyCss(), buildDts(), buildEsm(), buildUmd(), buildJs());
+      return mergeStream(buildCss(), copyCss(), buildDts(), buildJs(), buildUmd());
       },
 
    buildWebsite() {
+      const cdnSrcDist = `src=https://cdn.jsdelivr.net/npm/dna.js@${minorVersion}/dist/`;
       const copyStaticFiles = () =>
          gulp.src(['website/static/**', '!website/static/**/*.html', 'website/static/**/.htaccess'])
             .pipe(gulp.dest(websiteTarget));
@@ -114,7 +110,12 @@ const task = {
             .pipe(fileInclude({ basepath: '@root', indent: true, context: webContext }))
             .pipe(size({ showFiles: true }))
             .pipe(gulp.dest(websiteTarget));
-      return mergeStream(copyStaticFiles(), buildHtml());
+      const addVisualSpec = () =>
+         gulp.src('spec/visual**.html')
+            .pipe(replace('src=../dist/', cdnSrcDist))
+            .pipe(size({ showFiles: true }))
+            .pipe(gulp.dest(websiteTarget + '/spec'));
+      return mergeStream(copyStaticFiles(), buildHtml(), addVisualSpec());
       },
 
    updateReadMe() {

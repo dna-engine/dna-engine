@@ -45,6 +45,9 @@
    .border-change2     { border: 2px solid darkslateblue; }
    .chapter-box        { display: inline-block; background-color: lightsteelblue; padding: 15px; margin: 5px }
    [title=usd], [title=usd100], [title=jpy] { text-align: right; }
+   body.error-detected { background-color: pink; }
+   body:not(.minified-mode) .minified-show { display: none; }
+   body.minified-mode       .minified-hide { display: none; }
 </style>
 <script>
    const spec = {};
@@ -61,7 +64,8 @@
       <p><button data-href=https://dnajs.org>dnajs.org</button></p>
       <p><button data-href=https://dnajs.org class=external-site>dnajs.org <span>(new tab)</span></button></p>
       <p><button data-href=https://dnajs.org data-target=project>dnajs.org <span>(target)</span></button></p>
-      <p><span id=file-name>dna.js</span> &mdash; <a id=switch href=visual-min.html>switch</a></p>
+      <p class=minified-hide><span>dna.dev.js</span> &mdash; <a href=visual-min.html>switch</a></p>
+      <p class=minified-show><span>dna.min.js</span> &mdash; <a href=visual.html>switch</a></p>
    </nav>
 </header>
 
@@ -1793,8 +1797,8 @@ spec.spec23 = {
 </footer>
 
 <script src=https://cdn.jsdelivr.net/npm/jquery@3.6/dist/jquery.min.js></script>
-<script src=https://cdn.jsdelivr.net/npm/fetch-json@2.5/dist/fetch-json.min.js></script>
-<script src=../dist/dna.js></script>
+<script src=https://cdn.jsdelivr.net/npm/fetch-json@2.6/dist/fetch-json.min.js></script>
+<script src=../dist/dna.dev.js></script>
 <script>
 const event1 = new Date('1971-06-28T19:00:00').getTime();  //June 28, 1971 at 7pm (local time)
 const event2 = new Date('2030-05-04T01:00:00').getTime();  //May 4, 2030 at 1:00am (local time)
@@ -1805,15 +1809,9 @@ const specRunner = {
       { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 }
       ],
    setup() {
-      const makePageRed = () => $('body').css({ backgroundColor: 'pink' });
-      window.onerror = makePageRed;
+      window.onerror = () => $('body').addClass('error-detected');
+      $('body').toggleClass('minified-mode', window.location.pathname.endsWith('-min.html'));
       $('.version-number').text(dna.version === '[VERSION]' ? '' : 'v' + dna.version);
-      const minifiedMode = () => {
-         $('#file-name').text('dna.min.js');
-         $('#switch').attr('href', 'visual.html');
-         };
-      if (window.location.pathname.endsWith('-min.html'))
-         minifiedMode();
       const runSpec = (sectionNode) => {
          const name = $(sectionNode).attr('id');
          console.log(name);

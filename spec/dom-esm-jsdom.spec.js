@@ -9,8 +9,8 @@ import { grabText } from './fixtures/spec-tools.mjs';
 import { html, bookCatalog } from './fixtures/mock-data.mjs';
 
 // Setup
-import { dna } from '../dist/dna.esm.js';
-const mode =     { type: 'ES Module', file: 'dist/dna.esm.js' };
+import { dna } from '../dist/dna.js';
+const mode =     { type: 'ES Module', file: 'dist/dna.js' };
 const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =      new JSDOM(html);
 const $ =        jQuery(dom.window);

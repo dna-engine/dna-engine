@@ -9,7 +9,7 @@ import { grabText } from './fixtures/spec-tools.mjs';
 import { html, bookCatalog } from './fixtures/mock-data.mjs';
 
 // Setup
-const mode =       { type: 'Regular', file: 'dist/dna.js' };
+const mode =       { type: 'Regular', file: 'dist/dna.dev.js' };
 const filename =   import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =        new JSDOM(html, { runScripts: 'outside-only' });
 const scripts =    ['node_modules/jquery/dist/jquery.js', mode.file];

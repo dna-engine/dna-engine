@@ -4,7 +4,7 @@
    "description": "An uncomplicated user interface library for building data-driven semantic templates (written in TypeScript)",
    "license": "MIT",
    "type": "module",
-   "module": "dist/dna.esm.js",
+   "module": "dist/dna.js",
    "jsdelivr": "dist/dna.min.js",
    "main": "dist/dna.umd.cjs",
    "style": "dist/dna.css",
@@ -14,7 +14,7 @@
    ],
    "exports": {
       ".": {
-         "import": "./dist/dna.esm.js",
+         "import": "./dist/dna.js",
          "require": "./dist/dna.umd.cjs"
       },
       "./": "./dist/"
@@ -85,7 +85,7 @@
       "step:05": "tsc --module UMD --outDir build/umd",
       "step:06": "gulp make-dist",
       "step:07": "cpy spec/visual.html spec --rename=visual-min.html",
-      "step:08": "replace-in-file /dist/dna.js /dist/dna.min.js spec/visual-min.html",
+      "step:08": "replace-in-file /dist/dna.dev.js /dist/dna.min.js spec/visual-min.html",
       "step:09": "w3c-html-validator spec",
       "step:10": "mocha spec/*.spec.js",
       "web:01": "rimraf website-target",
@@ -93,13 +93,12 @@
       "web:03": "w3c-html-validator website-target",
       "web:04": "cpy website-target/project.html docs --rename=index.html",
       "web:05": "gulp update-readme",
-      "web:06": "browser-sync website-target --watch",
       "test": "npm-run-all step:*",
       "build-website": "npm-run-all web:*",
       "interactive": "browser-sync . --startPath spec/visual.html --files dist spec"
    },
    "cdnVersion": {
-      "fetchJson": "2.5",
+      "fetchJson": "2.6",
       "fontAwesome": "5.15",
       "highlightjs": "11.2",
       "hljsEnhance": "1.0",
@@ -116,7 +115,7 @@
       "@fortawesome/fontawesome-free": "~5.15",
       "@types/jquery": "~3.5",
       "@types/jsdom": "~16.2",
-      "@types/node": "~16.4",
+      "@types/node": "~16.6",
       "@typescript-eslint/eslint-plugin": "~4.29",
       "@typescript-eslint/parser": "~4.29",
       "assert-deep-strict-equal": "~0.0",
@@ -125,7 +124,7 @@
       "canvas": "~2.8",
       "cpy-cli": "~3.1",
       "eslint": "~7.32",
-      "fetch-json": "~2.5",
+      "fetch-json": "~2.6",
       "gulp": "~4.0",
       "gulp-append-prepend": "~1.0",
       "gulp-babel": "~8.0",
