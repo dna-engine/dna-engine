@@ -1,4 +1,4 @@
-//! dna.js v1.8.5 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.9.0 ~~ dnajs.org ~~ MIT License
 
 const dnaArray = {
     find: (array, value, key = 'code') => {
@@ -922,7 +922,7 @@ const dnaCore = {
     }
 };
 const dna = {
-    version: '1.8.5',
+    version: '1.9.0',
     clone(name, data, options) {
         const defaults = {
             fade: false,
@@ -1129,4 +1129,4 @@ const dna = {
     core: dnaCore,
 };
 dna.core.setup();
-if (typeof window === "object") window.dna = dna;
+export { dna };

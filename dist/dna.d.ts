@@ -1,4 +1,4 @@
-//! dna.js v1.8.5 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.9.0 ~~ dnajs.org ~~ MIT License
 
 /// <reference types="jquery" />
 export declare type Json = string | number | boolean | null | undefined | Json[] | {
