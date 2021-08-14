@@ -175,7 +175,7 @@ const dnaArray = {
       // Always returns an array.
       const isNothing = itemOrItems === null || itemOrItems === undefined;
       return isNothing ? [] : Array.isArray(itemOrItems) ? itemOrItems : [itemOrItems];
-      }
+      },
    };
 
 const dnaBrowser = {
@@ -188,7 +188,7 @@ const dnaBrowser = {
       const addPair = (pair: string) => pair && addParam(<[string, string]>pair.split('='));
       window.location.search.slice(1).split('&').forEach(addPair);
       return params;
-      }
+      },
    };
 
 const dnaPageToken = {
@@ -205,7 +205,7 @@ const dnaPageToken = {
       //   dna.pageToken.get('favorite', 0);  //returns 0 if not set
       const value = window.sessionStorage[key + window.location.pathname];
       return value === undefined ? defaultValue : JSON.parse(value);
-      }
+      },
    };
 
 const dnaUi = {
@@ -505,7 +505,7 @@ const dnaPlaceholder = {  //TODO: optimize
       const placeholders = $('[data-placeholder]');
       placeholders.toArray().forEach(fade);
       return placeholders;
-      }
+      },
    };
 
 const dnaPanels = {
@@ -589,7 +589,7 @@ const dnaPanels = {
       $(window.document).on({ click:  dna.panels.clickRotate },  '.dna-menu .menu-item');
       $(window.document).on({ change: dna.panels.selectRotate }, '.dna-menu');
       return panels;
-      }
+      },
    };
 
 const dnaCompile = {
@@ -799,7 +799,7 @@ const dnaCompile = {
          };
       $('input[data-attr-type]').each(setTypeAttr);
       return dna.store.stash(elem);
-      }
+      },
    };
 
 const dnaStore = {
@@ -859,7 +859,7 @@ const dnaStore = {
       },
    getTemplate: (name: string): DnaTemplate => {
       return dna.store.getTemplateDb()[name] || dna.compile.template(name);
-      }
+      },
    };
 
 const dnaEvents = {
@@ -1004,7 +1004,7 @@ const dnaEvents = {
          .on({ mouseenter: makeEventHandler('hover-in') },  '[data-hover-in]')
          .on({ mouseleave: makeEventHandler('hover-out') }, '[data-hover-out]');
       return dna.events.runOnLoads();
-      }
+      },
    };
 
 const dnaCore = {
@@ -1239,7 +1239,7 @@ const dnaCore = {
       if (typeof window === 'object' && typeof $ === 'function')
          setupBrowser();
       return dna;
-      }
+      },
    };
 
 const dna = {

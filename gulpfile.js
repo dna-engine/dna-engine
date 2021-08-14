@@ -29,7 +29,7 @@ const linkInfo = {
       photoUpload:    'o5p0wjd1',
       smartUpdates:   'a5rsLcb2',
       toDo:           '3qbkjguy'
-      }
+      },
    };
 
 // Setup

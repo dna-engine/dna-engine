@@ -6,14 +6,14 @@ const app = {
       app.nav.setup();
       app.documenation.setup();
       $('.version-number').text(dna.version);
-      }
+      },
    };
 
 app.bookstore = {
    books: [
       { title: 'Go JavaScript', author: 'Jake' },
       { title: 'Styling CSS3',  author: 'Abby' },
-      { title: 'Howdy HTML5',   author: 'Ed' }
+      { title: 'Howdy HTML5',   author: 'Ed' },
       ],
    clear: () => {
       dna.empty('book', { fade: true });
@@ -24,7 +24,7 @@ app.bookstore = {
       },
    setup: () => {
       dna.clone('book', { title: 'The DOM', author: 'Jan' });
-      }
+      },
    };
 
 app.nav = {
@@ -34,7 +34,7 @@ app.nav = {
       if (!current.length)
          current = $('header nav li').first();
       current.addClass('current');
-      }
+      },
    };
 
 app.documenation = {
@@ -45,7 +45,7 @@ app.documenation = {
          };
       if (window.location.pathname.indexOf('/docs') !== -1)
          $('main >div >h3').each(addOutlineNumber);
-      }
+      },
    };
 
 $(app.setup);
