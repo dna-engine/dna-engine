@@ -89,15 +89,18 @@ export type DnaFieldName = string;
 export type DnaFunctionName = string;
 export type DnaClassName = string;
 export type DnaAttrName = string;
-export type DnaAttrItem = DnaAttrName | [string, DnaFieldName | 1 | 2, string];
+export type DnaAttrParts = [string, DnaFieldName | 1 | 2, string];
+export type DnaAttrs = (DnaAttrName | DnaAttrParts)[];
+export type DnaPropName = string;
+export type DnaProps = (DnaPropName | DnaFieldName)[];
 export type DnaLoop = { name: string, field: DnaFieldName };
 export type DnaRules = {
    template?:  DnaTemplateName,
    array?:     DnaFieldName,
    text?:      boolean,
    val?:       boolean,
-   attrs?:     DnaAttrItem[],
-   props?:     (string | DnaFieldName)[],
+   attrs?:     DnaAttrs,
+   props?:     DnaProps,
    option?:    DnaFieldName,
    formatter?: DnaFormatter | null,
    transform?: DnaFunctionName,
@@ -666,8 +669,8 @@ const dnaCompile = {
       //                                    ==>  <option class=dna-nucleotide + data-dnaRules={ props: ['selected', 'set'] }>
       //    <select data-option=~~color~~>  ==>  <select class=dna-nucleotide + data-dnaRules={ val: true } + data-dnaField=color>
       const elem = $(node);
-      const props: string[] = [];
-      const attrs: DnaAttrItem[] = [];
+      const props: DnaProps = [];
+      const attrs: DnaAttrs = [];
       const names: string[] = [];
       const compileProp = (key: string, value: string) => {
          names.push(key);
@@ -678,12 +681,12 @@ const dnaCompile = {
             elem.addClass('dna-update-model').data().dnaField = value;
          };
       const compileAttr = (key: string, value: string) => {
-         const parts = <[string, DnaFieldName | 1 | 2, string]>value.split(dna.compile.regex.dnaBasePair);
+         const parts = <DnaAttrParts>value.split(dna.compile.regex.dnaBasePair);
          if (parts[1] === '[count]')
             parts[1] = 1;
          else if (parts[1] === '[value]')
             parts[1] = 2;
-         attrs.push(<DnaAttrName>key.replace(/^data-attr-/, ''), <DnaAttrItem>parts);
+         attrs.push(key.replace(/^data-attr-/, ''), parts);
          names.push(key);
          const makeUpdatable = () => {
             dna.compile.setupNucleotide(elem).addClass('dna-update-model');
@@ -1024,15 +1027,13 @@ const dnaCore = {
          if (value !== null && value !== elem.val())
             elem.val(String(value));
          };
-      const injectProps = (elem: JQuery, props: string[]) => {  //example props: ['selected', 'set']
+      const injectProps = (elem: JQuery, props: DnaProps) => {  //example props: ['selected', 'set']
          for (let prop = 0; prop < props.length/2; prop++)  //each prop has a key and a field name
-            elem.prop(<string>props[prop*2],
-               dna.util.realTruth(dna.util.value(<DnaDataObject>data, <string>props[prop*2 + 1])));
+            elem.prop(props[prop*2]!,
+               dna.util.realTruth(dna.util.value(<DnaDataObject>data, props[prop*2 + 1]!)));
          };
-      const injectAttrs = (elem: JQuery, attrs: DnaAttrItem[]) => {  //example attrs: ['data-tag', ['', 'tag', '']]
-         for (let i = 0; i < attrs.length / 2; i++) {  //each attr has a key and parts
-            const key = <DnaAttrName>attrs[i*2];
-            const parts = <[string, string | 1 | 2, string]>attrs[i*2 + 1];  //example: 'J~~code.num~~' ==> ['J', 'code.num', '']
+      const injectAttrs = (elem: JQuery, attrs: DnaAttrs) => {  //example attrs: ['data-tag', ['', 'tag', '']]
+         const inject = (key: DnaAttrName, parts: DnaAttrParts) => {  //example parts: 'J~~code.num~~' ==> ['J', 'code.num', '']
             const field = parts[1];
             const core = field === 1 ? count : field === 2 ? data : dna.util.value(<DnaDataObject>data, field);
             const value = [parts[0], core, parts[2]].join('');
@@ -1041,7 +1042,9 @@ const dnaCore = {
                elem.data(key.substring(5), value);
             if (key === 'value' && value !== elem.val())  //set elem val for input fields (example: <input value=~~tag~~>)
                elem.val(value);
-            }
+            };
+         for (let i = 0; i < attrs.length / 2; i++)  //each attr has a key and parts
+            inject(<DnaAttrName>attrs[i*2], <DnaAttrParts>attrs[i*2 + 1]);
          };
       const injectClass = (elem: JQuery, classLists: string[][]) => {
          // classLists = [['field', 'class-true', 'class-false'], ...]
