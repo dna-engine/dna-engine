@@ -4,6 +4,12 @@ export type Json = string | number | boolean | null | undefined | Json[] | { [ke
 export type JsonObject = { [key: string]: Json };
 export type JsonArray = Json[];
 export type JsonData = JsonObject | JsonArray;
+export type DnaForEachCallback = (elem: JQuery, index: number) => void;
+export type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
+declare global { interface JQuery {
+   forEach: (fn: DnaForEachCallback) => JQuery,
+   dna:     (action: DnaPluginAction, ...params: unknown[]) => JQuery,
+   } }
 export type DnaModel = JsonData;
 export type DnaDataObject = JsonObject;
 export type DnaOptionsClone = {
@@ -63,7 +69,6 @@ export type DnaOptionsRegisterInitializer = {
    params?:    DnaDataObject | unknown[] | null,
    onDocLoad?: boolean,
    };
-export type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
 export type DnaFormatter = (value: DnaFormatterValue) => string;
 export type DnaFormatterValue = number | string | boolean;
 export type DnaMSec = number | string;  //milliseconds UTC (or ISO 8601 string)
@@ -501,13 +506,9 @@ const dnaPlaceholder = {  //TODO: optimize
    // clones).  The "data-placeholder" attribute specifies the name of the template.
    setup: (): JQuery => {
       $('option.dna-template').closest('select').addClass('dna-hide');
-      const fade = (node: HTMLElement) => {
-         const elem = $(node).stop(true);
-         dna.getClones(elem.data().placeholder).length ? elem.fadeOut() : elem.fadeIn();
-         };
-      const placeholders = $('[data-placeholder]');
-      placeholders.toArray().forEach(fade);
-      return placeholders;
+      const fade = (elem: JQuery) =>
+         dna.getClones(elem.stop(true).data().placeholder).length ? elem.fadeOut() : elem.fadeIn();
+      return $('[data-placeholder]').forEach(fade);
       },
    };
 
@@ -587,8 +588,7 @@ const dnaPanels = {
       },
    setup: (): JQuery => {
       $('body').data().dnaPanelNextNav = 1;
-      const panels = $('.dna-panels');
-      panels.toArray().forEach((node: HTMLElement) => dna.panels.initialize($(node)));
+      const panels = $('.dna-panels').forEach(dna.panels.initialize);
       $(window.document).on({ click:  dna.panels.clickRotate },  '.dna-menu .menu-item');
       $(window.document).on({ change: dna.panels.selectRotate }, '.dna-menu');
       return panels;
@@ -644,13 +644,13 @@ const dnaCompile = {
       const htmlCase = () => dna.util.toKebab(field).replace(/[[\]]/g, '').replace(/[.]/g, '-');
       return field ? elem.addClass('dna-field-' + htmlCase()) : elem;
       },
-   field: (index: number, node: HTMLElement): void => {
+   field: (elem: JQuery): void => {
       // Examples:
       //    <p>~~name~~</p>  ==>
       //       <p class=dna-nucleotide data-dnaField=name data-dnaRules={ text: true }></p>
       //    <textarea>~~address~~</textarea>  ==>
       //       <textarea class=dna-nucleotide data-dnaField=address data-dnaRules={ val: true }></p>
-      const elem = dna.compile.setupNucleotide($(node));
+      dna.compile.setupNucleotide(elem);
       elem.data().dnaField = elem.text().replace(dna.compile.regex.dnaBasePairs, '').trim();
       dna.compile.addFieldClass(elem);
       if (elem.is('textarea'))
@@ -659,7 +659,7 @@ const dnaCompile = {
          elem.data().dnaRules.text = true;
       elem.empty();
       },
-   propsAndAttrs: (index: number, node: HTMLElement): void => {
+   propsAndAttrs: (elem: JQuery): void => {
       // Examples:
       //    <p id=~~num~~>                  ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['id', ['', 'num', '']] }>
       //    <p data-attr-src=~~url~~>       ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['src', ['', 'url', '']] }>
@@ -668,7 +668,6 @@ const dnaCompile = {
       //    <input type=checkbox data-prop-checked=~~set~~>
       //                                    ==>  <option class=dna-nucleotide + data-dnaRules={ props: ['selected', 'set'] }>
       //    <select data-option=~~color~~>  ==>  <select class=dna-nucleotide + data-dnaRules={ val: true } + data-dnaField=color>
-      const elem = $(node);
       const props: DnaProps = [];
       const attrs: DnaAttrs = [];
       const names: string[] = [];
@@ -746,15 +745,13 @@ const dnaCompile = {
    rules: (elems: JQuery, type: string, isLists?: boolean): JQuery => {
       // Example:
       //    <p data-require=~~title~~>, 'require'  ==>  <p data-dnaRules={ require: 'title' }>
-      const typedElems = elems.filter('[data-' + type + ']');
-      const addRule = (node: HTMLElement) => {
-         const elem = dna.compile.setupNucleotide($(node));
+      const addRule = (elem: JQuery) => {
+         dna.compile.setupNucleotide(elem);
          const field = dna.compile.getDataField(elem, type);
          const makeLists = () => field.split(';').map((list: string) => list.split(','));
          elem.data().dnaRules[type] = isLists ? makeLists() : field;
          };
-      typedElems.toArray().forEach(addRule);
-      return typedElems.removeAttr('data-' + type);
+      return elems.filter('[data-' + type + ']').forEach(addRule).removeAttr('data-' + type);
       },
    separators: (elem: JQuery): JQuery => {
       // Convert: data-separator=", "  ==>  <span class=dna-separator>, </span>
@@ -767,40 +764,36 @@ const dnaCompile = {
             };
          return text && doAppend();
          };
-      const processTemplate = (node: HTMLElement) => {
-         const templateElem = $(node);
-         append(templateElem, templateElem.data().separator,     'dna-separator');
-         append(templateElem, templateElem.data().lastSeparator, 'dna-last-separator');
+      const processTemplate = (elem: JQuery) => {
+         append(elem, elem.data().separator,     'dna-separator');
+         append(elem, elem.data().lastSeparator, 'dna-last-separator');
          };
       const clones = elem.find('.dna-template, .dna-sub-clone').addBack();
-      clones.toArray().forEach(processTemplate);
+      clones.forEach(processTemplate);
       return clones;
       },
    template: (name: string): DnaTemplate => {  //prepare and stash template so it can be cloned
       const elem = $('#' + name);
       dna.core.assert(elem.length, 'Template not found', name);
-      const saveName = (index: number, node: HTMLElement) => {
-         $(node).data().dnaRules = <DnaRules>{ template: $(node).attr('id'), subs: [] };
-         };
-      const initSubs = (index: number, node: HTMLElement) => {
-         $(node).data().dnaRules.subs = [];
-         };
-      elem.find('.dna-template').addBack().each(saveName).removeAttr('id').each(initSubs);
+      const saveName = (elem: JQuery) =>
+         elem.data().dnaRules = <DnaRules>{ template: elem.attr('id'), subs: [] };
+      const initSubs = (elem: JQuery) =>
+         elem.data().dnaRules.subs = [];
+      elem.find('.dna-template').addBack().forEach(saveName).removeAttr('id').forEach(initSubs);
       const elems = elem.find('*').addBack();
-      elems.filter(dna.compile.isDnaField).each(dna.compile.field).addClass('dna-field');
-      dna.compile.rules(elems, 'array').addClass('dna-sub-clone').each(initSubs);
+      elems.filter(dna.compile.isDnaField).forEach(dna.compile.field).addClass('dna-field');
+      dna.compile.rules(elems, 'array').addClass('dna-sub-clone').forEach(initSubs);
       dna.compile.rules(elems, 'class', true);
       dna.compile.rules(elems, 'require');
       dna.compile.rules(elems, 'missing');
       dna.compile.rules(elems, 'true');
       dna.compile.rules(elems, 'false');
-      elems.each(dna.compile.propsAndAttrs);
+      elems.forEach(dna.compile.propsAndAttrs);
       dna.compile.separators(elem);
       //support html5 values for "type" attribute
-      const setTypeAttr = (index: number, node: HTMLElement) => {
-         $(node).attr({ type: $(node).data().attrType });
-         };
-      $('input[data-attr-type]').each(setTypeAttr);
+      const setTypeAttr = (inputElem: JQuery) =>
+         inputElem.attr({ type: inputElem.data().attrType });
+      $('input[data-attr-type]').forEach(setTypeAttr);
       return dna.store.stash(elem);
       },
    };
@@ -814,8 +807,7 @@ const dnaStore = {
       },
    stash: (elem: JQuery): DnaTemplate => {
       const name = elem.data().dnaRules.template;
-      const move = (index: number, node: HTMLElement) => {
-         const elem = $(node);
+      const move = (elem: JQuery) => {
          const name = elem.data().dnaRules.template;
          const container = elem.parent();
          const wrapped = container.children().length === 1 && !container.hasClass('dna-container');
@@ -842,7 +834,7 @@ const dnaStore = {
          dna.store.getTemplateDb()[name] = template;
          elem.removeClass('dna-template').addClass('dna-clone').addClass(name).detach();
          };
-      const prepLoop = (index: number, node: HTMLElement) => {
+      const prepLoop = (elem: JQuery) => {
          // Pre (sub-template array loops -- data-array):
          //    class=dna-sub-clone data().dnaRules.array='field'
          // Post (elem):
@@ -850,14 +842,14 @@ const dnaStore = {
          // Post (container)
          //    class=dna-nucleotide +
          //       data().dnaRules.loop={ name: '{NAME}-{FIELD}-instance', field: 'field' }
-         const rules = $(node).data().dnaRules;
-         const parent = dna.compile.setupNucleotide($(node).parent()).addClass('dna-array');
+         const rules = elem.data().dnaRules;
+         const parent = dna.compile.setupNucleotide(elem.parent()).addClass('dna-array');
          rules.template = dna.compile.subTemplateName(name, rules.array);
          parent.data().dnaRules.loop = { name: rules.template, field: rules.array };
          parent.closest('.dna-clone, .dna-sub-clone').data().dnaRules.subs.push(rules.array);
          };
-      elem.find('.dna-template').addBack().each(move);
-      elem.find('.dna-sub-clone').each(prepLoop).each(move);
+      elem.find('.dna-template').addBack().forEach(move);
+      elem.find('.dna-sub-clone').forEach(prepLoop).forEach(move);
       return <DnaTemplate>dna.store.getTemplateDb()[name];
       },
    getTemplate: (name: string): DnaTemplate => {
@@ -880,9 +872,8 @@ const dnaEvents = {
       // Example:
       //    <p data-on-load=app.cart.setup>
       const elems = $('[data-on-load]').not('.dna-loaded');
-      const run = (node: HTMLElement) => dna.util.apply($(node).data().onLoad, $(node));
-      elems.toArray().forEach(run);
-      return elems.addClass('dna-loaded');
+      const run = (elem: JQuery) => dna.util.apply(elem.data().onLoad, elem);
+      return elems.forEach(run).addClass('dna-loaded');
       },
    runInitializers: (root: JQuery): JQuery => {
       // Executes data-callback functions plus registered initializers
@@ -917,9 +908,7 @@ const dnaEvents = {
             dna.util.assign(<DnaDataObject>dna.getModel(elem), elem.data().dnaField, <Json>calc(elem));
          const getValue =     (elem: JQuery) => elem.val();
          const isChecked =    (elem: JQuery): boolean => elem.is(':checked');
-         const updateOption = (index: number, node: HTMLElement) => {
-            updateField($(node), <DnaCallback>isChecked);
-            };
+         const updateOption = (elem: JQuery) => updateField(elem, <DnaCallback>isChecked);
          const updateModel =  () => {
             const mainClone = dna.getClone(target, { main: true });
             if (mainClone.length === 0) {  //TODO: figure out why some events are captured on the template instead of the clone
@@ -929,7 +918,7 @@ const dnaEvents = {
             if (target.is('input:checkbox'))
                updateField(target, <DnaCallback>isChecked);
             else if (target.is('input:radio'))
-               $('input:radio[name=' + target.attr('name') + ']').each(updateOption);
+               $('input:radio[name=' + target.attr('name') + ']').forEach(updateOption);
             else if (target.data().dnaRules.val)
                updateField(target, <DnaCallback>getValue);
             dna.refresh(mainClone);
@@ -1070,8 +1059,7 @@ const dnaCore = {
       const processLoop = (elem: JQuery, loop: DnaLoop) => {
          const dataArray = <DnaModel[]>dna.util.value(<DnaDataObject>data, loop.field);
          const subClones = elem.children('.' + loop.name.replace(/[.]/g, '\\.'));
-         const injectSubClone = (index: number, node: HTMLElement) => {
-            const elem = $(node);
+         const injectSubClone = (elem: JQuery, index: number) => {
             if (!elem.is('option'))  //prevent select from closing on chrome
                dna.core.inject(elem, <DnaModel>dataArray[index], index + 1, settings);
             };
@@ -1082,12 +1070,11 @@ const dnaCore = {
          if (!dataArray)
             (data[loop.field]) = [];
          else if (dataArray.length === subClones.length)
-            subClones.each(injectSubClone);
+            subClones.forEach(injectSubClone);
          else
             rebuildSubClones();
          };
-      const process = (index: number, node: HTMLElement) => {
-         const elem = $(node);
+      const process = (elem: JQuery) => {
          const dnaRules = <DnaRules>elem.data().dnaRules;
          if (dnaRules.transform)  //alternate version of the "transform" option
             dna.util.apply(dnaRules.transform, data);
@@ -1115,7 +1102,7 @@ const dnaCore = {
             dna.util.apply(dnaRules.callback, elem);
          };
       const dig = (elems: JQuery) => {
-         elems.filter('.dna-nucleotide').each(process);
+         elems.filter('.dna-nucleotide').forEach(process);
          if (elems.length)
             dig(elems.children().not('.dna-sub-clone'));
          };
@@ -1220,16 +1207,23 @@ const dnaCore = {
          }
       },
    plugin: (): void => {
-      // Example:
-      //    dna.getClone(elem).dna('up');
-      // Supported actions:
-      //    'bye', 'clone-sub', 'destroy', 'down', 'refresh', 'up'
-      $.fn['dna'] = function(action: DnaPluginAction, ...params: unknown[]) {  //any additional parameters are passed to the api call
+      $.fn.forEach = function(fn: DnaForEachCallback): JQuery {
+         // Usage:
+         //    const addRandomNumber = (elem) => elem.text(Math.random());
+         //    elems.forEach(addRandomNumber).fadeIn();
+         const elems = <JQuery><unknown>this;
+         return elems.each((index, node) => fn($(node), index));
+         };
+      $.fn.dna = function(action: DnaPluginAction, ...params: unknown[]) {  //any additional parameters are passed to the api call
+         // Example:
+         //    dna.getClone(elem).dna('up');
+         // Supported actions:
+         //    'bye', 'clone-sub', 'destroy', 'down', 'refresh', 'up'
+         const elems = <JQuery><unknown>this;
          const dnaApi = dna[dna.util.toCamel(action)];
          dna.core.assert(dnaApi, 'Unknown plugin action', action);
-         const callApi = (index: number, node: HTMLElement) =>
-            dnaApi($(node), params[0], params[1], params[2]);
-         this.each(callApi);
+         const callApi = (elem: JQuery) => dnaApi(elem, ...params);
+         return elems.forEach(callApi);
          };
       },
    setup: (): unknown => {
@@ -1377,13 +1371,12 @@ const dna = {
       clone = dna.getClone(clone);
       const renumber = () => {
          const name = clone.data().dnaRules.template;
-         const update = (index: number, node: HTMLElement) => {
-            const elem = $(node);
+         const update = (elem: JQuery, index: number) => {
             elem.data().dnaCount = index + 1;
             dna.refresh(elem, options);
             };
          const container = clone.parent();
-         const clones = container.children('.dna-clone.' + name).each(update);
+         const clones = container.children('.dna-clone.' + name).forEach(update);
          container.data().dnaCountsMap = container.data().dnaCountsMap || {};
          container.data().dnaCountsMap[name] = clones.length;
          };
