@@ -12,7 +12,7 @@ declare global { interface JQuery {
    } }
 export type DnaModel = JsonData;
 export type DnaDataObject = JsonObject;
-export type DnaOptionsClone = {
+export type DnaOptionsClone<T> = {
    fade?:      boolean,
    top?:       boolean,
    clones?:    number,
@@ -21,8 +21,8 @@ export type DnaOptionsClone = {
    holder?:    JQuery,
    container?: JQuery | null,
    formatter?: DnaFormatter | null,
-   transform?: DnaCallback | null,
-   callback?:  DnaCallback | null,
+   transform?: DnaTransformFn<T> | null,
+   callback?:  DnaCallbackFn<T> | null,
    };
 export type DnaOptionsCloneSub = {
    fade?:      boolean,
@@ -34,11 +34,11 @@ export type DnaOptionsGetModel = {
 export type DnaOptionsEmpty = {
    fade?:      boolean,
    };
-export type DnaOptionsInsert = {
+export type DnaOptionsInsert<T> = {
    fade?:      boolean,
    html?:      boolean,
-   transform?: DnaCallback,
-   callback?:  DnaCallback,
+   transform?: DnaTransformFn<T>,
+   callback?:  DnaCallbackFn<T>,
    };
 export type DnaOptionsRefresh = {
    data?:      unknown,
@@ -53,10 +53,10 @@ export type DnaOptionsRefreshAll = {
 export type DnaOptionsRecount = {
    html?:      boolean,
    };
-export type DnaOptionsDestroy = {
+export type DnaOptionsDestroy<T> = {
    main?:      boolean,
    fade?:      boolean,
-   callback?:  DnaCallback | null,
+   callback?:  DnaCallbackFn<T> | null,
    };
 export type DnaOptionsGetClone = {
    main?:      boolean,
@@ -73,9 +73,12 @@ export type DnaFormatter = (value: DnaFormatterValue) => string;
 export type DnaFormatterValue = number | string | boolean;
 export type DnaMSec = number | string;  //milliseconds UTC (or ISO 8601 string)
 export type DnaCallback = (...args: unknown[]) => unknown;
+export interface DnaTransformFn<T> { (data: T): void }
+export interface DnaCallbackFn<T> { (elem: JQuery, data?: T): void }
+export interface DnaInitializerFn { (elem: JQuery, ...params: unknown[]): void }
 export type DnaElemEventIndex = JQuery | JQuery.EventBase | number;
 export type DnaInitializer = {
-   fn:       DnaFunctionName | DnaCallback,
+   fn:       DnaFunctionName | DnaInitializerFn,
    selector: string | null,
    params:   DnaDataObject | unknown[] | null,
    };
@@ -89,7 +92,7 @@ export type DnaTemplate = {
    };
 export type DnaTemplateDb = { [name: string]: DnaTemplate };
 export type DnaTemplateName = string;
-export type DnaContext = { [name: string]: Record<string, unknown> | DnaCallback };
+export type DnaContext = { [app: string]: { [field: string]: unknown } | DnaCallback };
 export type DnaFieldName = string;
 export type DnaFunctionName = string;
 export type DnaClassName = string;
@@ -217,7 +220,7 @@ const dnaPageToken = {
    };
 
 const dnaUi = {
-   deleteElem: function(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallback | null): JQuery {
+   deleteElem: function<T>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T> | null): JQuery {
       // A flexible function for removing a jQuery element.
       // Example:
       //    $('.box').fadeOut(dna.ui.deleteElem);
@@ -248,7 +251,7 @@ const dnaUi = {
          elem.animate(css.show, settings.interval).animate(css.hide, settings.out);
       return elem;
       },
-   slideFade: (elem: JQuery, callback?: DnaCallback | null, show?: boolean): JQuery => {
+   slideFade: <T>(elem: JQuery, callback?: DnaCallbackFn<T> | null, show?: boolean): JQuery => {
       // Smooth slide plus fade effect.
       const obscure = { opacity: 0, transition: 'opacity 0s' };
       const easeIn =  { opacity: 1, transition: 'opacity 400ms' };
@@ -263,19 +266,19 @@ const dnaUi = {
       elem.delay(200).promise().then(clearTransition);  //keep clean for other animations
       return elem;
       },
-   slideFadeIn: (elem: JQuery, callback?: DnaCallback | null): JQuery => {
+   slideFadeIn: <T>(elem: JQuery, callback?: DnaCallbackFn<T> | null): JQuery => {
       // Smooth slide plus fade effect.
       return dna.ui.slideFade(elem, callback, true);
       },
-   slideFadeOut: (elem: JQuery, callback?: DnaCallback | null): JQuery => {
+   slideFadeOut: <T>(elem: JQuery, callback?: DnaCallbackFn<T> | null): JQuery => {
       // Smooth slide plus fade effect.
       return dna.ui.slideFade(elem, callback, false);
       },
-   slideFadeToggle: (elem: JQuery, callback?: DnaCallback | null): JQuery => {
+   slideFadeToggle: <T>(elem: JQuery, callback?: DnaCallbackFn<T> | null): JQuery => {
       // Smooth slide plus fade effect.
       return dna.ui.slideFade(elem, callback, elem.is(':hidden'));
       },
-   slideFadeDelete: (elem: JQuery, callback?: DnaCallback | null): JQuery => {
+   slideFadeDelete: <T>(elem: JQuery, callback?: DnaCallbackFn<T> | null): JQuery => {
       // Smooth slide plus fade effect.
       return dna.ui.slideFadeOut(elem, () => dna.ui.deleteElem(elem, callback));
       },
@@ -300,7 +303,7 @@ const dnaUi = {
       window.setTimeout(setAnimationLength, 10);  //allow baseline to lock in height
       return elem;
       },
-   smoothMove: (elem: JQuery, up?: boolean, callback?: DnaCallback | null): JQuery => {
+   smoothMove: <T>(elem: JQuery, up?: boolean, callback?: DnaCallbackFn<T> | null): JQuery => {
       // Uses animation to smoothly slide an element up or down one slot amongst its siblings.
       const fn = typeof callback === 'function' ? callback : null;
       const move = () => {
@@ -324,11 +327,11 @@ const dnaUi = {
          fn(elem);
       return elem;
       },
-   smoothMoveUp: (elem: JQuery, callback?: DnaCallback | null): JQuery => {
+   smoothMoveUp: <T>(elem: JQuery, callback?: DnaCallbackFn<T> | null): JQuery => {
       // Uses animation to smoothly slide an element up one slot amongst its siblings.
       return dna.ui.smoothMove(elem, true, callback);
       },
-   smoothMoveDown: (elem: JQuery, callback?: DnaCallback | null): JQuery => {
+   smoothMoveDown: <T>(elem: JQuery, callback?: DnaCallbackFn<T> | null): JQuery => {
       // Uses animation to smoothly slide an element down one slot amongst its siblings.
       return dna.ui.smoothMove(elem, false, callback);
       },
@@ -342,15 +345,15 @@ const dnaUi = {
    };
 
 const dnaUtil = {
-   apply: (fn: string | DnaCallback, params?: unknown | unknown[] | JQuery): unknown => {
+   apply: <T>(fn: string | DnaCallbackFn<T> | DnaInitializerFn, params?: unknown | JQuery): unknown => {
       // Calls fn (string name or actual function) passing in params.
       // Usage:
       //    dna.util.apply('app.cart.buy', 7); ==> app.cart.buy(7);
       const args = dna.array.wrap(params);
       const elem = args[0] instanceof $ ? <JQuery>args[0] : null;
       let result;
-      const contextApply = (context: DnaCallback | Record<string, unknown> | Window, names: string[]) => {
-         const getFn = (): DnaCallback => <DnaCallback>(<Record<string, unknown>>context)[<string>names[0]];
+      const contextApply = (context: DnaCallback | { [name: string]: unknown } | Window, names: string[]) => {
+         const getFn = (): DnaCallback => <DnaCallback>(<{ [name: string]: unknown }>context)[<string>names[0]];
          const missing = !context ||
             names.length === 1 && typeof (<DnaDataObject>context)[<string>names[0]] !== 'function';
          dna.core.assert(!missing, 'Callback function not found', fn);
@@ -376,7 +379,7 @@ const dnaUtil = {
       if (elem && elem.length === 0)  //noop for emply list of elems
          result = elem;
       else if (typeof fn === 'function')  //run regular function with supplied arguments
-         result = fn.apply(elem, args);
+         result = fn.apply(elem, <[JQuery, T]>args);
       else if (elem && (elem)[fn])  //run element's jQuery function
          result = (elem)[fn](args[1], args[2], args[3]);
       else if (typeof fn === 'string' && fn.length > 0)
@@ -432,7 +435,7 @@ const dnaUtil = {
       const dash = (word: string) => '-' + word.toLowerCase();
       return ('' + camelStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
       },
-   value: (data: DnaDataObject, field: string | string[]): unknown => {
+   value: <T>(data: T, field: string | string[]): unknown => {
       // Returns the value of the field from the data object.
       // Example:
       //    dna.util.value({ a: { b: 7 } }, 'a.b') === 7
@@ -440,7 +443,7 @@ const dnaUtil = {
          field = field.split('.');
       return data === null || data === undefined || field === undefined ? null :
          field.length === 1 ? data[<string>field[0]] :
-         dna.util.value(<DnaDataObject>data[<string>field[0]], field.slice(1));
+         dna.util.value(data[<string>field[0]], field.slice(1));
       },
    isObj: (value: unknown): boolean => {
       return !!value && typeof value === 'object' && !Array.isArray(value);
@@ -880,8 +883,7 @@ const dnaEvents = {
       const init = (initializer: DnaInitializer) => {
          const find =   (selector: string): JQuery => root.find(selector).addBack(selector);
          const elems =  initializer.selector ? find(initializer.selector) : root;
-         const data =   dna.array.wrap(initializer.params);
-         const params = [<unknown>elems.addClass('dna-initialized')].concat(data);
+         const params = [elems.addClass('dna-initialized'), ...dna.array.wrap(initializer.params)];
          dna.util.apply(initializer.fn, params);
          };
       dna.events.getInitializers().forEach(init);
@@ -1000,11 +1002,11 @@ const dnaEvents = {
    };
 
 const dnaCore = {
-   inject: (clone: JQuery, data: DnaModel, count: number, settings: DnaOptionsClone): JQuery => {
+   inject: <T>(clone: JQuery, data: T, count: number, settings: DnaOptionsClone<T>): JQuery => {
       // Inserts data into clone and runs rules
       const injectField = (elem: JQuery, field: string, dnaRules: DnaRules) => {  //example: <h2>~~title~~</h2>
          const value = field === '[count]' ? count : field === '[value]' ? data :
-            dna.util.value(<DnaDataObject>data, field);
+            dna.util.value(data, field);
          const formatted = () => dnaRules.formatter ?
             dnaRules.formatter(<DnaFormatterValue>value) : String(value);
          if (['string', 'number', 'boolean'].includes(typeof value))
@@ -1012,19 +1014,19 @@ const dnaCore = {
          };
       const injectValue = (elem: JQuery, field: string) => {
          const value = field === '[count]' ? count : field === '[value]' ? data :
-            dna.util.value(<DnaDataObject>data, field);
+            dna.util.value(data, field);
          if (value !== null && value !== elem.val())
             elem.val(String(value));
          };
       const injectProps = (elem: JQuery, props: DnaProps) => {  //example props: ['selected', 'set']
          for (let prop = 0; prop < props.length/2; prop++)  //each prop has a key and a field name
             elem.prop(props[prop*2]!,
-               dna.util.realTruth(dna.util.value(<DnaDataObject>data, props[prop*2 + 1]!)));
+               dna.util.realTruth(dna.util.value(data, props[prop*2 + 1]!)));
          };
       const injectAttrs = (elem: JQuery, attrs: DnaAttrs) => {  //example attrs: ['data-tag', ['', 'tag', '']]
          const inject = (key: DnaAttrName, parts: DnaAttrParts) => {  //example parts: 'J~~code.num~~' ==> ['J', 'code.num', '']
             const field = parts[1];
-            const core = field === 1 ? count : field === 2 ? data : dna.util.value(<DnaDataObject>data, field);
+            const core = field === 1 ? count : field === 2 ? data : dna.util.value(data, field);
             const value = [parts[0], core, parts[2]].join('');
             elem.attr(key, value);
             if (/^data-./.test(key))
@@ -1038,7 +1040,7 @@ const dnaCore = {
       const injectClass = (elem: JQuery, classLists: string[][]) => {
          // classLists = [['field', 'class-true', 'class-false'], ...]
          const process = (classList: string[]) => {
-            const value = dna.util.value(<DnaDataObject>data, <string>classList[0]);
+            const value = dna.util.value(data, <string>classList[0]);
             const truth = dna.util.realTruth(value);
             const setBooleanClasses = () => {
                elem.toggleClass(<string>classList[1], truth);
@@ -1053,15 +1055,15 @@ const dnaCore = {
          classLists.forEach(process);
          };
       const fieldExists = (fieldName: string): boolean => {
-         const value = dna.util.value(<DnaDataObject>data, fieldName);
+         const value = dna.util.value(data, fieldName);
          return value !== undefined && value !== null;
          };
       const processLoop = (elem: JQuery, loop: DnaLoop) => {
-         const dataArray = <DnaModel[]>dna.util.value(<DnaDataObject>data, loop.field);
+         const dataArray = <T[]>dna.util.value(data, loop.field);
          const subClones = elem.children('.' + loop.name.replace(/[.]/g, '\\.'));
          const injectSubClone = (elem: JQuery, index: number) => {
             if (!elem.is('option'))  //prevent select from closing on chrome
-               dna.core.inject(elem, <DnaModel>dataArray[index], index + 1, settings);
+               dna.core.inject(elem, dataArray[index]!, index + 1, settings);
             };
          const rebuildSubClones = () => {
             subClones.remove();
@@ -1095,9 +1097,9 @@ const dnaCore = {
          if (dnaRules.missing)
             elem.toggle(!fieldExists(dnaRules.missing));
          if (dnaRules.true)
-            elem.toggle(dna.util.realTruth(dna.util.value(<DnaDataObject>data, dnaRules.true)));
+            elem.toggle(dna.util.realTruth(dna.util.value(data, dnaRules.true)));
          if (dnaRules.false)
-            elem.toggle(!dna.util.realTruth(dna.util.value(<DnaDataObject>data, dnaRules.false)));
+            elem.toggle(!dna.util.realTruth(dna.util.value(data, dnaRules.false)));
          if (dnaRules.callback)
             dna.util.apply(dnaRules.callback, elem);
          };
@@ -1113,7 +1115,7 @@ const dnaCore = {
       clone.data().dnaCount = count;
       return clone;
       },
-   replicate: (template: DnaTemplate, data: DnaModel, settings: DnaOptionsClone): JQuery => {  //make and setup the clone
+   replicate: <T>(template: DnaTemplate, data: T, settings: DnaOptionsClone<T>): JQuery => {  //make and setup the clone
       const displaySeparators = () => {
          const clones = container.children('.' + template.name);
          clones.find('.dna-separator').show().end().last().find('.dna-separator').hide();
@@ -1185,14 +1187,14 @@ const dnaCore = {
       dna.core.updateArrayByName(elem.parent(), dna.core.getArrayName(elem));
       return elem;
       },
-   remove: (clone: JQuery, callback?: DnaCallback | null): JQuery => {
+   remove: <T>(clone: JQuery, callback?: DnaCallbackFn<T> | null): JQuery => {
       const container = clone.parent();
       clone.detach();
       dna.core.updateArrayByName(container, dna.core.getArrayName(clone));
       dna.placeholder.setup();
       clone.remove();
       if (callback)
-         callback(clone);
+         callback(clone, <T>dna.getModel(clone));
       return clone;
       },
    assert: (ok: boolean | unknown, message: string, info: unknown): void => {
@@ -1264,7 +1266,7 @@ const dna = {
    //    dna.registerContext()
    //    dna.info()
    // See: https://dnajs.org/docs/#api
-   clone(name: string, data: DnaModel, options?: DnaOptionsClone): JQuery {
+   clone<T>(name: string, data: T, options?: DnaOptionsClone<T>): JQuery {
       // Generates a copy of the template and populates the fields, attributes, and
       // classes from the supplied data.
       const defaults = {
@@ -1285,7 +1287,7 @@ const dna = {
          dna.empty(name);
       const list = [].concat(...Array(settings.clones).fill(data));
       let clones = $();
-      const addClone = (model: DnaModel) =>
+      const addClone = (model: T) =>
          clones = clones.add(dna.core.replicate(template, model, settings));
       list.forEach(addClone);
       dna.placeholder.setup();
@@ -1293,7 +1295,7 @@ const dna = {
       clones.first().parents('.dna-hide').removeClass('dna-hide').addClass('dna-unhide');
       return clones;
       },
-   cloneSub(holderClone: JQuery, arrayField: string, data: DnaModel, options?: DnaOptionsCloneSub): JQuery {
+   cloneSub<T>(holderClone: JQuery, arrayField: string, data: T, options?: DnaOptionsCloneSub): JQuery {
       // Clones a sub-template to append onto an array loop.
       const name = dna.compile.subTemplateName(holderClone, arrayField);
       const selector = '.dna-contains-' + name;
@@ -1310,7 +1312,7 @@ const dna = {
    templateExists(name: string): boolean {
       return !!dna.store.getTemplateDb()[name] || $('.dna-template#' + name).length > 0;
       },
-   getModel(elemOrName: JQuery | string, options?: DnaOptionsGetModel): DnaModel | undefined {
+   getModel<T>(elemOrName: JQuery | string, options?: DnaOptionsGetModel): T | T[] | undefined {
       // Returns the underlying data of the clone.
       const getOne = (elem: JQuery) =>
          dna.getClone($(elem), options).data('dnaModel');
@@ -1329,7 +1331,7 @@ const dna = {
       const fadeDelete = () => dna.ui.slideFadeDelete(clones, settings.callback);
       return settings.fade ? fadeDelete() : dna.core.remove(clones, settings.callback);
       },
-   insert(name: string, data: DnaModel, options?: DnaOptionsInsert): JQuery {
+   insert<T>(name: string, data: T, options?: DnaOptionsInsert<T>): JQuery {
       // Updates the first clone if it already exists otherwise creates the first clone.
       const clone = dna.getClones(name).first();
       return clone.length ? dna.refresh(clone, { data: data, html: options && options.html }) :
@@ -1340,7 +1342,7 @@ const dna = {
       const defaults = { html: false };
       const settings = { ...defaults, ...options };
       const elem = dna.getClone(clone, options);
-      const data = settings.data ? <DnaModel>settings.data : <DnaModel>dna.getModel(elem);
+      const data = settings.data ? settings.data : dna.getModel(elem);
       return dna.core.inject(elem, data, elem.data().dnaCount, settings);
       },
    refreshAll(name: string, options?: DnaOptionsRefreshAll): JQuery {
@@ -1384,7 +1386,7 @@ const dna = {
          renumber();
       return clone;
       },
-   destroy(clone: JQuery, options?: DnaOptionsDestroy): JQuery {
+   destroy<T>(clone: JQuery, options?: DnaOptionsDestroy<T>): JQuery {
       // Removes an existing clone from the DOM.
       const defaults = { main: false, fade: false, callback: null };
       const settings = { ...defaults, ...options };
@@ -1411,25 +1413,25 @@ const dna = {
       const clone = dna.getClone(elem, options);
       return clone.parent().children('.dna-clone.' + clone.data().dnaRules.template).index(clone);
       },
-   up(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallback): JQuery {
+   up<T>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T>): JQuery {
       // Smoothly moves a clone up one slot effectively swapping its position with the previous
       // clone.
       const elem = dna.ui.toElem(elemOrEventOrIndex, this);
       return dna.ui.smoothMoveUp(dna.getClone(elem), callback);
       },
-   down(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallback): JQuery {
+   down<T>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T>): JQuery {
       // Smoothly moves a clone down one slot effectively swapping its position with the next
       // clone.
       const elem = dna.ui.toElem(elemOrEventOrIndex, this);
       return dna.ui.smoothMoveDown(dna.getClone(elem), callback);
       },
-   bye(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallback): JQuery {
+   bye<T>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T>): JQuery {
       // Performs a sliding fade out effect on the clone and then removes the element.
       const elem = dna.ui.toElem(elemOrEventOrIndex, this);
       const fn = typeof callback === 'function' ? callback : null;
       return dna.destroy(elem, { fade: true, callback: fn });
       },
-   registerInitializer(fn: DnaCallback, options?: DnaOptionsRegisterInitializer): DnaInitializer[] {
+   registerInitializer(fn: DnaFunctionName | DnaInitializerFn, options?: DnaOptionsRegisterInitializer): DnaInitializer[] {
       // Adds a callback function to the list of initializers that are run on all DOM elements.
       const defaults = { selector: null, params: null, onDocLoad: true };
       const settings = { ...defaults, ...options };
@@ -1437,7 +1439,7 @@ const dna = {
       const onDocLoadElems = () => !rootSelector ? $(window.document) :
          $(rootSelector).not('.dna-template').not(rootSelector).addClass('dna-initialized');
       if (settings.onDocLoad)
-         dna.util.apply(fn, [<unknown>onDocLoadElems()].concat(dna.array.wrap(settings.params)));
+         dna.util.apply(fn, [onDocLoadElems(), ...dna.array.wrap(settings.params)]);
       const initializer = { fn: fn, selector: rootSelector, params: settings.params };
       dna.events.getInitializers().push(initializer);
       return dna.events.getInitializers();
@@ -1446,7 +1448,7 @@ const dna = {
       // Deletes all initializers.
       return dna.events.getInitializers().splice(0);
       },
-   registerContext(contextName: string, contextObjOrFn: Record<string, unknown> | DnaCallback): DnaContext {
+   registerContext(contextName: string, contextObjOrFn: { [name: string]: unknown } | DnaCallback): DnaContext {
       // Registers an application object or individual function to enable it to be used for event
       // callbacks.  Registration is needed when global namespace is not available to dna.js, such
       // as when using webpack to load dna.js as a module.
