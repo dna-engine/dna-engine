@@ -78,7 +78,7 @@ runTasks() {
    cd $projectHome
    echo "Tasks:"
    npm test
-   npm run interactive
+   npx browser-sync . --startPath spec/visual.html
    echo
    }
 

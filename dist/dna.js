@@ -1,4 +1,4 @@
-//! dna.js v1.9.0 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.9.1 ~~ dnajs.org ~~ MIT License
 
 const dnaArray = {
     find: (array, value, key = 'code') => {
@@ -31,7 +31,7 @@ const dnaArray = {
     wrap: (itemOrItems) => {
         const isNothing = itemOrItems === null || itemOrItems === undefined;
         return isNothing ? [] : Array.isArray(itemOrItems) ? itemOrItems : [itemOrItems];
-    }
+    },
 };
 const dnaBrowser = {
     getUrlParams: () => {
@@ -40,7 +40,7 @@ const dnaBrowser = {
         const addPair = (pair) => pair && addParam(pair.split('='));
         window.location.search.slice(1).split('&').forEach(addPair);
         return params;
-    }
+    },
 };
 const dnaPageToken = {
     put: (key, value) => {
@@ -50,7 +50,7 @@ const dnaPageToken = {
     get: (key, defaultValue) => {
         const value = window.sessionStorage[key + window.location.pathname];
         return value === undefined ? defaultValue : JSON.parse(value);
-    }
+    },
 };
 const dnaUi = {
     deleteElem: function (elemOrEventOrIndex, callback) {
@@ -281,14 +281,9 @@ const dnaFormat = {
 const dnaPlaceholder = {
     setup: () => {
         $('option.dna-template').closest('select').addClass('dna-hide');
-        const fade = (node) => {
-            const elem = $(node).stop(true);
-            dna.getClones(elem.data().placeholder).length ? elem.fadeOut() : elem.fadeIn();
-        };
-        const placeholders = $('[data-placeholder]');
-        placeholders.toArray().forEach(fade);
-        return placeholders;
-    }
+        const fade = (elem) => dna.getClones(elem.stop(true).data().placeholder).length ? elem.fadeOut() : elem.fadeIn();
+        return $('[data-placeholder]').forEach(fade);
+    },
 };
 const dnaPanels = {
     display: (menu, location, updateUrl) => {
@@ -348,12 +343,11 @@ const dnaPanels = {
     },
     setup: () => {
         $('body').data().dnaPanelNextNav = 1;
-        const panels = $('.dna-panels');
-        panels.toArray().forEach((node) => dna.panels.initialize($(node)));
+        const panels = $('.dna-panels').forEach(dna.panels.initialize);
         $(window.document).on({ click: dna.panels.clickRotate }, '.dna-menu .menu-item');
         $(window.document).on({ change: dna.panels.selectRotate }, '.dna-menu');
         return panels;
-    }
+    },
 };
 const dnaCompile = {
     regex: {
@@ -376,8 +370,8 @@ const dnaCompile = {
         const htmlCase = () => dna.util.toKebab(field).replace(/[[\]]/g, '').replace(/[.]/g, '-');
         return field ? elem.addClass('dna-field-' + htmlCase()) : elem;
     },
-    field: (index, node) => {
-        const elem = dna.compile.setupNucleotide($(node));
+    field: (elem) => {
+        dna.compile.setupNucleotide(elem);
         elem.data().dnaField = elem.text().replace(dna.compile.regex.dnaBasePairs, '').trim();
         dna.compile.addFieldClass(elem);
         if (elem.is('textarea'))
@@ -386,8 +380,7 @@ const dnaCompile = {
             elem.data().dnaRules.text = true;
         elem.empty();
     },
-    propsAndAttrs: (index, node) => {
-        const elem = $(node);
+    propsAndAttrs: (elem) => {
         const props = [];
         const attrs = [];
         const names = [];
@@ -459,15 +452,13 @@ const dnaCompile = {
         return templateName + '-' + arrayField + '-instance';
     },
     rules: (elems, type, isLists) => {
-        const typedElems = elems.filter('[data-' + type + ']');
-        const addRule = (node) => {
-            const elem = dna.compile.setupNucleotide($(node));
+        const addRule = (elem) => {
+            dna.compile.setupNucleotide(elem);
             const field = dna.compile.getDataField(elem, type);
             const makeLists = () => field.split(';').map((list) => list.split(','));
             elem.data().dnaRules[type] = isLists ? makeLists() : field;
         };
-        typedElems.toArray().forEach(addRule);
-        return typedElems.removeAttr('data-' + type);
+        return elems.filter('[data-' + type + ']').forEach(addRule).removeAttr('data-' + type);
     },
     separators: (elem) => {
         const isWhitespaceNode = (index, node) => node.nodeType === 3 && !/\S/.test(node.nodeValue);
@@ -478,41 +469,34 @@ const dnaCompile = {
             };
             return text && doAppend();
         };
-        const processTemplate = (node) => {
-            const templateElem = $(node);
-            append(templateElem, templateElem.data().separator, 'dna-separator');
-            append(templateElem, templateElem.data().lastSeparator, 'dna-last-separator');
+        const processTemplate = (elem) => {
+            append(elem, elem.data().separator, 'dna-separator');
+            append(elem, elem.data().lastSeparator, 'dna-last-separator');
         };
         const clones = elem.find('.dna-template, .dna-sub-clone').addBack();
-        clones.toArray().forEach(processTemplate);
+        clones.forEach(processTemplate);
         return clones;
     },
     template: (name) => {
         const elem = $('#' + name);
         dna.core.assert(elem.length, 'Template not found', name);
-        const saveName = (index, node) => {
-            $(node).data().dnaRules = { template: $(node).attr('id'), subs: [] };
-        };
-        const initSubs = (index, node) => {
-            $(node).data().dnaRules.subs = [];
-        };
-        elem.find('.dna-template').addBack().each(saveName).removeAttr('id').each(initSubs);
+        const saveName = (elem) => elem.data().dnaRules = { template: elem.attr('id'), subs: [] };
+        const initSubs = (elem) => elem.data().dnaRules.subs = [];
+        elem.find('.dna-template').addBack().forEach(saveName).removeAttr('id').forEach(initSubs);
         const elems = elem.find('*').addBack();
-        elems.filter(dna.compile.isDnaField).each(dna.compile.field).addClass('dna-field');
-        dna.compile.rules(elems, 'array').addClass('dna-sub-clone').each(initSubs);
+        elems.filter(dna.compile.isDnaField).forEach(dna.compile.field).addClass('dna-field');
+        dna.compile.rules(elems, 'array').addClass('dna-sub-clone').forEach(initSubs);
         dna.compile.rules(elems, 'class', true);
         dna.compile.rules(elems, 'require');
         dna.compile.rules(elems, 'missing');
         dna.compile.rules(elems, 'true');
         dna.compile.rules(elems, 'false');
-        elems.each(dna.compile.propsAndAttrs);
+        elems.forEach(dna.compile.propsAndAttrs);
         dna.compile.separators(elem);
-        const setTypeAttr = (index, node) => {
-            $(node).attr({ type: $(node).data().attrType });
-        };
-        $('input[data-attr-type]').each(setTypeAttr);
+        const setTypeAttr = (inputElem) => inputElem.attr({ type: inputElem.data().attrType });
+        $('input[data-attr-type]').forEach(setTypeAttr);
         return dna.store.stash(elem);
-    }
+    },
 };
 const dnaStore = {
     getTemplateDb: () => {
@@ -522,8 +506,7 @@ const dnaStore = {
     },
     stash: (elem) => {
         const name = elem.data().dnaRules.template;
-        const move = (index, node) => {
-            const elem = $(node);
+        const move = (elem) => {
             const name = elem.data().dnaRules.template;
             const container = elem.parent();
             const wrapped = container.children().length === 1 && !container.hasClass('dna-container');
@@ -550,20 +533,20 @@ const dnaStore = {
             dna.store.getTemplateDb()[name] = template;
             elem.removeClass('dna-template').addClass('dna-clone').addClass(name).detach();
         };
-        const prepLoop = (index, node) => {
-            const rules = $(node).data().dnaRules;
-            const parent = dna.compile.setupNucleotide($(node).parent()).addClass('dna-array');
+        const prepLoop = (elem) => {
+            const rules = elem.data().dnaRules;
+            const parent = dna.compile.setupNucleotide(elem.parent()).addClass('dna-array');
             rules.template = dna.compile.subTemplateName(name, rules.array);
             parent.data().dnaRules.loop = { name: rules.template, field: rules.array };
             parent.closest('.dna-clone, .dna-sub-clone').data().dnaRules.subs.push(rules.array);
         };
-        elem.find('.dna-template').addBack().each(move);
-        elem.find('.dna-sub-clone').each(prepLoop).each(move);
+        elem.find('.dna-template').addBack().forEach(move);
+        elem.find('.dna-sub-clone').forEach(prepLoop).forEach(move);
         return dna.store.getTemplateDb()[name];
     },
     getTemplate: (name) => {
         return dna.store.getTemplateDb()[name] || dna.compile.template(name);
-    }
+    },
 };
 const dnaEvents = {
     getContextDb: () => {
@@ -578,16 +561,14 @@ const dnaEvents = {
     },
     runOnLoads: () => {
         const elems = $('[data-on-load]').not('.dna-loaded');
-        const run = (node) => dna.util.apply($(node).data().onLoad, $(node));
-        elems.toArray().forEach(run);
-        return elems.addClass('dna-loaded');
+        const run = (elem) => dna.util.apply(elem.data().onLoad, elem);
+        return elems.forEach(run).addClass('dna-loaded');
     },
     runInitializers: (root) => {
         const init = (initializer) => {
             const find = (selector) => root.find(selector).addBack(selector);
             const elems = initializer.selector ? find(initializer.selector) : root;
-            const data = dna.array.wrap(initializer.params);
-            const params = [elems.addClass('dna-initialized')].concat(data);
+            const params = [elems.addClass('dna-initialized'), ...dna.array.wrap(initializer.params)];
             dna.util.apply(initializer.fn, params);
         };
         dna.events.getInitializers().forEach(init);
@@ -610,9 +591,7 @@ const dnaEvents = {
             const updateField = (elem, calc) => dna.util.assign(dna.getModel(elem), elem.data().dnaField, calc(elem));
             const getValue = (elem) => elem.val();
             const isChecked = (elem) => elem.is(':checked');
-            const updateOption = (index, node) => {
-                updateField($(node), isChecked);
-            };
+            const updateOption = (elem) => updateField(elem, isChecked);
             const updateModel = () => {
                 const mainClone = dna.getClone(target, { main: true });
                 if (mainClone.length === 0) {
@@ -621,7 +600,7 @@ const dnaEvents = {
                 if (target.is('input:checkbox'))
                     updateField(target, isChecked);
                 else if (target.is('input:radio'))
-                    $('input:radio[name=' + target.attr('name') + ']').each(updateOption);
+                    $('input:radio[name=' + target.attr('name') + ']').forEach(updateOption);
                 else if (target.data().dnaRules.val)
                     updateField(target, getValue);
                 dna.refresh(mainClone);
@@ -695,7 +674,7 @@ const dnaEvents = {
             .on({ mouseenter: makeEventHandler('hover-in') }, '[data-hover-in]')
             .on({ mouseleave: makeEventHandler('hover-out') }, '[data-hover-out]');
         return dna.events.runOnLoads();
-    }
+    },
 };
 const dnaCore = {
     inject: (clone, data, count, settings) => {
@@ -718,9 +697,7 @@ const dnaCore = {
                 elem.prop(props[prop * 2], dna.util.realTruth(dna.util.value(data, props[prop * 2 + 1])));
         };
         const injectAttrs = (elem, attrs) => {
-            for (let i = 0; i < attrs.length / 2; i++) {
-                const key = attrs[i * 2];
-                const parts = attrs[i * 2 + 1];
+            const inject = (key, parts) => {
                 const field = parts[1];
                 const core = field === 1 ? count : field === 2 ? data : dna.util.value(data, field);
                 const value = [parts[0], core, parts[2]].join('');
@@ -729,7 +706,9 @@ const dnaCore = {
                     elem.data(key.substring(5), value);
                 if (key === 'value' && value !== elem.val())
                     elem.val(value);
-            }
+            };
+            for (let i = 0; i < attrs.length / 2; i++)
+                inject(attrs[i * 2], attrs[i * 2 + 1]);
         };
         const injectClass = (elem, classLists) => {
             const process = (classList) => {
@@ -754,8 +733,7 @@ const dnaCore = {
         const processLoop = (elem, loop) => {
             const dataArray = dna.util.value(data, loop.field);
             const subClones = elem.children('.' + loop.name.replace(/[.]/g, '\\.'));
-            const injectSubClone = (index, node) => {
-                const elem = $(node);
+            const injectSubClone = (elem, index) => {
                 if (!elem.is('option'))
                     dna.core.inject(elem, dataArray[index], index + 1, settings);
             };
@@ -766,12 +744,11 @@ const dnaCore = {
             if (!dataArray)
                 (data[loop.field]) = [];
             else if (dataArray.length === subClones.length)
-                subClones.each(injectSubClone);
+                subClones.forEach(injectSubClone);
             else
                 rebuildSubClones();
         };
-        const process = (index, node) => {
-            const elem = $(node);
+        const process = (elem) => {
             const dnaRules = elem.data().dnaRules;
             if (dnaRules.transform)
                 dna.util.apply(dnaRules.transform, data);
@@ -799,7 +776,7 @@ const dnaCore = {
                 dna.util.apply(dnaRules.callback, elem);
         };
         const dig = (elems) => {
-            elems.filter('.dna-nucleotide').each(process);
+            elems.filter('.dna-nucleotide').forEach(process);
             if (elems.length)
                 dig(elems.children().not('.dna-sub-clone'));
         };
@@ -888,7 +865,7 @@ const dnaCore = {
         dna.placeholder.setup();
         clone.remove();
         if (callback)
-            callback(clone);
+            callback(clone, dna.getModel(clone));
         return clone;
     },
     assert: (ok, message, info) => {
@@ -902,11 +879,16 @@ const dnaCore = {
         }
     },
     plugin: () => {
-        $.fn['dna'] = function (action, ...params) {
+        $.fn.forEach = function (fn) {
+            const elems = this;
+            return elems.each((index, node) => fn($(node), index));
+        };
+        $.fn.dna = function (action, ...params) {
+            const elems = this;
             const dnaApi = dna[dna.util.toCamel(action)];
             dna.core.assert(dnaApi, 'Unknown plugin action', action);
-            const callApi = (index, node) => dnaApi($(node), params[0], params[1], params[2]);
-            this.each(callApi);
+            const callApi = (elem) => dnaApi(elem, ...params);
+            return elems.forEach(callApi);
         };
     },
     setup: () => {
@@ -919,10 +901,10 @@ const dnaCore = {
         if (typeof window === 'object' && typeof $ === 'function')
             setupBrowser();
         return dna;
-    }
+    },
 };
 const dna = {
-    version: '1.9.0',
+    version: '1.9.1',
     clone(name, data, options) {
         const defaults = {
             fade: false,
@@ -1017,13 +999,12 @@ const dna = {
         clone = dna.getClone(clone);
         const renumber = () => {
             const name = clone.data().dnaRules.template;
-            const update = (index, node) => {
-                const elem = $(node);
+            const update = (elem, index) => {
                 elem.data().dnaCount = index + 1;
                 dna.refresh(elem, options);
             };
             const container = clone.parent();
-            const clones = container.children('.dna-clone.' + name).each(update);
+            const clones = container.children('.dna-clone.' + name).forEach(update);
             container.data().dnaCountsMap = container.data().dnaCountsMap || {};
             container.data().dnaCountsMap[name] = clones.length;
         };
@@ -1074,7 +1055,7 @@ const dna = {
         const onDocLoadElems = () => !rootSelector ? $(window.document) :
             $(rootSelector).not('.dna-template').not(rootSelector).addClass('dna-initialized');
         if (settings.onDocLoad)
-            dna.util.apply(fn, [onDocLoadElems()].concat(dna.array.wrap(settings.params)));
+            dna.util.apply(fn, [onDocLoadElems(), ...dna.array.wrap(settings.params)]);
         const initializer = { fn: fn, selector: rootSelector, params: settings.params };
         dna.events.getInitializers().push(initializer);
         return dna.events.getInitializers();
