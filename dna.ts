@@ -531,7 +531,7 @@ const dnaPanels = {
    // location bar.  The "data-nav" attributes can be omitted if the ".dna-panels" element
    // immediately follows the ".dna-menu" element.
    display: (menu: JQuery, location?: number, updateUrl?: boolean): JQuery => {
-      // Shows the panel at the given location (index)
+      // Shows the panel at the given location (index).
       const panels =    menu.data().dnaPanels;
       const navName =   menu.data().nav;
       const menuItems = menu.find('.menu-item');
@@ -553,13 +553,13 @@ const dnaPanels = {
       return panel;
       },
    clickRotate: (event: JQuery.EventBase): JQuery => {
-      // Moves to the selected panel
+      // Moves to the selected panel.
       const item = $(event.target).closest('.menu-item');
       const menu = item.closest('.dna-menu');
       return dna.panels.display(menu, menu.find('.menu-item').index(item), true);
       },
    selectRotate: (event: JQuery.EventBase): JQuery => {
-      // Moves to the selected panel
+      // Moves to the selected panel.
       const menu = $(event.target);
       return dna.panels.display(menu, menu.find('option:selected').index(), true);
       },
@@ -802,7 +802,7 @@ const dnaCompile = {
    };
 
 const dnaStore = {
-   // Handles storage and retrieval of templates
+   // Handles storage and retrieval of templates.
    getTemplateDb: (): DnaTemplateDb => {
       const store = $('body').data();
       const initStore = () => store.dnaTemplateDb = {};
@@ -879,7 +879,7 @@ const dnaEvents = {
       return elems.forEach(run).addClass('dna-loaded');
       },
    runInitializers: (root: JQuery): JQuery => {
-      // Executes data-callback functions plus registered initializers
+      // Executes the data-callback functions plus registered initializers.
       const init = (initializer: DnaInitializer) => {
          const find =   (selector: string): JQuery => root.find(selector).addBack(selector);
          const elems =  initializer.selector ? find(initializer.selector) : root;
@@ -891,8 +891,8 @@ const dnaEvents = {
       },
    setup: (): JQuery => {
       const runner = (elem: JQuery, type: string, event: JQuery.EventBase) => {
-         // Finds elements for given event type and executes callback passing in the element,
-         //    event, and component (container element with "data-component" attribute)
+         // Finds elements for the given event type and executes the callback passing in the
+         //    element, event, and component (container element with "data-component" attribute).
          // Types: click|change|input|key-up|key-down|key-press|enter-key
          const target = elem.closest('[data-' + type + ']');
          const fn = target.data(type);
@@ -1003,7 +1003,7 @@ const dnaEvents = {
 
 const dnaCore = {
    inject: <T>(clone: JQuery, data: T, count: number, settings: DnaOptionsClone<T>): JQuery => {
-      // Inserts data into clone and runs rules
+      // Inserts data into a clone and executes its rules.
       const injectField = (elem: JQuery, field: string, dnaRules: DnaRules) => {  //example: <h2>~~title~~</h2>
          const value = field === '[count]' ? count : field === '[value]' ? data :
             dna.util.value(data, field);
@@ -1115,7 +1115,8 @@ const dnaCore = {
       clone.data().dnaCount = count;
       return clone;
       },
-   replicate: <T>(template: DnaTemplate, data: T, settings: DnaOptionsClone<T>): JQuery => {  //make and setup the clone
+   replicate: <T>(template: DnaTemplate, data: T, settings: DnaOptionsClone<T>): JQuery => {
+      // Creates and sets up a clone.
       const displaySeparators = () => {
          const clones = container.children('.' + template.name);
          clones.find('.dna-separator').show().end().last().find('.dna-separator').hide();
@@ -1266,7 +1267,7 @@ const dna = {
    //    dna.registerContext()
    //    dna.info()
    // See: https://dnajs.org/docs/#api
-   clone<T>(name: string, data: T, options?: DnaOptionsClone<T>): JQuery {
+   clone<T>(name: string, data: T | T[], options?: DnaOptionsClone<T>): JQuery {
       // Generates a copy of the template and populates the fields, attributes, and
       // classes from the supplied data.
       const defaults = {
@@ -1295,7 +1296,7 @@ const dna = {
       clones.first().parents('.dna-hide').removeClass('dna-hide').addClass('dna-unhide');
       return clones;
       },
-   cloneSub<T>(holderClone: JQuery, arrayField: string, data: T, options?: DnaOptionsCloneSub): JQuery {
+   cloneSub<T>(holderClone: JQuery, arrayField: string, data: T | T[], options?: DnaOptionsCloneSub): JQuery {
       // Clones a sub-template to append onto an array loop.
       const name = dna.compile.subTemplateName(holderClone, arrayField);
       const selector = '.dna-contains-' + name;
