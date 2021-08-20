@@ -78,10 +78,11 @@ runTasks() {
    cd $projectHome
    echo "Tasks:"
    npm test
-   npx browser-sync . --startPath spec/visual.html
    echo
    }
 
 setupTools
 releaseInstructions
 runTasks
+sleep 2 && open http://localhost:5000/spec/visual.html &
+npx serve

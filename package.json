@@ -150,6 +150,7 @@
       "puppeteer-browser-ready": "~0.3",
       "replace-in-file": "~6.2",
       "rimraf": "~3.0",
+      "serve": "~12.0",
       "typescript": "~4.3",
       "w3c-html-validator": "~0.7",
       "web-ignition": "~1.4"
