@@ -1023,14 +1023,17 @@ const dnaCore = {
             elem.prop(props[prop*2]!,
                dna.util.realTruth(dna.util.value(data, props[prop*2 + 1]!)));
          };
-      const injectAttrs = (elem: JQuery, attrs: DnaAttrs) => {  //example attrs: ['data-tag', ['', 'tag', '']]
+      const injectAttrs = (elem: JQuery, dnaRules: DnaRules) => {
+         const attrs = dnaRules.attrs!;  //example attrs: ['data-tag', ['', 'tag', '']]
          const inject = (key: DnaAttrName, parts: DnaAttrParts) => {  //example parts: 'J~~code.num~~' ==> ['J', 'code.num', '']
             const field = parts[1];
             const core = field === 1 ? count : field === 2 ? data : dna.util.value(data, field);
             const value = [parts[0], core, parts[2]].join('');
-            elem.attr(key, value);
+            const formatted = dnaRules.formatter ?
+               dnaRules.formatter(<DnaFormatterValue>value, data) : value;
+            elem.attr(key, formatted);
             if (/^data-./.test(key))
-               elem.data(key.substring(5), value);
+               elem.data(key.substring(5), formatted);
             if (key === 'value' && value !== elem.val())  //set elem val for input fields (example: <input value=~~tag~~>)
                elem.val(value);
             };
@@ -1089,7 +1092,7 @@ const dnaCore = {
          if (dnaRules.props)
             injectProps(elem, dnaRules.props);
          if (dnaRules.attrs)
-            injectAttrs(elem, dnaRules.attrs);
+            injectAttrs(elem, dnaRules);
          if (dnaRules.class)
             injectClass(elem, dnaRules.class);
          if (dnaRules.require)

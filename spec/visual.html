@@ -1630,7 +1630,7 @@ spec.spec22 = {
          <div id=s23-book class=dna-template data-transform=spec.spec23.addΣ>
             <h4>
                <span data-format=spec.spec23.up>~~title~~</span> *
-               <span data-format=spec.spec23.up>~~author~~</span> *
+               <span data-format=spec.spec23.up data-attr-title=~~author~~>~~author~~</span> *
                <span data-format=String.fromCharCode>~~price~~</span>
             </h4>
             <div>Event:</div>
@@ -1671,7 +1671,9 @@ spec.spec22 = {
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone>
-            <h4><span>THE DOM!</span> * <span>JAN!</span> * <span>&#2499;</span></h4>
+            <h4>
+               <span>THE DOM!</span> * <span title=JAN!>JAN!</span> * <span>&#2499;</span>
+            </h4>
             <div>Event:</div>
             <output>
                <samp title=milliseconds>47008800000</samp>
@@ -1705,7 +1707,9 @@ spec.spec22 = {
             </div>
          </div>
          <div class=dna-clone>
-            <h4><span>STYLING CSS3</span> * <span>ABBY</span> * <span>&#1999;</span></h4>
+            <h4>
+               <span>STYLING CSS3</span> * <span title=ABBY>ABBY</span> * <span>&#1999;</span>
+            </h4>
             <div>Event:</div>
             <output>
                <samp title=milliseconds>1904112000000</samp>
@@ -1739,7 +1743,9 @@ spec.spec22 = {
             </div>
          </div>
          <div class=dna-clone>
-            <h4><span>HOWDY HTML5</span> * <span>ED</span> * <span>&#2999;</span></h4>
+            <h4>
+               <span>HOWDY HTML5</span> * <span title=ED>ED</span> * <span>&#2999;</span>
+            </h4>
             <div>Event:</div>
             <output>
                <samp title=milliseconds></samp>
