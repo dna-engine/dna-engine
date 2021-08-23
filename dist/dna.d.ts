@@ -1,4 +1,4 @@
-//! dna.js v1.9.1 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.9.2 ~~ dnajs.org ~~ MIT License
 
 /// <reference types="jquery" />
 export declare type Json = string | number | boolean | null | undefined | Json[] | {
@@ -76,7 +76,7 @@ export declare type DnaOptionsRegisterInitializer = {
     params?: DnaDataObject | unknown[] | null;
     onDocLoad?: boolean;
 };
-export declare type DnaFormatter = (value: DnaFormatterValue) => string;
+export declare type DnaFormatter = <T>(value: DnaFormatterValue, model?: T) => string;
 export declare type DnaFormatterValue = number | string | boolean;
 export declare type DnaMSec = number | string;
 export declare type DnaCallback = (...args: unknown[]) => unknown;
@@ -154,8 +154,8 @@ export declare type DnaInfo = {
 };
 declare const dna: {
     version: string;
-    clone<T>(name: string, data: T, options?: DnaOptionsClone<T> | undefined): JQuery;
-    cloneSub<T_1>(holderClone: JQuery, arrayField: string, data: T_1, options?: DnaOptionsCloneSub | undefined): JQuery;
+    clone<T>(name: string, data: T | T[], options?: DnaOptionsClone<T> | undefined): JQuery;
+    cloneSub<T_1>(holderClone: JQuery, arrayField: string, data: T_1 | T_1[], options?: DnaOptionsCloneSub | undefined): JQuery;
     createTemplate(name: string, html: string, holder: JQuery): DnaTemplate;
     templateExists(name: string): boolean;
     getModel<T_2>(elemOrName: JQuery | string, options?: DnaOptionsGetModel | undefined): T_2 | T_2[] | undefined;

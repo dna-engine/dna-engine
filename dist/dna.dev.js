@@ -1,4 +1,4 @@
-//! dna.js v1.9.1 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.9.2 ~~ dnajs.org ~~ MIT License
 
 const dnaArray = {
     find: (array, value, key = 'code') => {
@@ -275,7 +275,7 @@ const dnaFormat = {
         return new Intl.NumberFormat([], percent).format;
     },
     getFormatter(fn) {
-        return (value) => String(dna.util.apply(fn, value));
+        return (value, data) => String(dna.util.apply(fn, [value, data]));
     },
 };
 const dnaPlaceholder = {
@@ -682,7 +682,7 @@ const dnaCore = {
             const value = field === '[count]' ? count : field === '[value]' ? data :
                 dna.util.value(data, field);
             const formatted = () => dnaRules.formatter ?
-                dnaRules.formatter(value) : String(value);
+                dnaRules.formatter(value, data) : String(value);
             if (['string', 'number', 'boolean'].includes(typeof value))
                 elem = settings.html ? elem.html(formatted()) : elem.text(formatted());
         };
@@ -696,14 +696,17 @@ const dnaCore = {
             for (let prop = 0; prop < props.length / 2; prop++)
                 elem.prop(props[prop * 2], dna.util.realTruth(dna.util.value(data, props[prop * 2 + 1])));
         };
-        const injectAttrs = (elem, attrs) => {
+        const injectAttrs = (elem, dnaRules) => {
+            const attrs = dnaRules.attrs;
             const inject = (key, parts) => {
                 const field = parts[1];
                 const core = field === 1 ? count : field === 2 ? data : dna.util.value(data, field);
                 const value = [parts[0], core, parts[2]].join('');
-                elem.attr(key, value);
+                const formatted = dnaRules.formatter ?
+                    dnaRules.formatter(value, data) : value;
+                elem.attr(key, formatted);
                 if (/^data-./.test(key))
-                    elem.data(key.substring(5), value);
+                    elem.data(key.substring(5), formatted);
                 if (key === 'value' && value !== elem.val())
                     elem.val(value);
             };
@@ -761,7 +764,7 @@ const dnaCore = {
             if (dnaRules.props)
                 injectProps(elem, dnaRules.props);
             if (dnaRules.attrs)
-                injectAttrs(elem, dnaRules.attrs);
+                injectAttrs(elem, dnaRules);
             if (dnaRules.class)
                 injectClass(elem, dnaRules.class);
             if (dnaRules.require)
@@ -904,7 +907,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '1.9.1',
+    version: '1.9.2',
     clone(name, data, options) {
         const defaults = {
             fade: false,
