@@ -1671,7 +1671,7 @@ spec.spec22 = {
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone>
-            <h4><span>THE DOM</span> * <span>JAN</span> * <span>&#2499;</span></h4>
+            <h4><span>THE DOM!</span> * <span>JAN!</span> * <span>&#2499;</span></h4>
             <div>Event:</div>
             <output>
                <samp title=milliseconds>47008800000</samp>
@@ -1780,8 +1780,8 @@ spec.spec23 = {
    addΣ(book) {
       book.σ = Math.SQRT1_2;
       },
-   up(value) {
-      return value.toUpperCase();
+   up(value, data) {
+      return value.toUpperCase() + (data.language === 'en' ? '!' : '');
       },
    run() {
       const addπ = (book) => book.π = Math.PI;

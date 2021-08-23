@@ -69,7 +69,7 @@ export type DnaOptionsRegisterInitializer = {
    params?:    DnaDataObject | unknown[] | null,
    onDocLoad?: boolean,
    };
-export type DnaFormatter = (value: DnaFormatterValue) => string;
+export type DnaFormatter = <T>(value: DnaFormatterValue, model?: T) => string;
 export type DnaFormatterValue = number | string | boolean;
 export type DnaMSec = number | string;  //milliseconds UTC (or ISO 8601 string)
 export type DnaCallback = (...args: unknown[]) => unknown;
@@ -500,7 +500,7 @@ const dnaFormat = {
       return <DnaFormatter>new Intl.NumberFormat([], percent).format;
       },
    getFormatter(fn: string): DnaFormatter {
-      return (value: DnaFormatterValue) => String(dna.util.apply(fn, value));
+      return <T>(value: DnaFormatterValue, data: T) => String(dna.util.apply(fn, [value, data]));
       },
    };
 
@@ -1008,7 +1008,7 @@ const dnaCore = {
          const value = field === '[count]' ? count : field === '[value]' ? data :
             dna.util.value(data, field);
          const formatted = () => dnaRules.formatter ?
-            dnaRules.formatter(<DnaFormatterValue>value) : String(value);
+            dnaRules.formatter(<DnaFormatterValue>value, data) : String(value);
          if (['string', 'number', 'boolean'].includes(typeof value))
             elem = settings.html ? elem.html(formatted()) : elem.text(formatted());
          };
