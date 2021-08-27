@@ -68,7 +68,7 @@
             <li>
                <a href=#api-extra>JavaScript API (Extra/Advanced)</a>
                <ol>
-                  <li><a href=#api-clone-sub>dna.cloneSub()</a></li>
+                  <li><a href=#api-clone-sub>dna.arrayPush()</a></li>
                   <li><a href=#api-create>dna.createTemplate()</a></li>
                   <li><a href=#api-exists>dna.templateExists()</a></li>
                   <li><a href=#api-empty>dna.empty()</a></li>
@@ -981,7 +981,7 @@
       <!-- End: Result -->
       <p>
          <em>Note:</em>
-         The optional second parameter passed into the formatter function is the data model 
+         The optional second parameter passed into the formatter function is the data model
          object.
       </p>
    </section>
@@ -1201,7 +1201,7 @@
       <h3 id=api-extra>JavaScript API (Extra/Advanced)</h3>
       <h5>API Overview</h5>
       <ol>
-         <li><b>dna.cloneSub</b>(holderClone, arrayField, data, options)</li>
+         <li><b>dna.arrayPush</b>(holderClone, arrayField, data, options)</li>
          <li><b>dna.empty</b>(name, options)</li>
          <li><b>dna.refreshAll</b>(name)</li>
          <li><b>dna.recount</b>(name, options)</li>
@@ -1218,9 +1218,9 @@
       </ol>
    </div>
 
-   <!-- dna.cloneSub() -->
+   <!-- dna.arrayPush() -->
    <section id=api-clone-sub>
-      <h4>dna.cloneSub(holderClone, arrayField, data[, options])</h4>
+      <h4>dna.arrayPush(holderClone, arrayField, data[, options])</h4>
       <p class=api-description>
          Clones a sub-template to append onto an array loop.
       </p>
@@ -1245,7 +1245,7 @@
             const book = { title: 'Interwebz', chapters: ['ARPANET', 'TCP/IP'] };
             const clone = dna.clone('book', book);
             const options = { fade: true, top: false };
-            dna.cloneSub(clone, 'chapters', 'CERN', options);  //append chapter
+            dna.arrayPush(clone, 'chapters', 'CERN', options);  //append chapter
          </code></pre>
       </figure>
       <p>

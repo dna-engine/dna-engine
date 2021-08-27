@@ -24,7 +24,7 @@ export type DnaOptionsClone<T> = {
    transform?: DnaTransformFn<T> | null,
    callback?:  DnaCallbackFn<T> | null,
    };
-export type DnaOptionsCloneSub = {
+export type DnaOptionsArrayPush = {
    fade?:      boolean,
    top?:       boolean,
    };
@@ -1249,7 +1249,7 @@ const dna = {
    version: '[VERSION]',
    // API:
    //    dna.clone()
-   //    dna.cloneSub()
+   //    dna.arrayPush()
    //    dna.createTemplate()
    //    dna.templateExists()
    //    dna.getModel()
@@ -1299,7 +1299,7 @@ const dna = {
       clones.first().parents('.dna-hide').removeClass('dna-hide').addClass('dna-unhide');
       return clones;
       },
-   cloneSub<T>(holderClone: JQuery, arrayField: string, data: T | T[], options?: DnaOptionsCloneSub): JQuery {
+   arrayPush<T>(holderClone: JQuery, arrayField: string, data: T | T[], options?: DnaOptionsArrayPush): JQuery {
       // Clones a sub-template to append onto an array loop.
       const name = dna.compile.subTemplateName(holderClone, arrayField);
       const selector = '.dna-contains-' + name;
@@ -1307,6 +1307,10 @@ const dna = {
       const clones = dna.clone(name, data, { ...settings, ...options });
       dna.core.updateArray(clones);
       return clones;
+      },
+   cloneSub<T>(holderClone: JQuery, arrayField: string, data: T | T[], options?: DnaOptionsArrayPush): JQuery {
+      console.log('DEPRECATED: Function dna.cloneSub() has been renamed to dna.arrayPush().');
+      return dna.arrayPush(holderClone, arrayField, data, options);
       },
    createTemplate(name: string, html: string, holder: JQuery): DnaTemplate {
       // Generates a template from an HTML string.
