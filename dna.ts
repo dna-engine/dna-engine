@@ -1070,7 +1070,7 @@ const dnaCore = {
             };
          const rebuildSubClones = () => {
             subClones.remove();
-            dna.clone(loop.name, dataArray, { container: elem, html: settings.html });
+            dna.clone(loop.name, dataArray, { container: elem, html: !!settings.html });
             };
          if (!dataArray)
             (data[loop.field]) = [];
@@ -1208,8 +1208,8 @@ const dnaCore = {
             throw Error('dna.js ~~ ' + message + ' [' + String(info) + ']');
          }
       catch (e) {
-         console.error(e.stack);
-         throw Error(e);
+         console.error((<Error>e).stack);
+         throw Error((<Error>e).message);
          }
       },
    plugin: (): void => {
@@ -1338,7 +1338,7 @@ const dna = {
    insert<T>(name: string, data: T, options?: DnaOptionsInsert<T>): JQuery {
       // Updates the first clone if it already exists otherwise creates the first clone.
       const clone = dna.getClones(name).first();
-      return clone.length ? dna.refresh(clone, { data: data, html: options && options.html }) :
+      return clone.length ? dna.refresh(clone, { data: data, html: !!options?.html }) :
          dna.clone(name, data, options);
       },
    refresh(clone: JQuery, options?: DnaOptionsRefresh): JQuery {
