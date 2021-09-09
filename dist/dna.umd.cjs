@@ -1,4 +1,4 @@
-//! dna.js v1.9.2 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.9.3 ~~ dnajs.org ~~ MIT License
 
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
@@ -458,10 +458,10 @@
         getDataField: (elem, type) => {
             return elem.data(type).replace(dna.compile.regex.dnaBasePairs, '').trim();
         },
-        subTemplateName: (holder, arrayField) => {
+        subTemplateName: (holder, arrayField, index) => {
             const getRules = () => dna.getClone(holder, { main: true }).data().dnaRules;
             const templateName = holder instanceof $ ? getRules().template : holder;
-            return templateName + '-' + arrayField + '-instance';
+            return templateName + '-' + arrayField + '--' + String(index);
         },
         rules: (elems, type, isLists) => {
             const addRule = (elem) => {
@@ -548,9 +548,10 @@
             const prepLoop = (elem) => {
                 const rules = elem.data().dnaRules;
                 const parent = dna.compile.setupNucleotide(elem.parent()).addClass('dna-array');
-                rules.template = dna.compile.subTemplateName(name, rules.array);
+                const containerRules = parent.closest('.dna-clone, .dna-sub-clone').data().dnaRules;
+                rules.template = dna.compile.subTemplateName(name, rules.array, containerRules.subs.length);
                 parent.data().dnaRules.loop = { name: rules.template, field: rules.array };
-                parent.closest('.dna-clone, .dna-sub-clone').data().dnaRules.subs.push(rules.array);
+                containerRules.subs.push(rules.array);
             };
             elem.find('.dna-template').addBack().forEach(move);
             elem.find('.dna-sub-clone').forEach(prepLoop).forEach(move);
@@ -754,7 +755,7 @@
                 };
                 const rebuildSubClones = () => {
                     subClones.remove();
-                    dna.clone(loop.name, dataArray, { container: elem, html: settings.html });
+                    dna.clone(loop.name, dataArray, { container: elem, html: !!settings.html });
                 };
                 if (!dataArray)
                     (data[loop.field]) = [];
@@ -858,25 +859,20 @@
         getArrayName: (subClone) => {
             return subClone.hasClass('dna-sub-clone') ? subClone.data().dnaRules.array : null;
         },
-        updateArrayByName: (clone, arrayField) => {
-            const update = (elem, field) => {
-                const name = dna.compile.subTemplateName(elem, field);
-                if (elem.data().dnaRules.subs.includes(field))
-                    dna.getModel(elem)[field] =
-                        elem.find('.' + name).toArray().map(node => dna.getModel($(node)));
-                return elem;
-            };
-            return arrayField ? update(dna.getClone(clone), arrayField) : clone;
-        },
-        updateArray: (subClone) => {
-            const elem = dna.getClone(subClone.first());
-            dna.core.updateArrayByName(elem.parent(), dna.core.getArrayName(elem));
-            return elem;
+        updateModelArray: (container) => {
+            dna.core.assert(container.hasClass('dna-array'), 'Invalid array container', container.attr('class'));
+            const array = container.data().dnaRules.loop;
+            const subs = container.children('.' + array.name);
+            const model = dna.getModel(container);
+            const nodeToModel = (node) => dna.getModel($(node));
+            model[array.field] = subs.toArray().map(nodeToModel);
+            return container;
         },
         remove: (clone, callback) => {
             const container = clone.parent();
             clone.detach();
-            dna.core.updateArrayByName(container, dna.core.getArrayName(clone));
+            if (clone.hasClass('dna-sub-clone'))
+                dna.core.updateModelArray(container);
             dna.placeholder.setup();
             clone.remove();
             if (callback)
@@ -890,7 +886,7 @@
             }
             catch (e) {
                 console.error(e.stack);
-                throw Error(e);
+                throw Error(e.message);
             }
         },
         plugin: () => {
@@ -919,7 +915,7 @@
         },
     };
     const dna = {
-        version: '1.9.2',
+        version: '1.9.3',
         clone(name, data, options) {
             const defaults = {
                 fade: false,
@@ -946,13 +942,24 @@
             clones.first().parents('.dna-hide').removeClass('dna-hide').addClass('dna-unhide');
             return clones;
         },
+        arrayPush(holderClone, arrayField, data, options) {
+            const cloneSub = (field, index) => {
+                const clone = () => {
+                    const name = dna.compile.subTemplateName(holderClone, arrayField, index);
+                    const selector = '.dna-contains-' + name;
+                    const settings = { container: holderClone.find(selector).addBack(selector) };
+                    dna.clone(name, data, { ...settings, ...options });
+                    dna.core.updateModelArray(settings.container);
+                };
+                if (field === arrayField)
+                    clone();
+            };
+            holderClone.data().dnaRules.subs.forEach(cloneSub);
+            return holderClone;
+        },
         cloneSub(holderClone, arrayField, data, options) {
-            const name = dna.compile.subTemplateName(holderClone, arrayField);
-            const selector = '.dna-contains-' + name;
-            const settings = { container: holderClone.find(selector).addBack(selector) };
-            const clones = dna.clone(name, data, { ...settings, ...options });
-            dna.core.updateArray(clones);
-            return clones;
+            console.log('DEPRECATED: Function dna.cloneSub() has been renamed to dna.arrayPush().');
+            return dna.arrayPush(holderClone, arrayField, data, options);
         },
         createTemplate(name, html, holder) {
             $(html).attr({ id: name }).addClass('dna-template').appendTo(holder);
@@ -978,7 +985,7 @@
         },
         insert(name, data, options) {
             const clone = dna.getClones(name).first();
-            return clone.length ? dna.refresh(clone, { data: data, html: options && options.html }) :
+            return clone.length ? dna.refresh(clone, { data: data, html: !!options?.html }) :
                 dna.clone(name, data, options);
         },
         refresh(clone, options) {
