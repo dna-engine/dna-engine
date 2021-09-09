@@ -681,6 +681,13 @@ spec.spec11 = {
                   <cite>~~[value]~~</cite>
                </span>
             </span>
+            <br>
+            Authors 2:
+            <span>
+               <span data-array=~~authors~~ data-author=~~[value]~~>
+                  [<cite>~~[value]~~</cite>]
+               </span>
+            </span>
             <div class=color-change data-array=~~chapters~~>
                <span>~~[count]~~</span>.
                <span data-class=~~type~~ data-type=~~type~~>~~type~~</span>:
@@ -705,6 +712,12 @@ spec.spec11 = {
                <span class=dna-clone>                (1) <cite>Bo I</cite></span>
                <span class="dna-clone color-change"> (2) <cite>Bo II</cite></span>
             </span>
+            <br>
+            Authors 2:
+            <span>
+               [<cite>Bo I</cite>]
+               [<cite>Bo II</cite>]
+            </span>
             <div><button>Recount</button></div>
          </div>
          <div class=dna-clone>
@@ -714,6 +727,13 @@ spec.spec11 = {
                <span class=dna-clone>                 (1) <cite>Ed</cite></span>
                <span class="dna-clone color-change2"> (2) <cite>Jake</cite></span>
                <span class=dna-clone>                 (3) <cite>Abby</cite></span>
+            </span>
+            <br>
+            Authors 2:
+            <span>
+               [<cite>Ed</cite>]
+               [<cite>Jake</cite>]
+               [<cite>Abby</cite>]
             </span>
             <div class="dna-clone color-change">
                <span>1. front</span>:
@@ -740,6 +760,10 @@ spec.spec11 = {
             Authors:
             <span>
             </span>
+            <br>
+            Authors 2:
+            <span>
+            </span>
             <div><button>Recount</button></div>
          </div>
          <div class="dna-clone border-change">
@@ -749,6 +773,13 @@ spec.spec11 = {
                <span class=dna-clone>                 (1) <cite>Ed</cite></span>
                <span class="dna-clone color-change2"> (2) <cite>Jake</cite></span>
                <span class=dna-clone>                 (3) <cite>Abby</cite></span>
+            </span>
+            <br>
+            Authors 2:
+            <span>
+               [<cite>Ed</cite>]
+               [<cite>Jake</cite>]
+               [<cite>Abby</cite>]
             </span>
             <div class="dna-clone color-change">
                <span>1. front</span>:
@@ -826,7 +857,7 @@ spec.spec12 = {
       dna.arrayPush(dna.getClones('s12-book').first(), 'authors', 'Bo II');
       let clone = $('.s12-book').first();
       clone.toggleClass('border-change', clone.data().title === 'The DOM');
-      const elem = clone.find('.s12-book-authors-instance').last();
+      const elem = clone.find('.s12-book-authors--0').last();
       elem.addClass(elem.data().author === 'Bo II' ? 'color-change' : 'color-change2');
       clone = dna.refresh($('.s12-book').last(), { data: book2, html: true });
       dna.arrayPush(clone, 'chapters', { header: 'Bio', type: 'back' });
@@ -834,7 +865,7 @@ spec.spec12 = {
       dna.destroy($('.s12-book').find(':contains(Bio 2)'), { main: false });
       dna.arrayPush(clone, 'chapters', lastChapter);
       clone.toggleClass('border-change', dna.getModel(clone).chapters.length === 5);
-      $('.s12-book').find('[data-author=Jake]').addClass('color-change2');
+      $('.s12-book').find('.s12-book-authors--0[data-author=Jake]').addClass('color-change2');
       },
    };
 </script>

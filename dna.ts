@@ -1,9 +1,9 @@
 // dna.js ~~ MIT License
 
-export type Json = string | number | boolean | null | undefined | Json[] | { [key: string]: Json };
+export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = { [key: string]: Json };
 export type JsonArray = Json[];
-export type JsonData = JsonObject | JsonArray;
+export type JsonData = JsonObject | Json[];
 export type DnaForEachCallback = (elem: JQuery, index: number) => void;
 export type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
 declare global { interface JQuery {
@@ -738,12 +738,12 @@ const dnaCompile = {
       //    <p data-array=~~tags~~>, 'array'  ==>  'tags'
       return elem.data(type).replace(dna.compile.regex.dnaBasePairs, '').trim();
       },
-   subTemplateName: (holder: JQuery | string, arrayField: string): string => {  //holder can be element or template name
+   subTemplateName: (holder: JQuery | string, arrayField: string, index: number): string => {  //holder can be element or template name
       // Example:
-      //    subTemplateName('book', 'authors') ==> 'book-authors-instance'
+      //    subTemplateName('book', 'authors') ==> 'book-authors--2'
       const getRules = (): DnaRules => dna.getClone(<JQuery>holder, { main: true }).data().dnaRules;
       const templateName = holder instanceof $ ? getRules().template : holder;
-      return templateName + '-' + arrayField + '-instance';
+      return templateName + '-' + arrayField + '--' + String(index);
       },
    rules: (elems: JQuery, type: string, isLists?: boolean): JQuery => {
       // Example:
@@ -841,15 +841,16 @@ const dnaStore = {
          // Pre (sub-template array loops -- data-array):
          //    class=dna-sub-clone data().dnaRules.array='field'
          // Post (elem):
-         //    data().dnaRules.template='{NAME}-{FIELD}-instance'
+         //    data().dnaRules.template='{NAME}-{FIELD}--{INDEX}'
          // Post (container)
          //    class=dna-nucleotide +
-         //       data().dnaRules.loop={ name: '{NAME}-{FIELD}-instance', field: 'field' }
-         const rules = elem.data().dnaRules;
-         const parent = dna.compile.setupNucleotide(elem.parent()).addClass('dna-array');
-         rules.template = dna.compile.subTemplateName(name, rules.array);
+         //       data().dnaRules.loop={ name: '{NAME}-{FIELD}--{INDEX}', field: 'field' }
+         const rules =          elem.data().dnaRules;
+         const parent =         dna.compile.setupNucleotide(elem.parent()).addClass('dna-array');
+         const containerRules = parent.closest('.dna-clone, .dna-sub-clone').data().dnaRules;
+         rules.template = dna.compile.subTemplateName(name, rules.array, containerRules.subs.length);
          parent.data().dnaRules.loop = { name: rules.template, field: rules.array };
-         parent.closest('.dna-clone, .dna-sub-clone').data().dnaRules.subs.push(rules.array);
+         containerRules.subs.push(rules.array);
          };
       elem.find('.dna-template').addBack().forEach(move);
       elem.find('.dna-sub-clone').forEach(prepLoop).forEach(move);
@@ -1176,25 +1177,21 @@ const dnaCore = {
    getArrayName: (subClone: JQuery): string | null => {
       return subClone.hasClass('dna-sub-clone') ? subClone.data().dnaRules.array : null;
       },
-   updateArrayByName: (clone: JQuery, arrayField: string | null): JQuery => {
-      const update = (elem: JQuery, field: string): JQuery => {
-         const name = dna.compile.subTemplateName(elem, field);
-         if (elem.data().dnaRules.subs.includes(field))
-            (<DnaDataObject>dna.getModel(elem))[field] =
-               <JsonArray>elem.find('.' + name).toArray().map(node => dna.getModel($(node)));
-         return elem;
-         };
-      return arrayField ? update(dna.getClone(clone), arrayField) : clone;
-      },
-   updateArray: (subClone: JQuery): JQuery => {
-      const elem = dna.getClone(subClone.first());
-      dna.core.updateArrayByName(elem.parent(), dna.core.getArrayName(elem));
-      return elem;
+   updateModelArray: (container: JQuery): JQuery => {
+      // Sets the array field of the clone's data model to the list of sub-clone data models.
+      dna.core.assert(container.hasClass('dna-array'), 'Invalid array container', container.attr('class'));
+      const array =        container.data().dnaRules.loop;
+      const subs =         container.children('.' + array.name);
+      const model =        <DnaDataObject>dna.getModel(container);
+      const nodeToModel =  (node: HTMLElement) => dna.getModel($(node));
+      model[array.field] = <Json[]>subs.toArray().map(nodeToModel);
+      return container;
       },
    remove: <T>(clone: JQuery, callback?: DnaCallbackFn<T> | null): JQuery => {
       const container = clone.parent();
       clone.detach();
-      dna.core.updateArrayByName(container, dna.core.getArrayName(clone));
+      if (clone.hasClass('dna-sub-clone'))
+         dna.core.updateModelArray(container);
       dna.placeholder.setup();
       clone.remove();
       if (callback)
@@ -1301,12 +1298,19 @@ const dna = {
       },
    arrayPush<T>(holderClone: JQuery, arrayField: string, data: T | T[], options?: DnaOptionsArrayPush): JQuery {
       // Clones a sub-template to append onto an array loop.
-      const name = dna.compile.subTemplateName(holderClone, arrayField);
-      const selector = '.dna-contains-' + name;
-      const settings = { container: holderClone.find(selector).addBack(selector) };
-      const clones = dna.clone(name, data, { ...settings, ...options });
-      dna.core.updateArray(clones);
-      return clones;
+      const cloneSub = (field: string, index: number) => {
+         const clone = () => {
+            const name =     dna.compile.subTemplateName(holderClone, arrayField, index);
+            const selector = '.dna-contains-' + name;
+            const settings = { container: holderClone.find(selector).addBack(selector) };
+            dna.clone(name, data, { ...settings, ...options });
+            dna.core.updateModelArray(settings.container);
+            };
+         if (field === arrayField)
+            clone();
+         };
+      holderClone.data().dnaRules.subs.forEach(cloneSub);
+      return holderClone;
       },
    cloneSub<T>(holderClone: JQuery, arrayField: string, data: T | T[], options?: DnaOptionsArrayPush): JQuery {
       console.log('DEPRECATED: Function dna.cloneSub() has been renamed to dna.arrayPush().');
