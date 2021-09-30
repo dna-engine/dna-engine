@@ -6,7 +6,6 @@ import babel       from 'gulp-babel';
 import fileInclude from 'gulp-file-include';
 import gap         from 'gulp-append-prepend';
 import gulp        from 'gulp';
-import header      from 'gulp-header';
 import mergeStream from 'merge-stream';
 import rename      from 'gulp-rename';
 import replace     from 'gulp-replace';
@@ -33,16 +32,12 @@ const linkInfo = {
    };
 
 // Setup
-const pkg =            JSON.parse(readFileSync('./package.json'));
-const released =       process.env.dnaReleasedVersion;
-const minorVersion =   pkg.version.split('.').slice(0, 2).join('.');
-const banner =         'dna.js v' + pkg.version + ' ~~ dnajs.org ~~ MIT License';
-const bannerCss =      '/*! ' + banner + ' */';
-const bannerJs =       '//! ' + banner + '\n\n';
-const websiteTarget =  'website-target';
-const headerComments = { css: /^\/[*].*[*]\/$/gm, js: /^\/\/.*\n/gm };
-const transpileES6 =   ['@babel/preset-env', { modules: false }];
-const babelMinifyJs =  { presets: [transpileES6, 'minify'], comments: false };
+const pkg =           JSON.parse(readFileSync('./package.json'));
+const released =      process.env.dnaReleasedVersion;
+const minorVersion =  pkg.version.split('.').slice(0, 2).join('.');
+const websiteTarget = 'website-target';
+const transpileES6 =  ['@babel/preset-env', { modules: false }];
+const babelMinifyJs = { presets: [transpileES6, 'minify'], comments: false };
 const webContext = {
    pkg:          pkg,
    released:     released,
@@ -56,48 +51,18 @@ const webContext = {
 // Tasks
 const task = {
 
-   makeDistribution() {
-      const buildCss = () =>
-         gulp.src('dna.css')
-            .pipe(replace(headerComments.css, ''))
-            .pipe(header(bannerCss))
-            .pipe(size({ showFiles: true }))
-            .pipe(gulp.dest('dist'));
-      const copyCss = () =>
-         gulp.src('website/static/panel-nav.css')
-            .pipe(size({ showFiles: true }))
-            .pipe(gulp.dest('dist'));
-      const buildDts = () =>
-         gulp.src('build/dna.d.ts')
-            .pipe(header(bannerJs))
-            .pipe(size({ showFiles: true }))
-            .pipe(gulp.dest('dist'));
-      const buildJs = () =>
-         gulp.src('build/dna.js')
-            .pipe(replace(headerComments.js, ''))
-            .pipe(header(bannerJs))
-            .pipe(replace('[VERSION]', pkg.version))
-            .pipe(size({ showFiles: true }))
-            .pipe(gulp.dest('dist'))
-            .pipe(replace(/^export { (.*) };/m, 'if (typeof window === "object") window.$1 = $1;'))
-            .pipe(rename({ extname: '.dev.js' }))
-            .pipe(size({ showFiles: true }))
-            .pipe(gulp.dest('dist'))
-            .pipe(babel(babelMinifyJs))
-            .pipe(rename('dna.min.js'))
-            .pipe(header(bannerJs.replace('\n\n', '\n')))
-            .pipe(gap.appendText('\n'))
-            .pipe(size({ showFiles: true }))
-            .pipe(size({ showFiles: true, gzip: true }))
-            .pipe(gulp.dest('dist'));
-      const buildUmd = () =>
-         gulp.src('build/umd/dna.js')
-            .pipe(header(bannerJs))
-            .pipe(replace('[VERSION]', pkg.version))
-            .pipe(rename({ extname: '.umd.cjs' }))
-            .pipe(size({ showFiles: true }))
-            .pipe(gulp.dest('dist'));
-      return mergeStream(buildCss(), copyCss(), buildDts(), buildJs(), buildUmd());
+   minifyJs() {
+      return gulp.src('build/dna.js')
+         .pipe(replace(/^export { (.*) };/m, 'if (typeof window === "object") window.$1 = $1;'))
+         .pipe(rename({ extname: '.dev.js' }))
+         .pipe(size({ showFiles: true }))
+         .pipe(gulp.dest('build'))
+         .pipe(babel(babelMinifyJs))
+         .pipe(rename('dna.min.js'))
+         .pipe(gap.appendText('\n'))
+         .pipe(size({ showFiles: true }))
+         .pipe(size({ showFiles: true, gzip: true }))
+         .pipe(gulp.dest('build'));
       },
 
    buildWebsite() {
@@ -135,6 +100,6 @@ const task = {
    };
 
 // Gulp
-gulp.task('make-dist',     task.makeDistribution);
+gulp.task('minify-js',     task.minifyJs);
 gulp.task('build-website', task.buildWebsite);
 gulp.task('update-readme', task.updateReadMe);

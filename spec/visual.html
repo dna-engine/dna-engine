@@ -1847,8 +1847,8 @@ const specRunner = {
       ],
    setup() {
       window.onerror = () => $('body').addClass('error-detected');
-      $('body').toggleClass('minified-mode', window.location.pathname.endsWith('-min.html'));
-      $('.version-number').text(dna.version === '[VERSION]' ? '' : 'v' + dna.version);
+      $('body').toggleClass('minified-mode', /-min(.html)?$/.test(window.location.pathname));
+      $('.version-number').text(dna.version === '~~~version~~~' ? '' : 'v' + dna.version);
       const runSpec = (sectionNode) => {
          const name = $(sectionNode).attr('id');
          console.log(name);

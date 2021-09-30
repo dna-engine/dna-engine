@@ -2,7 +2,6 @@
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = { [key: string]: Json };
-export type JsonArray = Json[];
 export type JsonData = JsonObject | Json[];
 export type DnaForEachCallback = (elem: JQuery, index: number) => void;
 export type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
@@ -1243,7 +1242,7 @@ const dnaCore = {
    };
 
 const dna = {
-   version: '[VERSION]',
+   version: '~~~version~~~',
    // API:
    //    dna.clone()
    //    dna.arrayPush()
