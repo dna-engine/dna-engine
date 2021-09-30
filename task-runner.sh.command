@@ -81,8 +81,13 @@ runTasks() {
    echo
    }
 
+visulatize() {
+   echo "Visualize:"
+   sleep 2 && open http://localhost:5000/spec/visual.html &
+   npx serve
+   }
+
 setupTools
 releaseInstructions
 runTasks
-sleep 2 && open http://localhost:5000/spec/visual.html &
-npx serve
+visulatize

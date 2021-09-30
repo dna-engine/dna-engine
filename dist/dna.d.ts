@@ -1,11 +1,10 @@
-//! dna.js v1.9.3 ~~ dnajs.org ~~ MIT License
+//! dna.js v1.9.4 ~ https://dnajs.org ~ MIT License
 
 /// <reference types="jquery" />
 export declare type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export declare type JsonObject = {
     [key: string]: Json;
 };
-export declare type JsonArray = Json[];
 export declare type JsonData = JsonObject | Json[];
 export declare type DnaForEachCallback = (elem: JQuery, index: number) => void;
 export declare type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
@@ -185,8 +184,8 @@ declare const dna: {
         };
         last: <T_10>(array: T_10[]) => T_10 | undefined;
         fromMap: (map: JsonObject, options?: {
-            key?: string | undefined;
-            kebabCodes?: boolean | undefined;
+            key?: string;
+            kebabCodes?: boolean;
         } | undefined) => JsonObject[];
         toMap: (array: DnaDataObject[], options?: {
             key: string;
