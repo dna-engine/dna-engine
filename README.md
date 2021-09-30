@@ -5,7 +5,6 @@ _An uncomplicated user interface library for building data-driven semantic templ
 
 [![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://dnajs.org/license)
 [![npm](https://img.shields.io/npm/v/dna.js.svg)](https://www.npmjs.com/package/dna.js)
-[![Size](https://badgen.net/bundlephobia/minzip/dna.js)](https://bundlephobia.com/result?p=dna.js)
 [![Quality](https://npm.packagequality.com/shield/dna.js.svg)](https://packagequality.com/#?package=dna.js)
 [![Vulnerabilities](https://snyk.io/test/github/dnajs/dna.js/badge.svg)](https://snyk.io/test/github/dnajs/dna.js)
 [![Hits](https://data.jsdelivr.com/v1/package/npm/dna.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/dna.js)
