@@ -1,4 +1,4 @@
-//! dna.js v1.9.4 ~ https://dnajs.org ~ MIT License
+//! dna.js v1.9.4 ~~ https://dnajs.org ~~ MIT License
 
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {

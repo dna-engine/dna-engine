@@ -1,4 +1,4 @@
-//! dna.js v1.9.4 ~ https://dnajs.org ~ MIT License
+//! dna.js v1.9.4 ~~ https://dnajs.org ~~ MIT License
 
 const dnaArray = {
     find: (array, value, key = 'code') => {

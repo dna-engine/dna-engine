@@ -1,6 +1,5 @@
-//! dna.js v1.9.4 ~ https://dnajs.org ~ MIT License
+//! dna.js v1.9.4 ~~ https://dnajs.org ~~ MIT License
 
-/// <reference types="jquery" />
 export declare type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export declare type JsonObject = {
     [key: string]: Json;
