@@ -83,7 +83,9 @@ runTasks() {
 
 visulatize() {
    echo "Visualize:"
-   sleep 2 && open http://localhost:5000/spec/visual.html &
+   url=http://localhost:3000/spec/visual.html
+   sleep 2 && open $url &
+   echo $url
    npx serve
    }
 
