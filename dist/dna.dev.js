@@ -1,4 +1,4 @@
-//! dna.js v1.9.4 ~~ https://dnajs.org ~~ MIT License
+//! dna.js v1.9.5 ~~ https://dnajs.org ~~ MIT License
 
 const dnaArray = {
     find: (array, value, key = 'code') => {
@@ -556,7 +556,7 @@ const dnaEvents = {
         return store.dnaContextDb || initStore();
     },
     getInitializers: () => {
-        const store = $('body').data();
+        const store = $('body').data() || {};
         const initStore = () => store.dnaInitializers = [];
         return store.dnaInitializers || initStore();
     },
@@ -903,7 +903,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '1.9.4',
+    version: '1.9.5',
     clone(name, data, options) {
         const defaults = {
             fade: false,

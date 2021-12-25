@@ -1,4 +1,4 @@
-//! dna.js v1.9.4 ~~ https://dnajs.org ~~ MIT License
+//! dna.js v1.9.5 ~~ https://dnajs.org ~~ MIT License
 
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
@@ -568,7 +568,7 @@
             return store.dnaContextDb || initStore();
         },
         getInitializers: () => {
-            const store = $('body').data();
+            const store = $('body').data() || {};
             const initStore = () => store.dnaInitializers = [];
             return store.dnaInitializers || initStore();
         },
@@ -915,7 +915,7 @@
         },
     };
     const dna = {
-        version: '1.9.4',
+        version: '1.9.5',
         clone(name, data, options) {
             const defaults = {
                 fade: false,
