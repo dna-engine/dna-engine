@@ -867,7 +867,7 @@ const dnaEvents = {
       return store.dnaContextDb || initStore();  //storage to register callbacks when dna.js is module loaded without window scope (webpack)
       },
    getInitializers: (): DnaInitializer[] => {
-      const store = $('body').data();
+      const store = $('body').data() || {};
       const initStore = () => store.dnaInitializers = [];
       return store.dnaInitializers || initStore();  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
       },
