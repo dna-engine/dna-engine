@@ -1201,7 +1201,7 @@ const dnaCore = {
       // Oops, file a tps report.
       try {
          if (!ok)
-            throw Error('dna.js ~~ ' + message + ' [' + String(info) + ']');
+            throw Error('[dna.js] ' + message + ': ' + String(info));
          }
       catch (e) {
          console.error((<Error>e).stack);
