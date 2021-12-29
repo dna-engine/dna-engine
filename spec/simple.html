@@ -44,11 +44,11 @@
       books: [
          { id: 'B003', title: 'The DOM',      author: 'Jan',  price: 2495, color: 'r' },
          { id: 'B005', title: 'Styling CSS3', author: 'Abby', price: 1995, color: 'b' },
-         { id: 'B007', title: 'Howdy HTML5',  author: 'Ed',   price: 2995, color: null }
+         { id: 'B007', title: 'Howdy HTML5',  author: 'Ed',   price: 2995, color: null },
          ],
       colors: [
          { code: 'r', name: 'Red' },
-         { code: 'b', name: 'Blue' }
+         { code: 'b', name: 'Blue' },
          ],
       doSomeStuff: () => {
          const addCodes = (book) => book.colors = app.colors;
@@ -62,7 +62,7 @@
          console.log('Run time (msec):', Date.now() - start);
          console.log(dna.info());
          console.log(dna.getModel('book'));
-         }
+         },
       };
    $(app.setup);
 </script>

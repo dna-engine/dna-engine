@@ -831,7 +831,7 @@ const dnaStore = {
             container:  container.addClass('dna-container').addClass('dna-contains-' + name),
             nested:     container.closest('.dna-clone').length !== 0,
             separators: elem.find('.dna-separator, .dna-last-separator').length,
-            wrapped:    wrapped
+            wrapped:    wrapped,
             };
          dna.store.getTemplateDb()[name] = template;
          elem.removeClass('dna-template').addClass('dna-clone').addClass(name).detach();
@@ -979,14 +979,14 @@ const dnaEvents = {
          keydown:  handleEvent,
          keypress: handleEvent,
          keyup:    handleEvent,
-         input:    handleEvent
+         input:    handleEvent,
          };
       const smartUpdateEvents = {
          keydown: handleSmartUpdate,
          keyup:   handleSmartUpdate,
          change:  handleSmartUpdate,
          cut:     handleSmartUpdate,
-         paste:   handleSmartUpdate
+         paste:   handleSmartUpdate,
          };
       $(window.document)
          .on(events)
@@ -1277,7 +1277,7 @@ const dna = {
          clones:    1,
          html:      false,
          transform: null,
-         callback:  null
+         callback:  null,
          };
       const settings = { ...defaults, ...options };
       const template = dna.store.getTemplate(name);

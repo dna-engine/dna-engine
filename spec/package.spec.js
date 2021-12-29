@@ -43,7 +43,7 @@ describe('Function dna.info()', () => {
          names:        [],
          store:        {},
          initializers: [],
-         panels:       []
+         panels:       [],
          };
       assertDeepStrictEqual(actual, expected);
       });

@@ -349,7 +349,7 @@ spec.spec06 = {
          title:    'Les Attributs',
          info:     { isbn: 123 },
          language: 'fr',
-         extra:    'border-change'
+         extra:    'border-change',
          };
       dna.clone('s06-book', bouquin);
       $('#123').find('[lang=fr]').addClass('color-change2');
@@ -842,11 +842,11 @@ spec.spec12 = {
    run() {
       const chapters = [
          { header: 'Preface &star;', type: 'front' },
-         { header: 'Index',          type: 'back' }
+         { header: 'Index',          type: 'back' },
          ];
       const moreChapters = [
          { header: 'Bio 2', type: 'back' },
-         { header: 'Bio 3', type: 'back' }
+         { header: 'Bio 3', type: 'back' },
          ];
       const lastChapter =
          { header: 'Bio X', type: 'back' };
@@ -1272,17 +1272,17 @@ spec.spec16 = {
       const options = [
          { code: 'fast',  name: 'Overnight',    set: false },
          { code: 'share', name: 'Social Share', set: false },
-         { code: 'gift',  name: 'Gift',         set: false }
+         { code: 'gift',  name: 'Gift',         set: false },
          ];
       const covers = [
          { code: 'soft',  name: 'Paperback', unavailable: 0, set: 1 },  //selected
          { code: 'hard',  name: 'Hardcover', unavailable: 0, set: 0 },
-         { code: 'ebook', name: 'Digital',   unavailable: 1, set: 0 }
+         { code: 'ebook', name: 'Digital',   unavailable: 1, set: 0 },
          ];
       const purposes = [
          { code: 'work', name: 'Business' },
          { code: 'fun',  name: 'Personal' },
-         { code: 'edu',  name: 'School' }
+         { code: 'edu',  name: 'School' },
          ];
       const book = {
          title:      '[change me]',
@@ -1295,7 +1295,7 @@ spec.spec16 = {
          secret:     '[change me]',
          pubDate:    '2014-06-22',
          coverColor: '#daa520',
-         note:       '[change me]'
+         note:       '[change me]',
          };
       const clone = dna.clone('s16-book', book);
       dna.updateField(clone.find('input:checkbox[value=fast]'), true);
@@ -1640,11 +1640,11 @@ spec.spec22 = {
       const addAuthorNames = (names, book) => names.concat(book.author.split(' '));
       const summary = {
          numBooks:   specRunner.catalog.length,
-         totalPrice: specRunner.catalog.reduce(sumPrice, 0) / 100
+         totalPrice: specRunner.catalog.reduce(sumPrice, 0) / 100,
          };
       const analytics = {
          titleWords:  specRunner.catalog.reduce(addTitleWords,  []).sort(),
-         authorNames: specRunner.catalog.reduce(addAuthorNames, []).sort()
+         authorNames: specRunner.catalog.reduce(addAuthorNames, []).sort(),
          };
       dna.insert('s22-summary',   summary);
       dna.insert('s22-analytics', { titleWords: ['bogus'], authorNames: ['also bogus'] });
@@ -1845,7 +1845,7 @@ const specRunner = {
    catalog: [
       { title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en', event: event1 },
       { title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr', event: event2 },
-      { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 }
+      { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 },
       ],
    setup() {
       window.onerror = () => $('body').addClass('error-detected');
