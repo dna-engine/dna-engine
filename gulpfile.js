@@ -16,6 +16,7 @@ import { readFileSync } from 'fs';
 const linkInfo = {
    youTube: {
       intro:    'jMOZOI-UkNI',
+      jquery:   'UU-GebNqdbg',
       tutorial: 'juIru5qHZFM'
       },
    jsFiddle: {
