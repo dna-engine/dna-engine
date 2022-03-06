@@ -4,6 +4,7 @@
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
+import { readdirSync } from 'fs';
 import jQuery from 'jquery';
 
 // Setup
@@ -17,6 +18,25 @@ const setupEnv = (done) => dna.initGlobal(dom.window, $) && done();
 // Specification suite
 describe(`Specifications: ${filename} - ${mode.type} (${mode.file})`, () => {
    before(setupEnv);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('The "dist" folder', () => {
+
+   it('contains the correct files', () => {
+      const actual = readdirSync('dist').sort();
+      const expected = [
+         'dna.css',
+         'dna.d.ts',
+         'dna.dev.js',
+         'dna.js',
+         'dna.min.js',
+         'dna.umd.cjs',
+         'panel-nav.css',
+         ];
+      assertDeepStrictEqual(actual, expected);
+      });
+
+   });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Library version number', () => {
