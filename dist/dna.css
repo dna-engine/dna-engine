@@ -1,4 +1,4 @@
-/*! dna.js v1.9.5 ~~ https://dnajs.org ~~ MIT License */
+/*! dna.js v1.9.7 ~~ https://dnajs.org ~~ MIT License */
 
 .dna-template, .dna-panels >*, [data-placeholder], .dna-hide { display: none; }
 .dna-menu .menu-item, [data-click], [data-href] { cursor: pointer; }
