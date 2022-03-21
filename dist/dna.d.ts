@@ -1,4 +1,4 @@
-//! dna.js v1.9.7 ~~ https://dnajs.org ~~ MIT License
+//! dna.js v1.9.8 ~~ https://dnajs.org ~~ MIT License
 
 export declare type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export declare type JsonObject = {

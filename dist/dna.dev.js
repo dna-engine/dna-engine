@@ -1,11 +1,12 @@
-//! dna.js v1.9.7 ~~ https://dnajs.org ~~ MIT License
+//! dna.js v1.9.8 ~~ https://dnajs.org ~~ MIT License
 
 const dnaArray = {
     find: (array, value, key = 'code') => {
+        var _a;
         const valid = Array.isArray(array);
         let i = 0;
         if (valid)
-            while (i < array.length && array[i]?.[key] !== value)
+            while (i < array.length && ((_a = array[i]) === null || _a === void 0 ? void 0 : _a[key]) !== value)
                 i++;
         return valid && i < array.length ? { index: i, item: array[i] } : { index: -1, item: null };
     },
@@ -14,14 +15,14 @@ const dnaArray = {
     },
     fromMap: (map, options) => {
         const defaults = { key: 'code', kebabCodes: false };
-        const settings = { ...defaults, ...options };
+        const settings = Object.assign(Object.assign({}, defaults), options);
         const codeValue = (key) => settings.kebabCodes ? dna.util.toKebab(key) : key;
         const toObj = (item) => dna.util.isObj(item) ? item : { value: item };
-        return Object.keys(map).map(key => ({ ...{ [settings.key]: codeValue(key) }, ...toObj(map[key]) }));
+        return Object.keys(map).map(key => (Object.assign({ [settings.key]: codeValue(key) }, toObj(map[key]))));
     },
     toMap: (array, options) => {
         const defaults = { key: 'code', camelKeys: false };
-        const settings = { ...defaults, ...options };
+        const settings = Object.assign(Object.assign({}, defaults), options);
         const map = {};
         const addObj = (obj) => map[obj[settings.key]] = obj;
         const addObjCamelKey = (obj) => map[dna.util.toCamel(obj[settings.key])] = obj;
@@ -68,7 +69,7 @@ const dnaUi = {
     },
     pulse: (elem, options) => {
         const defaults = { duration: 400, interval: 0, out: 5000 };
-        const settings = { ...defaults, ...options };
+        const settings = Object.assign(Object.assign({}, defaults), options);
         const css = { hide: { opacity: 0 }, show: { opacity: 1 } };
         elem.stop(true).slideDown().css(css.hide).animate(css.show, settings.duration);
         if (settings.interval)
@@ -362,7 +363,7 @@ const dnaCompile = {
     },
     isDnaField: (index, node) => {
         const firstNode = node.childNodes[0];
-        const matches = () => !!firstNode.nodeValue?.match(dna.compile.regex.dnaField);
+        const matches = () => { var _a; return !!((_a = firstNode.nodeValue) === null || _a === void 0 ? void 0 : _a.match(dna.compile.regex.dnaField)); };
         return firstNode && !!firstNode.nodeValue && matches();
     },
     addFieldClass: (elem) => {
@@ -903,7 +904,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '1.9.7',
+    version: '1.9.8',
     clone(name, data, options) {
         const defaults = {
             fade: false,
@@ -915,7 +916,7 @@ const dna = {
             transform: null,
             callback: null,
         };
-        const settings = { ...defaults, ...options };
+        const settings = Object.assign(Object.assign({}, defaults), options);
         const template = dna.store.getTemplate(name);
         const missing = template.nested && !settings.container;
         dna.core.assert(!missing, 'Container missing for nested template', name);
@@ -936,7 +937,7 @@ const dna = {
                 const name = dna.compile.subTemplateName(holderClone, arrayField, index);
                 const selector = '.dna-contains-' + name;
                 const settings = { container: holderClone.find(selector).addBack(selector) };
-                dna.clone(name, data, { ...settings, ...options });
+                dna.clone(name, data, Object.assign(Object.assign({}, settings), options));
                 dna.core.updateModelArray(settings.container);
             };
             if (field === arrayField)
@@ -963,7 +964,7 @@ const dna = {
     },
     empty(name, options) {
         const defaults = { fade: false, callback: null };
-        const settings = { ...defaults, ...options };
+        const settings = Object.assign(Object.assign({}, defaults), options);
         const template = dna.store.getTemplate(name);
         const clones = template.container.children('.dna-clone');
         if (template.container.data().dnaCountsMap)
@@ -973,12 +974,12 @@ const dna = {
     },
     insert(name, data, options) {
         const clone = dna.getClones(name).first();
-        return clone.length ? dna.refresh(clone, { data: data, html: !!options?.html }) :
+        return clone.length ? dna.refresh(clone, { data: data, html: !!(options === null || options === void 0 ? void 0 : options.html) }) :
             dna.clone(name, data, options);
     },
     refresh(clone, options) {
         const defaults = { html: false };
-        const settings = { ...defaults, ...options };
+        const settings = Object.assign(Object.assign({}, defaults), options);
         const elem = dna.getClone(clone, options);
         const data = settings.data ? settings.data : dna.getModel(elem);
         return dna.core.inject(elem, data, elem.data().dnaCount, settings);
@@ -1024,7 +1025,7 @@ const dna = {
     },
     destroy(clone, options) {
         const defaults = { main: false, fade: false, callback: null };
-        const settings = { ...defaults, ...options };
+        const settings = Object.assign(Object.assign({}, defaults), options);
         clone = dna.getClone(clone, options);
         const arrayField = dna.core.getArrayName(clone);
         if (arrayField)
@@ -1034,7 +1035,7 @@ const dna = {
     },
     getClone(elem, options) {
         const defaults = { main: false };
-        const settings = { ...defaults, ...options };
+        const settings = Object.assign(Object.assign({}, defaults), options);
         const selector = settings.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone';
         return elem instanceof $ ? elem.closest(selector) : $();
     },
@@ -1060,7 +1061,7 @@ const dna = {
     },
     registerInitializer(fn, options) {
         const defaults = { selector: null, params: null, onDocLoad: true };
-        const settings = { ...defaults, ...options };
+        const settings = Object.assign(Object.assign({}, defaults), options);
         const rootSelector = settings.selector;
         const onDocLoadElems = () => !rootSelector ? $(window.document) :
             $(rootSelector).not('.dna-template').not(rootSelector).addClass('dna-initialized');
@@ -1081,7 +1082,7 @@ const dna = {
         const jQuery$ = String('$');
         thisWindow[jQuery$] = thisJQuery;
         thisWindow['dna'] = dna;
-        const writable = (prop) => !globalThis[prop] || !!Object.getOwnPropertyDescriptor(globalThis, prop)?.writable;
+        const writable = (prop) => { var _a; return !globalThis[prop] || !!((_a = Object.getOwnPropertyDescriptor(globalThis, prop)) === null || _a === void 0 ? void 0 : _a.writable); };
         if (writable('window'))
             globalThis.window = thisWindow;
         if (writable('document'))

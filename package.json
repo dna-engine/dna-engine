@@ -1,6 +1,6 @@
 {
    "name": "dna.js",
-   "version": "1.9.7",
+   "version": "1.9.8",
    "description": "An uncomplicated user interface library for building data-driven semantic templates (written in TypeScript)",
    "license": "MIT",
    "type": "module",
@@ -107,7 +107,7 @@
    },
    "cdnVersion": {
       "fetchJson": "2.6",
-      "fontAwesome": "6.0",
+      "fontAwesome": "6.1",
       "highlightjs": "11.5",
       "hljsEnhance": "1.0",
       "jQuery": "3.6",
@@ -120,7 +120,7 @@
    "devDependencies": {
       "@babel/core": "~7.17",
       "@babel/preset-env": "~7.16",
-      "@fortawesome/fontawesome-free": "~6.0",
+      "@fortawesome/fontawesome-free": "~6.1",
       "@types/jquery": "~3.5",
       "@types/jsdom": "~16.2",
       "@types/node": "~17.0",
