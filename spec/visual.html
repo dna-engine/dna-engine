@@ -1666,7 +1666,7 @@ spec.spec22 = {
                <span data-format=spec.spec23.up data-attr-title=~~author~~>~~author~~</span> *
                <span data-format=String.fromCharCode>~~price~~</span>
             </h4>
-            <div>Event:</div>
+            <div>Event (UTC assumes PDT):</div>
             <output>
                <samp                               title=milliseconds>~~event~~</samp>
                <samp data-format-date=date         title=date>~~event~~</samp>
@@ -1680,6 +1680,8 @@ spec.spec22 = {
                <samp data-format-date=locale-time  title=locale-time>~~event~~</samp>
                <samp data-format-date=string       title=string>~~event~~</samp>
                <samp data-format-date=time         title=time>~~event~~</samp>
+               <samp data-format-date=timestamp    title=timestamp>~~event~~</samp>
+               <samp data-format-date=timestamp-ms title=timestamp-ms>~~event~~</samp>
                <samp data-format-date=utc          title=utc>~~event~~</samp>
             </output>
             <div>Price: <input data-attr-type=number value=~~price~~></div>
@@ -1708,7 +1710,7 @@ spec.spec22 = {
             <h4>
                <span>THE DOM!</span> * <span title=JAN!>JAN!</span> * <span>&#2499;</span>
             </h4>
-            <div>Event:</div>
+            <div>Event (UTC assumes PDT):</div>
             <output>
                <samp title=milliseconds>47008800000</samp>
                <samp title=date>Mon Jun 28 1971</samp>
@@ -1722,6 +1724,8 @@ spec.spec22 = {
                <samp title=locale-time>7:00:00 PM</samp>
                <samp title=string>Mon Jun 28 1971 19:00:00 GMT-0700 (PDT)</samp>
                <samp title=time>19:00:00 GMT-0700 (PDT)</samp>
+               <samp title=timestamp>1971-06-29@02:00:00</samp>
+               <samp title=timestamp-ms>1971-06-29@02:00:00.000</samp>
                <samp title=utc>Tue, 29 Jun 1971 02:00:00 GMT</samp>
             </output>
             <div>Price: <input type=number value=2499></div>
@@ -1745,7 +1749,7 @@ spec.spec22 = {
             <h4>
                <span>STYLING CSS3</span> * <span title=ABBY>ABBY</span> * <span>&#1999;</span>
             </h4>
-            <div>Event:</div>
+            <div>Event (UTC assumes PDT):</div>
             <output>
                <samp title=milliseconds>1904112000000</samp>
                <samp title=date>Sat May 04 2030</samp>
@@ -1759,6 +1763,8 @@ spec.spec22 = {
                <samp title=locale-time>1:00:00 AM</samp>
                <samp title=string>Sat May 04 2030 01:00:00 GMT-0700 (PDT)</samp>
                <samp title=time>01:00:00 GMT-0700 (PDT)</samp>
+               <samp title=timestamp>2030-05-04@08:00:00</samp>
+               <samp title=timestamp-ms>2030-05-04@08:00:00.000</samp>
                <samp title=utc>Sat, 04 May 2030 08:00:00 GMT</samp>
             </output>
             <div>Price: <input type=number value=1999></div>
@@ -1782,7 +1788,7 @@ spec.spec22 = {
             <h4>
                <span>HOWDY HTML5</span> * <span title=ED>ED</span> * <span>&#2999;</span>
             </h4>
-            <div>Event:</div>
+            <div>Event (UTC assumes PDT):</div>
             <output>
                <samp title=milliseconds></samp>
                <samp title=date></samp>
@@ -1796,6 +1802,8 @@ spec.spec22 = {
                <samp title=locale-time></samp>
                <samp title=string></samp>
                <samp title=time></samp>
+               <samp title=timestamp></samp>
+               <samp title=timestamp-ms></samp>
                <samp title=utc></samp>
             </output>
             <div>Price: <input type=number value=2499></div>
@@ -1843,8 +1851,8 @@ spec.spec23 = {
 <script src=https://cdn.jsdelivr.net/npm/fetch-json@2.6/dist/fetch-json.min.js></script>
 <script src=../dist/dna.dev.js></script>
 <script>
-const event1 = new Date('1971-06-28T19:00:00').getTime();  //June 28, 1971 at 7pm (local time)
-const event2 = new Date('2030-05-04T01:00:00').getTime();  //May 4, 2030 at 1:00am (local time)
+const event1 = new Date('1971-06-28T19:00:00').getTime();  //local time: June 28, 1971 at 7pm
+const event2 = new Date('2030-05-04T01:00:00').getTime();  //local time: May 4, 2030 at 1:00am
 const specRunner = {
    catalog: [
       { title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en', event: event1 },

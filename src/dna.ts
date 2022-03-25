@@ -467,6 +467,8 @@ const dnaFormat = {
          date.toLocaleString([], { weekday: 'short' });
       const generalTimestamp = (date: Date) =>
          generalDate(date) + ' ' + generalTime(date) + ' ' + generalDay(date);
+      const timestamp = (date: Date) => date.toISOString().replace('T', '@').slice(0, -5);
+      const timestampMs = (date: Date) => date.toISOString().replace('T', '@').slice(0, -1);
       const dateFormatters = <{ [format: string]: DnaFormatter }>{             //ex: 1904112000000 (msec)
          date:        (msec: DnaMSec) => new Date(msec).toDateString(),        //ex: 'Sat May 04 2030'
          general:     (msec: DnaMSec) => generalTimestamp(new Date(msec)),     //ex: '2030-05-04 1:00am Sat'
@@ -479,6 +481,8 @@ const dnaFormat = {
          localeTime:  (msec: DnaMSec) => new Date(msec).toLocaleTimeString(),  //ex: '1:00:00 AM'
          string:      (msec: DnaMSec) => new Date(msec).toString(),            //ex: 'Sat May 04 2030 01:00:00 GMT-0700 (PDT)'
          time:        (msec: DnaMSec) => new Date(msec).toTimeString(),        //ex: '01:00:00 GMT-0700 (PDT)'
+         timestamp:   (msec: DnaMSec) => timestamp(new Date(msec)),            //ex: '2030-05-04@08:00:00'
+         timestampMs: (msec: DnaMSec) => timestampMs(new Date(msec)),          //ex: '2030-05-04@08:00:00.000'
          utc:         (msec: DnaMSec) => new Date(msec).toUTCString(),         //ex: 'Sat, 04 May 2030 08:00:00 GMT'
          };
       const formatter = dateFormatters[dna.util.toCamel(format)];

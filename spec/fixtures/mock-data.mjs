@@ -19,8 +19,9 @@ const html = `
                   <output class=jpy    data-format-currency=jpy>~~price~~</output>
                   <output class=usd100 data-format-currency100=usd>~~price~~</output>
                Event:
-                  <output class=locale  data-format-date=locale>~~event~~</output>
-                  <output class=general data-format-date=general>~~event~~</output>
+                  <output class=locale    data-format-date=locale>~~event~~</output>
+                  <output class=general   data-format-date=general>~~event~~</output>
+                  <output class=timestamp data-format-date=timestamp>~~event~~</output>
             </div>
          </section>
       </body>

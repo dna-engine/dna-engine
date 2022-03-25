@@ -80,13 +80,16 @@ describe('Field formatter', () => {
       });
 
    it('for dates correctly formats timestamps', () => {
+      const timestamp =  /^\d{4}-\d{2}-\d{2}@\d{2}:\d{2}:\d{2}$/;  //example: '2030-05-04@08:00:00'
       const actual = {
-         locale:  $('#978-3 output.locale').text(),
-         general: $('#978-3 output.general').text(),
+         locale:    $('#978-3 output.locale').text(),
+         general:   $('#978-3 output.general').text(),
+         timestamp: timestamp.test($('#978-3 output.timestamp').text()),
          };
       const expected = {
-         locale:  '5/4/2030, 1:00:00 AM',
-         general: '2030-05-04 1:00am Sat',
+         locale:    '5/4/2030, 1:00:00 AM',
+         general:   '2030-05-04 1:00am Sat',
+         timestamp: true,  //check only format because UTC value differs from local time
          };
       assertDeepStrictEqual(actual, expected);
       });
