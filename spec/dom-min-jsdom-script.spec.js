@@ -86,7 +86,7 @@ describe('Field formatter', () => {
          };
       const expected = {
          locale:  '5/4/2030, 1:00:00 AM',
-         general: '2030-05-04 1:00am',
+         general: '2030-05-04 1:00am Sat',
          };
       assertDeepStrictEqual(actual, expected);
       });

@@ -463,11 +463,15 @@ const dnaFormat = {
          `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())}`;
       const generalTime = (date: Date) =>
          date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(' ', '').toLowerCase();
-      const generalTimestamp = (date: Date) => generalDate(date) + ' ' + generalTime(date);
+      const generalDay = (date: Date) =>
+         date.toLocaleString([], { weekday: 'short' });
+      const generalTimestamp = (date: Date) =>
+         generalDate(date) + ' ' + generalTime(date) + ' ' + generalDay(date);
       const dateFormatters = <{ [format: string]: DnaFormatter }>{             //ex: 1904112000000 (msec)
          date:        (msec: DnaMSec) => new Date(msec).toDateString(),        //ex: 'Sat May 04 2030'
-         general:     (msec: DnaMSec) => generalTimestamp(new Date(msec)),     //ex: '2030-05-04 1:00am'
+         general:     (msec: DnaMSec) => generalTimestamp(new Date(msec)),     //ex: '2030-05-04 1:00am Sat'
          generalDate: (msec: DnaMSec) => generalDate(new Date(msec)),          //ex: '2030-05-04'
+         generalDay:  (msec: DnaMSec) => generalDay(new Date(msec)),           //ex: 'Sat'
          generalTime: (msec: DnaMSec) => generalTime(new Date(msec)),          //ex: '1:00am'
          iso:         (msec: DnaMSec) => new Date(msec).toISOString(),         //ex: '2030-05-04T08:00:00.000Z'
          locale:      (msec: DnaMSec) => new Date(msec).toLocaleString(),      //ex: '5/4/2030, 1:00:00 AM'
