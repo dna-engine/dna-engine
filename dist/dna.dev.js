@@ -1,4 +1,4 @@
-//! dna.js v2.0.0 ~~ https://dnajs.org ~~ MIT License
+//! dna.js v2.0.1 ~~ https://dnajs.org ~~ MIT License
 
 const dnaArray = {
     find: (array, value, key = 'code') => {
@@ -245,11 +245,15 @@ const dnaFormat = {
         const twoDigit = (value) => String(value).padStart(2, '0');
         const generalDate = (date) => `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())}`;
         const generalTime = (date) => date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(' ', '').toLowerCase();
-        const generalTimestamp = (date) => generalDate(date) + ' ' + generalTime(date);
+        const generalDay = (date) => date.toLocaleString([], { weekday: 'short' });
+        const generalTimestamp = (date) => generalDate(date) + ' ' + generalTime(date) + ' ' + generalDay(date);
+        const timestamp = (date) => date.toISOString().replace('T', '@').slice(0, -5);
+        const timestampMs = (date) => date.toISOString().replace('T', '@').slice(0, -1);
         const dateFormatters = {
             date: (msec) => new Date(msec).toDateString(),
             general: (msec) => generalTimestamp(new Date(msec)),
             generalDate: (msec) => generalDate(new Date(msec)),
+            generalDay: (msec) => generalDay(new Date(msec)),
             generalTime: (msec) => generalTime(new Date(msec)),
             iso: (msec) => new Date(msec).toISOString(),
             locale: (msec) => new Date(msec).toLocaleString(),
@@ -257,6 +261,8 @@ const dnaFormat = {
             localeTime: (msec) => new Date(msec).toLocaleTimeString(),
             string: (msec) => new Date(msec).toString(),
             time: (msec) => new Date(msec).toTimeString(),
+            timestamp: (msec) => timestamp(new Date(msec)),
+            timestampMs: (msec) => timestampMs(new Date(msec)),
             utc: (msec) => new Date(msec).toUTCString(),
         };
         const formatter = dateFormatters[dna.util.toCamel(format)];
@@ -904,7 +910,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '2.0.0',
+    version: '2.0.1',
     clone(name, data, options) {
         const defaults = {
             fade: false,
