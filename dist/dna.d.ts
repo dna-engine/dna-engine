@@ -1,5 +1,6 @@
-//! dna.js v2.0.1 ~~ https://dnajs.org ~~ MIT License
+//! dna.js v2.0.2 ~~ https://dnajs.org ~~ MIT License
 
+/// <reference types="jquery" />
 export declare type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export declare type JsonObject = {
     [key: string]: Json;
@@ -151,25 +152,25 @@ export declare type DnaInfo = {
 declare const dna: {
     version: string;
     clone<T>(name: string, data: T | T[], options?: DnaOptionsClone<T> | undefined): JQuery;
-    arrayPush<T_1>(holderClone: JQuery, arrayField: string, data: T_1 | T_1[], options?: DnaOptionsArrayPush | undefined): JQuery;
-    cloneSub<T_2>(holderClone: JQuery, arrayField: string, data: T_2 | T_2[], options?: DnaOptionsArrayPush | undefined): JQuery;
+    arrayPush<T_1>(holderClone: JQuery, arrayField: string, data: T_1 | T_1[], options?: DnaOptionsArrayPush): JQuery;
+    cloneSub<T_2>(holderClone: JQuery, arrayField: string, data: T_2 | T_2[], options?: DnaOptionsArrayPush): JQuery;
     createTemplate(name: string, html: string, holder: JQuery): DnaTemplate;
     templateExists(name: string): boolean;
-    getModel<T_3>(elemOrName: JQuery | string, options?: DnaOptionsGetModel | undefined): T_3 | T_3[] | undefined;
-    empty(name: string, options?: DnaOptionsEmpty | undefined): JQuery;
+    getModel<T_3>(elemOrName: JQuery | string, options?: DnaOptionsGetModel): T_3 | T_3[] | undefined;
+    empty(name: string, options?: DnaOptionsEmpty): JQuery;
     insert<T_4>(name: string, data: T_4, options?: DnaOptionsInsert<T_4> | undefined): JQuery;
-    refresh(clone: JQuery, options?: DnaOptionsRefresh | undefined): JQuery;
-    refreshAll(name: string, options?: DnaOptionsRefreshAll | undefined): JQuery;
+    refresh(clone: JQuery, options?: DnaOptionsRefresh): JQuery;
+    refreshAll(name: string, options?: DnaOptionsRefreshAll): JQuery;
     updateField(inputElem: JQuery, value: Json): JQuery;
-    recount(clone: JQuery, options?: DnaOptionsRecount | undefined): JQuery;
+    recount(clone: JQuery, options?: DnaOptionsRecount): JQuery;
     destroy<T_5>(clone: JQuery, options?: DnaOptionsDestroy<T_5> | undefined): JQuery;
-    getClone(elem: JQuery, options?: DnaOptionsGetClone | undefined): JQuery;
+    getClone(elem: JQuery, options?: DnaOptionsGetClone): JQuery;
     getClones(name: string): JQuery;
-    getIndex(elem: JQuery, options?: DnaOptionsGetIndex | undefined): number;
+    getIndex(elem: JQuery, options?: DnaOptionsGetIndex): number;
     up<T_6>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T_6> | undefined): JQuery;
     down<T_7>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T_7> | undefined): JQuery;
     bye<T_8>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T_8> | undefined): JQuery;
-    registerInitializer(fn: DnaFunctionName | DnaInitializerFn, options?: DnaOptionsRegisterInitializer | undefined): DnaInitializer[];
+    registerInitializer(fn: DnaFunctionName | DnaInitializerFn, options?: DnaOptionsRegisterInitializer): DnaInitializer[];
     clearInitializers(): DnaInitializer[];
     registerContext(contextName: string, contextObjOrFn: DnaCallback | {
         [name: string]: unknown;
@@ -185,11 +186,11 @@ declare const dna: {
         fromMap: (map: JsonObject, options?: {
             key?: string;
             kebabCodes?: boolean;
-        } | undefined) => JsonObject[];
+        }) => JsonObject[];
         toMap: (array: DnaDataObject[], options?: {
             key: string;
             camelKeys: boolean;
-        } | undefined) => DnaDataObject;
+        }) => DnaDataObject;
         wrap: <T_11>(itemOrItems: T_11 | T_11[]) => T_11[];
     };
     browser: {
@@ -210,15 +211,15 @@ declare const dna: {
             duration: number;
             interval: number;
             out: number;
-        } | undefined) => JQuery;
-        slideFade: <T_13>(elem: JQuery, callback?: DnaCallbackFn<T_13> | null | undefined, show?: boolean | undefined) => JQuery;
+        }) => JQuery;
+        slideFade: <T_13>(elem: JQuery, callback?: DnaCallbackFn<T_13> | null | undefined, show?: boolean) => JQuery;
         slideFadeIn: <T_14>(elem: JQuery, callback?: DnaCallbackFn<T_14> | null | undefined) => JQuery;
         slideFadeOut: <T_15>(elem: JQuery, callback?: DnaCallbackFn<T_15> | null | undefined) => JQuery;
         slideFadeToggle: <T_16>(elem: JQuery, callback?: DnaCallbackFn<T_16> | null | undefined) => JQuery;
         slideFadeDelete: <T_17>(elem: JQuery, callback?: DnaCallbackFn<T_17> | null | undefined) => JQuery;
         smoothHeightSetBaseline: (container: JQuery) => JQuery;
         smoothHeightAnimate: (delay: number, container: JQuery) => JQuery;
-        smoothMove: <T_18>(elem: JQuery, up?: boolean | undefined, callback?: DnaCallbackFn<T_18> | null | undefined) => JQuery;
+        smoothMove: <T_18>(elem: JQuery, up?: boolean, callback?: DnaCallbackFn<T_18> | null | undefined) => JQuery;
         smoothMoveUp: <T_19>(elem: JQuery, callback?: DnaCallbackFn<T_19> | null | undefined) => JQuery;
         smoothMoveDown: <T_20>(elem: JQuery, callback?: DnaCallbackFn<T_20> | null | undefined) => JQuery;
         toElem: (elemOrEventOrIndex: DnaElemEventIndex, that?: unknown) => JQuery;
@@ -244,7 +245,7 @@ declare const dna: {
         setup: () => JQuery;
     };
     panels: {
-        display: (menu: JQuery, location?: number | undefined, updateUrl?: boolean | undefined) => JQuery;
+        display: (menu: JQuery, location?: number, updateUrl?: boolean) => JQuery;
         clickRotate: (event: JQuery.EventBase) => JQuery;
         selectRotate: (event: JQuery.EventBase) => JQuery;
         initialize: (panelHolder: JQuery) => JQuery;
@@ -263,7 +264,7 @@ declare const dna: {
         propsAndAttrs: (elem: JQuery) => void;
         getDataField: (elem: JQuery, type: string) => string;
         subTemplateName: (holder: JQuery | string, arrayField: string, index: number) => string;
-        rules: (elems: JQuery, type: string, isLists?: boolean | undefined) => JQuery;
+        rules: (elems: JQuery, type: string, isLists?: boolean) => JQuery;
         separators: (elem: JQuery) => JQuery;
         template: (name: string) => DnaTemplate;
     };
