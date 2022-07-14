@@ -6,54 +6,84 @@
 <!-- - - - - - - - - - - - - - - -->
 <html lang=en>
 <head>
-<meta charset=utf-8>
-<meta name=viewport    content="width=device-width, initial-scale=1">
-<meta name=robots      content="index, follow">
-<meta name=description content="dna.js ~~ Specification Runner">
-<title>dna.js ~~ Specification Runner</title>
-<link rel=icon       href=https://dnajs.org/graphics/bookmark.png>
-<link rel=stylesheet href=../dist/dna.css>
-<style>
-   body                { font-family: system-ui, sans-serif; margin: 30px; }
-   body >header        { display: flex; justify-content: space-between; margin-bottom: 30px; }
-   body >footer        { text-align: center; background: silver; padding: 10px 10px; }
-   h1, h3              { margin: 0px 0px 5px 0px; }
-   h2                  { margin: 0px; }
-   h4                  { margin: 0px; min-height: 1.6em; font-weight: normal; }
-   p                   { margin: 0px 0px 3px 0px; }
-   button              { font-size: 1.0rem; cursor: pointer; }
-   label               { display: block; }
-   output              { display: block; font-size: 0.9rem; margin-bottom: 8px; }
-   output >samp        { display: block; background-color: lightsteelblue; padding: 3px 8px; border: 2px solid transparent; transition: border-color 400ms; }
-   output >samp:nth-child(2n) { background-color: gainsboro; }
-   output >samp:hover  { border-color: darkorange; }
-   .in-a-row           { display: inline-block; }
-   main >section       { display: inline-block; vertical-align: top; border: 1px solid silver;
-                           padding: 10px; margin: 0px 20px 20px 0px; }
-   fieldset            { float: left; width: 220px; border: 1px solid silver; padding-bottom: 0px; }
-   legend              { border: 1px solid silver; padding: 0px 10px; }
-   input[type=range]   { -webkit-appearance: none; width: 100%; height: 20px;
-                           background-color: mintcream; border: 1px solid silver; }
-   input[type=number]  { width: 7em; font-family: monospace; text-align: right; }
-   [title]             { cursor: help; }
-   [data-component]    { background-color: gainsboro; padding: 15px; }
-   .dna-clone          { background-color: darkseagreen; }
-   div.dna-clone       { padding: 10px; margin-bottom: 15px; }
-   .dna-clone img      { width: 120px; }
-   .color-change       { background-color: lightsteelblue; }
-   .color-change2      { background-color: gold; }
-   #back, .id-back     { background-color: honeydew; }
-   .border-change      { border: 2px solid darkorange; }
-   .border-change2     { border: 2px solid darkslateblue; }
-   .chapter-box        { display: inline-block; background-color: lightsteelblue; padding: 15px; margin: 5px }
-   [title=usd], [title=usd100], [title=jpy] { text-align: right; }
-   body.error-detected { background-color: pink; }
-   body:not(.minified-mode) .minified-show { display: none; }
-   body.minified-mode       .minified-hide { display: none; }
-</style>
-<script>
-   const spec = {};
-</script>
+   <meta charset=utf-8>
+   <meta name=viewport    content="width=device-width, initial-scale=1">
+   <meta name=robots      content="index, follow">
+   <meta name=description content="dna.js ~~ Specification Runner">
+   <title>dna.js ~~ Specification Runner</title>
+   <link rel=icon       href=https://dnajs.org/graphics/bookmark.png>
+   <link rel=stylesheet href=../dist/dna.css>
+   <style>
+      body                { font-family: system-ui, sans-serif; margin: 30px; }
+      body >header        { display: flex; justify-content: space-between; margin-bottom: 30px; }
+      body >footer        { text-align: center; background: silver; padding: 10px 10px; }
+      h1, h3              { margin: 0px 0px 5px 0px; }
+      h2                  { margin: 0px; }
+      h4                  { margin: 0px; min-height: 1.6em; font-weight: normal; }
+      p                   { margin: 0px 0px 3px 0px; }
+      button              { font-size: 1.0rem; cursor: pointer; }
+      label               { display: block; }
+      output              { display: block; font-size: 0.9rem; margin-bottom: 8px; }
+      output >samp        { display: block; background-color: lightsteelblue; padding: 3px 8px; border: 2px solid transparent; transition: border-color 400ms; }
+      output >samp:nth-child(2n) { background-color: gainsboro; }
+      output >samp:hover  { border-color: darkorange; }
+      .in-a-row           { display: inline-block; }
+      main >section       { display: inline-block; vertical-align: top; border: 1px solid silver;
+                              padding: 10px; margin: 0px 20px 20px 0px; }
+      fieldset            { float: left; width: 220px; border: 1px solid silver; padding-bottom: 0px; }
+      legend              { border: 1px solid silver; padding: 0px 10px; }
+      input[type=range]   { -webkit-appearance: none; width: 100%; height: 20px;
+                              background-color: mintcream; border: 1px solid silver; }
+      input[type=number]  { width: 7em; font-family: monospace; text-align: right; }
+      [title]             { cursor: help; }
+      [data-component]    { background-color: gainsboro; padding: 15px; }
+      .dna-clone          { background-color: darkseagreen; }
+      div.dna-clone       { padding: 10px; margin-bottom: 15px; }
+      .dna-clone img      { width: 120px; }
+      .color-change       { background-color: lightsteelblue; }
+      .color-change2      { background-color: gold; }
+      #back, .id-back     { background-color: honeydew; }
+      .border-change      { border: 2px solid darkorange; }
+      .border-change2     { border: 2px solid darkslateblue; }
+      .chapter-box        { display: inline-block; background-color: lightsteelblue; padding: 15px; margin: 5px }
+      [title=usd], [title=usd100], [title=jpy] { text-align: right; }
+      body.error-detected { background-color: pink; }
+      body:not(.minified-mode) .minified-show { display: none; }
+      body.minified-mode       .minified-hide { display: none; }
+   </style>
+   <script defer src=https://cdn.jsdelivr.net/npm/jquery@3.6/dist/jquery.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@2.6/dist/fetch-json.min.js></script>
+   <script defer src=../dist/dna.dev.js></script>
+   <script data-on-load=specRunner.setup>
+      window.onerror = () => $('body').addClass('error-detected');
+      const spec = {};
+      const event1 = new Date('1971-06-28T19:00:00').getTime();  //local time: June 28, 1971 at 7pm
+      const event2 = new Date('2030-05-04T01:00:00').getTime();  //local time: May 4, 2030 at 1:00am
+      const specRunner = {
+         catalog: [
+            { title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en', event: event1 },
+            { title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr', event: event2 },
+            { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 },
+            ],
+         setup() {
+            $('body').toggleClass('minified-mode', /-min(.html)?$/.test(window.location.pathname));
+            $('.version-number').text(dna.version === '~~~version~~~' ? '' : 'v' + dna.version);
+            const runSpec = (sectionNode) => {
+               const name = $(sectionNode).attr('id');
+               console.log(name);
+               spec[name].run();
+               };
+            console.log('~~ dna.js ~~');
+            console.log('Version: ' + dna.info().version);
+            console.log('Specifications:');
+            const start = Date.now();
+            $('main >section').toArray().forEach(runSpec);
+            console.log('Run time (msec):', Date.now() - start);
+            console.log('Report:', dna.info());
+            console.log('');
+            },
+         };
+   </script>
 </head>
 <body>
 
@@ -101,17 +131,17 @@
    </fieldset>
 </section>
 <script>
-spec.spec01 = {
-   run() {
-      const book1 = { title: 'The DOM',      author: 'Jan' };
-      const book2 = { title: 'Styling CSS3', author: 'Abby' };
-      const book3 = { title: 'Howdy HTML5',  author: 'Ed' };
-      dna.clone('s01-book', book1);
-      const clone = dna.clone('s01-book', book2);
-      dna.clone('s01-book', book3);
-      dna.destroy(clone);
-      },
-   };
+   spec.spec01 = {
+      run() {
+         const book1 = { title: 'The DOM',      author: 'Jan' };
+         const book2 = { title: 'Styling CSS3', author: 'Abby' };
+         const book3 = { title: 'Howdy HTML5',  author: 'Ed' };
+         dna.clone('s01-book', book1);
+         const clone = dna.clone('s01-book', book2);
+         dna.clone('s01-book', book3);
+         dna.destroy(clone);
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -151,18 +181,18 @@ spec.spec01 = {
    </fieldset>
 </section>
 <script>
-spec.spec02 = {
-   run() {
-      const book1 = { title: 'The DOM',     author: 'Jan' };
-      const book2 = { title: 'Howdy HTML5', author: 'Ed' };
-      const book3 = { title: 'The One',     author: 'Lee', class: 'color-change', sale: false };
-      dna.clone('s02-book', [book1, book2]);
-      dna.empty('s02-book');
-      const titleElem = dna.clone('s02-book', book1).find('span').first();
-      titleElem.addClass('color-change2');
-      dna.refresh(titleElem, { data: book3 });
-      },
-   };
+   spec.spec02 = {
+      run() {
+         const book1 = { title: 'The DOM',     author: 'Jan' };
+         const book2 = { title: 'Howdy HTML5', author: 'Ed' };
+         const book3 = { title: 'The One',     author: 'Lee', class: 'color-change', sale: false };
+         dna.clone('s02-book', [book1, book2]);
+         dna.empty('s02-book');
+         const titleElem = dna.clone('s02-book', book1).find('span').first();
+         titleElem.addClass('color-change2');
+         dna.refresh(titleElem, { data: book3 });
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -201,17 +231,17 @@ spec.spec02 = {
    </fieldset>
 </section>
 <script>
-spec.spec03 = {
-   run() {
-      const book1 = { title: '1<sup>st</sup> &bull;', author: 'Jan' };
-      const book2 = { title: '2nd', author: 'Jan' };
-      const book3 = { title: '3rd', author: 'Jan' };
-      const options = { fade: true, top: true, html: true };
-      dna.clone('s03-book', book1, options).addClass('color-change');
-      dna.clone('s03-book', book2, options);
-      dna.clone('s03-book', book3, options);
-      },
-   };
+   spec.spec03 = {
+      run() {
+         const book1 = { title: '1<sup>st</sup> &bull;', author: 'Jan' };
+         const book2 = { title: '2nd', author: 'Jan' };
+         const book3 = { title: '3rd', author: 'Jan' };
+         const options = { fade: true, top: true, html: true };
+         dna.clone('s03-book', book1, options).addClass('color-change');
+         dna.clone('s03-book', book2, options);
+         dna.clone('s03-book', book3, options);
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -240,16 +270,16 @@ spec.spec03 = {
    </fieldset>
 </section>
 <script>
-spec.spec04 = {
-   run() {
-      const book = {
-         title:  '<b>Text</b>&bull;',
-         author: 'Lee',
-         image:  'https://dnajs.org/graphics/dnajs-logo.png'
-         };
-      dna.clone('s04-book', book);
-      },
-   };
+   spec.spec04 = {
+      run() {
+         const book = {
+            title:  '<b>Text</b>&bull;',
+            author: 'Lee',
+            image:  'https://dnajs.org/graphics/dnajs-logo.png'
+            };
+         dna.clone('s04-book', book);
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -291,30 +321,30 @@ spec.spec04 = {
    </fieldset>
 </section>
 <script>
-spec.spec05 = {
-   html:
-      '<div data-transform=spec.spec05.generateCode>' +
-      '   <div>Title:    <span>~~title~~</span></div>' +
-      '   <div>Author:   <cite>~~author~~</cite></div>' +
-      '   <div>Code:     <span>~~code~~</span></div>' +
-      '   <div>Location: <span>~~[count]~~</span></div>' +
-      '</div>',
-   generateCode(data) {
-      data.code = data.author.charCodeAt(0) % 13 * 100;
-      },
-   run() {
-      dna.createTemplate('s05-book', spec.spec05.html, $('#s05-book-list'));
-      const book1 = { title: '1st', author: 'Lee' };  //code: 1100
-      const book2 = { title: '2nd', author: 'Jan' };  //code: 900
-      const bang = (book) => {
-         book.title = book.title + '!';
-         return book;
-         };
-      dna.clone('s05-book', [book1, book2], { transform: bang }).addClass('color-change');
-      dna.clone('s05-book', [book1, book2], { transform: bang, empty: true });
-      dna.clone('s05-book', [book1, book2], { transform: bang }).addClass('color-change');
-      },
-   };
+   spec.spec05 = {
+      html:
+         '<div data-transform=spec.spec05.generateCode>' +
+         '   <div>Title:    <span>~~title~~</span></div>' +
+         '   <div>Author:   <cite>~~author~~</cite></div>' +
+         '   <div>Code:     <span>~~code~~</span></div>' +
+         '   <div>Location: <span>~~[count]~~</span></div>' +
+         '</div>',
+      generateCode(data) {
+         data.code = data.author.charCodeAt(0) % 13 * 100;
+         },
+      run() {
+         dna.createTemplate('s05-book', spec.spec05.html, $('#s05-book-list'));
+         const book1 = { title: '1st', author: 'Lee' };  //code: 1100
+         const book2 = { title: '2nd', author: 'Jan' };  //code: 900
+         const bang = (book) => {
+            book.title = book.title + '!';
+            return book;
+            };
+         dna.clone('s05-book', [book1, book2], { transform: bang }).addClass('color-change');
+         dna.clone('s05-book', [book1, book2], { transform: bang, empty: true });
+         dna.clone('s05-book', [book1, book2], { transform: bang }).addClass('color-change');
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -343,18 +373,18 @@ spec.spec05 = {
    </fieldset>
 </section>
 <script>
-spec.spec06 = {
-   run() {
-      const bouquin = {
-         title:    'Les Attributs',
-         info:     { isbn: 123 },
-         language: 'fr',
-         extra:    'border-change',
-         };
-      dna.clone('s06-book', bouquin);
-      $('#123').find('[lang=fr]').addClass('color-change2');
-      },
-   };
+   spec.spec06 = {
+      run() {
+         const bouquin = {
+            title:    'Les Attributs',
+            info:     { isbn: 123 },
+            language: 'fr',
+            extra:    'border-change',
+            };
+         dna.clone('s06-book', bouquin);
+         $('#123').find('[lang=fr]').addClass('color-change2');
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -403,18 +433,18 @@ spec.spec06 = {
    </fieldset>
 </section>
 <script>
-spec.spec07 = {
-   run() {
-      const book1 = { author: { name: 'Ed' } };
-      const book2 = { author: { name: 'Jan' } };
-      const book3 = { author: { name: 'Lee' } };
-      dna.clone('s07-book', book1);
-      const clone = dna.clone('s07-book', book2);
-      const chapters = [{ header: 'Preface' }, { header: 'Index' }]
-      dna.clone('s07-book-chapter', chapters, { container: clone }).addClass('color-change');
-      dna.clone('s07-book', book3);
-      },
-   };
+   spec.spec07 = {
+      run() {
+         const book1 = { author: { name: 'Ed' } };
+         const book2 = { author: { name: 'Jan' } };
+         const book3 = { author: { name: 'Lee' } };
+         dna.clone('s07-book', book1);
+         const clone = dna.clone('s07-book', book2);
+         const chapters = [{ header: 'Preface' }, { header: 'Index' }]
+         dna.clone('s07-book-chapter', chapters, { container: clone }).addClass('color-change');
+         dna.clone('s07-book', book3);
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -493,30 +523,30 @@ spec.spec07 = {
    </fieldset>
 </section>
 <script>
-var spec08var = { configure(elem) { elem.addClass('color-change2') } };
-const spec08constConfigure = (elem) => elem.addClass('color-change');
-let   spec08letConfigure =   (elem) => elem.addClass('color-change2');
-spec.spec08 = {
-   run() {
-      dna.clone('s08-book-authors1', ['Jan']);
-      dna.clone('s08-book-authors2', ['Jan', 'Bo']);
-      dna.clone('s08-book-authors3', ['Jan', 'Bo', 'Ed']);
-      const book1 = { title: 'The DOM',     authors: ['Jan'],          score: 77, sale: false };
-      const book2 = { title: 'The New DOM', authors: ['Jan II', 'Bo'], score: 81, sale: true };
-      const book3 = { title: 'Howdy HTML5', authors: ['Ed'],           score: 92, sale: false };
-      //clone #1
-      const clone1 = dna.clone('s08-book', book1);
-      let modelOk = dna.getModel(clone1).title === book1.title;  //verify initial model
-      dna.refresh(clone1, { data: book2 });
-      //clone #2
-      const clone2 = dna.clone('s08-book', book3);
-      dna.getModel(clone2).authors = ['Ed II'];
-      dna.getModel(clone2).score = 97;
-      dna.refreshAll('s08-book');
-      modelOk = modelOk && dna.getModel('s08-book')[1].score === 97;  //verify updated model
-      clone2.addClass(modelOk ? 'border-change' : 'color-change');
-      },
-   };
+   var   spec08var =            { configure(elem) { elem.addClass('color-change2') } };
+   const spec08constConfigure = (elem) => elem.addClass('color-change');
+   let   spec08letConfigure =   (elem) => elem.addClass('color-change2');
+   spec.spec08 = {
+      run() {
+         dna.clone('s08-book-authors1', ['Jan']);
+         dna.clone('s08-book-authors2', ['Jan', 'Bo']);
+         dna.clone('s08-book-authors3', ['Jan', 'Bo', 'Ed']);
+         const book1 = { title: 'The DOM',     authors: ['Jan'],          score: 77, sale: false };
+         const book2 = { title: 'The New DOM', authors: ['Jan II', 'Bo'], score: 81, sale: true };
+         const book3 = { title: 'Howdy HTML5', authors: ['Ed'],           score: 92, sale: false };
+         //clone #1
+         const clone1 = dna.clone('s08-book', book1);
+         let modelOk = dna.getModel(clone1).title === book1.title;  //verify initial model
+         dna.refresh(clone1, { data: book2 });
+         //clone #2
+         const clone2 = dna.clone('s08-book', book3);
+         dna.getModel(clone2).authors = ['Ed II'];
+         dna.getModel(clone2).score = 97;
+         dna.refreshAll('s08-book');
+         modelOk = modelOk && dna.getModel('s08-book')[1].score === 97;  //verify updated model
+         clone2.addClass(modelOk ? 'border-change' : 'color-change');
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -554,15 +584,15 @@ spec.spec08 = {
    </fieldset>
 </section>
 <script>
-spec.spec09 = {
-   run() {
-      dna.clone('s09-rest-link', ['https://dnajs.org/api/books/1/', 'https://dnajs.org/api/books/2/']);
-      const insertBook = (book) => dna.clone('s09-book', book, { top: book.id === 1, fade: true });
-      fetchJson.enableLogger();
-      fetchJson.get('https://dnajs.org/api/books/1/').then(insertBook);
-      fetchJson.get('https://dnajs.org/api/books/2/').then(insertBook);
-      },
-   };
+   spec.spec09 = {
+      run() {
+         dna.clone('s09-rest-link', ['https://dnajs.org/api/books/1/', 'https://dnajs.org/api/books/2/']);
+         const insertBook = (book) => dna.clone('s09-book', book, { top: book.id === 1, fade: true });
+         fetchJson.enableLogger();
+         fetchJson.get('https://dnajs.org/api/books/1/').then(insertBook);
+         fetchJson.get('https://dnajs.org/api/books/2/').then(insertBook);
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -596,19 +626,19 @@ spec.spec09 = {
    </fieldset>
 </section>
 <script>
-spec.spec10 = {
-   run() {
-      const applyBackgnd = (elem, data) => elem.css({
-         height:          '60px',
-         color:           'white',
-         backgroundImage: data.image,
-         backgroundSize:  '80px',
-         });
-      const book = { title: 'Background', image: 'url(https://dnajs.org/graphics/dnajs-logo.png)' };
-      const options = { fade: true, callback: applyBackgnd, clones: 3 };
-      dna.clone('s10-book', book, options);
-      },
-   };
+   spec.spec10 = {
+      run() {
+         const applyBackgnd = (elem, data) => elem.css({
+            height:          '60px',
+            color:           'white',
+            backgroundImage: data.image,
+            backgroundSize:  '80px',
+            });
+         const book = { title: 'Background', image: 'url(https://dnajs.org/graphics/dnajs-logo.png)' };
+         const options = { fade: true, callback: applyBackgnd, clones: 3 };
+         dna.clone('s10-book', book, options);
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -655,14 +685,14 @@ spec.spec10 = {
    </fieldset>
 </section>
 <script>
-spec.spec11 = {
-   run() {
-      const book1 = { author: 'Jan',        available: 1, onSale: 'true' };
-      const book2 = { title: 'Howdy HTML5', available: 0, onSale: [] };
-      dna.clone('s11-book', book1);
-      dna.clone('s11-book', book2);
-      },
-   };
+   spec.spec11 = {
+      run() {
+         const book1 = { author: 'Jan',        available: 1, onSale: 'true' };
+         const book2 = { title: 'Howdy HTML5', available: 0, onSale: [] };
+         dna.clone('s11-book', book1);
+         dna.clone('s11-book', book2);
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -834,42 +864,42 @@ spec.spec11 = {
    </fieldset>
 </section>
 <script>
-spec.spec12 = {
-   recount(button) {
-      const isFourthBook = dna.getClone(button).index() === 3;
-      dna.recount(button.parent().prev().filter('.dna-sub-clone'), { html: isFourthBook });
-      },
-   run() {
-      const chapters = [
-         { header: 'Preface &star;', type: 'front' },
-         { header: 'Index',          type: 'back' },
-         ];
-      const moreChapters = [
-         { header: 'Bio 2', type: 'back' },
-         { header: 'Bio 3', type: 'back' },
-         ];
-      const lastChapter =
-         { header: 'Bio X', type: 'back' };
-      const authors = ['Ed', 'Jake', 'Abby'];
-      const book1 = { title: 'The DOM' };
-      const book2 = { title: 'Howdy HTML5',  authors: authors, chapters: chapters };
-      const book3 = { title: 'Styling CSS3', authors: [],      chapters: [] };
-      dna.clone('s12-book', [book1, book2, book3, book1], { html: false });
-      dna.arrayPush(dna.getClones('s12-book').first(), 'authors', 'Bo I');
-      dna.arrayPush(dna.getClones('s12-book').first(), 'authors', 'Bo II');
-      let clone = $('.s12-book').first();
-      clone.toggleClass('border-change', clone.data().title === 'The DOM');
-      const elem = clone.find('.s12-book-authors--0').last();
-      elem.addClass(elem.data().author === 'Bo II' ? 'color-change' : 'color-change2');
-      clone = dna.refresh($('.s12-book').last(), { data: book2, html: true });
-      dna.arrayPush(clone, 'chapters', { header: 'Bio', type: 'back' });
-      dna.arrayPush(clone, 'chapters', moreChapters);
-      dna.destroy($('.s12-book').find(':contains(Bio 2)'), { main: false });
-      dna.arrayPush(clone, 'chapters', lastChapter);
-      clone.toggleClass('border-change', dna.getModel(clone).chapters.length === 5);
-      $('.s12-book').find('.s12-book-authors--0[data-author=Jake]').addClass('color-change2');
-      },
-   };
+   spec.spec12 = {
+      recount(button) {
+         const isFourthBook = dna.getClone(button).index() === 3;
+         dna.recount(button.parent().prev().filter('.dna-sub-clone'), { html: isFourthBook });
+         },
+      run() {
+         const chapters = [
+            { header: 'Preface &star;', type: 'front' },
+            { header: 'Index',          type: 'back' },
+            ];
+         const moreChapters = [
+            { header: 'Bio 2', type: 'back' },
+            { header: 'Bio 3', type: 'back' },
+            ];
+         const lastChapter =
+            { header: 'Bio X', type: 'back' };
+         const authors = ['Ed', 'Jake', 'Abby'];
+         const book1 = { title: 'The DOM' };
+         const book2 = { title: 'Howdy HTML5',  authors: authors, chapters: chapters };
+         const book3 = { title: 'Styling CSS3', authors: [],      chapters: [] };
+         dna.clone('s12-book', [book1, book2, book3, book1], { html: false });
+         dna.arrayPush(dna.getClones('s12-book').first(), 'authors', 'Bo I');
+         dna.arrayPush(dna.getClones('s12-book').first(), 'authors', 'Bo II');
+         let clone = $('.s12-book').first();
+         clone.toggleClass('border-change', clone.data().title === 'The DOM');
+         const elem = clone.find('.s12-book-authors--0').last();
+         elem.addClass(elem.data().author === 'Bo II' ? 'color-change' : 'color-change2');
+         clone = dna.refresh($('.s12-book').last(), { data: book2, html: true });
+         dna.arrayPush(clone, 'chapters', { header: 'Bio', type: 'back' });
+         dna.arrayPush(clone, 'chapters', moreChapters);
+         dna.destroy($('.s12-book').find(':contains(Bio 2)'), { main: false });
+         dna.arrayPush(clone, 'chapters', lastChapter);
+         clone.toggleClass('border-change', dna.getModel(clone).chapters.length === 5);
+         $('.s12-book').find('.s12-book-authors--0[data-author=Jake]').addClass('color-change2');
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -900,13 +930,13 @@ spec.spec12 = {
    </fieldset>
 </section>
 <script>
-spec.spec13 = {
-   run() {
-      dna.clone('s13-book', '<script>alert(1);<\/script>');
-      dna.clone('s13-book', '<script>alert(2);<\/script>', { html: false });
-      dna.clone('s13-book', '<script>$(".s13-book").last().find("span").text(3);<\/script>', { html: true });
-      },
-   };
+   spec.spec13 = {
+      run() {
+         dna.clone('s13-book', '<script>alert(1);<\/script>');
+         dna.clone('s13-book', '<script>alert(2);<\/script>', { html: false });
+         dna.clone('s13-book', '<script>$(".s13-book").last().find("span").text(3);<\/script>', { html: true });
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -960,14 +990,14 @@ spec.spec13 = {
    </fieldset>
 </section>
 <script>
-spec.spec14 = {
-   run() {
-      const books = ['The DOM', 'Howdy HTML5', 'Styling CSS3'];
-      dna.clone('s14-book', books);
-      const countIsThree = (i, elem) => parseInt($(elem).data().count) === 3;
-      dna.getClones('s14-book').filter(countIsThree).addClass('border-change');
-      },
-   };
+   spec.spec14 = {
+      run() {
+         const books = ['The DOM', 'Howdy HTML5', 'Styling CSS3'];
+         dna.clone('s14-book', books);
+         const countIsThree = (i, elem) => parseInt($(elem).data().count) === 3;
+         dna.getClones('s14-book').filter(countIsThree).addClass('border-change');
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1024,78 +1054,78 @@ spec.spec14 = {
    </fieldset>
 </section>
 <script>
-spec.spec15 = {
-   configure(elem) {
-      elem.addClass('color-change');
-      },
-   showMessage(message, elem) {
-      const tag = '<' + elem[0].nodeName + '>'
-      const msec = String(Date.now() % 10000).padStart(4, '0');
-      const p = $('<p>').text([msec, message, tag].join(' '));
-      $('#spec15 fieldset').first().append(p);
-      },
-   animal(elem) {
-      spec.spec15.showMessage('animal', elem);
-      },
-   elephant(elem) {
-      spec.spec15.showMessage('elephant', elem);
-      },
-   mouse(elem) {
-      spec.spec15.showMessage('mouse', elem);
-      },
-   ufoIn(elem) {
-      spec.spec15.showMessage('⎍⎎⍜ hover', elem);
-      },
-   ufoOut(elem) {
-      spec.spec15.showMessage('⎍⎎⍜ bye', elem);
-      },
-   surround(elem) {
-      elem.addClass('border-change');
-      const addHr = () => $('#spec15 fieldset').first().append('<hr>');
-      elem.each(addHr);  //exactly 8 times (one for each clone)
-      },
-   surround2(elem) {
-      if (!elem.hasClass('s15-book'))
-         throw 'This is not the clone you are looking for: ' + (elem[0] && elem[0].nodeName);
-      elem.addClass('border-change2');
-      },
-   bye(elem, event) {
-      const clone = dna.getClone(elem);
-      const delayRange = { min: 300, max: 1600 };
-      const start = Date.now();
-      let handled = false;
-      const badNews = (msg) => { throw 'handleByeDone --> ' + msg; };
-      const handleByeDone = (param) => {
-         const delay = Date.now() - start;
-         const elemMissing = param[0] !== clone[0];
-         const inDom = !!clone.parent().length;
-         handled = true;
-         if (delay < delayRange.min || delay > delayRange.max || elemMissing || inDom)
-            badNews('delay: ' + delay + 'ms, clone: ' + !elemMissing + ' removed: ' + !inDom);
-         };
-      if (event.type === 'click')
-         dna.bye(elem, handleByeDone);
-      if (event.type === 'click')
-         window.setTimeout(() => handled || badNews('delay exceeded: ' + delayRange.max), delayRange.max);
-      },
-   run() {
-      dna.registerInitializer('spec.spec15.surround', { selector: '.surrounded' });
-      dna.registerInitializer('css', { selector: '.surrounded', params: { color: 'white' } });
-      dna.registerInitializer('css', { selector: '.surrounded', params: ['padding', '10px'] });
-      dna.registerInitializer(spec.spec15.surround2, { onDocLoad: false });  //apply to each clone
-      const titles = ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE'];
-      dna.clone('s15-book', titles);
-      $('.s15-book button.2').on({ click: dna.bye });  //add handler
-      const getClone = (count) => $('.s15-book .count:contains(' + count + ')').closest('.dna-clone');
-      getClone(1).find('button.1').trigger('click');         //nuke 1st (bye w/data-click)
-      getClone(2).find('button.2').trigger('click');         //nuke 2nd (bye w/event handler)
-      getClone(8).find('button.3').trigger('click');         //nuke 8th (remove w/dna click callback)
-      dna.bye(getClone(4));                                  //nuke 4th (bye w/jQuery elem)
-      dna.getClone(getClone(7).find('span:last')).remove();  //nuke 7th (remove w/sub-node)
-      getClone(6).each(dna.bye);                             //nuke 6th (bye w/jQuery loop)
-      dna.clearInitializers();
-      },
-   };
+   spec.spec15 = {
+      configure(elem) {
+         elem.addClass('color-change');
+         },
+      showMessage(message, elem) {
+         const tag = '<' + elem[0].nodeName + '>'
+         const msec = String(Date.now() % 10000).padStart(4, '0');
+         const p = $('<p>').text([msec, message, tag].join(' '));
+         $('#spec15 fieldset').first().append(p);
+         },
+      animal(elem) {
+         spec.spec15.showMessage('animal', elem);
+         },
+      elephant(elem) {
+         spec.spec15.showMessage('elephant', elem);
+         },
+      mouse(elem) {
+         spec.spec15.showMessage('mouse', elem);
+         },
+      ufoIn(elem) {
+         spec.spec15.showMessage('⎍⎎⍜ hover', elem);
+         },
+      ufoOut(elem) {
+         spec.spec15.showMessage('⎍⎎⍜ bye', elem);
+         },
+      surround(elem) {
+         elem.addClass('border-change');
+         const addHr = () => $('#spec15 fieldset').first().append('<hr>');
+         elem.each(addHr);  //exactly 8 times (one for each clone)
+         },
+      surround2(elem) {
+         if (!elem.hasClass('s15-book'))
+            throw 'This is not the clone you are looking for: ' + (elem[0] && elem[0].nodeName);
+         elem.addClass('border-change2');
+         },
+      bye(elem, event) {
+         const clone = dna.getClone(elem);
+         const delayRange = { min: 300, max: 1600 };
+         const start = Date.now();
+         let handled = false;
+         const badNews = (msg) => { throw 'handleByeDone --> ' + msg; };
+         const handleByeDone = (param) => {
+            const delay = Date.now() - start;
+            const elemMissing = param[0] !== clone[0];
+            const inDom = !!clone.parent().length;
+            handled = true;
+            if (delay < delayRange.min || delay > delayRange.max || elemMissing || inDom)
+               badNews('delay: ' + delay + 'ms, clone: ' + !elemMissing + ' removed: ' + !inDom);
+            };
+         if (event.type === 'click')
+            dna.bye(elem, handleByeDone);
+         if (event.type === 'click')
+            window.setTimeout(() => handled || badNews('delay exceeded: ' + delayRange.max), delayRange.max);
+         },
+      run() {
+         dna.registerInitializer('spec.spec15.surround', { selector: '.surrounded' });
+         dna.registerInitializer('css', { selector: '.surrounded', params: { color: 'white' } });
+         dna.registerInitializer('css', { selector: '.surrounded', params: ['padding', '10px'] });
+         dna.registerInitializer(spec.spec15.surround2, { onDocLoad: false });  //apply to each clone
+         const titles = ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE'];
+         dna.clone('s15-book', titles);
+         $('.s15-book button.2').on({ click: dna.bye });  //add handler
+         const getClone = (count) => $('.s15-book .count:contains(' + count + ')').closest('.dna-clone');
+         getClone(1).find('button.1').trigger('click');         //nuke 1st (bye w/data-click)
+         getClone(2).find('button.2').trigger('click');         //nuke 2nd (bye w/event handler)
+         getClone(8).find('button.3').trigger('click');         //nuke 8th (remove w/dna click callback)
+         dna.bye(getClone(4));                                  //nuke 4th (bye w/jQuery elem)
+         dna.getClone(getClone(7).find('span:last')).remove();  //nuke 7th (remove w/sub-node)
+         getClone(6).each(dna.bye);                             //nuke 6th (bye w/jQuery loop)
+         dna.clearInitializers();
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1262,57 +1292,57 @@ spec.spec15 = {
    </fieldset>
 </section>
 <script>
-spec.spec16 = {
-   start: Date.now(),
-   submitNote(elem) {
-      const time = Date.now() - spec.spec16.start;
-      dna.clone('note', { ms: time, note: elem.val() }, { top: true, fade: true });
-      },
-   run() {
-      const options = [
-         { code: 'fast',  name: 'Overnight',    set: false },
-         { code: 'share', name: 'Social Share', set: false },
-         { code: 'gift',  name: 'Gift',         set: false },
-         ];
-      const covers = [
-         { code: 'soft',  name: 'Paperback', unavailable: 0, set: 1 },  //selected
-         { code: 'hard',  name: 'Hardcover', unavailable: 0, set: 0 },
-         { code: 'ebook', name: 'Digital',   unavailable: 1, set: 0 },
-         ];
-      const purposes = [
-         { code: 'work', name: 'Business' },
-         { code: 'fun',  name: 'Personal' },
-         { code: 'edu',  name: 'School' },
-         ];
-      const book = {
-         title:      '[change me]',
-         options:    options,
-         covers:     covers,
-         purpose:    'edu',
-         purposes:   purposes,
-         category:   'computers',
-         meta:       { info: { tags: [{ english: { code: 'tech' } },  { english: { code: 'color' } }] } },  //verify dot notation
-         secret:     '[change me]',
-         pubDate:    '2014-06-22',
-         coverColor: '#daa520',
-         note:       '[change me]',
-         };
-      const clone = dna.clone('s16-book', book);
-      dna.updateField(clone.find('input:checkbox[value=fast]'), true);
-      dna.updateField(clone.find('textarea'), '0xDEADBEEF');
-      dna.updateField(clone.find('input').last(), 'Award winning');
-      const titleElem = clone.find('input:text').first().val('The DOM!').trigger('change');  //simulate user edit
-      titleElem.toggleClass('border-change', book.title === 'The DOM!');
-      if (clone.find('input[value=fast]').prop('checked'))  //expect "Overnight" selected
-         clone.find('input[value=gift]').trigger('click');  //also select "Gift" option
-      if (clone.find('input[name=cover]:checked').val() === 'soft')  //expect "Paperback" selected
-         clone.find('input[value=hard]').prop({ checked: true }).trigger('click');  //change to "Hardcover"
-      const purposeElem = clone.find('select').first();
-      if (purposeElem.val() === 'edu')  //expect "School" selected
-         purposeElem.val('fun').trigger('change');  //change to "Personal"
-      purposeElem.toggleClass('border-change', book.purpose === 'fun');
-      },
-   };
+   spec.spec16 = {
+      start: Date.now(),
+      submitNote(elem) {
+         const time = Date.now() - spec.spec16.start;
+         dna.clone('note', { ms: time, note: elem.val() }, { top: true, fade: true });
+         },
+      run() {
+         const options = [
+            { code: 'fast',  name: 'Overnight',    set: false },
+            { code: 'share', name: 'Social Share', set: false },
+            { code: 'gift',  name: 'Gift',         set: false },
+            ];
+         const covers = [
+            { code: 'soft',  name: 'Paperback', unavailable: 0, set: 1 },  //selected
+            { code: 'hard',  name: 'Hardcover', unavailable: 0, set: 0 },
+            { code: 'ebook', name: 'Digital',   unavailable: 1, set: 0 },
+            ];
+         const purposes = [
+            { code: 'work', name: 'Business' },
+            { code: 'fun',  name: 'Personal' },
+            { code: 'edu',  name: 'School' },
+            ];
+         const book = {
+            title:      '[change me]',
+            options:    options,
+            covers:     covers,
+            purpose:    'edu',
+            purposes:   purposes,
+            category:   'computers',
+            meta:       { info: { tags: [{ english: { code: 'tech' } },  { english: { code: 'color' } }] } },  //verify dot notation
+            secret:     '[change me]',
+            pubDate:    '2014-06-22',
+            coverColor: '#daa520',
+            note:       '[change me]',
+            };
+         const clone = dna.clone('s16-book', book);
+         dna.updateField(clone.find('input:checkbox[value=fast]'), true);
+         dna.updateField(clone.find('textarea'), '0xDEADBEEF');
+         dna.updateField(clone.find('input').last(), 'Award winning');
+         const titleElem = clone.find('input:text').first().val('The DOM!').trigger('change');  //simulate user edit
+         titleElem.toggleClass('border-change', book.title === 'The DOM!');
+         if (clone.find('input[value=fast]').prop('checked'))  //expect "Overnight" selected
+            clone.find('input[value=gift]').trigger('click');  //also select "Gift" option
+         if (clone.find('input[name=cover]:checked').val() === 'soft')  //expect "Paperback" selected
+            clone.find('input[value=hard]').prop({ checked: true }).trigger('click');  //change to "Hardcover"
+         const purposeElem = clone.find('select').first();
+         if (purposeElem.val() === 'edu')  //expect "School" selected
+            purposeElem.val('fun').trigger('change');  //change to "Personal"
+         purposeElem.toggleClass('border-change', book.purpose === 'fun');
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1368,11 +1398,11 @@ spec.spec16 = {
    </fieldset>
 </section>
 <script>
-spec.spec17 = {
-   run() {
-      // Nothing to do as component knows how to initialize itself.
-      },
-   };
+   spec.spec17 = {
+      run() {
+         // Nothing to do as component knows how to initialize itself.
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1399,24 +1429,24 @@ spec.spec17 = {
    </fieldset>
 </section>
 <script>
-spec.spec18 = {
-   iEvent(elem, event) {
-      console.log(Date.now(), elem.val(), event.type);
-      },
-   makeChapterBoxes(range) {
-      dna.clone('chapter-box', {}, { empty: true, clones: +range.val() }).hide().fadeIn();
-      },
-   smooth(range) {
-      dna.ui.smoothHeightSetBaseline($('#spec18 .smooth-container'));
-      spec.spec18.makeChapterBoxes(range);
-      dna.ui.smoothHeightAnimate();
-      },
-   run() {
-      spec.spec18.makeChapterBoxes($('#spec18 input[type=range]').first());
-      const clickButton = () => $('#spec18 button[data-click]').trigger('click');
-      window.setInterval(clickButton, 3000);
-      },
-   };
+   spec.spec18 = {
+      iEvent(elem, event) {
+         console.log(Date.now(), elem.val(), event.type);
+         },
+      makeChapterBoxes(range) {
+         dna.clone('chapter-box', {}, { empty: true, clones: +range.val() }).hide().fadeIn();
+         },
+      smooth(range) {
+         dna.ui.smoothHeightSetBaseline($('#spec18 .smooth-container'));
+         spec.spec18.makeChapterBoxes(range);
+         dna.ui.smoothHeightAnimate();
+         },
+      run() {
+         spec.spec18.makeChapterBoxes($('#spec18 input[type=range]').first());
+         const clickButton = () => $('#spec18 button[data-click]').trigger('click');
+         window.setInterval(clickButton, 3000);
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1455,20 +1485,20 @@ spec.spec18 = {
    </fieldset>
 </section>
 <script>
-spec.spec19 = {
-   enhance(data) {
-      data.code = dna.util.toKebab(data.title);
-      data.displayPrice = '$' + (data.price / 100).toFixed(2);
-      },
-   displayPanel(elem) {
-      return elem.addClass('border-change');
-      },
-   run() {
-      dna.clone('s19-book-title', specRunner.catalog);
-      dna.clone('s19-book',       specRunner.catalog);
-      $('#spec19 .dna-menu .menu-item:contains(Styling CSS3)').trigger('click');
-      },
-   };
+   spec.spec19 = {
+      enhance(data) {
+         data.code = dna.util.toKebab(data.title);
+         data.displayPrice = '$' + (data.price / 100).toFixed(2);
+         },
+      displayPanel(elem) {
+         return elem.addClass('border-change');
+         },
+      run() {
+         dna.clone('s19-book-title', specRunner.catalog);
+         dna.clone('s19-book',       specRunner.catalog);
+         $('#spec19 .dna-menu .menu-item:contains(Styling CSS3)').trigger('click');
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1539,12 +1569,12 @@ spec.spec19 = {
    </fieldset>
 </section>
 <script>
-spec.spec20 = {
-   run() {
-      const postRenderClick = () => $('#spec20 .dna-menu .menu-item:contains(W3C)').trigger('click');
-      window.setTimeout(postRenderClick, 1000);
-      },
-   };
+   spec.spec20 = {
+      run() {
+         const postRenderClick = () => $('#spec20 .dna-menu .menu-item:contains(W3C)').trigger('click');
+         window.setTimeout(postRenderClick, 1000);
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1582,13 +1612,13 @@ spec.spec20 = {
    </fieldset>
 </section>
 <script>
-spec.spec21 = {
-   run() {
-      dna.clone('s21-book-author-nav-button', specRunner.catalog);
-      dna.clone('s21-book-author',            specRunner.catalog);
-      $('#spec21 .dna-menu').val('Abby').trigger('change');
-      },
-   };
+   spec.spec21 = {
+      run() {
+         dna.clone('s21-book-author-nav-button', specRunner.catalog);
+         dna.clone('s21-book-author',            specRunner.catalog);
+         $('#spec21 .dna-menu').val('Abby').trigger('change');
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1633,24 +1663,24 @@ spec.spec21 = {
    </fieldset>
 </section>
 <script>
-spec.spec22 = {
-   run() {
-      const sumPrice =       (sum, book) =>   sum + book.price;
-      const addTitleWords =  (words, book) => words.concat(book.title.toLowerCase().split(' '));
-      const addAuthorNames = (names, book) => names.concat(book.author.split(' '));
-      const summary = {
-         numBooks:   specRunner.catalog.length,
-         totalPrice: specRunner.catalog.reduce(sumPrice, 0) / 100,
-         };
-      const analytics = {
-         titleWords:  specRunner.catalog.reduce(addTitleWords,  []).sort(),
-         authorNames: specRunner.catalog.reduce(addAuthorNames, []).sort(),
-         };
-      dna.insert('s22-summary',   summary);
-      dna.insert('s22-analytics', { titleWords: ['bogus'], authorNames: ['also bogus'] });
-      dna.insert('s22-analytics', analytics);
-      },
-   };
+   spec.spec22 = {
+      run() {
+         const sumPrice =       (sum, book) =>   sum + book.price;
+         const addTitleWords =  (words, book) => words.concat(book.title.toLowerCase().split(' '));
+         const addAuthorNames = (names, book) => names.concat(book.author.split(' '));
+         const summary = {
+            numBooks:   specRunner.catalog.length,
+            totalPrice: specRunner.catalog.reduce(sumPrice, 0) / 100,
+            };
+         const analytics = {
+            titleWords:  specRunner.catalog.reduce(addTitleWords,  []).sort(),
+            authorNames: specRunner.catalog.reduce(addAuthorNames, []).sort(),
+            };
+         dna.insert('s22-summary',   summary);
+         dna.insert('s22-analytics', { titleWords: ['bogus'], authorNames: ['also bogus'] });
+         dna.insert('s22-analytics', analytics);
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1827,18 +1857,18 @@ spec.spec22 = {
    </fieldset>
 </section>
 <script>
-spec.spec23 = {
-   addΣ(book) {
-      book.σ = Math.SQRT1_2;
-      },
-   up(value, data) {
-      return value.toUpperCase() + (data.language === 'en' ? '!' : '');
-      },
-   run() {
-      const addπ = (book) => book.π = Math.PI;
-      dna.clone('s23-book', specRunner.catalog, { transform: addπ });
-      },
-   };
+   spec.spec23 = {
+      addΣ(book) {
+         book.σ = Math.SQRT1_2;
+         },
+      up(value, data) {
+         return value.toUpperCase() + (data.language === 'en' ? '!' : '');
+         },
+      run() {
+         const addπ = (book) => book.π = Math.PI;
+         dna.clone('s23-book', specRunner.catalog, { transform: addπ });
+         },
+      };
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1847,38 +1877,5 @@ spec.spec23 = {
    dna.js <span class=version-number></span>
 </footer>
 
-<script src=https://cdn.jsdelivr.net/npm/jquery@3.6/dist/jquery.min.js></script>
-<script src=https://cdn.jsdelivr.net/npm/fetch-json@2.6/dist/fetch-json.min.js></script>
-<script src=../dist/dna.dev.js></script>
-<script>
-const event1 = new Date('1971-06-28T19:00:00').getTime();  //local time: June 28, 1971 at 7pm
-const event2 = new Date('2030-05-04T01:00:00').getTime();  //local time: May 4, 2030 at 1:00am
-const specRunner = {
-   catalog: [
-      { title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en', event: event1 },
-      { title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr', event: event2 },
-      { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 },
-      ],
-   setup() {
-      window.onerror = () => $('body').addClass('error-detected');
-      $('body').toggleClass('minified-mode', /-min(.html)?$/.test(window.location.pathname));
-      $('.version-number').text(dna.version === '~~~version~~~' ? '' : 'v' + dna.version);
-      const runSpec = (sectionNode) => {
-         const name = $(sectionNode).attr('id');
-         console.log(name);
-         spec[name].run();
-         };
-      console.log('~~ dna.js ~~');
-      console.log('Version: ' + dna.info().version);
-      console.log('Specifications:');
-      const start = Date.now();
-      $('main >section').toArray().forEach(runSpec);
-      console.log('Run time (msec):', Date.now() - start);
-      console.log('Report:', dna.info());
-      console.log('');
-      },
-   };
-$(specRunner.setup);
-</script>
 </body>
 </html>

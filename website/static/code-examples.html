@@ -8,14 +8,14 @@
    <title>Code Examples</title>
    <link rel=icon       href=https://dnajs.org/graphics/bookmark.png>
    <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.css>
-   <script src=https://cdn.jsdelivr.net/npm/jquery@@@pkg.cdnVersion.jQuery/dist/jquery.min.js></script>
-   <script src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js></script>
-   <script src=https://cdn.jsdelivr.net/npm/web-ignition@@@pkg.cdnVersion.webIgnition/dist/lib-x.min.js></script>
    <style>
       body       { font-family: system-ui, sans-serif; margin: 30px; }
       section    { border: 5px solid tomato; padding: 10px; }
       .dna-clone { background-color: lightblue; padding: 10px; margin-bottom: 10px; }
    </style>
+   <script defer src=https://cdn.jsdelivr.net/npm/jquery@@@pkg.cdnVersion.jQuery/dist/jquery.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@@@pkg.cdnVersion.webIgnition/dist/lib-x.min.js></script>
 </head>
 <body>
 
@@ -61,7 +61,7 @@ input[type=checkbox], button {
    }
 </style>
 -->
-<script>
+<script data-on-load=todo.setup>
    const todo = {
       add: () => {  //create task
          const task = { title: $('#task-title').val() };
@@ -75,7 +75,6 @@ input[type=checkbox], button {
          dna.clone('task', task);
          }
       };
-   $(todo.setup);
 </script>
 
 
@@ -107,7 +106,7 @@ button {
    }
 </style>
 -->
-<script>
+<script data-on-load=store.add>
    const store = {
       books: [
          { title: 'JavaScript!', author: 'Jake' },
@@ -123,7 +122,6 @@ button {
          dna.empty('book', { fade: true });
          }
       };
-   $(store.add);
 </script>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

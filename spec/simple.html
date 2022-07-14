@@ -5,17 +5,45 @@
 <!-- - - - - - - - - - - - - - -->
 <html lang=en>
 <head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width, initial-scale=1">
-<title>dna.js ~~ Simple Specification Case</title>
-<link rel=icon       href=https://dnajs.org/graphics/bookmark.png>
-<link rel=stylesheet href=../dna.css>
-<style>
-   body               { font-family: system-ui, sans-serif; margin: 30px; }
-   main               { max-width: 500px; }
-   book-list .book    { background-color: lightsteelblue; padding: 10px; margin-bottom: 20px; }
-   book-list .book h2 { margin: 0px; }
-</style>
+   <meta charset=utf-8>
+   <meta name=viewport content="width=device-width, initial-scale=1">
+   <title>dna.js ~~ Simple Specification Case</title>
+   <link rel=icon       href=https://dnajs.org/graphics/bookmark.png>
+   <link rel=stylesheet href=../dna.css>
+   <style>
+      body               { font-family: system-ui, sans-serif; margin: 30px; }
+      main               { max-width: 500px; }
+      book-list .book    { background-color: lightsteelblue; padding: 10px; margin-bottom: 20px; }
+      book-list .book h2 { margin: 0px; }
+   </style>
+   <script defer src=https://cdn.jsdelivr.net/npm/jquery@3.6/dist/jquery.min.js></script>
+   <script defer src=../dist/dna.dev.js></script>
+   <script data-on-load=app.setup>
+      const app = {
+         books: [
+            { id: 'B003', title: 'The DOM',      author: 'Jan',  price: 2495, color: 'r' },
+            { id: 'B005', title: 'Styling CSS3', author: 'Abby', price: 1995, color: 'b' },
+            { id: 'B007', title: 'Howdy HTML5',  author: 'Ed',   price: 2995, color: null },
+            ],
+         colors: [
+            { code: 'r', name: 'Red' },
+            { code: 'b', name: 'Blue' },
+            ],
+         doSomeStuff: () => {
+            const addCodes = (book) => book.colors = app.colors;
+            dna.clone('book', app.books, { transform: addCodes });
+            },
+         setup: () => {
+            const makePageRed = () => $('body').css({ backgroundColor: 'pink' });
+            window.onerror = makePageRed;
+            const start = Date.now();
+            app.doSomeStuff(),
+            console.log('Run time (msec):', Date.now() - start);
+            console.log(dna.info());
+            console.log(dna.getModel('book'));
+            },
+         };
+   </script>
 </head>
 <body>
 
@@ -37,34 +65,5 @@
    </book-list>
 </main>
 
-<script src=https://cdn.jsdelivr.net/npm/jquery@3.6/dist/jquery.min.js></script>
-<script src=../dist/dna.js></script>
-<script>
-   const app = {
-      books: [
-         { id: 'B003', title: 'The DOM',      author: 'Jan',  price: 2495, color: 'r' },
-         { id: 'B005', title: 'Styling CSS3', author: 'Abby', price: 1995, color: 'b' },
-         { id: 'B007', title: 'Howdy HTML5',  author: 'Ed',   price: 2995, color: null },
-         ],
-      colors: [
-         { code: 'r', name: 'Red' },
-         { code: 'b', name: 'Blue' },
-         ],
-      doSomeStuff: () => {
-         const addCodes = (book) => book.colors = app.colors;
-         dna.clone('book', app.books, { transform: addCodes });
-         },
-      setup: () => {
-         const makePageRed = () => $('body').css({ backgroundColor: 'pink' });
-         window.onerror = makePageRed;
-         const start = Date.now();
-         app.doSomeStuff(),
-         console.log('Run time (msec):', Date.now() - start);
-         console.log(dna.info());
-         console.log(dna.getModel('book'));
-         },
-      };
-   $(app.setup);
-</script>
 </body>
 </html>

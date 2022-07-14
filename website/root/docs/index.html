@@ -2260,18 +2260,17 @@
             </div>
             <br>
             <div>Data: <code id=data>[YOUR MOVE]</code></div>
-            <script>
-            const bookInfo = {
-               update: (elem) => {
-                  const data = JSON.stringify(dna.getModel(elem));
-                  $('#data').text(data).hide().fadeIn();
-                  },
-               setup: () => {
-                  const book = { title: 'Styling CSS', ebook: true };
-                  dna.clone('book', book);
-                  }
-               };
-            $(bookInfo.setup);
+            <script data-on-load=bookInfo.setup>
+               const bookInfo = {
+                  update: (elem) => {
+                     const data = JSON.stringify(dna.getModel(elem));
+                     $('#data').text(data).hide().fadeIn();
+                     },
+                  setup: () => {
+                     const book = { title: 'Styling CSS', ebook: true };
+                     dna.clone('book', book);
+                     }
+                  };
             </script>
          </div>
       </figure>

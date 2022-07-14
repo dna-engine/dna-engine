@@ -25,15 +25,25 @@
             &lt;!-- - - - - - --&gt;
             &lt;html&gt;
             &lt;head&gt;
-            &lt;meta charset=utf-8&gt;
-            &lt;title&gt;Bookstore&lt;/title&gt;
-            &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.css&gt;
-            &lt;style&gt;
-               body     { font-family: system-ui, sans-serif; margin: 30px; }
-               .books   { width: 250px; }
-               .book    { background-color: gold; padding: 10px; margin-bottom: 15px; }
-               .book h2 { font-size: 1.1rem; margin: 0px; }
-            &lt;/style&gt;
+               &lt;meta charset=utf-8&gt;
+               &lt;title&gt;Bookstore&lt;/title&gt;
+               &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.css&gt;
+               &lt;style&gt;
+                  body     { font-family: system-ui, sans-serif; margin: 30px; }
+                  .books   { width: 250px; }
+                  .book    { background-color: gold; padding: 10px; margin-bottom: 15px; }
+                  .book h2 { font-size: 1.1rem; margin: 0px; }
+               &lt;/style&gt;
+               &lt;script defer src=https://cdn.jsdelivr.net/npm/jquery@@@pkg.cdnVersion.jQuery/dist/jquery.min.js&gt;&lt;/script&gt;
+               &lt;script defer src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js&gt;&lt;/script&gt;
+               &lt;script data-on-load=startup&gt;
+                  const books = [
+                     { title: 'The DOM',      author: 'Jan' },
+                     { title: 'Howdy HTML5',  author: 'Ed' },
+                     { title: 'Styling CSS3', author: 'Abby' }
+                     ];
+                  const startup = () => dna.clone('book', books);
+               &lt;/script&gt;
             &lt;/head&gt;
             &lt;body&gt;
 
@@ -47,16 +57,6 @@
                &lt;/section&gt;
             &lt;/main&gt;
 
-            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@@@pkg.cdnVersion.jQuery/dist/jquery.min.js&gt;&lt;/script&gt;
-            &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js&gt;&lt;/script&gt;
-            &lt;script&gt;
-               const books = [
-                  { title: 'The DOM',      author: 'Jan' },
-                  { title: 'Howdy HTML5',  author: 'Ed' },
-                  { title: 'Styling CSS3', author: 'Abby' }
-                  ];
-               dna.clone('book', books);
-            &lt;/script&gt;
             &lt;/body&gt;
             &lt;/html&gt;
          </code></pre>

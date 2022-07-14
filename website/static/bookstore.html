@@ -4,16 +4,26 @@
 <!-- - - - - - -->
 <html lang=en>
 <head>
-<meta charset=utf-8>
-<title>Bookstore</title>
-<link rel=icon       href=https://dnajs.org/graphics/bookmark.png>
-<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.css>
-<style>
-   body     { font-family: system-ui, sans-serif; margin: 30px; }
-   .books   { width: 250px; }
-   .book    { background-color: gold; padding: 10px; margin-bottom: 15px; }
-   .book h2 { font-size: 1.1rem; margin: 0px; }
-</style>
+   <meta charset=utf-8>
+   <title>Bookstore</title>
+   <link rel=icon       href=https://dnajs.org/graphics/bookmark.png>
+   <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.css>
+   <style>
+      body     { font-family: system-ui, sans-serif; margin: 30px; }
+      .books   { width: 250px; }
+      .book    { background-color: gold; padding: 10px; margin-bottom: 15px; }
+      .book h2 { font-size: 1.1rem; margin: 0px; }
+   </style>
+   <script defer src=https://cdn.jsdelivr.net/npm/jquery@@@pkg.cdnVersion.jQuery/dist/jquery.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js></script>
+   <script data-on-load=startup>
+      const books = [
+         { title: 'The DOM',      author: 'Jan' },
+         { title: 'Howdy HTML5',  author: 'Ed' },
+         { title: 'Styling CSS3', author: 'Abby' }
+         ];
+      const startup = () => dna.clone('book', books);
+   </script>
 </head>
 <body>
 
@@ -27,15 +37,5 @@
    </section>
 </main>
 
-<script src=https://cdn.jsdelivr.net/npm/jquery@@@pkg.cdnVersion.jQuery/dist/jquery.min.js></script>
-<script src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js></script>
-<script>
-   const books = [
-      { title: 'The DOM',      author: 'Jan' },
-      { title: 'Howdy HTML5',  author: 'Ed' },
-      { title: 'Styling CSS3', author: 'Abby' }
-      ];
-   dna.clone('book', books);
-</script>
 </body>
 </html>
