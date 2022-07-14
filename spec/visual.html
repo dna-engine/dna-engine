@@ -47,15 +47,14 @@
       .border-change2     { border: 2px solid darkslateblue; }
       .chapter-box        { display: inline-block; background-color: lightsteelblue; padding: 15px; margin: 5px }
       [title=usd], [title=usd100], [title=jpy] { text-align: right; }
-      body.error-detected { background-color: pink; }
       body:not(.minified-mode) .minified-show { display: none; }
       body.minified-mode       .minified-hide { display: none; }
    </style>
    <script defer src=https://cdn.jsdelivr.net/npm/jquery@3.6/dist/jquery.min.js></script>
    <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@2.6/dist/fetch-json.min.js></script>
    <script defer src=../dist/dna.dev.js></script>
+   <script>window.onerror = () => document.body.style.background = 'pink';</script>
    <script data-on-load=specRunner.setup>
-      window.onerror = () => $('body').addClass('error-detected');
       const spec = {};
       const event1 = new Date('1971-06-28T19:00:00').getTime();  //local time: June 28, 1971 at 7pm
       const event2 = new Date('2030-05-04T01:00:00').getTime();  //local time: May 4, 2030 at 1:00am
