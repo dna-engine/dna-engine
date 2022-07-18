@@ -1,4 +1,4 @@
-//! dna.js v2.0.2 ~~ https://dnajs.org ~~ MIT License
+//! dna.js v2.0.3 ~~ https://dnajs.org ~~ MIT License
 
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
@@ -922,7 +922,7 @@
         },
     };
     const dna = {
-        version: '2.0.2',
+        version: '2.0.3',
         clone(name, data, options) {
             const defaults = {
                 fade: false,
