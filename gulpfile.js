@@ -33,7 +33,7 @@ const linkInfo = {
    };
 
 // Setup
-const pkg =           JSON.parse(readFileSync('./package.json'));
+const pkg =           JSON.parse(readFileSync('./package.json', 'utf8'));
 const released =      process.env.dnaReleasedVersion;
 const minorVersion =  pkg.version.split('.').slice(0, 2).join('.');
 const websiteTarget = 'website-target';

@@ -13,7 +13,7 @@ const mode =       { type: 'Regular', file: 'dist/dna.dev.js' };
 const filename =   import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =        new JSDOM(html, { runScripts: 'outside-only' });
 const scripts =    ['node_modules/jquery/dist/jquery.js', mode.file];
-const loadScript = (file) => dom.window.eval(readFileSync(file).toString());  //jshint ignore:line
+const loadScript = (file) => dom.window.eval(readFileSync(file, 'utf8'));
 scripts.forEach(loadScript);
 const { $, dna } = dom.window;
 

@@ -13,12 +13,12 @@ _An uncomplicated user interface library for building data-driven semantic templ
 dna.js is a lightweight easy-to-use UI library enabling developers to rapidly build maintainable
 JavaScript applications.
 
-### 1. Bookstore Example
+## A) Bookstore Example
 Designate templates with the `dna-template` class, and put the templates directly into the HTML
 of your web page.&nbsp; Use the element's `id` to indicate the name of the template.&nbsp;
 Enclose data fields in double tildes `~~`.
 
-#### a) HTML for book template
+### 1. HTML for book template
 ```html
 <h1>Featured Books</h1>
 <div id=book class=dna-template>
@@ -30,7 +30,7 @@ Enclose data fields in double tildes `~~`.
 Then call the `dna.clone()` function to insert a copy of the template into the DOM.&nbsp; The
 supplied JSON data object populates the fields of the template.
 
-#### b) JavaScript call to add book node
+### 2. JavaScript call to add book node
 ```js
 dna.clone('book', { title: 'The DOM', author: 'Jan' });
 ```
@@ -38,7 +38,7 @@ dna.clone('book', { title: 'The DOM', author: 'Jan' });
 The new clone element replaces the template.&nbsp; The original template is detached from
 the DOM and kept for additional cloning.
 
-#### c) Resulting HTML with clone
+### 3. Resulting HTML with clone
 ```html
 <h1>Featured Books</h1>
 <div class=book>
@@ -50,14 +50,14 @@ the DOM and kept for additional cloning.
 Need to clone the template multiple times?&nbsp;  Simply pass an array of data objects into the
 `dna.clone()` function.
 
-### 2. Additional Information
+## B) Additional Information
 * [https://dnajs.org](https://dnajs.org/) (see the *"Try it out"* section for an interactive example)
 * [Sample To-Do Application](https://jsfiddle.net/3qbkjguy/) (jsfiddle)
 * [Introduction to dna.js](https://youtu.be/jMOZOI-UkNI) (YouTube)
 * [Documentation](https://dnajs.org/docs)
 * [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)
 
-### 3. Contributor Notes
+## C) Contributor Notes
 To be a contributor, **fork** the project and run the commands `npm install` and `npm test` on your
 local clone.&nbsp; Make your edits and rerun the tests.&nbsp; Pull requests welcome.
 
