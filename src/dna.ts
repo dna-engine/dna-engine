@@ -23,51 +23,60 @@ export type DnaOptionsClone<T> = {
    transform?: DnaTransformFn<T> | null,
    callback?:  DnaCallbackFn<T> | null,
    };
-export type DnaOptionsArrayPush = {
-   fade?:      boolean,
-   top?:       boolean,
+export type DnaSettingsArrayPush = {
+   fade:       boolean,
+   top:        boolean,
    };
-export type DnaOptionsGetModel = {
-   main?:      boolean,
+export type DnaOptionsArrayPush = Partial<DnaSettingsArrayPush>;
+export type DnaSettingsGetModel = {
+   main:       boolean,
    };
-export type DnaOptionsEmpty = {
-   fade?:      boolean,
+export type DnaOptionsGetModel = Partial<DnaSettingsGetModel>;
+export type DnaSettingsEmpty = {
+   fade:       boolean,
    };
+export type DnaOptionsEmpty = Partial<DnaSettingsEmpty>;
 export type DnaOptionsInsert<T> = {
    fade?:      boolean,
    html?:      boolean,
    transform?: DnaTransformFn<T>,
    callback?:  DnaCallbackFn<T>,
    };
-export type DnaOptionsRefresh = {
-   data?:      unknown,
-   main?:      boolean,
-   html?:      boolean,
+export type DnaSettingsRefresh = {
+   data:       unknown,
+   main:       boolean,
+   html:       boolean,
    };
-export type DnaOptionsRefreshAll = {
-   data?:      unknown,
-   main?:      boolean,
-   html?:      boolean,
+export type DnaOptionsRefresh = Partial<DnaSettingsRefresh>;
+export type DnaSettingsRefreshAll = {
+   data:       unknown,
+   main:       boolean,
+   html:       boolean,
    };
-export type DnaOptionsRecount = {
-   html?:      boolean,
+export type DnaOptionsRefreshAll = Partial<DnaSettingsRefreshAll>;
+export type DnaSettingsRecount = {
+   html:       boolean,
    };
+export type DnaOptionsRecount = Partial<DnaSettingsRecount>;
 export type DnaOptionsDestroy<T> = {
    main?:      boolean,
    fade?:      boolean,
    callback?:  DnaCallbackFn<T> | null,
    };
-export type DnaOptionsGetClone = {
-   main?:      boolean,
+export type DnaSettingsGetClone = {
+   main:       boolean,
    };
-export type DnaOptionsGetIndex = {
-   main?:      boolean,
+export type DnaOptionsGetClone = Partial<DnaSettingsGetClone>;
+export type DnaSettingsGetIndex = {
+   main:       boolean,
    };
-export type DnaOptionsRegisterInitializer = {
-   selector?:  string | null,
-   params?:    DnaDataObject | unknown[] | null,
-   onDocLoad?: boolean,
+export type DnaOptionsGetIndex = Partial<DnaSettingsGetIndex>;
+export type DnaSettingsRegisterInitializer = {
+   selector:   string | null,
+   params:     DnaDataObject | unknown[] | null,
+   onDocLoad:  boolean,
    };
+export type DnaOptionsRegisterInitializer = Partial<DnaSettingsRegisterInitializer>;
 export type DnaFormatter = <T>(value: DnaFormatterValue, model?: T) => string;
 export type DnaFormatterValue = number | string | boolean;
 export type DnaMSec = number | string;  //milliseconds UTC (or ISO 8601 string)
