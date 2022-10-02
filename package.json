@@ -55,7 +55,7 @@
       "globals": {
          "$": true,
          "dna": true,
-         "window": true
+         "globalThis": true
       }
    },
    "eslintConfig": {
@@ -125,7 +125,7 @@
       "@types/node": "~18.7",
       "@typescript-eslint/eslint-plugin": "~5.38",
       "@typescript-eslint/parser": "~5.38",
-      "add-dist-header": "~0.2",
+      "add-dist-header": "~0.3",
       "assert-deep-strict-equal": "~1.0",
       "babel-minify": "~0.5",
       "browser-sync": "~2.27",

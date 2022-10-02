@@ -33,7 +33,7 @@ const linkInfo = {
    };
 
 // Setup
-const pkg =           JSON.parse(readFileSync('./package.json', 'utf8'));
+const pkg =           JSON.parse(readFileSync('package.json', 'utf-8'));
 const released =      process.env.dnaReleasedVersion;
 const minorVersion =  pkg.version.split('.').slice(0, 2).join('.');
 const websiteTarget = 'website-target';
@@ -54,7 +54,7 @@ const task = {
 
    minifyJs() {
       return gulp.src('build/dna.js')
-         .pipe(replace(/^export { (.*) };/m, 'if (typeof window === "object") window.$1 = $1;'))
+         .pipe(replace(/^export { (.*) };/m, 'globalThis.$1 = $1;'))
          .pipe(rename({ extname: '.dev.js' }))
          .pipe(size({ showFiles: true }))
          .pipe(gulp.dest('build'))

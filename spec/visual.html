@@ -53,7 +53,7 @@
    <script defer src=https://cdn.jsdelivr.net/npm/jquery@3.6/dist/jquery.min.js></script>
    <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@2.6/dist/fetch-json.min.js></script>
    <script defer src=../dist/dna.dev.js></script>
-   <script>window.onerror = () => document.body.style.background = 'pink';</script>
+   <script>globalThis.onerror = () => document.body.style.background = 'pink';</script>
    <script data-on-load=specRunner.setup>
       const spec = {};
       const event1 = new Date('1971-06-28T19:00:00').getTime();  //local time: June 28, 1971 at 7pm
@@ -65,7 +65,7 @@
             { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 },
             ],
          setup() {
-            $('body').toggleClass('minified-mode', /-min(.html)?$/.test(window.location.pathname));
+            $('body').toggleClass('minified-mode', /-min(.html)?$/.test(globalThis.location.pathname));
             $('.version-number').text(dna.version === '~~~version~~~' ? '' : 'v' + dna.version);
             const runSpec = (sectionNode) => {
                const name = $(sectionNode).attr('id');
@@ -1105,7 +1105,7 @@
          if (event.type === 'click')
             dna.bye(elem, handleByeDone);
          if (event.type === 'click')
-            window.setTimeout(() => handled || badNews('delay exceeded: ' + delayRange.max), delayRange.max);
+            globalThis.setTimeout(() => handled || badNews('delay exceeded: ' + delayRange.max), delayRange.max);
          },
       run() {
          dna.registerInitializer('spec.spec15.surround', { selector: '.surrounded' });
@@ -1443,7 +1443,7 @@
       run() {
          spec.spec18.makeChapterBoxes($('#spec18 input[type=range]').first());
          const clickButton = () => $('#spec18 button[data-click]').trigger('click');
-         window.setInterval(clickButton, 3000);
+         globalThis.setInterval(clickButton, 3000);
          },
       };
 </script>
@@ -1571,7 +1571,7 @@
    spec.spec20 = {
       run() {
          const postRenderClick = () => $('#spec20 .dna-menu .menu-item:contains(W3C)').trigger('click');
-         window.setTimeout(postRenderClick, 1000);
+         globalThis.setTimeout(postRenderClick, 1000);
          },
       };
 </script>

@@ -29,7 +29,7 @@ app.bookstore = {
 
 app.nav = {
    setup: () => {
-      const folder = window.location.pathname.split('/').slice(-2)[0];
+      const folder = globalThis.location.pathname.split('/').slice(-2)[0];
       let current = $('header nav a[href$="' + folder + '"]').closest('li');
       if (!current.length)
          current = $('header nav li').first();
@@ -43,7 +43,7 @@ app.documenation = {
          const letter = String.fromCharCode('A'.charCodeAt() + i);
          $(elem).text(letter + '. ' + $(elem).text());
          };
-      if (window.location.pathname.indexOf('/docs') !== -1)
+      if (globalThis.location.pathname.indexOf('/docs') !== -1)
          $('main >div >h3').each(addOutlineNumber);
       },
    };

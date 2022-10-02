@@ -97,7 +97,7 @@ describe('Utility function dna.util.apply()', () => {
       };
 
    it('calls fn (string name or actual function) passing in params', () => {
-      dna.registerContext('app', app);  //alternative: declare "app" using: "window.app = {"
+      dna.registerContext('app', app);  //alternative: declare "app" using: "globalThis.app = {"
       const actual =   { price: dna.util.apply('app.cart.buy', 7) };
       const expected = { price: 14.95 };
       assertDeepStrictEqual(actual, expected);

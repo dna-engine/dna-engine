@@ -309,7 +309,7 @@
                };
 
             // Initialization
-            const dna = window.dna.initGlobal(window, $);
+            const dna = globalThis.dna.initGlobal(window, $);
             dna.registerContext('myApp', myApp);
          </code></pre>
       </figure>
