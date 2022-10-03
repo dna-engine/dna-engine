@@ -2,12 +2,9 @@
 // Gulp configuration and tasks
 
 // Imports
-import babel       from 'gulp-babel';
 import fileInclude from 'gulp-file-include';
-import gap         from 'gulp-append-prepend';
 import gulp        from 'gulp';
 import mergeStream from 'merge-stream';
-import rename      from 'gulp-rename';
 import replace     from 'gulp-replace';
 import size        from 'gulp-size';
 import { readFileSync } from 'fs';
@@ -37,8 +34,6 @@ const pkg =           JSON.parse(readFileSync('package.json', 'utf-8'));
 const released =      process.env.dnaReleasedVersion;
 const minorVersion =  pkg.version.split('.').slice(0, 2).join('.');
 const websiteTarget = 'website-target';
-const transpileES6 =  ['@babel/preset-env', { modules: false }];
-const babelMinifyJs = { presets: [transpileES6, 'minify'], comments: false };
 const webContext = {
    pkg:          pkg,
    released:     released,
@@ -51,20 +46,6 @@ const webContext = {
 
 // Tasks
 const task = {
-
-   minifyJs() {
-      return gulp.src('build/dna.js')
-         .pipe(replace(/^export { (.*) };/m, 'globalThis.$1 = $1;'))
-         .pipe(rename({ extname: '.dev.js' }))
-         .pipe(size({ showFiles: true }))
-         .pipe(gulp.dest('build'))
-         .pipe(babel(babelMinifyJs))
-         .pipe(rename('dna.min.js'))
-         .pipe(gap.appendText('\n'))
-         .pipe(size({ showFiles: true }))
-         .pipe(size({ showFiles: true, gzip: true }))
-         .pipe(gulp.dest('build'));
-      },
 
    buildWebsite() {
       const cdnDist = `https://cdn.jsdelivr.net/npm/dna.js@${minorVersion}/dist/`;
@@ -101,6 +82,5 @@ const task = {
    };
 
 // Gulp
-gulp.task('minify-js',     task.minifyJs);
 gulp.task('build-website', task.buildWebsite);
 gulp.task('update-readme', task.updateReadMe);
