@@ -1,4 +1,4 @@
-//! dna.js v2.0.3 ~~ https://dnajs.org ~~ MIT License
+//! dna.js v2.1.0 ~~ https://dnajs.org ~~ MIT License
 
 /// <reference types="jquery" />
 export declare type Json = string | number | boolean | null | undefined | JsonObject | Json[];
@@ -28,51 +28,60 @@ export declare type DnaOptionsClone<T> = {
     transform?: DnaTransformFn<T> | null;
     callback?: DnaCallbackFn<T> | null;
 };
-export declare type DnaOptionsArrayPush = {
-    fade?: boolean;
-    top?: boolean;
+export declare type DnaSettingsArrayPush = {
+    fade: boolean;
+    top: boolean;
 };
-export declare type DnaOptionsGetModel = {
-    main?: boolean;
+export declare type DnaOptionsArrayPush = Partial<DnaSettingsArrayPush>;
+export declare type DnaSettingsGetModel = {
+    main: boolean;
 };
-export declare type DnaOptionsEmpty = {
-    fade?: boolean;
+export declare type DnaOptionsGetModel = Partial<DnaSettingsGetModel>;
+export declare type DnaSettingsEmpty = {
+    fade: boolean;
 };
+export declare type DnaOptionsEmpty = Partial<DnaSettingsEmpty>;
 export declare type DnaOptionsInsert<T> = {
     fade?: boolean;
     html?: boolean;
     transform?: DnaTransformFn<T>;
     callback?: DnaCallbackFn<T>;
 };
-export declare type DnaOptionsRefresh = {
-    data?: unknown;
-    main?: boolean;
-    html?: boolean;
+export declare type DnaSettingsRefresh = {
+    data: unknown;
+    main: boolean;
+    html: boolean;
 };
-export declare type DnaOptionsRefreshAll = {
-    data?: unknown;
-    main?: boolean;
-    html?: boolean;
+export declare type DnaOptionsRefresh = Partial<DnaSettingsRefresh>;
+export declare type DnaSettingsRefreshAll = {
+    data: unknown;
+    main: boolean;
+    html: boolean;
 };
-export declare type DnaOptionsRecount = {
-    html?: boolean;
+export declare type DnaOptionsRefreshAll = Partial<DnaSettingsRefreshAll>;
+export declare type DnaSettingsRecount = {
+    html: boolean;
 };
+export declare type DnaOptionsRecount = Partial<DnaSettingsRecount>;
 export declare type DnaOptionsDestroy<T> = {
     main?: boolean;
     fade?: boolean;
     callback?: DnaCallbackFn<T> | null;
 };
-export declare type DnaOptionsGetClone = {
-    main?: boolean;
+export declare type DnaSettingsGetClone = {
+    main: boolean;
 };
-export declare type DnaOptionsGetIndex = {
-    main?: boolean;
+export declare type DnaOptionsGetClone = Partial<DnaSettingsGetClone>;
+export declare type DnaSettingsGetIndex = {
+    main: boolean;
 };
-export declare type DnaOptionsRegisterInitializer = {
-    selector?: string | null;
-    params?: DnaDataObject | unknown[] | null;
-    onDocLoad?: boolean;
+export declare type DnaOptionsGetIndex = Partial<DnaSettingsGetIndex>;
+export declare type DnaSettingsRegisterInitializer = {
+    selector: string | null;
+    params: DnaDataObject | unknown[] | null;
+    onDocLoad: boolean;
 };
+export declare type DnaOptionsRegisterInitializer = Partial<DnaSettingsRegisterInitializer>;
 export declare type DnaFormatter = <T>(value: DnaFormatterValue, model?: T) => string;
 export declare type DnaFormatterValue = number | string | boolean;
 export declare type DnaMSec = number | string;

@@ -1,4 +1,4 @@
-//! dna.js v2.0.3 ~~ https://dnajs.org ~~ MIT License
+//! dna.js v2.1.0 ~~ https://dnajs.org ~~ MIT License
 
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
@@ -51,17 +51,17 @@
             const params = {};
             const addParam = (parts) => params[parts[0]] = parts[1];
             const addPair = (pair) => pair && addParam(pair.split('='));
-            window.location.search.slice(1).split('&').forEach(addPair);
+            globalThis.location.search.slice(1).split('&').forEach(addPair);
             return params;
         },
     };
     const dnaPageToken = {
         put: (key, value) => {
-            window.sessionStorage[key + window.location.pathname] = JSON.stringify(value);
+            globalThis.sessionStorage[key + globalThis.location.pathname] = JSON.stringify(value);
             return value;
         },
         get: (key, defaultValue) => {
-            const value = window.sessionStorage[key + window.location.pathname];
+            const value = globalThis.sessionStorage[key + globalThis.location.pathname];
             return value === undefined ? defaultValue : JSON.parse(value);
         },
     };
@@ -95,7 +95,7 @@
             const reset = { transition: 'opacity 0s' };
             const doEaseIn = () => elem.css(easeIn);
             const clearTransition = () => elem.css(reset);
-            if (show && window.setTimeout(doEaseIn, 200))
+            if (show && globalThis.setTimeout(doEaseIn, 200))
                 elem.css(obscure).hide().delay(100).slideDown(callback || undefined);
             else
                 elem.css(easeOut).delay(100).slideUp(callback || undefined);
@@ -125,11 +125,11 @@
             const animate = () => {
                 elem.css({ minHeight: 0, maxHeight: '100vh' });
                 const turnOffTransition = () => elem.css({ transition: 'none', maxHeight: 'none' });
-                window.setTimeout(turnOffTransition, 1000);
+                globalThis.setTimeout(turnOffTransition, 1000);
             };
-            window.setTimeout(animate, delay || 50);
+            globalThis.setTimeout(animate, delay || 50);
             const setAnimationLength = () => elem.css({ transition: 'all 1s' });
-            window.setTimeout(setAnimationLength, 10);
+            globalThis.setTimeout(setAnimationLength, 10);
             return elem;
         },
         smoothMove: (elem, up, callback) => {
@@ -146,7 +146,7 @@
                     dna.ui.slideFadeIn(submissiveElem, finish);
                     dna.ui.slideFadeDelete(ghostElem, finish);
                 };
-                window.setTimeout(animate);
+                globalThis.setTimeout(animate);
             };
             const submissiveElem = up ? elem.prev() : elem.next();
             if (submissiveElem.length)
@@ -321,7 +321,7 @@
             const hash = panel.data().hash;
             dna.pageToken.put(navName, index);
             if (updateUrl && hash)
-                window.history.pushState(null, '', '#' + hash);
+                globalThis.history.pushState(null, '', '#' + hash);
             dna.util.apply(menu.data().callback, [panel, hash]);
             return panel;
         },
@@ -345,7 +345,7 @@
                 const navName = panelHolder.data().nav || generateNavName();
                 const menu = $('.dna-menu[data-nav=' + navName + ']').addClass(initialized);
                 const panels = panelHolder.addClass(initialized).children().addClass('panel');
-                const hash = window.location.hash.replace(/[^\w-]/g, '');
+                const hash = globalThis.location.hash.replace(/[^\w-]/g, '');
                 const hashIndex = () => panels.filter('[data-hash=' + hash + ']').index();
                 const savedIndex = () => dna.pageToken.get(navName, 0);
                 const loc = hash && panels.first().data().hash ? hashIndex() : savedIndex();
@@ -363,8 +363,8 @@
         setup: () => {
             $('body').data().dnaPanelNextNav = 1;
             const panels = $('.dna-panels').forEach(dna.panels.initialize);
-            $(window.document).on({ click: dna.panels.clickRotate }, '.dna-menu .menu-item');
-            $(window.document).on({ change: dna.panels.selectRotate }, '.dna-menu');
+            $(globalThis.document).on({ click: dna.panels.clickRotate }, '.dna-menu .menu-item');
+            $(globalThis.document).on({ change: dna.panels.selectRotate }, '.dna-menu');
             return panels;
         },
     };
@@ -645,7 +645,7 @@
                 const handleChange = () => {
                     const throttle = data.smartThrottle ? +data.smartThrottle : defaultThrottle;
                     if (Date.now() < data.dnaLastUpdated + throttle)
-                        data.dnaTimeoutId = window.setTimeout(doCallback, throttle);
+                        data.dnaTimeoutId = globalThis.setTimeout(doCallback, throttle);
                     else
                         doCallback();
                 };
@@ -656,17 +656,17 @@
                 const processSmartUpdate = () => {
                     if (event.type === 'keydown' && data.dnaLastValue === undefined)
                         data.dnaLastValue = elem.val();
-                    window.setTimeout(checkForValueChange);
+                    globalThis.setTimeout(checkForValueChange);
                 };
                 if (data.smartUpdate)
                     processSmartUpdate();
             };
             const jumpToUrl = (event) => {
                 const elem = $(event.target).closest('[data-href]');
-                const iOS = /iPad|iPhone|iPod/.test(window.navigator.userAgent) &&
-                    /Apple/.test(window.navigator.vendor);
+                const iOS = /iPad|iPhone|iPod/.test(globalThis.navigator.userAgent) &&
+                    /Apple/.test(globalThis.navigator.vendor);
                 const target = elem.closest('.external-site').length ? '_blank' : '_self';
-                window.open(elem.data().href, iOS ? '_self' : elem.data().target || target);
+                globalThis.open(elem.data().href, iOS ? '_self' : elem.data().target || target);
             };
             const makeEventHandler = (type) => (event) => runner($(event.target), type, event);
             const events = {
@@ -684,7 +684,7 @@
                 cut: handleSmartUpdate,
                 paste: handleSmartUpdate,
             };
-            $(window.document)
+            $(globalThis.document)
                 .on(events)
                 .on(smartUpdateEvents)
                 .on({ keyup: handleEnterKey })
@@ -922,7 +922,7 @@
         },
     };
     const dna = {
-        version: '2.0.3',
+        version: '2.1.0',
         clone(name, data, options) {
             const defaults = {
                 fade: false,
@@ -1081,7 +1081,7 @@
             const defaults = { selector: null, params: null, onDocLoad: true };
             const settings = Object.assign(Object.assign({}, defaults), options);
             const rootSelector = settings.selector;
-            const onDocLoadElems = () => !rootSelector ? $(window.document) :
+            const onDocLoadElems = () => !rootSelector ? $(globalThis.document) :
                 $(rootSelector).not('.dna-template').not(rootSelector).addClass('dna-initialized');
             if (settings.onDocLoad)
                 dna.util.apply(fn, [onDocLoadElems(), ...dna.array.wrap(settings.params)]);
