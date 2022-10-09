@@ -12,7 +12,7 @@
    <title>dna.js Logo</title>
    <link rel=icon             href=https://dnajs.org/graphics/bookmark.png>
    <link rel=apple-touch-icon href=https://dnajs.org/graphics/mobile-home-screen.png>
-   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.css>
+   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.css>
    <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/web-ignition@1.5/dist/reset.min.css>
    <style>
       @import url(https://fonts.googleapis.com/css?family=Comfortaa);
@@ -63,9 +63,9 @@
          display: block;
          }
    </style>
-   <script defer src=https://cdn.jsdelivr.net/npm/jquery@@@pkg.cdnVersion.jQuery/dist/jquery.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@@@pkg.cdnVersion.webIgnition/dist/lib-x.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/jquery@{{pkg.devDependencies.jquery|minor-version}}/dist/jquery.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@{{pkg.devDependencies.web-ignition|minor-version}}/dist/lib-x.min.js></script>
    <script data-on-load=setup>
       const circles = [
          { x:  5, y: 50, color: 'forestgreen' },

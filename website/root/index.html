@@ -1,18 +1,18 @@
-@@include('website/templates/page-begin.html', { "title": "@@pkg.description" })
+{% render 'website/templates/page-begin.html', pkg: pkg, webRoot: '.', title: pkg.description %}
 
 <main>
 
    <header>
       <h2 class=hide-me>dna.js</h2>
       <aside>
-         <h2>Download @@released</h2>
+         <h2>Download v{{pkg.version}}</h2>
          <p class=external-site>
-            <button data-href=https://cdn.jsdelivr.net/npm/dna.js@@@released/dist/dna.min.js>
-               <i data-icon=download></i> dna.min.js (@@gzipSize)
+            <button data-href=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.min.js>
+               <i data-icon=download></i> dna.min.js ({{pkg.websiteInfo.gzipSize}})
             </button>
          </p>
          <p class=external-site>
-            <button data-href=https://cdn.jsdelivr.net/npm/dna.js@@@released/dist/dna.css>
+            <button data-href=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.css>
                <i data-icon=download></i> dna.css (1 kb gzip)
             </button>
          </p>
@@ -23,7 +23,7 @@
    <section>
       <h3 class=hide-me>Introduction</h3>
       <p>
-         @@pkg.meta.summary&nbsp;
+         {{pkg.meta.summary}}&nbsp;
          You write semantic templates and then dna.js converts your JSON data into dynamically
          generated DOM elements.
       </p>
@@ -33,7 +33,7 @@
       </p>
       <div style="max-width: 400px; text-align: center; margin: 0px auto;">
          <figure class=video-container-link>
-            <iframe src=https://www.youtube.com/embed/@@youTube.intro></iframe>
+            <iframe src=https://www.youtube.com/embed/{{pkg.websiteInfo.youTube.intro}}></iframe>
          </figure>
          <span class=twitter>
             <a href=https://twitter.com/dna_js><i data-brand=twitter></i>#dnajs</a>
@@ -127,7 +127,7 @@
    <section id=live-model>
       <h3>Live Model</h3>
       <aside>
-         <a href=https://jsfiddle.net/@@jsFiddle.liveModel class=external-site>
+         <a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}} class=external-site>
             <img src=graphics/icon-live-model.png alt=screenshot>
          </a>
       </aside>
@@ -137,8 +137,8 @@
       </p>
       <p>
          Interact with the live model at:
-         <button data-href=https://jsfiddle.net/@@jsFiddle.liveModel class=external-site>
-            jsfiddle.net/@@jsFiddle.liveModel
+         <button data-href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}} class=external-site>
+            jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}}
          </button>
       </p>
    </section>
@@ -147,7 +147,7 @@
    <section id=todo>
       <h3>To-Do List Application</h3>
       <aside>
-         <a href=https://jsfiddle.net/@@jsFiddle.toDo class=external-site>
+         <a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.toDo}} class=external-site>
             <img src=graphics/icon-todo-app.png alt=screenshot>
          </a>
       </aside>
@@ -157,8 +157,8 @@
       </p>
       <p>
          Experiment with the dna.js to-do list application at:
-         <button data-href=https://jsfiddle.net/@@jsFiddle.toDo class=external-site>
-            jsfiddle.net/@@jsFiddle.toDo
+         <button data-href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.toDo}} class=external-site>
+            jsfiddle.net/{{pkg.websiteInfo.jsFiddle.toDo}}
          </button>
       </p>
       <p>
@@ -219,9 +219,9 @@
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <section id=comments>
       <h3>Questions and comments</h3>
-      @@include('website/templates/comments.html')
+      {% render 'website/templates/comments.html' %}
    </section>
 
 </main>
 
-@@include('website/templates/page-end.html')
+{% render 'website/templates/page-end.html' %}

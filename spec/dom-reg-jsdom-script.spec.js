@@ -4,7 +4,7 @@
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
-import { readFileSync } from 'fs';
+import fs from 'fs';
 import { grabText } from './fixtures/spec-tools.mjs';
 import { html, bookCatalog } from './fixtures/mock-data.mjs';
 
@@ -13,7 +13,7 @@ const mode =       { type: 'Regular', file: 'dist/dna.dev.js' };
 const filename =   import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =        new JSDOM(html, { runScripts: 'outside-only' });
 const scripts =    ['node_modules/jquery/dist/jquery.js', mode.file];
-const loadScript = (file) => dom.window.eval(readFileSync(file, 'utf8'));
+const loadScript = (file) => dom.window.eval(fs.readFileSync(file, 'utf8'));
 scripts.forEach(loadScript);
 const { $, dna } = dom.window;
 

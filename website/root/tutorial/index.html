@@ -1,4 +1,4 @@
-@@include('website/templates/page-begin.html', { "title": "Book Finder Tutorial" })
+{% render 'website/templates/page-begin.html', pkg: pkg, webRoot: '..', title: 'Book Finder Tutorial' %}
 
 <main class=docs-page>
 
@@ -23,7 +23,7 @@
       <br>
       <aside style="width: 240px;">
          <figure class=video-container-link>
-            <iframe src=https://www.youtube.com/embed/@@youTube.tutorial></iframe>
+            <iframe src=https://www.youtube.com/embed/{{pkg.websiteInfo.youTube.tutorial}}></iframe>
          </figure>
       </aside>
       <h4>Steps:</h4>
@@ -247,7 +247,7 @@
       <figure>
          <figcaption>CSS link in <code>head</code> section</figcaption>
          <pre><code class=language-html>
-            &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.css&gt;
+            &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.css&gt;
          </code></pre>
       </figure>
       <p>
@@ -256,9 +256,9 @@
       <figure>
          <figcaption>JS link at bottom of the <code>body</code> section</figcaption>
          <pre><code class=language-html>
-            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@@@pkg.cdnVersion.jQuery/dist/jquery.min.js&gt;&lt;/script&gt;
-            &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js&gt;&lt;/script&gt;
-            &lt;script src=https://cdn.jsdelivr.net/npm/fetch-json@@@pkg.cdnVersion.fetchJson/dist/fetch-json.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@{{pkg.devDependencies.jquery|minor-version}}/dist/jquery.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/npm/fetch-json@{{pkg.devDependencies.fetch-json|minor-version}}/dist/fetch-json.min.js&gt;&lt;/script&gt;
          </code></pre>
       </figure>
       <p>
@@ -403,7 +403,7 @@
             &lt;head&gt;
             &lt;meta charset=utf-8&gt;
             &lt;title&gt;Book Finder&lt;/title&gt;
-            &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.css&gt;
+            &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.css&gt;
             &lt;style&gt;
                body      { font-family: system-ui; margin: 30px; }
                input     { font-size: 1.2rem; background-color: aliceblue; }
@@ -434,9 +434,9 @@
                &lt;/section&gt;
             &lt;/main&gt;
 
-            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@@@pkg.cdnVersion.jQuery/dist/jquery.min.js&gt;&lt;/script&gt;
-            &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js&gt;&lt;/script&gt;
-            &lt;script src=https://cdn.jsdelivr.net/npm/fetch-json@@@pkg.cdnVersion.fetchJson/dist/fetch-json.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@{{pkg.devDependencies.jquery|minor-version}}/dist/jquery.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/npm/fetch-json@{{pkg.devDependencies.fetch-json|minor-version}}/dist/fetch-json.min.js&gt;&lt;/script&gt;
             &lt;script&gt;
                const findBooks = (elem) =&gt; {
                   const terms = elem.val();
@@ -465,9 +465,9 @@
          </span>
       </p>
       <h4>Questions and comments</h4>
-      @@include('website/templates/comments.html')
+      {% render 'website/templates/comments.html' %}
    </section>
 
 </main>
 
-@@include('website/templates/page-end.html')
+{% render 'website/templates/page-end.html' %}

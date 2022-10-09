@@ -1,4 +1,4 @@
-@@include('website/templates/page-begin.html', { "title": "License (MIT)" })
+{% render 'website/templates/page-begin.html', pkg: pkg, webRoot: '..', title: 'License (MIT)' %}
 
 <main>
 
@@ -16,9 +16,9 @@
 
    <section>
       <h3>The MIT License (MIT)</h3>
-      <div class=legal-terms>@@include('LICENSE.txt')</div>
+      <div class=legal-terms>{% render 'LICENSE.txt' %}</div>
    </section>
 
 </main>
 
-@@include('website/templates/page-end.html')
+{% render 'website/templates/page-end.html' %}

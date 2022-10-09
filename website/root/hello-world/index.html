@@ -1,4 +1,4 @@
-@@include('website/templates/page-begin.html', { "title": "Hello World Example" })
+{% render 'website/templates/page-begin.html', pkg: pkg, webRoot: '..', title: 'Hello World Example' %}
 
 <main>
 
@@ -27,15 +27,15 @@
             &lt;head&gt;
                &lt;meta charset=utf-8&gt;
                &lt;title&gt;Bookstore&lt;/title&gt;
-               &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.css&gt;
+               &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.css&gt;
                &lt;style&gt;
                   body     { font-family: system-ui, sans-serif; margin: 30px; }
                   .books   { width: 250px; }
                   .book    { background-color: gold; padding: 10px; margin-bottom: 15px; }
                   .book h2 { font-size: 1.1rem; margin: 0px; }
                &lt;/style&gt;
-               &lt;script defer src=https://cdn.jsdelivr.net/npm/jquery@@@pkg.cdnVersion.jQuery/dist/jquery.min.js&gt;&lt;/script&gt;
-               &lt;script defer src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js&gt;&lt;/script&gt;
+               &lt;script defer src=https://cdn.jsdelivr.net/npm/jquery@{{pkg.devDependencies.jquery|minor-version}}/dist/jquery.min.js&gt;&lt;/script&gt;
+               &lt;script defer src=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.min.js&gt;&lt;/script&gt;
                &lt;script data-on-load=startup&gt;
                   const books = [
                      { title: 'The DOM',      author: 'Jan' },
@@ -79,17 +79,17 @@
       <h3>Bookstore on jsFiddle</h3>
       <p>
          Experiment with the code at:
-         <button data-href=https://jsfiddle.net/@@jsFiddle.addABook class=external-site>
-            jsfiddle.net/@@jsFiddle.addABook
+         <button data-href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.addABook}} class=external-site>
+            jsfiddle.net/{{pkg.websiteInfo.jsFiddle.addABook}}
          </button>
       </p>
    </section>
 
    <section id=comments>
       <h3>Questions and comments</h3>
-      @@include('website/templates/comments.html')
+      {% render 'website/templates/comments.html' %}
    </section>
 
 </main>
 
-@@include('website/templates/page-end.html')
+{% render 'website/templates/page-end.html' %}

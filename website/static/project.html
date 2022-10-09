@@ -12,16 +12,16 @@
    <meta charset=utf-8>
    <meta name=viewport                   content="width=device-width, initial-scale=1">
    <meta name=robots                     content="index, follow">
-   <meta name=description                content="dna.js ~~ @@pkg.description">
+   <meta name=description                content="dna.js ~~ {{pkg.description}}">
    <meta name=apple-mobile-web-app-title content="dna.js">
-   <title>dna.js ~~ @@pkg.description</title>
+   <title>dna.js ~~ {{pkg.description}}</title>
    <link rel=icon             href=https://dnajs.org/graphics/bookmark.png>
    <link rel=apple-touch-icon href=https://dnajs.org/graphics/mobile-home-screen.png>
    <link rel=preconnect       href=https://fonts.googleapis.com>
    <link rel=preconnect       href=https://fonts.gstatic.com crossorigin>
-   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@@@pkg.cdnVersion.fontAwesome/css/all.min.css>
-   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.css>
-   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/web-ignition@@@pkg.cdnVersion.webIgnition/dist/reset.min.css>
+   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@{{pkg.websiteInfo.cdn.fontAwesome}}/css/all.min.css>
+   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.css>
+   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/web-ignition@{{pkg.devDependencies.web-ignition|minor-version}}/dist/reset.min.css>
    <link rel=stylesheet       href=https://dnajs.org/style.css>
    <style>
       body                    { text-align: center; padding: 20px 140px; }
@@ -32,10 +32,10 @@
       body >main >p a         { font-size: 1.4rem; }
       @media (max-width: 667px) { body { padding: 10px; } }
    </style>
-   <script defer src=https://cdn.jsdelivr.net/npm/jquery@@@pkg.cdnVersion.jQuery/dist/jquery.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@@@pkg.cdnVersion.fetchJson/dist/fetch-json.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@@@pkg.cdnVersion.webIgnition/dist/lib-x.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/jquery@{{pkg.devDependencies.jquery|minor-version}}/dist/jquery.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@{{pkg.devDependencies.fetch-json|minor-version}}/dist/fetch-json.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@{{pkg.devDependencies.web-ignition|minor-version}}/dist/lib-x.min.js></script>
    <script data-on-load=showVersion>
       const showVersion = () => $('.version-number').text(dna.version);
    </script>
@@ -47,7 +47,7 @@
       <img src=https://dnajs.org/graphics/dnajs-logo.png alt=logo>
    </figure>
    <h1>dna.js</h1>
-   <h2>@@pkg.description</h2>
+   <h2>{{pkg.description}}</h2>
    <a id=fork-me href=https://github.com/dnajs/dna.js>Fork me on GitHub</a>
 </header>
 

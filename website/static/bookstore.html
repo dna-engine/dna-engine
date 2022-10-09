@@ -7,15 +7,15 @@
    <meta charset=utf-8>
    <title>Bookstore</title>
    <link rel=icon       href=https://dnajs.org/graphics/bookmark.png>
-   <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.css>
+   <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.css>
    <style>
       body     { font-family: system-ui, sans-serif; margin: 30px; }
       .books   { width: 250px; }
       .book    { background-color: gold; padding: 10px; margin-bottom: 15px; }
       .book h2 { font-size: 1.1rem; margin: 0px; }
    </style>
-   <script defer src=https://cdn.jsdelivr.net/npm/jquery@@@pkg.cdnVersion.jQuery/dist/jquery.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/jquery@{{pkg.devDependencies.jquery|minor-version}}/dist/jquery.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.min.js></script>
    <script data-on-load=startup>
       const books = [
          { title: 'The DOM',      author: 'Jan' },

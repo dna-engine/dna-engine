@@ -5,7 +5,7 @@
 /package-lock.json
 /build/
 /website-target/
-/spec/visual-min.html
+/spec/visual.min.html
 
 # Extraneous system files
 .DS_Store

@@ -13,54 +13,54 @@ dna.js ~~ https://dnajs.org
    <meta charset=utf-8>
    <meta name=viewport                   content="width=device-width, initial-scale=1">
    <meta name=robots                     content="index, follow">
-   <meta name=description                content="dna.js ~~ @@title ~~ @@pkg.description">
+   <meta name=description                content="dna.js ~~ {{title}} ~~ {{pkg.description}}">
    <meta name=apple-mobile-web-app-title content="dna.js">
    <meta name=google-site-verification   content="07GEe8VaEwhbW3EiRmJ_D92sLqgfBEa0zlsvGKFB5rM">
    <meta name=twitter:card               content="summary_large_image">
-   <meta name=twitter:title              content="dna.js ~~ @@title">
-   <meta name=twitter:description        content="@@pkg.description">
-   <meta property=og:title               content="dna.js ~~ @@title">
-   <meta property=og:description         content="@@pkg.description">
+   <meta name=twitter:title              content="dna.js ~~ {{title}}">
+   <meta name=twitter:description        content="{{pkg.description}}">
+   <meta property=og:title               content="dna.js ~~ {{title}}">
+   <meta property=og:description         content="{{pkg.description}}">
    <meta property=og:type                content="website">
    <meta property=og:image               content="https://dnajs.org/graphics/dnajs-logo-card.png">
    <meta property=og:image:alt           content="Logo">
-   <title>dna.js ~~ @@title</title>
-   <link rel=icon             href=@@webRoot/graphics/bookmark.png>
-   <link rel=apple-touch-icon href=@@webRoot/graphics/mobile-home-screen.png>
+   <title>dna.js ~~ {{title}}</title>
+   <link rel=icon             href={{webRoot}}/graphics/bookmark.png>
+   <link rel=apple-touch-icon href={{webRoot}}/graphics/mobile-home-screen.png>
    <link rel=preconnect       href=https://fonts.googleapis.com>
    <link rel=preconnect       href=https://fonts.gstatic.com crossorigin>
-   <link rel=stylesheet       href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@@@pkg.cdnVersion.highlightjs/build/styles/docco.min.css>
-   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/hljs-enhance@@@pkg.cdnVersion.hljsEnhance/hljs-enhance.css>
-   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@@@pkg.cdnVersion.fontAwesome/css/all.min.css>
-   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.css>
-   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/panel-nav.css>
-   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/web-ignition@@@pkg.cdnVersion.webIgnition/dist/reset.min.css>
-   <link rel=stylesheet       href=@@webRoot/style.css>
-   <script defer src=https://cdn.jsdelivr.net/npm/jquery@@@pkg.cdnVersion.jQuery/dist/jquery.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/dna.js@@@minorVersion/dist/dna.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@@@pkg.cdnVersion.fetchJson/dist/fetch-json.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@@@pkg.cdnVersion.highlightjs/build/highlight.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@@@pkg.cdnVersion.highlightjs/build/languages/http.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/hljs-enhance@@@pkg.cdnVersion.hljsEnhance/hljs-enhance.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@@@pkg.cdnVersion.webIgnition/dist/lib-x.min.js></script>
-   <script defer src=@@webRoot/app.js></script>
+   <link rel=stylesheet       href=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@{{pkg.websiteInfo.cdn.highlightjs|minor-version}}/build/styles/docco.min.css>
+   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/hljs-enhance@{{pkg.devDependencies.hljs-enhance|minor-version}}/hljs-enhance.css>
+   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@{{pkg.websiteInfo.cdn.fontAwesome}}/css/all.min.css>
+   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.css>
+   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/panel-nav.css>
+   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/web-ignition@{{pkg.devDependencies.web-ignition|minor-version}}/dist/reset.min.css>
+   <link rel=stylesheet       href={{webRoot}}/style.css>
+   <script defer src=https://cdn.jsdelivr.net/npm/jquery@{{pkg.devDependencies.jquery|minor-version}}/dist/jquery.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@{{pkg.devDependencies.fetch-json|minor-version}}/dist/fetch-json.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@{{pkg.websiteInfo.cdn.highlightjs|minor-version}}/build/highlight.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@{{pkg.websiteInfo.cdn.highlightjs|minor-version}}/build/languages/http.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/hljs-enhance@{{pkg.devDependencies.hljs-enhance|minor-version}}/hljs-enhance.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@{{pkg.devDependencies.web-ignition|minor-version}}/dist/lib-x.min.js></script>
+   <script defer src={{webRoot}}/app.js></script>
 </head>
 <body>
 
 <header>
    <nav>
       <ul>
-         <li><a href=@@webRoot>Home</a></li>
-         <li><a href=@@webRoot/hello-world>Example</a></li>
-         <li><a href=@@webRoot/tutorial>Tutorial</a></li>
-         <li><a href=@@webRoot/docs>Documentation</a></li>
-         <li><a href=@@webRoot/license>License</a></li>
+         <li><a href={{webRoot}}>Home</a></li>
+         <li><a href={{webRoot}}/hello-world>Example</a></li>
+         <li><a href={{webRoot}}/tutorial>Tutorial</a></li>
+         <li><a href={{webRoot}}/docs>Documentation</a></li>
+         <li><a href={{webRoot}}/license>License</a></li>
       </ul>
    </nav>
    <h1>dna.js</h1>
-   <h2>@@pkg.description</h2>
+   <h2>{{pkg.description}}</h2>
    <div class=logo>
-      <a href=https://dnajs.org><img src=@@webRoot/graphics/dnajs-logo.png alt=logo></a>
+      <a href=https://dnajs.org><img src={{webRoot}}/graphics/dnajs-logo.png alt=logo></a>
    </div>
    <a id=fork-me href=https://github.com/dnajs/dna.js>Fork me on GitHub</a>
 </header>

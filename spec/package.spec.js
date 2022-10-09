@@ -4,7 +4,7 @@
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
-import { readdirSync } from 'fs';
+import fs from 'fs';
 import jQuery from 'jquery';
 
 // Setup
@@ -23,7 +23,7 @@ describe(`Specifications: ${filename} - ${mode.type} (${mode.file})`, () => {
 describe('The "dist" folder', () => {
 
    it('contains the correct files', () => {
-      const actual = readdirSync('dist').sort();
+      const actual = fs.readdirSync('dist').sort();
       const expected = [
          'dna.css',
          'dna.d.ts',
