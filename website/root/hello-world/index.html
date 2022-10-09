@@ -6,7 +6,7 @@
       <h2>Hello World Bookstore Example</h2>
       <p>
          The code below is a bare bones, standalone web page with the all CSS and JavaScript
-         (including loading jQuery and dna.js) to demonstrate dna.js in action.
+         (including loading jQuery and dna-engine) to demonstrate dna-engine in action.
       </p>
       <p>
          Each call to <code>dna.clone()</code> creates a new element from the <code>book</code>
@@ -27,7 +27,7 @@
             &lt;head&gt;
                &lt;meta charset=utf-8&gt;
                &lt;title&gt;Bookstore&lt;/title&gt;
-               &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.css&gt;
+               &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.css&gt;
                &lt;style&gt;
                   body     { font-family: system-ui, sans-serif; margin: 30px; }
                   .books   { width: 250px; }
@@ -35,7 +35,7 @@
                   .book h2 { font-size: 1.1rem; margin: 0px; }
                &lt;/style&gt;
                &lt;script defer src=https://cdn.jsdelivr.net/npm/jquery@{{pkg.devDependencies.jquery|minor-version}}/dist/jquery.min.js&gt;&lt;/script&gt;
-               &lt;script defer src=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.min.js&gt;&lt;/script&gt;
+               &lt;script defer src=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.min.js&gt;&lt;/script&gt;
                &lt;script data-on-load=startup&gt;
                   const books = [
                      { title: 'The DOM',      author: 'Jan' },

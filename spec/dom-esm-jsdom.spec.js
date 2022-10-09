@@ -1,16 +1,16 @@
-// dna.js
+// dna-engine
 // Mocha Specification Suite
 
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
-import jQuery from 'jquery';
 import { grabText } from './fixtures/spec-tools.mjs';
 import { html, bookCatalog } from './fixtures/mock-data.mjs';
+import jQuery from 'jquery';
 
 // Setup
-import { dna } from '../dist/dna.js';
-const mode =     { type: 'ES Module', file: 'dist/dna.js' };
+import { dna } from '../dist/dna-engine.js';
+const mode =     { type: 'ES Module', file: 'dist/dna-engine.js' };
 const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =      new JSDOM(html);
 const $ =        jQuery(dom.window);

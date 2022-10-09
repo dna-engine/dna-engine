@@ -1,28 +1,28 @@
 {
-   "name": "dna.js",
+   "name": "dna-engine",
    "version": "2.1.0",
-   "description": "An uncomplicated user interface library for building data-driven semantic templates (written in TypeScript)",
+   "description": "An uncomplicated user interface library for cloning semantic templates (written in TypeScript)",
    "license": "MIT",
    "type": "module",
-   "module": "dist/dna.js",
-   "jsdelivr": "dist/dna.min.js",
-   "main": "dist/dna.umd.cjs",
-   "style": "dist/dna.css",
-   "types": "dist/dna.d.ts",
+   "module": "dist/dna-engine.js",
+   "jsdelivr": "dist/dna-engine.min.js",
+   "main": "dist/dna-engine.umd.cjs",
+   "style": "dist/dna-engine.css",
+   "types": "dist/dna-engine.d.ts",
    "files": [
       "dist"
    ],
    "exports": {
       ".": {
-         "import": "./dist/dna.js",
-         "require": "./dist/dna.umd.cjs"
+         "import": "./dist/dna-engine.js",
+         "require": "./dist/dna-engine.umd.cjs"
       },
       "./": "./dist/"
    },
-   "repository": "github:dnajs/dna.js",
-   "homepage": "https://dnajs.org",
-   "bugs": "https://github.com/dnajs/dna.js/issues",
-   "docs": "https://dnajs.org/docs",
+   "repository": "github:dna-engine/dna-engine",
+   "homepage": "https://dna-engine.org",
+   "bugs": "https://github.com/dna-engine/dna-engine/issues",
+   "docs": "https://dna-engine.org/docs",
    "author": "Center Key (https://centerkey.com)",
    "keywords": [
       "clone",
@@ -38,7 +38,7 @@
       "ui"
    ],
    "meta": {
-      "summary": "dna.js is a lightweight easy-to-use UI library enabling developers to rapidly build maintainable JavaScript applications."
+      "summary": "dna-engine is a lightweight easy-to-use UI library enabling developers to rapidly build maintainable JavaScript applications."
    },
    "jshintConfig": {
       "esversion": 10,
@@ -106,25 +106,25 @@
       "step:03": "eslint --max-warnings 0 src --ext .ts",
       "step:10": "tsc",
       "step:11": "tsc --module UMD --outDir build/umd",
-      "step:12": "copy-file build/umd/dna.js build/dna.umd.cjs",
-      "step:13": "copy-file src/dna.css --folder build",
+      "step:12": "copy-file build/umd/dna-engine.js build/dna-engine.umd.cjs",
+      "step:13": "copy-file src/dna-engine.css --folder build",
       "step:14": "copy-file website/static/panel-nav.css --folder build",
-      "step:15": "esm-to-plain-js --cd=build dna.js dna.dev.js",
-      "step:16": "uglifyjs build/dna.dev.js --output build/dna.min.js",
+      "step:15": "esm-to-plain-js --cd=build dna-engine.js dna-engine.dev.js",
+      "step:16": "uglifyjs build/dna-engine.dev.js --output build/dna-engine.min.js",
       "step:20": "add-dist-header build dist",
       "step:30": "copy-file spec/visual.html spec/visual.min.html",
-      "step:31": "replace-in-file /dist/dna.dev.js /dist/dna.min.js spec/visual.min.html",
+      "step:31": "replace-in-file /dist/dna-engine.dev.js /dist/dna-engine.min.js spec/visual.min.html",
       "step:32": "html-validator spec",
       "pretest": "npm-run-all step:*",
       "dev:01": "tsc --watch",
-      "dev:02": "chokidar 'src/dna.ts' --command 'src/eslint dna.ts'",
-      "dev:03": "chokidar 'build/dna.js' --command 'npm run step:10'",
+      "dev:02": "chokidar 'src/dna-engine.ts' --command 'src/eslint dna-engine.ts'",
+      "dev:03": "chokidar 'build/dna-engine' --command 'npm run step:10'",
       "dev:04": "browser-sync . --startPath spec/visual.html --files dist spec",
       "web:01": "rimraf website-target",
       "web:02": "copy-folder website/static website-target",
       "web:03": "files-replace website/static --ext=.html website-target --pkg",
       "web:04": "files-replace website/root --ext=.html website-target --pkg",
-      "web:05": "files-replace spec --ext=.html website-target --find='../dist/' --replacement='https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/' --pkg",
+      "web:05": "files-replace spec --ext=.html website-target --find='../dist/' --replacement='https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/' --pkg",
       "web:06": "html-validator website-target",
       "web:07": "copy-file website-target/project.html docs/index.html",
       "test": "mocha spec/*.spec.js",

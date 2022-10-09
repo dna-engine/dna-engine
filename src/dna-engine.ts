@@ -1,4 +1,4 @@
-// dna.js ~~ MIT License
+// dna-engine ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = { [key: string]: Json };
@@ -881,7 +881,7 @@ const dnaEvents = {
    getContextDb: (): DnaContext => {
       const store = $('body').data();
       const initStore = () => store.dnaContextDb = {};
-      return store.dnaContextDb || initStore();  //storage to register callbacks when dna.js is module loaded without window scope (webpack)
+      return store.dnaContextDb || initStore();  //storage to register callbacks when dna-engine is module loaded without window scope (webpack)
       },
    getInitializers: (): DnaInitializer[] => {
       const store = $('body').data() || {};
@@ -980,7 +980,7 @@ const dnaEvents = {
          };
       const jumpToUrl = (event: JQuery.EventBase) => {
          // Usage:
-         //    <button data-href=https://dnajs.org>dna.js</button>
+         //    <button data-href=https://dna-engine.org>dna-engine</button>
          // If element (or parent) has the class "external-site", page will be opened in a new tab.
          const elem = $(event.target).closest('[data-href]');
          const iOS = /iPad|iPhone|iPod/.test(globalThis.navigator.userAgent) &&
@@ -1218,7 +1218,7 @@ const dnaCore = {
       // Oops, file a tps report.
       try {
          if (!ok)
-            throw Error('[dna.js] ' + message + ': ' + String(info));
+            throw Error('[dna-engine] ' + message + ': ' + String(info));
          }
       catch (e) {
          console.error((<Error>e).stack);
@@ -1282,7 +1282,7 @@ const dna = {
    //    dna.registerInitializer()
    //    dna.registerContext()
    //    dna.info()
-   // See: https://dnajs.org/docs/#api
+   // See: https://dna-engine.org/docs/#api
    clone<T>(name: string, data: T | T[], options?: DnaOptionsClone<T>): JQuery {
       // Generates a copy of the template and populates the fields, attributes, and
       // classes from the supplied data.
@@ -1478,8 +1478,8 @@ const dna = {
       },
    registerContext(contextName: string, contextObjOrFn: { [name: string]: unknown } | DnaCallback): DnaContext {
       // Registers an application object or individual function to enable it to be used for event
-      // callbacks.  Registration is needed when global namespace is not available to dna.js, such
-      // as when using webpack to load dna.js as a module.
+      // callbacks.  Registration is needed when global namespace is not available to dna-engine, such
+      // as when using webpack to load dna-engine as a module.
       dna.events.getContextDb()[contextName] = contextObjOrFn;
       return dna.events.getContextDb();
       },

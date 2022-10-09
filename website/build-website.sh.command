@@ -1,13 +1,13 @@
 #!/bin/bash
-#####################
-# dna.js Website    #
-# https://dnajs.org #
-#####################
+##########################
+# dna-engine Website     #
+# https://dna-engine.org #
+##########################
 
 # To make this file runnable:
 #     $ chmod +x *.sh.command
 
-banner="dnajs.org Website"
+banner="dna-engine.org Website"
 projectHome=$(cd $(dirname $0)/..; pwd)
 apacheCfg=/usr/local/etc/httpd
 apacheLog=/usr/local/var/log/httpd/error_log
@@ -44,14 +44,16 @@ buildHtmlFiles() {
 publishWebFiles() {
    cd $projectHome
    publishSite=$webDocRoot/centerkey.com
-   publishFolder=$publishSite/www.dnajs.org
+   publishFolder=$publishSite/www.dna-engine.org
    publish() {
       echo "Publishing:"
       echo $publishSite
       mkdir -p $publishFolder
       cp -R website-target/* $publishFolder
-      mkdir -p $publishFolder/../www.dnajs.com
-      mv $publishFolder/project.html $publishFolder/../www.dnajs.com/index.html
+      mkdir -p $publishFolder/../www.dna-engine.net
+      mkdir -p $publishFolder/../www.dnaengine.org
+      cp $publishFolder/project.html $publishFolder/../www.dna-engine.net/index.html
+      cp $publishFolder/project.html $publishFolder/../www.dnaengine.org/index.html
       ls -o $publishSite | grep dna
       echo
       }

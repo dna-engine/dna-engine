@@ -1,4 +1,4 @@
-// dna.js
+// dna-engine
 // Mocha Specification Suite
 
 // Imports
@@ -8,8 +8,8 @@ import jQuery from  'jquery';
 import { timestamp } from './fixtures/mock-data.mjs';
 
 // Setup
-import { dna } from '../dist/dna.js';
-const mode =     { type: 'ES Module', file: 'dist/dna.js' };
+import { dna } from '../dist/dna-engine.js';
+const mode =     { type: 'ES Module', file: 'dist/dna-engine.js' };
 const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =      new JSDOM('');
 const $ =        jQuery(dom.window);

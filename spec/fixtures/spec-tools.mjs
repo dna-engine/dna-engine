@@ -1,4 +1,4 @@
-// dna.js
+// dna-engine
 // Specification Tools
 
 import jQuery from 'jquery';

@@ -1,16 +1,16 @@
-# dna.js
-<img src=https://dnajs.org/graphics/dnajs-logo.png align=right width=160 alt=logo>
+# dna-engine
+<img src=https://dna-engine.org/graphics/dna-logo.png align=right width=160 alt=logo>
 
-_An uncomplicated user interface library for building data-driven semantic templates_
+_An uncomplicated user interface library for cloning semantic templates_
 
-[![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://dnajs.org/license)
-[![npm](https://img.shields.io/npm/v/dna.js.svg)](https://www.npmjs.com/package/dna.js)
-[![Quality](https://npm.packagequality.com/shield/dna.js.svg)](https://packagequality.com/#?package=dna.js)
-[![Vulnerabilities](https://snyk.io/test/github/dnajs/dna.js/badge.svg)](https://snyk.io/test/github/dnajs/dna.js)
-[![Hits](https://data.jsdelivr.com/v1/package/npm/dna.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/dna.js)
-[![Build](https://github.com/dnajs/dna.js/workflows/build/badge.svg)](https://github.com/dnajs/dna.js/actions/workflows/run-spec-on-push.yaml)
+[![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://dna-engine.org/license)
+[![npm](https://img.shields.io/npm/v/dna-engine.svg)](https://www.npmjs.com/package/dna-engine)
+[![Quality](https://npm.packagequality.com/shield/dna-engine.svg)](https://packagequality.com/#?package=dna-engine)
+[![Vulnerabilities](https://snyk.io/test/github/dna-engine/dna-engine/badge.svg)](https://snyk.io/test/github/dna-engine/dna-engine)
+[![Hits](https://data.jsdelivr.com/v1/package/npm/dna-engine/badge?style=rounded)](https://www.jsdelivr.com/package/npm/dna-engine)
+[![Build](https://github.com/dna-engine/dna-engine/workflows/build/badge.svg)](https://github.com/dna-engine/dna-engine/actions/workflows/run-spec-on-push.yaml)
 
-dna.js is a lightweight easy-to-use UI library enabling developers to rapidly build maintainable
+dna-engine is a lightweight easy-to-use UI library enabling developers to rapidly build maintainable
 JavaScript applications.
 
 ## A) Bookstore Example
@@ -51,11 +51,11 @@ Need to clone the template multiple times?&nbsp;  Simply pass an array of data o
 `dna.clone()` function.
 
 ## B) Additional Information
-* [https://dnajs.org](https://dnajs.org/) (see the *"Try it out"* section for an interactive example)
+* [https://dna-engine.org](https://dna-engine.org/) (see the *"Try it out"* section for an interactive example)
 * [Sample To-Do Application](https://jsfiddle.net/3qbkjguy/) (jsfiddle)
-* [Introduction to dna.js](https://youtu.be/jMOZOI-UkNI) (YouTube)
-* [Documentation](https://dnajs.org/docs)
-* [Release Notes](https://github.com/dnajs/dna.js/wiki/Release-Notes)
+* [Introduction to dna-engine](https://youtu.be/jMOZOI-UkNI) (YouTube)
+* [Documentation](https://dna-engine.org/docs)
+* [Release Notes](https://github.com/dna-engine/dna-engine/wiki/Release-Notes)
 
 ## C) Contributor Notes
 To be a contributor, **fork** the project and run the commands `npm install` and `npm test` on your
@@ -65,8 +65,8 @@ local clone.&nbsp; Make your edits and rerun the tests.&nbsp; Pull requests welc
 
 ---
 Feel free to submit questions at:<br>
-[github.com/dnajs/dna.js/issues](https://github.com/dnajs/dna.js/issues)
+[github.com/dna-engine/dna-engine/issues](https://github.com/dna-engine/dna-engine/issues)
 
-dna.js is open source under the [MIT License](https://dnajs.org/license).&nbsp;
+dna-engine is open source under the [MIT License](https://dna-engine.org/license).&nbsp;
 The website and documentation are published under the
 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) license.

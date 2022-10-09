@@ -1,13 +1,13 @@
 #!/bin/bash
 ###############
 # Task Runner #
-# dna.js      #
+# dna-engine  #
 ###############
 
 # To make this file runnable:
 #     $ chmod +x *.sh.command
 
-banner="dna.js Task Runner"
+banner="dna-engine Task Runner"
 projectHome=$(cd $(dirname $0); pwd)
 
 setupTools() {

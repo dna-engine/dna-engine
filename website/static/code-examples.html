@@ -1,20 +1,20 @@
 <!doctype html>
-<!-- - - - - - - - - -->
-<!-- dna.js examples -->
-<!-- - - - - - - - - -->
+<!-- - - - - - - - - - - -->
+<!-- dna-engine examples -->
+<!-- - - - - - - - - - - -->
 <html lang=en>
 <head>
    <meta charset=utf-8>
    <title>Code Examples</title>
-   <link rel=icon       href=https://dnajs.org/graphics/bookmark.png>
-   <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.css>
+   <link rel=icon       href=https://dna-engine.org/graphics/bookmark.png>
+   <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.css>
    <style>
       body       { font-family: system-ui, sans-serif; margin: 30px; }
       section    { border: 5px solid tomato; padding: 10px; }
       .dna-clone { background-color: lightblue; padding: 10px; margin-bottom: 10px; }
    </style>
    <script defer src=https://cdn.jsdelivr.net/npm/jquery@{{pkg.devDependencies.jquery|minor-version}}/dist/jquery.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/dna.js@{{pkg.version|minor-version}}/dist/dna.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.min.js></script>
    <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@{{pkg.devDependencies.web-ignition|minor-version}}/dist/lib-x.min.js></script>
 </head>
 <body>
@@ -69,7 +69,7 @@ input[type=checkbox], button {
          },
       setup: () => {  //start with one task
          const task = {
-            title: 'Check out: dnajs.org',
+            title: 'Check out: dna-engine.org',
             done:  false
             };
          dna.clone('task', task);
@@ -126,7 +126,7 @@ button {
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <footer>
-   <a href=https://dnajs.org/docs/#index-examples>Index of jsFiddle Examples</a>
+   <a href=https://dna-engine.org/docs/#index-examples>Index of jsFiddle Examples</a>
 </footer>
 
 </body>
