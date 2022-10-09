@@ -1,4 +1,4 @@
-//! dna.js v2.1.0 ~~ https://dnajs.org ~~ MIT License
+//! dna-engine v2.2.0 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaArray = {
     find: (array, value, key = 'code') => {
@@ -877,7 +877,7 @@ const dnaCore = {
     assert: (ok, message, info) => {
         try {
             if (!ok)
-                throw Error('[dna.js] ' + message + ': ' + String(info));
+                throw Error('[dna-engine] ' + message + ': ' + String(info));
         }
         catch (e) {
             console.error(e.stack);
@@ -910,7 +910,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '2.1.0',
+    version: '2.2.0',
     clone(name, data, options) {
         const defaults = {
             fade: false,
