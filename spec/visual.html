@@ -51,7 +51,7 @@
       body.minified-mode       .minified-hide { display: none; }
    </style>
    <script defer src=https://cdn.jsdelivr.net/npm/jquery@3.6/dist/jquery.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@2.6/dist/fetch-json.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@2.7/dist/fetch-json.min.js></script>
    <script defer src=../dist/dna-engine.dev.js></script>
    <script>globalThis.onerror = () => document.body.style.background = 'pink';</script>
    <script data-on-load=specRunner.setup>
@@ -65,7 +65,7 @@
             { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 },
             ],
          setup() {
-            $('body').toggleClass('minified-mode', /-min(.html)?$/.test(globalThis.location.pathname));
+            $('body').toggleClass('minified-mode', globalThis.location.pathname.includes('visual.min'));
             $('.version-number').text(dna.version === '~~~version~~~' ? '' : 'v' + dna.version);
             const runSpec = (sectionNode) => {
                const name = $(sectionNode).attr('id');
