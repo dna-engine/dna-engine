@@ -128,7 +128,8 @@
       "web:07": "copy-file website-target/project.html docs/index.html",
       "test": "mocha spec/*.spec.js",
       "dev": "npm test && npm-run-all --parallel dev:*",
-      "build-website": "npm-run-all web:*"
+      "build-website": "npm-run-all web:*",
+      "interactive": "browser-sync website-target --watch"
    },
    "peerDependencies": {
       "jquery": ">=3.5"
@@ -147,10 +148,10 @@
       "copy-file-util": "~0.1",
       "copy-folder-util": "~0.2",
       "eslint": "~8.25",
-      "esm-to-plain-js": "~0.0",
+      "esm-to-plain-js": "~0.1",
       "fetch-json": "~2.7",
       "highlight.js": "~11.6",
-      "hljs-enhance": "~1.0",
+      "hljs-enhance": "~1.1",
       "jquery": "~3.6",
       "jsdom": "~20.0",
       "jshint": "~2.13",
