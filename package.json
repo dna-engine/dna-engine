@@ -41,7 +41,7 @@
       "summary": "dna-engine is a lightweight easy-to-use UI library enabling developers to rapidly build maintainable JavaScript applications."
    },
    "jshintConfig": {
-      "esversion": 10,
+      "esversion": 11,
       "strict": "implied",
       "eqeqeq": true,
       "singleGroups": true,
@@ -54,8 +54,7 @@
       "node": true,
       "globals": {
          "$": true,
-         "dna": true,
-         "globalThis": true
+         "dna": true
       }
    },
    "eslintConfig": {
@@ -164,7 +163,7 @@
       "serve": "~14.0",
       "typescript": "~4.8",
       "uglify-js": "~3.17",
-      "w3c-html-validator": "~1.1",
+      "w3c-html-validator": "~1.2",
       "web-ignition": "~1.5"
    }
 }
