@@ -1,5 +1,13 @@
 // dna-engine ~~ MIT License
 
+export type NavigatorUAData = {
+   readonly brands: {
+      brand:   string,  //examples: "Chromium", "Google Chrome"
+      version: string,  //example: "106"
+      }[],
+   readonly mobile:   boolean;
+   readonly platform: string;  //examples: "macOS", "Windows"
+   };
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = { [key: string]: Json };
 export type JsonData = JsonObject | Json[];
@@ -207,6 +215,18 @@ const dnaBrowser = {
       const addPair = (pair: string) => pair && addParam(<[string, string]>pair.split('='));
       globalThis.location.search.slice(1).split('&').forEach(addPair);
       return params;
+      },
+   userAgentData(): NavigatorUAData {
+      const polyfil = (): NavigatorUAData => {
+         const brandEntry = globalThis.navigator.userAgent.split(' ').pop()?.split('/') ?? [];
+         const platform =   globalThis.navigator.platform;
+         return {
+            brands:   [{ brand: brandEntry?.[0] ?? '', version: brandEntry?.[1] ?? '' }],
+            mobile:   /Android|iPhone|iPad|Mobi/i.test(globalThis.navigator.userAgent),
+            platform: { 'MacIntel': 'macOS', 'Win32': 'Windows' }[platform] ?? platform,
+            };
+         };
+      return globalThis.navigator['userAgentData'] ?? polyfil();
       },
    };
 
@@ -982,11 +1002,10 @@ const dnaEvents = {
          // Usage:
          //    <button data-href=https://dna-engine.org>dna-engine</button>
          // If element (or parent) has the class "external-site", page will be opened in a new tab.
-         const elem = $(event.target).closest('[data-href]');
-         const iOS = /iPad|iPhone|iPod/.test(globalThis.navigator.userAgent) &&
-            /Apple/.test(globalThis.navigator.vendor);
-         const target = elem.closest('.external-site').length ? '_blank' : '_self';
-         globalThis.open(elem.data().href, iOS ? '_self' : elem.data().target || target);
+         const elem =       $(event.target).closest('[data-href]');
+         const useSameTab = dna.browser.userAgentData().mobile;
+         const target =     elem.closest('.external-site').length ? '_blank' : '_self';
+         globalThis.open(elem.data().href, useSameTab ? '_self' : elem.data().target ?? target);
          };
       const makeEventHandler = (type: string) =>
          (event: JQuery.EventBase) => runner($(event.target), type, event);
