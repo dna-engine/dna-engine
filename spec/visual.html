@@ -66,7 +66,7 @@
             ],
          setup() {
             $('body').toggleClass('minified-mode', globalThis.location.pathname.includes('visual.min'));
-            $('.version-number').text(dna.version === '~~~version~~~' ? '' : 'v' + dna.version);
+            $('.version-number').text(dna.version === '{{pkg.version}}' ? '' : 'v' + dna.version);
             const runSpec = (sectionNode) => {
                const name = $(sectionNode).attr('id');
                console.log(name);

@@ -1259,7 +1259,7 @@ const dnaCore = {
    };
 
 const dna = {
-   version: '~~~version~~~',
+   version: '{{pkg.version}}',
    // API:
    //    dna.clone()
    //    dna.arrayPush()
