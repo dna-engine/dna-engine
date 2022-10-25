@@ -220,10 +220,11 @@ const dnaBrowser = {
       const polyfil = (): NavigatorUAData => {
          const brandEntry = globalThis.navigator.userAgent.split(' ').pop()?.split('/') ?? [];
          const platform =   globalThis.navigator.platform;
+         const platforms =  { 'MacIntel': 'macOS', 'Win32': 'Windows', 'iPhone': 'iOS', 'iPad': 'iOS' };  //note: iOS not verified
          return {
             brands:   [{ brand: brandEntry?.[0] ?? '', version: brandEntry?.[1] ?? '' }],
             mobile:   /Android|iPhone|iPad|Mobi/i.test(globalThis.navigator.userAgent),
-            platform: { 'MacIntel': 'macOS', 'Win32': 'Windows' }[platform] ?? platform,
+            platform: platforms[platform] ?? platform,
             };
          };
       return globalThis.navigator['userAgentData'] ?? polyfil();

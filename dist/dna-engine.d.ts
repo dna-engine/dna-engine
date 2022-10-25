@@ -1,6 +1,14 @@
-//! dna-engine v2.2.0 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.2.1 ~~ https://dna-engine.org ~~ MIT License
 
 /// <reference types="jquery" />
+export declare type NavigatorUAData = {
+    readonly brands: {
+        brand: string;
+        version: string;
+    }[];
+    readonly mobile: boolean;
+    readonly platform: string;
+};
 export declare type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export declare type JsonObject = {
     [key: string]: Json;
@@ -206,6 +214,7 @@ declare const dna: {
         getUrlParams: () => {
             [param: string]: string;
         };
+        userAgentData(): NavigatorUAData;
     };
     pageToken: {
         put: (key: string, value: Json) => Json;

@@ -41,18 +41,20 @@ publishWebFiles() {
       echo $publishSite
       mkdir -p $publishFolder
       cp -R website-target/* $publishFolder
-      mkdir -p $publishFolder/../www.dna-engine.net
-      mkdir -p $publishFolder/../www.dnaengine.org
-      cp $publishFolder/project.html $publishFolder/../www.dna-engine.net/index.html
-      cp $publishFolder/project.html $publishFolder/../www.dnaengine.org/index.html
       ls -o $publishSite | grep dna
-      echo
+      test -x "$(which tree)" && tree $publishFolder
       }
    test -w $publishSite && publish
+   }
+
+interactiveServer() {
+   cd $projectHome
+   test "$cliFlag" = "--no-server" && echo "Skipping interactive server (--no-server)." || echo $cliFlagMsg
+   test "$cliFlag" != "--no-server" && npm run interactive
+   echo
    }
 
 displayIntro
 buildHtmlFiles
 publishWebFiles
-test "$cliFlag" = "--no-server" && echo "Skipping interactive server (--no-server)." || echo $cliFlagMsg
-test "$cliFlag" != "--no-server" && npm run interactive
+interactiveServer

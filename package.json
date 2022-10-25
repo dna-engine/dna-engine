@@ -1,6 +1,6 @@
 {
    "name": "dna-engine",
-   "version": "2.2.0",
+   "version": "2.2.1",
    "description": "An uncomplicated user interface library for cloning semantic templates (written in TypeScript)",
    "license": "MIT",
    "type": "module",
@@ -126,7 +126,7 @@
          "copy-folder website/static website-target",
          "replacer website/static --ext=.html website-target --pkg",
          "replacer website/root --ext=.html website-target --pkg",
-         "replacer spec --ext=.html website-target --find='../dist/' --replacement='https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/' --pkg",
+         "replacer spec --ext=.html website-target --find=../dist/ --replacement=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version{{pipe}}minor-version}}/dist/ --pkg",
          "html-validator website-target",
          "copy-file website-target/project.html docs/index.html"
       ]
@@ -145,8 +145,8 @@
       "@fortawesome/fontawesome-free": "~6.2",
       "@types/jquery": "~3.5",
       "@types/node": "~18.11",
-      "@typescript-eslint/eslint-plugin": "~5.40",
-      "@typescript-eslint/parser": "~5.40",
+      "@typescript-eslint/eslint-plugin": "~5.41",
+      "@typescript-eslint/parser": "~5.41",
       "add-dist-header": "~0.3",
       "assert-deep-strict-equal": "~1.0",
       "browser-sync": "~2.27",
@@ -172,6 +172,6 @@
       "typescript": "~4.8",
       "uglify-js": "~3.17",
       "w3c-html-validator": "~1.2",
-      "web-ignition": "~1.5"
+      "web-ignition": "~1.6"
    }
 }

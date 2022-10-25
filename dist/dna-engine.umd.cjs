@@ -1,4 +1,4 @@
-//! dna-engine v2.2.0 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.2.1 ~~ https://dna-engine.org ~~ MIT License
 
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
@@ -53,6 +53,21 @@
             const addPair = (pair) => pair && addParam(pair.split('='));
             globalThis.location.search.slice(1).split('&').forEach(addPair);
             return params;
+        },
+        userAgentData() {
+            var _a;
+            const polyfil = () => {
+                var _a, _b, _c, _d, _e;
+                const brandEntry = (_b = (_a = globalThis.navigator.userAgent.split(' ').pop()) === null || _a === void 0 ? void 0 : _a.split('/')) !== null && _b !== void 0 ? _b : [];
+                const platform = globalThis.navigator.platform;
+                const platforms = { 'MacIntel': 'macOS', 'Win32': 'Windows', 'iPhone': 'iOS', 'iPad': 'iOS' };
+                return {
+                    brands: [{ brand: (_c = brandEntry === null || brandEntry === void 0 ? void 0 : brandEntry[0]) !== null && _c !== void 0 ? _c : '', version: (_d = brandEntry === null || brandEntry === void 0 ? void 0 : brandEntry[1]) !== null && _d !== void 0 ? _d : '' }],
+                    mobile: /Android|iPhone|iPad|Mobi/i.test(globalThis.navigator.userAgent),
+                    platform: (_e = platforms[platform]) !== null && _e !== void 0 ? _e : platform,
+                };
+            };
+            return (_a = globalThis.navigator['userAgentData']) !== null && _a !== void 0 ? _a : polyfil();
         },
     };
     const dnaPageToken = {
@@ -662,11 +677,11 @@
                     processSmartUpdate();
             };
             const jumpToUrl = (event) => {
+                var _a;
                 const elem = $(event.target).closest('[data-href]');
-                const iOS = /iPad|iPhone|iPod/.test(globalThis.navigator.userAgent) &&
-                    /Apple/.test(globalThis.navigator.vendor);
+                const useSameTab = dna.browser.userAgentData().mobile;
                 const target = elem.closest('.external-site').length ? '_blank' : '_self';
-                globalThis.open(elem.data().href, iOS ? '_self' : elem.data().target || target);
+                globalThis.open(elem.data().href, useSameTab ? '_self' : (_a = elem.data().target) !== null && _a !== void 0 ? _a : target);
             };
             const makeEventHandler = (type) => (event) => runner($(event.target), type, event);
             const events = {
@@ -922,7 +937,7 @@
         },
     };
     const dna = {
-        version: '2.2.0',
+        version: '2.2.1',
         clone(name, data, options) {
             const defaults = {
                 fade: false,
