@@ -179,7 +179,7 @@ const dnaArray = {
       const defaults = { key: 'code', kebabCodes: false };
       const settings = { ...defaults, ...options };
       const codeValue = (key: string): string => settings.kebabCodes ? dna.util.toKebab(key) : key;
-      const toObj = (item: Json) => dna.util.isObj(item) ? <JsonObject>item : { value: item };
+      const toObj =     (item: Json) => dna.util.isObj(item) ? <JsonObject>item : { value: item };
       return Object.keys(map).map(key => ({ ...{ [settings.key]: codeValue(key) }, ...toObj(map[key]!) }));
       },
    toMap: (array: DnaDataObject[], options?: { key: string, camelKeys: boolean }): DnaDataObject => {
@@ -193,7 +193,7 @@ const dnaArray = {
       const defaults = { key: 'code', camelKeys: false };
       const settings = { ...defaults, ...options };
       const map = <DnaDataObject>{};
-      const addObj = (obj: DnaDataObject) => map[<string | number>obj[settings.key]] = obj;
+      const addObj =         (obj: DnaDataObject) => map[<string | number>obj[settings.key]] = obj;
       const addObjCamelKey = (obj: DnaDataObject) => map[dna.util.toCamel(<string>obj[settings.key])] = obj;
       array.forEach(settings.camelKeys ? addObjCamelKey : addObj);
       return map;
@@ -212,7 +212,7 @@ const dnaBrowser = {
       //    https://example.com?lang=jp&code=7 ==> { lang: 'jp', code: '7' }
       const params: { [param: string]: string } = {};
       const addParam = (parts: [string, string]) => params[parts[0]] = parts[1];
-      const addPair = (pair: string) => pair && addParam(<[string, string]>pair.split('='));
+      const addPair =  (pair: string) => pair && addParam(<[string, string]>pair.split('='));
       globalThis.location.search.slice(1).split('&').forEach(addPair);
       return params;
       },
@@ -313,8 +313,8 @@ const dnaUi = {
       },
    smoothHeightSetBaseline: (container: JQuery): JQuery => {
       // See: smoothHeightAnimate below
-      const body = $('body');
-      const elem = body.data().dnaCurrentContainer = container || body;
+      const body =   $('body');
+      const elem =   body.data().dnaCurrentContainer = container || body;
       const height = <number>elem.outerHeight();
       return elem.css({ minHeight: height, maxHeight: height, overflow: 'hidden' });
       },
@@ -367,7 +367,7 @@ const dnaUi = {
    toElem: (elemOrEventOrIndex: DnaElemEventIndex, that?: unknown): JQuery => {
       // A flexible way to get the jQuery element whether it is passed in directly, is a DOM
       // element, is the target of an event, or comes from the jQuery context.
-      const elem = elemOrEventOrIndex instanceof $ && <JQuery>elemOrEventOrIndex;
+      const elem =   elemOrEventOrIndex instanceof $ && <JQuery>elemOrEventOrIndex;
       const target = elemOrEventOrIndex && (<JQuery.EventBase>elemOrEventOrIndex).target;
       return elem || $(target || elemOrEventOrIndex || that);
       },
@@ -394,10 +394,10 @@ const dnaUtil = {
       const findFn = (names: string[]) => {
          if (elem)
             args.push(dna.ui.getComponent(elem));
-         const context = dna.events.getContextDb();
-         const name = <string>names[0];
-         const idPattern = /^[_$a-zA-Z][_$a-zA-Z0-9]*$/;
-         const isUnknown = (): boolean => (window)[name] === undefined && !context[name];
+         const context =     dna.events.getContextDb();
+         const name =        <string>names[0];
+         const idPattern =   /^[_$a-zA-Z][_$a-zA-Z0-9]*$/;
+         const isUnknown =   (): boolean => (window)[name] === undefined && !context[name];
          const topLevelGet = (null, eval);
          const callable = (): boolean =>
             ['object', 'function'].includes(topLevelGet('typeof ' + name));
@@ -423,8 +423,8 @@ const dnaUtil = {
       // Sets the field in the data object to the new value and returns the updated data object.
       // Example:
       //    dna.util.assign({ a: { b: 7 } }, 'a.b', 21);  //{ a: { b: 21 } }
-      const fields = typeof field === 'string' ? field.split('.') : field;
-      const name = <string>fields[0];
+      const fields =  typeof field === 'string' ? field.split('.') : field;
+      const name =    <string>fields[0];
       const dataObj = $.isPlainObject(data) ? data : {};
       const nestedData = (): DnaDataObject =>
          dataObj[name] === undefined ? dataObj[name] = {} : <DnaDataObject>dataObj[name];
@@ -446,7 +446,7 @@ const dnaUtil = {
       // Examples:
       //    const trues =  [true,  1, '1', 't', 'T', 'TRue',  'Y', 'yes', 77, [5], {}, 'Colbert',  Infinity];
       //    const falses = [false, 0, '0', 'f', 'F', 'faLSE', 'N', 'no',  '', [], null, undefined, NaN];
-      const falseyStr = () => /^(f|false|n|no|0)$/i.test(String(value));
+      const falseyStr =  () => /^(f|false|n|no|0)$/i.test(String(value));
       const emptyArray = () => value instanceof Array && value.length === 0;
       return !!value && !emptyArray() && !falseyStr();
       },
@@ -482,7 +482,7 @@ const dnaUtil = {
 const dnaFormat = {
    getCurrencyFormatter(iso4217: string, units = 1): DnaFormatter {
       // Returns a function to format monetary values into strings, like "¥2,499" and "$4.95".
-      const currency = { style: 'currency', currency: iso4217.toUpperCase() };
+      const currency =  { style: 'currency', currency: iso4217.toUpperCase() };
       const formatter = new Intl.NumberFormat([], currency).format;
       return (value: DnaFormatterValue) => formatter(Number(value) / units);
       },
@@ -497,7 +497,7 @@ const dnaFormat = {
          date.toLocaleString([], { weekday: 'short' });
       const generalTimestamp = (date: Date) =>
          generalDate(date) + ' ' + generalTime(date) + ' ' + generalDay(date);
-      const timestamp = (date: Date) => date.toISOString().replace('T', '@').slice(0, -5);
+      const timestamp =   (date: Date) => date.toISOString().replace('T', '@').slice(0, -5);
       const timestampMs = (date: Date) => date.toISOString().replace('T', '@').slice(0, -1);
       const dateFormatters = <{ [format: string]: DnaFormatter }>{             //ex: 1904112000000 (msec)
          date:        (msec: DnaMSec) => new Date(msec).toDateString(),        //ex: 'Sat May 04 2030'
@@ -523,7 +523,7 @@ const dnaFormat = {
       // Returns a function to format numeric values into strings, like "1,000.000" and "3.14",
       // based on the supplied fixed-point notation format ("#", "#.#", "#.##", "#.###", ...).
       dna.core.assert(/^#([.]#+)?$/.test(format), 'Unknown numeric format code', format);
-      const digits = format === '#' ? 0 : format.length - 2;
+      const digits =  format === '#' ? 0 : format.length - 2;
       const numeric = { minimumFractionDigits: digits, maximumFractionDigits: digits };
       return <DnaFormatter>new Intl.NumberFormat([], numeric).format;
       },
@@ -533,7 +533,11 @@ const dnaFormat = {
       // format ("#", "#.#", "#.##", "#.###", ...).
       dna.core.assert(/^#([.]#+)?$/.test(format), 'Unknown percent format code', format);
       const digits = format === '#' ? 0 : format.length - 2;
-      const percent = { style: 'percent', minimumFractionDigits: digits, maximumFractionDigits: digits };
+      const percent = {
+         style:                'percent',
+         minimumFractionDigits: digits,
+         maximumFractionDigits: digits,
+         };
       return <DnaFormatter>new Intl.NumberFormat([], percent).format;
       },
    getFormatter(fn: string): DnaFormatter {
@@ -582,7 +586,7 @@ const dnaPanels = {
       menuItems.eq(index).addClass('selected').removeClass('unselected');
       panels.hide().removeClass('displayed').addClass('hidden');
       const panel = panels.eq(index).fadeIn().addClass('displayed').removeClass('hidden');
-      const hash = panel.data().hash;
+      const hash =  panel.data().hash;
       dna.pageToken.put(navName, index);
       if (updateUrl && hash)
          globalThis.history.pushState(null, '', '#' + hash);
@@ -676,11 +680,11 @@ const dnaCompile = {
       },
    isDnaField: (index: number, node: HTMLElement): boolean => {
       const firstNode = <ChildNode>node.childNodes[0];
-      const matches = (): boolean => !!firstNode.nodeValue?.match(dna.compile.regex.dnaField);
+      const matches =   (): boolean => !!firstNode.nodeValue?.match(dna.compile.regex.dnaField);
       return firstNode && !!firstNode.nodeValue && matches();
       },
    addFieldClass: (elem: JQuery): JQuery => {
-      const field = elem.data().dnaField;
+      const field =    elem.data().dnaField;
       const htmlCase = () => dna.util.toKebab(field).replace(/[[\]]/g, '').replace(/[.]/g, '-');
       return field ? elem.addClass('dna-field-' + htmlCase()) : elem;
       },
@@ -713,7 +717,7 @@ const dnaCompile = {
       const names: string[] = [];
       const compileProp = (key: string, value: string) => {
          names.push(key);
-         key = key.replace(/^data-prop-/, '').toLowerCase();
+         key =   key.replace(/^data-prop-/, '').toLowerCase();
          value = value.replace(dna.compile.regex.dnaBasePairs, '');
          props.push(key, value);
          if (key === 'checked' && elem.is('input'))
@@ -787,7 +791,7 @@ const dnaCompile = {
       //    <p data-require=~~title~~>, 'require'  ==>  <p data-dnaRules={ require: 'title' }>
       const addRule = (elem: JQuery) => {
          dna.compile.setupNucleotide(elem);
-         const field = dna.compile.getDataField(elem, type);
+         const field =     dna.compile.getDataField(elem, type);
          const makeLists = () => field.split(';').map((list: string) => list.split(','));
          elem.data().dnaRules[type] = isLists ? makeLists() : field;
          };
@@ -848,9 +852,9 @@ const dnaStore = {
    stash: (elem: JQuery): DnaTemplate => {
       const name = elem.data().dnaRules.template;
       const move = (elem: JQuery) => {
-         const name = elem.data().dnaRules.template;
+         const name =      elem.data().dnaRules.template;
          const container = elem.parent();
-         const wrapped = container.children().length === 1 && !container.hasClass('dna-container');
+         const wrapped =   container.children().length === 1 && !container.hasClass('dna-container');
          const compileSiblings = () => {
             container.data().dnaContents = true;
             const templateName = (node: HTMLElement): boolean => {
@@ -885,7 +889,8 @@ const dnaStore = {
          const rules =          elem.data().dnaRules;
          const parent =         dna.compile.setupNucleotide(elem.parent()).addClass('dna-array');
          const containerRules = parent.closest('.dna-clone, .dna-sub-clone').data().dnaRules;
-         rules.template = dna.compile.subTemplateName(name, rules.array, containerRules.subs.length);
+         const index =          containerRules.subs.length;
+         rules.template =       dna.compile.subTemplateName(name, rules.array, index);
          parent.data().dnaRules.loop = { name: rules.template, field: rules.array };
          containerRules.subs.push(rules.array);
          };
@@ -900,12 +905,12 @@ const dnaStore = {
 
 const dnaEvents = {
    getContextDb: (): DnaContext => {
-      const store = $('body').data();
+      const store =     $('body').data();
       const initStore = () => store.dnaContextDb = {};
       return store.dnaContextDb || initStore();  //storage to register callbacks when dna-engine is module loaded without window scope (webpack)
       },
    getInitializers: (): DnaInitializer[] => {
-      const store = $('body').data() || {};
+      const store =     $('body').data() || {};
       const initStore = () => store.dnaInitializers = [];
       return store.dnaInitializers || initStore();  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
       },
@@ -913,7 +918,7 @@ const dnaEvents = {
       // Example:
       //    <p data-on-load=app.cart.setup>
       const elems = $('[data-on-load]').not('.dna-loaded');
-      const run = (elem: JQuery) => dna.util.apply(elem.data().onLoad, elem);
+      const run =   (elem: JQuery) => dna.util.apply(elem.data().onLoad, elem);
       return elems.forEach(run).addClass('dna-loaded');
       },
    runInitializers: (root: JQuery): JQuery => {
@@ -933,7 +938,7 @@ const dnaEvents = {
          //    element, event, and component (container element with "data-component" attribute).
          // Types: click|change|input|key-up|key-down|key-press|enter-key
          const target = elem.closest('[data-' + type + ']');
-         const fn = target.data(type);
+         const fn =     target.data(type);
          const isLink = target[0] && target[0].nodeName === 'A';
          if (type === 'click' && isLink && fn && fn.match(/^dna[.]/))
             event.preventDefault();
@@ -972,12 +977,12 @@ const dnaEvents = {
          };
       const handleSmartUpdate = (event: JQuery.EventBase) => {
          const defaultThrottle = 1000;  //default 1 second delay between callbacks
-         const elem = $(event.target);
-         const data = elem.data();
+         const elem =            $(event.target);
+         const data =            elem.data();
          const doCallback = () => {
             data.dnaLastUpdated = Date.now();
-            data.dnaLastValue = elem.val();
-            data.dnaTimeoutId = null;
+            data.dnaLastValue =   elem.val();
+            data.dnaTimeoutId =   null;
             runner(elem, 'smart-update', event);
             };
          const handleChange = () => {
@@ -1029,7 +1034,7 @@ const dnaEvents = {
          .on(events)
          .on(smartUpdateEvents)
          .on({ keyup:      handleEnterKey })
-         .on({ click:      jumpToUrl }, '[data-href]')
+         .on({ click:      jumpToUrl },                     '[data-href]')
          .on({ focusin:    makeEventHandler('focus-in') },  '[data-focus-in]')
          .on({ focusout:   makeEventHandler('focus-out') }, '[data-focus-out]')
          .on({ mouseenter: makeEventHandler('hover-in') },  '[data-hover-in]')
@@ -1176,15 +1181,12 @@ const dnaCore = {
       const intoUnwrapped = () => {
          const firstClone = () => {
             const contents = container.data().dnaContents;
-            const i = contents.indexOf(template.name);
+            const index =    contents.indexOf(template.name);
             const adjustment = (clonesAbove: number, name: string) =>
-               clonesAbove + (name && contents.indexOf(name) < i ?
+               clonesAbove + (name && contents.indexOf(name) < index ?
                   allClones.filter('.' + name).length - 1 : 0);
-            const target = container.children().eq(i + contents.reduce(adjustment, 0));
-            if (target.length)
-               target.before(clone);
-            else
-               container.append(clone);
+            const target = container.children().eq(index + contents.reduce(adjustment, 0));
+            return target.length ? target.before(clone) : container.append(clone);
             };
          const allClones = container.children('.dna-clone');
          const sameClones = allClones.filter('.' + template.name);
@@ -1258,7 +1260,7 @@ const dnaCore = {
          //    dna.getClone(elem).dna('up');
          // Supported actions:
          //    'bye', 'clone-sub', 'destroy', 'down', 'refresh', 'up'
-         const elems = <JQuery><unknown>this;
+         const elems =  <JQuery><unknown>this;
          const dnaApi = dna[dna.util.toCamel(action)];
          dna.core.assert(dnaApi, 'Unknown plugin action', action);
          const callApi = (elem: JQuery) => dnaApi(elem, ...params);
@@ -1318,7 +1320,7 @@ const dna = {
          };
       const settings = { ...defaults, ...options };
       const template = dna.store.getTemplate(name);
-      const missing = template.nested && !settings.container;
+      const missing =  template.nested && !settings.container;
       dna.core.assert(!missing, 'Container missing for nested template', name);
       if (settings.empty)
          dna.empty(name);
@@ -1373,7 +1375,7 @@ const dna = {
       const defaults = { fade: false, callback: null };
       const settings = { ...defaults, ...options };
       const template = dna.store.getTemplate(name);
-      const clones = template.container.children('.dna-clone');
+      const clones =   template.container.children('.dna-clone');
       if (template.container.data().dnaCountsMap)
          template.container.data().dnaCountsMap[name] = 0;
       const fadeDelete = () => dna.ui.slideFadeDelete(clones, settings.callback);
@@ -1395,7 +1397,7 @@ const dna = {
       },
    refreshAll(name: string, options?: DnaOptionsRefreshAll): JQuery {
       // Updates all the clones of the specified template.
-      const clones = dna.getClones(name);
+      const clones =  dna.getClones(name);
       const refresh = (node: HTMLElement) => { dna.refresh($(node), options); };
       clones.toArray().forEach(refresh);
       return clones;
@@ -1426,8 +1428,8 @@ const dna = {
             dna.refresh(elem, options);
             };
          const container = clone.parent();
-         const clones = container.children('.dna-clone.' + name).forEach(update);
-         container.data().dnaCountsMap = container.data().dnaCountsMap || {};
+         const clones =    container.children('.dna-clone.' + name).forEach(update);
+         container.data().dnaCountsMap =       container.data().dnaCountsMap || {};
          container.data().dnaCountsMap[name] = clones.length;
          };
       if (clone.length)
