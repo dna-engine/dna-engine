@@ -150,7 +150,6 @@
       "add-dist-header": "~0.3",
       "assert-deep-strict-equal": "~1.0",
       "browser-sync": "~2.27",
-      "canvas": "~2.10",
       "chokidar-cli": "~3.0",
       "copy-file-util": "~0.1",
       "copy-folder-util": "~0.2",
