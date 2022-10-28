@@ -219,11 +219,13 @@ const dnaBrowser = {
    userAgentData(): NavigatorUAData {
       const polyfil = (): NavigatorUAData => {
          const brandEntry = globalThis.navigator.userAgent.split(' ').pop()?.split('/') ?? [];
+         const hasTouch =   !!navigator.maxTouchPoints;
          const platform =   globalThis.navigator.platform;
-         const platforms =  { 'MacIntel': 'macOS', 'Win32': 'Windows', 'iPhone': 'iOS', 'iPad': 'iOS' };  //note: iOS not verified
+         const mac =        hasTouch ? 'iOS' : 'macOS';
+         const platforms =  { 'MacIntel': mac, 'Win32': 'Windows', 'iPhone': 'iOS', 'iPad': 'iOS' };
          return {
             brands:   [{ brand: brandEntry?.[0] ?? '', version: brandEntry?.[1] ?? '' }],
-            mobile:   /Android|iPhone|iPad|Mobi/i.test(globalThis.navigator.userAgent),
+            mobile:   hasTouch || /Android|iPhone|iPad|Mobi/i.test(globalThis.navigator.userAgent),
             platform: platforms[platform] ?? platform,
             };
          };
@@ -387,7 +389,7 @@ const dnaUtil = {
             names.length === 1 && typeof (<DnaDataObject>context)[<string>names[0]] !== 'function';
          dna.core.assert(!missing, 'Callback function not found', fn);
          if (names.length === 1)
-            result = getFn().apply(elem, args);  //'app.cart.buy' ==> window['app']['cart']['buy']
+            result = getFn().apply(elem, args);  //'app.cart.buy' ==> globalThis['app']['cart']['buy']
          else
             contextApply(getFn(), names.slice(1));
          };
