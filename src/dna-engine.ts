@@ -399,20 +399,20 @@ const dnaUtil = {
          const context =     dna.events.getContextDb();
          const name =        <string>names[0];
          const idPattern =   /^[_$a-zA-Z][_$a-zA-Z0-9]*$/;
-         const isUnknown =   (): boolean => (window)[name] === undefined && !context[name];
+         const isUnknown =   (): boolean => globalThis[name] === undefined && !context[name];
          const topLevelGet = (null, eval);
          const callable = (): boolean =>
             ['object', 'function'].includes(topLevelGet('typeof ' + name));
          if (idPattern.test(name) && isUnknown() && callable())
             dna.registerContext(name, topLevelGet(name));
-         contextApply(context[name] ? context : window, names);
+         contextApply(context[name] ? context : globalThis, names);
          };
-      if (elem && elem.length === 0)  //noop for emply list of elems
+      if (elem?.length === 0)  //noop for emply list of elems
          result = elem;
       else if (typeof fn === 'function')  //run regular function with supplied arguments
          result = fn.apply(elem, <[JQuery, T]>args);
-      else if (elem && (elem)[fn])  //run element's jQuery function
-         result = (elem)[fn](args[1], args[2], args[3]);
+      else if (elem?.[fn])  //run element's jQuery function
+         result = elem[fn](args[1], args[2], args[3]);
       else if (typeof fn === 'string' && fn.length > 0)
          findFn(fn.split('.'));
       else if (fn === undefined || fn === null)
