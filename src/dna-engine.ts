@@ -380,8 +380,11 @@ const dnaUtil = {
       // Calls fn (string name or actual function) passing in params.
       // Usage:
       //    dna.util.apply('app.cart.buy', 7); ==> app.cart.buy(7);
-      const args = dna.array.wrap(params);
-      const elem = args[0] instanceof $ ? <JQuery>args[0] : null;
+      const args =     dna.array.wrap(params);
+      const elem =     args[0] instanceof $ ? <JQuery>args[0] : null;
+      const isFnName = typeof fn === 'string' && fn.length > 0;
+      if (elem && isFnName && !elem[fn])
+         args.push(dna.ui.getComponent(elem));
       let result;
       const contextApply = (context: DnaCallback | { [name: string]: unknown } | Window, names: string[]) => {
          const getFn = (): DnaCallback => <DnaCallback>(<{ [name: string]: unknown }>context)[<string>names[0]];
@@ -393,16 +396,13 @@ const dnaUtil = {
          else
             contextApply(getFn(), names.slice(1));
          };
-      const findFn = (names: string[]) => {
-         if (elem)
-            args.push(dna.ui.getComponent(elem));
+      const applyByDotNames = (names: string[]) => {
          const context =     dna.events.getContextDb();
-         const name =        <string>names[0];
+         const name =        names[0]!;
          const idPattern =   /^[_$a-zA-Z][_$a-zA-Z0-9]*$/;
-         const isUnknown =   (): boolean => globalThis[name] === undefined && !context[name];
+         const isUnknown =   () => globalThis[name] === undefined && !context[name];
          const topLevelGet = (null, eval);
-         const callable = (): boolean =>
-            ['object', 'function'].includes(topLevelGet('typeof ' + name));
+         const callable =    () => ['object', 'function'].includes(topLevelGet('typeof ' + name));
          if (idPattern.test(name) && isUnknown() && callable())
             dna.registerContext(name, topLevelGet(name));
          contextApply(context[name] ? context : globalThis, names);
@@ -413,8 +413,8 @@ const dnaUtil = {
          result = fn.apply(elem, <[JQuery, T]>args);
       else if (elem?.[fn])  //run element's jQuery function
          result = elem[fn](args[1], args[2], args[3]);
-      else if (typeof fn === 'string' && fn.length > 0)
-         findFn(fn.split('.'));
+      else if (isFnName)
+         applyByDotNames(fn.split('.'));
       else if (fn === undefined || fn === null)
          result = null;
       else
