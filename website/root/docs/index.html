@@ -1,4 +1,4 @@
-{% render 'website/templates/page-begin.html', pkg: pkg, webRoot: '..', title: 'Documentation' %}
+{% render 'website/templates/page-begin.html', webRoot: '..', title: 'Documentation' %}
 
 <main class=docs-page>
 
@@ -2474,8 +2474,9 @@
       <h4>On Load Functions</h4>
       <p>
          Use the <code>data-on-load</code> attribute to initiate a callback function after the
-         document is ready.&nbsp; The element with the <code>data-on-load</code> attribute is passed
-         into on load function once the HTML is loaded.
+         document is ready.&nbsp;
+         The element with the <code>data-on-load</code> attribute is passed into on load
+         function once the HTML is loaded.
       </p>
       <figure>
          <figcaption>Example HTML</figcaption>
@@ -2489,9 +2490,15 @@
          </code></pre>
       </figure>
       <p>
+         <em>Note #1:</em>
          The <code>data-on-load</code> attribute can be used in conjunction with the
          <a href=#ui-focus><code>dna.ui.focus</code></a> function to auto-focus on an input
          element.
+      </p>
+      <p>
+         <em>Note #2:</em>
+         Ensure that all libraries used within the callback function are loaded before
+         dna-engine is loaded.
       </p>
    </section>
 
