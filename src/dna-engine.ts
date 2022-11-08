@@ -1070,9 +1070,9 @@ const dnaCore = {
       const injectAttrs = (elem: JQuery, dnaRules: DnaRules) => {
          const attrs = dnaRules.attrs!;  //example attrs: ['data-tag', ['', 'tag', '']]
          const inject = (key: DnaAttrName, parts: DnaAttrParts) => {  //example parts: 'J~~code.num~~' ==> ['J', 'code.num', '']
-            const field = parts[1];
-            const core = field === 1 ? count : field === 2 ? data : dna.util.value(data, field);
-            const value = [parts[0], core, parts[2]].join('');
+            const field =     parts[1];
+            const core =      field === 1 ? count : field === 2 ? data : dna.util.value(data, field);
+            const value =     [parts[0], core, parts[2]].join('');
             const formatted = dnaRules.formatter ?
                dnaRules.formatter(<DnaFormatterValue>value, data) : value;
             elem.attr(key, formatted);

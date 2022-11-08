@@ -51,7 +51,7 @@
       body.minified-mode       .minified-hide { display: none; }
    </style>
    <script defer src=https://cdn.jsdelivr.net/npm/jquery@3.6/dist/jquery.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@2.7/dist/fetch-json.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@3.0/dist/fetch-json.min.js></script>
    <script defer src=../dist/dna-engine.dev.js></script>
    <script>globalThis.onerror = () => document.body.style.background = 'pink';</script>
    <script data-on-load=specRunner.setup>
@@ -62,7 +62,7 @@
          catalog: [
             { title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en', event: event1 },
             { title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr', event: event2 },
-            { title: 'Howdy HTML5',  author: 'Ed',   price: 2999 },
+            { title: 'Howdy HTML5',  author: 'Ed',   price: 3750 },
             ],
          setup() {
             $('body').toggleClass('minified-mode', globalThis.location.pathname.includes('visual.min'));
@@ -1815,7 +1815,7 @@
          </div>
          <div class=dna-clone>
             <h4>
-               <span>HOWDY HTML5</span> * <span title=ED>ED</span> * <span>&#2999;</span>
+               <span>HOWDY HTML5</span> * <span title=ED>ED</span> * <span>&#3750;</span>
             </h4>
             <div>Event (UTC assumes PDT):</div>
             <output>
@@ -1835,11 +1835,11 @@
                <samp title=timestamp-ms></samp>
                <samp title=utc></samp>
             </output>
-            <div>Price: <input type=number value=2499></div>
+            <div>Price: <input type=number value=3750></div>
             <output>
-               <samp title=usd100>$24.99</samp>
-               <samp title=usd>$2,499.00</samp>
-               <samp title=jpy>¥2,499</samp>
+               <samp title=usd100>$37.50</samp>
+               <samp title=usd>$3,750.00</samp>
+               <samp title=jpy>¥3,750</samp>
             </output>
             <div>
                <samp title=#>3</samp> |
