@@ -391,20 +391,13 @@ const dnaUtil = {
          dna.core.assert(typeof callback === 'function', 'Callback is not a function', name);
          return callback.apply(elem, args);
          };
-      let result;
-      if (elem?.length === 0)  //noop for emply list of elems
-         result = elem;
-      else if (typeof fn === 'function')  //run regular function with supplied arguments
-         result = fn.apply(elem, <[JQuery, T]>args);
-      else if (elem?.[fn])  //run element's jQuery function
-         result = elem[fn](args[1], args[2], args[3]);
-      else if (isFnName)
-         result = applyByName(fn);
-      else if (fn === undefined || fn === null)
-         result = null;
-      else
+      return elem?.length === 0 ?   elem :                                 //noop for emply list of elems
+         typeof fn === 'function' ? fn.apply(elem, <[JQuery, T]>args) :    //run regular function with supplied arguments
+         elem?.[fn] ?               elem[fn](args[1], args[2], args[3]) :  //run element's jQuery function
+         isFnName ?                 applyByName(fn) :                      //run funciton from name, like 'app.cart.buy'
+         fn === undefined ?         null :
+         fn === null ?              null :
          dna.core.assert(false, 'Invalid callback function', fn);
-      return result;
       },
    getFn(name: string) {
       // Converts a dot nation name (string) to its callable function.
