@@ -155,12 +155,9 @@ const dnaArray = {
       //    const array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
       //    result = dna.array.find(array, 'b');  //{ index: 1, item: { code: 'b', word: 'Bat' } }
       //    result = dna.array.find(array, 'x');  //{ index: -1, item: null }
-      const valid = Array.isArray(array);
-      let i = 0;
-      if (valid)
-         while (i < array.length && array[i]?.[key] !== value)
-            i++;
-      return valid && i < array.length ? { index: i, item: array[i]! } : { index: -1, item: null };
+      const index = Array.isArray(array) ? array.findIndex(object => object[key] === value) : -1;
+      const item =  index === -1 ? null : array[index]!;
+      return { index, item };
       },
    last: <T>(array: T[]): T | undefined => {
       // Returns the last element of the array (or undefined if not possible).
