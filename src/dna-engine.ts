@@ -1344,10 +1344,6 @@ const dna = {
       holderClone.data().dnaRules.subs.forEach(cloneSub);
       return holderClone;
       },
-   cloneSub<T>(holderClone: JQuery, arrayField: string, data: T | T[], options?: DnaOptionsArrayPush): JQuery {
-      console.log('DEPRECATED: Function dna.cloneSub() has been renamed to dna.arrayPush().');
-      return dna.arrayPush(holderClone, arrayField, data, options);
-      },
    createTemplate(name: string, html: string, holder: JQuery): DnaTemplate {
       // Generates a template from an HTML string.
       $(html).attr({ id: name }).addClass('dna-template').appendTo(holder);
