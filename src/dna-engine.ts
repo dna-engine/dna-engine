@@ -385,28 +385,13 @@ const dnaUtil = {
       const isFnName = typeof fn === 'string' && fn.length > 0;
       if (elem && isFnName && !elem[fn])
          args.push(dna.ui.getComponent(elem));
+      const applyByName = (name: string) => {
+         const callback = dna.util.getFn(name);
+         dna.core.assert(callback, 'Callback function not found', name);
+         dna.core.assert(typeof callback === 'function', 'Callback is not a function', name);
+         return callback.apply(elem, args);
+         };
       let result;
-      const contextApply = (context: DnaCallback | { [name: string]: unknown } | Window, names: string[]) => {
-         const getFn = (): DnaCallback => <DnaCallback>(<{ [name: string]: unknown }>context)[<string>names[0]];
-         const missing = !context ||
-            names.length === 1 && typeof (<DnaDataObject>context)[<string>names[0]] !== 'function';
-         dna.core.assert(!missing, 'Callback function not found', fn);
-         if (names.length === 1)
-            result = getFn().apply(elem, args);  //'app.cart.buy' ==> globalThis['app']['cart']['buy']
-         else
-            contextApply(getFn(), names.slice(1));
-         };
-      const applyByDotNames = (names: string[]) => {
-         const context =     dna.events.getContextDb();
-         const name =        names[0]!;
-         const idPattern =   /^[_$a-zA-Z][_$a-zA-Z0-9]*$/;
-         const isUnknown =   () => globalThis[name] === undefined && !context[name];
-         const topLevelGet = (null, eval);
-         const callable =    () => ['object', 'function'].includes(topLevelGet('typeof ' + name));
-         if (idPattern.test(name) && isUnknown() && callable())
-            dna.registerContext(name, topLevelGet(name));
-         contextApply(context[name] ? context : globalThis, names);
-         };
       if (elem?.length === 0)  //noop for emply list of elems
          result = elem;
       else if (typeof fn === 'function')  //run regular function with supplied arguments
@@ -414,12 +399,29 @@ const dnaUtil = {
       else if (elem?.[fn])  //run element's jQuery function
          result = elem[fn](args[1], args[2], args[3]);
       else if (isFnName)
-         applyByDotNames(fn.split('.'));
+         result = applyByName(fn);
       else if (fn === undefined || fn === null)
          result = null;
       else
          dna.core.assert(false, 'Invalid callback function', fn);
       return result;
+      },
+   getFn(name: string) {
+      // Converts a dot nation name (string) to its callable function.
+      // Example to find the buy() function:
+      //    const buyFn = dna.util.getFn('app.cart.buy');
+      const fields =      name.split('.');  //dot notation to array
+      const tag =         fields[0]!;       //string name of the root, example: 'app'
+      const toValue =     (null, eval);
+      const callable =    () => ['object', 'function'].includes(toValue('typeof ' + tag));
+      const getContext =  () => dna.registerContext(tag, toValue(tag));
+      const getTop =      () => callable() ? getContext()[tag] : undefined;
+      const top =         globalThis[tag] ?? dna.events.getContextDb()[tag] ?? getTop();
+      const deep = (object: unknown, subfields: string[]): unknown =>
+         !subfields.length ? object :                                //function found
+         !object ?           undefined :                             //function missing
+         deep((<object>object)[subfields[0]!], subfields.slice(1));  //next object field
+      return fields.length === 1 ? top : deep(top, fields.slice(1));
       },
    assign: (data: DnaDataObject, field: string | string[], value: Json): DnaDataObject => {
       // Sets the field in the data object to the new value and returns the updated data object.
