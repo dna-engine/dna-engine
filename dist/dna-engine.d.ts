@@ -1,6 +1,11 @@
-//! dna-engine v2.2.1 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.2.2 ~~ https://dna-engine.org ~~ MIT License
 
 /// <reference types="jquery" />
+export declare type Json = string | number | boolean | null | undefined | JsonObject | Json[];
+export declare type JsonObject = {
+    [key: string]: Json;
+};
+export declare type JsonData = JsonObject | Json[];
 export declare type NavigatorUAData = {
     readonly brands: {
         brand: string;
@@ -9,21 +14,6 @@ export declare type NavigatorUAData = {
     readonly mobile: boolean;
     readonly platform: string;
 };
-export declare type Json = string | number | boolean | null | undefined | JsonObject | Json[];
-export declare type JsonObject = {
-    [key: string]: Json;
-};
-export declare type JsonData = JsonObject | Json[];
-export declare type DnaForEachCallback = (elem: JQuery, index: number) => void;
-export declare type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
-declare global {
-    interface JQuery {
-        forEach: (fn: DnaForEachCallback) => JQuery;
-        dna: (action: DnaPluginAction, ...params: unknown[]) => JQuery;
-    }
-}
-export declare type DnaModel = JsonData;
-export declare type DnaDataObject = JsonObject;
 export declare type DnaOptionsClone<T> = {
     fade?: boolean;
     top?: boolean;
@@ -90,6 +80,21 @@ export declare type DnaSettingsRegisterInitializer = {
     onDocLoad: boolean;
 };
 export declare type DnaOptionsRegisterInitializer = Partial<DnaSettingsRegisterInitializer>;
+export declare type DnaSettingsRunOnLoads = {
+    pollInterval: number;
+    maxWait: number;
+};
+export declare type DnaOptionsRunOnLoads = Partial<DnaSettingsRunOnLoads>;
+export declare type DnaForEachCallback = (elem: JQuery, index: number) => void;
+export declare type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
+declare global {
+    interface JQuery {
+        forEach: (fn: DnaForEachCallback) => JQuery;
+        dna: (action: DnaPluginAction, ...params: unknown[]) => JQuery;
+    }
+}
+export declare type DnaModel = JsonData;
+export declare type DnaDataObject = JsonObject;
 export declare type DnaFormatter = <T>(value: DnaFormatterValue, model?: T) => string;
 export declare type DnaFormatterValue = number | string | boolean;
 export declare type DnaMSec = number | string;
@@ -170,23 +175,22 @@ declare const dna: {
     version: string;
     clone<T>(name: string, data: T | T[], options?: DnaOptionsClone<T> | undefined): JQuery;
     arrayPush<T_1>(holderClone: JQuery, arrayField: string, data: T_1 | T_1[], options?: DnaOptionsArrayPush): JQuery;
-    cloneSub<T_2>(holderClone: JQuery, arrayField: string, data: T_2 | T_2[], options?: DnaOptionsArrayPush): JQuery;
     createTemplate(name: string, html: string, holder: JQuery): DnaTemplate;
     templateExists(name: string): boolean;
-    getModel<T_3>(elemOrName: JQuery | string, options?: DnaOptionsGetModel): T_3 | T_3[] | undefined;
+    getModel<T_2>(elemOrName: JQuery | string, options?: DnaOptionsGetModel): T_2 | T_2[] | undefined;
     empty(name: string, options?: DnaOptionsEmpty): JQuery;
-    insert<T_4>(name: string, data: T_4, options?: DnaOptionsInsert<T_4> | undefined): JQuery;
+    insert<T_3>(name: string, data: T_3, options?: DnaOptionsInsert<T_3> | undefined): JQuery;
     refresh(clone: JQuery, options?: DnaOptionsRefresh): JQuery;
     refreshAll(name: string, options?: DnaOptionsRefreshAll): JQuery;
     updateField(inputElem: JQuery, value: Json): JQuery;
     recount(clone: JQuery, options?: DnaOptionsRecount): JQuery;
-    destroy<T_5>(clone: JQuery, options?: DnaOptionsDestroy<T_5> | undefined): JQuery;
+    destroy<T_4>(clone: JQuery, options?: DnaOptionsDestroy<T_4> | undefined): JQuery;
     getClone(elem: JQuery, options?: DnaOptionsGetClone): JQuery;
     getClones(name: string): JQuery;
     getIndex(elem: JQuery, options?: DnaOptionsGetIndex): number;
-    up<T_6>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T_6> | undefined): JQuery;
-    down<T_7>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T_7> | undefined): JQuery;
-    bye<T_8>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T_8> | undefined): JQuery;
+    up<T_5>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T_5> | undefined): JQuery;
+    down<T_6>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T_6> | undefined): JQuery;
+    bye<T_7>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T_7> | undefined): JQuery;
     registerInitializer(fn: DnaFunctionName | DnaInitializerFn, options?: DnaOptionsRegisterInitializer): DnaInitializer[];
     clearInitializers(): DnaInitializer[];
     registerContext(contextName: string, contextObjOrFn: DnaCallback | {
@@ -195,11 +199,11 @@ declare const dna: {
     initGlobal(thisWindow: Window & typeof globalThis, thisJQuery: JQueryStatic): unknown;
     info(): DnaInfo;
     array: {
-        find: <T_9, V>(array: T_9[], value: V, key?: string) => {
+        find: <T_8, V>(array: T_8[], value: V, key?: string) => {
             index: number;
-            item: T_9 | null;
+            item: T_8 | null;
         };
-        last: <T_10>(array: T_10[]) => T_10 | undefined;
+        last: <T_9>(array: T_9[]) => T_9 | undefined;
         fromMap: (map: JsonObject, options?: {
             key?: string;
             kebabCodes?: boolean;
@@ -208,7 +212,7 @@ declare const dna: {
             key: string;
             camelKeys: boolean;
         }) => DnaDataObject;
-        wrap: <T_11>(itemOrItems: T_11 | T_11[]) => T_11[];
+        wrap: <T_10>(itemOrItems: T_10 | T_10[]) => T_10[];
     };
     browser: {
         getUrlParams: () => {
@@ -221,7 +225,7 @@ declare const dna: {
         get: (key: string, defaultValue: Json) => Json;
     };
     ui: {
-        deleteElem: <T_12>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T_12> | null | undefined) => JQuery;
+        deleteElem: <T_11>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T_11> | null | undefined) => JQuery;
         focus: (elem: JQuery) => JQuery;
         getAttrs: (elem: JQuery) => Attr[];
         getComponent: (elem: JQuery) => JQuery;
@@ -230,26 +234,27 @@ declare const dna: {
             interval: number;
             out: number;
         }) => JQuery;
-        slideFade: <T_13>(elem: JQuery, callback?: DnaCallbackFn<T_13> | null | undefined, show?: boolean) => JQuery;
-        slideFadeIn: <T_14>(elem: JQuery, callback?: DnaCallbackFn<T_14> | null | undefined) => JQuery;
-        slideFadeOut: <T_15>(elem: JQuery, callback?: DnaCallbackFn<T_15> | null | undefined) => JQuery;
-        slideFadeToggle: <T_16>(elem: JQuery, callback?: DnaCallbackFn<T_16> | null | undefined) => JQuery;
-        slideFadeDelete: <T_17>(elem: JQuery, callback?: DnaCallbackFn<T_17> | null | undefined) => JQuery;
+        slideFade: <T_12>(elem: JQuery, callback?: DnaCallbackFn<T_12> | null | undefined, show?: boolean) => JQuery;
+        slideFadeIn: <T_13>(elem: JQuery, callback?: DnaCallbackFn<T_13> | null | undefined) => JQuery;
+        slideFadeOut: <T_14>(elem: JQuery, callback?: DnaCallbackFn<T_14> | null | undefined) => JQuery;
+        slideFadeToggle: <T_15>(elem: JQuery, callback?: DnaCallbackFn<T_15> | null | undefined) => JQuery;
+        slideFadeDelete: <T_16>(elem: JQuery, callback?: DnaCallbackFn<T_16> | null | undefined) => JQuery;
         smoothHeightSetBaseline: (container: JQuery) => JQuery;
         smoothHeightAnimate: (delay: number, container: JQuery) => JQuery;
-        smoothMove: <T_18>(elem: JQuery, up?: boolean, callback?: DnaCallbackFn<T_18> | null | undefined) => JQuery;
-        smoothMoveUp: <T_19>(elem: JQuery, callback?: DnaCallbackFn<T_19> | null | undefined) => JQuery;
-        smoothMoveDown: <T_20>(elem: JQuery, callback?: DnaCallbackFn<T_20> | null | undefined) => JQuery;
+        smoothMove: <T_17>(elem: JQuery, up?: boolean, callback?: DnaCallbackFn<T_17> | null | undefined) => JQuery;
+        smoothMoveUp: <T_18>(elem: JQuery, callback?: DnaCallbackFn<T_18> | null | undefined) => JQuery;
+        smoothMoveDown: <T_19>(elem: JQuery, callback?: DnaCallbackFn<T_19> | null | undefined) => JQuery;
         toElem: (elemOrEventOrIndex: DnaElemEventIndex, that?: unknown) => JQuery;
     };
     util: {
-        apply: <T_21>(fn: string | DnaInitializerFn | DnaCallbackFn<T_21>, params?: unknown | JQuery) => unknown;
+        apply: <T_20>(fn: string | DnaInitializerFn | DnaCallbackFn<T_20>, params?: unknown | JQuery) => unknown;
+        getFn(name: string): any;
         assign: (data: DnaDataObject, field: string | string[], value: Json) => DnaDataObject;
         printf: (format: string, ...values: unknown[]) => string;
         realTruth: (value: unknown) => boolean;
         toCamel: (kebabStr: string) => string;
         toKebab: (camelStr: string) => string;
-        value: <T_22>(data: T_22, field: string | string[]) => unknown;
+        value: <T_21>(data: T_21, field: string | string[]) => unknown;
         isObj: (value: unknown) => boolean;
     };
     format: {
@@ -294,16 +299,16 @@ declare const dna: {
     events: {
         getContextDb: () => DnaContext;
         getInitializers: () => DnaInitializer[];
-        runOnLoads: () => JQuery;
+        runOnLoads(options?: DnaOptionsRunOnLoads): Promise<JQuery>;
         runInitializers: (root: JQuery) => JQuery;
-        setup: () => JQuery;
+        setup: () => Promise<JQuery>;
     };
     core: {
-        inject: <T_23>(clone: JQuery, data: T_23, count: number, settings: DnaOptionsClone<T_23>) => JQuery;
-        replicate: <T_24>(template: DnaTemplate, data: T_24, settings: DnaOptionsClone<T_24>) => JQuery;
+        inject: <T_22>(clone: JQuery, data: T_22, count: number, settings: DnaOptionsClone<T_22>) => JQuery;
+        replicate: <T_23>(template: DnaTemplate, data: T_23, settings: DnaOptionsClone<T_23>) => JQuery;
         getArrayName: (subClone: JQuery) => string | null;
         updateModelArray: (container: JQuery) => JQuery;
-        remove: <T_25>(clone: JQuery, callback?: DnaCallbackFn<T_25> | null | undefined) => JQuery;
+        remove: <T_24>(clone: JQuery, callback?: DnaCallbackFn<T_24> | null | undefined) => JQuery;
         assert: (ok: boolean | unknown, message: string, info: unknown) => void;
         plugin: () => void;
         setup: () => unknown;

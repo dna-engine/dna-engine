@@ -1,6 +1,6 @@
 {
    "name": "dna-engine",
-   "version": "2.2.1",
+   "version": "2.2.2",
    "description": "An uncomplicated user interface library for cloning semantic templates (written in TypeScript)",
    "license": "MIT",
    "type": "module",
@@ -167,7 +167,7 @@
       "replacer-util": "~0.3",
       "rimraf": "~3.0",
       "run-scripts-util": "~0.1",
-      "serve": "~14.0",
+      "serve": "~14.1",
       "typescript": "~4.8",
       "uglify-js": "~3.17",
       "w3c-html-validator": "~1.2",

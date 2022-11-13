@@ -9,7 +9,7 @@
    <meta name=viewport content="width=device-width, initial-scale=1">
    <title>dna-engine ~~ Simple Specification Case</title>
    <link rel=icon       href=https://dna-engine.org/graphics/bookmark.png>
-   <link rel=stylesheet href=../dna-engine.css>
+   <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna-engine@2/dist/dna-engine.css>
    <style>
       body               { font-family: system-ui, sans-serif; margin: 30px; }
       main               { max-width: 500px; }
@@ -37,8 +37,10 @@
          setup: () => {
             const start = Date.now();
             app.doSomeStuff(),
-            console.log('Run time (msec):', Date.now() - start);
+            console.log('Run duration:', (Date.now() - start) + 'ms');
+            console.log('Template info:');
             console.log(dna.info());
+            console.log('Data model:');
             console.log(dna.getModel('book'));
             },
          };

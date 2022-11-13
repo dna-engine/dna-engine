@@ -1,14 +1,10 @@
-//! dna-engine v2.2.1 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.2.2 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaArray = {
     find: (array, value, key = 'code') => {
-        var _a;
-        const valid = Array.isArray(array);
-        let i = 0;
-        if (valid)
-            while (i < array.length && ((_a = array[i]) === null || _a === void 0 ? void 0 : _a[key]) !== value)
-                i++;
-        return valid && i < array.length ? { index: i, item: array[i] } : { index: -1, item: null };
+        const index = Array.isArray(array) ? array.findIndex(object => object[key] === value) : -1;
+        const item = index === -1 ? null : array[index];
+        return { index, item };
     },
     last: (array) => {
         return Array.isArray(array) ? array[array.length - 1] : undefined;
@@ -47,11 +43,13 @@ const dnaBrowser = {
         const polyfil = () => {
             var _a, _b, _c, _d, _e;
             const brandEntry = (_b = (_a = globalThis.navigator.userAgent.split(' ').pop()) === null || _a === void 0 ? void 0 : _a.split('/')) !== null && _b !== void 0 ? _b : [];
+            const hasTouch = !!navigator.maxTouchPoints;
             const platform = globalThis.navigator.platform;
-            const platforms = { 'MacIntel': 'macOS', 'Win32': 'Windows', 'iPhone': 'iOS', 'iPad': 'iOS' };
+            const mac = hasTouch ? 'iOS' : 'macOS';
+            const platforms = { 'MacIntel': mac, 'Win32': 'Windows', 'iPhone': 'iOS', 'iPad': 'iOS' };
             return {
                 brands: [{ brand: (_c = brandEntry === null || brandEntry === void 0 ? void 0 : brandEntry[0]) !== null && _c !== void 0 ? _c : '', version: (_d = brandEntry === null || brandEntry === void 0 ? void 0 : brandEntry[1]) !== null && _d !== void 0 ? _d : '' }],
-                mobile: /Android|iPhone|iPad|Mobi/i.test(globalThis.navigator.userAgent),
+                mobile: hasTouch || /Android|iPhone|iPad|Mobi/i.test(globalThis.navigator.userAgent),
                 platform: (_e = platforms[platform]) !== null && _e !== void 0 ? _e : platform,
             };
         };
@@ -174,43 +172,36 @@ const dnaUtil = {
     apply: (fn, params) => {
         const args = dna.array.wrap(params);
         const elem = args[0] instanceof $ ? args[0] : null;
-        let result;
-        const contextApply = (context, names) => {
-            const getFn = () => context[names[0]];
-            const missing = !context ||
-                names.length === 1 && typeof context[names[0]] !== 'function';
-            dna.core.assert(!missing, 'Callback function not found', fn);
-            if (names.length === 1)
-                result = getFn().apply(elem, args);
-            else
-                contextApply(getFn(), names.slice(1));
+        const isFnName = typeof fn === 'string' && fn.length > 0;
+        if (elem && isFnName && !elem[fn])
+            args.push(dna.ui.getComponent(elem));
+        const applyByName = (name) => {
+            const callback = dna.util.getFn(name);
+            dna.core.assert(callback, 'Callback function not found', name);
+            dna.core.assert(typeof callback === 'function', 'Callback is not a function', name);
+            return callback.apply(elem, args);
         };
-        const findFn = (names) => {
-            if (elem)
-                args.push(dna.ui.getComponent(elem));
-            const context = dna.events.getContextDb();
-            const name = names[0];
-            const idPattern = /^[_$a-zA-Z][_$a-zA-Z0-9]*$/;
-            const isUnknown = () => (window)[name] === undefined && !context[name];
-            const topLevelGet = (null, eval);
-            const callable = () => ['object', 'function'].includes(topLevelGet('typeof ' + name));
-            if (idPattern.test(name) && isUnknown() && callable())
-                dna.registerContext(name, topLevelGet(name));
-            contextApply(context[name] ? context : window, names);
-        };
-        if (elem && elem.length === 0)
-            result = elem;
-        else if (typeof fn === 'function')
-            result = fn.apply(elem, args);
-        else if (elem && (elem)[fn])
-            result = (elem)[fn](args[1], args[2], args[3]);
-        else if (typeof fn === 'string' && fn.length > 0)
-            findFn(fn.split('.'));
-        else if (fn === undefined || fn === null)
-            result = null;
-        else
-            dna.core.assert(false, 'Invalid callback function', fn);
-        return result;
+        return (elem === null || elem === void 0 ? void 0 : elem.length) === 0 ? elem :
+            typeof fn === 'function' ? fn.apply(elem, args) :
+                (elem === null || elem === void 0 ? void 0 : elem[fn]) ? elem[fn](args[1], args[2], args[3]) :
+                    isFnName ? applyByName(fn) :
+                        fn === undefined ? null :
+                            fn === null ? null :
+                                dna.core.assert(false, 'Invalid callback function', fn);
+    },
+    getFn(name) {
+        var _a, _b;
+        const fields = name.split('.');
+        const tag = fields[0];
+        const toValue = (null, eval);
+        const callable = () => ['object', 'function'].includes(toValue('typeof ' + tag));
+        const getContext = () => dna.registerContext(tag, toValue(tag));
+        const getTop = () => callable() ? getContext()[tag] : undefined;
+        const top = (_b = (_a = globalThis[tag]) !== null && _a !== void 0 ? _a : dna.events.getContextDb()[tag]) !== null && _b !== void 0 ? _b : getTop();
+        const deep = (object, subfields) => !subfields.length ? object :
+            !object ? undefined :
+                deep(object[subfields[0]], subfields.slice(1));
+        return fields.length === 1 ? top : deep(top, fields.slice(1));
     },
     assign: (data, field, value) => {
         const fields = typeof field === 'string' ? field.split('.') : field;
@@ -293,7 +284,11 @@ const dnaFormat = {
     getPercentFormatter(format) {
         dna.core.assert(/^#([.]#+)?$/.test(format), 'Unknown percent format code', format);
         const digits = format === '#' ? 0 : format.length - 2;
-        const percent = { style: 'percent', minimumFractionDigits: digits, maximumFractionDigits: digits };
+        const percent = {
+            style: 'percent',
+            minimumFractionDigits: digits,
+            maximumFractionDigits: digits,
+        };
         return new Intl.NumberFormat([], percent).format;
     },
     getFormatter(fn) {
@@ -559,7 +554,8 @@ const dnaStore = {
             const rules = elem.data().dnaRules;
             const parent = dna.compile.setupNucleotide(elem.parent()).addClass('dna-array');
             const containerRules = parent.closest('.dna-clone, .dna-sub-clone').data().dnaRules;
-            rules.template = dna.compile.subTemplateName(name, rules.array, containerRules.subs.length);
+            const index = containerRules.subs.length;
+            rules.template = dna.compile.subTemplateName(name, rules.array, index);
             parent.data().dnaRules.loop = { name: rules.template, field: rules.array };
             containerRules.subs.push(rules.array);
         };
@@ -582,10 +578,24 @@ const dnaEvents = {
         const initStore = () => store.dnaInitializers = [];
         return store.dnaInitializers || initStore();
     },
-    runOnLoads: () => {
+    runOnLoads(options) {
+        const defaults = { pollInterval: 200, maxWait: 5000 };
+        const settings = Object.assign(Object.assign({}, defaults), options);
+        const abortTime = Date.now() + settings.maxWait;
         const elems = $('[data-on-load]').not('.dna-loaded');
+        const fns = elems.toArray().map(node => $(node).data().onLoad);
         const run = (elem) => dna.util.apply(elem.data().onLoad, elem);
-        return elems.forEach(run).addClass('dna-loaded');
+        const runAll = () => elems.forEach(run).addClass('dna-loaded');
+        return new Promise((resolve) => {
+            const waitForScripts = () => {
+                while (fns.length && dna.util.getFn(fns[0]))
+                    fns.shift();
+                if (!fns.length || Date.now() > abortTime)
+                    return resolve(runAll());
+                globalThis.setTimeout(waitForScripts, settings.pollInterval);
+            };
+            waitForScripts();
+        });
     },
     runInitializers: (root) => {
         const init = (initializer) => {
@@ -833,14 +843,11 @@ const dnaCore = {
         const intoUnwrapped = () => {
             const firstClone = () => {
                 const contents = container.data().dnaContents;
-                const i = contents.indexOf(template.name);
-                const adjustment = (clonesAbove, name) => clonesAbove + (name && contents.indexOf(name) < i ?
+                const index = contents.indexOf(template.name);
+                const adjustment = (clonesAbove, name) => clonesAbove + (name && contents.indexOf(name) < index ?
                     allClones.filter('.' + name).length - 1 : 0);
-                const target = container.children().eq(i + contents.reduce(adjustment, 0));
-                if (target.length)
-                    target.before(clone);
-                else
-                    container.append(clone);
+                const target = container.children().eq(index + contents.reduce(adjustment, 0));
+                return target.length ? target.before(clone) : container.append(clone);
             };
             const allClones = container.children('.dna-clone');
             const sameClones = allClones.filter('.' + template.name);
@@ -925,7 +932,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '2.2.1',
+    version: '2.2.2',
     clone(name, data, options) {
         const defaults = {
             fade: false,
@@ -966,10 +973,6 @@ const dna = {
         };
         holderClone.data().dnaRules.subs.forEach(cloneSub);
         return holderClone;
-    },
-    cloneSub(holderClone, arrayField, data, options) {
-        console.log('DEPRECATED: Function dna.cloneSub() has been renamed to dna.arrayPush().');
-        return dna.arrayPush(holderClone, arrayField, data, options);
     },
     createTemplate(name, html, holder) {
         $(html).attr({ id: name }).addClass('dna-template').appendTo(holder);
