@@ -82,6 +82,15 @@
             console.log('');
             },
          };
+         const simulateNetworkDelay = false;  //force data-on-load to wait for 3 seconds
+         const networkDelaySeconds = 3;
+         const hideSetup = () => {
+            const stash = specRunner.setup;
+            delete specRunner.setup;
+            globalThis.setTimeout(() => specRunner.setup = stash, networkDelaySeconds * 1000);
+            };
+         if (simulateNetworkDelay)
+            hideSetup();
    </script>
 </head>
 <body>

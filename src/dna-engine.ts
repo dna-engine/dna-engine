@@ -1,5 +1,9 @@
 // dna-engine ~~ MIT License
 
+// Types: Basic
+export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
+export type JsonObject = { [key: string]: Json };
+export type JsonData = JsonObject | Json[];
 export type NavigatorUAData = {
    readonly brands: {
       brand:   string,  //examples: "Chromium", "Google Chrome"
@@ -8,17 +12,8 @@ export type NavigatorUAData = {
    readonly mobile:   boolean;
    readonly platform: string;  //examples: "macOS", "Windows"
    };
-export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
-export type JsonObject = { [key: string]: Json };
-export type JsonData = JsonObject | Json[];
-export type DnaForEachCallback = (elem: JQuery, index: number) => void;
-export type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
-declare global { interface JQuery {
-   forEach: (fn: DnaForEachCallback) => JQuery,
-   dna:     (action: DnaPluginAction, ...params: unknown[]) => JQuery,
-   } }
-export type DnaModel = JsonData;
-export type DnaDataObject = JsonObject;
+
+// Types: Options
 export type DnaOptionsClone<T> = {
    fade?:      boolean,
    top?:       boolean,
@@ -85,6 +80,21 @@ export type DnaSettingsRegisterInitializer = {
    onDocLoad:  boolean,
    };
 export type DnaOptionsRegisterInitializer = Partial<DnaSettingsRegisterInitializer>;
+export type DnaSettingsRunOnLoads = {
+   pollInterval: number,
+   maxWait:      number,
+   };
+export type DnaOptionsRunOnLoads = Partial<DnaSettingsRunOnLoads>;
+
+// Types: Data, Templates, and Callbacks
+export type DnaForEachCallback = (elem: JQuery, index: number) => void;
+export type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
+declare global { interface JQuery {
+   forEach: (fn: DnaForEachCallback) => JQuery,
+   dna:     (action: DnaPluginAction, ...params: unknown[]) => JQuery,
+   } }
+export type DnaModel = JsonData;
+export type DnaDataObject = JsonObject;
 export type DnaFormatter = <T>(value: DnaFormatterValue, model?: T) => string;
 export type DnaFormatterValue = number | string | boolean;
 export type DnaMSec = number | string;  //milliseconds UTC (or ISO 8601 string)
@@ -400,13 +410,13 @@ const dnaUtil = {
       // Converts a dot nation name (string) to its callable function.
       // Example to find the buy() function:
       //    const buyFn = dna.util.getFn('app.cart.buy');
-      const fields =      name.split('.');  //dot notation to array
-      const tag =         fields[0]!;       //string name of the root, example: 'app'
-      const toValue =     (null, eval);
-      const callable =    () => ['object', 'function'].includes(toValue('typeof ' + tag));
-      const getContext =  () => dna.registerContext(tag, toValue(tag));
-      const getTop =      () => callable() ? getContext()[tag] : undefined;
-      const top =         globalThis[tag] ?? dna.events.getContextDb()[tag] ?? getTop();
+      const fields =     name.split('.');  //dot notation to array
+      const tag =        fields[0]!;       //string name of the root, example: 'app'
+      const toValue =    (null, eval);
+      const callable =   () => ['object', 'function'].includes(toValue('typeof ' + tag));
+      const getContext = () => dna.registerContext(tag, toValue(tag));
+      const getTop =     () => callable() ? getContext()[tag] : undefined;
+      const top =        globalThis[tag] ?? dna.events.getContextDb()[tag] ?? getTop();
       const deep = (object: unknown, subfields: string[]): unknown =>
          !subfields.length ? object :                                //function found
          !object ?           undefined :                             //function missing
@@ -908,12 +918,26 @@ const dnaEvents = {
       const initStore = () => store.dnaInitializers = [];
       return store.dnaInitializers || initStore();  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
       },
-   runOnLoads: (): JQuery => {
+   runOnLoads(options?: DnaOptionsRunOnLoads): Promise<JQuery> {
       // Example:
       //    <p data-on-load=app.cart.setup>
-      const elems = $('[data-on-load]').not('.dna-loaded');
-      const run =   (elem: JQuery) => dna.util.apply(elem.data().onLoad, elem);
-      return elems.forEach(run).addClass('dna-loaded');
+      const defaults = { pollInterval: 200, maxWait: 5000 };
+      const settings = { ...defaults, ...options };
+      const abortTime = Date.now() + settings.maxWait;
+      const elems =     $('[data-on-load]').not('.dna-loaded');
+      const fns =       elems.toArray().map(node => $(node).data().onLoad);
+      const run =       (elem: JQuery) => dna.util.apply(elem.data().onLoad, elem);
+      const runAll =    () => elems.forEach(run).addClass('dna-loaded');
+      return new Promise((resolve) => {
+         const waitForScripts = () => {
+            while (fns.length && dna.util.getFn(fns[0]))
+               fns.shift();
+            if (!fns.length || Date.now() > abortTime)
+               return resolve(runAll());
+            globalThis.setTimeout(waitForScripts, settings.pollInterval);
+            };
+         waitForScripts();
+         });
       },
    runInitializers: (root: JQuery): JQuery => {
       // Executes the data-callback functions plus registered initializers.
@@ -926,7 +950,7 @@ const dnaEvents = {
       dna.events.getInitializers().forEach(init);
       return root;
       },
-   setup: (): JQuery => {
+   setup: (): Promise<JQuery> => {
       const runner = (elem: JQuery, type: string, event: JQuery.EventBase) => {
          // Finds elements for the given event type and executes the callback passing in the
          //    element, event, and component (container element with "data-component" attribute).
@@ -951,7 +975,7 @@ const dnaEvents = {
          const updateModel =  () => {
             const mainClone = dna.getClone(target, { main: true });
             if (mainClone.length === 0) {  //TODO: figure out why some events are captured on the template instead of the clone
-               //console.log('Error -- event not on clone:', event.timeStamp, event.type, target);
+               //console.error('Event not on clone:', event.timeStamp, event.type, target);
                return;
                }
             if (target.is('input:checkbox'))
