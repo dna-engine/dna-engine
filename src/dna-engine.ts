@@ -224,7 +224,7 @@ const dnaBrowser = {
       return params;
       },
    userAgentData(): NavigatorUAData {
-      const polyfil = (): NavigatorUAData => {
+      const polyfill = (): NavigatorUAData => {
          const brandEntry = globalThis.navigator.userAgent.split(' ').pop()?.split('/') ?? [];
          const hasTouch =   !!navigator.maxTouchPoints;
          const platform =   globalThis.navigator.platform;
@@ -236,7 +236,7 @@ const dnaBrowser = {
             platform: platforms[platform] ?? platform,
             };
          };
-      return globalThis.navigator['userAgentData'] ?? polyfil();
+      return globalThis.navigator['userAgentData'] ?? polyfill();
       },
    };
 
