@@ -1,4 +1,4 @@
-//! dna-engine v2.2.2 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.2.3 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaArray = {
     find: (array, value, key = 'code') => {
@@ -40,7 +40,7 @@ const dnaBrowser = {
     },
     userAgentData() {
         var _a;
-        const polyfil = () => {
+        const polyfill = () => {
             var _a, _b, _c, _d, _e;
             const brandEntry = (_b = (_a = globalThis.navigator.userAgent.split(' ').pop()) === null || _a === void 0 ? void 0 : _a.split('/')) !== null && _b !== void 0 ? _b : [];
             const hasTouch = !!navigator.maxTouchPoints;
@@ -53,7 +53,7 @@ const dnaBrowser = {
                 platform: (_e = platforms[platform]) !== null && _e !== void 0 ? _e : platform,
             };
         };
-        return (_a = globalThis.navigator['userAgentData']) !== null && _a !== void 0 ? _a : polyfil();
+        return (_a = globalThis.navigator['userAgentData']) !== null && _a !== void 0 ? _a : polyfill();
     },
 };
 const dnaPageToken = {
@@ -932,7 +932,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '2.2.2',
+    version: '2.2.3',
     clone(name, data, options) {
         const defaults = {
             fade: false,
