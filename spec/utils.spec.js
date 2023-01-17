@@ -133,8 +133,26 @@ describe('Formatter dna.format.getDateFormatter()', () => {
 
    it('correctly renders Star Wars Day', () => {
       const 皿 = (format) => dna.format.getDateFormatter(format)(timestamp);
-      const actual =   [       皿('date'),            皿('general'),           皿('locale')];
-      const expected = ['Sat May 04 2030', '2030-05-04 1:00am Sat', '5/4/2030, 1:00:00 AM'];
+      const actual =   [
+         皿('date'),
+         皿('general'),
+         皿('generalDate'),
+         皿('generalDay'),
+         皿('generalTime'),
+         皿('locale'),
+         皿('localeDate'),
+         皿('localeTime'),
+         ];
+      const expected = [
+         'Sat May 04 2030',        //date
+         '2030-05-04 1:00am Sat',  //general
+         '2030-05-04',             //generalDate
+         'Sat',                    //generalDay
+         '1:00am',                 //generalTime
+         '5/4/2030, 1:00:00 AM',   //locale
+         '5/4/2030',               //localeDate
+         '1:00:00 AM',             //localeTime
+         ];
       assertDeepStrictEqual(actual, expected);
       });
    });

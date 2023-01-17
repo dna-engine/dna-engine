@@ -1,9 +1,9 @@
 // dna-engine ~~ MIT License
 
 // Types: Basic
-export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
+export type Json =       string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = { [key: string]: Json };
-export type JsonData = JsonObject | Json[];
+export type JsonData =   JsonObject | Json[];
 export type NavigatorUAData = {
    readonly brands: {
       brand:   string,  //examples: "Chromium", "Google Chrome"
@@ -88,17 +88,17 @@ export type DnaOptionsRunOnLoads = Partial<DnaSettingsRunOnLoads>;
 
 // Types: Data, Templates, and Callbacks
 export type DnaForEachCallback = (elem: JQuery, index: number) => void;
-export type DnaPluginAction = 'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
+export type DnaPluginAction =    'bye' | 'clone-sub' | 'destroy' | 'down' | 'refresh' | 'up';
 declare global { interface JQuery {
    forEach: (fn: DnaForEachCallback) => JQuery,
    dna:     (action: DnaPluginAction, ...params: unknown[]) => JQuery,
    } }
-export type DnaModel = JsonData;
-export type DnaDataObject = JsonObject;
-export type DnaFormatter = <T>(value: DnaFormatterValue, model?: T) => string;
+export type DnaModel =          JsonData;
+export type DnaDataObject =     JsonObject;
+export type DnaFormatter =      <T>(value: DnaFormatterValue, model?: T) => string;
 export type DnaFormatterValue = number | string | boolean;
-export type DnaMSec = number | string;  //milliseconds UTC (or ISO 8601 string)
-export type DnaCallback = (...args: unknown[]) => unknown;
+export type DnaMSec =           number | string;  //milliseconds UTC (or ISO 8601 string)
+export type DnaCallback =       (...args: unknown[]) => unknown;
 export interface DnaTransformFn<T> { (data: T): void }
 export interface DnaCallbackFn<T> { (elem: JQuery, data?: T): void }
 export interface DnaInitializerFn { (elem: JQuery, ...params: unknown[]): void }
@@ -116,18 +116,18 @@ export type DnaTemplate = {
    separators: number,
    wrapped:    boolean,
    };
-export type DnaTemplateDb = { [name: string]: DnaTemplate };
+export type DnaTemplateDb =   { [name: string]: DnaTemplate };
 export type DnaTemplateName = string;
-export type DnaContext = { [app: string]: { [field: string]: unknown } | DnaCallback };
-export type DnaFieldName = string;
+export type DnaContext =      { [app: string]: { [field: string]: unknown } | DnaCallback };
+export type DnaFieldName =    string;
 export type DnaFunctionName = string;
-export type DnaClassName = string;
-export type DnaAttrName = string;
-export type DnaAttrParts = [string, DnaFieldName | 1 | 2, string];
-export type DnaAttrs = (DnaAttrName | DnaAttrParts)[];
-export type DnaPropName = string;
-export type DnaProps = (DnaPropName | DnaFieldName)[];
-export type DnaLoop = { name: string, field: DnaFieldName };
+export type DnaClassName =    string;
+export type DnaAttrName =     string;
+export type DnaAttrParts =    [string, DnaFieldName | 1 | 2, string];
+export type DnaAttrs =        (DnaAttrName | DnaAttrParts)[];
+export type DnaPropName =     string;
+export type DnaProps =        (DnaPropName | DnaFieldName)[];
+export type DnaLoop =         { name: string, field: DnaFieldName };
 export type DnaRules = {
    template?:  DnaTemplateName,
    array?:     DnaFieldName,
@@ -496,28 +496,29 @@ const dnaFormat = {
       const generalDate = (date: Date) =>
          `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())}`;
       const generalTime = (date: Date) =>
-         date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(' ', '').toLowerCase();
+         date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(/\s/, '').toLowerCase();
       const generalDay = (date: Date) =>
          date.toLocaleString([], { weekday: 'short' });
       const generalTimestamp = (date: Date) =>
          generalDate(date) + ' ' + generalTime(date) + ' ' + generalDay(date);
       const timestamp =   (date: Date) => date.toISOString().replace('T', '@').slice(0, -5);
       const timestampMs = (date: Date) => date.toISOString().replace('T', '@').slice(0, -1);
-      const dateFormatters = <{ [format: string]: DnaFormatter }>{             //ex: 1904112000000 (msec)
-         date:        (msec: DnaMSec) => new Date(msec).toDateString(),        //ex: 'Sat May 04 2030'
-         general:     (msec: DnaMSec) => generalTimestamp(new Date(msec)),     //ex: '2030-05-04 1:00am Sat'
-         generalDate: (msec: DnaMSec) => generalDate(new Date(msec)),          //ex: '2030-05-04'
-         generalDay:  (msec: DnaMSec) => generalDay(new Date(msec)),           //ex: 'Sat'
-         generalTime: (msec: DnaMSec) => generalTime(new Date(msec)),          //ex: '1:00am'
-         iso:         (msec: DnaMSec) => new Date(msec).toISOString(),         //ex: '2030-05-04T08:00:00.000Z'
-         locale:      (msec: DnaMSec) => new Date(msec).toLocaleString(),      //ex: '5/4/2030, 1:00:00 AM'
-         localeDate:  (msec: DnaMSec) => new Date(msec).toLocaleDateString(),  //ex: '5/4/2030'
-         localeTime:  (msec: DnaMSec) => new Date(msec).toLocaleTimeString(),  //ex: '1:00:00 AM'
-         string:      (msec: DnaMSec) => new Date(msec).toString(),            //ex: 'Sat May 04 2030 01:00:00 GMT-0700 (PDT)'
-         time:        (msec: DnaMSec) => new Date(msec).toTimeString(),        //ex: '01:00:00 GMT-0700 (PDT)'
-         timestamp:   (msec: DnaMSec) => timestamp(new Date(msec)),            //ex: '2030-05-04@08:00:00'
-         timestampMs: (msec: DnaMSec) => timestampMs(new Date(msec)),          //ex: '2030-05-04@08:00:00.000'
-         utc:         (msec: DnaMSec) => new Date(msec).toUTCString(),         //ex: 'Sat, 04 May 2030 08:00:00 GMT'
+      const norm =        (date: string) => date.replace(/\s/g, ' ');
+      const dateFormatters = <{ [format: string]: DnaFormatter }>{                   //ex: 1904112000000 (msec)
+         date:        (msec: DnaMSec) => new Date(msec).toDateString(),              //ex: 'Sat May 04 2030'
+         general:     (msec: DnaMSec) => generalTimestamp(new Date(msec)),           //ex: '2030-05-04 1:00am Sat'
+         generalDate: (msec: DnaMSec) => generalDate(new Date(msec)),                //ex: '2030-05-04'
+         generalDay:  (msec: DnaMSec) => generalDay(new Date(msec)),                 //ex: 'Sat'
+         generalTime: (msec: DnaMSec) => generalTime(new Date(msec)),                //ex: '1:00am'
+         iso:         (msec: DnaMSec) => new Date(msec).toISOString(),               //ex: '2030-05-04T08:00:00.000Z'
+         locale:      (msec: DnaMSec) => norm(new Date(msec).toLocaleString()),      //ex: '5/4/2030, 1:00:00 AM'
+         localeDate:  (msec: DnaMSec) => new Date(msec).toLocaleDateString(),        //ex: '5/4/2030'
+         localeTime:  (msec: DnaMSec) => norm(new Date(msec).toLocaleTimeString()),  //ex: '1:00:00 AM'
+         string:      (msec: DnaMSec) => new Date(msec).toString(),                  //ex: 'Sat May 04 2030 01:00:00 GMT-0700 (PDT)'
+         time:        (msec: DnaMSec) => new Date(msec).toTimeString(),              //ex: '01:00:00 GMT-0700 (PDT)'
+         timestamp:   (msec: DnaMSec) => timestamp(new Date(msec)),                  //ex: '2030-05-04@08:00:00'
+         timestampMs: (msec: DnaMSec) => timestampMs(new Date(msec)),                //ex: '2030-05-04@08:00:00.000'
+         utc:         (msec: DnaMSec) => new Date(msec).toUTCString(),               //ex: 'Sat, 04 May 2030 08:00:00 GMT'
          };
       const formatter = dateFormatters[dna.util.toCamel(format)];
       dna.core.assert(formatter, 'Unknown date format code', format);
