@@ -492,33 +492,31 @@ const dnaFormat = {
       },
    getDateFormatter(format: string): DnaFormatter {
       // Returns a function to format dates into strings, like "2030-05-04 1:00am".
-      const twoDigit = (value: number) => String(value).padStart(2, '0');
-      const generalDate = (date: Date) =>
-         `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())}`;
-      const generalTime = (date: Date) =>
-         date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(/\s/, '').toLowerCase();
-      const generalDay = (date: Date) =>
-         date.toLocaleString([], { weekday: 'short' });
-      const generalTimestamp = (date: Date) =>
-         generalDate(date) + ' ' + generalTime(date) + ' ' + generalDay(date);
+      const twoDigit =    (value: number) => String(value).padStart(2, '0');
       const timestamp =   (date: Date) => date.toISOString().replace('T', '@').slice(0, -5);
       const timestampMs = (date: Date) => date.toISOString().replace('T', '@').slice(0, -1);
-      const norm =        (date: string) => date.replace(/\s/g, ' ');
-      const dateFormatters = <{ [format: string]: DnaFormatter }>{                   //ex: 1904112000000 (msec)
-         date:        (msec: DnaMSec) => new Date(msec).toDateString(),              //ex: 'Sat May 04 2030'
-         general:     (msec: DnaMSec) => generalTimestamp(new Date(msec)),           //ex: '2030-05-04 1:00am Sat'
-         generalDate: (msec: DnaMSec) => generalDate(new Date(msec)),                //ex: '2030-05-04'
-         generalDay:  (msec: DnaMSec) => generalDay(new Date(msec)),                 //ex: 'Sat'
-         generalTime: (msec: DnaMSec) => generalTime(new Date(msec)),                //ex: '1:00am'
-         iso:         (msec: DnaMSec) => new Date(msec).toISOString(),               //ex: '2030-05-04T08:00:00.000Z'
-         locale:      (msec: DnaMSec) => norm(new Date(msec).toLocaleString()),      //ex: '5/4/2030, 1:00:00 AM'
-         localeDate:  (msec: DnaMSec) => new Date(msec).toLocaleDateString(),        //ex: '5/4/2030'
-         localeTime:  (msec: DnaMSec) => norm(new Date(msec).toLocaleTimeString()),  //ex: '1:00:00 AM'
-         string:      (msec: DnaMSec) => new Date(msec).toString(),                  //ex: 'Sat May 04 2030 01:00:00 GMT-0700 (PDT)'
-         time:        (msec: DnaMSec) => new Date(msec).toTimeString(),              //ex: '01:00:00 GMT-0700 (PDT)'
-         timestamp:   (msec: DnaMSec) => timestamp(new Date(msec)),                  //ex: '2030-05-04@08:00:00'
-         timestampMs: (msec: DnaMSec) => timestampMs(new Date(msec)),                //ex: '2030-05-04@08:00:00.000'
-         utc:         (msec: DnaMSec) => new Date(msec).toUTCString(),               //ex: 'Sat, 04 May 2030 08:00:00 GMT'
+      const space =       (date: string) => date.replace(/\s/g, ' ');
+      const general = {  //format parts of the general timestamp, ex: "2030-05-04 1:00am Sat"
+         date:  (d: Date) => `${d.getFullYear()}-${twoDigit(d.getMonth() + 1)}-${twoDigit(d.getDate())}`,
+         time:  (d: Date) => d.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(/\s/, '').toLowerCase(),
+         day:   (d: Date) => d.toLocaleString([], { weekday: 'short' }),
+         stamp: (d: Date) => general.date(d) + ' ' + general.time(d) + ' ' + general.day(d),
+         };
+      const dateFormatters = <{ [format: string]: DnaFormatter }>{                    //ex: 1904112000000 (msec)
+         date:        (msec: DnaMSec) => new Date(msec).toDateString(),               //ex: "Sat May 04 2030"
+         general:     (msec: DnaMSec) => general.stamp(new Date(msec)),               //ex: "2030-05-04 1:00am Sat"
+         generalDate: (msec: DnaMSec) => general.date(new Date(msec)),                //ex: "2030-05-04"
+         generalDay:  (msec: DnaMSec) => general.day(new Date(msec)),                 //ex: "Sat"
+         generalTime: (msec: DnaMSec) => general.time(new Date(msec)),                //ex: "1:00am"
+         iso:         (msec: DnaMSec) => new Date(msec).toISOString(),                //ex: "2030-05-04T08:00:00.000Z"
+         locale:      (msec: DnaMSec) => space(new Date(msec).toLocaleString()),      //ex: "5/4/2030, 1:00:00 AM"
+         localeDate:  (msec: DnaMSec) => new Date(msec).toLocaleDateString(),         //ex: "5/4/2030"
+         localeTime:  (msec: DnaMSec) => space(new Date(msec).toLocaleTimeString()),  //ex: "1:00:00 AM"
+         string:      (msec: DnaMSec) => new Date(msec).toString(),                   //ex: "Sat May 04 2030 01:00:00 GMT-0700 (PDT)"
+         time:        (msec: DnaMSec) => new Date(msec).toTimeString(),               //ex: "01:00:00 GMT-0700 (PDT)"
+         timestamp:   (msec: DnaMSec) => timestamp(new Date(msec)),                   //ex: "2030-05-04@08:00:00"
+         timestampMs: (msec: DnaMSec) => timestampMs(new Date(msec)),                 //ex: "2030-05-04@08:00:00.000"
+         utc:         (msec: DnaMSec) => new Date(msec).toUTCString(),                //ex: "Sat, 04 May 2030 08:00:00 GMT"
          };
       const formatter = dateFormatters[dna.util.toCamel(format)];
       dna.core.assert(formatter, 'Unknown date format code', format);
@@ -555,8 +553,8 @@ const dnaPlaceholder = {  //TODO: optimize
    // clones).  The "data-placeholder" attribute specifies the name of the template.
    setup: (): JQuery => {
       $('option.dna-template').closest('select').addClass('dna-hide');
-      const fade = (elem: JQuery) =>
-         dna.getClones(elem.stop(true).data().placeholder).length ? elem.fadeOut() : elem.fadeIn();
+      const isEmpty = (elem: JQuery) => !!dna.getClones(elem.stop(true).data().placeholder).length;
+      const fade =    (elem: JQuery) => isEmpty(elem) ? elem.fadeOut() : elem.fadeIn();
       return $('[data-placeholder]').forEach(fade);
       },
    };
@@ -578,14 +576,13 @@ const dnaPanels = {
    // immediately follows the ".dna-menu" element.
    display: (menu: JQuery, location?: number, updateUrl?: boolean): JQuery => {
       // Shows the panel at the given location (index).
-      const panels =    menu.data().dnaPanels;
-      const navName =   menu.data().nav;
-      const menuItems = menu.find('.menu-item');
-      const bound = (loc: number) => Math.max(0, Math.min(loc, menuItems.length - 1));
-      const index = bound(
-         location === undefined ? <number>dna.pageToken.get(navName, 0) : <number>location);
-      const dropDownElemType = 'SELECT';
-      if ((<HTMLElement>menu[0]).nodeName === dropDownElemType)
+      const panels =     menu.data().dnaPanels;
+      const navName =    menu.data().nav;
+      const menuItems =  menu.find('.menu-item');
+      const savedIndex = Number(dna.pageToken.get(navName, 0));
+      const bound =      (loc: number) => Math.max(0, Math.min(loc, menuItems.length - 1));
+      const index =      bound(location === undefined ? savedIndex : location);
+      if ((<HTMLElement>menu[0]).nodeName === 'SELECT')  //check if elem is a drop-down control
          (<HTMLSelectElement>menu[0]).selectedIndex = index;
       menuItems.removeClass('selected').addClass('unselected');
       menuItems.eq(index).addClass('selected').removeClass('unselected');
