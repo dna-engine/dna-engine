@@ -161,17 +161,25 @@ const dnaName = {  //class name lookup table
    array:             'dna-array',
    clone:             'dna-clone',
    container:         'dna-container',
+   displayed:         'dna-displayed',
    field:             'dna-field',
+   hidden:            'dna-hidden',
    hide:              'dna-hide',
    initialized:       'dna-initialized',
    lastSeparator:     'dna-last-separator',
    loaded:            'dna-loaded',
+   menu:              'dna-menu',
+   menuItem:          'dna-menu-item',
    nucleotide:        'dna-nucleotide',
+   panel:             'dna-panel',
+   panels:            'dna-panels',
    panelsInitialized: 'dna-panels-initialized',
+   selected:          'dna-selected',
    separator:         'dna-separator',
    subClone:          'dna-sub-clone',
    template:          'dna-template',
    unhide:            'dna-unhide',
+   unselected:        'dna-unselected',
    updateModel:       'dna-update-model',
    };
 
@@ -596,16 +604,16 @@ const dnaPanels = {
       // Shows the panel at the given location (index).
       const panels =     menu.data().dnaPanels;
       const navName =    menu.data().nav;
-      const menuItems =  menu.find('.menu-item');
+      const menuItems =  menu.find('.dna-menu-item');
       const savedIndex = Number(dna.pageToken.get(navName, 0));
       const bound =      (loc: number) => Math.max(0, Math.min(loc, menuItems.length - 1));
       const index =      bound(location === undefined ? savedIndex : location);
       if ((<HTMLElement>menu[0]).nodeName === 'SELECT')  //check if elem is a drop-down control
          (<HTMLSelectElement>menu[0]).selectedIndex = index;
-      menuItems.removeClass('selected').addClass('unselected');
-      menuItems.eq(index).addClass('selected').removeClass('unselected');
-      panels.hide().removeClass('displayed').addClass('hidden');
-      const panel = panels.eq(index).fadeIn().addClass('displayed').removeClass('hidden');
+      menuItems.removeClass(dna.name.selected).addClass(dna.name.unselected);
+      menuItems.eq(index).addClass(dna.name.selected).removeClass(dna.name.unselected);
+      panels.hide().removeClass(dna.name.displayed).addClass(dna.name.hidden);
+      const panel = panels.eq(index).fadeIn().addClass(dna.name.displayed).removeClass(dna.name.hidden);
       const hash =  panel.data().hash;
       dna.pageToken.put(navName, index);
       if (updateUrl && hash)
@@ -615,9 +623,9 @@ const dnaPanels = {
       },
    clickRotate: (event: JQuery.EventBase): JQuery => {
       // Moves to the selected panel.
-      const item = $(event.target).closest('.menu-item');
+      const item = $(event.target).closest('.dna-menu-item');
       const menu = item.closest('.dna-menu');
-      return dna.panels.display(menu, menu.find('.menu-item').index(item), true);
+      return dna.panels.display(menu, menu.find('.dna-menu-item').index(item), true);
       },
    selectRotate: (event: JQuery.EventBase): JQuery => {
       // Moves to the selected panel.
@@ -633,15 +641,15 @@ const dnaPanels = {
       const init = () => {
          const navName =    panelHolder.data().nav || generateNavName();
          const menu =       $('.dna-menu[data-nav=' + navName + ']').addClass(dna.name.panelsInitialized);
-         const panels =     panelHolder.addClass(dna.name.panelsInitialized).children().addClass('panel');
+         const panels =     panelHolder.addClass(dna.name.panelsInitialized).children().addClass(dna.name.panel);
          const hash =       globalThis.location.hash.replace(/[^\w-]/g, '');  //remove leading "#"
          const hashIndex =  (): number => panels.filter('[data-hash=' + hash + ']').index();
          const savedIndex = (): number => <number>dna.pageToken.get(navName, 0);
          const loc =        hash && panels.first().data().hash ? hashIndex() : savedIndex();
          dna.core.assert(menu.length, 'Menu not found for panels', navName);
          menu.data().dnaPanels = panels;
-         if (!menu.find('.menu-item').length)  //set .menu-item elems if not set in the html
-            menu.children().addClass('menu-item');
+         if (!menu.find('.dna-menu-item').length)  //set .dna-menu-item elems if not set in the html
+            menu.children().addClass(dna.name.menuItem);
          dna.panels.display(menu, loc);
          };
       const isInitialized = !panelHolder.length || panelHolder.hasClass(dna.name.panelsInitialized);
@@ -652,7 +660,7 @@ const dnaPanels = {
    setup: (): JQuery => {
       $('body').data().dnaPanelNextNav = 1;
       const panels = $('.dna-panels').forEach(dna.panels.initialize);
-      $(globalThis.document).on({ click:  dna.panels.clickRotate },  '.dna-menu .menu-item');
+      $(globalThis.document).on({ click:  dna.panels.clickRotate },  '.dna-menu .dna-menu-item');
       $(globalThis.document).on({ change: dna.panels.selectRotate }, '.dna-menu');
       return panels;
       },
