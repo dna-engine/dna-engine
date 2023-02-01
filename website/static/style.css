@@ -384,7 +384,7 @@ figure.hljs-enhance .dna-menu button {
    transition: all 400ms;
    }
 figure.hljs-enhance .dna-menu button:hover,
-figure.hljs-enhance .dna-menu button.selected {
+figure.hljs-enhance .dna-menu button.dna-selected {
    box-shadow: 0px 0px 0.6em deepskyblue;
    }
 figure.hljs-enhance .dna-menu,
@@ -413,7 +413,7 @@ figure.hljs-enhance .dna-panels {
    padding: 0px;
    margin-top: 10px;
    }
-[data-component=author] .menu-item {
+[data-component=author] .dna-menu-item {
    display: inline;
    background-color: lightskyblue;
    border: 2px solid silver;
@@ -421,8 +421,8 @@ figure.hljs-enhance .dna-panels {
    padding: 5px 10px;
    transition: all 400ms;
    }
-[data-component=author] .menu-item.selected,
-[data-component=author] .menu-item:hover {
+[data-component=author] .dna-menu-item.dna-selected,
+[data-component=author] .dna-menu-item:hover {
    border-color: dimgray;
    }
 

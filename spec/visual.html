@@ -1504,7 +1504,7 @@
       run() {
          dna.clone('s19-book-title', specRunner.catalog);
          dna.clone('s19-book',       specRunner.catalog);
-         $('#spec19 .dna-menu .menu-item:contains(Styling CSS3)').trigger('click');
+         $('#spec19 .dna-menu .dna-menu-item:contains(Styling CSS3)').trigger('click');
          },
       };
 </script>
@@ -1579,7 +1579,7 @@
 <script>
    spec.spec20 = {
       run() {
-         const postRenderClick = () => $('#spec20 .dna-menu .menu-item:contains(W3C)').trigger('click');
+         const postRenderClick = () => $('#spec20 .dna-menu .dna-menu-item:contains(W3C)').trigger('click');
          globalThis.setTimeout(postRenderClick, 1000);
          },
       };
