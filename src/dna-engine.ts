@@ -827,7 +827,7 @@ const dnaCompile = {
    separators: (elem: JQuery): JQuery => {
       // Convert: data-separator=", "  ==>  <span class=dna-separator>, </span>
       const isWhitespaceNode = (index: number, node: Node): boolean =>
-         node.nodeType === 3 && !/\S/.test(<string>node.nodeValue);
+         node.nodeType === Node.TEXT_NODE && !/\S/.test(node.nodeValue!);
       const append = (templateElem: JQuery, text: string, className: string) => {
          const doAppend = () => {
             templateElem.contents().last().filter(isWhitespaceNode).remove();
