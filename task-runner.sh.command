@@ -88,7 +88,7 @@ visulatize() {
    echo "Visualize:"
    url=http://localhost:3000/spec/visual.html
    echo $url
-   sleep 3 && open $url &
+   sleep 5 && open $url &
    npx serve
    }
 

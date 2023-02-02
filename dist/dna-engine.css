@@ -1,5 +1,5 @@
-/*! dna-engine v2.2.3 ~~ https://dna-engine.org ~~ MIT License */
+/*! dna-engine v2.3.0 ~~ https://dna-engine.org ~~ MIT License */
 
 .dna-template, .dna-panels >*:not(.displayed), [data-placeholder], .dna-hide { display: none; }
-.dna-menu .menu-item, [data-click], [data-href] { cursor: pointer; }
+.dna-menu .dna-menu-item, [data-click], [data-href] { cursor: pointer; }
 [data-format-currency], [data-format-currency100], [data-format-percent], [data-format-number] { text-align: right; }

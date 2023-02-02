@@ -1,4 +1,4 @@
-/*! dna-engine v2.2.3 ~~ https://dna-engine.org ~~ MIT License */
+/*! dna-engine v2.3.0 ~~ https://dna-engine.org ~~ MIT License */
 
 /*****************************************/
 /* Panel navigation styles:              */
@@ -32,11 +32,11 @@ nav.dna-menu[data-style=flat-tabs] span {
    padding: 10px 35px;
    transition: all 400ms;
    }
-nav.dna-menu[data-style=flat-tabs] span.selected,
+nav.dna-menu[data-style=flat-tabs] span.dna-selected,
 nav.dna-menu[data-style=flat-tabs] span:hover {
    color: white;
    }
-nav.dna-menu[data-style=flat-tabs] span.selected {
+nav.dna-menu[data-style=flat-tabs] span.dna-selected {
    cursor: default;
    }
 nav.dna-menu[data-style=flat-tabs]+.dna-panels {
@@ -51,10 +51,10 @@ nav.dna-menu[data-style=flat-tabs]+.dna-panels {
    nav.dna-menu[data-style=flat-tabs] span { padding: 8px 20px; }
    }
 /* dna-engine panel navigation -- customize colors */
-nav.dna-menu[data-style=flat-tabs]               { background-color: indianred; }
-nav.dna-menu[data-style=flat-tabs] span.selected { background-color: brown; }
-nav.dna-menu[data-style=flat-tabs] span:hover    { background-color: brown; }
-nav.dna-menu[data-style=flat-tabs]+.dna-panels   { border-color:     brown; }
+nav.dna-menu[data-style=flat-tabs]                   { background-color: indianred; }
+nav.dna-menu[data-style=flat-tabs] span.dna-selected { background-color: brown; }
+nav.dna-menu[data-style=flat-tabs] span:hover        { background-color: brown; }
+nav.dna-menu[data-style=flat-tabs]+.dna-panels       { border-color:     brown; }
 
 /************************************************/
 /* Pillbox tabs                                 */
@@ -79,11 +79,11 @@ nav.dna-menu[data-style=pillbox-tabs] span:first-child {
 nav.dna-menu[data-style=pillbox-tabs] span:last-child {
    border-radius: 0px 20px 20px 0px;
    }
-nav.dna-menu[data-style=pillbox-tabs] span.selected,
+nav.dna-menu[data-style=pillbox-tabs] span.dna-selected,
 nav.dna-menu[data-style=pillbox-tabs] span:hover {
    color: darkslategray;
    }
-nav.dna-menu[data-style=pillbox-tabs] span.selected {
+nav.dna-menu[data-style=pillbox-tabs] span.dna-selected {
    cursor: default;
    }
 nav.dna-menu[data-style=pillbox-tabs]+.dna-panels {
@@ -95,5 +95,5 @@ nav.dna-menu[data-style=pillbox-tabs]+.dna-panels {
    nav.dna-menu[data-style=pillbox-tabs] span { padding: 7px 25px; }
    }
 /* dna-engine panel navigation -- customize colors */
-nav.dna-menu[data-style=pillbox-tabs] span.selected { background-color: lightsteelblue; }
-nav.dna-menu[data-style=pillbox-tabs] span:hover    { background-color: lightsteelblue; }
+nav.dna-menu[data-style=pillbox-tabs] span.dna-selected { background-color: lightsteelblue; }
+nav.dna-menu[data-style=pillbox-tabs] span:hover        { background-color: lightsteelblue; }

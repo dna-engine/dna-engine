@@ -1,5 +1,30 @@
-//! dna-engine v2.2.3 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.3.0 ~~ https://dna-engine.org ~~ MIT License
 
+const dnaName = {
+    array: 'dna-array',
+    clone: 'dna-clone',
+    container: 'dna-container',
+    displayed: 'dna-displayed',
+    field: 'dna-field',
+    hidden: 'dna-hidden',
+    hide: 'dna-hide',
+    initialized: 'dna-initialized',
+    lastSeparator: 'dna-last-separator',
+    loaded: 'dna-loaded',
+    menu: 'dna-menu',
+    menuItem: 'dna-menu-item',
+    nucleotide: 'dna-nucleotide',
+    panel: 'dna-panel',
+    panels: 'dna-panels',
+    panelsInitialized: 'dna-panels-initialized',
+    selected: 'dna-selected',
+    separator: 'dna-separator',
+    subClone: 'dna-sub-clone',
+    template: 'dna-template',
+    unhide: 'dna-unhide',
+    unselected: 'dna-unselected',
+    updateModel: 'dna-update-model',
+};
 const dnaArray = {
     find: (array, value, key = 'code') => {
         const index = Array.isArray(array) ? array.findIndex(object => object[key] === value) : -1;
@@ -249,22 +274,25 @@ const dnaFormat = {
     },
     getDateFormatter(format) {
         const twoDigit = (value) => String(value).padStart(2, '0');
-        const generalDate = (date) => `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())}`;
-        const generalTime = (date) => date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(' ', '').toLowerCase();
-        const generalDay = (date) => date.toLocaleString([], { weekday: 'short' });
-        const generalTimestamp = (date) => generalDate(date) + ' ' + generalTime(date) + ' ' + generalDay(date);
         const timestamp = (date) => date.toISOString().replace('T', '@').slice(0, -5);
         const timestampMs = (date) => date.toISOString().replace('T', '@').slice(0, -1);
+        const space = (date) => date.replace(/\s/g, ' ');
+        const general = {
+            date: (d) => `${d.getFullYear()}-${twoDigit(d.getMonth() + 1)}-${twoDigit(d.getDate())}`,
+            time: (d) => d.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(/\s/, '').toLowerCase(),
+            day: (d) => d.toLocaleString([], { weekday: 'short' }),
+            stamp: (d) => general.date(d) + ' ' + general.time(d) + ' ' + general.day(d),
+        };
         const dateFormatters = {
             date: (msec) => new Date(msec).toDateString(),
-            general: (msec) => generalTimestamp(new Date(msec)),
-            generalDate: (msec) => generalDate(new Date(msec)),
-            generalDay: (msec) => generalDay(new Date(msec)),
-            generalTime: (msec) => generalTime(new Date(msec)),
+            general: (msec) => general.stamp(new Date(msec)),
+            generalDate: (msec) => general.date(new Date(msec)),
+            generalDay: (msec) => general.day(new Date(msec)),
+            generalTime: (msec) => general.time(new Date(msec)),
             iso: (msec) => new Date(msec).toISOString(),
-            locale: (msec) => new Date(msec).toLocaleString(),
+            locale: (msec) => space(new Date(msec).toLocaleString()),
             localeDate: (msec) => new Date(msec).toLocaleDateString(),
-            localeTime: (msec) => new Date(msec).toLocaleTimeString(),
+            localeTime: (msec) => space(new Date(msec).toLocaleTimeString()),
             string: (msec) => new Date(msec).toString(),
             time: (msec) => new Date(msec).toTimeString(),
             timestamp: (msec) => timestamp(new Date(msec)),
@@ -297,8 +325,9 @@ const dnaFormat = {
 };
 const dnaPlaceholder = {
     setup: () => {
-        $('option.dna-template').closest('select').addClass('dna-hide');
-        const fade = (elem) => dna.getClones(elem.stop(true).data().placeholder).length ? elem.fadeOut() : elem.fadeIn();
+        $('option.dna-template').closest('select').addClass(dna.name.hide);
+        const isEmpty = (elem) => !!dna.getClones(elem.stop(true).data().placeholder).length;
+        const fade = (elem) => isEmpty(elem) ? elem.fadeOut() : elem.fadeIn();
         return $('[data-placeholder]').forEach(fade);
     },
 };
@@ -306,16 +335,16 @@ const dnaPanels = {
     display: (menu, location, updateUrl) => {
         const panels = menu.data().dnaPanels;
         const navName = menu.data().nav;
-        const menuItems = menu.find('.menu-item');
+        const menuItems = menu.find(dna.selector.menuItem);
+        const savedIndex = Number(dna.pageToken.get(navName, 0));
         const bound = (loc) => Math.max(0, Math.min(loc, menuItems.length - 1));
-        const index = bound(location === undefined ? dna.pageToken.get(navName, 0) : location);
-        const dropDownElemType = 'SELECT';
-        if (menu[0].nodeName === dropDownElemType)
+        const index = bound(location === undefined ? savedIndex : location);
+        if (menu[0].nodeName === 'SELECT')
             menu[0].selectedIndex = index;
-        menuItems.removeClass('selected').addClass('unselected');
-        menuItems.eq(index).addClass('selected').removeClass('unselected');
-        panels.hide().removeClass('displayed').addClass('hidden');
-        const panel = panels.eq(index).fadeIn().addClass('displayed').removeClass('hidden');
+        menuItems.removeClass(dna.name.selected).addClass(dna.name.unselected);
+        menuItems.eq(index).addClass(dna.name.selected).removeClass(dna.name.unselected);
+        panels.hide().removeClass(dna.name.displayed).addClass(dna.name.hidden);
+        const panel = panels.eq(index).fadeIn().addClass(dna.name.displayed).removeClass(dna.name.hidden);
         const hash = panel.data().hash;
         dna.pageToken.put(navName, index);
         if (updateUrl && hash)
@@ -324,45 +353,44 @@ const dnaPanels = {
         return panel;
     },
     clickRotate: (event) => {
-        const item = $(event.target).closest('.menu-item');
-        const menu = item.closest('.dna-menu');
-        return dna.panels.display(menu, menu.find('.menu-item').index(item), true);
+        const item = $(event.target).closest(dna.selector.menuItem);
+        const menu = item.closest(dna.selector.menu);
+        return dna.panels.display(menu, menu.find(dna.selector.menuItem).index(item), true);
     },
     selectRotate: (event) => {
         const menu = $(event.target);
         return dna.panels.display(menu, menu.find('option:selected').index(), true);
     },
     initialize: (panelHolder) => {
-        const initialized = 'dna-panels-initialized';
         const generateNavName = () => {
             const navName = 'dna-panels-' + $('body').data().dnaPanelNextNav++;
-            panelHolder.attr('data-nav', navName).prev('.dna-menu').attr('data-nav', navName);
+            panelHolder.attr('data-nav', navName).prev(dna.selector.menu).attr('data-nav', navName);
             return navName;
         };
         const init = () => {
             const navName = panelHolder.data().nav || generateNavName();
-            const menu = $('.dna-menu[data-nav=' + navName + ']').addClass(initialized);
-            const panels = panelHolder.addClass(initialized).children().addClass('panel');
+            const menu = $('.dna-menu[data-nav=' + navName + ']').addClass(dna.name.panelsInitialized);
+            const panels = panelHolder.addClass(dna.name.panelsInitialized).children().addClass(dna.name.panel);
             const hash = globalThis.location.hash.replace(/[^\w-]/g, '');
             const hashIndex = () => panels.filter('[data-hash=' + hash + ']').index();
             const savedIndex = () => dna.pageToken.get(navName, 0);
             const loc = hash && panels.first().data().hash ? hashIndex() : savedIndex();
             dna.core.assert(menu.length, 'Menu not found for panels', navName);
             menu.data().dnaPanels = panels;
-            if (!menu.find('.menu-item').length)
-                menu.children().addClass('menu-item');
+            if (!menu.find(dna.selector.menuItem).length)
+                menu.children().addClass(dna.name.menuItem);
             dna.panels.display(menu, loc);
         };
-        const isInitialized = !panelHolder.length || panelHolder.hasClass(initialized);
-        if (!isInitialized && !panelHolder.children().hasClass('dna-template'))
+        const isInitialized = !panelHolder.length || panelHolder.hasClass(dna.name.panelsInitialized);
+        if (!isInitialized && !panelHolder.children().hasClass(dna.name.template))
             init();
         return panelHolder;
     },
     setup: () => {
         $('body').data().dnaPanelNextNav = 1;
-        const panels = $('.dna-panels').forEach(dna.panels.initialize);
-        $(globalThis.document).on({ click: dna.panels.clickRotate }, '.dna-menu .menu-item');
-        $(globalThis.document).on({ change: dna.panels.selectRotate }, '.dna-menu');
+        const panels = $(dna.selector.panels).forEach(dna.panels.initialize);
+        $(globalThis.document).on({ click: dna.panels.clickRotate }, '.dna-menu .dna-menu-item');
+        $(globalThis.document).on({ change: dna.panels.selectRotate }, dna.selector.menu);
         return panels;
     },
 };
@@ -375,7 +403,7 @@ const dnaCompile = {
     setupNucleotide: (elem) => {
         if (!elem.data().dnaRules)
             elem.data().dnaRules = {};
-        return elem.addClass('dna-nucleotide');
+        return elem.addClass(dna.name.nucleotide);
     },
     isDnaField: (index, node) => {
         const firstNode = node.childNodes[0];
@@ -392,7 +420,7 @@ const dnaCompile = {
         elem.data().dnaField = elem.text().replace(dna.compile.regex.dnaBasePairs, '').trim();
         dna.compile.addFieldClass(elem);
         if (elem.is('textarea'))
-            elem.addClass('dna-update-model').data().dnaRules.val = true;
+            elem.addClass(dna.name.updateModel).data().dnaRules.val = true;
         else
             elem.data().dnaRules.text = true;
         elem.empty();
@@ -407,7 +435,7 @@ const dnaCompile = {
             value = value.replace(dna.compile.regex.dnaBasePairs, '');
             props.push(key, value);
             if (key === 'checked' && elem.is('input'))
-                elem.addClass('dna-update-model').data().dnaField = value;
+                elem.addClass(dna.name.updateModel).data().dnaField = value;
         };
         const compileAttr = (key, value) => {
             const parts = value.split(dna.compile.regex.dnaBasePair);
@@ -418,7 +446,7 @@ const dnaCompile = {
             attrs.push(key.replace(/^data-attr-/, ''), parts);
             names.push(key);
             const makeUpdatable = () => {
-                dna.compile.setupNucleotide(elem).addClass('dna-update-model');
+                dna.compile.setupNucleotide(elem).addClass(dna.name.updateModel);
                 elem.data().dnaField = parts[1];
                 elem.data().dnaRules.val = true;
             };
@@ -478,7 +506,7 @@ const dnaCompile = {
         return elems.filter('[data-' + type + ']').forEach(addRule).removeAttr('data-' + type);
     },
     separators: (elem) => {
-        const isWhitespaceNode = (index, node) => node.nodeType === 3 && !/\S/.test(node.nodeValue);
+        const isWhitespaceNode = (index, node) => node.nodeType === Node.TEXT_NODE && !/\S/.test(node.nodeValue);
         const append = (templateElem, text, className) => {
             const doAppend = () => {
                 templateElem.contents().last().filter(isWhitespaceNode).remove();
@@ -487,8 +515,8 @@ const dnaCompile = {
             return text && doAppend();
         };
         const processTemplate = (elem) => {
-            append(elem, elem.data().separator, 'dna-separator');
-            append(elem, elem.data().lastSeparator, 'dna-last-separator');
+            append(elem, elem.data().separator, dna.name.separator);
+            append(elem, elem.data().lastSeparator, dna.name.lastSeparator);
         };
         const clones = elem.find('.dna-template, .dna-sub-clone').addBack();
         clones.forEach(processTemplate);
@@ -499,10 +527,10 @@ const dnaCompile = {
         dna.core.assert(elem.length, 'Template not found', name);
         const saveName = (elem) => elem.data().dnaRules = { template: elem.attr('id'), subs: [] };
         const initSubs = (elem) => elem.data().dnaRules.subs = [];
-        elem.find('.dna-template').addBack().forEach(saveName).removeAttr('id').forEach(initSubs);
+        elem.find(dna.selector.template).addBack().forEach(saveName).removeAttr('id').forEach(initSubs);
         const elems = elem.find('*').addBack();
-        elems.filter(dna.compile.isDnaField).forEach(dna.compile.field).addClass('dna-field');
-        dna.compile.rules(elems, 'array').addClass('dna-sub-clone').forEach(initSubs);
+        elems.filter(dna.compile.isDnaField).forEach(dna.compile.field).addClass(dna.name.field);
+        dna.compile.rules(elems, 'array').addClass(dna.name.subClone).forEach(initSubs);
         dna.compile.rules(elems, 'class', true);
         dna.compile.rules(elems, 'require');
         dna.compile.rules(elems, 'missing');
@@ -526,14 +554,14 @@ const dnaStore = {
         const move = (elem) => {
             const name = elem.data().dnaRules.template;
             const container = elem.parent();
-            const wrapped = container.children().length === 1 && !container.hasClass('dna-container');
+            const wrapped = container.children().length === 1 && !container.hasClass(dna.name.container);
             const compileSiblings = () => {
                 container.data().dnaContents = true;
                 const templateName = (node) => {
                     const elem = $(node);
                     const compileToName = (id) => id ? dna.compile.template(id).name : name;
-                    return elem.hasClass('dna-template') ? compileToName(elem.attr('id')) :
-                        elem.hasClass('dna-sub-clone') ? elem.data().dnaRules.template : false;
+                    return elem.hasClass(dna.name.template) ? compileToName(elem.attr('id')) :
+                        elem.hasClass(dna.name.subClone) ? elem.data().dnaRules.template : false;
                 };
                 container.data().dnaContents = container.children().toArray().map(templateName);
             };
@@ -542,25 +570,25 @@ const dnaStore = {
             const template = {
                 name: name,
                 elem: elem,
-                container: container.addClass('dna-container').addClass('dna-contains-' + name),
-                nested: container.closest('.dna-clone').length !== 0,
+                container: container.addClass(dna.name.container).addClass('dna-contains-' + name),
+                nested: container.closest(dna.selector.clone).length !== 0,
                 separators: elem.find('.dna-separator, .dna-last-separator').length,
                 wrapped: wrapped,
             };
             dna.store.getTemplateDb()[name] = template;
-            elem.removeClass('dna-template').addClass('dna-clone').addClass(name).detach();
+            elem.removeClass(dna.name.template).addClass(dna.name.clone).addClass(name).detach();
         };
         const prepLoop = (elem) => {
             const rules = elem.data().dnaRules;
-            const parent = dna.compile.setupNucleotide(elem.parent()).addClass('dna-array');
+            const parent = dna.compile.setupNucleotide(elem.parent()).addClass(dna.name.array);
             const containerRules = parent.closest('.dna-clone, .dna-sub-clone').data().dnaRules;
             const index = containerRules.subs.length;
             rules.template = dna.compile.subTemplateName(name, rules.array, index);
             parent.data().dnaRules.loop = { name: rules.template, field: rules.array };
             containerRules.subs.push(rules.array);
         };
-        elem.find('.dna-template').addBack().forEach(move);
-        elem.find('.dna-sub-clone').forEach(prepLoop).forEach(move);
+        elem.find(dna.selector.template).addBack().forEach(move);
+        elem.find(dna.selector.subClone).forEach(prepLoop).forEach(move);
         return dna.store.getTemplateDb()[name];
     },
     getTemplate: (name) => {
@@ -582,10 +610,10 @@ const dnaEvents = {
         const defaults = { pollInterval: 200, maxWait: 5000 };
         const settings = Object.assign(Object.assign({}, defaults), options);
         const abortTime = Date.now() + settings.maxWait;
-        const elems = $('[data-on-load]').not('.dna-loaded');
+        const elems = $('[data-on-load]').not(dna.selector.loaded);
         const fns = elems.toArray().map(node => $(node).data().onLoad);
         const run = (elem) => dna.util.apply(elem.data().onLoad, elem);
-        const runAll = () => elems.forEach(run).addClass('dna-loaded');
+        const runAll = () => elems.forEach(run).addClass(dna.name.loaded);
         return new Promise((resolve) => {
             const waitForScripts = () => {
                 while (fns.length && dna.util.getFn(fns[0]))
@@ -601,7 +629,7 @@ const dnaEvents = {
         const init = (initializer) => {
             const find = (selector) => root.find(selector).addBack(selector);
             const elems = initializer.selector ? find(initializer.selector) : root;
-            const params = [elems.addClass('dna-initialized'), ...dna.array.wrap(initializer.params)];
+            const params = [elems.addClass(dna.name.initialized), ...dna.array.wrap(initializer.params)];
             dna.util.apply(initializer.fn, params);
         };
         dna.events.getInitializers().forEach(init);
@@ -638,7 +666,7 @@ const dnaEvents = {
                     updateField(target, getValue);
                 dna.refresh(mainClone);
             };
-            if (target.hasClass('dna-update-model'))
+            if (target.hasClass(dna.name.updateModel))
                 updateModel();
             return runner(target, event.type.replace('key', 'key-'), event);
         };
@@ -812,9 +840,9 @@ const dnaCore = {
                 dna.util.apply(dnaRules.callback, elem);
         };
         const dig = (elems) => {
-            elems.filter('.dna-nucleotide').forEach(process);
+            elems.filter(dna.selector.nucleotide).forEach(process);
             if (elems.length)
-                dig(elems.children().not('.dna-sub-clone'));
+                dig(elems.children().not(dna.selector.subClone));
         };
         if (settings.transform)
             settings.transform(data);
@@ -826,9 +854,9 @@ const dnaCore = {
     replicate: (template, data, settings) => {
         const displaySeparators = () => {
             const clones = container.children('.' + template.name);
-            clones.find('.dna-separator').show().end().last().find('.dna-separator').hide();
-            clones.find('.dna-last-separator').hide().end().eq(-2).find('.dna-last-separator').show()
-                .closest('.dna-clone').find('.dna-separator').hide();
+            clones.find(dna.selector.separator).show().end().last().find(dna.selector.separator).hide();
+            clones.find(dna.selector.lastSeparator).hide().end().eq(-2).find(dna.selector.lastSeparator).show()
+                .closest(dna.selector.clone).find(dna.selector.separator).hide();
         };
         const selector = '.dna-contains-' + template.name.replace(/[.]/g, '\\.');
         const container = settings.container ?
@@ -849,7 +877,7 @@ const dnaCore = {
                 const target = container.children().eq(index + contents.reduce(adjustment, 0));
                 return target.length ? target.before(clone) : container.append(clone);
             };
-            const allClones = container.children('.dna-clone');
+            const allClones = container.children(dna.selector.clone);
             const sameClones = allClones.filter('.' + template.name);
             if (!sameClones.length)
                 firstClone();
@@ -874,10 +902,10 @@ const dnaCore = {
         return clone;
     },
     getArrayName: (subClone) => {
-        return subClone.hasClass('dna-sub-clone') ? subClone.data().dnaRules.array : null;
+        return subClone.hasClass(dna.name.subClone) ? subClone.data().dnaRules.array : null;
     },
     updateModelArray: (container) => {
-        dna.core.assert(container.hasClass('dna-array'), 'Invalid array container', container.attr('class'));
+        dna.core.assert(container.hasClass(dna.name.array), 'Invalid array container', container.attr('class'));
         const array = container.data().dnaRules.loop;
         const subs = container.children('.' + array.name);
         const model = dna.getModel(container);
@@ -888,7 +916,7 @@ const dnaCore = {
     remove: (clone, callback) => {
         const container = clone.parent();
         clone.detach();
-        if (clone.hasClass('dna-sub-clone'))
+        if (clone.hasClass(dna.name.subClone))
             dna.core.updateModelArray(container);
         dna.placeholder.setup();
         clone.remove();
@@ -932,7 +960,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '2.2.3',
+    version: '2.3.0',
     clone(name, data, options) {
         const defaults = {
             fade: false,
@@ -955,8 +983,8 @@ const dna = {
         const addClone = (model) => clones = clones.add(dna.core.replicate(template, model, settings));
         list.forEach(addClone);
         dna.placeholder.setup();
-        dna.panels.initialize(clones.first().closest('.dna-panels'));
-        clones.first().parents('.dna-hide').removeClass('dna-hide').addClass('dna-unhide');
+        dna.panels.initialize(clones.first().closest(dna.selector.panels));
+        clones.first().parents(dna.selector.hide).removeClass(dna.name.hide).addClass(dna.name.unhide);
         return clones;
     },
     arrayPush(holderClone, arrayField, data, options) {
@@ -975,7 +1003,7 @@ const dna = {
         return holderClone;
     },
     createTemplate(name, html, holder) {
-        $(html).attr({ id: name }).addClass('dna-template').appendTo(holder);
+        $(html).attr({ id: name }).addClass(dna.name.template).appendTo(holder);
         return dna.store.getTemplate(name);
     },
     templateExists(name) {
@@ -990,7 +1018,7 @@ const dna = {
         const defaults = { fade: false, callback: null };
         const settings = Object.assign(Object.assign({}, defaults), options);
         const template = dna.store.getTemplate(name);
-        const clones = template.container.children('.dna-clone');
+        const clones = template.container.children(dna.selector.clone);
         if (template.container.data().dnaCountsMap)
             template.container.data().dnaCountsMap[name] = 0;
         const fadeDelete = () => dna.ui.slideFadeDelete(clones, settings.callback);
@@ -1060,7 +1088,7 @@ const dna = {
     getClone(elem, options) {
         const defaults = { main: false };
         const settings = Object.assign(Object.assign({}, defaults), options);
-        const selector = settings.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone';
+        const selector = settings.main ? '.dna-clone:not(.dna-sub-clone)' : dna.selector.clone;
         return elem instanceof $ ? elem.closest(selector) : $();
     },
     getClones(name) {
@@ -1088,7 +1116,7 @@ const dna = {
         const settings = Object.assign(Object.assign({}, defaults), options);
         const rootSelector = settings.selector;
         const onDocLoadElems = () => !rootSelector ? $(globalThis.document) :
-            $(rootSelector).not('.dna-template').not(rootSelector).addClass('dna-initialized');
+            $(rootSelector).not(dna.selector.template).not(rootSelector).addClass(dna.name.initialized);
         if (settings.onDocLoad)
             dna.util.apply(fn, [onDocLoadElems(), ...dna.array.wrap(settings.params)]);
         const initializer = { fn: fn, selector: rootSelector, params: settings.params };
@@ -1124,13 +1152,15 @@ const dna = {
             version: dna.version,
             templates: names.length,
             clones: $('.dna-clone:not(.dna-sub-clone)').length,
-            subs: $('.dna-sub-clone').length,
+            subs: $(dna.selector.subClone).length,
             names: names,
             store: dna.store.getTemplateDb(),
             initializers: dna.events.getInitializers(),
             panels: panels.toArray().map(elem => $(elem).attr('data-nav')),
         };
     },
+    name: dnaName,
+    selector: Object.fromEntries(Object.entries(dnaName).map(pair => [pair[0], '.' + pair[1]])),
     array: dnaArray,
     browser: dnaBrowser,
     pageToken: dnaPageToken,

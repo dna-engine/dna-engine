@@ -1,4 +1,4 @@
-//! dna-engine v2.2.3 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.3.0 ~~ https://dna-engine.org ~~ MIT License
 
 /// <reference types="jquery" />
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
@@ -198,6 +198,56 @@ declare const dna: {
     }): DnaContext;
     initGlobal(thisWindow: Window & typeof globalThis, thisJQuery: JQueryStatic): unknown;
     info(): DnaInfo;
+    name: {
+        array: string;
+        clone: string;
+        container: string;
+        displayed: string;
+        field: string;
+        hidden: string;
+        hide: string;
+        initialized: string;
+        lastSeparator: string;
+        loaded: string;
+        menu: string;
+        menuItem: string;
+        nucleotide: string;
+        panel: string;
+        panels: string;
+        panelsInitialized: string;
+        selected: string;
+        separator: string;
+        subClone: string;
+        template: string;
+        unhide: string;
+        unselected: string;
+        updateModel: string;
+    };
+    selector: {
+        array: string;
+        clone: string;
+        container: string;
+        displayed: string;
+        field: string;
+        hidden: string;
+        hide: string;
+        initialized: string;
+        lastSeparator: string;
+        loaded: string;
+        menu: string;
+        menuItem: string;
+        nucleotide: string;
+        panel: string;
+        panels: string;
+        panelsInitialized: string;
+        selected: string;
+        separator: string;
+        subClone: string;
+        template: string;
+        unhide: string;
+        unselected: string;
+        updateModel: string;
+    };
     array: {
         find: <T_8, V>(array: T_8[], value: V, key?: string) => {
             index: number;
