@@ -3308,6 +3308,7 @@
          <li><a href=#ui-to-elem><b>dna.ui.toElem</b>(elemOrEventOrIndex, that)</a></li>
          <li><a href=#util-apply><b>dna.util.apply</b>(func, params)</a></li>
          <li><a href=#util-assign><b>dna.util.assign</b>(data, field, value)</a></li>
+         <li><a href=#util-get-fn><b>dna.util.getFn</b>(funcName)</a></li>
          <li><a href=#util-is-obj><b>dna.util.isObj</b>(value)</a></li>
          <li><a href=#util-printf><b>dna.util.printf</b>(formatString, parameters...)</a></li>
          <li><a href=#util-real-truth><b>dna.util.realTruth</b>(value)</a></li>
@@ -3821,6 +3822,27 @@
          See <a href=#util-value>dna.util.value()</a> for the complementary action of reading a
          field value from an object.
       </p>
+   </section>
+
+   <!-- dna.util.getFn() -->
+   <section id=util-get-fn>
+      <h4>dna.util.getFn(funcName)</h4>
+      <p class=api-description>
+         Converts a dot notation name (string) to its callable function.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            {% render 'website/templates/params/func-name.html' %}
+         </ul>
+      </div>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            const buyFn = dna.util.getFn('app.cart.buy');
+            buyFn(7);  //equivalent to executing: app.cart.buy(7);
+         </code></pre>
+      </figure>
    </section>
 
    <!-- dna.util.isObj() -->

@@ -81,8 +81,7 @@ export type DnaSettingsRegisterInitializer = {
    };
 export type DnaOptionsRegisterInitializer = Partial<DnaSettingsRegisterInitializer>;
 export type DnaSettingsRunOnLoads = {
-   pollInterval: number,
-   maxWait:      number,
+   msecs:      number,
    };
 export type DnaOptionsRunOnLoads = Partial<DnaSettingsRunOnLoads>;
 
@@ -162,15 +161,16 @@ const dnaName = {  //class name lookup table
    clone:             'dna-clone',
    container:         'dna-container',
    displayed:         'dna-displayed',
+   executed:          'dna-executed',
    field:             'dna-field',
    hidden:            'dna-hidden',
    hide:              'dna-hide',
    initialized:       'dna-initialized',
    lastSeparator:     'dna-last-separator',
-   loaded:            'dna-loaded',
    menu:              'dna-menu',
    menuItem:          'dna-menu-item',
    nucleotide:        'dna-nucleotide',
+   onLoad:            'dna-on-load',
    panel:             'dna-panel',
    panels:            'dna-panels',
    panelsInitialized: 'dna-panels-initialized',
@@ -209,8 +209,8 @@ const dnaArray = {
       //    { a: { word: 'Ant' }, b: { word: 'Bat' } }
       // to:
       //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
-      const defaults = { key: 'code', kebabCodes: false };
-      const settings = { ...defaults, ...options };
+      const defaults =  { key: 'code', kebabCodes: false };
+      const settings =  { ...defaults, ...options };
       const codeValue = (key: string): string => settings.kebabCodes ? dna.util.toKebab(key) : key;
       const toObj =     (item: Json) => dna.util.isObj(item) ? <JsonObject>item : { value: item };
       return Object.keys(map).map(key => ({ ...{ [settings.key]: codeValue(key) }, ...toObj(map[key]!) }));
@@ -223,9 +223,9 @@ const dnaArray = {
       //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
       // to:
       //    { a: { code: 'a', word: 'Ant' }, b: { code: 'b', word: 'Bat' } }
-      const defaults = { key: 'code', camelKeys: false };
-      const settings = { ...defaults, ...options };
-      const map = <DnaDataObject>{};
+      const defaults =       { key: 'code', camelKeys: false };
+      const settings =       { ...defaults, ...options };
+      const map =            <DnaDataObject>{};
       const addObj =         (obj: DnaDataObject) => map[<string | number>obj[settings.key]] = obj;
       const addObjCamelKey = (obj: DnaDataObject) => map[dna.util.toCamel(<string>obj[settings.key])] = obj;
       array.forEach(settings.camelKeys ? addObjCamelKey : addObj);
@@ -309,7 +309,7 @@ const dnaUi = {
       // interval fades out the element.
       const defaults = { duration: 400, interval: 0, out: 5000 };
       const settings = { ...defaults, ...options };
-      const css = { hide: { opacity: 0 }, show: { opacity: 1 } };
+      const css =      { hide: { opacity: 0 }, show: { opacity: 1 } };
       elem.stop(true).slideDown().css(css.hide).animate(css.show, settings.duration);
       if (settings.interval)
          elem.animate(css.show, settings.interval).animate(css.hide, settings.out);
@@ -433,7 +433,7 @@ const dnaUtil = {
          dna.core.assert(false, 'Invalid callback function', fn);
       },
    getFn(name: string) {
-      // Converts a dot nation name (string) to its callable function.
+      // Converts a dot notation name (string) to its callable function.
       // Example to find the buy() function:
       //    const buyFn = dna.util.getFn('app.cart.buy');
       const fields =     name.split('.');  //dot notation to array
@@ -941,26 +941,27 @@ const dnaEvents = {
       const initStore = () => store.dnaInitializers = [];
       return store.dnaInitializers || initStore();  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
       },
-   runOnLoads(options?: DnaOptionsRunOnLoads): Promise<JQuery> {
+   runOnLoads(options?: DnaOptionsRunOnLoads): JQuery {
       // Example:
       //    <p data-on-load=app.cart.setup>
-      const defaults = { pollInterval: 200, maxWait: 5000 };
+      const defaults = { msecs: 300 };
       const settings = { ...defaults, ...options };
-      const abortTime = Date.now() + settings.maxWait;
-      const elems =     $('[data-on-load]').not(dna.selector.loaded);
-      const fns =       elems.toArray().map(node => $(node).data().onLoad);
-      const run =       (elem: JQuery) => dna.util.apply(elem.data().onLoad, elem);
-      const runAll =    () => elems.forEach(run).addClass(dna.name.loaded);
-      return new Promise((resolve) => {
-         const waitForScripts = () => {
-            while (fns.length && dna.util.getFn(fns[0]))
-               fns.shift();
-            if (!fns.length || Date.now() > abortTime)
-               return resolve(runAll());
-            globalThis.setTimeout(waitForScripts, settings.pollInterval);
-            };
-         waitForScripts();
-         });
+      const elems =    $('[data-on-load]').not(dna.selector.onLoad);
+      const addStart = (elem: JQuery) => elem.data().dnaOnLoad = { start: Date.now(), checks: 0 };
+      elems.addClass(dna.name.onLoad).forEach(addStart);
+      const runOnLoad = (elem: JQuery) => {
+         const fnName =   elem.data().onLoad;
+         const fn =       dna.util.getFn(fnName);
+         const onLoad =   elem.data().dnaOnLoad;
+         onLoad.waiting = Date.now() - onLoad.start;
+         onLoad.checks++;
+         dna.core.assert(typeof fn === 'function' || !fn, 'Invalid data-on-load function', fnName);
+         if (fn)
+            dna.util.apply(fnName, elem.addClass(dna.name.executed));
+         else
+            globalThis.setTimeout(() => runOnLoad(elem), settings.msecs);
+         };
+      return elems.forEach(runOnLoad);
       },
    runInitializers: (root: JQuery): JQuery => {
       // Executes the data-callback functions plus registered initializers.
@@ -973,7 +974,7 @@ const dnaEvents = {
       dna.events.getInitializers().forEach(init);
       return root;
       },
-   setup: (): Promise<JQuery> => {
+   setup: (): JQuery => {
       const runner = (elem: JQuery, type: string, event: JQuery.EventBase) => {
          // Finds elements for the given event type and executes the callback passing in the
          //    element, event, and component (container element with "data-component" attribute).
