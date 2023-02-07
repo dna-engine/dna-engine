@@ -1,19 +1,20 @@
-//! dna-engine v2.3.0 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.3.1 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     array: 'dna-array',
     clone: 'dna-clone',
     container: 'dna-container',
     displayed: 'dna-displayed',
+    executed: 'dna-executed',
     field: 'dna-field',
     hidden: 'dna-hidden',
     hide: 'dna-hide',
     initialized: 'dna-initialized',
     lastSeparator: 'dna-last-separator',
-    loaded: 'dna-loaded',
     menu: 'dna-menu',
     menuItem: 'dna-menu-item',
     nucleotide: 'dna-nucleotide',
+    onLoad: 'dna-on-load',
     panel: 'dna-panel',
     panels: 'dna-panels',
     panelsInitialized: 'dna-panels-initialized',
@@ -607,23 +608,26 @@ const dnaEvents = {
         return store.dnaInitializers || initStore();
     },
     runOnLoads(options) {
-        const defaults = { pollInterval: 200, maxWait: 5000 };
+        const defaults = { msecs: 300 };
         const settings = Object.assign(Object.assign({}, defaults), options);
-        const abortTime = Date.now() + settings.maxWait;
-        const elems = $('[data-on-load]').not(dna.selector.loaded);
-        const fns = elems.toArray().map(node => $(node).data().onLoad);
-        const run = (elem) => dna.util.apply(elem.data().onLoad, elem);
-        const runAll = () => elems.forEach(run).addClass(dna.name.loaded);
-        return new Promise((resolve) => {
-            const waitForScripts = () => {
-                while (fns.length && dna.util.getFn(fns[0]))
-                    fns.shift();
-                if (!fns.length || Date.now() > abortTime)
-                    return resolve(runAll());
-                globalThis.setTimeout(waitForScripts, settings.pollInterval);
-            };
-            waitForScripts();
-        });
+        const elems = $('[data-on-load]').not(dna.selector.onLoad);
+        const addStart = (elem) => elem.data().dnaOnLoad = { start: Date.now(), checks: 0 };
+        elems.addClass(dna.name.onLoad).forEach(addStart);
+        const runOnLoad = (elem) => {
+            var _a, _b;
+            const fnName = elem.data().onLoad;
+            const fn = dna.util.getFn(fnName);
+            const onLoad = elem.data().dnaOnLoad;
+            const waitFor = (_b = (_a = elem.data().waitFor) === null || _a === void 0 ? void 0 : _a.split(',')) !== null && _b !== void 0 ? _b : [];
+            onLoad.waiting = Date.now() - onLoad.start;
+            onLoad.checks++;
+            dna.core.assert(typeof fn === 'function' || !fn, 'Invalid data-on-load function', fnName);
+            if (fn && !waitFor.map(dna.util.getFn).includes(undefined))
+                dna.util.apply(fnName, elem.addClass(dna.name.executed));
+            else
+                globalThis.setTimeout(() => runOnLoad(elem), settings.msecs);
+        };
+        return elems.forEach(runOnLoad);
     },
     runInitializers: (root) => {
         const init = (initializer) => {
@@ -960,7 +964,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '2.3.0',
+    version: '2.3.1',
     clone(name, data, options) {
         const defaults = {
             fade: false,

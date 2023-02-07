@@ -1,4 +1,4 @@
-//! dna-engine v2.3.0 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.3.1 ~~ https://dna-engine.org ~~ MIT License
 
 /// <reference types="jquery" />
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
@@ -81,8 +81,7 @@ export type DnaSettingsRegisterInitializer = {
 };
 export type DnaOptionsRegisterInitializer = Partial<DnaSettingsRegisterInitializer>;
 export type DnaSettingsRunOnLoads = {
-    pollInterval: number;
-    maxWait: number;
+    msecs: number;
 };
 export type DnaOptionsRunOnLoads = Partial<DnaSettingsRunOnLoads>;
 export type DnaForEachCallback = (elem: JQuery, index: number) => void;
@@ -203,15 +202,16 @@ declare const dna: {
         clone: string;
         container: string;
         displayed: string;
+        executed: string;
         field: string;
         hidden: string;
         hide: string;
         initialized: string;
         lastSeparator: string;
-        loaded: string;
         menu: string;
         menuItem: string;
         nucleotide: string;
+        onLoad: string;
         panel: string;
         panels: string;
         panelsInitialized: string;
@@ -228,15 +228,16 @@ declare const dna: {
         clone: string;
         container: string;
         displayed: string;
+        executed: string;
         field: string;
         hidden: string;
         hide: string;
         initialized: string;
         lastSeparator: string;
-        loaded: string;
         menu: string;
         menuItem: string;
         nucleotide: string;
+        onLoad: string;
         panel: string;
         panels: string;
         panelsInitialized: string;
@@ -349,9 +350,9 @@ declare const dna: {
     events: {
         getContextDb: () => DnaContext;
         getInitializers: () => DnaInitializer[];
-        runOnLoads(options?: DnaOptionsRunOnLoads): Promise<JQuery>;
+        runOnLoads(options?: DnaOptionsRunOnLoads): JQuery;
         runInitializers: (root: JQuery) => JQuery;
-        setup: () => Promise<JQuery>;
+        setup: () => JQuery;
     };
     core: {
         inject: <T_22>(clone: JQuery, data: T_22, count: number, settings: DnaOptionsClone<T_22>) => JQuery;
