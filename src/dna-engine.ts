@@ -942,8 +942,9 @@ const dnaEvents = {
       return store.dnaInitializers || initStore();  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
       },
    runOnLoads(options?: DnaOptionsRunOnLoads): JQuery {
+      // Executes each of the data-on-load functions once the function and its dependencies have loaded.
       // Example:
-      //    <p data-on-load=app.cart.setup>
+      //    <p data-on-load=app.cart.setup data-wait-for=Chart,R,fetchJson>
       const defaults = { msecs: 300 };
       const settings = { ...defaults, ...options };
       const elems =    $('[data-on-load]').not(dna.selector.onLoad);
@@ -953,10 +954,11 @@ const dnaEvents = {
          const fnName =   elem.data().onLoad;
          const fn =       dna.util.getFn(fnName);
          const onLoad =   elem.data().dnaOnLoad;
+         const waitFor =  elem.data().waitFor?.split(',') ?? [];
          onLoad.waiting = Date.now() - onLoad.start;
          onLoad.checks++;
          dna.core.assert(typeof fn === 'function' || !fn, 'Invalid data-on-load function', fnName);
-         if (fn)
+         if (fn && !waitFor.map(dna.util.getFn).includes(undefined))
             dna.util.apply(fnName, elem.addClass(dna.name.executed));
          else
             globalThis.setTimeout(() => runOnLoad(elem), settings.msecs);

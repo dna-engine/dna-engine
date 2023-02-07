@@ -2479,14 +2479,23 @@
          The element with the <code>data-on-load</code> attribute is passed into on load
          function once the HTML is loaded.
       </p>
+      <p>
+         The callback function is executed after the function plus any optional dependencies
+         have been loaded.&nbsp;
+         Specify dependencies as a comma separated list using the <code>data-wait-for</code>
+         attribute.
+      </p>
       <figure>
          <figcaption>Example HTML</figcaption>
          <pre><code class=language-html>
-            &lt;p data-on-load=blink&gt;
+            &lt;p data-on-load=blink data-wait-for=myEventLogger&gt;
                This paragraph will blink on page load!
             &lt;/p&gt;
             &lt;script&gt;
-               const blink = (elem) =&gt; elem.fadeOut().fadeIn().fadeOut().fadeIn();
+               const blink = (elem) =&gt; {
+                  elem.fadeOut().fadeIn().fadeOut().fadeIn();
+                  myEventLogger('Blink happened');
+                  };
             &lt;/script&gt;
          </code></pre>
       </figure>
@@ -2498,8 +2507,10 @@
       </p>
       <p>
          <em>Note #2:</em>
-         Ensure that all libraries used within the callback function are loaded before
-         dna-engine is loaded.
+         The polling interval to check if the callback function and dependencies are loaded is 300
+         millisecond.&nbsp;
+         To display degbug information, including waiting time:
+         <code>console.log($('[data-on-load]').data());</code>
       </p>
    </section>
 
@@ -4029,6 +4040,7 @@
          <li><a href=#event-smart>           <code>data-smart-update</code></a>:   Throttled callback to run on change of an input value</li>
          <li><a href=#event-transform>       <code>data-transform</code></a>:      Callback to enhance data immediately before cloning</li>
          <li><a href=#structure-thimblerig>  <code>data-true</code></a>:           Show element only if field evaluates to true</li>
+         <li><a href=#event-on-load>         <code>data-wait-for</code></a>:       Specify optional dependencies for data-on-load</li>
       </ol>
    </section>
 
