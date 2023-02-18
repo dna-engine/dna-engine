@@ -27,15 +27,21 @@
 .featured-books .book span {
    font-weight: bold;
    }
+@media (max-width: 667px) {  /* selects iPhone 6/6s/7/8/SE(2020) landscape and anything narrower */
+   .featured-books {
+      width: 100%;
+      }
+   }
 
 /* Layout */
 html {
    display: block;
+   font-size: 110%;
    background: lightsteelblue url(graphics/bkgnd.jpg) fixed;  /* https://www.nist.gov/oles/forensics/images/DNA-Strand.jpg */
    background-size: cover;
    }
 body {
-   max-width: 850px;
+   max-width: 900px;
    min-height: 100vh;
    background-color: rgba(255, 255, 255, 0.9);
    border-left: 1px solid steelblue;
@@ -93,18 +99,26 @@ body >footer {
 main >section aside {
    background-color: white;
    }
-main h2+aside {
-   max-width: none;
-   font-size: 0.8rem;
+main h2+aside >h2 {
+   font-size: 1.2rem;
+   }
+
+/* Sections */
+main >section#intro >figure {
+   clear: both;
    text-align: center;
    background-color: gainsboro;
    border: 1px solid dimgray;
    border-radius: 2px;
-   padding: 5px 15px;
+   padding: 5px;
    margin-bottom: 30px;
    }
-main h2+aside >h2 {
-   font-size: 1.2rem;
+main >section#intro >figure button {
+   font-size: 1.0rem;
+   margin: 0px 10px 5px 10px;
+   }
+main >section#intro >figure p {
+   margin-bottom: 0px;
    }
 
 /* General style */
@@ -436,7 +450,6 @@ figure.hljs-enhance .dna-panels {
 /* Mobile */
 @media (max-width: 667px) {  /* selects iPhone 6/6s/7/8/SE(2020) landscape and anything narrower */
    html {
-      font-size: 90%;
       background: none;
       background-color: aliceblue;
       }
@@ -446,32 +459,41 @@ figure.hljs-enhance .dna-panels {
    body >header nav ul {
       padding: 0px 40px;
       }
-   header h1 {
-      font-size: 1.6rem;
+   body >header h1 {
+      font-size: 2.2rem;
       }
-   header h2 {
+   body >header h2 {
       font-size: 1.0rem;
       }
    main >h2 {
       font-size: 1.0rem;
       }
+   main >header >aside {
+      clear: both;
+      float: none;
+      width: 100%;
+      margin: 0px 0px 20px 0px;
+      }
+   main h2+aside button {
+      font-size: 0.9rem;
+      }
    main.docs-page >section {
       overflow: scroll;
       }
-   section table {
+   main >section table {
       max-width: 100%;
       overflow: scroll;
       }
-   section table th,
-   section table td {
+   main >section table th,
+   main >section table td {
       padding: 6px 5px;
       }
-   section table th:first-child,
-   section table td:first-child {
+   main >section table th:first-child,
+   main >section table td:first-child {
       padding-left: 0px;
       }
-   section table th:last-child,
-   section table td:last-child {
+   main >section table th:last-child,
+   main >section table td:last-child {
       padding-right: 0px;
       }
    .block-indent,
@@ -480,6 +502,9 @@ figure.hljs-enhance .dna-panels {
       }
    figure.hljs-enhance {
       width: 100% !important;
+      }
+   figure.hljs-enhance >pre >code {
+      font-size: 0.8rem;
       }
    .api-parameters ul ul li {
       margin-left: 0px;

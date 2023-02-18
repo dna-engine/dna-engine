@@ -4,29 +4,27 @@
 
    <header>
       <h2 class=hide-me>dna-engine</h2>
-      <aside>
-         <h2>Download v{{pkg.version}}</h2>
-         <p class=external-site>
-            <button data-href=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.min.js>
-               <i data-icon=download></i> dna-engine.min.js ({{pkg.websiteInfo.gzipSize}})
-            </button>
-         </p>
-         <p class=external-site>
-            <button data-href=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.css>
-               <i data-icon=download></i> dna-engine.css (1 kb gzip)
-            </button>
-         </p>
-         (or use <a href=docs/#setup-npm>npm</a> or the <a href=docs/#setup-cdn>jsDelivr CDN</a>)
-      </aside>
    </header>
 
-   <section>
+   <section id=intro>
       <h3 class=hide-me>Introduction</h3>
       <p>
          {{pkg.meta.summary}}&nbsp;
          You write semantic templates and then dna-engine converts your JSON data into dynamically
          generated DOM elements.
       </p>
+      <figure>
+         <h2>Download v{{pkg.version}}</h2>
+         <p class=external-site>
+            <button data-href=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.min.js>
+               <i data-icon=download></i> dna-engine.min.js ({{pkg.websiteInfo.gzipSize}})
+            </button>
+            <button data-href=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.css>
+               <i data-icon=download></i> dna-engine.css (1 kb gzip)
+            </button>
+         </p>
+         (or use <a href=docs/#setup-npm>npm</a> or the <a href=docs/#setup-cdn>jsDelivr CDN</a>)
+      </figure>
       <p>
          The dna-engine project is open source under the <a href=license>MIT License</a> and hosted on
          <a href=https://github.com/dna-engine/dna-engine>GitHub</a>.
@@ -173,27 +171,28 @@
    <section id=philosophy>
       <h3>Philosophy</h3>
       <p>
-         The big frameworks, like Angular, React, and Vue, are powerful, but they require a fair a
-         amount of technical expertise just to get started.&nbsp; The HTML and JavaScript to create
-         web applications using dna-engine is familiar to all web developers, enabling developers to be
-         productive on the first day of using dna-engine.
+         The big frameworks, like Angular, React, and Vue, are powerful, but they require a fair
+         a amount of technical expertise just to get started.&nbsp; The HTML and JavaScript to
+         create web applications using dna-engine is familiar to all web developers, enabling
+         developers to be productive on the first day of using dna-engine.
       </p>
          Templating should be unobtrusive, clean, and simple:
       <ol>
-         <li>Be completely web framework agnostic</li>
-         <li>Put no HTML in your JavaScript</li>
-         <li class=external-site>Templates should be real HTML that pass
-            <a href="https://validator.w3.org/nu/?doc=https://dna-engine.org">W3C validation</a></li>
-         <li>Templates can be inline (no need for separate template files)</li>
-         <li>Iteration is best done with <a href=docs/#loop-templates>data arrays</a> not messy
-            template <code>for</code> loops</li>
-         <li><a href=https://blog.centerkey.com/2013/02/lazy-setup-50x-javascript-performance.html
-            class=external-site>Zero setup</a> until data is pushed (can be after page load)</li>
-         <li>Stay away from serialization/deserialization (no need to call the <code>.html()</code>
-            function)</li>
-         <li>JavaScript should be void of boilerplate code and complicated anonymous functions</li>
-         <li>Declaring callbacks using simple HTML attributes is more cohesive and semantically
-            meaningful than programmatically binding with JavaScript code</li>
+         <li><b>Independent:</b> Be web framework agnostic.</li>
+         <li><b>Cohesive:</b> Put no HTML in your JavaScript.</li>
+         <li class=external-site><b>Valid:</b> Templates should be real HTML that pass
+            <a href="https://validator.w3.org/nu/?doc=https://dna-engine.org">W3C
+            validation</a>.</li>
+         <li><b>Functional:</b> Iteration is best done with
+            <a href=docs/#loop-templates>data arrays</a> not messy template <code>for</code>
+            loops.</li>
+         <li><b>Stealth:</b>
+            <a href=https://blog.centerkey.com/2013/02/lazy-setup-50x-javascript-performance.html
+            class=external-site>Zero setup</a> until data is pushed (can be after page load).</li>
+         <li><b>Data:</b> Stay away from serialization/deserialization (no need to call
+            the <code>.html()</code> function).</li>
+         <li><b>Declarative:</b> Declaring callbacks using simple HTML attributes is more cohesive
+            and semantically meaningful than programmatically binding with JavaScript code.</li>
       </ol>
       <p>
          The more transparent a JavaScript templating solution is, the less impact it

@@ -1,0 +1,9 @@
+{
+   "css.lint.emptyRules": "ignore",
+   "editor.scrollBeyondLastLine": false,
+   "editor.tabSize": 3,
+   "files.insertFinalNewline": true,
+   "files.trimFinalNewlines": true,
+   "files.trimTrailingWhitespace": true,
+   "less.lint.emptyRules": "ignore"
+}
