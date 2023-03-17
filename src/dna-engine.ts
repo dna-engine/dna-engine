@@ -438,7 +438,7 @@ const dnaUtil = {
       //    const buyFn = dna.util.getFn('app.cart.buy');
       const fields =     name.split('.');  //dot notation to array
       const tag =        fields[0]!;       //string name of the root, example: 'app'
-      const toValue =    (null, eval);
+      const toValue =    (eval);
       const callable =   () => ['object', 'function'].includes(toValue('typeof ' + tag));
       const getContext = () => dna.registerContext(tag, toValue(tag));
       const getTop =     () => callable() ? getContext()[tag] : undefined;
