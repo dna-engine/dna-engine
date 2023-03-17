@@ -51,9 +51,9 @@
       body.minified-mode       .minified-hide { display: none; }
    </style>
    <script defer src=https://cdn.jsdelivr.net/npm/jquery@3.6/dist/jquery.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@3.0/dist/fetch-json.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@3.1/dist/fetch-json.min.js></script>
    <script defer src=../dist/dna-engine.dev.js></script>
-   <script>globalThis.onerror = () => document.body.style.background = 'pink';</script>
+   <script>globalThis.onerror = () => globalThis.document.body.style.background = 'pink';</script>
    <script data-on-load=specRunner.setup>
       const spec = {};
       const event1 = new Date('1971-06-28T19:00:00').getTime();  //local time: June 28, 1971 at 7pm

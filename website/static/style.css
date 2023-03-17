@@ -27,7 +27,7 @@
 .featured-books .book span {
    font-weight: bold;
    }
-@media (max-width: 667px) {  /* selects iPhone 6/6s/7/8/SE(2020) landscape and anything narrower */
+@media (max-width: 667px) {  /* selects iPhone 6/6s/7/8/SE2/SE3 landscape and anything narrower */
    .featured-books {
       width: 100%;
       }
@@ -448,7 +448,7 @@ figure.hljs-enhance .dna-panels {
    }
 
 /* Mobile */
-@media (max-width: 667px) {  /* selects iPhone 6/6s/7/8/SE(2020) landscape and anything narrower */
+@media (max-width: 667px) {  /* selects iPhone 6/6s/7/8/SE2/SE3 landscape and anything narrower */
    html {
       background: none;
       background-color: aliceblue;

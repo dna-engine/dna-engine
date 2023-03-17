@@ -1,4 +1,4 @@
-/*! dna-engine v2.3.1 ~~ https://dna-engine.org ~~ MIT License */
+/*! dna-engine v2.3.2 ~~ https://dna-engine.org ~~ MIT License */
 
 /*****************************************/
 /* Panel navigation styles:              */
@@ -46,7 +46,7 @@ nav.dna-menu[data-style=flat-tabs]+.dna-panels {
    padding: 10px;
    margin-bottom: 20px;
    }
-@media (max-width: 667px) {  /* mobile: selects iPhone 6/6s/7/8/SE(2020) landscape and anything narrower */
+@media (max-width: 667px) {  /* mobile: selects iPhone 6/6s/7/8/SE2/SE3 landscape and anything narrower */
    nav.dna-menu[data-style=flat-tabs] { font-size: 0.8rem; }
    nav.dna-menu[data-style=flat-tabs] span { padding: 8px 20px; }
    }
@@ -90,7 +90,7 @@ nav.dna-menu[data-style=pillbox-tabs]+.dna-panels {
    text-align: left;
    margin-bottom: 20px;
    }
-@media (max-width: 667px) {  /* mobile: selects iPhone 6/6s/7/8/SE(2020) landscape and anything narrower */
+@media (max-width: 667px) {  /* mobile: selects iPhone 6/6s/7/8/SE2/SE3 landscape and anything narrower */
    nav.dna-menu[data-style=pillbox-tabs] { font-size: 0.8rem; }
    nav.dna-menu[data-style=pillbox-tabs] span { padding: 7px 25px; }
    }

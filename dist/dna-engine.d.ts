@@ -1,4 +1,4 @@
-//! dna-engine v2.3.1 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.3.2 ~~ https://dna-engine.org ~~ MIT License
 
 /// <reference types="jquery" />
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];

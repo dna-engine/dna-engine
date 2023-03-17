@@ -1,4 +1,4 @@
-//! dna-engine v2.3.1 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.3.2 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     array: 'dna-array',
@@ -219,7 +219,7 @@ const dnaUtil = {
         var _a, _b;
         const fields = name.split('.');
         const tag = fields[0];
-        const toValue = (null, eval);
+        const toValue = (eval);
         const callable = () => ['object', 'function'].includes(toValue('typeof ' + tag));
         const getContext = () => dna.registerContext(tag, toValue(tag));
         const getTop = () => callable() ? getContext()[tag] : undefined;
@@ -964,7 +964,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '2.3.1',
+    version: '2.3.2',
     clone(name, data, options) {
         const defaults = {
             fade: false,
