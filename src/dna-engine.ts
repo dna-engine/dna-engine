@@ -215,7 +215,7 @@ const dnaArray = {
       const toObj =     (item: Json) => dna.util.isObj(item) ? <JsonObject>item : { value: item };
       return Object.keys(map).map(key => ({ ...{ [settings.key]: codeValue(key) }, ...toObj(map[key]!) }));
       },
-   toMap: (array: DnaDataObject[], options?: { key: string, camelKeys: boolean }): DnaDataObject => {
+   toMap<E>(array: Array<E>, options?: { key?: string, camelKeys?: boolean }): { [code: string | number]: E } {
       // Converts an array of objects into an object (hash map).  The default key is "code".
       // Example:
       //    dna.array.toMap([{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }])
@@ -223,12 +223,13 @@ const dnaArray = {
       //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
       // to:
       //    { a: { code: 'a', word: 'Ant' }, b: { code: 'b', word: 'Bat' } }
-      const defaults =       { key: 'code', camelKeys: false };
-      const settings =       { ...defaults, ...options };
-      const map =            <DnaDataObject>{};
-      const addObj =         (obj: DnaDataObject) => map[<string | number>obj[settings.key]] = obj;
-      const addObjCamelKey = (obj: DnaDataObject) => map[dna.util.toCamel(<string>obj[settings.key])] = obj;
-      array.forEach(settings.camelKeys ? addObjCamelKey : addObj);
+      const defaults =    { key: 'code', camelKeys: false };
+      const settings =    { ...defaults, ...options };
+      const map =         {};
+      const getKeyRaw =   (obj: E) => obj[settings.key];
+      const getKeyCamel = (obj: E) => dna.util.toCamel(obj[settings.key]);
+      const getKey =      settings.camelKeys ? getKeyCamel : getKeyRaw;
+      array.forEach(obj => map[getKey(obj)] = obj);
       return map;
       },
    wrap: <T>(itemOrItems: T | T[]): T[] => {
