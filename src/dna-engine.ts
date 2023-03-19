@@ -421,7 +421,8 @@ const dnaUtil = {
       const args =     dna.array.wrap(params);
       const elem =     args[0] instanceof $ ? <JQuery>args[0] : null;
       const isFnName = typeof fn === 'string' && fn.length > 0;
-      if (elem && isFnName && !elem[fn])
+      const elemFn =   elem && isFnName ? <DnaCallback>elem[fn as keyof typeof elem] : null;
+      if (elem && isFnName && !elem[fn as keyof typeof elem])
          args.push(dna.ui.getComponent(elem));
       const applyByName = (name: string) => {
          const callback = dna.util.getFn(name);
@@ -429,10 +430,10 @@ const dnaUtil = {
          dna.core.assert(typeof callback === 'function', 'Callback is not a function', name);
          return callback.apply(elem, args);
          };
-      return elem?.length === 0 ?   elem :                                 //noop for emply list of elems
-         typeof fn === 'function' ? fn.apply(elem, <[JQuery, T]>args) :    //run regular function with supplied arguments
-         elem?.[fn] ?               elem[fn](args[1], args[2], args[3]) :  //run element's jQuery function
-         isFnName ?                 applyByName(fn) :                      //run funciton from name, like 'app.cart.buy'
+      return elem?.length === 0 ?   elem :                               //noop for emply list of elems
+         typeof fn === 'function' ? fn.apply(elem, <[JQuery, T]>args) :  //run regular function with supplied arguments
+         elemFn ?                   elemFn(args[1], args[2], args[3]) :  //run element's jQuery function
+         isFnName ?                 applyByName(fn) :                    //run funciton from name, like 'app.cart.buy'
          fn === undefined ?         null :
          fn === null ?              null :
          dna.core.assert(false, 'Invalid callback function', fn);
@@ -443,15 +444,16 @@ const dnaUtil = {
       //    const buyFn = dna.util.getFn('app.cart.buy');
       const fields =     name.split('.');  //dot notation to array
       const tag =        fields[0]!;       //string name of the root, example: 'app'
+      const tagValue =   globalThis[tag as keyof typeof globalThis];
       const toValue =    (eval);
       const callable =   () => ['object', 'function'].includes(toValue('typeof ' + tag));
       const getContext = () => dna.registerContext(tag, toValue(tag));
       const getTop =     () => callable() ? getContext()[tag] : undefined;
-      const top =        globalThis[tag] ?? dna.events.getContextDb()[tag] ?? getTop();
-      const deep = (object: unknown, subfields: string[]): unknown =>
-         !subfields.length ? object :                                //function found
-         !object ?           undefined :                             //function missing
-         deep((<object>object)[subfields[0]!], subfields.slice(1));  //next object field
+      const top =        tagValue ?? dna.events.getContextDb()[tag] ?? getTop();
+      const deep = (object: object, subfields: string[]): unknown =>
+         !subfields.length ? object :                                        //function found
+         !object ?           undefined :                                     //function missing
+         deep(object[(subfields[0]!) as keyof object], subfields.slice(1));  //next object field
       return fields.length === 1 ? top : deep(top, fields.slice(1));
       },
    assign: (data: DnaDataObject, field: string | string[], value: Json): DnaDataObject => {
