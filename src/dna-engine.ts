@@ -191,7 +191,8 @@ const dnaArray = {
       //    const array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
       //    result = dna.array.find(array, 'b');  //{ index: 1, item: { code: 'b', word: 'Bat' } }
       //    result = dna.array.find(array, 'x');  //{ index: -1, item: null }
-      const index = Array.isArray(array) ? array.findIndex(object => object[key] === value) : -1;
+      const find =  () => array.findIndex(object => object[key as keyof object] === value);
+      const index = Array.isArray(array) ? find() : -1;
       const item =  index === -1 ? null : array[index]!;
       return { index, item };
       },
@@ -202,7 +203,7 @@ const dnaArray = {
       return Array.isArray(array) ? array[array.length - 1] : undefined;
       },
    fromMap<E>(map: { [code: string | number]: E }, options?: { key?: string, kebabCodes?: boolean }):
-      Array<E & { [key: string]: string } | { [keyOrValue: string]: string | E }> {
+      (E & { [key: string]: string } | { [keyOrValue: string]: string | E })[] {
       // Converts an object (hash map) into an array of objects.  The default key is "code".
       // Example:
       //    dna.array.fromMap({ a: { word: 'Ant' }, b: { word: 'Bat' } })
@@ -216,7 +217,7 @@ const dnaArray = {
       const toObj =     (item: E) => dna.util.isObj(item) ? item : { value: item };
       return Object.keys(map).map(key => ({ ...{ [settings.key]: codeValue(key) }, ...toObj(map[key]!) }));
       },
-   toMap<E>(array: Array<E>, options?: { key?: string, camelKeys?: boolean }): { [code: string | number]: E } {
+   toMap<E>(array: E[], options?: { key?: string, camelKeys?: boolean }): { [code: string | number]: E } {
       // Converts an array of objects into an object (hash map).  The default key is "code".
       // Example:
       //    dna.array.toMap([{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }])
@@ -226,9 +227,10 @@ const dnaArray = {
       //    { a: { code: 'a', word: 'Ant' }, b: { code: 'b', word: 'Bat' } }
       const defaults =    { key: 'code', camelKeys: false };
       const settings =    { ...defaults, ...options };
-      const map =         {};
-      const getKeyRaw =   (obj: E) => obj[settings.key];
-      const getKeyCamel = (obj: E) => dna.util.toCamel(obj[settings.key]);
+      const map =         <{ [code: string | number]: E }>{};
+      const keyName =     settings.key as keyof E;
+      const getKeyRaw =   (obj: E) => <string | number><unknown>obj[keyName];
+      const getKeyCamel = (obj: E) => dna.util.toCamel(String(obj[keyName]));
       const getKey =      settings.camelKeys ? getKeyCamel : getKeyRaw;
       array.forEach(obj => map[getKey(obj)] = obj);
       return map;
@@ -255,7 +257,7 @@ const dnaBrowser = {
       const polyfill = (): NavigatorUAData => {
          const brandEntry = globalThis.navigator.userAgent.split(' ').pop()?.split('/') ?? [];
          const hasTouch =   !!navigator.maxTouchPoints;
-         const platform =   globalThis.navigator.platform;
+         const platform =   globalThis.navigator.platform as keyof typeof platforms;
          const mac =        hasTouch ? 'iOS' : 'macOS';
          const platforms =  { 'MacIntel': mac, 'Win32': 'Windows', 'iPhone': 'iOS', 'iPad': 'iOS' };
          return {
@@ -264,7 +266,8 @@ const dnaBrowser = {
             platform: platforms[platform] ?? platform,
             };
          };
-      return globalThis.navigator['userAgentData'] ?? polyfill();
+      const uaData = <unknown>globalThis.navigator['userAgentData' as keyof typeof globalThis.navigator];
+      return <NavigatorUAData>uaData ?? polyfill();
       },
    };
 
