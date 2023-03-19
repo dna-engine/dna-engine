@@ -201,7 +201,8 @@ const dnaArray = {
       //    dna.array.last([3, 21, 7]) === 7;
       return Array.isArray(array) ? array[array.length - 1] : undefined;
       },
-   fromMap: (map: JsonObject, options?: { key?: string, kebabCodes?: boolean }): JsonObject[] => {
+   fromMap<E>(map: { [code: string | number]: E }, options?: { key?: string, kebabCodes?: boolean }):
+      Array<E & { [key: string]: string } | { [keyOrValue: string]: string | E }> {
       // Converts an object (hash map) into an array of objects.  The default key is "code".
       // Example:
       //    dna.array.fromMap({ a: { word: 'Ant' }, b: { word: 'Bat' } })
@@ -212,7 +213,7 @@ const dnaArray = {
       const defaults =  { key: 'code', kebabCodes: false };
       const settings =  { ...defaults, ...options };
       const codeValue = (key: string): string => settings.kebabCodes ? dna.util.toKebab(key) : key;
-      const toObj =     (item: Json) => dna.util.isObj(item) ? <JsonObject>item : { value: item };
+      const toObj =     (item: E) => dna.util.isObj(item) ? item : { value: item };
       return Object.keys(map).map(key => ({ ...{ [settings.key]: codeValue(key) }, ...toObj(map[key]!) }));
       },
    toMap<E>(array: Array<E>, options?: { key?: string, camelKeys?: boolean }): { [code: string | number]: E } {
