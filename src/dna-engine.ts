@@ -421,7 +421,7 @@ const dnaUtil = {
       const args =     dna.array.wrap(params);
       const elem =     args[0] instanceof $ ? <JQuery>args[0] : null;
       const isFnName = typeof fn === 'string' && fn.length > 0;
-      const elemFn =   elem && isFnName ? <DnaCallback>elem[fn as keyof typeof elem] : null;
+      const elemFn =   elem && isFnName ? (<DnaCallback>elem[fn as keyof typeof elem])?.bind(elem) : null;
       if (elem && isFnName && !elem[fn as keyof typeof elem])
          args.push(dna.ui.getComponent(elem));
       const applyByName = (name: string) => {
@@ -501,15 +501,14 @@ const dnaUtil = {
       const dash = (word: string) => '-' + word.toLowerCase();
       return ('' + camelStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
       },
-   value: <T>(data: T, field: string | string[]): unknown => {
+   value<T>(data: T, field: string | string[]): unknown {
       // Returns the value of the field from the data object.
       // Example:
       //    dna.util.value({ a: { b: 7 } }, 'a.b') === 7
-      if (typeof field === 'string')
-         field = field.split('.');
-      return data === null || data === undefined || field === undefined ? null :
-         field.length === 1 ? data[<string>field[0]] :
-         dna.util.value(data[<string>field[0]], field.slice(1));
+      const notFound =   data === null || data === undefined || field === undefined;
+      const parts =      typeof field === 'string' ? field.split('.') : field;
+      const fieldValue = notFound ? null : data[parts[0] as keyof typeof data];
+      return notFound || parts.length < 2 ? fieldValue : dna.util.value(fieldValue, parts.slice(1));
       },
    isObj: (value: unknown): boolean => {
       return !!value && typeof value === 'object' && !Array.isArray(value);
