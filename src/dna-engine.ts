@@ -2,7 +2,7 @@
 
 // Types: Basic
 export type Json =       string | number | boolean | null | undefined | JsonObject | Json[];
-export type JsonObject = { [key: string]: Json };
+export type JsonObject = { [key: string | number]: Json };
 export type JsonData =   JsonObject | Json[];
 export type NavigatorUAData = {
    readonly brands: {
@@ -155,6 +155,10 @@ export type DnaInfo = {
    initializers: DnaInitializer[],
    panels:       string[],
    };
+
+// Types: Top Level
+export type Dna = typeof dna;
+declare global { var dna: Dna }  //eslint-disable-line no-var
 
 const dnaName = {  //class name lookup table
    array:             'dna-array',
@@ -1165,7 +1169,7 @@ const dnaCore = {
             dna.clone(loop.name, dataArray, { container: elem, html: !!settings.html });
             };
          if (!dataArray)
-            (data[loop.field]) = [];
+            (data[loop.field as keyof typeof data]) = <T[keyof T]><unknown>[];
          else if (dataArray.length === subClones.length)
             subClones.forEach(injectSubClone);
          else
@@ -1311,7 +1315,7 @@ const dnaCore = {
          // Supported actions:
          //    'bye', 'clone-sub', 'destroy', 'down', 'refresh', 'up'
          const elems =  <JQuery><unknown>this;
-         const dnaApi = dna[dna.util.toCamel(action)];
+         const dnaApi = <DnaCallback>dna[dna.util.toCamel(action) as keyof Dna];
          dna.core.assert(dnaApi, 'Unknown plugin action', action);
          const callApi = (elem: JQuery) => dnaApi(elem, ...params);
          return elems.forEach(callApi);
@@ -1554,9 +1558,9 @@ const dna = {
    initGlobal(thisWindow: Window & typeof globalThis, thisJQuery: JQueryStatic): unknown {
       const jQuery$ = String('$');
       thisWindow[jQuery$] = thisJQuery;
-      thisWindow['dna'] =   dna;
-      const writable = (prop: string): boolean =>
-         !globalThis[prop] || !!Object.getOwnPropertyDescriptor(globalThis, prop)?.writable;
+      thisWindow.dna =   dna;
+      const writable = (prop: string): boolean => !globalThis[prop as keyof typeof globalThis] ||
+         !!Object.getOwnPropertyDescriptor(globalThis, prop)?.writable;
       if (writable('window'))
          globalThis.window = thisWindow;
       if (writable('document'))
@@ -1564,7 +1568,7 @@ const dna = {
       if (writable(jQuery$))
          globalThis[jQuery$] = thisJQuery;
       if (writable('dna'))
-         globalThis['dna'] = dna;
+         globalThis.dna = dna;
       return dna.core.setup();
       },
    info(): DnaInfo {
