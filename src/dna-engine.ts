@@ -159,6 +159,7 @@ export type DnaInfo = {
 // Types: Top Level
 export type Dna = typeof dna;
 declare global { var dna: Dna }  //eslint-disable-line no-var
+type GlobalWindow = Window & typeof globalThis & { $: JQueryStatic };
 
 const dnaName = {  //class name lookup table
    array:             'dna-array',
@@ -1493,7 +1494,7 @@ const dna = {
       clone = dna.getClone(clone, options);
       const arrayField = dna.core.getArrayName(clone);
       if (arrayField)
-         (<DnaModel>dna.getModel(clone.parent()))[arrayField].splice(dna.getIndex(clone), 1);
+         (<DnaModel>dna.getModel(clone.parent()))[arrayField].splice(dna.getIndex(clone), 1);  //suppressImplicitAnyIndexErrors
       const fadeDelete = () => dna.ui.slideFadeDelete(clone, settings.callback);
       return settings.fade ? fadeDelete() : dna.core.remove(clone, settings.callback);
       },
@@ -1555,18 +1556,17 @@ const dna = {
       dna.events.getContextDb()[contextName] = contextObjOrFn;
       return dna.events.getContextDb();
       },
-   initGlobal(thisWindow: Window & typeof globalThis, thisJQuery: JQueryStatic): unknown {
-      const jQuery$ = String('$');
-      thisWindow[jQuery$] = thisJQuery;
-      thisWindow.dna =   dna;
+   initGlobal(thisWindow: GlobalWindow, thisJQuery: JQueryStatic): unknown {
+      thisWindow.$ =   thisJQuery;
+      thisWindow.dna = dna;
       const writable = (prop: string): boolean => !globalThis[prop as keyof typeof globalThis] ||
          !!Object.getOwnPropertyDescriptor(globalThis, prop)?.writable;
       if (writable('window'))
          globalThis.window = thisWindow;
       if (writable('document'))
          globalThis.document = thisWindow.document;
-      if (writable(jQuery$))
-         globalThis[jQuery$] = thisJQuery;
+      if (writable('$'))
+         globalThis[<string>'$'] = thisJQuery;  //suppressImplicitAnyIndexErrors
       if (writable('dna'))
          globalThis.dna = dna;
       return dna.core.setup();

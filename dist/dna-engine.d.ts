@@ -1,9 +1,9 @@
-//! dna-engine v2.3.2 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.3.3 ~~ https://dna-engine.org ~~ MIT License
 
 /// <reference types="jquery" />
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
-    [key: string]: Json;
+    [key: string | number]: Json;
 };
 export type JsonData = JsonObject | Json[];
 export type NavigatorUAData = {
@@ -170,6 +170,13 @@ export type DnaInfo = {
     initializers: DnaInitializer[];
     panels: string[];
 };
+export type Dna = typeof dna;
+declare global {
+    var dna: Dna;
+}
+type GlobalWindow = Window & typeof globalThis & {
+    $: JQueryStatic;
+};
 declare const dna: {
     version: string;
     clone<T>(name: string, data: T | T[], options?: DnaOptionsClone<T> | undefined): JQuery;
@@ -195,7 +202,7 @@ declare const dna: {
     registerContext(contextName: string, contextObjOrFn: DnaCallback | {
         [name: string]: unknown;
     }): DnaContext;
-    initGlobal(thisWindow: Window & typeof globalThis, thisJQuery: JQueryStatic): unknown;
+    initGlobal(thisWindow: GlobalWindow, thisJQuery: JQueryStatic): unknown;
     info(): DnaInfo;
     name: {
         array: string;
@@ -255,14 +262,24 @@ declare const dna: {
             item: T_8 | null;
         };
         last: <T_9>(array: T_9[]) => T_9 | undefined;
-        fromMap: (map: JsonObject, options?: {
+        fromMap<E>(map: {
+            [code: string]: E;
+            [code: number]: E;
+        }, options?: {
             key?: string;
             kebabCodes?: boolean;
-        }) => JsonObject[];
-        toMap: (array: DnaDataObject[], options?: {
-            key: string;
-            camelKeys: boolean;
-        }) => DnaDataObject;
+        }): ((E & {
+            [key: string]: string;
+        }) | {
+            [keyOrValue: string]: string | E;
+        })[];
+        toMap<E_1>(array: E_1[], options?: {
+            key?: string;
+            camelKeys?: boolean;
+        }): {
+            [code: string]: E_1;
+            [code: number]: E_1;
+        };
         wrap: <T_10>(itemOrItems: T_10 | T_10[]) => T_10[];
     };
     browser: {
@@ -305,7 +322,7 @@ declare const dna: {
         realTruth: (value: unknown) => boolean;
         toCamel: (kebabStr: string) => string;
         toKebab: (camelStr: string) => string;
-        value: <T_21>(data: T_21, field: string | string[]) => unknown;
+        value<T_21>(data: T_21, field: string | string[]): unknown;
         isObj: (value: unknown) => boolean;
     };
     format: {

@@ -1,4 +1,4 @@
-//! dna-engine v2.3.2 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.3.3 ~~ https://dna-engine.org ~~ MIT License
 
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
@@ -40,27 +40,30 @@
     };
     const dnaArray = {
         find: (array, value, key = 'code') => {
-            const index = Array.isArray(array) ? array.findIndex(object => object[key] === value) : -1;
+            const find = () => array.findIndex(object => object[key] === value);
+            const index = Array.isArray(array) ? find() : -1;
             const item = index === -1 ? null : array[index];
             return { index, item };
         },
         last: (array) => {
             return Array.isArray(array) ? array[array.length - 1] : undefined;
         },
-        fromMap: (map, options) => {
+        fromMap(map, options) {
             const defaults = { key: 'code', kebabCodes: false };
             const settings = Object.assign(Object.assign({}, defaults), options);
             const codeValue = (key) => settings.kebabCodes ? dna.util.toKebab(key) : key;
             const toObj = (item) => dna.util.isObj(item) ? item : { value: item };
             return Object.keys(map).map(key => (Object.assign({ [settings.key]: codeValue(key) }, toObj(map[key]))));
         },
-        toMap: (array, options) => {
+        toMap(array, options) {
             const defaults = { key: 'code', camelKeys: false };
             const settings = Object.assign(Object.assign({}, defaults), options);
             const map = {};
-            const addObj = (obj) => map[obj[settings.key]] = obj;
-            const addObjCamelKey = (obj) => map[dna.util.toCamel(obj[settings.key])] = obj;
-            array.forEach(settings.camelKeys ? addObjCamelKey : addObj);
+            const keyName = settings.key;
+            const getKeyRaw = (obj) => obj[keyName];
+            const getKeyCamel = (obj) => dna.util.toCamel(String(obj[keyName]));
+            const getKey = settings.camelKeys ? getKeyCamel : getKeyRaw;
+            array.forEach(obj => map[getKey(obj)] = obj);
             return map;
         },
         wrap: (itemOrItems) => {
@@ -91,7 +94,8 @@
                     platform: (_e = platforms[platform]) !== null && _e !== void 0 ? _e : platform,
                 };
             };
-            return (_a = globalThis.navigator['userAgentData']) !== null && _a !== void 0 ? _a : polyfill();
+            const uaData = globalThis.navigator['userAgentData'];
+            return (_a = uaData) !== null && _a !== void 0 ? _a : polyfill();
         },
     };
     const dnaPageToken = {
@@ -208,9 +212,11 @@
     };
     const dnaUtil = {
         apply: (fn, params) => {
+            var _a;
             const args = dna.array.wrap(params);
             const elem = args[0] instanceof $ ? args[0] : null;
             const isFnName = typeof fn === 'string' && fn.length > 0;
+            const elemFn = elem && isFnName ? (_a = elem[fn]) === null || _a === void 0 ? void 0 : _a.bind(elem) : null;
             if (elem && isFnName && !elem[fn])
                 args.push(dna.ui.getComponent(elem));
             const applyByName = (name) => {
@@ -221,24 +227,25 @@
             };
             return (elem === null || elem === void 0 ? void 0 : elem.length) === 0 ? elem :
                 typeof fn === 'function' ? fn.apply(elem, args) :
-                    (elem === null || elem === void 0 ? void 0 : elem[fn]) ? elem[fn](args[1], args[2], args[3]) :
+                    elemFn ? elemFn(args[1], args[2], args[3]) :
                         isFnName ? applyByName(fn) :
                             fn === undefined ? null :
                                 fn === null ? null :
                                     dna.core.assert(false, 'Invalid callback function', fn);
         },
         getFn(name) {
-            var _a, _b;
+            var _a;
             const fields = name.split('.');
             const tag = fields[0];
+            const tagValue = globalThis[tag];
             const toValue = (eval);
             const callable = () => ['object', 'function'].includes(toValue('typeof ' + tag));
             const getContext = () => dna.registerContext(tag, toValue(tag));
             const getTop = () => callable() ? getContext()[tag] : undefined;
-            const top = (_b = (_a = globalThis[tag]) !== null && _a !== void 0 ? _a : dna.events.getContextDb()[tag]) !== null && _b !== void 0 ? _b : getTop();
+            const top = (_a = tagValue !== null && tagValue !== void 0 ? tagValue : dna.events.getContextDb()[tag]) !== null && _a !== void 0 ? _a : getTop();
             const deep = (object, subfields) => !subfields.length ? object :
                 !object ? undefined :
-                    deep(object[subfields[0]], subfields.slice(1));
+                    deep(object[(subfields[0])], subfields.slice(1));
             return fields.length === 1 ? top : deep(top, fields.slice(1));
         },
         assign: (data, field, value) => {
@@ -268,12 +275,11 @@
             const dash = (word) => '-' + word.toLowerCase();
             return ('' + camelStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
         },
-        value: (data, field) => {
-            if (typeof field === 'string')
-                field = field.split('.');
-            return data === null || data === undefined || field === undefined ? null :
-                field.length === 1 ? data[field[0]] :
-                    dna.util.value(data[field[0]], field.slice(1));
+        value(data, field) {
+            const notFound = data === null || data === undefined || field === undefined;
+            const parts = typeof field === 'string' ? field.split('.') : field;
+            const fieldValue = notFound ? null : data[parts[0]];
+            return notFound || parts.length < 2 ? fieldValue : dna.util.value(fieldValue, parts.slice(1));
         },
         isObj: (value) => {
             return !!value && typeof value === 'object' && !Array.isArray(value);
@@ -976,7 +982,7 @@
         },
     };
     const dna = {
-        version: '2.3.2',
+        version: '2.3.3',
         clone(name, data, options) {
             const defaults = {
                 fade: false,
@@ -1147,18 +1153,21 @@
             return dna.events.getContextDb();
         },
         initGlobal(thisWindow, thisJQuery) {
-            const jQuery$ = String('$');
-            thisWindow[jQuery$] = thisJQuery;
-            thisWindow['dna'] = dna;
-            const writable = (prop) => { var _a; return !globalThis[prop] || !!((_a = Object.getOwnPropertyDescriptor(globalThis, prop)) === null || _a === void 0 ? void 0 : _a.writable); };
+            thisWindow.$ = thisJQuery;
+            thisWindow.dna = dna;
+            const writable = (prop) => {
+                var _a;
+                return !globalThis[prop] ||
+                    !!((_a = Object.getOwnPropertyDescriptor(globalThis, prop)) === null || _a === void 0 ? void 0 : _a.writable);
+            };
             if (writable('window'))
                 globalThis.window = thisWindow;
             if (writable('document'))
                 globalThis.document = thisWindow.document;
-            if (writable(jQuery$))
-                globalThis[jQuery$] = thisJQuery;
+            if (writable('$'))
+                globalThis['$'] = thisJQuery;
             if (writable('dna'))
-                globalThis['dna'] = dna;
+                globalThis.dna = dna;
             return dna.core.setup();
         },
         info() {
