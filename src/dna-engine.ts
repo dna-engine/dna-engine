@@ -157,9 +157,10 @@ export type DnaInfo = {
    };
 
 // Types: Top Level
-export type Dna = typeof dna;
-declare global { var dna: Dna }  //eslint-disable-line no-var
+type GlobalKey =    keyof typeof globalThis;
 type GlobalWindow = Window & typeof globalThis & { $: JQueryStatic };
+type Dna =          typeof dna;
+declare global { var dna: Dna }  //eslint-disable-line no-var
 
 const dnaName = {  //class name lookup table
    array:             'dna-array',
@@ -196,7 +197,7 @@ const dnaArray = {
       //    const array = [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }];
       //    result = dna.array.find(array, 'b');  //{ index: 1, item: { code: 'b', word: 'Bat' } }
       //    result = dna.array.find(array, 'x');  //{ index: -1, item: null }
-      const find =  () => array.findIndex(object => object[key as keyof object] === value);
+      const find =  () => array.findIndex(object => object[<keyof object>key] === value);
       const index = Array.isArray(array) ? find() : -1;
       const item =  index === -1 ? null : array[index]!;
       return { index, item };
@@ -233,7 +234,7 @@ const dnaArray = {
       const defaults =    { key: 'code', camelKeys: false };
       const settings =    { ...defaults, ...options };
       const map =         <{ [code: string | number]: E }>{};
-      const keyName =     settings.key as keyof E;
+      const keyName =     <keyof E>settings.key;
       const getKeyRaw =   (obj: E) => <string | number><unknown>obj[keyName];
       const getKeyCamel = (obj: E) => dna.util.toCamel(String(obj[keyName]));
       const getKey =      settings.camelKeys ? getKeyCamel : getKeyRaw;
@@ -262,7 +263,7 @@ const dnaBrowser = {
       const polyfill = (): NavigatorUAData => {
          const brandEntry = globalThis.navigator.userAgent.split(' ').pop()?.split('/') ?? [];
          const hasTouch =   !!navigator.maxTouchPoints;
-         const platform =   globalThis.navigator.platform as keyof typeof platforms;
+         const platform =   <keyof typeof platforms>globalThis.navigator.platform;
          const mac =        hasTouch ? 'iOS' : 'macOS';
          const platforms =  { 'MacIntel': mac, 'Win32': 'Windows', 'iPhone': 'iOS', 'iPad': 'iOS' };
          return {
@@ -271,7 +272,7 @@ const dnaBrowser = {
             platform: platforms[platform] ?? platform,
             };
          };
-      const uaData = <unknown>globalThis.navigator['userAgentData' as keyof typeof globalThis.navigator];
+      const uaData = <unknown>globalThis.navigator[<keyof typeof globalThis.navigator>'userAgentData'];
       return <NavigatorUAData>uaData ?? polyfill();
       },
    };
@@ -426,8 +427,8 @@ const dnaUtil = {
       const args =     dna.array.wrap(params);
       const elem =     args[0] instanceof $ ? <JQuery>args[0] : null;
       const isFnName = typeof fn === 'string' && fn.length > 0;
-      const elemFn =   elem && isFnName ? (<DnaCallback>elem[fn as keyof typeof elem])?.bind(elem) : null;
-      if (elem && isFnName && !elem[fn as keyof typeof elem])
+      const elemFn =   elem && isFnName ? (<DnaCallback>elem[<keyof typeof elem>fn])?.bind(elem) : null;
+      if (elem && isFnName && !elem[<keyof typeof elem>fn])
          args.push(dna.ui.getComponent(elem));
       const applyByName = (name: string) => {
          const callback = dna.util.getFn(name);
@@ -449,16 +450,16 @@ const dnaUtil = {
       //    const buyFn = dna.util.getFn('app.cart.buy');
       const fields =     name.split('.');  //dot notation to array
       const tag =        fields[0]!;       //string name of the root, example: 'app'
-      const tagValue =   globalThis[tag as keyof typeof globalThis];
+      const tagValue =   globalThis[<GlobalKey>tag];
       const toValue =    (eval);
       const callable =   () => ['object', 'function'].includes(toValue('typeof ' + tag));
       const getContext = () => dna.registerContext(tag, toValue(tag));
       const getTop =     () => callable() ? getContext()[tag] : undefined;
       const top =        tagValue ?? dna.events.getContextDb()[tag] ?? getTop();
       const deep = (object: object, subfields: string[]): unknown =>
-         !subfields.length ? object :                                        //function found
-         !object ?           undefined :                                     //function missing
-         deep(object[(subfields[0]!) as keyof object], subfields.slice(1));  //next object field
+         !subfields.length ? object :                                   //function found
+         !object ?           undefined :                                //function missing
+         deep(object[<keyof object>subfields[0]], subfields.slice(1));  //next object field
       return fields.length === 1 ? top : deep(top, fields.slice(1));
       },
    assign: (data: DnaDataObject, field: string | string[], value: Json): DnaDataObject => {
@@ -512,7 +513,7 @@ const dnaUtil = {
       //    dna.util.value({ a: { b: 7 } }, 'a.b') === 7
       const notFound =   data === null || data === undefined || field === undefined;
       const parts =      typeof field === 'string' ? field.split('.') : field;
-      const fieldValue = notFound ? null : data[parts[0] as keyof typeof data];
+      const fieldValue = notFound ? null : data[<keyof typeof data>parts[0]];
       return notFound || parts.length < 2 ? fieldValue : dna.util.value(fieldValue, parts.slice(1));
       },
    isObj: (value: unknown): boolean => {
@@ -1170,7 +1171,7 @@ const dnaCore = {
             dna.clone(loop.name, dataArray, { container: elem, html: !!settings.html });
             };
          if (!dataArray)
-            (data[loop.field as keyof typeof data]) = <T[keyof T]><unknown>[];
+            (data[<keyof typeof data>loop.field]) = <T[keyof T]><unknown>[];
          else if (dataArray.length === subClones.length)
             subClones.forEach(injectSubClone);
          else
@@ -1316,7 +1317,7 @@ const dnaCore = {
          // Supported actions:
          //    'bye', 'clone-sub', 'destroy', 'down', 'refresh', 'up'
          const elems =  <JQuery><unknown>this;
-         const dnaApi = <DnaCallback>dna[dna.util.toCamel(action) as keyof Dna];
+         const dnaApi = <DnaCallback>dna[<keyof Dna>dna.util.toCamel(action)];
          dna.core.assert(dnaApi, 'Unknown plugin action', action);
          const callApi = (elem: JQuery) => dnaApi(elem, ...params);
          return elems.forEach(callApi);
@@ -1494,7 +1495,7 @@ const dna = {
       clone = dna.getClone(clone, options);
       const arrayField = dna.core.getArrayName(clone);
       if (arrayField)
-         (<DnaModel>dna.getModel(clone.parent()))[arrayField].splice(dna.getIndex(clone), 1);  //suppressImplicitAnyIndexErrors
+         (<Json[]>(<DnaModel>dna.getModel(clone.parent()))[<keyof DnaModel>arrayField]).splice(dna.getIndex(clone), 1);
       const fadeDelete = () => dna.ui.slideFadeDelete(clone, settings.callback);
       return settings.fade ? fadeDelete() : dna.core.remove(clone, settings.callback);
       },
@@ -1559,14 +1560,14 @@ const dna = {
    initGlobal(thisWindow: GlobalWindow, thisJQuery: JQueryStatic): unknown {
       thisWindow.$ =   thisJQuery;
       thisWindow.dna = dna;
-      const writable = (prop: string): boolean => !globalThis[prop as keyof typeof globalThis] ||
+      const writable = (prop: string): boolean => !globalThis[<GlobalKey>prop] ||
          !!Object.getOwnPropertyDescriptor(globalThis, prop)?.writable;
       if (writable('window'))
          globalThis.window = thisWindow;
       if (writable('document'))
          globalThis.document = thisWindow.document;
       if (writable('$'))
-         globalThis[<string>'$'] = thisJQuery;  //suppressImplicitAnyIndexErrors
+         (<GlobalWindow><unknown>globalThis).$ = thisJQuery;
       if (writable('dna'))
          globalThis.dna = dna;
       return dna.core.setup();
