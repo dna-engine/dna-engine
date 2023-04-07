@@ -78,7 +78,7 @@
    },
    "websiteInfo": {
       "cdn": {
-         "fontAwesome": "6.3",
+         "fontAwesome": "6.4",
          "highlightjs": "11.7"
       },
       "gzipSize": "9 kb gzip",
@@ -100,8 +100,10 @@
       }
    },
    "runScriptsConfig": {
+      "clean": [
+         "rimraf build dist"
+      ],
       "build": [
-         "rimraf build dist",
          "jshint . --exclude-path .gitignore",
          "eslint --max-warnings 0 src --ext .ts",
          "tsc",
@@ -132,7 +134,7 @@
       ]
    },
    "scripts": {
-      "pretest": "run-scripts build",
+      "pretest": "run-scripts clean build",
       "test": "mocha spec/*.spec.js",
       "dev": "npm test && run-scripts dev --parallel",
       "build-website": "run-scripts web",
@@ -142,18 +144,18 @@
       "jquery": ">=3.5"
    },
    "devDependencies": {
-      "@fortawesome/fontawesome-free": "~6.3",
+      "@fortawesome/fontawesome-free": "~6.4",
       "@types/jquery": "~3.5",
       "@types/node": "~18.15",
-      "@typescript-eslint/eslint-plugin": "~5.56",
-      "@typescript-eslint/parser": "~5.56",
+      "@typescript-eslint/eslint-plugin": "~5.57",
+      "@typescript-eslint/parser": "~5.57",
       "add-dist-header": "~1.0",
       "assert-deep-strict-equal": "~1.0",
       "browser-sync": "~2.29",
       "chokidar-cli": "~3.0",
       "copy-file-util": "~1.0",
       "copy-folder-util": "~1.0",
-      "eslint": "~8.36",
+      "eslint": "~8.37",
       "esm-to-plain-js": "~1.0",
       "fetch-json": "~3.1",
       "highlight.js": "~11.7",
@@ -164,7 +166,7 @@
       "mocha": "~10.2",
       "replacer-util": "~1.0",
       "rimraf": "~4.4",
-      "run-scripts-util": "~1.0",
+      "run-scripts-util": "~1.1",
       "serve": "~14.2",
       "typescript": "~5.0",
       "uglify-js": "~3.17",
