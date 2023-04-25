@@ -448,6 +448,7 @@ const dnaUtil = {
       // Converts a dot notation name (string) to its callable function.
       // Example to find the buy() function:
       //    const buyFn = dna.util.getFn('app.cart.buy');
+      dna.core.assert(!/[^\p{Letter}\d.]/u.test(name), 'Invalid function name', name);
       const fields =     name.split('.');  //dot notation to array
       const tag =        fields[0]!;       //string name of the root, example: 'app'
       const tagValue =   globalThis[<GlobalKey>tag];
