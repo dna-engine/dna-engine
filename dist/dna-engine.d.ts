@@ -1,4 +1,4 @@
-//! dna-engine v2.3.3 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.3.4 ~~ https://dna-engine.org ~~ MIT License
 
 /// <reference types="jquery" />
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
@@ -170,13 +170,13 @@ export type DnaInfo = {
     initializers: DnaInitializer[];
     panels: string[];
 };
-export type Dna = typeof dna;
-declare global {
-    var dna: Dna;
-}
 type GlobalWindow = Window & typeof globalThis & {
     $: JQueryStatic;
 };
+type Dna = typeof dna;
+declare global {
+    var dna: Dna;
+}
 declare const dna: {
     version: string;
     clone<T>(name: string, data: T | T[], options?: DnaOptionsClone<T> | undefined): JQuery;

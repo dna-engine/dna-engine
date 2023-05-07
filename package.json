@@ -1,6 +1,6 @@
 {
    "name": "dna-engine",
-   "version": "2.3.3",
+   "version": "2.3.4",
    "description": "An uncomplicated user interface library for cloning semantic templates",
    "license": "MIT",
    "type": "module",
@@ -79,7 +79,7 @@
    "websiteInfo": {
       "cdn": {
          "fontAwesome": "6.4",
-         "highlightjs": "11.7"
+         "highlightjs": "11.8"
       },
       "gzipSize": "9 kb gzip",
       "jsFiddle": {
@@ -146,7 +146,7 @@
    "devDependencies": {
       "@fortawesome/fontawesome-free": "~6.4",
       "@types/jquery": "~3.5",
-      "@types/node": "~18.16",
+      "@types/node": "~20.1",
       "@typescript-eslint/eslint-plugin": "~5.59",
       "@typescript-eslint/parser": "~5.59",
       "add-dist-header": "~1.0",
@@ -155,13 +155,13 @@
       "chokidar-cli": "~3.0",
       "copy-file-util": "~1.0",
       "copy-folder-util": "~1.0",
-      "eslint": "~8.39",
+      "eslint": "~8.40",
       "esm-to-plain-js": "~1.0",
       "fetch-json": "~3.1",
-      "highlight.js": "~11.7",
+      "highlight.js": "~11.8",
       "hljs-enhance": "~1.1",
       "jquery": "~3.6",
-      "jsdom": "~21.1",
+      "jsdom": "~22.0",
       "jshint": "~2.13",
       "mocha": "~10.2",
       "replacer-util": "~1.0",

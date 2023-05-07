@@ -1,4 +1,4 @@
-//! dna-engine v2.3.3 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.3.4 ~~ https://dna-engine.org ~~ MIT License
 
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
@@ -235,6 +235,7 @@
         },
         getFn(name) {
             var _a;
+            dna.core.assert(!/[^\p{Letter}\d.]/u.test(name), 'Invalid function name', name);
             const fields = name.split('.');
             const tag = fields[0];
             const tagValue = globalThis[tag];
@@ -245,7 +246,7 @@
             const top = (_a = tagValue !== null && tagValue !== void 0 ? tagValue : dna.events.getContextDb()[tag]) !== null && _a !== void 0 ? _a : getTop();
             const deep = (object, subfields) => !subfields.length ? object :
                 !object ? undefined :
-                    deep(object[(subfields[0])], subfields.slice(1));
+                    deep(object[subfields[0]], subfields.slice(1));
             return fields.length === 1 ? top : deep(top, fields.slice(1));
         },
         assign: (data, field, value) => {
@@ -982,7 +983,7 @@
         },
     };
     const dna = {
-        version: '2.3.3',
+        version: '2.3.4',
         clone(name, data, options) {
             const defaults = {
                 fade: false,
@@ -1165,7 +1166,7 @@
             if (writable('document'))
                 globalThis.document = thisWindow.document;
             if (writable('$'))
-                globalThis['$'] = thisJQuery;
+                globalThis.$ = thisJQuery;
             if (writable('dna'))
                 globalThis.dna = dna;
             return dna.core.setup();
