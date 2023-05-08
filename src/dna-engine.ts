@@ -842,9 +842,10 @@ const dnaCompile = {
       const isWhitespaceNode = (index: number, node: Node): boolean =>
          node.nodeType === Node.TEXT_NODE && !/\S/.test(node.nodeValue!);
       const append = (templateElem: JQuery, text: string, className: string) => {
+         const templateNode = templateElem[0]!;
          const doAppend = () => {
             templateElem.contents().last().filter(isWhitespaceNode).remove();
-            templateElem.append($('<span>').addClass(className).html(text));
+            templateNode.append($('<span>').addClass(className).html(text)[0]!);
             };
          return text && doAppend();
          };
@@ -1228,6 +1229,7 @@ const dnaCore = {
       const selector =      '.dna-contains-' + template.name.replace(/[.]/g, '\\.');
       const getContainer =  () => settings.container!.find(selector).addBack(selector);
       const container =     settings.container ? getContainer() : template.container;
+      const containerNode = container[0]!;
       const templateNode =  template.elem[0]!;
       const templateNodes = [templateNode, ...templateNode.getElementsByTagName('*')];
       const templateData =  templateNodes.map(subnode => $(subnode).data());
@@ -1249,7 +1251,7 @@ const dnaCore = {
                clonesAbove + (name && contents.indexOf(name) < index ?
                   allClones.filter('.' + name).length - 1 : 0);
             const target = container.children().eq(index + contents.reduce(adjustment, 0));
-            return target.length ? target.before(clone) : container.append(clone);
+            return target.length ? target.before(clone) : containerNode.append(node);
             };
          const allClones = container.children(dna.selector.clone);
          const sameClones = allClones.filter('.' + template.name);
@@ -1263,9 +1265,9 @@ const dnaCore = {
       if (!template.wrapped)
          intoUnwrapped();
       else if (settings.top)
-         container.prepend(clone);
+         containerNode.prepend(node);
       else
-         container.append(clone);
+         containerNode.append(node);
       if (template.separators)
          displaySeparators();
       dna.events.runInitializers(clone);
@@ -1415,7 +1417,8 @@ const dna = {
       },
    createTemplate(name: string, html: string, holder: JQuery): DnaTemplate {
       // Generates a template from an HTML string.
-      $(html).attr({ id: name }).addClass(dna.name.template).appendTo(holder);
+      const holderNode = holder[0]!;
+      holderNode.append($(html).attr({ id: name }).addClass(dna.name.template)[0]!);
       return dna.store.getTemplate(name);
       },
    templateExists(name: string): boolean {
