@@ -380,9 +380,10 @@ const dnaUi = {
       },
    smoothMove: <T>(elem: JQuery, up?: boolean, callback?: DnaCallbackFn<T> | null): JQuery => {
       // Uses animation to smoothly slide an element up or down one slot amongst its siblings.
+      const submissiveElem = up ? elem.prev() : elem.next();
       const fn = typeof callback === 'function' ? callback : null;
       const move = () => {
-         const ghostElem = submissiveElem.clone(true);
+         const ghostElem = <JQuery>$(submissiveElem[0]!.cloneNode(true));
          if (up)
             elem.after(submissiveElem.hide()).before(ghostElem);
          else
@@ -395,7 +396,6 @@ const dnaUi = {
             };
          globalThis.setTimeout(animate);
          };
-      const submissiveElem = up ? elem.prev() : elem.next();
       if (submissiveElem.length)
          move();
       else if (fn)
@@ -576,7 +576,7 @@ const dnaFormat = {
       dna.core.assert(/^#([.]#+)?$/.test(format), 'Unknown percent format code', format);
       const digits = format === '#' ? 0 : format.length - 2;
       const percent = {
-         style:                'percent',
+         style:                 'percent',
          minimumFractionDigits: digits,
          maximumFractionDigits: digits,
          };
@@ -680,7 +680,7 @@ const dnaPanels = {
    };
 
 const dnaCompile = {
-   // Pre-compile  Example                           Post-compile class + data().dnaRules
+   // Pre-compile  Example                           Post-compile class   + data().dnaRules
    // -----------  --------------------------------  ------------------------------------
    // template     <p id=x1 class=dna-template>      class=dna-clone
    // array        <p data-array=~~tags~~>           class=dna-nucleotide + array='tags'
@@ -1225,11 +1225,17 @@ const dnaCore = {
          clones.find(dna.selector.lastSeparator).hide().end().eq(-2).find(dna.selector.lastSeparator).show()
             .closest(dna.selector.clone).find(dna.selector.separator).hide();
          };
-      const selector =  '.dna-contains-' + template.name.replace(/[.]/g, '\\.');
-      const container = settings.container ?
-         settings.container.find(selector).addBack(selector) : template.container;
-      const clone = template.elem.clone(true, true);
-      const name = clone.data().dnaRules.template;
+      const selector =      '.dna-contains-' + template.name.replace(/[.]/g, '\\.');
+      const getContainer =  () => settings.container!.find(selector).addBack(selector);
+      const container =     settings.container ? getContainer() : template.container;
+      const templateNode =  template.elem[0]!;
+      const templateNodes = [templateNode, ...templateNode.getElementsByTagName('*')];
+      const templateData =  templateNodes.map(subnode => $(subnode).data());
+      const node =          <HTMLElement>template.elem[0]!.cloneNode(true);
+      const nodes =         [node, ...node.getElementsByTagName('*')];
+      nodes.forEach((subnode, i) => $(subnode).data(templateData[i]!));
+      const clone = <JQuery>$(node);
+      const name =  clone.data().dnaRules.template;
       if (!container.data().dnaCountsMap)
          container.data().dnaCountsMap = {};
       const countsMap = container.data().dnaCountsMap;
