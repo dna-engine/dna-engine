@@ -308,7 +308,8 @@ const dnaUi = {
       },
    getAttrs: (elem: JQuery): Attr[] => {
       // Returns the attributes of the DOM node in a regular array.
-      return elem[0] ? Object.values(elem[0].attributes) : [];
+      const node = elem[0];
+      return node ? Object.values(node.attributes) : [];
       },
    getComponent: (elem: JQuery): JQuery => {
       // Returns the component (container element with a <code>data-component</code> attribute) to
@@ -380,14 +381,16 @@ const dnaUi = {
       },
    smoothMove: <T>(elem: JQuery, up?: boolean, callback?: DnaCallbackFn<T> | null): JQuery => {
       // Uses animation to smoothly slide an element up or down one slot amongst its siblings.
+      const node =           elem[0]!;
       const submissiveElem = up ? elem.prev() : elem.next();
+      const submissiveNode = submissiveElem[0];
       const fn = typeof callback === 'function' ? callback : null;
       const move = () => {
-         const ghostElem = <JQuery>$(submissiveElem[0]!.cloneNode(true));
-         if (up)
-            elem.after(submissiveElem.hide()).before(ghostElem);
-         else
-            elem.before(submissiveElem.hide()).after(ghostElem);
+         const ghostNode = submissiveNode!.cloneNode(true);
+         const ghostElem = <JQuery>$(ghostNode);
+         submissiveElem.hide();
+         node.parentElement!.insertBefore(ghostNode, submissiveNode!);
+         node.parentElement!.insertBefore(up ? node : submissiveNode!, up ? submissiveNode! : node);
          let finishes = 0;
          const finish = () => finishes++ && fn && fn(elem);
          const animate = () => {
@@ -396,7 +399,7 @@ const dnaUi = {
             };
          globalThis.setTimeout(animate);
          };
-      if (submissiveElem.length)
+      if (submissiveNode)
          move();
       else if (fn)
          fn(elem);
@@ -615,14 +618,15 @@ const dnaPanels = {
    // immediately follows the ".dna-menu" element.
    display: (menu: JQuery, location?: number, updateUrl?: boolean): JQuery => {
       // Shows the panel at the given location (index).
+      const menuNode =   menu[0]!;
       const panels =     menu.data().dnaPanels;
       const navName =    menu.data().nav;
       const menuItems =  menu.find(dna.selector.menuItem);
       const savedIndex = Number(dna.pageToken.get(navName, 0));
       const bound =      (loc: number) => Math.max(0, Math.min(loc, menuItems.length - 1));
       const index =      bound(location === undefined ? savedIndex : location);
-      if ((<HTMLElement>menu[0]).nodeName === 'SELECT')  //check if elem is a drop-down control
-         (<HTMLSelectElement>menu[0]).selectedIndex = index;
+      if (menuNode.nodeName === 'SELECT')  //check if elem is a drop-down control
+         (<HTMLSelectElement>menuNode).selectedIndex = index;
       menuItems.removeClass(dna.name.selected).addClass(dna.name.unselected);
       menuItems.eq(index).addClass(dna.name.selected).removeClass(dna.name.unselected);
       panels.hide().removeClass(dna.name.displayed).addClass(dna.name.hidden);
@@ -719,9 +723,8 @@ const dnaCompile = {
       return elem.addClass(dna.name.nucleotide);
       },
    isDnaField: (index: number, node: HTMLElement): boolean => {
-      const firstNode = <ChildNode>node.childNodes[0];
-      const matches =   (): boolean => !!firstNode.nodeValue?.match(dna.compile.regex.dnaField);
-      return firstNode && !!firstNode.nodeValue && matches();
+      const value = node.firstChild?.nodeValue;
+      return !!value && dna.compile.regex.dnaField.test(<string>value);
       },
    addFieldClass: (elem: JQuery): JQuery => {
       const field =    elem.data().dnaField;
@@ -995,9 +998,10 @@ const dnaEvents = {
          // Finds elements for the given event type and executes the callback passing in the
          //    element, event, and component (container element with "data-component" attribute).
          // Types: click|change|input|key-up|key-down|key-press|enter-key
-         const target = elem.closest('[data-' + type + ']');
-         const fn =     target.data(type);
-         const isLink = target[0] && target[0].nodeName === 'A';
+         const target =     elem.closest('[data-' + type + ']');
+         const targetNode = target[0];
+         const fn =         target.data(type);
+         const isLink =     targetNode && targetNode.nodeName === 'A';
          if (type === 'click' && isLink && fn && fn.match(/^dna[.]/))
             event.preventDefault();
          const nextClickTarget = target.parent().closest('[data-click]');
@@ -1233,7 +1237,7 @@ const dnaCore = {
       const templateNode =  template.elem[0]!;
       const templateNodes = [templateNode, ...templateNode.getElementsByTagName('*')];
       const templateData =  templateNodes.map(subnode => $(subnode).data());
-      const node =          <HTMLElement>template.elem[0]!.cloneNode(true);
+      const node =          <HTMLElement>templateNode.cloneNode(true);
       const nodes =         [node, ...node.getElementsByTagName('*')];
       nodes.forEach((subnode, i) => $(subnode).data(templateData[i]!));
       const clone = <JQuery>$(node);
@@ -1251,16 +1255,17 @@ const dnaCore = {
                clonesAbove + (name && contents.indexOf(name) < index ?
                   allClones.filter('.' + name).length - 1 : 0);
             const target = container.children().eq(index + contents.reduce(adjustment, 0));
-            return target.length ? target.before(clone) : containerNode.append(node);
+            const targetNode = target[0];
+            return targetNode ? containerNode.insertBefore(node, targetNode) : containerNode.append(node);
             };
          const allClones = container.children(dna.selector.clone);
          const sameClones = allClones.filter('.' + template.name);
          if (!sameClones.length)
             firstClone();
          else if (settings.top)
-            sameClones.first().before(clone);
+            containerNode.insertBefore(node, sameClones.first()[0]!);
          else
-            sameClones.last().after(clone);
+            containerNode.insertBefore(node, sameClones.last()[0]!.nextSibling);
          };
       if (!template.wrapped)
          intoUnwrapped();
@@ -1282,7 +1287,8 @@ const dnaCore = {
       },
    updateModelArray: (container: JQuery): JQuery => {
       // Sets the array field of the clone's data model to the list of sub-clone data models.
-      dna.core.assert(container.hasClass(dna.name.array), 'Invalid array container', container.attr('class'));
+      const containerNode = container[0]!;
+      dna.core.assert(containerNode.classList.contains(dna.name.array), 'Invalid array container', container.attr('class'));
       const array =        container.data().dnaRules.loop;
       const subs =         container.children('.' + array.name);
       const model =        <DnaDataObject>dna.getModel(container);
