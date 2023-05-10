@@ -360,7 +360,7 @@ const dnaUi = {
       },
    smoothHeightSetBaseline: (container: JQuery): JQuery => {
       // See: smoothHeightAnimate below
-      const body =   $('body');
+      const body =   $(globalThis.document.body);
       const elem =   body.data().dnaCurrentContainer = container || body;
       const height = <number>elem.outerHeight();
       return elem.css({ minHeight: height, maxHeight: height, overflow: 'hidden' });
@@ -368,7 +368,7 @@ const dnaUi = {
    smoothHeightAnimate: (delay: number, container: JQuery): JQuery => {
       // Smoothly animates the height of a container element from a beginning height to a final
       // height.
-      const elem = container || $('body').data().dnaCurrentContainer;
+      const elem = container || $(globalThis.document.body).data().dnaCurrentContainer;
       const animate = () => {
          elem.css({ minHeight: 0, maxHeight: '100vh' });
          const turnOffTransition = () => elem.css({ transition: 'none', maxHeight: 'none' });
@@ -651,7 +651,7 @@ const dnaPanels = {
       },
    initialize: (panelHolder: JQuery): JQuery => {
       const generateNavName = (): string => {
-         const navName = 'dna-panels-' + $('body').data().dnaPanelNextNav++;
+         const navName = 'dna-panels-' + $(globalThis.document.body).data().dnaPanelNextNav++;
          panelHolder.attr('data-nav', navName).prev(dna.selector.menu).attr('data-nav', navName);
          return navName;
          };
@@ -675,7 +675,7 @@ const dnaPanels = {
       return panelHolder;
       },
    setup: (): JQuery => {
-      $('body').data().dnaPanelNextNav = 1;
+      $(globalThis.document.body).data().dnaPanelNextNav = 1;
       const panels = $(dna.selector.panels).forEach(dna.panels.initialize);
       $(globalThis.document).on({ click:  dna.panels.clickRotate },  '.dna-menu .dna-menu-item');
       $(globalThis.document).on({ change: dna.panels.selectRotate }, dna.selector.menu);
@@ -848,7 +848,10 @@ const dnaCompile = {
          const templateNode = templateElem[0]!;
          const doAppend = () => {
             templateElem.contents().last().filter(isWhitespaceNode).remove();
-            templateNode.append($('<span>').addClass(className).html(text)[0]!);
+            const span = globalThis.document.createElement('span');
+            span.classList.add(className);
+            span.innerHTML = text;
+            templateNode.append(span);
             };
          return text && doAppend();
          };
@@ -889,7 +892,7 @@ const dnaCompile = {
 const dnaStore = {
    // Handles storage and retrieval of templates.
    getTemplateDb: (): DnaTemplateDb => {
-      const store = $('body').data();
+      const store = $(globalThis.document.body).data();
       const initStore = () => store.dnaTemplateDb = {};
       return store.dnaTemplateDb || initStore();
       },
@@ -949,12 +952,12 @@ const dnaStore = {
 
 const dnaEvents = {
    getContextDb: (): DnaContext => {
-      const store =     $('body').data();
+      const store =     $(globalThis.document.body).data();
       const initStore = () => store.dnaContextDb = {};
       return store.dnaContextDb || initStore();  //storage to register callbacks when dna-engine is module loaded without window scope (webpack)
       },
    getInitializers: (): DnaInitializer[] => {
-      const store =     $('body').data() || {};
+      const store =     $(globalThis.document.body).data() || {};
       const initStore = () => store.dnaInitializers = [];
       return store.dnaInitializers || initStore();  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
       },
@@ -1424,7 +1427,12 @@ const dna = {
    createTemplate(name: string, html: string, holder: JQuery): DnaTemplate {
       // Generates a template from an HTML string.
       const holderNode = holder[0]!;
-      holderNode.append($(html).attr({ id: name }).addClass(dna.name.template)[0]!);
+      const div = globalThis.document.createElement('div');
+      div.innerHTML = html;
+      const elem = div.firstElementChild!;
+      elem.id = name;
+      elem.classList.add(dna.name.template);
+      holderNode.append(elem);
       return dna.store.getTemplate(name);
       },
    templateExists(name: string): boolean {

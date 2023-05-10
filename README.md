@@ -61,7 +61,8 @@ To be a contributor, **fork** the project and run the commands `npm install` and
 local clone.&nbsp; Make your edits and rerun the tests.&nbsp; Pull requests welcome.
 
 ## D) Build Environment
-Check out the [package.json](package.json) file for an interesting approach to managing build tasks.
+Check out the `runScriptsConfig` section in [package.json](package.json) for an
+interesting approach to organizing build tasks.
 
 **CLI Build Tools**
    - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Prepend a one-line banner comment (with license notice) to distribution files_
