@@ -294,6 +294,16 @@ const dnaPageToken = {
       },
    };
 
+const dnaDom = {
+   hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, name: string) {
+      return [...elems].some(elem => elem.classList.contains(name));
+      },
+   addClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, name: string) {
+      [...elems].forEach(elem => elem.classList.add(name));
+      return elems;
+      },
+   };
+
 const dnaUi = {
    deleteElem: function<T>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T> | null): JQuery {
       // A flexible function for removing a jQuery element.
@@ -594,10 +604,12 @@ const dnaPlaceholder = {  //TODO: optimize
    // A template placeholder is only shown when its corresponding template is empty (has zero
    // clones).  The "data-placeholder" attribute specifies the name of the template.
    setup: (): JQuery => {
-      $('option.dna-template').closest('select').addClass(dna.name.hide);
+      $(globalThis.document.querySelectorAll('option.dna-template')).closest('select').addClass(dna.name.hide);
       const isEmpty = (elem: JQuery) => !!dna.getClones(elem.stop(true).data().placeholder).length;
       const fade =    (elem: JQuery) => isEmpty(elem) ? elem.fadeOut() : elem.fadeIn();
-      return $('[data-placeholder]').forEach(fade);
+      const placehodlers = globalThis.document.querySelectorAll('[data-placeholder]');
+      placehodlers.forEach(elem => fade(<JQuery>$(elem)));
+      return <JQuery>$(placehodlers);
       },
    };
 
@@ -605,13 +617,13 @@ const dnaPanels = {
    // Each click of a menu item displays its corresponding panel and optionally passes the panel
    // element and hash to the function specified by the "data-callback" attribute.
    // Usage:
-   //    <nav class=dna-menu data-nav={NAME} data-callback={CALLBACK}>
-   //       <button>See X1</button>
-   //       <button>See X2</button>
+   //    <nav class=dna-menu data-nav={NAME} data-callback={CALLBACK}>  <-- menu         -->
+   //       <button>See X1</button>                                     <-- menu item #1 -->
+   //       <button>See X2</button>                                     <-- menu item #2 -->
    //    </nav>
-   //    <div class=dna-panels data-nav={NAME}>
-   //       <section data-hash=x1>The X1</section>
-   //       <section data-hash=x2>The X2</section>
+   //    <div class=dna-panels data-nav={NAME}>                         <-- panels       -->
+   //       <section data-hash=x1>The X1</section>                      <-- panel #1     -->
+   //       <section data-hash=x2>The X2</section>                      <-- panel #2     -->
    //    </div>
    // The optional "data-hash" attribute specifies the hash (URL fragment ID) and updates the
    // location bar.  The "data-nav" attributes can be omitted if the ".dna-panels" element
@@ -649,37 +661,39 @@ const dnaPanels = {
       const menu = $(event.target);
       return dna.panels.display(menu, menu.find('option:selected').index(), true);
       },
-   initialize: (panelHolder: JQuery): JQuery => {
+   initialize: (panelHolder?: Element) => {
       const generateNavName = (): string => {
          const navName = 'dna-panels-' + $(globalThis.document.body).data().dnaPanelNextNav++;
-         panelHolder.attr('data-nav', navName).prev(dna.selector.menu).attr('data-nav', navName);
+         $(panelHolder!).attr('data-nav', navName).prev(dna.selector.menu).attr('data-nav', navName);
          return navName;
          };
       const init = () => {
-         const navName =    panelHolder.data().nav || generateNavName();
-         const menu =       $('.dna-menu[data-nav=' + navName + ']').addClass(dna.name.panelsInitialized);
-         const panels =     panelHolder.addClass(dna.name.panelsInitialized).children().addClass(dna.name.panel);
+         const navName =    $(panelHolder!).data().nav || generateNavName();
+         const menu =       globalThis.document.querySelector('.dna-menu[data-nav=' + navName + ']');
+         const panels =     $(panelHolder!).addClass(dna.name.panelsInitialized).children().addClass(dna.name.panel);
          const hash =       globalThis.location.hash.replace(/[^\w-]/g, '');  //remove leading "#"
          const hashIndex =  (): number => panels.filter('[data-hash=' + hash + ']').index();
          const savedIndex = (): number => <number>dna.pageToken.get(navName, 0);
          const loc =        hash && panels.first().data().hash ? hashIndex() : savedIndex();
-         dna.core.assert(menu.length, 'Menu not found for panels', navName);
-         menu.data().dnaPanels = panels;
-         if (!menu.find(dna.selector.menuItem).length)  //set .dna-menu-item elems if not set in the html
-            menu.children().addClass(dna.name.menuItem);
-         dna.panels.display(menu, loc);
+         dna.core.assert(menu, 'Menu not found for panels', navName);
+         menu!.classList.add(dna.name.panelsInitialized);
+         $(menu!).data().dnaPanels = panels;
+         if (!menu!.getElementsByClassName(dna.name.menuItem).length)  //set .dna-menu-item elems if not set in the html
+            dna.dom.addClass(menu!.children, dna.name.menuItem);
+         dna.panels.display(<JQuery>$(menu!), loc);
          };
-      const isInitialized = !panelHolder.length || panelHolder.hasClass(dna.name.panelsInitialized);
-      if (!isInitialized && !panelHolder.children().hasClass(dna.name.template))
+      const isInitialized = !panelHolder || panelHolder.classList.contains(dna.name.panelsInitialized);
+      if (!isInitialized && !dna.dom.hasClass(panelHolder.children, dna.name.template))
          init();
       return panelHolder;
       },
    setup: (): JQuery => {
       $(globalThis.document.body).data().dnaPanelNextNav = 1;
-      const panels = $(dna.selector.panels).forEach(dna.panels.initialize);
+      const panels = globalThis.document.querySelectorAll(dna.selector.panels)
+      panels.forEach(dna.panels.initialize);
       $(globalThis.document).on({ click:  dna.panels.clickRotate },  '.dna-menu .dna-menu-item');
       $(globalThis.document).on({ change: dna.panels.selectRotate }, dna.selector.menu);
-      return panels;
+      return <JQuery>$(panels);
       },
    };
 
@@ -1404,7 +1418,7 @@ const dna = {
          clones = clones.add(dna.core.replicate(template, model, settings));
       list.forEach(addClone);
       dna.placeholder.setup();
-      dna.panels.initialize(clones.first().closest(dna.selector.panels));
+      dna.panels.initialize(clones.first().closest(dna.selector.panels)[0]);
       clones.first().parents(dna.selector.hide).removeClass(dna.name.hide).addClass(dna.name.unhide);
       return clones;
       },
@@ -1616,6 +1630,7 @@ const dna = {
    array:       dnaArray,
    browser:     dnaBrowser,
    pageToken:   dnaPageToken,
+   dom:         dnaDom,
    ui:          dnaUi,
    util:        dnaUtil,
    format:      dnaFormat,
