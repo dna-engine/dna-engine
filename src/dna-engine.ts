@@ -295,10 +295,10 @@ const dnaPageToken = {
    };
 
 const dnaDom = {
-   hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, name: string) {
+   hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, name: string): boolean {
       return [...elems].some(elem => elem.classList.contains(name));
       },
-   addClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, name: string) {
+   addClass<T extends Element[] | HTMLCollection | NodeListOf<Element>>(elems: T, name: string): T {
       [...elems].forEach(elem => elem.classList.add(name));
       return elems;
       },
@@ -603,13 +603,13 @@ const dnaFormat = {
 const dnaPlaceholder = {  //TODO: optimize
    // A template placeholder is only shown when its corresponding template is empty (has zero
    // clones).  The "data-placeholder" attribute specifies the name of the template.
-   setup: (): JQuery => {
+   setup: () => {
       $(globalThis.document.querySelectorAll('option.dna-template')).closest('select').addClass(dna.name.hide);
-      const isEmpty = (elem: JQuery) => !!dna.getClones(elem.stop(true).data().placeholder).length;
-      const fade =    (elem: JQuery) => isEmpty(elem) ? elem.fadeOut() : elem.fadeIn();
-      const placehodlers = globalThis.document.querySelectorAll('[data-placeholder]');
-      placehodlers.forEach(elem => fade(<JQuery>$(elem)));
-      return <JQuery>$(placehodlers);
+      const isEmpty = (elem: Element) => !!dna.getClones($(elem).stop(true).data().placeholder).length;
+      const fade =    (elem: Element) => isEmpty(elem) ? $(elem).fadeOut() : $(elem).fadeIn();
+      const placeholders = globalThis.document.querySelectorAll('[data-placeholder]');
+      placeholders.forEach(fade);
+      return placeholders;
       },
    };
 
@@ -670,14 +670,15 @@ const dnaPanels = {
       const init = () => {
          const navName =    $(panelHolder!).data().nav || generateNavName();
          const menu =       globalThis.document.querySelector('.dna-menu[data-nav=' + navName + ']');
-         const panels =     $(panelHolder!).addClass(dna.name.panelsInitialized).children().addClass(dna.name.panel);
+         const panels =     dna.dom.addClass(panelHolder!.children, dna.name.panel);
          const hash =       globalThis.location.hash.replace(/[^\w-]/g, '');  //remove leading "#"
-         const hashIndex =  (): number => panels.filter('[data-hash=' + hash + ']').index();
+         const hashIndex =  (): number => $(panels).filter('[data-hash=' + hash + ']').index();
          const savedIndex = (): number => <number>dna.pageToken.get(navName, 0);
-         const loc =        hash && panels.first().data().hash ? hashIndex() : savedIndex();
+         const loc =        hash && $(panels).first().data().hash ? hashIndex() : savedIndex();
+         panelHolder!.classList.add(dna.name.panelsInitialized);
          dna.core.assert(menu, 'Menu not found for panels', navName);
          menu!.classList.add(dna.name.panelsInitialized);
-         $(menu!).data().dnaPanels = panels;
+         $(menu!).data().dnaPanels = $(panels);
          if (!menu!.getElementsByClassName(dna.name.menuItem).length)  //set .dna-menu-item elems if not set in the html
             dna.dom.addClass(menu!.children, dna.name.menuItem);
          dna.panels.display(<JQuery>$(menu!), loc);
@@ -687,13 +688,13 @@ const dnaPanels = {
          init();
       return panelHolder;
       },
-   setup: (): JQuery => {
+   setup() {
       $(globalThis.document.body).data().dnaPanelNextNav = 1;
       const panels = globalThis.document.querySelectorAll(dna.selector.panels)
       panels.forEach(dna.panels.initialize);
       $(globalThis.document).on({ click:  dna.panels.clickRotate },  '.dna-menu .dna-menu-item');
       $(globalThis.document).on({ change: dna.panels.selectRotate }, dna.selector.menu);
-      return <JQuery>$(panels);
+      return panels;
       },
    };
 
@@ -878,14 +879,14 @@ const dnaCompile = {
       return clones;
       },
    template: (name: string): DnaTemplate => {  //prepare and stash template so it can be cloned
-      const elem = $('#' + name);
-      dna.core.assert(elem.length, 'Template not found', name);
+      const elem = globalThis.document.getElementById(name);
+      dna.core.assert(elem, 'Template not found', name);
       const saveName = (elem: JQuery) =>
          elem.data().dnaRules = <DnaRules>{ template: elem.attr('id'), subs: [] };
       const initSubs = (elem: JQuery) =>
          elem.data().dnaRules.subs = [];
-      elem.find(dna.selector.template).addBack().forEach(saveName).removeAttr('id').forEach(initSubs);
-      const elems = elem.find('*').addBack();
+      $(elem!).find(dna.selector.template).addBack().forEach(saveName).removeAttr('id').forEach(initSubs);
+      const elems = $(elem!).find('*').addBack();
       elems.filter(dna.compile.isDnaField).forEach(dna.compile.field).addClass(dna.name.field);
       dna.compile.rules(elems, 'array').addClass(dna.name.subClone).forEach(initSubs);
       dna.compile.rules(elems, 'class', true);
@@ -894,12 +895,12 @@ const dnaCompile = {
       dna.compile.rules(elems, 'true');
       dna.compile.rules(elems, 'false');
       elems.forEach(dna.compile.propsAndAttrs);
-      dna.compile.separators(elem);
+      dna.compile.separators($(elem!));
       //support html5 values for "type" attribute
       const setTypeAttr = (inputElem: JQuery) =>
          inputElem.attr({ type: inputElem.data().attrType });
       $('input[data-attr-type]').forEach(setTypeAttr);
-      return dna.store.stash(elem);
+      return dna.store.stash($(elem!));
       },
    };
 
@@ -918,11 +919,10 @@ const dnaStore = {
          const wrapped =   container.children().length === 1 && !container.hasClass(dna.name.container);
          const compileSiblings = () => {
             container.data().dnaContents = true;
-            const templateName = (node: HTMLElement): boolean => {
-               const elem = $(node);
+            const templateName = (elem: HTMLElement): boolean => {
                const compileToName = (id?: string) => id ? dna.compile.template(id).name : name;
-               return elem.hasClass(dna.name.template) ? compileToName(elem.attr('id')) :
-                  elem.hasClass(dna.name.subClone) ? elem.data().dnaRules.template : false;
+               return elem.classList.contains(dna.name.template) ? compileToName(elem.id) :
+                  elem.classList.contains(dna.name.subClone) ? $(elem).data().dnaRules.template : false;
                };
             container.data().dnaContents = container.children().toArray().map(templateName);
             };
@@ -1032,7 +1032,7 @@ const dnaEvents = {
             dna.util.assign(<DnaDataObject>dna.getModel(elem), elem.data().dnaField, <Json>calc(elem));
          const getValue =     (elem: JQuery) => elem.val();
          const isChecked =    (elem: JQuery): boolean => elem.is(':checked');
-         const updateOption = (elem: JQuery) => updateField(elem, <DnaCallback>isChecked);
+         const updateOption = (elem: Element) => updateField(<JQuery>$(elem), <DnaCallback>isChecked);
          const updateModel =  () => {
             const mainClone = dna.getClone(target, { main: true });
             if (mainClone.length === 0) {  //TODO: figure out why some events are captured on the template instead of the clone
@@ -1042,7 +1042,7 @@ const dnaEvents = {
             if (target.is('input:checkbox'))
                updateField(target, <DnaCallback>isChecked);
             else if (target.is('input:radio'))
-               $('input:radio[name=' + target.attr('name') + ']').forEach(updateOption);
+               globalThis.document.querySelectorAll('input[type=radio][name=' + target.attr('name') + ']').forEach(updateOption);
             else if (target.data().dnaRules.val)
                updateField(target, <DnaCallback>getValue);
             dna.refresh(mainClone);
