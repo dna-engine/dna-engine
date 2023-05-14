@@ -1,6 +1,6 @@
 {
    "name": "dna-engine",
-   "version": "2.3.4",
+   "version": "2.3.5",
    "description": "An uncomplicated user interface library for cloning semantic templates",
    "license": "MIT",
    "type": "module",
@@ -160,7 +160,7 @@
       "fetch-json": "~3.1",
       "highlight.js": "~11.8",
       "hljs-enhance": "~1.1",
-      "jquery": "~3.6",
+      "jquery": "~3.7",
       "jsdom": "~22.0",
       "jshint": "~2.13",
       "mocha": "~10.2",

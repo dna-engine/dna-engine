@@ -1,4 +1,4 @@
-//! dna-engine v2.3.4 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.3.5 ~~ https://dna-engine.org ~~ MIT License
 
 /// <reference types="jquery" />
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
@@ -292,8 +292,24 @@ declare const dna: {
         put: (key: string, value: Json) => Json;
         get: (key: string, defaultValue: Json) => Json;
     };
+    dom: {
+        dataStorge: {
+            [key: string]: unknown;
+            [key: number]: unknown;
+            [key: symbol]: unknown;
+        }[];
+        data(elem: HTMLElement): {
+            [key: string]: unknown;
+            [key: number]: unknown;
+            [key: symbol]: unknown;
+        };
+        removeData(elem: HTMLElement): HTMLElement;
+        hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, className: string): boolean;
+        addClass<T_11 extends HTMLCollection | Element[] | NodeListOf<Element>>(elems: T_11, className: string): T_11;
+        forEach(elems: HTMLCollection, fn: (elem: Element, index?: number, elems?: HTMLCollection | unknown[]) => unknown): HTMLCollection;
+    };
     ui: {
-        deleteElem: <T_11>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T_11> | null | undefined) => JQuery;
+        deleteElem: <T_12>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T_12> | null | undefined) => JQuery;
         focus: (elem: JQuery) => JQuery;
         getAttrs: (elem: JQuery) => Attr[];
         getComponent: (elem: JQuery) => JQuery;
@@ -302,27 +318,27 @@ declare const dna: {
             interval: number;
             out: number;
         }) => JQuery;
-        slideFade: <T_12>(elem: JQuery, callback?: DnaCallbackFn<T_12> | null | undefined, show?: boolean) => JQuery;
-        slideFadeIn: <T_13>(elem: JQuery, callback?: DnaCallbackFn<T_13> | null | undefined) => JQuery;
-        slideFadeOut: <T_14>(elem: JQuery, callback?: DnaCallbackFn<T_14> | null | undefined) => JQuery;
-        slideFadeToggle: <T_15>(elem: JQuery, callback?: DnaCallbackFn<T_15> | null | undefined) => JQuery;
-        slideFadeDelete: <T_16>(elem: JQuery, callback?: DnaCallbackFn<T_16> | null | undefined) => JQuery;
+        slideFade: <T_13>(elem: JQuery, callback?: DnaCallbackFn<T_13> | null | undefined, show?: boolean) => JQuery;
+        slideFadeIn: <T_14>(elem: JQuery, callback?: DnaCallbackFn<T_14> | null | undefined) => JQuery;
+        slideFadeOut: <T_15>(elem: JQuery, callback?: DnaCallbackFn<T_15> | null | undefined) => JQuery;
+        slideFadeToggle: <T_16>(elem: JQuery, callback?: DnaCallbackFn<T_16> | null | undefined) => JQuery;
+        slideFadeDelete: <T_17>(elem: JQuery, callback?: DnaCallbackFn<T_17> | null | undefined) => JQuery;
         smoothHeightSetBaseline: (container: JQuery) => JQuery;
         smoothHeightAnimate: (delay: number, container: JQuery) => JQuery;
-        smoothMove: <T_17>(elem: JQuery, up?: boolean, callback?: DnaCallbackFn<T_17> | null | undefined) => JQuery;
-        smoothMoveUp: <T_18>(elem: JQuery, callback?: DnaCallbackFn<T_18> | null | undefined) => JQuery;
-        smoothMoveDown: <T_19>(elem: JQuery, callback?: DnaCallbackFn<T_19> | null | undefined) => JQuery;
+        smoothMove: <T_18>(elem: JQuery, up?: boolean, callback?: DnaCallbackFn<T_18> | null | undefined) => JQuery;
+        smoothMoveUp: <T_19>(elem: JQuery, callback?: DnaCallbackFn<T_19> | null | undefined) => JQuery;
+        smoothMoveDown: <T_20>(elem: JQuery, callback?: DnaCallbackFn<T_20> | null | undefined) => JQuery;
         toElem: (elemOrEventOrIndex: DnaElemEventIndex, that?: unknown) => JQuery;
     };
     util: {
-        apply: <T_20>(fn: string | DnaInitializerFn | DnaCallbackFn<T_20>, params?: unknown | JQuery) => unknown;
+        apply: <T_21>(fn: string | DnaInitializerFn | DnaCallbackFn<T_21>, params?: unknown | JQuery) => unknown;
         getFn(name: string): any;
         assign: (data: DnaDataObject, field: string | string[], value: Json) => DnaDataObject;
         printf: (format: string, ...values: unknown[]) => string;
         realTruth: (value: unknown) => boolean;
         toCamel: (kebabStr: string) => string;
         toKebab: (camelStr: string) => string;
-        value<T_21>(data: T_21, field: string | string[]): unknown;
+        value<T_22>(data: T_22, field: string | string[]): unknown;
         isObj: (value: unknown) => boolean;
     };
     format: {
@@ -333,14 +349,14 @@ declare const dna: {
         getFormatter(fn: string): DnaFormatter;
     };
     placeholder: {
-        setup: () => JQuery;
+        setup: () => NodeListOf<Element>;
     };
     panels: {
         display: (menu: JQuery, location?: number, updateUrl?: boolean) => JQuery;
         clickRotate: (event: JQuery.EventBase) => JQuery;
         selectRotate: (event: JQuery.EventBase) => JQuery;
-        initialize: (panelHolder: JQuery) => JQuery;
-        setup: () => JQuery;
+        initialize: (panelHolder?: Element) => Element | undefined;
+        setup(): NodeListOf<Element>;
     };
     compile: {
         regex: {
@@ -372,11 +388,11 @@ declare const dna: {
         setup: () => JQuery;
     };
     core: {
-        inject: <T_22>(clone: JQuery, data: T_22, count: number, settings: DnaOptionsClone<T_22>) => JQuery;
-        replicate: <T_23>(template: DnaTemplate, data: T_23, settings: DnaOptionsClone<T_23>) => JQuery;
+        inject: <T_23>(clone: JQuery, data: T_23, count: number, settings: DnaOptionsClone<T_23>) => JQuery;
+        replicate: <T_24>(template: DnaTemplate, data: T_24, settings: DnaOptionsClone<T_24>) => JQuery;
         getArrayName: (subClone: JQuery) => string | null;
         updateModelArray: (container: JQuery) => JQuery;
-        remove: <T_24>(clone: JQuery, callback?: DnaCallbackFn<T_24> | null | undefined) => JQuery;
+        remove: <T_25>(clone: JQuery, callback?: DnaCallbackFn<T_25> | null | undefined) => JQuery;
         assert: (ok: boolean | unknown, message: string, info: unknown) => void;
         plugin: () => void;
         setup: () => unknown;

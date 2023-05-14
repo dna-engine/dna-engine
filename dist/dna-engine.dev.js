@@ -1,4 +1,4 @@
-//! dna-engine v2.3.4 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v2.3.5 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     array: 'dna-array',
@@ -96,6 +96,32 @@ const dnaPageToken = {
         return value === undefined ? defaultValue : JSON.parse(value);
     },
 };
+const dnaDom = {
+    dataStorge: [],
+    data(elem) {
+        dna.core.assert(elem instanceof Element, 'Expected an HTML element, got', elem);
+        if (!elem.dataset.dnaStoreIndex)
+            elem.dataset.dnaStoreIndex = String(dna.dom.dataStorge.push({}) - 1);
+        return dna.dom.dataStorge[parseInt(elem.dataset.dnaStoreIndex)];
+    },
+    removeData(elem) {
+        dna.core.assert(elem instanceof Element, 'Expected an HTML element, got', elem);
+        if (elem.dataset.dnaStoreIndex)
+            dna.dom.dataStorge[parseInt(elem.dataset.dnaStoreIndex)] = {};
+        return elem;
+    },
+    hasClass(elems, className) {
+        return Array.prototype.some.call(elems, elem => elem.classList.contains(className));
+    },
+    addClass(elems, className) {
+        Array.prototype.forEach.call(elems, elem => elem.classList.add(className));
+        return elems;
+    },
+    forEach(elems, fn) {
+        Array.prototype.forEach.call(elems, fn);
+        return elems;
+    },
+};
 const dnaUi = {
     deleteElem: function (elemOrEventOrIndex, callback) {
         const elem = dna.ui.toElem(elemOrEventOrIndex, this);
@@ -105,7 +131,8 @@ const dnaUi = {
         return elem.trigger('focus');
     },
     getAttrs: (elem) => {
-        return elem[0] ? Object.values(elem[0].attributes) : [];
+        const node = elem[0];
+        return node ? Object.values(node.attributes) : [];
     },
     getComponent: (elem) => {
         return elem.closest('[data-component]');
@@ -146,13 +173,13 @@ const dnaUi = {
         return dna.ui.slideFadeOut(elem, () => dna.ui.deleteElem(elem, callback));
     },
     smoothHeightSetBaseline: (container) => {
-        const body = $('body');
+        const body = $(globalThis.document.body);
         const elem = body.data().dnaCurrentContainer = container || body;
         const height = elem.outerHeight();
         return elem.css({ minHeight: height, maxHeight: height, overflow: 'hidden' });
     },
     smoothHeightAnimate: (delay, container) => {
-        const elem = container || $('body').data().dnaCurrentContainer;
+        const elem = container || $(globalThis.document.body).data().dnaCurrentContainer;
         const animate = () => {
             elem.css({ minHeight: 0, maxHeight: '100vh' });
             const turnOffTransition = () => elem.css({ transition: 'none', maxHeight: 'none' });
@@ -164,13 +191,16 @@ const dnaUi = {
         return elem;
     },
     smoothMove: (elem, up, callback) => {
+        const node = elem[0];
+        const submissiveElem = up ? elem.prev() : elem.next();
+        const submissiveNode = submissiveElem[0];
         const fn = typeof callback === 'function' ? callback : null;
         const move = () => {
-            const ghostElem = submissiveElem.clone(true);
-            if (up)
-                elem.after(submissiveElem.hide()).before(ghostElem);
-            else
-                elem.before(submissiveElem.hide()).after(ghostElem);
+            const ghostNode = submissiveNode.cloneNode(true);
+            const ghostElem = $(ghostNode);
+            submissiveElem.hide();
+            node.parentElement.insertBefore(ghostNode, submissiveNode);
+            node.parentElement.insertBefore(up ? node : submissiveNode, up ? submissiveNode : node);
             let finishes = 0;
             const finish = () => finishes++ && fn && fn(elem);
             const animate = () => {
@@ -179,8 +209,7 @@ const dnaUi = {
             };
             globalThis.setTimeout(animate);
         };
-        const submissiveElem = up ? elem.prev() : elem.next();
-        if (submissiveElem.length)
+        if (submissiveNode)
             move();
         else if (fn)
             fn(elem);
@@ -333,22 +362,25 @@ const dnaFormat = {
 };
 const dnaPlaceholder = {
     setup: () => {
-        $('option.dna-template').closest('select').addClass(dna.name.hide);
-        const isEmpty = (elem) => !!dna.getClones(elem.stop(true).data().placeholder).length;
-        const fade = (elem) => isEmpty(elem) ? elem.fadeOut() : elem.fadeIn();
-        return $('[data-placeholder]').forEach(fade);
+        $(globalThis.document.querySelectorAll('option.dna-template')).closest('select').addClass(dna.name.hide);
+        const isEmpty = (elem) => !!dna.getClones($(elem).stop(true).data().placeholder).length;
+        const fade = (elem) => isEmpty(elem) ? $(elem).fadeOut() : $(elem).fadeIn();
+        const placeholders = globalThis.document.querySelectorAll('[data-placeholder]');
+        placeholders.forEach(fade);
+        return placeholders;
     },
 };
 const dnaPanels = {
     display: (menu, location, updateUrl) => {
+        const menuNode = menu[0];
         const panels = menu.data().dnaPanels;
         const navName = menu.data().nav;
         const menuItems = menu.find(dna.selector.menuItem);
         const savedIndex = Number(dna.pageToken.get(navName, 0));
         const bound = (loc) => Math.max(0, Math.min(loc, menuItems.length - 1));
         const index = bound(location === undefined ? savedIndex : location);
-        if (menu[0].nodeName === 'SELECT')
-            menu[0].selectedIndex = index;
+        if (menuNode.nodeName === 'SELECT')
+            menuNode.selectedIndex = index;
         menuItems.removeClass(dna.name.selected).addClass(dna.name.unselected);
         menuItems.eq(index).addClass(dna.name.selected).removeClass(dna.name.unselected);
         panels.hide().removeClass(dna.name.displayed).addClass(dna.name.hidden);
@@ -371,32 +403,35 @@ const dnaPanels = {
     },
     initialize: (panelHolder) => {
         const generateNavName = () => {
-            const navName = 'dna-panels-' + $('body').data().dnaPanelNextNav++;
-            panelHolder.attr('data-nav', navName).prev(dna.selector.menu).attr('data-nav', navName);
+            const navName = 'dna-panels-' + $(globalThis.document.body).data().dnaPanelNextNav++;
+            $(panelHolder).attr('data-nav', navName).prev(dna.selector.menu).attr('data-nav', navName);
             return navName;
         };
         const init = () => {
-            const navName = panelHolder.data().nav || generateNavName();
-            const menu = $('.dna-menu[data-nav=' + navName + ']').addClass(dna.name.panelsInitialized);
-            const panels = panelHolder.addClass(dna.name.panelsInitialized).children().addClass(dna.name.panel);
+            const navName = $(panelHolder).data().nav || generateNavName();
+            const menu = globalThis.document.querySelector('.dna-menu[data-nav=' + navName + ']');
+            const panels = dna.dom.addClass(panelHolder.children, dna.name.panel);
             const hash = globalThis.location.hash.replace(/[^\w-]/g, '');
-            const hashIndex = () => panels.filter('[data-hash=' + hash + ']').index();
+            const hashIndex = () => $(panels).filter('[data-hash=' + hash + ']').index();
             const savedIndex = () => dna.pageToken.get(navName, 0);
-            const loc = hash && panels.first().data().hash ? hashIndex() : savedIndex();
-            dna.core.assert(menu.length, 'Menu not found for panels', navName);
-            menu.data().dnaPanels = panels;
-            if (!menu.find(dna.selector.menuItem).length)
-                menu.children().addClass(dna.name.menuItem);
-            dna.panels.display(menu, loc);
+            const loc = hash && $(panels).first().data().hash ? hashIndex() : savedIndex();
+            panelHolder.classList.add(dna.name.panelsInitialized);
+            dna.core.assert(menu, 'Menu not found for panels', navName);
+            menu.classList.add(dna.name.panelsInitialized);
+            $(menu).data().dnaPanels = $(panels);
+            if (!menu.getElementsByClassName(dna.name.menuItem).length)
+                dna.dom.addClass(menu.children, dna.name.menuItem);
+            dna.panels.display($(menu), loc);
         };
-        const isInitialized = !panelHolder.length || panelHolder.hasClass(dna.name.panelsInitialized);
-        if (!isInitialized && !panelHolder.children().hasClass(dna.name.template))
+        const isInitialized = !panelHolder || panelHolder.classList.contains(dna.name.panelsInitialized);
+        if (!isInitialized && !dna.dom.hasClass(panelHolder.children, dna.name.template))
             init();
         return panelHolder;
     },
-    setup: () => {
-        $('body').data().dnaPanelNextNav = 1;
-        const panels = $(dna.selector.panels).forEach(dna.panels.initialize);
+    setup() {
+        $(globalThis.document.body).data().dnaPanelNextNav = 1;
+        const panels = globalThis.document.querySelectorAll(dna.selector.panels);
+        panels.forEach(dna.panels.initialize);
         $(globalThis.document).on({ click: dna.panels.clickRotate }, '.dna-menu .dna-menu-item');
         $(globalThis.document).on({ change: dna.panels.selectRotate }, dna.selector.menu);
         return panels;
@@ -414,9 +449,9 @@ const dnaCompile = {
         return elem.addClass(dna.name.nucleotide);
     },
     isDnaField: (index, node) => {
-        const firstNode = node.childNodes[0];
-        const matches = () => { var _a; return !!((_a = firstNode.nodeValue) === null || _a === void 0 ? void 0 : _a.match(dna.compile.regex.dnaField)); };
-        return firstNode && !!firstNode.nodeValue && matches();
+        var _a;
+        const value = (_a = node.firstChild) === null || _a === void 0 ? void 0 : _a.nodeValue;
+        return !!value && dna.compile.regex.dnaField.test(value);
     },
     addFieldClass: (elem) => {
         const field = elem.data().dnaField;
@@ -516,9 +551,13 @@ const dnaCompile = {
     separators: (elem) => {
         const isWhitespaceNode = (index, node) => node.nodeType === Node.TEXT_NODE && !/\S/.test(node.nodeValue);
         const append = (templateElem, text, className) => {
+            const templateNode = templateElem[0];
             const doAppend = () => {
                 templateElem.contents().last().filter(isWhitespaceNode).remove();
-                templateElem.append($('<span>').addClass(className).html(text));
+                const span = globalThis.document.createElement('span');
+                span.classList.add(className);
+                span.innerHTML = text;
+                templateNode.append(span);
             };
             return text && doAppend();
         };
@@ -531,12 +570,17 @@ const dnaCompile = {
         return clones;
     },
     template: (name) => {
-        const elem = $('#' + name);
-        dna.core.assert(elem.length, 'Template not found', name);
-        const saveName = (elem) => elem.data().dnaRules = { template: elem.attr('id'), subs: [] };
+        const elem = globalThis.document.getElementById(name);
+        dna.core.assert(elem, 'Template not found', name);
         const initSubs = (elem) => elem.data().dnaRules.subs = [];
-        elem.find(dna.selector.template).addBack().forEach(saveName).removeAttr('id').forEach(initSubs);
-        const elems = elem.find('*').addBack();
+        const saveName = (elem) => {
+            $(elem).data().dnaRules = { template: elem.id, subs: [] };
+            elem.removeAttribute('id');
+            return elem;
+        };
+        saveName(elem);
+        dna.dom.forEach(elem.getElementsByClassName(dna.name.template), saveName);
+        const elems = $(elem).find('*').addBack();
         elems.filter(dna.compile.isDnaField).forEach(dna.compile.field).addClass(dna.name.field);
         dna.compile.rules(elems, 'array').addClass(dna.name.subClone).forEach(initSubs);
         dna.compile.rules(elems, 'class', true);
@@ -545,15 +589,15 @@ const dnaCompile = {
         dna.compile.rules(elems, 'true');
         dna.compile.rules(elems, 'false');
         elems.forEach(dna.compile.propsAndAttrs);
-        dna.compile.separators(elem);
+        dna.compile.separators($(elem));
         const setTypeAttr = (inputElem) => inputElem.attr({ type: inputElem.data().attrType });
         $('input[data-attr-type]').forEach(setTypeAttr);
-        return dna.store.stash(elem);
+        return dna.store.stash($(elem));
     },
 };
 const dnaStore = {
     getTemplateDb: () => {
-        const store = $('body').data();
+        const store = $(globalThis.document.body).data();
         const initStore = () => store.dnaTemplateDb = {};
         return store.dnaTemplateDb || initStore();
     },
@@ -565,11 +609,10 @@ const dnaStore = {
             const wrapped = container.children().length === 1 && !container.hasClass(dna.name.container);
             const compileSiblings = () => {
                 container.data().dnaContents = true;
-                const templateName = (node) => {
-                    const elem = $(node);
+                const templateName = (elem) => {
                     const compileToName = (id) => id ? dna.compile.template(id).name : name;
-                    return elem.hasClass(dna.name.template) ? compileToName(elem.attr('id')) :
-                        elem.hasClass(dna.name.subClone) ? elem.data().dnaRules.template : false;
+                    return elem.classList.contains(dna.name.template) ? compileToName(elem.id) :
+                        elem.classList.contains(dna.name.subClone) ? $(elem).data().dnaRules.template : false;
                 };
                 container.data().dnaContents = container.children().toArray().map(templateName);
             };
@@ -605,12 +648,12 @@ const dnaStore = {
 };
 const dnaEvents = {
     getContextDb: () => {
-        const store = $('body').data();
+        const store = $(globalThis.document.body).data();
         const initStore = () => store.dnaContextDb = {};
         return store.dnaContextDb || initStore();
     },
     getInitializers: () => {
-        const store = $('body').data() || {};
+        const store = $(globalThis.document.body).data() || {};
         const initStore = () => store.dnaInitializers = [];
         return store.dnaInitializers || initStore();
     },
@@ -649,8 +692,9 @@ const dnaEvents = {
     setup: () => {
         const runner = (elem, type, event) => {
             const target = elem.closest('[data-' + type + ']');
+            const targetNode = target[0];
             const fn = target.data(type);
-            const isLink = target[0] && target[0].nodeName === 'A';
+            const isLink = targetNode && targetNode.nodeName === 'A';
             if (type === 'click' && isLink && fn && fn.match(/^dna[.]/))
                 event.preventDefault();
             const nextClickTarget = target.parent().closest('[data-click]');
@@ -663,7 +707,7 @@ const dnaEvents = {
             const updateField = (elem, calc) => dna.util.assign(dna.getModel(elem), elem.data().dnaField, calc(elem));
             const getValue = (elem) => elem.val();
             const isChecked = (elem) => elem.is(':checked');
-            const updateOption = (elem) => updateField(elem, isChecked);
+            const updateOption = (elem) => updateField($(elem), isChecked);
             const updateModel = () => {
                 const mainClone = dna.getClone(target, { main: true });
                 if (mainClone.length === 0) {
@@ -672,7 +716,7 @@ const dnaEvents = {
                 if (target.is('input:checkbox'))
                     updateField(target, isChecked);
                 else if (target.is('input:radio'))
-                    $('input:radio[name=' + target.attr('name') + ']').forEach(updateOption);
+                    globalThis.document.querySelectorAll('input[type=radio][name=' + target.attr('name') + ']').forEach(updateOption);
                 else if (target.data().dnaRules.val)
                     updateField(target, getValue);
                 dna.refresh(mainClone);
@@ -870,9 +914,16 @@ const dnaCore = {
                 .closest(dna.selector.clone).find(dna.selector.separator).hide();
         };
         const selector = '.dna-contains-' + template.name.replace(/[.]/g, '\\.');
-        const container = settings.container ?
-            settings.container.find(selector).addBack(selector) : template.container;
-        const clone = template.elem.clone(true, true);
+        const getContainer = () => settings.container.find(selector).addBack(selector);
+        const container = settings.container ? getContainer() : template.container;
+        const containerNode = container[0];
+        const templateNode = template.elem[0];
+        const templateNodes = [templateNode, ...templateNode.getElementsByTagName('*')];
+        const templateData = templateNodes.map(subnode => $(subnode).data());
+        const node = templateNode.cloneNode(true);
+        const nodes = [node, ...node.getElementsByTagName('*')];
+        nodes.forEach((subnode, i) => $(subnode).data(templateData[i]));
+        const clone = $(node);
         const name = clone.data().dnaRules.template;
         if (!container.data().dnaCountsMap)
             container.data().dnaCountsMap = {};
@@ -886,23 +937,24 @@ const dnaCore = {
                 const adjustment = (clonesAbove, name) => clonesAbove + (name && contents.indexOf(name) < index ?
                     allClones.filter('.' + name).length - 1 : 0);
                 const target = container.children().eq(index + contents.reduce(adjustment, 0));
-                return target.length ? target.before(clone) : container.append(clone);
+                const targetNode = target[0];
+                return targetNode ? containerNode.insertBefore(node, targetNode) : containerNode.append(node);
             };
             const allClones = container.children(dna.selector.clone);
             const sameClones = allClones.filter('.' + template.name);
             if (!sameClones.length)
                 firstClone();
             else if (settings.top)
-                sameClones.first().before(clone);
+                containerNode.insertBefore(node, sameClones.first()[0]);
             else
-                sameClones.last().after(clone);
+                containerNode.insertBefore(node, sameClones.last()[0].nextSibling);
         };
         if (!template.wrapped)
             intoUnwrapped();
         else if (settings.top)
-            container.prepend(clone);
+            containerNode.prepend(node);
         else
-            container.append(clone);
+            containerNode.append(node);
         if (template.separators)
             displaySeparators();
         dna.events.runInitializers(clone);
@@ -916,7 +968,8 @@ const dnaCore = {
         return subClone.hasClass(dna.name.subClone) ? subClone.data().dnaRules.array : null;
     },
     updateModelArray: (container) => {
-        dna.core.assert(container.hasClass(dna.name.array), 'Invalid array container', container.attr('class'));
+        const containerNode = container[0];
+        dna.core.assert(containerNode.classList.contains(dna.name.array), 'Invalid array container', container.attr('class'));
         const array = container.data().dnaRules.loop;
         const subs = container.children('.' + array.name);
         const model = dna.getModel(container);
@@ -971,7 +1024,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '2.3.4',
+    version: '2.3.5',
     clone(name, data, options) {
         const defaults = {
             fade: false,
@@ -994,7 +1047,7 @@ const dna = {
         const addClone = (model) => clones = clones.add(dna.core.replicate(template, model, settings));
         list.forEach(addClone);
         dna.placeholder.setup();
-        dna.panels.initialize(clones.first().closest(dna.selector.panels));
+        dna.panels.initialize(clones.first().closest(dna.selector.panels)[0]);
         clones.first().parents(dna.selector.hide).removeClass(dna.name.hide).addClass(dna.name.unhide);
         return clones;
     },
@@ -1014,7 +1067,13 @@ const dna = {
         return holderClone;
     },
     createTemplate(name, html, holder) {
-        $(html).attr({ id: name }).addClass(dna.name.template).appendTo(holder);
+        const holderNode = holder[0];
+        const div = globalThis.document.createElement('div');
+        div.innerHTML = html;
+        const elem = div.firstElementChild;
+        elem.id = name;
+        elem.classList.add(dna.name.template);
+        holderNode.append(elem);
         return dna.store.getTemplate(name);
     },
     templateExists(name) {
@@ -1178,6 +1237,7 @@ const dna = {
     array: dnaArray,
     browser: dnaBrowser,
     pageToken: dnaPageToken,
+    dom: dnaDom,
     ui: dnaUi,
     util: dnaUtil,
     format: dnaFormat,

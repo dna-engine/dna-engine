@@ -276,6 +276,10 @@ section >p >em {
    font-weight: bold;
    font-style: normal;
    }
+main.docs-page #smooth-container button {
+   margin: 0px 5px 5px 0px;
+   }
+
 .api-description {
    font-style: italic;
    margin-bottom: 10px;

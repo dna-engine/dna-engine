@@ -295,6 +295,19 @@ const dnaPageToken = {
    };
 
 const dnaDom = {
+   dataStorge: <{ [key: string | number | symbol]: unknown }[]>[],
+   data(elem: HTMLElement) {
+      dna.core.assert(elem instanceof Element, 'Expected an HTML element, got', elem);
+      if (!elem.dataset.dnaStoreIndex)
+         elem.dataset.dnaStoreIndex = String(dna.dom.dataStorge.push({}) - 1);
+      return dna.dom.dataStorge[parseInt(elem.dataset.dnaStoreIndex)]!;
+      },
+   removeData(elem: HTMLElement): HTMLElement {
+      dna.core.assert(elem instanceof Element, 'Expected an HTML element, got', elem);
+      if (elem.dataset.dnaStoreIndex)
+         dna.dom.dataStorge[parseInt(elem.dataset.dnaStoreIndex)] = {};
+      return elem;
+      },
    hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, className: string): boolean {
       // Returns true if any of the elements in the given list have the specified class.
       return Array.prototype.some.call(elems, elem => elem.classList.contains(className));
@@ -393,7 +406,7 @@ const dnaUi = {
          };
       globalThis.setTimeout(animate, delay || 50);  //allow container time to draw
       const setAnimationLength = () => elem.css({ transition: 'all 1s' });
-      globalThis.setTimeout(setAnimationLength, 10);  //allow baseline to lock in height
+      globalThis.setTimeout(setAnimationLength, 10);  //allow baseline to lock-in height
       return elem;
       },
    smoothMove: <T>(elem: JQuery, up?: boolean, callback?: DnaCallbackFn<T> | null): JQuery => {
