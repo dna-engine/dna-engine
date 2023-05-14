@@ -295,11 +295,18 @@ const dnaPageToken = {
    };
 
 const dnaDom = {
-   hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, name: string): boolean {
-      return [...elems].some(elem => elem.classList.contains(name));
+   hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, className: string): boolean {
+      // Returns true if any of the elements in the given list have the specified class.
+      return Array.prototype.some.call(elems, elem => elem.classList.contains(className));
       },
-   addClass<T extends Element[] | HTMLCollection | NodeListOf<Element>>(elems: T, name: string): T {
-      [...elems].forEach(elem => elem.classList.add(name));
+   addClass<T extends Element[] | HTMLCollection | NodeListOf<Element>>(elems: T, className: string): T {
+      // Adds the specified class to each of the elements in the given list.
+      Array.prototype.forEach.call(elems, elem => elem.classList.add(className));
+      return elems;
+      },
+   forEach(elems: HTMLCollection, fn: (elem: Element, index?: number, elems?: HTMLCollection | unknown[]) => unknown): HTMLCollection {
+      // Loops over the given list of elements to pass each element to the specified function.
+      Array.prototype.forEach.call(elems, fn);
       return elems;
       },
    };
@@ -879,14 +886,18 @@ const dnaCompile = {
       return clones;
       },
    template: (name: string): DnaTemplate => {  //prepare and stash template so it can be cloned
-      const elem = globalThis.document.getElementById(name);
+      const elem = globalThis.document.getElementById(name)!;
       dna.core.assert(elem, 'Template not found', name);
-      const saveName = (elem: JQuery) =>
-         elem.data().dnaRules = <DnaRules>{ template: elem.attr('id'), subs: [] };
       const initSubs = (elem: JQuery) =>
          elem.data().dnaRules.subs = [];
-      $(elem!).find(dna.selector.template).addBack().forEach(saveName).removeAttr('id').forEach(initSubs);
-      const elems = $(elem!).find('*').addBack();
+      const saveName = (elem: Element) => {
+         $(elem).data().dnaRules = <DnaRules>{ template: elem.id, subs: [] };
+         elem.removeAttribute('id');
+         return elem;
+         };
+      saveName(elem);
+      dna.dom.forEach(elem.getElementsByClassName(dna.name.template), saveName);
+      const elems = $(elem).find('*').addBack();
       elems.filter(dna.compile.isDnaField).forEach(dna.compile.field).addClass(dna.name.field);
       dna.compile.rules(elems, 'array').addClass(dna.name.subClone).forEach(initSubs);
       dna.compile.rules(elems, 'class', true);
@@ -895,12 +906,12 @@ const dnaCompile = {
       dna.compile.rules(elems, 'true');
       dna.compile.rules(elems, 'false');
       elems.forEach(dna.compile.propsAndAttrs);
-      dna.compile.separators($(elem!));
+      dna.compile.separators($(elem));
       //support html5 values for "type" attribute
       const setTypeAttr = (inputElem: JQuery) =>
          inputElem.attr({ type: inputElem.data().attrType });
       $('input[data-attr-type]').forEach(setTypeAttr);
-      return dna.store.stash($(elem!));
+      return dna.store.stash($(elem));
       },
    };
 
