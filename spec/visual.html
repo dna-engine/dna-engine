@@ -1445,9 +1445,10 @@
          dna.clone('chapter-box', {}, { empty: true, clones: +range.val() }).hide().fadeIn();
          },
       smooth(range) {
-         dna.ui.smoothHeightSetBaseline($('#spec18 .smooth-container'));
+         const container = document.querySelector('#spec18 .smooth-container');
+         dna.ui.smoothHeightSetBaseline(container);
          spec.spec18.makeChapterBoxes(range);
-         dna.ui.smoothHeightAnimate();
+         dna.ui.smoothHeightAnimate(container);
          },
       run() {
          spec.spec18.makeChapterBoxes($('#spec18 input[type=range]').first());

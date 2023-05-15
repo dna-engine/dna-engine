@@ -163,6 +163,7 @@ type Dna =          typeof dna;
 declare global { var dna: Dna }  //eslint-disable-line no-var
 
 const dnaName = {  //class name lookup table
+   animating:         'dna-animating',
    array:             'dna-array',
    clone:             'dna-clone',
    container:         'dna-container',
@@ -388,26 +389,36 @@ const dnaUi = {
       // Smooth slide plus fade effect.
       return dna.ui.slideFadeOut(elem, () => dna.ui.deleteElem(elem, callback));
       },
-   smoothHeightSetBaseline: (container: JQuery): JQuery => {
+   smoothHeightSetBaseline(container: HTMLElement = globalThis.document.body): HTMLElement {
       // See: smoothHeightAnimate below
-      const body =   $(globalThis.document.body);
-      const elem =   body.data().dnaCurrentContainer = container || body;
-      const height = <number>elem.outerHeight();
-      return elem.css({ minHeight: height, maxHeight: height, overflow: 'hidden' });
+      const height = String(container.clientHeight) + 'px';
+      container.style.minHeight = height;
+      container.style.maxHeight = height;
+      container.style.overflow =  'hidden';
+      container.classList.add(dna.name.animating);
+      return container;
       },
-   smoothHeightAnimate: (delay: number, container: JQuery): JQuery => {
+   smoothHeightAnimate(container: HTMLElement = globalThis.document.body): HTMLElement {
       // Smoothly animates the height of a container element from a beginning height to a final
       // height.
-      const elem = container || $(globalThis.document.body).data().dnaCurrentContainer;
+      const inProgress = container.classList.contains(dna.name.animating);
+      dna.core.assert(inProgress, 'Must call smoothHeightSetBaseline() first', container.nodeName);
+      const turnOffTransition = () => {
+         container.style.transition = 'none';
+         container.style.maxHeight =  'none';
+         container.classList.remove(dna.name.animating);
+         };
       const animate = () => {
-         elem.css({ minHeight: 0, maxHeight: '100vh' });
-         const turnOffTransition = () => elem.css({ transition: 'none', maxHeight: 'none' });
+         container.style.minHeight = '0px';
+         container.style.maxHeight = '100vh';
          globalThis.setTimeout(turnOffTransition, 1000);  //allow 1s transition to finish
          };
-      globalThis.setTimeout(animate, delay || 50);  //allow container time to draw
-      const setAnimationLength = () => elem.css({ transition: 'all 1s' });
-      globalThis.setTimeout(setAnimationLength, 10);  //allow baseline to lock-in height
-      return elem;
+      const setAnimationLength = () => {
+         container.style.transition = 'all 1s';
+         globalThis.requestAnimationFrame(animate);  //allow transition to lock-in before animating
+         };
+      globalThis.requestAnimationFrame(setAnimationLength);  //allow baseline to lock-in starting height
+      return container;
       },
    smoothMove: <T>(elem: JQuery, up?: boolean, callback?: DnaCallbackFn<T> | null): JQuery => {
       // Uses animation to smoothly slide an element up or down one slot amongst its siblings.

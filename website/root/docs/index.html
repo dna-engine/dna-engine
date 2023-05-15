@@ -3312,7 +3312,7 @@
             <a href=#ui-slide-fade><b>dna.ui.slideFadeToggle</b>(elem, callback)</a><br>
          </li>
          <li>dna.ui.smoothHeight<br>
-            <a href=#ui-smooth-height><b>dna.ui.smoothHeightAnimate</b>(delay, elem)</a><br>
+            <a href=#ui-smooth-height><b>dna.ui.smoothHeightAnimate</b>(elem)</a><br>
             <a href=#ui-smooth-height><b>dna.ui.smoothHeightSetBaseline</b>(elem)</a><br>
          </li>
          <li><a href=#ui-smooth-move><b>dna.ui.smoothMove</b>(elem, up)</a></li>
@@ -3649,7 +3649,7 @@
    <!-- dna.ui.smoothHeightSetBaseline() -->
    <section id=ui-smooth-height>
       <h4>dna.ui.smoothHeightSetBaseline([elem])</h4>
-      <h4>dna.ui.smoothHeightAnimate([delay, [elem]])</h4>
+      <h4>dna.ui.smoothHeightAnimate([elem])</h4>
       <p class=api-description>
          Smoothly animates the height of a container element from a beginning height to a final
          height.
@@ -3658,23 +3658,18 @@
          If no container element (<code>elem</code>) is specified, the <code>&lt;body&gt;</code>
          element will be used for the baseline and the animation will use the previously set baseline.
       </p>
-      <p>
-         The animation start <code>delay</code> (default is 50 milliseconds) allows time for the
-         container to be drawn.
-      </p>
       Usage steps:
       <ol>
-         <li>Call <code>dna.ui.smoothHeightSetBaseline()</code> to establish the initial height
+         <li>Call <code>dna.ui.smoothHeightSetBaseline(container)</code> to establish the initial height
             of the container.</li>
          <li>Insert (show) and remove (hide) multiple elements within the container.</li>
-         <li>Call <code>dna.ui.smoothHeightAnimate()</code> to smoothly adjust the container
+         <li>Call <code>dna.ui.smoothHeightAnimate(container)</code> to smoothly adjust the container
             element to its new height.</li>
       </ol>
       <div class=api-parameters>
          Parameters:
          <ul>
             {% render 'website/templates/params/elem-simple.html' %}
-            {% render 'website/templates/params/delay.html' %}
          </ul>
       </div>
       <figure>
@@ -3692,9 +3687,10 @@
                   dna.clone('chapter-box', {}, options);
                   };
                const smooth = (range) =&gt; {
-                  dna.ui.smoothHeightSetBaseline($('#smooth-container'));
+                  const elem = document.getElementById('smooth-container');
+                  dna.ui.smoothHeightSetBaseline(elem);
                   makeChapters(range);
-                  dna.ui.smoothHeightAnimate();
+                  dna.ui.smoothHeightAnimate(elem);
                   };
             &lt;/script&gt;
          </code></pre>
@@ -3716,9 +3712,10 @@
                   dna.clone('chapter-box', {}, options);
                   };
                const smooth = (range) => {
-                  dna.ui.smoothHeightSetBaseline($('#smooth-container'));
+                  const elem = document.getElementById('smooth-container');
+                  dna.ui.smoothHeightSetBaseline(elem);
                   makeChapters(range);
-                  dna.ui.smoothHeightAnimate();
+                  dna.ui.smoothHeightAnimate(elem);
                   };
             </script>
          </div>
