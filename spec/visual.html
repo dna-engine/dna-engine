@@ -1097,19 +1097,19 @@
             throw 'This is not the clone you are looking for: ' + (elem[0] && elem[0].nodeName);
          elem.addClass('border-change2');
          },
-      bye(elem, event) {
-         const clone = dna.getClone(elem);
+      bye(elem, event) {  //<button class=3 data-click=spec.spec15.bye>Bye 3</button>
+         const clone =      dna.getClone(elem);
          const delayRange = { min: 300, max: 1600 };
-         const start = Date.now();
+         const start =      Date.now();
          let handled = false;
          const badNews = (msg) => { throw 'handleByeDone --> ' + msg; };
          const handleByeDone = (param) => {
-            const delay = Date.now() - start;
+            const delay =       Date.now() - start;
             const elemMissing = param[0] !== clone[0];
-            const inDom = !!clone.parent().length;
+            const inDom =       !!clone.parent().length;
             handled = true;
             if (delay < delayRange.min || delay > delayRange.max || elemMissing || inDom)
-               badNews('delay: ' + delay + 'ms, clone: ' + !elemMissing + ' removed: ' + !inDom);
+               badNews('delay: ' + delay + 'ms, clone: ' + !elemMissing + ', removed: ' + !inDom);
             };
          if (event.type === 'click')
             dna.bye(elem, handleByeDone);

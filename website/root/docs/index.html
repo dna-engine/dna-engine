@@ -3639,8 +3639,9 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            dna.ui.slideFadeDelete($('.box').last());  //removes the last box
-            dna.ui.slideFadeIn($('.box').first());  //shows the box
+            const boxes = document.querySelectorAll('.box');
+            dna.ui.slideFadeIn(boxes[0]);      //shows the 1st box
+            dna.ui.slideFadeDelete(boxes[1]);  //removes the 2nd box
          </code></pre>
       </figure>
    </section>

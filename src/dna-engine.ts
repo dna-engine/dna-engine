@@ -358,36 +358,38 @@ const dnaUi = {
          elem.animate(css.show, settings.interval).animate(css.hide, settings.out);
       return elem;
       },
-   slideFade: <T>(elem: JQuery, callback?: DnaCallbackFn<T> | null, show?: boolean): JQuery => {
+   slideFade<T>(elem: Element, callback?: DnaCallbackFn<T> | null, show?: boolean): Element {
       // Smooth slide plus fade effect.
-      const obscure = { opacity: 0, transition: 'opacity 0s' };
-      const easeIn =  { opacity: 1, transition: 'opacity 400ms' };
-      const easeOut = { opacity: 0, transition: 'opacity 400ms' };
-      const reset =   { transition: 'opacity 0s' };
-      const doEaseIn = () => elem.css(easeIn);
-      const clearTransition = () => elem.css(reset);
+      enum Opacity   { Hide = 0, Show = 1 }
+      enum Transiton { Immediate = 'opacity 0s', Smooth = 'opacity 400ms' }
+      const obscure = { opacity: Opacity.Hide, transition: Transiton.Immediate };
+      const easeIn =  { opacity: Opacity.Show, transition: Transiton.Smooth };
+      const easeOut = { opacity: Opacity.Hide, transition: Transiton.Smooth };
+      const reset =   { transition: Transiton.Immediate };
+      const doEaseIn = () => $(elem).css(easeIn);
+      const clearTransition = () => $(elem).css(reset);
       if (show && globalThis.setTimeout(doEaseIn, 200))
-         elem.css(obscure).hide().delay(100).slideDown(callback || undefined);
+         $(elem).css(obscure).hide().delay(100).slideDown(callback || undefined);
       else
-         elem.css(easeOut).delay(100).slideUp(callback || undefined);
-      elem.delay(200).promise().then(clearTransition);  //keep clean for other animations
+         $(elem).css(easeOut).delay(100).slideUp(callback || undefined);
+      $(elem).delay(200).promise().then(clearTransition);  //keep clean for other animations
       return elem;
       },
-   slideFadeIn: <T>(elem: JQuery, callback?: DnaCallbackFn<T> | null): JQuery => {
+   slideFadeIn<T>(elem: Element, callback?: DnaCallbackFn<T> | null): Element {
       // Smooth slide plus fade effect.
       return dna.ui.slideFade(elem, callback, true);
       },
-   slideFadeOut: <T>(elem: JQuery, callback?: DnaCallbackFn<T> | null): JQuery => {
+   slideFadeOut<T>(elem: Element, callback?: DnaCallbackFn<T> | null): Element {
       // Smooth slide plus fade effect.
       return dna.ui.slideFade(elem, callback, false);
       },
-   slideFadeToggle: <T>(elem: JQuery, callback?: DnaCallbackFn<T> | null): JQuery => {
+   slideFadeToggle<T>(elem: Element, callback?: DnaCallbackFn<T> | null): Element {
       // Smooth slide plus fade effect.
-      return dna.ui.slideFade(elem, callback, elem.is(':hidden'));
+      return dna.ui.slideFade(elem, callback, $(elem).is(':hidden'));
       },
-   slideFadeDelete: <T>(elem: JQuery, callback?: DnaCallbackFn<T> | null): JQuery => {
+   slideFadeDelete<T>(elem: Element, callback?: DnaCallbackFn<T> | null): Element {
       // Smooth slide plus fade effect.
-      return dna.ui.slideFadeOut(elem, () => dna.ui.deleteElem(elem, callback));
+      return dna.ui.slideFadeOut(elem, () => dna.ui.deleteElem(<JQuery>$(elem), callback));
       },
    smoothHeightSetBaseline(container: HTMLElement = globalThis.document.body): HTMLElement {
       // See: smoothHeightAnimate below
@@ -427,16 +429,15 @@ const dnaUi = {
       const submissiveNode = submissiveElem[0];
       const fn = typeof callback === 'function' ? callback : null;
       const move = () => {
-         const ghostNode = submissiveNode!.cloneNode(true);
-         const ghostElem = <JQuery>$(ghostNode);
+         const ghostNode = <HTMLElement>submissiveNode!.cloneNode(true);
          submissiveElem.hide();
          node.parentElement!.insertBefore(ghostNode, submissiveNode!);
          node.parentElement!.insertBefore(up ? node : submissiveNode!, up ? submissiveNode! : node);
          let finishes = 0;
          const finish = () => finishes++ && fn && fn(elem);
          const animate = () => {
-            dna.ui.slideFadeIn(submissiveElem, finish);
-            dna.ui.slideFadeDelete(ghostElem, finish);
+            dna.ui.slideFadeIn(submissiveNode!, finish);
+            dna.ui.slideFadeDelete(ghostNode, finish);
             };
          globalThis.setTimeout(animate);
          };
@@ -1331,7 +1332,7 @@ const dnaCore = {
       if (settings.callback)
          settings.callback(clone, data);
       if (settings.fade)
-         dna.ui.slideFadeIn(clone);
+         dna.ui.slideFadeIn(node);
       return clone;
       },
    getArrayName: (subClone: JQuery): string | null => {
@@ -1476,7 +1477,7 @@ const dna = {
    createTemplate(name: string, html: string, holder: JQuery): DnaTemplate {
       // Generates a template from an HTML string.
       const holderNode = holder[0]!;
-      const div = globalThis.document.createElement('div');
+      const div =        globalThis.document.createElement('div');
       div.innerHTML = html;
       const elem = div.firstElementChild!;
       elem.id = name;
@@ -1495,16 +1496,19 @@ const dna = {
          dna.getClones(name).toArray().map(node => getOne($(node)));
       return typeof elemOrName === 'string' ? getAll(elemOrName) : getOne(elemOrName);
       },
-   empty(name: string, options?: DnaOptionsEmpty): JQuery {
+   empty(name: string, options?: DnaOptionsEmpty): Element[] {
       // Deletes all clones generated from the template.
-      const defaults = { fade: false, callback: null };
+      const defaults = { fade: false };
       const settings = { ...defaults, ...options };
       const template = dna.store.getTemplate(name);
-      const clones =   template.container.children(dna.selector.clone);
+      const clones =   template.container.children(dna.selector.clone).toArray();
       if (template.container.data().dnaCountsMap)
          template.container.data().dnaCountsMap[name] = 0;
-      const fadeDelete = () => dna.ui.slideFadeDelete(clones, settings.callback);
-      return settings.fade ? fadeDelete() : dna.core.remove(clones, settings.callback);
+      if (settings.fade)
+         clones.forEach(clone => dna.ui.slideFadeDelete(clone));
+      else
+         clones.forEach(clone => dna.core.remove($(clone)));
+      return clones;
       },
    insert<T>(name: string, data: T, options?: DnaOptionsInsert<T>): JQuery {
       // Updates the first clone if it already exists otherwise creates the first clone.
@@ -1569,8 +1573,8 @@ const dna = {
       const arrayField = dna.core.getArrayName(clone);
       if (arrayField)
          (<Json[]>(<DnaModel>dna.getModel(clone.parent()))[<keyof DnaModel>arrayField]).splice(dna.getIndex(clone), 1);
-      const fadeDelete = () => dna.ui.slideFadeDelete(clone, settings.callback);
-      return settings.fade ? fadeDelete() : dna.core.remove(clone, settings.callback);
+      const fadeDelete = () => dna.ui.slideFadeDelete(clone[0]!, settings.callback);
+      return settings.fade ? <JQuery>$(fadeDelete()) : dna.core.remove(clone, settings.callback);
       },
    getClone(elem: JQuery, options?: DnaOptionsGetClone): JQuery {
       // Returns the clone (or sub-clone) for the specified element.
