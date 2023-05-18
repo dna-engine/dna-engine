@@ -326,23 +326,15 @@ const dnaDom = {
    };
 
 const dnaUi = {
-   deleteElem: function<T>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T> | null): JQuery {
-      // A flexible function for removing a jQuery element.
-      // Example:
-      //    $('.box').fadeOut(dna.ui.deleteElem);
-      const elem = dna.ui.toElem(elemOrEventOrIndex, this);
-      return dna.core.remove(elem, callback);
-      },
    focus: (elem: JQuery): JQuery => {
       // Sets focus on an element.
       return elem.trigger('focus');
       },
-   getAttrs: (elem: JQuery): Attr[] => {
-      // Returns the attributes of the DOM node in a regular array.
-      const node = elem[0];
-      return node ? Object.values(node.attributes) : [];
+   getAttrs(elem: Element): Attr[] {
+      // Returns the attributes of the element in a regular array.
+      return elem ? Object.values(elem.attributes) : [];
       },
-   getComponent: (elem: JQuery): JQuery => {
+   getComponent(elem: Element): Element | null {
       // Returns the component (container element with a <code>data-component</code> attribute) to
       // which the element belongs.
       return elem.closest('[data-component]');
@@ -389,7 +381,7 @@ const dnaUi = {
       },
    slideFadeDelete<T>(elem: Element, callback?: DnaCallbackFn<T> | null): Element {
       // Smooth slide plus fade effect.
-      return dna.ui.slideFadeOut(elem, () => dna.ui.deleteElem(<JQuery>$(elem), callback));
+      return dna.ui.slideFadeOut(elem, () => dna.core.remove(<JQuery>$(elem), callback));
       },
    smoothHeightSetBaseline(container: HTMLElement = globalThis.document.body): HTMLElement {
       // See: smoothHeightAnimate below
@@ -465,26 +457,28 @@ const dnaUi = {
    };
 
 const dnaUtil = {
-   apply: <T>(fn: string | DnaCallbackFn<T> | DnaInitializerFn, params?: unknown | JQuery): unknown => {
+   apply<T>(fn: string | DnaCallbackFn<T> | DnaInitializerFn, params?: unknown | JQuery): unknown {
       // Calls fn (string name or actual function) passing in params.
       // Usage:
       //    dna.util.apply('app.cart.buy', 7); ==> app.cart.buy(7);
-      const args =     dna.array.wrap(params);
-      const elem =     args[0] instanceof $ ? <JQuery>args[0] : null;
-      const isFnName = typeof fn === 'string' && fn.length > 0;
-      const elemFn =   elem && isFnName ? (<DnaCallback>elem[<keyof typeof elem>fn])?.bind(elem) : null;
-      if (elem && isFnName && !elem[<keyof typeof elem>fn])
-         args.push(dna.ui.getComponent(elem));
+      const args =      dna.array.wrap(params);
+      const elemJ =     args[0] instanceof $ ? <JQuery>args[0] : null;
+      const elem =      elemJ?.[0] ?? null;
+      const isFnName =  typeof fn === 'string' && fn.length > 0;
+      const component = elem ? dna.ui.getComponent(elem) : null;
+      const elemFn =   elemJ && isFnName ? (<DnaCallback>elemJ[<keyof typeof elemJ>fn])?.bind(elemJ) : null;
+      if (elem && isFnName && !elemJ![<keyof typeof elemJ>fn])
+         args.push(component ? $(component) : $());
       const applyByName = (name: string) => {
          const callback = dna.util.getFn(name);
          dna.core.assert(callback, 'Callback function not found', name);
          dna.core.assert(typeof callback === 'function', 'Callback is not a function', name);
-         return callback.apply(elem, args);
+         return callback.apply(elemJ, args);
          };
-      return elem?.length === 0 ?   elem :                               //noop for emply list of elems
-         typeof fn === 'function' ? fn.apply(elem, <[JQuery, T]>args) :  //run regular function with supplied arguments
-         elemFn ?                   elemFn(args[1], args[2], args[3]) :  //run element's jQuery function
-         isFnName ?                 applyByName(fn) :                    //run funciton from name, like 'app.cart.buy'
+      return elemJ?.length === 0 ?  elemJ :                               //noop for emply list of elems
+         typeof fn === 'function' ? fn.apply(elemJ, <[JQuery, T]>args) :  //run regular function with supplied arguments
+         elemFn ?                   elemFn(args[1], args[2], args[3]) :   //run element's jQuery function
+         isFnName ?                 applyByName(fn) :                     //run funciton from name, like 'app.cart.buy'
          fn === undefined ?         null :
          fn === null ?              null :
          dna.core.assert(false, 'Invalid callback function', fn);
@@ -802,6 +796,7 @@ const dnaCompile = {
       //    <input type=checkbox data-prop-checked=~~set~~>
       //                                    ==>  <option class=dna-nucleotide + data-dnaRules={ props: ['selected', 'set'] }>
       //    <select data-option=~~color~~>  ==>  <select class=dna-nucleotide + data-dnaRules={ val: true } + data-dnaField=color>
+      const node = elem[0]!;
       const props: DnaProps = [];
       const attrs: DnaAttrs = [];
       const names: string[] = [];
@@ -837,7 +832,7 @@ const dnaCompile = {
          else if (attr.value.split(dna.compile.regex.dnaBasePair).length === 3)
             compileAttr(attr.name, attr.value);
          };
-      dna.ui.getAttrs(elem).forEach(compile);
+      dna.ui.getAttrs(node).forEach(compile);
       const getRules = (): DnaRules => dna.compile.setupNucleotide(elem).data().dnaRules;
       if (props.length > 0)
          getRules().props = props;

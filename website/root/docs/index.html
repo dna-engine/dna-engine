@@ -3300,7 +3300,6 @@
             <a href=#page-token><b>dna.pageToken.get</b>(key, value)</a><br>
             <a href=#page-token><b>dna.pageToken.put</b>(key, defaultValue)</a><br>
          </li>
-         <li><a href=#ui-delete-elem><b>dna.ui.deleteElem</b>(elemOrEventOrIndex)</a></li>
          <li><a href=#ui-focus><b>dna.ui.focus</b>(elem)</a></li>
          <li><a href=#ui-get-attrs><b>dna.ui.getAttrs</b>(elem)</a></li>
          <li><a href=#ui-get-component><b>dna.ui.getComponent</b>(elem)</a></li>
@@ -3502,32 +3501,6 @@
       </figure>
    </section>
 
-   <!-- dna.ui.deleteElem() -->
-   <section id=ui-delete-elem>
-      <h4>dna.ui.deleteElem(elemOrEventOrIndex)</h4>
-      <p class=api-description>
-         A flexible function for removing a jQuery element.
-      </p>
-      <div class=api-parameters>
-         Parameters:
-         <ul>
-            {% render 'website/templates/params/elem-or-event-or-index.html' %}
-         </ul>
-      </div>
-      <figure>
-         <figcaption>Example 1: Direct function call</figcaption>
-         <pre><code class=language-javascript>
-            dna.ui.deleteElem($('.box:first'));  //removes first box
-         </code></pre>
-      </figure>
-      <figure>
-         <figcaption>Example 2: jQuery callback</figcaption>
-         <pre><code class=language-javascript>
-            $('.box:last').fadeOut(dna.ui.deleteElem);  //removes last box
-         </code></pre>
-      </figure>
-   </section>
-
    <!-- dna.ui.focus() -->
    <section id=ui-focus>
       <h4>dna.ui.focus(elem)</h4>
@@ -3555,7 +3528,7 @@
    <section id=ui-get-attrs>
       <h4>dna.ui.getAttrs(elem)</h4>
       <p class=api-description>
-         Returns the attributes of the DOM node in a regular array.
+         Returns the attributes of the element in a regular array.
       </p>
       <div class=api-parameters>
          Parameters:
@@ -3570,7 +3543,7 @@
       <h4>dna.ui.getComponent(elem)</h4>
       <p class=api-description>
          Returns the component (container element with a <code>data-component</code> attribute) to
-         which the element belongs.
+         which the element belongs or <code>null</code> if the element is not in a component.
       </p>
       <div class=api-parameters>
          Parameters:
