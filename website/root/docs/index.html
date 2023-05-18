@@ -3745,7 +3745,10 @@
                &lt;li id=favorite&gt;Go JavaScript!&lt;/li&gt;
                &lt;li&gt;Styling CSS3&lt;/li&gt;
             &lt;/ol&gt;
-            &lt;script&gt;dna.ui.smoothMove($('#favorite'), true);&lt;/script&gt;
+            &lt;script&gt;
+               const elem = document.getElementById('favorite');
+               dna.ui.smoothMove(elem, true);
+            &lt;/script&gt;
          </code></pre>
       </figure>
       <p>

@@ -101,7 +101,7 @@ export type DnaCallback =       (...args: unknown[]) => unknown;
 export interface DnaTransformFn<T> { (data: T): void }
 export interface DnaCallbackFn<T> { (elem: JQuery, data?: T): void }
 export interface DnaInitializerFn { (elem: JQuery, ...params: unknown[]): void }
-export type DnaElemEventIndex = JQuery | JQuery.EventBase | number;
+export type DnaElemEventIndex = Element | JQuery | JQuery.EventBase | number;
 export type DnaInitializer = {
    fn:       DnaFunctionName | DnaInitializerFn,
    selector: string | null,
@@ -422,19 +422,18 @@ const dnaUi = {
       globalThis.requestAnimationFrame(setAnimationLength);  //allow baseline to lock-in starting height
       return container;
       },
-   smoothMove: <T>(elem: JQuery, up?: boolean, callback?: DnaCallbackFn<T> | null): JQuery => {
+   smoothMove<T>(elem: Element, up?: boolean, callback?: DnaCallbackFn<T> | null): Element {
       // Uses animation to smoothly slide an element up or down one slot amongst its siblings.
-      const node =           elem[0]!;
-      const submissiveElem = up ? elem.prev() : elem.next();
-      const submissiveNode = submissiveElem[0];
+      const submissiveNode = up ? elem.previousElementSibling : elem.nextElementSibling;
+      // const submissiveNode = submissiveElem[0];
       const fn = typeof callback === 'function' ? callback : null;
       const move = () => {
          const ghostNode = <HTMLElement>submissiveNode!.cloneNode(true);
-         submissiveElem.hide();
-         node.parentElement!.insertBefore(ghostNode, submissiveNode!);
-         node.parentElement!.insertBefore(up ? node : submissiveNode!, up ? submissiveNode! : node);
+         $(submissiveNode!).hide();
+         elem.parentElement!.insertBefore(ghostNode, submissiveNode!);
+         elem.parentElement!.insertBefore(up ? elem : submissiveNode!, up ? submissiveNode! : elem);
          let finishes = 0;
-         const finish = () => finishes++ && fn && fn(elem);
+         const finish = () => finishes++ && fn && fn(<JQuery>$(elem));
          const animate = () => {
             dna.ui.slideFadeIn(submissiveNode!, finish);
             dna.ui.slideFadeDelete(ghostNode, finish);
@@ -444,23 +443,24 @@ const dnaUi = {
       if (submissiveNode)
          move();
       else if (fn)
-         fn(elem);
+         fn(<JQuery>$(elem));
       return elem;
       },
-   smoothMoveUp: <T>(elem: JQuery, callback?: DnaCallbackFn<T> | null): JQuery => {
+   smoothMoveUp: <T>(elem: Element, callback?: DnaCallbackFn<T> | null): Element => {
       // Uses animation to smoothly slide an element up one slot amongst its siblings.
       return dna.ui.smoothMove(elem, true, callback);
       },
-   smoothMoveDown: <T>(elem: JQuery, callback?: DnaCallbackFn<T> | null): JQuery => {
+   smoothMoveDown: <T>(elem: Element, callback?: DnaCallbackFn<T> | null): Element => {
       // Uses animation to smoothly slide an element down one slot amongst its siblings.
       return dna.ui.smoothMove(elem, false, callback);
       },
-   toElem: (elemOrEventOrIndex: DnaElemEventIndex, that?: unknown): JQuery => {
+   toElem(elemOrEventOrIndex: DnaElemEventIndex, that?: unknown): JQuery {
       // A flexible way to get the jQuery element whether it is passed in directly, is a DOM
       // element, is the target of an event, or comes from the jQuery context.
-      const elem =   elemOrEventOrIndex instanceof $ && <JQuery>elemOrEventOrIndex;
       const target = elemOrEventOrIndex && (<JQuery.EventBase>elemOrEventOrIndex).target;
-      return elem || $(target || elemOrEventOrIndex || that);
+      return elemOrEventOrIndex instanceof Element ? <JQuery>$(elemOrEventOrIndex) :
+         elemOrEventOrIndex instanceof $ ?           <JQuery>elemOrEventOrIndex :
+         $(target || elemOrEventOrIndex || that);
       },
    };
 
@@ -1592,17 +1592,17 @@ const dna = {
       const clone = dna.getClone(elem, options);
       return clone.parent().children('.dna-clone.' + clone.data().dnaRules.template).index(clone);
       },
-   up<T>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T>): JQuery {
+   up<T>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T>): Element {
       // Smoothly moves a clone up one slot effectively swapping its position with the previous
       // clone.
       const elem = dna.ui.toElem(elemOrEventOrIndex, this);
-      return dna.ui.smoothMoveUp(dna.getClone(elem), callback);
+      return dna.ui.smoothMoveUp(dna.getClone(elem)[0]!, callback);
       },
-   down<T>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T>): JQuery {
+   down<T>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T>): Element {
       // Smoothly moves a clone down one slot effectively swapping its position with the next
       // clone.
       const elem = dna.ui.toElem(elemOrEventOrIndex, this);
-      return dna.ui.smoothMoveDown(dna.getClone(elem), callback);
+      return dna.ui.smoothMoveDown(dna.getClone(elem)[0]!, callback);
       },
    bye<T>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T>): JQuery {
       // Performs a sliding fade out effect on the clone and then removes the element.
