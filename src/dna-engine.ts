@@ -83,6 +83,10 @@ export type DnaOptionsRegisterInitializer = Partial<DnaSettingsRegisterInitializ
 export type DnaSettingsRunOnLoads = {
    msecs:      number,
    };
+export type DnaOptionsEventsOn = Partial<DnaSettingsEventsOn>;
+export type DnaSettingsEventsOn = {
+   keyFilter:  string | null,
+   };
 export type DnaOptionsRunOnLoads = Partial<DnaSettingsRunOnLoads>;
 
 // Types: Data, Templates, and Callbacks
@@ -101,6 +105,7 @@ export type DnaCallback =       (...args: unknown[]) => unknown;
 export interface DnaTransformFn<T> { (data: T): void }
 export interface DnaCallbackFn<T> { (elem: JQuery, data?: T): void }
 export interface DnaInitializerFn { (elem: JQuery, ...params: unknown[]): void }
+export type DnaEventListener = (elem: Element, event?: Event, selector?: string) => void;
 export type DnaElemEventIndex = Element | JQuery | JQuery.EventBase | number;
 export type DnaInitializer = {
    fn:       DnaFunctionName | DnaInitializerFn,
@@ -322,6 +327,9 @@ const dnaDom = {
       // Loops over the given list of elements to pass each element to the specified function.
       Array.prototype.forEach.call(elems, fn);
       return elems;
+      },
+   indexOf(elems: NodeListOf<Element>, elem: Element): number {
+      return Array.prototype.indexOf.call(elems, elem);
       },
    };
 
@@ -676,13 +684,13 @@ const dnaPanels = {
       dna.util.apply(menu.data().callback, [panel, hash]);
       return panel;
       },
-   clickRotate: (event: JQuery.EventBase): JQuery => {
+   clickRotate(menuItem: Element): Element {
       // Moves to the selected panel.
-      const item = $(event.target).closest(dna.selector.menuItem);
-      const menu = item.closest(dna.selector.menu);
-      return dna.panels.display(menu, menu.find(dna.selector.menuItem).index(item), true);
+      const menu =  menuItem.closest(dna.selector.menu)!;
+      const index = dna.dom.indexOf(menu.querySelectorAll(dna.selector.menuItem), menuItem);
+      return dna.panels.display(<JQuery>$(menu), index, true)[0]!;
       },
-   selectRotate: (event: JQuery.EventBase): JQuery => {
+   selectRotate(event: JQuery.EventBase): JQuery {
       // Moves to the selected panel.
       const menu = $(event.target);
       return dna.panels.display(menu, menu.find('option:selected').index(), true);
@@ -718,7 +726,7 @@ const dnaPanels = {
       $(globalThis.document.body).data().dnaPanelNextNav = 1;
       const panels = globalThis.document.querySelectorAll(dna.selector.panels)
       panels.forEach(dna.panels.initialize);
-      $(globalThis.document).on({ click:  dna.panels.clickRotate },  '.dna-menu .dna-menu-item');
+      dna.events.onClick('.dna-menu .dna-menu-item', dna.panels.clickRotate);
       $(globalThis.document).on({ change: dna.panels.selectRotate }, dna.selector.menu);
       return panels;
       },
@@ -996,6 +1004,52 @@ const dnaStore = {
    };
 
 const dnaEvents = {
+      on(type: string, selector: string, listener: DnaEventListener, options?: DnaOptionsEventsOn) {
+         // See types: https://developer.mozilla.org/en-US/docs/Web/Events
+         const delegator = (event: Event) => {
+            const target = (<HTMLElement>event.target)?.closest(selector);
+            if (target && (!options?.keyFilter || options.keyFilter === (<KeyboardEvent>event).key))
+               listener(target, event, selector);
+            };
+         globalThis.document.addEventListener(type, delegator);
+         },
+      onClick(selector: string, listener: DnaEventListener) {
+         dna.events.on('click', selector, listener);
+         },
+      onChange(selector: string, listener: DnaEventListener) {
+         dna.events.on('change', selector, listener);
+         },
+      onEnterKey(selector: string, listener: DnaEventListener) {
+         dna.events.on('keyup', selector, listener, { keyFilter: 'Enter' });
+         },
+      onFocusIn(selector: string, listener: DnaEventListener) {
+         dna.events.on('focusin', selector, listener);
+         },
+      onFocusOut(selector: string, listener: DnaEventListener) {
+         dna.events.on('focusout', selector, listener);
+         },
+      onHoverIn(selector: string, listener: DnaEventListener) {
+         let ready = true;
+         const delegator = (event: Event) => {
+            const target = (<HTMLElement>event.target)?.closest(selector);
+            if (target !== null && ready)
+               listener(target, event, selector);
+            ready = target === null;
+            };
+         globalThis.document.addEventListener('pointerover', delegator);
+         },
+      onHoverOut(selector: string, listener: DnaEventListener) {
+         let ready = false;
+         let prevTarget: Element | null = null;
+         const delegator = (event: Event) => {
+            const target = (<HTMLElement>event.target)?.closest(selector);
+            prevTarget = target ?? prevTarget;
+            if (target === null && ready)
+               listener(prevTarget!, event, selector);
+            ready = target !== null;
+            };
+         globalThis.document.addEventListener('pointerover', delegator);
+         },
    getContextDb: (): DnaContext => {
       const store =     $(globalThis.document.body).data();
       const initStore = () => store.dnaContextDb = {};
