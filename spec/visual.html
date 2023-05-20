@@ -1208,7 +1208,7 @@
          </div>
       </div>
       <div>
-         <div id=note class=dna-template><small><b>~~ms~~</b></small>: <code>~~note~~</code></div>
+         <div id=note class=dna-template><small><b data-format-number=#.#>~~seconds~~</b></small>: <code>~~note~~</code></div>
       </div>
    </fieldset>
    <fieldset>
@@ -1304,8 +1304,8 @@
    spec.spec16 = {
       start: Date.now(),
       submitNote(elem) {
-         const time = Date.now() - spec.spec16.start;
-         dna.clone('note', { ms: time, note: elem.val() }, { top: true, fade: true });
+         const ms = Date.now() - spec.spec16.start;
+         dna.clone('note', { seconds: ms / 1000, note: elem.value }, { top: true, fade: true });
          },
       run() {
          const options = [

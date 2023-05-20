@@ -2108,7 +2108,7 @@
             &lt;/div&gt;
             &lt;script&gt;
                const logNow = (elem) =&gt; {
-                  const msg = Date.now() + ': ' + elem.val();
+                  const msg = Date.now() + ': ' + elem.value;
                   dna.clone('log-message', { message: msg }, { fade: true });
                   };
             &lt;/script&gt;
@@ -2125,7 +2125,7 @@
             </div>
             <script>
                const logNow = (elem) => {
-                  const msg = Date.now() + ': ' + elem.val();
+                  const msg = Date.now() + ': ' + elem.value;
                   dna.clone('log-message', { message: msg }, { fade: true });
                   };
             </script>

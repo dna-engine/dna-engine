@@ -1024,6 +1024,12 @@ const dnaEvents = {
       onChange(listener: DnaEventListener, selector?: string) {
          dna.events.on('change', listener, { selector: selector ?? null });
          },
+      onKeyDown(listener: DnaEventListener, selector?: string) {
+         dna.events.on('keydown', listener, { selector: selector ?? null });
+         },
+      onKeyUp(listener: DnaEventListener, selector?: string) {
+         dna.events.on('keyup', listener, { selector: selector ?? null });
+         },
       onEnterKey(listener: DnaEventListener, selector?: string) {
          dna.events.on('keyup', listener, { selector: selector ?? null, keyFilter: 'Enter' });
          },
@@ -1032,6 +1038,12 @@ const dnaEvents = {
          },
       onBlur(listener: DnaEventListener, selector?: string) {
          dna.events.on('blur', listener, { selector: selector ?? null });
+         },
+      onCut(listener: DnaEventListener, selector?: string) {
+         dna.events.on('cut', listener, { selector: selector ?? null });
+         },
+      onPaste(listener: DnaEventListener, selector?: string) {
+         dna.events.on('paste', listener, { selector: selector ?? null });
          },
       onHoverIn(listener: DnaEventListener, selector: string) {
          let ready = true;
@@ -1131,7 +1143,7 @@ const dnaEvents = {
          const target =       $(event.target);
          const updateField =  (elem: JQuery, calc: DnaCallback) =>
             dna.util.assign(<DnaDataObject>dna.getModel(elem), elem.data().dnaField, <Json>calc(elem));
-         const getValue =     (elem: JQuery) => elem.val();
+         const getValue =     (elem: JQuery) => $(elem).val();
          const isChecked =    (elem: JQuery): boolean => elem.is(':checked');
          const updateOption = (elem: Element) => updateField(<JQuery>$(elem), <DnaCallback>isChecked);
          const updateModel =  () => {
@@ -1152,34 +1164,32 @@ const dnaEvents = {
             updateModel();
          return runnerOLD(target, event.type.replace('key', 'key-'), event);
          };
-      const handleSmartUpdate = (event: JQuery.EventBase) => {
-         const defaultThrottle = 1000;  //default 1 second delay between callbacks
-         const elem =            $(event.target);
-         const data =            elem.data();
+      const handleSmartUpdate = (elem: HTMLElement, event: Event) => {
+         // <input data-smart-update=saveNote data-smart-throttle=2000 value=~~note~~>
+         const throttleDefault = 1000;  //default 1 second delay between callbacks
+         const throttleSetting = elem.dataset.smartThrottle;
+         const throttle =        throttleSetting ? parseInt(throttleSetting) : throttleDefault;
+         const data =            $(elem).data();
+         const value =           () => (<HTMLInputElement>elem).value;
          const doCallback = () => {
             data.dnaLastUpdated = Date.now();
-            data.dnaLastValue =   elem.val();
+            data.dnaLastValue =   value();
             data.dnaTimeoutId =   null;
-            runnerOLD(elem, 'smart-update', event);
+            runner(elem, 'smart-update', event);
             };
          const handleChange = () => {
-            const throttle = data.smartThrottle ? +data.smartThrottle : defaultThrottle;
             if (Date.now() < data.dnaLastUpdated + throttle)
                data.dnaTimeoutId = globalThis.setTimeout(doCallback, throttle);
             else
                doCallback();
             };
          const checkForValueChange = () => {
-            if (elem.val() !== data.dnaLastValue && !data.dnaTimeoutId)
+            if (value() !== data.dnaLastValue && !data.dnaTimeoutId)
                handleChange();
             };
-         const processSmartUpdate = () => {
-            if (event.type === 'keydown' && data.dnaLastValue === undefined)
-               data.dnaLastValue = elem.val();
-            globalThis.setTimeout(checkForValueChange);  //requeue so elem.val() is ready on paste event
-            };
-         if (data.smartUpdate)
-            processSmartUpdate();
+         if (event.type === 'keydown' && data.dnaLastValue === undefined)
+            data.dnaLastValue = value();
+         globalThis.setTimeout(checkForValueChange);  //requeue so elem.value is ready on paste event
          };
       const jumpToUrl = (elem: HTMLElement) => {
          // Usage:
@@ -1196,16 +1206,11 @@ const dnaEvents = {
          keyup:    handleEvent,
          input:    handleEvent,
          };
-      const smartUpdateEvents = {
-         keydown: handleSmartUpdate,
-         keyup:   handleSmartUpdate,
-         change:  handleSmartUpdate,
-         cut:     handleSmartUpdate,
-         paste:   handleSmartUpdate,
-         };
-      $(globalThis.document)
-         .on(events)
-         .on(smartUpdateEvents);
+      $(globalThis.document).on(events);
+      dna.events.onKeyDown(handleSmartUpdate, 'input[data-smart-update]');
+      dna.events.onKeyUp(  handleSmartUpdate, 'input[data-smart-update]');
+      dna.events.onChange( handleSmartUpdate, 'input[data-smart-update]');
+
       dna.events.onClick(jumpToUrl, '[data-href]');
       dna.events.onEnterKey((elem, event) => runner(elem, 'enter-key', event));
       dna.events.onFocus(   (elem, event) => runner(elem, 'focus',     event), '[data-focus]');
@@ -1227,9 +1232,10 @@ const dnaCore = {
          if (['string', 'number', 'boolean'].includes(typeof value))
             elem = settings.html ? elem.html(formatted()) : elem.text(formatted());
          };
-      const injectValue = (elem: JQuery, field: string) => {
-         const value = field === '[count]' ? count : field === '[value]' ? data :
-            dna.util.value(data, field);
+      const injectValue = (elemJ: JQuery, field: string) => {
+         const elem = $(elemJ);
+         const value = field === '[count]' ? count :
+            field === '[value]' ? data : dna.util.value(data, field);
          if (value !== null && value !== elem.val())
             elem.val(String(value));
          };
@@ -1238,7 +1244,8 @@ const dnaCore = {
             elem.prop(props[prop*2]!,
                dna.util.realTruth(dna.util.value(data, props[prop*2 + 1]!)));
          };
-      const injectAttrs = (elem: JQuery, dnaRules: DnaRules) => {
+      const injectAttrs = (elemJ: JQuery, dnaRules: DnaRules) => {
+         const elem = $(elemJ);
          const attrs = dnaRules.attrs!;  //example attrs: ['data-tag', ['', 'tag', '']]
          const inject = (key: DnaAttrName, parts: DnaAttrParts) => {  //example parts: 'J~~code.num~~' ==> ['J', 'code.num', '']
             const field =     parts[1];
@@ -1589,7 +1596,8 @@ const dna = {
       clones.toArray().forEach(refresh);
       return clones;
       },
-   updateField(inputElem: JQuery, value: Json): JQuery {
+   updateField(inputElemJ: JQuery, value: Json): JQuery {
+      const inputElem = $(inputElemJ);
       const field = inputElem.data() && inputElem.data().dnaField;
       const update = () => {
          if (inputElem.is('input:checkbox'))

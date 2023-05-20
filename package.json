@@ -155,7 +155,7 @@
       "chokidar-cli": "~3.0",
       "copy-file-util": "~1.0",
       "copy-folder-util": "~1.0",
-      "eslint": "~8.40",
+      "eslint": "~8.41",
       "esm-to-plain-js": "~1.0",
       "fetch-json": "~3.1",
       "highlight.js": "~11.8",
