@@ -2016,11 +2016,10 @@
          <li><code>data-change</code></li>
          <li><code>data-input</code></li>
          <li><code>data-key-down</code></li>
-         <li><code>data-key-press</code></li>
          <li><code>data-key-up</code></li>
          <li><code>data-enter-key</code></li>
-         <li><code>data-focus-in</code></li>
-         <li><code>data-focus-out</code></li>
+         <li><code>data-focus</code></li>
+         <li><code>data-blur</code></li>
       </ol>
       <figure>
          <figcaption>Example</figcaption>
@@ -2032,11 +2031,10 @@
             &lt;p&gt;Change:    &lt;input  data-change=showMsg    value=4&gt;&lt;/p&gt;
             &lt;p&gt;Input:     &lt;input  data-input=showMsg     value=5&gt;&lt;/p&gt;
             &lt;p&gt;Key down:  &lt;input  data-key-down=showMsg  value=6&gt;&lt;/p&gt;
-            &lt;p&gt;Key press: &lt;input  data-key-press=showMsg value=7&gt;&lt;/p&gt;
-            &lt;p&gt;Key up:    &lt;input  data-key-up=showMsg    value=8&gt;&lt;/p&gt;
-            &lt;p&gt;Submit:    &lt;input  data-enter-key=showMsg value=9&gt;&lt;/p&gt;
-            &lt;p&gt;Focus in:  &lt;input  data-focus=showMsg     value=A&gt;&lt;/p&gt;
-            &lt;p&gt;Focus out: &lt;input  data-focus=showMsg     value=B&gt;&lt;/p&gt;
+            &lt;p&gt;Key up:    &lt;input  data-key-up=showMsg    value=7&gt;&lt;/p&gt;
+            &lt;p&gt;Submit:    &lt;input  data-enter-key=showMsg value=8&gt;&lt;/p&gt;
+            &lt;p&gt;Focus:     &lt;input  data-focus=showMsg     value=9&gt;&lt;/p&gt;
+            &lt;p&gt;Blur:      &lt;input  data-blur=showMsg      value=A&gt;&lt;/p&gt;
             &lt;script&gt;
                const showMsg = (elem, event) =&gt; {
                   const msg = 'Value "' + elem.val() + '" on ' + event.type;
@@ -2057,11 +2055,10 @@
             <p>Change:    <input  data-change=showMsg    value=4></p>
             <p>Input:     <input  data-input=showMsg     value=5></p>
             <p>Key down:  <input  data-key-down=showMsg  value=6></p>
-            <p>Key press: <input  data-key-press=showMsg value=7></p>
-            <p>Key up:    <input  data-key-up=showMsg    value=8></p>
-            <p>Submit:    <input  data-enter-key=showMsg value=9></p>
-            <p>Focus in:  <input  data-focus-in=showMsg  value=A></p>
-            <p>Focus out: <input  data-focus-out=showMsg value=B></p>
+            <p>Key up:    <input  data-key-up=showMsg    value=7></p>
+            <p>Submit:    <input  data-enter-key=showMsg value=8></p>
+            <p>Focus:     <input  data-focus=showMsg     value=9></p>
+            <p>Blur:      <input  data-blur=showMsg      value=A></p>
             <script>
                const showMsg = (elem, event) => {
                   const msg = 'Value "' + elem.val() + '" on ' + event.type;
@@ -3988,8 +3985,8 @@
          <li><a href=#components>            <code>data-component</code></a>:      Mark a container element as a component</li>
          <li><a href=#event-user>            <code>data-enter-key</code></a>:      Callback to run on enter key event</li>
          <li><a href=#structure-thimblerig>  <code>data-false</code></a>:          Show element only if field evaluates to false</li>
-         <li><a href=#event-user>            <code>data-focus-in</code></a>:       Callback to run when an element receives focus</li>
-         <li><a href=#event-user>            <code>data-focus-out</code></a>:      Callback to run when an element loses focus</li>
+         <li><a href=#event-user>            <code>data-focus</code></a>:          Callback to run when an element receives focus</li>
+         <li><a href=#event-user>            <code>data-blur</code></a>:           Callback to run when an element loses focus</li>
          <li><a href=#formatters>            <code>data-format-{TYPE}</code></a>:  Format a value for proper rendering</li>
          <li><a href=#formatters-custom>     <code>data-format</code></a>:         Custom format function</li>
          <li><a href=#panels-routes>         <code>data-hash</code></a>:           Set the fragment ID (hash) for a panel's URL</li>
@@ -3998,7 +3995,6 @@
          <li><a href=#event-jump>            <code>data-href</code></a>:           Jumps to the URL (like an <code>&lt;a&gt;</code> link)</li>
          <li><a href=#event-user>            <code>data-input</code></a>:          Callback to run on input event</li>
          <li><a href=#event-user>            <code>data-key-down</code></a>:       Callback to run on key down event</li>
-         <li><a href=#event-user>            <code>data-key-press</code></a>:      Callback to run on key press event</li>
          <li><a href=#event-user>            <code>data-key-up</code></a>:         Callback to run on key up event</li>
          <li><a href=#loop-separators>       <code>data-last-separator</code></a>: Insert text, like a comma, between clones</li>
          <li><a href=#structure-thimblerig>  <code>data-missing</code></a>:        Show element only if field does not exist</li>

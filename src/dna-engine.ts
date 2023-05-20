@@ -86,6 +86,7 @@ export type DnaSettingsRunOnLoads = {
 export type DnaOptionsEventsOn = Partial<DnaSettingsEventsOn>;
 export type DnaSettingsEventsOn = {
    keyFilter:  string | null,
+   selector:   string | null,
    };
 export type DnaOptionsRunOnLoads = Partial<DnaSettingsRunOnLoads>;
 
@@ -105,7 +106,7 @@ export type DnaCallback =       (...args: unknown[]) => unknown;
 export interface DnaTransformFn<T> { (data: T): void }
 export interface DnaCallbackFn<T> { (elem: JQuery, data?: T): void }
 export interface DnaInitializerFn { (elem: JQuery, ...params: unknown[]): void }
-export type DnaEventListener = (elem: Element, event?: Event, selector?: string) => void;
+export type DnaEventListener = (elem: HTMLElement, event: Event, selector: string | null) => void;
 export type DnaElemEventIndex = Element | JQuery | JQuery.EventBase | number;
 export type DnaInitializer = {
    fn:       DnaFunctionName | DnaInitializerFn,
@@ -651,28 +652,28 @@ const dnaPanels = {
    // Each click of a menu item displays its corresponding panel and optionally passes the panel
    // element and hash to the function specified by the "data-callback" attribute.
    // Usage:
-   //    <nav class=dna-menu data-nav={NAME} data-callback={CALLBACK}>  <-- menu         -->
-   //       <button>See X1</button>                                     <-- menu item #1 -->
-   //       <button>See X2</button>                                     <-- menu item #2 -->
+   //    <nav class=dna-menu data-nav={NAME} data-callback={CALLBACK}>  <-- menu         [role=tablist] -->
+   //       <button>See X1</button>                                     <-- menu item #1 [role=tab]     -->
+   //       <button>See X2</button>                                     <-- menu item #2 [role=tab]     -->
    //    </nav>
-   //    <div class=dna-panels data-nav={NAME}>                         <-- panels       -->
-   //       <section data-hash=x1>The X1</section>                      <-- panel #1     -->
-   //       <section data-hash=x2>The X2</section>                      <-- panel #2     -->
+   //    <div class=dna-panels data-nav={NAME}>                         <-- panels                       -->
+   //       <section data-hash=x1>The X1</section>                      <-- panel #1     [role=tabpanel] -->
+   //       <section data-hash=x2>The X2</section>                      <-- panel #2     [role=tabpanel] -->
    //    </div>
    // The optional "data-hash" attribute specifies the hash (URL fragment ID) and updates the
    // location bar.  The "data-nav" attributes can be omitted if the ".dna-panels" element
    // immediately follows the ".dna-menu" element.
-   display: (menu: JQuery, location?: number, updateUrl?: boolean): JQuery => {
+   display(menu: Element, location?: number, updateUrl?: boolean): Element {
       // Shows the panel at the given location (index).
-      const menuNode =   menu[0]!;
-      const panels =     menu.data().dnaPanels;
-      const navName =    menu.data().nav;
-      const menuItems =  menu.find(dna.selector.menuItem);
+      const menuData =   $(menu).data();
+      const panels =     menuData.dnaPanels;
+      const navName =    menuData.nav;
+      const menuItems =  $(menu).find(dna.selector.menuItem);
       const savedIndex = Number(dna.pageToken.get(navName, 0));
       const bound =      (loc: number) => Math.max(0, Math.min(loc, menuItems.length - 1));
       const index =      bound(location === undefined ? savedIndex : location);
-      if (menuNode.nodeName === 'SELECT')  //check if elem is a drop-down control
-         (<HTMLSelectElement>menuNode).selectedIndex = index;
+      if (menu.nodeName === 'SELECT')  //check if elem is a drop-down control
+         (<HTMLSelectElement>menu).selectedIndex = index;
       menuItems.removeClass(dna.name.selected).addClass(dna.name.unselected);
       menuItems.eq(index).addClass(dna.name.selected).removeClass(dna.name.unselected);
       panels.hide().removeClass(dna.name.displayed).addClass(dna.name.hidden);
@@ -681,19 +682,18 @@ const dnaPanels = {
       dna.pageToken.put(navName, index);
       if (updateUrl && hash)
          globalThis.history.pushState(null, '', '#' + hash);
-      dna.util.apply(menu.data().callback, [panel, hash]);
+      dna.util.apply(menuData.callback, [panel, hash]);
       return panel;
       },
    clickRotate(menuItem: Element): Element {
       // Moves to the selected panel.
       const menu =  menuItem.closest(dna.selector.menu)!;
       const index = dna.dom.indexOf(menu.querySelectorAll(dna.selector.menuItem), menuItem);
-      return dna.panels.display(<JQuery>$(menu), index, true)[0]!;
+      return dna.panels.display(menu, index, true);
       },
-   selectRotate(event: JQuery.EventBase): JQuery {
+   selectRotate(menu: Element): Element {
       // Moves to the selected panel.
-      const menu = $(event.target);
-      return dna.panels.display(menu, menu.find('option:selected').index(), true);
+      return dna.panels.display(menu, (<HTMLSelectElement>menu).selectedIndex, true);
       },
    initialize: (panelHolder?: Element) => {
       const generateNavName = (): string => {
@@ -715,7 +715,7 @@ const dnaPanels = {
          $(menu!).data().dnaPanels = $(panels);
          if (!menu!.getElementsByClassName(dna.name.menuItem).length)  //set .dna-menu-item elems if not set in the html
             dna.dom.addClass(menu!.children, dna.name.menuItem);
-         dna.panels.display(<JQuery>$(menu!), loc);
+         dna.panels.display(menu!, loc);
          };
       const isInitialized = !panelHolder || panelHolder.classList.contains(dna.name.panelsInitialized);
       if (!isInitialized && !dna.dom.hasClass(panelHolder.children, dna.name.template))
@@ -726,8 +726,8 @@ const dnaPanels = {
       $(globalThis.document.body).data().dnaPanelNextNav = 1;
       const panels = globalThis.document.querySelectorAll(dna.selector.panels)
       panels.forEach(dna.panels.initialize);
-      dna.events.onClick('.dna-menu .dna-menu-item', dna.panels.clickRotate);
-      $(globalThis.document).on({ change: dna.panels.selectRotate }, dna.selector.menu);
+      dna.events.onClick(dna.panels.clickRotate, '.dna-menu .dna-menu-item');
+      dna.events.onChange(dna.panels.selectRotate, 'select.dna-menu');
       return panels;
       },
    };
@@ -1004,45 +1004,50 @@ const dnaStore = {
    };
 
 const dnaEvents = {
-      on(type: string, selector: string, listener: DnaEventListener, options?: DnaOptionsEventsOn) {
+      on(type: string, listener: DnaEventListener, options?: DnaOptionsEventsOn) {
          // See types: https://developer.mozilla.org/en-US/docs/Web/Events
+         const defaults = { keyFilter: null, selector: null };
+         const settings = { ...defaults, ...options };
+         const noFilter =   !settings.keyFilter;
+         const noSelector = !settings.selector;
          const delegator = (event: Event) => {
-            const target = (<HTMLElement>event.target)?.closest(selector);
-            if (target && (!options?.keyFilter || options.keyFilter === (<KeyboardEvent>event).key))
-               listener(target, event, selector);
+            const target = <HTMLElement>event.target;
+            const elem =   !target || noSelector ? target : <HTMLElement>target.closest(settings.selector!);
+            if (elem && (noFilter || settings.keyFilter === (<KeyboardEvent>event).key))
+               listener(elem, event, settings.selector);
             };
          globalThis.document.addEventListener(type, delegator);
          },
-      onClick(selector: string, listener: DnaEventListener) {
-         dna.events.on('click', selector, listener);
+      onClick(listener: DnaEventListener, selector?: string) {
+         dna.events.on('click', listener, { selector: selector ?? null });
          },
-      onChange(selector: string, listener: DnaEventListener) {
-         dna.events.on('change', selector, listener);
+      onChange(listener: DnaEventListener, selector?: string) {
+         dna.events.on('change', listener, { selector: selector ?? null });
          },
-      onEnterKey(selector: string, listener: DnaEventListener) {
-         dna.events.on('keyup', selector, listener, { keyFilter: 'Enter' });
+      onEnterKey(listener: DnaEventListener, selector?: string) {
+         dna.events.on('keyup', listener, { selector: selector ?? null, keyFilter: 'Enter' });
          },
-      onFocusIn(selector: string, listener: DnaEventListener) {
-         dna.events.on('focusin', selector, listener);
+      onFocus(listener: DnaEventListener, selector?: string) {
+         dna.events.on('focus', listener, { selector: selector ?? null });
          },
-      onFocusOut(selector: string, listener: DnaEventListener) {
-         dna.events.on('focusout', selector, listener);
+      onBlur(listener: DnaEventListener, selector?: string) {
+         dna.events.on('blur', listener, { selector: selector ?? null });
          },
-      onHoverIn(selector: string, listener: DnaEventListener) {
+      onHoverIn(listener: DnaEventListener, selector: string) {
          let ready = true;
          const delegator = (event: Event) => {
-            const target = (<HTMLElement>event.target)?.closest(selector);
+            const target = <HTMLElement>(<HTMLElement>event.target)?.closest(selector);
             if (target !== null && ready)
                listener(target, event, selector);
             ready = target === null;
             };
          globalThis.document.addEventListener('pointerover', delegator);
          },
-      onHoverOut(selector: string, listener: DnaEventListener) {
+      onHoverOut(listener: DnaEventListener, selector: string) {
          let ready = false;
-         let prevTarget: Element | null = null;
+         let prevTarget: HTMLElement | null = null;
          const delegator = (event: Event) => {
-            const target = (<HTMLElement>event.target)?.closest(selector);
+            const target = <HTMLElement>(<HTMLElement>event.target)?.closest(selector);
             prevTarget = target ?? prevTarget;
             if (target === null && ready)
                listener(prevTarget!, event, selector);
@@ -1096,10 +1101,7 @@ const dnaEvents = {
       return root;
       },
    setup: (): JQuery => {
-      const runner = (elem: JQuery, type: string, event: JQuery.EventBase) => {
-         // Finds elements for the given event type and executes the callback passing in the
-         //    element, event, and component (container element with "data-component" attribute).
-         // Types: click|change|input|key-up|key-down|key-press|enter-key
+      const runnerOLD = (elem: JQuery, type: string, event: JQuery.EventBase) => {
          const target =     elem.closest('[data-' + type + ']');
          const targetNode = target[0];
          const fn =         target.data(type);
@@ -1108,6 +1110,20 @@ const dnaEvents = {
             event.preventDefault();
          const nextClickTarget = target.parent().closest('[data-click]');
          if (type === 'click' && nextClickTarget.length)
+            runnerOLD(nextClickTarget, type, event);
+         return dna.util.apply(fn, [target, event]);
+         };
+      const runner = (elem: Element, type: string, event: Event) => {
+         // Finds elements for the given event type and executes the callback passing in the
+         //    element, event, and component (container element with "data-component" attribute).
+         // Types: click|change|input|key-up|key-down|enter-key
+         const target = elem.closest('[data-' + type + ']')!;
+         const fn =     $(target).data(type);
+         const isLink = target && target.nodeName === 'A';
+         if (type === 'click' && isLink && fn && fn.match(/^dna[.]/))
+            event.preventDefault();
+         const nextClickTarget = target.parentElement?.closest('[data-click]');
+         if (type === 'click' && nextClickTarget)
             runner(nextClickTarget, type, event);
          return dna.util.apply(fn, [target, event]);
          };
@@ -1134,10 +1150,7 @@ const dnaEvents = {
             };
          if (target.hasClass(dna.name.updateModel))
             updateModel();
-         return runner(target, event.type.replace('key', 'key-'), event);
-         };
-      const handleEnterKey = (event: JQuery.EventBase) => {
-         return event.key === 'Enter' && runner($(event.target), 'enter-key', event);
+         return runnerOLD(target, event.type.replace('key', 'key-'), event);
          };
       const handleSmartUpdate = (event: JQuery.EventBase) => {
          const defaultThrottle = 1000;  //default 1 second delay between callbacks
@@ -1147,7 +1160,7 @@ const dnaEvents = {
             data.dnaLastUpdated = Date.now();
             data.dnaLastValue =   elem.val();
             data.dnaTimeoutId =   null;
-            runner(elem, 'smart-update', event);
+            runnerOLD(elem, 'smart-update', event);
             };
          const handleChange = () => {
             const throttle = data.smartThrottle ? +data.smartThrottle : defaultThrottle;
@@ -1168,22 +1181,18 @@ const dnaEvents = {
          if (data.smartUpdate)
             processSmartUpdate();
          };
-      const jumpToUrl = (event: JQuery.EventBase) => {
+      const jumpToUrl = (elem: HTMLElement) => {
          // Usage:
          //    <button data-href=https://dna-engine.org>dna-engine</button>
          // If element (or parent) has the class "external-site", page will be opened in a new tab.
-         const elem =       $(event.target).closest('[data-href]');
          const useSameTab = dna.browser.userAgentData().mobile;
-         const target =     elem.closest('.external-site').length ? '_blank' : '_self';
-         globalThis.open(elem.data().href, useSameTab ? '_self' : elem.data().target ?? target);
+         const target =     elem.closest('.external-site') ? '_blank' : '_self';
+         globalThis.open(elem.dataset.href, useSameTab ? '_self' : elem.dataset.target ?? target);
          };
-      const makeEventHandler = (type: string) =>
-         (event: JQuery.EventBase) => runner($(event.target), type, event);
       const events = {
          click:    handleEvent,
          change:   handleEvent,
          keydown:  handleEvent,
-         keypress: handleEvent,
          keyup:    handleEvent,
          input:    handleEvent,
          };
@@ -1196,13 +1205,13 @@ const dnaEvents = {
          };
       $(globalThis.document)
          .on(events)
-         .on(smartUpdateEvents)
-         .on({ keyup:      handleEnterKey })
-         .on({ click:      jumpToUrl },                     '[data-href]')
-         .on({ focusin:    makeEventHandler('focus-in') },  '[data-focus-in]')
-         .on({ focusout:   makeEventHandler('focus-out') }, '[data-focus-out]')
-         .on({ mouseenter: makeEventHandler('hover-in') },  '[data-hover-in]')
-         .on({ mouseleave: makeEventHandler('hover-out') }, '[data-hover-out]');
+         .on(smartUpdateEvents);
+      dna.events.onClick(jumpToUrl, '[data-href]');
+      dna.events.onEnterKey((elem, event) => runner(elem, 'enter-key', event));
+      dna.events.onFocus(   (elem, event) => runner(elem, 'focus',     event), '[data-focus]');
+      dna.events.onBlur(    (elem, event) => runner(elem, 'blur',      event), '[data-blur]');
+      dna.events.onHoverIn( (elem, event) => runner(elem, 'hover-in',  event), '[data-hover-in]');
+      dna.events.onHoverOut((elem, event) => runner(elem, 'hover-out', event), '[data-hover-out]');
       return dna.events.runOnLoads();
       },
    };

@@ -1067,7 +1067,8 @@
          elem.addClass('color-change');
          },
       showMessage(message, elem) {
-         const tag = '<' + elem[0].nodeName + '>'
+         elem = $(elem)[0];
+         const tag = '<' + elem.nodeName + '>'
          const msec = String(Date.now() % 10000).padStart(4, '0');
          const p = $('<p>').text([msec, message, tag].join(' '));
          $('#spec15 fieldset').first().append(p);
@@ -1503,7 +1504,7 @@
       run() {
          dna.clone('s19-book-title', specRunner.catalog);
          dna.clone('s19-book',       specRunner.catalog);
-         $('#spec19 .dna-menu .dna-menu-item:contains(Styling CSS3)').trigger('click');
+         document.querySelectorAll('#spec19 .dna-menu .dna-menu-item')[1].click();  //button: "Styling CSS3"
          },
       };
 </script>
@@ -1578,7 +1579,8 @@
 <script>
    spec.spec20 = {
       run() {
-         const postRenderClick = () => $('#spec20 .dna-menu .dna-menu-item:contains(W3C)').trigger('click');
+         const postRenderClick = () =>
+            document.querySelectorAll('#spec20 .dna-menu .dna-menu-item')[2].click();  //menu item: "W3C"
          globalThis.setTimeout(postRenderClick, 1000);
          },
       };
