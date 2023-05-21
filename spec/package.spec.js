@@ -30,7 +30,6 @@ describe('The "dist" folder', () => {
          'dna-engine.dev.js',
          'dna-engine.js',
          'dna-engine.min.js',
-         'dna-engine.umd.cjs',
          'panel-nav.css',
          ];
       assertDeepStrictEqual(actual, expected);

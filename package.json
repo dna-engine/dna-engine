@@ -6,7 +6,6 @@
    "type": "module",
    "module": "dist/dna-engine.js",
    "jsdelivr": "dist/dna-engine.min.js",
-   "main": "dist/dna-engine.umd.cjs",
    "style": "dist/dna-engine.css",
    "types": "dist/dna-engine.d.ts",
    "files": [
@@ -14,8 +13,7 @@
    ],
    "exports": {
       ".": {
-         "import": "./dist/dna-engine.js",
-         "require": "./dist/dna-engine.umd.cjs"
+         "import": "./dist/dna-engine.js"
       },
       "./": "./dist/"
    },
@@ -107,8 +105,6 @@
          "jshint . --exclude-path .gitignore",
          "eslint --max-warnings 0 src --ext .ts",
          "tsc",
-         "tsc --module UMD --outDir build/umd",
-         "copy-file build/umd/dna-engine.js build/dna-engine.umd.cjs",
          "copy-file src/dna-engine.css --folder build",
          "copy-file website/static/panel-nav.css --folder build",
          "esm-to-plain-js --cd=build dna-engine.js dna-engine.dev.js",
