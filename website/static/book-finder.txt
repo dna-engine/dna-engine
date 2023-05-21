@@ -26,7 +26,7 @@ Video Tutorial ~~ Transcript
 
 12) Of course, now we need to define the handleResults function.  The promise from fetchJson passes the response JSON into the callback function, and we are going to use that data to tell dna-engine to clone the "book" template -- one clone for each book.  The first parameter for the dna.clone function is the name of the template and the second parameter is the data.  For the Google Books API, we'll use the "items" field which is the actual array of books.  Options are passed as the third parameter.  We need any previous results emptied out before displaying the new results, and we want to smoothly fade in the new results.
 
-13) To make this all work, we have to actually call the findBooks function.  Use the "data-click" attribute to tell dna-engine to call the function.  Add the attribute to the <button> tag with a value of "findBooks" so that when the user clicks the "Find" button, the findBooks function is called.
+13) To make this all work, we have to actually call the findBooks function.  Use the "data-on-click" attribute to tell dna-engine to call the function.  Add the attribute to the <button> tag with a value of "findBooks" so that when the user clicks the "Find" button, the findBooks function is called.
 
 14) Let's test it in the browser by searching for books about "ice".  The first book returned by the REST call is The Book of Ice and it costs $9.99.  Clicking the "Find" button works and is simple, but it makes for a cumbersome user experience.  We can leverage the smart update feature of dna-engine to replace the button with automatic live searching.
 

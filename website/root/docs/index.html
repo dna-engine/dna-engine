@@ -439,7 +439,7 @@
          </code></pre>
       </figure>
       <p>
-         The <a href=#event-user><code>data-change</code></a> attribute can be used in combination
+         The <a href=#event-user><code>data-on-change</code></a> attribute can be used in combination
          with the <code>data-option</code> attribute to fire a callback that gets the current data
          model whenever the user selects a new drop-down option.
       </p>
@@ -1068,7 +1068,7 @@
          <pre><code class=language-html>
             &lt;div id=book class=dna-template&gt;
                &lt;p&gt;~~title~~&lt;/p&gt;
-               &lt;button data-click=setFavorite&gt;I Like&lt;/button&gt;
+               &lt;button data-on-click=setFavorite&gt;I Like&lt;/button&gt;
             &lt;/div&gt;
             &lt;script&gt;
                const setFavorite = (buttonElem) =&gt; {
@@ -1516,8 +1516,8 @@
          <pre><code class=language-html>
             &lt;div id=book class=dna-template&gt;
                &lt;p&gt;~~title~~&lt;/p&gt;
-               &lt;button data-click=dna.up&gt;Move Up&lt;/button&gt;
-               &lt;button data-click=dna.down&gt;Move Down&lt;/button&gt;
+               &lt;button data-on-click=dna.up&gt;Move Up&lt;/button&gt;
+               &lt;button data-on-click=dna.down&gt;Move Down&lt;/button&gt;
             &lt;/div&gt;
          </code></pre>
       </figure>
@@ -1563,7 +1563,7 @@
          <pre><code class=language-html>
             &lt;div id=book class=dna-template&gt;
                &lt;p&gt;~~title~~&lt;/p&gt;
-               &lt;button data-click=dna.bye&gt;Delete Book&lt;/button&gt;
+               &lt;button data-on-click=dna.bye&gt;Delete Book&lt;/button&gt;
             &lt;/div&gt;
          </code></pre>
       </figure>
@@ -2010,34 +2010,34 @@
       </p>
       Element attributes for supported events:
       <ol>
-         <li><code>data-click</code></li>
-         <li><code>data-hover-in</code></li>
-         <li><code>data-hover-out</code></li>
-         <li><code>data-change</code></li>
-         <li><code>data-input</code></li>
-         <li><code>data-key-down</code></li>
-         <li><code>data-key-up</code></li>
-         <li><code>data-enter-key</code></li>
-         <li><code>data-focus</code></li>
-         <li><code>data-blur</code></li>
+         <li><code>data-on-click</code></li>
+         <li><code>data-on-hover-in</code></li>
+         <li><code>data-on-hover-out</code></li>
+         <li><code>data-on-change</code></li>
+         <li><code>data-on-input</code></li>
+         <li><code>data-on-key-down</code></li>
+         <li><code>data-on-key-up</code></li>
+         <li><code>data-on-enter-key</code></li>
+         <li><code>data-on-focus</code></li>
+         <li><code>data-on-blur</code></li>
       </ol>
       <figure>
          <figcaption>Example</figcaption>
          <pre><code class=language-html>
             &lt;output id=message&gt;&lt;/output&gt;
-            &lt;p&gt;Click:     &lt;button data-click=showMsg     value=1&gt;1&lt;/button&gt;&lt;/p&gt;
-            &lt;p&gt;Hover in:  &lt;meter  data-hover-in=showMsg  value=2 max=4&gt;&lt;/meter&gt; 2&lt;/p&gt;
-            &lt;p&gt;Hover out: &lt;meter  data-hover-out=showMsg value=3 max=4&gt;&lt;/meter&gt; 3&lt;/p&gt;
-            &lt;p&gt;Change:    &lt;input  data-change=showMsg    value=4&gt;&lt;/p&gt;
-            &lt;p&gt;Input:     &lt;input  data-input=showMsg     value=5&gt;&lt;/p&gt;
-            &lt;p&gt;Key down:  &lt;input  data-key-down=showMsg  value=6&gt;&lt;/p&gt;
-            &lt;p&gt;Key up:    &lt;input  data-key-up=showMsg    value=7&gt;&lt;/p&gt;
-            &lt;p&gt;Submit:    &lt;input  data-enter-key=showMsg value=8&gt;&lt;/p&gt;
-            &lt;p&gt;Focus:     &lt;input  data-focus=showMsg     value=9&gt;&lt;/p&gt;
-            &lt;p&gt;Blur:      &lt;input  data-blur=showMsg      value=A&gt;&lt;/p&gt;
+            &lt;p&gt;Click:     &lt;button data-on-click=showMsg     value=1&gt;1&lt;/button&gt;&lt;/p&gt;
+            &lt;p&gt;Hover in:  &lt;meter  data-on-hover-in=showMsg  value=2 max=4&gt;&lt;/meter&gt; 2&lt;/p&gt;
+            &lt;p&gt;Hover out: &lt;meter  data-on-hover-out=showMsg value=3 max=4&gt;&lt;/meter&gt; 3&lt;/p&gt;
+            &lt;p&gt;Change:    &lt;input  data-on-change=showMsg    value=4&gt;&lt;/p&gt;
+            &lt;p&gt;Input:     &lt;input  data-on-input=showMsg     value=5&gt;&lt;/p&gt;
+            &lt;p&gt;Key down:  &lt;input  data-on-key-down=showMsg  value=6&gt;&lt;/p&gt;
+            &lt;p&gt;Key up:    &lt;input  data-on-key-up=showMsg    value=7&gt;&lt;/p&gt;
+            &lt;p&gt;Submit:    &lt;input  data-on-enter-key=showMsg value=8&gt;&lt;/p&gt;
+            &lt;p&gt;Focus:     &lt;input  data-on-focus=showMsg     value=9&gt;&lt;/p&gt;
+            &lt;p&gt;Blur:      &lt;input  data-on-blur=showMsg      value=A&gt;&lt;/p&gt;
             &lt;script&gt;
                const showMsg = (elem, event) =&gt; {
-                  const msg = 'Value "' + elem.val() + '" on ' + event.type;
+                  const msg = 'Value "' + elem.value + '" on ' + event.type;
                   $('#message').text(msg).stop().hide().fadeIn();
                   };
             &lt;/script&gt;
@@ -2049,16 +2049,16 @@
          <figcaption>Result (interactive)</figcaption>
          <div class=no-disable>
             <output id=message>&nbsp;</output>
-            <p>Click:     <button data-click=showMsg     value=1>1</button></p>
-            <p>Hover in:  <meter  data-hover-in=showMsg  value=2 max=4></meter> 2</p>
-            <p>Hover out: <meter  data-hover-out=showMsg value=3 max=4></meter> 3</p>
-            <p>Change:    <input  data-change=showMsg    value=4></p>
-            <p>Input:     <input  data-input=showMsg     value=5></p>
-            <p>Key down:  <input  data-key-down=showMsg  value=6></p>
-            <p>Key up:    <input  data-key-up=showMsg    value=7></p>
-            <p>Submit:    <input  data-enter-key=showMsg value=8></p>
-            <p>Focus:     <input  data-focus=showMsg     value=9></p>
-            <p>Blur:      <input  data-blur=showMsg      value=A></p>
+            <p>Click:     <button data-on-click=showMsg     value=1>1</button></p>
+            <p>Hover in:  <meter  data-on-hover-in=showMsg  value=2 max=4></meter> 2</p>
+            <p>Hover out: <meter  data-on-hover-out=showMsg value=3 max=4></meter> 3</p>
+            <p>Change:    <input  data-on-change=showMsg    value=4></p>
+            <p>Input:     <input  data-on-input=showMsg     value=5></p>
+            <p>Key down:  <input  data-on-key-down=showMsg  value=6></p>
+            <p>Key up:    <input  data-on-key-up=showMsg    value=7></p>
+            <p>Submit:    <input  data-on-enter-key=showMsg value=8></p>
+            <p>Focus:     <input  data-on-focus=showMsg     value=9></p>
+            <p>Blur:      <input  data-on-blur=showMsg      value=A></p>
             <script>
                const showMsg = (elem, event) => {
                   const msg = 'Value "' + elem.val() + '" on ' + event.type;
@@ -2223,7 +2223,7 @@
             &lt;div id=book class=dna-template&gt;
                Title: &lt;input value=~~title~~ data-key-up=bookInfo.update&gt;
                ebook: &lt;input type=checkbox data-prop-checked=~~ebook~~
-                  data-change=bookInfo.update&gt;
+                  data-on-change=bookInfo.update&gt;
             &lt;/div&gt;
             &lt;div&gt;Data: &lt;code id=data&gt;[YOUR MOVE]&lt;/code&gt;&lt;/div&gt;
          </code></pre>
@@ -2255,7 +2255,7 @@
                Title: <input value=~~title~~ data-key-up=bookInfo.update>
                <br>
                ebook: <input type=checkbox data-prop-checked=~~ebook~~
-                  data-change=bookInfo.update>
+                  data-on-change=bookInfo.update>
             </div>
             <br>
             <div>Data: <code id=data>[YOUR MOVE]</code></div>
@@ -2757,7 +2757,7 @@
          The component can be initialized with an <a href=#event-on-load>on load function</a>
          (<code>data-on-load</code>) to make a REST call that gets data for a template.&nbsp;
          Events with callbacks, such as a <a href=#event-click>click event</a>
-         (<code>data-click</code>), pass back the target element, event object, and the component
+         (<code>data-on-click</code>), pass back the target element, event object, and the component
          element.
       </p>
       <figure>
@@ -2783,7 +2783,7 @@
                      Author: &lt;cite&gt;~~author~~&lt;/cite&gt;
                   &lt;/div&gt;
                &lt;/section&gt;
-               &lt;button data-click=bookshelf.show&gt;Show component name&lt;/button&gt;
+               &lt;button data-on-click=bookshelf.show&gt;Show component name&lt;/button&gt;
                &lt;script&gt;
                   const bookshelf = {
                      booksUrl: 'https://dna-engine.org/api/books/',
@@ -2812,7 +2812,7 @@
                      Author: <cite>~~author~~</cite>
                   </div>
                </section>
-               <button data-click=bookshelf.show class=no-disable>Show component name</button>
+               <button data-on-click=bookshelf.show class=no-disable>Show component name</button>
                <script>
                   const bookshelf = {
                      booksUrl: 'https://dna-engine.org/api/books/',
@@ -3648,7 +3648,7 @@
          <pre><code class=language-html>
             Number of chapters:&lt;br&gt;
             &lt;input type=range value=10
-               data-on-load=makeChapters data-change=smooth&gt;
+               data-on-load=makeChapters data-on-change=smooth&gt;
             &lt;div id=smooth-container&gt;
                &lt;button id=chapter-box class=dna-template&gt;~~[count]~~&lt;/button&gt;
             &lt;/div&gt;
@@ -3673,7 +3673,7 @@
          <div>
             Number of chapters:<br>
             <input type=range value=10
-               data-on-load=makeChapters data-change=smooth>
+               data-on-load=makeChapters data-on-change=smooth>
             <div id=smooth-container>
                <button id=chapter-box class=dna-template>~~[count]~~</button>
             </div>
@@ -3979,25 +3979,25 @@
          <li><a href=#loop-sub-templates>    <code>data-array</code></a>:          Mark an element as a sub-template array loop</li>
          <li><a href=#html-attr>             <code>data-attr-{NAME}</code></a>:    Set value of an element attribute</li>
          <li><a href=#event-element-callback><code>data-callback</code></a>:       Pass element into function when clone is created</li>
-         <li><a href=#event-user>            <code>data-change</code></a>:         Callback to run on change event</li>
          <li><a href=#html-class>            <code>data-class</code></a>:          Add a class to the element</li>
-         <li><a href=#event-user>            <code>data-click</code></a>:          Callback to run on click event</li>
          <li><a href=#components>            <code>data-component</code></a>:      Mark a container element as a component</li>
-         <li><a href=#event-user>            <code>data-enter-key</code></a>:      Callback to run on enter key event</li>
          <li><a href=#structure-thimblerig>  <code>data-false</code></a>:          Show element only if field evaluates to false</li>
-         <li><a href=#event-user>            <code>data-focus</code></a>:          Callback to run when an element receives focus</li>
-         <li><a href=#event-user>            <code>data-blur</code></a>:           Callback to run when an element loses focus</li>
          <li><a href=#formatters>            <code>data-format-{TYPE}</code></a>:  Format a value for proper rendering</li>
          <li><a href=#formatters-custom>     <code>data-format</code></a>:         Custom format function</li>
          <li><a href=#panels-routes>         <code>data-hash</code></a>:           Set the fragment ID (hash) for a panel's URL</li>
-         <li><a href=#event-user>            <code>data-hover-in</code></a>:       Callback to run on mouse enter event</li>
-         <li><a href=#event-user>            <code>data-hover-out</code></a>:      Callback to run on mouse leave event</li>
          <li><a href=#event-jump>            <code>data-href</code></a>:           Jumps to the URL (like an <code>&lt;a&gt;</code> link)</li>
-         <li><a href=#event-user>            <code>data-input</code></a>:          Callback to run on input event</li>
-         <li><a href=#event-user>            <code>data-key-down</code></a>:       Callback to run on key down event</li>
-         <li><a href=#event-user>            <code>data-key-up</code></a>:         Callback to run on key up event</li>
          <li><a href=#loop-separators>       <code>data-last-separator</code></a>: Insert text, like a comma, between clones</li>
          <li><a href=#structure-thimblerig>  <code>data-missing</code></a>:        Show element only if field does not exist</li>
+         <li><a href=#event-user>            <code>data-on-change</code></a>:      Callback to run on change event</li>
+         <li><a href=#event-user>            <code>data-on-click</code></a>:       Callback to run on click event</li>
+         <li><a href=#event-user>            <code>data-on-enter-key</code></a>:   Callback to run on enter key event</li>
+         <li><a href=#event-user>            <code>data-on-focus</code></a>:       Callback to run when an element receives focus</li>
+         <li><a href=#event-user>            <code>data-on-blur</code></a>:        Callback to run when an element loses focus</li>
+         <li><a href=#event-user>            <code>data-on-hover-in</code></a>:    Callback to run on mouse enter event</li>
+         <li><a href=#event-user>            <code>data-on-hover-out</code></a>:   Callback to run on mouse leave event</li>
+         <li><a href=#event-user>            <code>data-on-input</code></a>:       Callback to run on input event</li>
+         <li><a href=#event-user>            <code>data-on-key-down</code></a>:    Callback to run on key down event</li>
+         <li><a href=#event-user>            <code>data-on-key-up</code></a>:      Callback to run on key up event</li>
          <li><a href=#event-on-load>         <code>data-on-load</code></a>:        Pass element into function after HTML is loaded</li>
          <li><a href=#html-option>           <code>data-option</code></a>:         Set option in a select drop-down</li>
          <li><a href=#structure-placeholder> <code>data-placeholder</code></a>:    Show element only if named template is empty</li>

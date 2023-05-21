@@ -348,15 +348,15 @@ const dnaUi = {
       // which the element belongs.
       return elem.closest('[data-component]');
       },
-   pulse: (elem: JQuery, options?: { duration: number, interval: number, out: number }): JQuery => {
+   pulse(elem: Element, options?: { duration: number, interval: number, out: number }): Element {
       // Fades in an element after hiding it to create a single smooth flash effect.  The optional
       // interval fades out the element.
       const defaults = { duration: 400, interval: 0, out: 5000 };
       const settings = { ...defaults, ...options };
       const css =      { hide: { opacity: 0 }, show: { opacity: 1 } };
-      elem.stop(true).slideDown().css(css.hide).animate(css.show, settings.duration);
+      $(elem).stop(true).slideDown().css(css.hide).animate(css.show, settings.duration);
       if (settings.interval)
-         elem.animate(css.show, settings.interval).animate(css.hide, settings.out);
+         $(elem).animate(css.show, settings.interval).animate(css.hide, settings.out);
       return elem;
       },
    slideFade<T>(elem: Element, callback?: DnaCallbackFn<T> | null, show?: boolean): Element {
@@ -1024,6 +1024,9 @@ const dnaEvents = {
       onChange(listener: DnaEventListener, selector?: string) {
          dna.events.on('change', listener, { selector: selector ?? null });
          },
+      onInput(listener: DnaEventListener, selector?: string) {
+         dna.events.on('input', listener, { selector: selector ?? null });
+         },
       onKeyDown(listener: DnaEventListener, selector?: string) {
          dna.events.on('keydown', listener, { selector: selector ?? null });
          },
@@ -1113,56 +1116,43 @@ const dnaEvents = {
       return root;
       },
    setup: (): JQuery => {
-      const runnerOLD = (elem: JQuery, type: string, event: JQuery.EventBase) => {
-         const target =     elem.closest('[data-' + type + ']');
-         const targetNode = target[0];
-         const fn =         target.data(type);
-         const isLink =     targetNode && targetNode.nodeName === 'A';
-         if (type === 'click' && isLink && fn && fn.match(/^dna[.]/))
-            event.preventDefault();
-         const nextClickTarget = target.parent().closest('[data-click]');
-         if (type === 'click' && nextClickTarget.length)
-            runnerOLD(nextClickTarget, type, event);
-         return dna.util.apply(fn, [target, event]);
-         };
       const runner = (elem: Element, type: string, event: Event) => {
          // Finds elements for the given event type and executes the callback passing in the
          //    element, event, and component (container element with "data-component" attribute).
          // Types: click|change|input|key-up|key-down|enter-key
-         const target = elem.closest('[data-' + type + ']')!;
-         const fn =     $(target).data(type);
-         const isLink = target && target.nodeName === 'A';
-         if (type === 'click' && isLink && fn && fn.match(/^dna[.]/))
+         const target = <HTMLElement>elem.closest('[data-' + type + ']');
+         const fn =     target?.dataset[dna.util.toCamel(type)];
+         const isLink = target?.nodeName === 'A';
+         if (type === 'click' && isLink && fn?.match(/^dna[.]/))
             event.preventDefault();
-         const nextClickTarget = target.parentElement?.closest('[data-click]');
+         const nextClickTarget = target?.parentElement?.closest('[data-on-click]');
          if (type === 'click' && nextClickTarget)
             runner(nextClickTarget, type, event);
-         return dna.util.apply(fn, [target, event]);
+         return fn && dna.util.apply(fn, [target, event]);
          };
-      const handleEvent = (event: JQuery.EventBase) => {
-         const target =       $(event.target);
-         const updateField =  (elem: JQuery, calc: DnaCallback) =>
-            dna.util.assign(<DnaDataObject>dna.getModel(elem), elem.data().dnaField, <Json>calc(elem));
-         const getValue =     (elem: JQuery) => $(elem).val();
-         const isChecked =    (elem: JQuery): boolean => elem.is(':checked');
-         const updateOption = (elem: Element) => updateField(<JQuery>$(elem), <DnaCallback>isChecked);
+      const handleEvent = (target: HTMLElement, event: Event) => {
+         const updateField =  (elem: Element, calc: DnaCallback) =>
+            dna.util.assign(<DnaDataObject>dna.getModel(<JQuery>$(elem)), $(elem).data().dnaField, <Json>calc(elem));
+         const getValue =     (elem: HTMLInputElement) => elem.value;
+         const isChecked =    (elem: HTMLInputElement) => elem.checked;
+         const updateOption = (elem: Element) => updateField(elem, <DnaCallback>isChecked);
          const updateModel =  () => {
-            const mainClone = dna.getClone(target, { main: true });
+            const mainClone = dna.getClone($(target), { main: true });
             if (mainClone.length === 0) {  //TODO: figure out why some events are captured on the template instead of the clone
                //console.error('Event not on clone:', event.timeStamp, event.type, target);
                return;
                }
-            if (target.is('input:checkbox'))
+            if (target instanceof HTMLInputElement && target.type === 'checkbox')
                updateField(target, <DnaCallback>isChecked);
-            else if (target.is('input:radio'))
-               globalThis.document.querySelectorAll('input[type=radio][name=' + target.attr('name') + ']').forEach(updateOption);
-            else if (target.data().dnaRules.val)
+            if (target instanceof HTMLInputElement && target.type === 'radio')
+               globalThis.document.querySelectorAll('input[type=radio][name=' + target.name + ']').forEach(updateOption);
+            else if ($(target).data().dnaRules.val)
                updateField(target, <DnaCallback>getValue);
             dna.refresh(mainClone);
             };
-         if (target.hasClass(dna.name.updateModel))
+         if (target.classList.contains(dna.name.updateModel))
             updateModel();
-         return runnerOLD(target, event.type.replace('key', 'key-'), event);
+         return runner(target, 'on-' + event.type.replace('key', 'key-'), event);
          };
       const handleSmartUpdate = (elem: HTMLElement, event: Event) => {
          // <input data-smart-update=saveNote data-smart-throttle=2000 value=~~note~~>
@@ -1199,24 +1189,20 @@ const dnaEvents = {
          const target =     elem.closest('.external-site') ? '_blank' : '_self';
          globalThis.open(elem.dataset.href, useSameTab ? '_self' : elem.dataset.target ?? target);
          };
-      const events = {
-         click:    handleEvent,
-         change:   handleEvent,
-         keydown:  handleEvent,
-         keyup:    handleEvent,
-         input:    handleEvent,
-         };
-      $(globalThis.document).on(events);
+      dna.events.onClick(handleEvent);
+      dna.events.onChange(handleEvent);
+      dna.events.onKeyDown(handleEvent);
+      dna.events.onKeyUp(handleEvent);
+      dna.events.onInput(handleEvent);
+      dna.events.onEnterKey((elem, event) => runner(elem, 'on-enter-key', event), '[data-on-enter-key]');
+      dna.events.onFocus(   (elem, event) => runner(elem, 'on-focus',     event), '[data-on-focus]');
+      dna.events.onBlur(    (elem, event) => runner(elem, 'on-blur',      event), '[data-on-blur]');
+      dna.events.onHoverIn( (elem, event) => runner(elem, 'on-hover-in',  event), '[data-on-hover-in]');
+      dna.events.onHoverOut((elem, event) => runner(elem, 'on-hover-out', event), '[data-on-hover-out]');
       dna.events.onKeyDown(handleSmartUpdate, 'input[data-smart-update]');
       dna.events.onKeyUp(  handleSmartUpdate, 'input[data-smart-update]');
       dna.events.onChange( handleSmartUpdate, 'input[data-smart-update]');
-
       dna.events.onClick(jumpToUrl, '[data-href]');
-      dna.events.onEnterKey((elem, event) => runner(elem, 'enter-key', event));
-      dna.events.onFocus(   (elem, event) => runner(elem, 'focus',     event), '[data-focus]');
-      dna.events.onBlur(    (elem, event) => runner(elem, 'blur',      event), '[data-blur]');
-      dna.events.onHoverIn( (elem, event) => runner(elem, 'hover-in',  event), '[data-hover-in]');
-      dna.events.onHoverOut((elem, event) => runner(elem, 'hover-out', event), '[data-hover-out]');
       return dna.events.runOnLoads();
       },
    };

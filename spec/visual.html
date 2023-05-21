@@ -733,12 +733,12 @@
                <span data-class=~~type~~ data-type=~~type~~>~~type~~</span>:
                <span id=~~type~~>~~header~~</span>
                <nav>
-                  <button data-click=dna.up>&uarr;</button>
-                  <button data-click=dna.down>&darr;</button>
-                  <button data-click=dna.bye>&times;</button>
+                  <button data-on-click=dna.up>&uarr;</button>
+                  <button data-on-click=dna.down>&darr;</button>
+                  <button data-on-click=dna.bye>&times;</button>
                </nav>
             </div>
-            <div><button data-click=spec.spec12.recount>Recount</button></div>
+            <div><button data-on-click=spec.spec12.recount>Recount</button></div>
          </div>
       </div>
    </fieldset>
@@ -874,8 +874,8 @@
 <script>
    spec.spec12 = {
       recount(button) {
-         const isFourthBook = dna.getClone(button).index() === 3;
-         dna.recount(button.parent().prev().filter('.dna-sub-clone'), { html: isFourthBook });
+         const isFourthBook = dna.getClone($(button)).index() === 3;
+         dna.recount($(button).parent().prev().filter('.dna-sub-clone'), { html: isFourthBook });
          },
       run() {
          const chapters = [
@@ -956,9 +956,9 @@
       <div class=book-list>
          <div id=s14-book class=dna-template data-count=~~[count]~~>
             <div>
-               <button data-click=dna.up>&uarr;</button>
-               <button data-click=dna.down>&darr;</button>
-               <button data-click=dna.bye>&times;</button>
+               <button data-on-click=dna.up>&uarr;</button>
+               <button data-on-click=dna.down>&darr;</button>
+               <button data-on-click=dna.bye>&times;</button>
             </div>
             Book #<span>~~[count]~~</span>: <span>~~[value]~~</span>
          </div>
@@ -1018,20 +1018,20 @@
          <div id=s15-book class=dna-template data-callback=spec.spec15.configure>
             <div class=surrounded>
                <span class=count>~~[count]~~</span>: <span>~~[value]~~</span>
-               <button data-click=spec.spec15.animal>
+               <button data-on-click=spec.spec15.animal>
                   🐅
                   <b>🐒</b>
-                  <b data-click=spec.spec15.elephant>🐘
-                     <span data-click=spec.spec15.mouse>🐁</span>
+                  <b data-on-click=spec.spec15.elephant>🐘
+                     <span data-on-click=spec.spec15.mouse>🐁</span>
                   </b>
-                  <b data-hover-in=spec.spec15.ufoIn>
-                     <span data-hover-out=spec.spec15.ufoOut>🛸</span>
+                  <b data-on-hover-in=spec.spec15.ufoIn>
+                     <span data-on-hover-out=spec.spec15.ufoOut>🛸</span>
                   </b>
                </button>
             </div>
-            <button class=1 data-click=dna.bye>Bye 1</button>
+            <button class=1 data-on-click=dna.bye>Bye 1</button>
             <button class=2>Bye 2</button>
-            <button class=3 data-click=spec.spec15.bye>Bye 3</button>
+            <button class=3 data-on-click=spec.spec15.bye>Bye 3</button>
          </div>
       </div>
       <div data-placeholder=s15-book>No more clones!</div>
@@ -1067,7 +1067,6 @@
          elem.addClass('color-change');
          },
       showMessage(message, elem) {
-         elem = $(elem)[0];
          const tag = '<' + elem.nodeName + '>'
          const msec = String(Date.now() % 10000).padStart(4, '0');
          const p = $('<p>').text([msec, message, tag].join(' '));
@@ -1098,8 +1097,8 @@
             throw 'This is not the clone you are looking for: ' + (elem[0] && elem[0].nodeName);
          elem.addClass('border-change2');
          },
-      bye(elem, event) {  //<button class=3 data-click=spec.spec15.bye>Bye 3</button>
-         const clone =      dna.getClone(elem);
+      bye(elem, event) {  //<button class=3 data-on-click=spec.spec15.bye>Bye 3</button>
+         const clone =      dna.getClone($(elem));
          const delayRange = { min: 300, max: 1600 };
          const start =      Date.now();
          let handled = false;
@@ -1126,7 +1125,7 @@
          dna.clone('s15-book', titles);
          $('.s15-book button.2').on({ click: dna.bye });  //add handler
          const getClone = (count) => $('.s15-book .count:contains(' + count + ')').closest('.dna-clone');
-         getClone(1).find('button.1').trigger('click');         //nuke 1st (bye w/data-click)
+         getClone(1).find('button.1').trigger('click');         //nuke 1st (bye w/data-on-click)
          getClone(2).find('button.2').trigger('click');         //nuke 2nd (bye w/event handler)
          getClone(8).find('button.3').trigger('click');         //nuke 8th (remove w/dna click callback)
          dna.bye(getClone(4));                                  //nuke 4th (bye w/jQuery elem)
@@ -1208,7 +1207,9 @@
          </div>
       </div>
       <div>
-         <div id=note class=dna-template><small><b data-format-number=#.#>~~seconds~~</b></small>: <code>~~note~~</code></div>
+         <div id=note class=dna-template>
+            <small><b data-format-number=#.#>~~seconds~~</b></small>: <code>~~note~~</code>
+         </div>
       </div>
    </fieldset>
    <fieldset>
@@ -1304,6 +1305,7 @@
    spec.spec16 = {
       start: Date.now(),
       submitNote(elem) {
+         console.log('#######', elem);  //////////////
          const ms = Date.now() - spec.spec16.start;
          dna.clone('note', { seconds: ms / 1000, note: elem.value }, { top: true, fade: true });
          },
@@ -1340,8 +1342,10 @@
          dna.updateField(clone.find('input:checkbox[value=fast]'), true);
          dna.updateField(clone.find('textarea'), '0xDEADBEEF');
          dna.updateField(clone.find('input').last(), 'Award winning');
-         const titleElem = clone.find('input:text').first().val('The DOM!').trigger('change');  //simulate user edit
-         titleElem.toggleClass('border-change', book.title === 'The DOM!');
+         const titleElem = document.querySelector('#spec16 .s16-book input');
+         titleElem.value = 'The DOM!';
+         titleElem.dispatchEvent(new Event('change', { bubbles: true }));  //simulate user edit
+         $(titleElem).toggleClass('border-change', book.title === 'The DOM!');
          if (clone.find('input[value=fast]').prop('checked'))  //expect "Overnight" selected
             clone.find('input[value=gift]').trigger('click');  //also select "Gift" option
          if (clone.find('input[name=cover]:checked').val() === 'soft')  //expect "Paperback" selected
@@ -1362,7 +1366,7 @@
       <legend>Actual</legend>
       <!-- Component: start -->
       <div data-component=bookshelf data-on-load=bookshelf.setup data-msg=Hello!>
-         <h2 data-click=bookshelf.showMsg>Bookshelf</h2>
+         <h2 data-on-click=bookshelf.showMsg>Bookshelf</h2>
          <button>View book data</button>
          <div id=s17-book class=dna-template>
             <div>Title:  <b>~~title~~</b></div>
@@ -1375,7 +1379,7 @@
                   },
                setup(elem, component) {
                   const booksUrl = 'https://dna-engine.org/api/books/';
-                  component.children('button')
+                  $(component).children('button')
                      .attr({ 'data-href': booksUrl })
                      .addClass('external-site');
                   const handle = (data) => dna.clone('s17-book', data);
@@ -1420,11 +1424,11 @@
    <p>Smooth container and pulse button</p>
    <fieldset>
       <legend>Actual</legend>
-      <input type=range value=3 data-change=spec.spec18.smooth>
+      <input type=range value=3 data-on-change=spec.spec18.smooth>
       <div class=smooth-container>
          <p id=chapter-box class=dna-template>~~[count]~~</p>
       </div>
-      <button data-click=dna.ui.pulse>Pulse</button>
+      <button data-on-click=dna.ui.pulse>Pulse</button>
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
@@ -1439,11 +1443,8 @@
 </section>
 <script>
    spec.spec18 = {
-      iEvent(elem, event) {
-         console.log(Date.now(), elem.val(), event.type);
-         },
       makeChapterBoxes(range) {
-         dna.clone('chapter-box', {}, { empty: true, clones: +range.val() }).hide().fadeIn();
+         dna.clone('chapter-box', {}, { empty: true, clones: parseInt(range.value) }).hide().fadeIn();
          },
       smooth(range) {
          const container = document.querySelector('#spec18 .smooth-container');
@@ -1452,7 +1453,7 @@
          dna.ui.smoothHeightAnimate(container);
          },
       run() {
-         spec.spec18.makeChapterBoxes($('#spec18 input[type=range]').first());
+         spec.spec18.makeChapterBoxes(document.querySelector('#spec18 input[type=range]'));
          },
       };
 </script>
@@ -1625,7 +1626,9 @@
       run() {
          dna.clone('s21-book-author-nav-button', specRunner.catalog);
          dna.clone('s21-book-author',            specRunner.catalog);
-         $('#spec21 .dna-menu').val('Abby').trigger('change');
+         const elem = document.querySelector('#spec21 .dna-menu');
+         elem.value = 'Abby';
+         elem.dispatchEvent(new Event('change', { bubbles: true }));  //simulate user update
          },
       };
 </script>

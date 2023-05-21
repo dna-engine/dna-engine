@@ -22,15 +22,15 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <h1>To-do</h1>
 <section>
-   <input id=task-title data-enter-key=todo.add value="Make hay">
-   <button data-click=todo.add>Add Task</button>
+   <input id=task-title data-on-enter-key=todo.add value="Make hay">
+   <button data-on-click=todo.add>Add Task</button>
    <h2>To-Do List</h2>
    <div id=task class=dna-template>
       <label>
          <input type=checkbox data-prop-checked=~~done~~>
          <span data-class=~~done,strike~~>~~title~~</span>
       </label>
-      <button data-click=dna.bye>&times;</button>
+      <button data-on-click=dna.bye>&times;</button>
    </div>
 </section>
 <!--
@@ -82,8 +82,8 @@ input[type=checkbox], button {
 <h1>Featured Books</h1>
 <section>
    <h2>Featured Books</h2>
-   <button data-click=store.add>Add a Book</button>
-   <button data-click=store.clear>Clear List</button>
+   <button data-on-click=store.add>Add a Book</button>
+   <button data-on-click=store.clear>Clear List</button>
    <div id=book class=dna-template>
       <h3>~~title~~</h3>
       Author: <cite>~~author~~</cite>
