@@ -1496,11 +1496,11 @@
 <script>
    spec.spec19 = {
       enhance(data) {
-         data.code = dna.util.toKebab(data.title);
+         data.code =         dna.util.toKebab(data.title);
          data.displayPrice = '$' + (data.price / 100).toFixed(2);
          },
       displayPanel(elem) {
-         return elem.addClass('border-change');
+         return elem.classList.add('border-change');
          },
       run() {
          dna.clone('s19-book-title', specRunner.catalog);

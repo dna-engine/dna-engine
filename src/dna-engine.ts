@@ -638,11 +638,17 @@ const dnaFormat = {
 const dnaPlaceholder = {  //TODO: optimize
    // A template placeholder is only shown when its corresponding template is empty (has zero
    // clones).  The "data-placeholder" attribute specifies the name of the template.
+   // Usage:
+   //    <ol class=books>
+   //       <li id=book class=dna-template>~~title~~</li>
+   //    </ol>
+   //    <p data-placeholder=book>No books</p>  <!-- element hidden unless there are no books -->
    setup: () => {
       $(globalThis.document.querySelectorAll('option.dna-template')).closest('select').addClass(dna.name.hide);
-      const isEmpty = (elem: Element) => !!dna.getClones($(elem).stop(true).data().placeholder).length;
+      const isEmpty = (elem: Element) => !!dna.getClones((<HTMLElement>elem).dataset.placeholder!).length;
       const fade =    (elem: Element) => isEmpty(elem) ? $(elem).fadeOut() : $(elem).fadeIn();
       const placeholders = globalThis.document.querySelectorAll('[data-placeholder]');
+      placeholders.forEach((elem: Element) => $(elem).stop(true));
       placeholders.forEach(fade);
       return placeholders;
       },
@@ -660,13 +666,16 @@ const dnaPanels = {
    //       <section data-hash=x1>The X1</section>                      <-- panel #1     [role=tabpanel] -->
    //       <section data-hash=x2>The X2</section>                      <-- panel #2     [role=tabpanel] -->
    //    </div>
-   // The optional "data-hash" attribute specifies the hash (URL fragment ID) and updates the
-   // location bar.  The "data-nav" attributes can be omitted if the ".dna-panels" element
-   // immediately follows the ".dna-menu" element.
+   // Note 1:
+   // The optional "data-hash" attribute on the .dna-menu element specifies the hash (URL
+   // fragment ID) and updates the location bar.
+   // Note 2:
+   // The "data-nav" attributes can be omitted if the ".dna-panels" element immediately follows
+   // the ".dna-menu" element.
    display(menu: Element, location?: number, updateUrl?: boolean): Element {
       // Shows the panel at the given location (index).
       const menuData =   $(menu).data();
-      const panels =     menuData.dnaPanels;
+      const panels =     <HTMLCollection>menuData.dnaPanels;
       const navName =    menuData.nav;
       const menuItems =  $(menu).find(dna.selector.menuItem);
       const savedIndex = Number(dna.pageToken.get(navName, 0));
@@ -676,9 +685,16 @@ const dnaPanels = {
          (<HTMLSelectElement>menu).selectedIndex = index;
       menuItems.removeClass(dna.name.selected).addClass(dna.name.unselected);
       menuItems.eq(index).addClass(dna.name.selected).removeClass(dna.name.unselected);
-      panels.hide().removeClass(dna.name.displayed).addClass(dna.name.hidden);
-      const panel = panels.eq(index).fadeIn().addClass(dna.name.displayed).removeClass(dna.name.hidden);
-      const hash =  panel.data().hash;
+      const hidePanel = (panel: Element) => {
+         $(panel).hide();
+         panel.classList.remove(dna.name.displayed);
+         panel.classList.add(dna.name.hidden);
+         };
+      dna.dom.forEach(panels, hidePanel);
+      const panel = <HTMLElement>panels[index]!;
+      panel.classList.replace(dna.name.hidden, dna.name.displayed);
+      $(panel).fadeIn();
+      const hash =  panel.dataset.hash;  //example: <nav class=dna-menu data-hash=about-page ...
       dna.pageToken.put(navName, index);
       if (updateUrl && hash)
          globalThis.history.pushState(null, '', '#' + hash);
@@ -697,22 +713,23 @@ const dnaPanels = {
       },
    initialize: (panelHolder?: Element) => {
       const generateNavName = (): string => {
+         // Automatically generates a name for unnamed menus.
          const navName = 'dna-panels-' + $(globalThis.document.body).data().dnaPanelNextNav++;
          $(panelHolder!).attr('data-nav', navName).prev(dna.selector.menu).attr('data-nav', navName);
          return navName;
          };
       const init = () => {
-         const navName =    $(panelHolder!).data().nav || generateNavName();
+         const navName =    (<HTMLElement>panelHolder!).dataset.nav || generateNavName();
          const menu =       globalThis.document.querySelector('.dna-menu[data-nav=' + navName + ']');
          const panels =     dna.dom.addClass(panelHolder!.children, dna.name.panel);
          const hash =       globalThis.location.hash.replace(/[^\w-]/g, '');  //remove leading "#"
          const hashIndex =  (): number => $(panels).filter('[data-hash=' + hash + ']').index();
          const savedIndex = (): number => <number>dna.pageToken.get(navName, 0);
-         const loc =        hash && $(panels).first().data().hash ? hashIndex() : savedIndex();
+         const loc =        hash && (<HTMLElement>panels[0]).dataset.hash ? hashIndex() : savedIndex();
          panelHolder!.classList.add(dna.name.panelsInitialized);
          dna.core.assert(menu, 'Menu not found for panels', navName);
          menu!.classList.add(dna.name.panelsInitialized);
-         $(menu!).data().dnaPanels = $(panels);
+         $(menu!).data().dnaPanels = panels;
          if (!menu!.getElementsByClassName(dna.name.menuItem).length)  //set .dna-menu-item elems if not set in the html
             dna.dom.addClass(menu!.children, dna.name.menuItem);
          dna.panels.display(menu!, loc);
@@ -795,7 +812,7 @@ const dnaCompile = {
          elem.data().dnaRules.text = true;
       elem.empty();
       },
-   propsAndAttrs: (elem: JQuery): void => {
+   propsAndAttrs: (elemJ: JQuery): void => {
       // Examples:
       //    <p id=~~num~~>                  ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['id', ['', 'num', '']] }>
       //    <p data-attr-src=~~url~~>       ==>  <p class=dna-nucleotide + data-dnaRules={ attrs: ['src', ['', 'url', '']] }>
@@ -804,7 +821,7 @@ const dnaCompile = {
       //    <input type=checkbox data-prop-checked=~~set~~>
       //                                    ==>  <option class=dna-nucleotide + data-dnaRules={ props: ['selected', 'set'] }>
       //    <select data-option=~~color~~>  ==>  <select class=dna-nucleotide + data-dnaRules={ val: true } + data-dnaField=color>
-      const node = elem[0]!;
+      const elem = elemJ[0]!;
       const props: DnaProps = [];
       const attrs: DnaAttrs = [];
       const names: string[] = [];
@@ -813,8 +830,8 @@ const dnaCompile = {
          key =   key.replace(/^data-prop-/, '').toLowerCase();
          value = value.replace(dna.compile.regex.dnaBasePairs, '');
          props.push(key, value);
-         if (key === 'checked' && elem.is('input'))
-            elem.addClass(dna.name.updateModel).data().dnaField = value;
+         if (key === 'checked' && elemJ.is('input'))
+            elemJ.addClass(dna.name.updateModel).data().dnaField = value;
          };
       const compileAttr = (key: string, value: string) => {
          const parts = <DnaAttrParts>value.split(dna.compile.regex.dnaBasePair);
@@ -825,13 +842,13 @@ const dnaCompile = {
          attrs.push(key.replace(/^data-attr-/, ''), parts);
          names.push(key);
          const makeUpdatable = () => {
-            dna.compile.setupNucleotide(elem).addClass(dna.name.updateModel);
-            elem.data().dnaField = parts[1];
-            elem.data().dnaRules.val = true;
+            dna.compile.setupNucleotide(elemJ).addClass(dna.name.updateModel);
+            elemJ.data().dnaField = parts[1];
+            elemJ.data().dnaRules.val = true;
             };
-         const hasTextVal = elem.is('input:not(:checkbox, :radio)') &&
+         const hasTextVal = elemJ.is('input:not(:checkbox, :radio)') &&
             key === 'value' && parts[0] === '' && parts[2] === '';
-         if (hasTextVal || elem.is('select') && key === 'data-option')
+         if (hasTextVal || elemJ.is('select') && key === 'data-option')
             makeUpdatable();
          };
       const compile = (attr: Attr) => {
@@ -840,32 +857,36 @@ const dnaCompile = {
          else if (attr.value.split(dna.compile.regex.dnaBasePair).length === 3)
             compileAttr(attr.name, attr.value);
          };
-      dna.ui.getAttrs(node).forEach(compile);
-      const getRules = (): DnaRules => dna.compile.setupNucleotide(elem).data().dnaRules;
+      dna.ui.getAttrs(elem).forEach(compile);
+      const getRules = (): DnaRules => dna.compile.setupNucleotide(elemJ).data().dnaRules;
       if (props.length > 0)
          getRules().props = props;
       if (attrs.length > 0)
          getRules().attrs = attrs;
-      if (elem.data().formatCurrency)
-         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.data().formatCurrency);
-      if (elem.data().formatCurrency100)
-         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.data().formatCurrency100, 100);
-      if (elem.data().formatCurrency1000)
-         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.data().formatCurrency100, 1000);
-      if (elem.data().formatDate)
-         getRules().formatter = dnaFormat.getDateFormatter(elem.data().formatDate);
-      if (elem.data().formatNumber)
-         getRules().formatter = dnaFormat.getNumberFormatter(elem.data().formatNumber);
-      if (elem.data().formatPercent)
-         getRules().formatter = dnaFormat.getPercentFormatter(elem.data().formatPercent);
-      if (elem.data().format)
-         getRules().formatter = dnaFormat.getFormatter(elem.data().format);
-      if (elem.data().transform)  //TODO: Determine if it's better to process only at top-level of clone
-         getRules().transform = elem.data().transform;  //TODO: string to fn
-      if (elem.data().callback)
-         getRules().callback = elem.data().callback;
-      dna.compile.addFieldClass(elem);
-      elem.removeAttr(names.join(' '));
+      if (elem.dataset.formatCurrency)
+         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.dataset.formatCurrency);
+      if (elem.dataset.formatCurrency10)
+         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.dataset.formatCurrency10, 100);
+      if (elem.dataset.formatCurrency100)
+         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.dataset.formatCurrency100, 100);
+      if (elem.dataset.formatCurrency1000)
+         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.dataset.formatCurrency1000, 1000);
+      if (elem.dataset.formatCurrency10000)
+         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.dataset.formatCurrency10000, 10000);
+      if (elem.dataset.formatDate)
+         getRules().formatter = dnaFormat.getDateFormatter(elem.dataset.formatDate);
+      if (elem.dataset.formatNumber)
+         getRules().formatter = dnaFormat.getNumberFormatter(elem.dataset.formatNumber);
+      if (elem.dataset.formatPercent)
+         getRules().formatter = dnaFormat.getPercentFormatter(elem.dataset.formatPercent);
+      if (elem.dataset.format)
+         getRules().formatter = dnaFormat.getFormatter(elem.dataset.format);
+      if (elem.dataset.transform)  //TODO: Determine if it's better to process only at top-level of clone
+         getRules().transform = elem.dataset.transform;  //TODO: string to fn
+      if (elem.dataset.callback)
+         getRules().callback = elem.dataset.callback;
+      dna.compile.addFieldClass(elemJ);
+      elemJ.removeAttr(names.join(' '));
       },
    getDataField: (elem: JQuery, type: string): string => {
       // Example:
@@ -894,23 +915,23 @@ const dnaCompile = {
       // Convert: data-separator=", "  ==>  <span class=dna-separator>, </span>
       const isWhitespaceNode = (index: number, node: Node): boolean =>
          node.nodeType === Node.TEXT_NODE && !/\S/.test(node.nodeValue!);
-      const append = (templateElem: JQuery, text: string, className: string) => {
-         const templateNode = templateElem[0]!;
+      const append = (templateElemJ: JQuery, text: string | null, className: string) => {
+         const templateNode = templateElemJ[0]!;
          const doAppend = () => {
-            templateElem.contents().last().filter(isWhitespaceNode).remove();
+            templateElemJ.contents().last().filter(isWhitespaceNode).remove();
             const span = globalThis.document.createElement('span');
             span.classList.add(className);
-            span.innerHTML = text;
+            span.innerHTML = text!;
             templateNode.append(span);
             };
          return text && doAppend();
          };
-      const processTemplate = (elem: JQuery) => {
-         append(elem, elem.data().separator,     dna.name.separator);
-         append(elem, elem.data().lastSeparator, dna.name.lastSeparator);
+      const processTemplate = (elem: HTMLElement) => {
+         append($(elem), elem.dataset.separator ?? null,     dna.name.separator);
+         append($(elem), elem.dataset.lastSeparator ?? null, dna.name.lastSeparator);
          };
       const clones = elem.find('.dna-template, .dna-sub-clone').addBack();
-      clones.forEach(processTemplate);
+      clones.toArray().forEach(processTemplate);
       return clones;
       },
    template: (name: string): DnaTemplate => {  //prepare and stash template so it can be cloned
@@ -936,8 +957,8 @@ const dnaCompile = {
       elems.forEach(dna.compile.propsAndAttrs);
       dna.compile.separators($(elem));
       //support html5 values for "type" attribute
-      const setTypeAttr = (inputElem: JQuery) =>
-         inputElem.attr({ type: inputElem.data().attrType });
+      const setTypeAttr = (inputElem: JQuery) =>  //example: <input data-attr-type=date  value=~~dueDate~~>
+         inputElem.attr({ type: inputElem[0]!.dataset.attrType });
       $('input[data-attr-type]').forEach(setTypeAttr);
       return dna.store.stash($(elem));
       },
@@ -1089,18 +1110,19 @@ const dnaEvents = {
       const elems =    $('[data-on-load]').not(dna.selector.onLoad);
       const addStart = (elem: JQuery) => elem.data().dnaOnLoad = { start: Date.now(), checks: 0 };
       elems.addClass(dna.name.onLoad).forEach(addStart);
-      const runOnLoad = (elem: JQuery) => {
-         const fnName =   elem.data().onLoad;
+      const runOnLoad = (elemJ: JQuery) => {
+         const elem = elemJ[0]!;
+         const fnName =   elem.dataset.onLoad!;
          const fn =       dna.util.getFn(fnName);
-         const onLoad =   elem.data().dnaOnLoad;
-         const waitFor =  elem.data().waitFor?.split(',') ?? [];
+         const onLoad =   elemJ.data().dnaOnLoad;
+         const waitFor =  elem.dataset.waitFor?.split(',') ?? [];
          onLoad.waiting = Date.now() - onLoad.start;
          onLoad.checks++;
          dna.core.assert(typeof fn === 'function' || !fn, 'Invalid data-on-load function', fnName);
          if (fn && !waitFor.map(dna.util.getFn).includes(undefined))
-            dna.util.apply(fnName, elem.addClass(dna.name.executed));
+            dna.util.apply(fnName, elemJ.addClass(dna.name.executed));
          else
-            globalThis.setTimeout(() => runOnLoad(elem), settings.msecs);
+            globalThis.setTimeout(() => runOnLoad(elemJ), settings.msecs);
          };
       return elems.forEach(runOnLoad);
       },
@@ -1242,7 +1264,7 @@ const dnaCore = {
             elem.attr(key, formatted);
             if (/^data-./.test(key))
                elem.data(key.substring(5), formatted);
-            if (key === 'value' && value !== elem.val())  //set elem val for input fields (example: <input value=~~tag~~>)
+            if (key === 'value' && value !== elem.val())  //set elem val for input fields, example: <input value=~~tag~~>
                elem.val(value);
             };
          for (let i = 0; i < attrs.length / 2; i++)  //each attr has a key and parts
