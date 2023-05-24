@@ -1305,7 +1305,6 @@
    spec.spec16 = {
       start: Date.now(),
       submitNote(elem) {
-         console.log('#######', elem);  //////////////
          const ms = Date.now() - spec.spec16.start;
          dna.clone('note', { seconds: ms / 1000, note: elem.value }, { top: true, fade: true });
          },

@@ -3303,7 +3303,7 @@
          <li><a href=#ui-pulse><b>dna.ui.pulse</b>(elem, options)</a></li>
          <li>dna.ui.slideFade<br>
             <a href=#ui-slide-fade><b>dna.ui.slideFadeDelete</b>(elem)</a><br>
-            <a href=#ui-slide-fade><b>dna.ui.slideFadeIn</b>(elem, callback)</a><br>
+            <a href=#ui-slide-fade><b>dna.ui.slideFadeIn</b>(elem)</a><br>
             <a href=#ui-slide-fade><b>dna.ui.slideFadeOut</b>(elem, callback)</a><br>
             <a href=#ui-slide-fade><b>dna.ui.slideFadeToggle</b>(elem, callback)</a><br>
          </li>
@@ -3593,9 +3593,9 @@
    <!-- dna.ui.slideFade() -->
    <section id=ui-slide-fade>
       <h4>dna.ui.slideFadeDelete(elem)</h4>
-      <h4>dna.ui.slideFadeIn(elem[, callback])</h4>
-      <h4>dna.ui.slideFadeOut(elem[, callback])</h4>
-      <h4>dna.ui.slideFadeToggle(elem[, callback])</h4>
+      <h4>dna.ui.slideFadeIn(elem)</h4>
+      <h4>dna.ui.slideFadeOut(elem)</h4>
+      <h4>dna.ui.slideFadeToggle(elem)</h4>
       <p class=api-description>
          Various functions to apply the smooth slide plus fade effect.
       </p>
@@ -3603,7 +3603,12 @@
          Parameters:
          <ul>
             {% render 'website/templates/params/elem.html' %}
-            {% render 'website/templates/params/callback.html' %}
+         </ul>
+      </div>
+      <div class=api-return-value>
+         Returns:
+         <ul>
+            {% render 'website/templates/return-values/elem-promise.html' %}
          </ul>
       </div>
       <figure>

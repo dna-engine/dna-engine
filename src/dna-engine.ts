@@ -359,7 +359,7 @@ const dnaUi = {
          $(elem).animate(css.show, settings.interval).animate(css.hide, settings.out);
       return elem;
       },
-   slideFade<T>(elem: Element, callback?: DnaCallbackFn<T> | null, show?: boolean): Element {
+   slideFade<T>(elem: HTMLElement, callback?: DnaCallbackFn<T> | null, show = false): HTMLElement {
       // Smooth slide plus fade effect.
       enum Opacity   { Hide = 0, Show = 1 }
       enum Transiton { Immediate = 'opacity 0s', Smooth = 'opacity 400ms' }
@@ -376,19 +376,48 @@ const dnaUi = {
       $(elem).delay(200).promise().then(clearTransition);  //keep clean for other animations
       return elem;
       },
-   slideFadeIn<T>(elem: Element, callback?: DnaCallbackFn<T> | null): Element {
+   slideFadeIn(elem: HTMLElement): Promise<HTMLElement> {
       // Smooth slide plus fade effect.
-      return dna.ui.slideFade(elem, callback, true);
+      const transitionMs = 600;
+      elem.style.transition = 'all 0ms';
+      elem.style.opacity =    '0';
+      elem.style.overflow =   'hidden';
+      const verticals = [
+         'height',
+         'border-top-width',
+         'border-bottom-width',
+         'padding-top',
+         'padding-bottom',
+         'margin-top',
+         'margin-bottom',
+         ];
+      const computed = getComputedStyle(elem);
+      const heights =  verticals.map(prop => computed.getPropertyValue(prop));  //store natural heights
+      verticals.map(prop => elem.style.setProperty(prop, '0px'));               //squash down to zero
+      const animate = () => {
+         elem.style.transition = `all ${transitionMs}ms`;
+         elem.style.opacity =    '1';
+         verticals.map((prop, i) => elem.style.setProperty(prop, heights[i]!));  //slowly restore natural heights
+         };
+      globalThis.requestAnimationFrame(animate);
+      const cleanup = () => {
+         elem.style.removeProperty('transition');
+         elem.style.removeProperty('opacity');
+         elem.style.removeProperty('overflow');
+         verticals.forEach((prop) => elem.style.removeProperty(prop));
+         return elem;
+         };
+      return new Promise((resolve) => globalThis.setTimeout(() => resolve(cleanup()), transitionMs + 100));
       },
-   slideFadeOut<T>(elem: Element, callback?: DnaCallbackFn<T> | null): Element {
+   slideFadeOut<T>(elem: HTMLElement, callback?: DnaCallbackFn<T> | null): HTMLElement {
       // Smooth slide plus fade effect.
       return dna.ui.slideFade(elem, callback, false);
       },
-   slideFadeToggle<T>(elem: Element, callback?: DnaCallbackFn<T> | null): Element {
+   slideFadeToggle<T>(elem: HTMLElement, callback?: DnaCallbackFn<T> | null): HTMLElement {
       // Smooth slide plus fade effect.
       return dna.ui.slideFade(elem, callback, $(elem).is(':hidden'));
       },
-   slideFadeDelete<T>(elem: Element, callback?: DnaCallbackFn<T> | null): Element {
+   slideFadeDelete<T>(elem: HTMLElement, callback?: DnaCallbackFn<T> | null): HTMLElement {
       // Smooth slide plus fade effect.
       return dna.ui.slideFadeOut(elem, () => dna.core.remove(<JQuery>$(elem), callback));
       },
@@ -436,7 +465,7 @@ const dnaUi = {
          let finishes = 0;
          const finish = () => finishes++ && fn && fn(<JQuery>$(elem));
          const animate = () => {
-            dna.ui.slideFadeIn(submissiveNode!, finish);
+            dna.ui.slideFadeIn(<HTMLElement>submissiveNode!).then(finish);
             dna.ui.slideFadeDelete(ghostNode, finish);
             };
          globalThis.setTimeout(animate);

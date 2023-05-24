@@ -284,30 +284,36 @@ main.docs-page #smooth-container button {
    font-style: italic;
    margin-bottom: 10px;
    }
-.api-parameters >ul {
+.api-parameters >ul,
+.api-return-value >ul {
    list-style-type: none;
    padding: 0px;
    margin-bottom: 20px;
    }
-.api-parameters >ul >li {
+.api-parameters >ul >li,
+.api-return-value >ul >li {
    text-indent: 0px;
    border: 1px dotted steelblue;
    padding: 10px;
    margin-bottom: 10px;
    }
-.api-parameters ul li label {
+.api-parameters ul li label,
+.api-return-value ul li label {
    margin: 0px;
    }
-.api-parameters ul ul {
+.api-parameters ul ul,
+.api-return-value ul ul {
    list-style-type: none;
    }
-.api-parameters ul ul li {
+.api-parameters ul ul li,
+.api-return-value ul ul li {
    position: relative;
    text-indent: 0px;
    padding-bottom: 5px;
    margin-left: 175px;
    }
-.api-parameters ul ul li label {
+.api-parameters ul ul li label,
+.api-return-value ul ul li label {
    position: absolute;
    top: 0px;
    left: -190px;
@@ -510,10 +516,12 @@ figure.hljs-enhance .dna-panels {
    figure.hljs-enhance >pre >code {
       font-size: 0.8rem;
       }
-   .api-parameters ul ul li {
+   .api-parameters ul ul li,
+   .api-return-value ul ul li {
       margin-left: 0px;
       }
-   .api-parameters ul ul li label {
+   .api-parameters ul ul li label,
+   .api-return-value ul ul li label {
       position: static;
       }
    }
