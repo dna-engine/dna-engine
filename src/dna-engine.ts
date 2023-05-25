@@ -81,7 +81,7 @@ export type DnaSettingsRegisterInitializer = {
    };
 export type DnaOptionsRegisterInitializer = Partial<DnaSettingsRegisterInitializer>;
 export type DnaSettingsRunOnLoads = {
-   msecs:      number,
+   msec:       number,  //milliseconds
    };
 export type DnaOptionsEventsOn = Partial<DnaSettingsEventsOn>;
 export type DnaSettingsEventsOn = {
@@ -101,7 +101,7 @@ export type DnaModel =          JsonData;
 export type DnaDataObject =     JsonObject;
 export type DnaFormatter =      <T>(value: DnaFormatterValue, model?: T) => string;
 export type DnaFormatterValue = number | string | boolean;
-export type DnaMSec =           number | string;  //milliseconds UTC (or ISO 8601 string)
+export type DnaMsec =           number | string;  //milliseconds UTC (or ISO 8601 string)
 export type DnaCallback =       (...args: unknown[]) => unknown;
 export interface DnaTransformFn<T> { (data: T): void }
 export interface DnaCallbackFn<T> { (elem: JQuery, data?: T): void }
@@ -302,17 +302,18 @@ const dnaPageToken = {
    };
 
 const dnaDom = {
-   dataStorge: <{ [key: string | number | symbol]: unknown }[]>[],
-   data(elem: HTMLElement) {
+   stateDepot: <{ [key: string | number | symbol]: unknown }[]>[],
+   state(elem: HTMLElement) {
+      // dna.dom.state(document.body).lastUpdate = Date.now();
       dna.core.assert(elem instanceof Element, 'Expected an HTML element, got', elem);
       if (!elem.dataset.dnaStoreIndex)
-         elem.dataset.dnaStoreIndex = String(dna.dom.dataStorge.push({}) - 1);
-      return dna.dom.dataStorge[parseInt(elem.dataset.dnaStoreIndex)]!;
+         elem.dataset.dnaStoreIndex = String(dna.dom.stateDepot.push({}) - 1);
+      return dna.dom.stateDepot[parseInt(elem.dataset.dnaStoreIndex)]!;
       },
-   removeData(elem: HTMLElement): HTMLElement {
+   removeState(elem: HTMLElement): HTMLElement {
       dna.core.assert(elem instanceof Element, 'Expected an HTML element, got', elem);
       if (elem.dataset.dnaStoreIndex)
-         dna.dom.dataStorge[parseInt(elem.dataset.dnaStoreIndex)] = {};
+         dna.dom.stateDepot[parseInt(elem.dataset.dnaStoreIndex)] = {};
       return elem;
       },
    hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, className: string): boolean {
@@ -335,6 +336,22 @@ const dnaDom = {
    };
 
 const dnaUi = {
+   show(elem: HTMLElement) {
+      elem.style.removeProperty('display');
+      elem.style.removeProperty('opacity');
+      elem.style.removeProperty('visibility');
+      const computed = globalThis.getComputedStyle(elem);
+      const override = (prop: string, values: string[], standIn: string) =>
+         values.includes(computed.getPropertyValue(prop)) && elem.style.setProperty(prop, standIn);
+      override('display',    ['none'],               'block');
+      override('opacity',    ['0'],                  '1');
+      override('visibility', ['collapse', 'hidden'], 'visible');
+      return elem;
+      },
+   hide(elem: HTMLElement) {
+      elem.style.display = 'none';
+      return elem;
+      },
    focus: (elem: JQuery): JQuery => {
       // Sets focus on an element.
       return elem.trigger('focus');
@@ -348,25 +365,46 @@ const dnaUi = {
       // which the element belongs.
       return elem.closest('[data-component]');
       },
-   pulse(elem: Element, options?: { duration: number, interval: number, out: number }): Element {
-      // Fades in an element after hiding it to create a single smooth flash effect.  The optional
-      // interval fades out the element.
-      const defaults = { duration: 400, interval: 0, out: 5000 };
+   pulse(elem: HTMLElement, options?: { fadeIn?: number, showDuration?: number | null, fadeOut?: number }): Promise<HTMLElement> {
+      // Fades in an element after hiding it to create a single smooth flash effect (intended for
+      // temporary status messages, like "Saving...").  Set showDuration to the length of time to
+      // display the message or to null to leave the element visible indefinitely.
+      dna.core.assert(elem instanceof HTMLElement, 'Invalid element for dna.ui.pulse()', elem);
+      const defaults = { fadeIn: 600, showDuration: 7000, fadeOut: 3000 };
       const settings = { ...defaults, ...options };
-      const css =      { hide: { opacity: 0 }, show: { opacity: 1 } };
-      $(elem).stop(true).slideDown().css(css.hide).animate(css.show, settings.duration);
-      if (settings.interval)
-         $(elem).animate(css.show, settings.interval).animate(css.hide, settings.out);
-      return elem;
+      const pulseStart = Date.now();
+      dna.dom.state(elem).pulseStart = pulseStart;
+      elem.style.transition = 'all 0ms';
+      elem.style.opacity =    '0';
+      const animate = () => {
+         elem.style.transition = `all ${settings.fadeIn}ms`;
+         elem.style.opacity =    '1';
+         };
+      const isLastPulse = () => dna.dom.state(elem).pulseStart === pulseStart;
+      const fadeAway = () => {
+         elem.style.transition = `all ${settings.fadeOut}ms`;
+         if (isLastPulse())
+            elem.style.opacity = '0';
+         };
+      globalThis.requestAnimationFrame(animate);
+      if (settings.showDuration)
+         globalThis.setTimeout(fadeAway, settings.fadeIn + settings.showDuration);
+      const cleanup = () => {
+         if (isLastPulse())
+            elem.style.removeProperty('transition');
+         return elem;
+         };
+      const total = !settings.showDuration ? settings.fadeIn : settings.fadeIn + settings.showDuration + settings.fadeOut;
+      return new Promise((resolve) => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
       },
    slideFade<T>(elem: HTMLElement, callback?: DnaCallbackFn<T> | null, show = false): HTMLElement {
       // Smooth slide plus fade effect.
-      enum Opacity   { Hide = 0, Show = 1 }
-      enum Transiton { Immediate = 'opacity 0s', Smooth = 'opacity 400ms' }
-      const obscure = { opacity: Opacity.Hide, transition: Transiton.Immediate };
-      const easeIn =  { opacity: Opacity.Show, transition: Transiton.Smooth };
-      const easeOut = { opacity: Opacity.Hide, transition: Transiton.Smooth };
-      const reset =   { transition: Transiton.Immediate };
+      enum Opacity    { Hide = 0, Show = 1 }
+      enum Transition { Immediate = 'opacity 0s', Smooth = 'opacity 400ms' }
+      const obscure = { opacity: Opacity.Hide, transition: Transition.Immediate };
+      const easeIn =  { opacity: Opacity.Show, transition: Transition.Smooth };
+      const easeOut = { opacity: Opacity.Hide, transition: Transition.Smooth };
+      const reset =   { transition: Transition.Immediate };
       const doEaseIn = () => $(elem).css(easeIn);
       const clearTransition = () => $(elem).css(reset);
       if (show && globalThis.setTimeout(doEaseIn, 200))
@@ -378,7 +416,7 @@ const dnaUi = {
       },
    slideFadeIn(elem: HTMLElement): Promise<HTMLElement> {
       // Smooth slide plus fade effect.
-      const transitionMs = 600;
+      const fadeTransition =  600;
       elem.style.transition = 'all 0ms';
       elem.style.opacity =    '0';
       elem.style.overflow =   'hidden';
@@ -391,23 +429,24 @@ const dnaUi = {
          'margin-top',
          'margin-bottom',
          ];
-      const computed = getComputedStyle(elem);
-      const heights =  verticals.map(prop => computed.getPropertyValue(prop));  //store natural heights
-      verticals.map(prop => elem.style.setProperty(prop, '0px'));               //squash down to zero
+      const computed =   getComputedStyle(elem);
+      const heights =    verticals.map(prop => computed.getPropertyValue(prop));    //store natural heights
+      const origValues = verticals.map(prop => elem.style.getPropertyValue(prop));  //store inline styles
+      verticals.map(prop => elem.style.setProperty(prop, '0px'));                   //squash down to zero
       const animate = () => {
-         elem.style.transition = `all ${transitionMs}ms`;
+         elem.style.transition = `all ${fadeTransition}ms`;
          elem.style.opacity =    '1';
-         verticals.map((prop, i) => elem.style.setProperty(prop, heights[i]!));  //slowly restore natural heights
+         verticals.map((prop, i) => elem.style.setProperty(prop, origValues[i] ?? heights[i]!));  //slowly restore natural heights
          };
       globalThis.requestAnimationFrame(animate);
       const cleanup = () => {
          elem.style.removeProperty('transition');
          elem.style.removeProperty('opacity');
          elem.style.removeProperty('overflow');
-         verticals.forEach((prop) => elem.style.removeProperty(prop));
+         verticals.forEach((prop, i) => !origValues[i] && elem.style.removeProperty(prop));
          return elem;
          };
-      return new Promise((resolve) => globalThis.setTimeout(() => resolve(cleanup()), transitionMs + 100));
+      return new Promise((resolve) => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
       },
    slideFadeOut<T>(elem: HTMLElement, callback?: DnaCallbackFn<T> | null): HTMLElement {
       // Smooth slide plus fade effect.
@@ -608,31 +647,31 @@ const dnaFormat = {
       },
    getDateFormatter(format: string): DnaFormatter {
       // Returns a function to format dates into strings, like "2030-05-04 1:00am".
-      const twoDigit =    (value: number) => String(value).padStart(2, '0');
-      const timestamp =   (date: Date) => date.toISOString().replace('T', '@').slice(0, -5);
-      const timestampMs = (date: Date) => date.toISOString().replace('T', '@').slice(0, -1);
-      const space =       (date: string) => date.replace(/\s/g, ' ');
+      const twoDigit =      (value: number) => String(value).padStart(2, '0');
+      const timestamp =     (date: Date) => date.toISOString().replace('T', '@').slice(0, -5);
+      const timestampMsec = (date: Date) => date.toISOString().replace('T', '@').slice(0, -1);
+      const space =         (date: string) => date.replace(/\s/g, ' ');
       const general = {  //format parts of the general timestamp, ex: "2030-05-04 1:00am Sat"
          date:  (d: Date) => `${d.getFullYear()}-${twoDigit(d.getMonth() + 1)}-${twoDigit(d.getDate())}`,
          time:  (d: Date) => d.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(/\s/, '').toLowerCase(),
          day:   (d: Date) => d.toLocaleString([], { weekday: 'short' }),
          stamp: (d: Date) => general.date(d) + ' ' + general.time(d) + ' ' + general.day(d),
          };
-      const dateFormatters = <{ [format: string]: DnaFormatter }>{                    //ex: 1904112000000 (msec)
-         date:        (msec: DnaMSec) => new Date(msec).toDateString(),               //ex: "Sat May 04 2030"
-         general:     (msec: DnaMSec) => general.stamp(new Date(msec)),               //ex: "2030-05-04 1:00am Sat"
-         generalDate: (msec: DnaMSec) => general.date(new Date(msec)),                //ex: "2030-05-04"
-         generalDay:  (msec: DnaMSec) => general.day(new Date(msec)),                 //ex: "Sat"
-         generalTime: (msec: DnaMSec) => general.time(new Date(msec)),                //ex: "1:00am"
-         iso:         (msec: DnaMSec) => new Date(msec).toISOString(),                //ex: "2030-05-04T08:00:00.000Z"
-         locale:      (msec: DnaMSec) => space(new Date(msec).toLocaleString()),      //ex: "5/4/2030, 1:00:00 AM"
-         localeDate:  (msec: DnaMSec) => new Date(msec).toLocaleDateString(),         //ex: "5/4/2030"
-         localeTime:  (msec: DnaMSec) => space(new Date(msec).toLocaleTimeString()),  //ex: "1:00:00 AM"
-         string:      (msec: DnaMSec) => new Date(msec).toString(),                   //ex: "Sat May 04 2030 01:00:00 GMT-0700 (PDT)"
-         time:        (msec: DnaMSec) => new Date(msec).toTimeString(),               //ex: "01:00:00 GMT-0700 (PDT)"
-         timestamp:   (msec: DnaMSec) => timestamp(new Date(msec)),                   //ex: "2030-05-04@08:00:00"
-         timestampMs: (msec: DnaMSec) => timestampMs(new Date(msec)),                 //ex: "2030-05-04@08:00:00.000"
-         utc:         (msec: DnaMSec) => new Date(msec).toUTCString(),                //ex: "Sat, 04 May 2030 08:00:00 GMT"
+      const dateFormatters = <{ [format: string]: DnaFormatter }>{                      //ex: 1904112000000 (msec)
+         date:          (msec: DnaMsec) => new Date(msec).toDateString(),               //ex: "Sat May 04 2030"
+         general:       (msec: DnaMsec) => general.stamp(new Date(msec)),               //ex: "2030-05-04 1:00am Sat"
+         generalDate:   (msec: DnaMsec) => general.date(new Date(msec)),                //ex: "2030-05-04"
+         generalDay:    (msec: DnaMsec) => general.day(new Date(msec)),                 //ex: "Sat"
+         generalTime:   (msec: DnaMsec) => general.time(new Date(msec)),                //ex: "1:00am"
+         iso:           (msec: DnaMsec) => new Date(msec).toISOString(),                //ex: "2030-05-04T08:00:00.000Z"
+         locale:        (msec: DnaMsec) => space(new Date(msec).toLocaleString()),      //ex: "5/4/2030, 1:00:00 AM"
+         localeDate:    (msec: DnaMsec) => new Date(msec).toLocaleDateString(),         //ex: "5/4/2030"
+         localeTime:    (msec: DnaMsec) => space(new Date(msec).toLocaleTimeString()),  //ex: "1:00:00 AM"
+         string:        (msec: DnaMsec) => new Date(msec).toString(),                   //ex: "Sat May 04 2030 01:00:00 GMT-0700 (PDT)"
+         time:          (msec: DnaMsec) => new Date(msec).toTimeString(),               //ex: "01:00:00 GMT-0700 (PDT)"
+         timestamp:     (msec: DnaMsec) => timestamp(new Date(msec)),                   //ex: "2030-05-04@08:00:00"
+         timestampMsec: (msec: DnaMsec) => timestampMsec(new Date(msec)),               //ex: "2030-05-04@08:00:00.000"
+         utc:           (msec: DnaMsec) => new Date(msec).toUTCString(),                //ex: "Sat, 04 May 2030 08:00:00 GMT"
          };
       const formatter = dateFormatters[dna.util.toCamel(format)];
       dna.core.assert(formatter, 'Unknown date format code', format);
@@ -1134,7 +1173,7 @@ const dnaEvents = {
       // Executes each of the data-on-load functions once the function and its dependencies have loaded.
       // Example:
       //    <p data-on-load=app.cart.setup data-wait-for=Chart,R,fetchJson>
-      const defaults = { msecs: 300 };
+      const defaults = { msec: 300 };
       const settings = { ...defaults, ...options };
       const elems =    $('[data-on-load]').not(dna.selector.onLoad);
       const addStart = (elem: JQuery) => elem.data().dnaOnLoad = { start: Date.now(), checks: 0 };
@@ -1151,7 +1190,7 @@ const dnaEvents = {
          if (fn && !waitFor.map(dna.util.getFn).includes(undefined))
             dna.util.apply(fnName, elemJ.addClass(dna.name.executed));
          else
-            globalThis.setTimeout(() => runOnLoad(elemJ), settings.msecs);
+            globalThis.setTimeout(() => runOnLoad(elemJ), settings.msec);
          };
       return elems.forEach(runOnLoad);
       },
@@ -1215,17 +1254,17 @@ const dnaEvents = {
          const doCallback = () => {
             data.dnaLastUpdated = Date.now();
             data.dnaLastValue =   value();
-            data.dnaTimeoutId =   null;
+            data.dnaTimeoutID =   null;
             runner(elem, 'smart-update', event);
             };
          const handleChange = () => {
             if (Date.now() < data.dnaLastUpdated + throttle)
-               data.dnaTimeoutId = globalThis.setTimeout(doCallback, throttle);
+               data.dnaTimeoutID = globalThis.setTimeout(doCallback, throttle);
             else
                doCallback();
             };
          const checkForValueChange = () => {
-            if (value() !== data.dnaLastValue && !data.dnaTimeoutId)
+            if (value() !== data.dnaLastValue && !data.dnaTimeoutID)
                handleChange();
             };
          if (event.type === 'keydown' && data.dnaLastValue === undefined)

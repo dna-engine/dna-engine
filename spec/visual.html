@@ -642,7 +642,7 @@
             backgroundImage: data.image,
             backgroundSize:  '80px',
             });
-         const book = { title: 'Background', image: 'url(https://dna-engine.org/graphics/dna-logo.png)' };
+         const book =    { title: 'Background', image: 'url(https://dna-engine.org/graphics/dna-logo.png)' };
          const options = { fade: true, callback: applyBackgnd, clones: 3 };
          dna.clone('s10-book', book, options);
          },
@@ -1067,9 +1067,9 @@
          elem.addClass('color-change');
          },
       showMessage(message, elem) {
-         const tag = '<' + elem.nodeName + '>'
+         const tag =  '<' + elem.nodeName + '>'
          const msec = String(Date.now() % 10000).padStart(4, '0');
-         const p = $('<p>').text([msec, message, tag].join(' '));
+         const p =    $('<p>').text([msec, message, tag].join(' '));
          $('#spec15 fieldset').first().append(p);
          },
       animal(elem) {
@@ -1427,7 +1427,8 @@
       <div class=smooth-container>
          <p id=chapter-box class=dna-template>~~[count]~~</p>
       </div>
-      <button data-on-click=dna.ui.pulse>Pulse</button>
+      <button data-on-click=spec.spec18.pulse>Pulse</button> &nbsp;
+      <span>Status message...</span>
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
@@ -1437,11 +1438,16 @@
          <p class=chapter-box>2</p>
          <p class=chapter-box>3</p>
       </div>
-      <button>Pulse</button>
+      <button>Pulse</button> &nbsp;
+      <span>Status message...</span>
    </fieldset>
 </section>
 <script>
    spec.spec18 = {
+      pulse(buttonJ) {
+         const button = $(buttonJ)[0];
+         dna.ui.pulse(button.nextElementSibling);
+         },
       makeChapterBoxes(range) {
          dna.clone('chapter-box', {}, { empty: true, clones: parseInt(range.value) }).hide().fadeIn();
          },
@@ -1709,21 +1715,21 @@
             </h4>
             <div>Event (UTC assumes PDT):</div>
             <output>
-               <samp                               title=milliseconds>~~event~~</samp>
-               <samp data-format-date=date         title=date>~~event~~</samp>
-               <samp data-format-date=general      title=general>~~event~~</samp>
-               <samp data-format-date=general-date title=general-date>~~event~~</samp>
-               <samp data-format-date=general-day  title=general-day>~~event~~</samp>
-               <samp data-format-date=general-time title=general-time>~~event~~</samp>
-               <samp data-format-date=iso          title=iso>~~event~~</samp>
-               <samp data-format-date=locale       title=locale>~~event~~</samp>
-               <samp data-format-date=locale-date  title=locale-date>~~event~~</samp>
-               <samp data-format-date=locale-time  title=locale-time>~~event~~</samp>
-               <samp data-format-date=string       title=string>~~event~~</samp>
-               <samp data-format-date=time         title=time>~~event~~</samp>
-               <samp data-format-date=timestamp    title=timestamp>~~event~~</samp>
-               <samp data-format-date=timestamp-ms title=timestamp-ms>~~event~~</samp>
-               <samp data-format-date=utc          title=utc>~~event~~</samp>
+               <samp                                 title=milliseconds>~~event~~</samp>
+               <samp data-format-date=date           title=date>~~event~~</samp>
+               <samp data-format-date=general        title=general>~~event~~</samp>
+               <samp data-format-date=general-date   title=general-date>~~event~~</samp>
+               <samp data-format-date=general-day    title=general-day>~~event~~</samp>
+               <samp data-format-date=general-time   title=general-time>~~event~~</samp>
+               <samp data-format-date=iso            title=iso>~~event~~</samp>
+               <samp data-format-date=locale         title=locale>~~event~~</samp>
+               <samp data-format-date=locale-date    title=locale-date>~~event~~</samp>
+               <samp data-format-date=locale-time    title=locale-time>~~event~~</samp>
+               <samp data-format-date=string         title=string>~~event~~</samp>
+               <samp data-format-date=time           title=time>~~event~~</samp>
+               <samp data-format-date=timestamp      title=timestamp>~~event~~</samp>
+               <samp data-format-date=timestamp-msec title=timestamp-msec>~~event~~</samp>
+               <samp data-format-date=utc            title=utc>~~event~~</samp>
             </output>
             <div>Price: <input data-attr-type=number value=~~price~~></div>
             <output>
@@ -1766,7 +1772,7 @@
                <samp title=string>Mon Jun 28 1971 19:00:00 GMT-0700 (Pacific Daylight Time)</samp>
                <samp title=time>19:00:00 GMT-0700 (Pacific Daylight Time)</samp>
                <samp title=timestamp>1971-06-29@02:00:00</samp>
-               <samp title=timestamp-ms>1971-06-29@02:00:00.000</samp>
+               <samp title=timestamp-msec>1971-06-29@02:00:00.000</samp>
                <samp title=utc>Tue, 29 Jun 1971 02:00:00 GMT</samp>
             </output>
             <div>Price: <input type=number value=2499></div>
@@ -1805,7 +1811,7 @@
                <samp title=string>Sat May 04 2030 01:00:00 GMT-0700 (Pacific Daylight Time)</samp>
                <samp title=time>01:00:00 GMT-0700 (Pacific Daylight Time)</samp>
                <samp title=timestamp>2030-05-04@08:00:00</samp>
-               <samp title=timestamp-ms>2030-05-04@08:00:00.000</samp>
+               <samp title=timestamp-msec>2030-05-04@08:00:00.000</samp>
                <samp title=utc>Sat, 04 May 2030 08:00:00 GMT</samp>
             </output>
             <div>Price: <input type=number value=1999></div>
@@ -1844,7 +1850,7 @@
                <samp title=string></samp>
                <samp title=time></samp>
                <samp title=timestamp></samp>
-               <samp title=timestamp-ms></samp>
+               <samp title=timestamp-msec></samp>
                <samp title=utc></samp>
             </output>
             <div>Price: <input type=number value=3750></div>
