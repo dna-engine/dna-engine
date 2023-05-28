@@ -61,10 +61,9 @@ export type DnaSettingsRecount = {
    html:       boolean,
    };
 export type DnaOptionsRecount = Partial<DnaSettingsRecount>;
-export type DnaOptionsDestroy<T> = {
+export type DnaOptionsDestroy = {
    main?:      boolean,
    fade?:      boolean,
-   callback?:  DnaCallbackFn<T> | null,
    };
 export type DnaSettingsGetClone = {
    main:       boolean,
@@ -396,7 +395,7 @@ const dnaUi = {
          return elem;
          };
       const total = !settings.showDuration ? settings.fadeIn : settings.fadeIn + settings.showDuration + settings.fadeOut;
-      return new Promise((resolve) => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
+      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
       },
    slideFadeIn(elem: HTMLElement): Promise<HTMLElement> {
       // Smooth slide in plus fade in effect.
@@ -431,7 +430,7 @@ const dnaUi = {
          verticals.forEach((prop, i) => !origValues[i] && elem.style.removeProperty(prop));
          return elem;
          };
-      return new Promise((resolve) => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
+      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
       },
    slideFadeOut(elem: HTMLElement): Promise<HTMLElement> {
       // Smooth slide out plus fade out effect.
@@ -465,7 +464,7 @@ const dnaUi = {
          verticals.forEach((prop, i) => !origValues[i] && elem.style.removeProperty(prop));
          return elem;
          };
-      return new Promise((resolve) => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
+      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
       },
    slideFade(elem: HTMLElement, show: boolean): Promise<HTMLElement> {
       return show ? dna.ui.slideFadeIn(elem) : dna.ui.slideFadeOut(elem);
@@ -512,39 +511,32 @@ const dnaUi = {
       updateUI();
       animate();
       const delay = settings.transition + 100;
-      return new Promise((resolve) => globalThis.setTimeout(() => resolve(cleanup()), delay));
+      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), delay));
       },
-   smoothMove<T>(elem: Element, up?: boolean, callback?: DnaCallbackFn<T> | null): Element {
+   smoothMove(elem: HTMLElement, up: boolean): Promise<HTMLElement> {
       // Uses animation to smoothly slide an element up or down one slot amongst its siblings.
-      const submissiveNode = up ? elem.previousElementSibling : elem.nextElementSibling;
-      // const submissiveNode = submissiveElem[0];
-      const fn = typeof callback === 'function' ? callback : null;
+      const blockingElem = up ? elem.previousElementSibling : elem.nextElementSibling;
       const move = () => {
-         const ghostNode = <HTMLElement>submissiveNode!.cloneNode(true);
-         $(submissiveNode!).hide();
-         elem.parentElement!.insertBefore(ghostNode, submissiveNode!);
-         elem.parentElement!.insertBefore(up ? elem : submissiveNode!, up ? submissiveNode! : elem);
-         let finishes = 0;
-         const finish = () => finishes++ && fn && fn(<JQuery>$(elem));
+         const submissiveElem = <HTMLElement>blockingElem;
+         const ghostElem =      <HTMLElement>submissiveElem.cloneNode(true);
+         submissiveElem.style.display = 'none';
+         elem.parentElement!.insertBefore(ghostElem, submissiveElem!);
+         elem.parentElement!.insertBefore(up ? elem : submissiveElem!, up ? submissiveElem! : elem);
          const animate = () => {
-            dna.ui.slideFadeIn(<HTMLElement>submissiveNode!).then(finish);
-            dna.ui.slideFadeDelete(ghostNode).then(finish);
+            dna.ui.slideFadeIn(submissiveElem);
+            return dna.ui.slideFadeDelete(ghostElem).then(() => elem);
             };
-         globalThis.setTimeout(animate);
+         return new Promise(resolve => globalThis.requestAnimationFrame(() => resolve(animate())));
          };
-      if (submissiveNode)
-         move();
-      else if (fn)
-         fn(<JQuery>$(elem));
-      return elem;
+      return blockingElem ? <Promise<HTMLElement>>move() : new Promise(resolve => resolve(elem));
       },
-   smoothMoveUp: <T>(elem: Element, callback?: DnaCallbackFn<T> | null): Element => {
+   smoothMoveUp(elem: HTMLElement): Promise<HTMLElement> {
       // Uses animation to smoothly slide an element up one slot amongst its siblings.
-      return dna.ui.smoothMove(elem, true, callback);
+      return dna.ui.smoothMove(elem, true);
       },
-   smoothMoveDown: <T>(elem: Element, callback?: DnaCallbackFn<T> | null): Element => {
+   smoothMoveDown(elem: HTMLElement): Promise<HTMLElement> {
       // Uses animation to smoothly slide an element down one slot amongst its siblings.
-      return dna.ui.smoothMove(elem, false, callback);
+      return dna.ui.smoothMove(elem, false);
       },
    toElem(elemOrEventOrIndex: DnaElemEventIndex, that?: unknown): JQuery {
       // A flexible way to get the jQuery element whether it is passed in directly, is a DOM
@@ -1731,7 +1723,7 @@ const dna = {
          renumber();
       return clone;
       },
-   destroy<T>(clone: JQuery, options?: DnaOptionsDestroy<T>): JQuery {
+   destroy(clone: HTMLElement, options?: DnaOptionsDestroy): Promise<HTMLElement> {
       // Removes an existing clone from the DOM.
       const defaults = { main: false, fade: false, callback: null };
       const settings = { ...defaults, ...options };
@@ -1740,18 +1732,16 @@ const dna = {
       const arrayField = dna.core.getArrayName(cloneElem);
       if (arrayField)
          (<Json[]>(<DnaModel>dna.getModel(cloneElem.parent()))[<keyof DnaModel>arrayField]).splice(dna.getIndex(cloneElem), 1);
-      const fadeDelete = () => {
-         dna.ui.slideFadeDelete(cloneNode).then(() => settings.callback && settings.callback(cloneElem));
-         return cloneElem;
-         };
-      return settings.fade ? fadeDelete() : $(dna.core.remove(cloneNode, settings.callback));
+      return settings.fade ? dna.ui.slideFadeDelete(cloneNode) :
+         new Promise(resolve => resolve(dna.core.remove(cloneNode)));
       },
-   getClone(elem: JQuery, options?: DnaOptionsGetClone): JQuery {
+   getClone(elemJ: JQuery | HTMLElement, options?: DnaOptionsGetClone): JQuery {
       // Returns the clone (or sub-clone) for the specified element.
+      const elem = $(elemJ)[0];
       const defaults = { main: false };
       const settings = { ...defaults, ...options };
       const selector = settings.main ? '.dna-clone:not(.dna-sub-clone)' : dna.selector.clone;
-      return elem instanceof $ ? elem.closest(selector) : $();
+      return <JQuery>$(elem?.closest(selector) || $());
       },
    getClones(name: string): JQuery {
       // Returns an array of all the existing clones for the given template.
@@ -1762,23 +1752,22 @@ const dna = {
       const clone = dna.getClone(elem, options);
       return clone.parent().children('.dna-clone.' + clone.data().dnaRules.template).index(clone);
       },
-   up<T>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T>): Element {
+   up(elemOrEventOrIndex: DnaElemEventIndex): Promise<HTMLElement> {
       // Smoothly moves a clone up one slot effectively swapping its position with the previous
       // clone.
       const elem = dna.ui.toElem(elemOrEventOrIndex, this);
-      return dna.ui.smoothMoveUp(dna.getClone(elem)[0]!, callback);
+      return dna.ui.smoothMoveUp(dna.getClone(elem)[0]!);
       },
-   down<T>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T>): Element {
+   down(elemOrEventOrIndex: DnaElemEventIndex): Promise<HTMLElement> {
       // Smoothly moves a clone down one slot effectively swapping its position with the next
       // clone.
       const elem = dna.ui.toElem(elemOrEventOrIndex, this);
-      return dna.ui.smoothMoveDown(dna.getClone(elem)[0]!, callback);
+      return dna.ui.smoothMoveDown(dna.getClone(elem)[0]!);
       },
-   bye<T>(elemOrEventOrIndex: DnaElemEventIndex, callback?: DnaCallbackFn<T>): JQuery {
+   bye(elemOrEventOrIndex: DnaElemEventIndex): Promise<HTMLElement> {
       // Performs a sliding fade out effect on the clone and then removes the element.
       const elem = dna.ui.toElem(elemOrEventOrIndex, this);
-      const fn = typeof callback === 'function' ? callback : null;
-      return dna.destroy(elem, { fade: true, callback: fn });
+      return dna.destroy(dna.getClone(elem)[0]!, { fade: true });
       },
    registerInitializer(fn: DnaFunctionName | DnaInitializerFn, options?: DnaOptionsRegisterInitializer): DnaInitializer[] {
       // Adds a callback function to the list of initializers that are run on all DOM elements.

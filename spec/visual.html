@@ -145,7 +145,7 @@
          const book2 = { title: 'Styling CSS3', author: 'Abby' };
          const book3 = { title: 'Howdy HTML5',  author: 'Ed' };
          dna.clone('s01-book', book1);
-         const clone = dna.clone('s01-book', book2);
+         const clone = dna.clone('s01-book', book2)[0];
          dna.clone('s01-book', book3);
          dna.destroy(clone);
          },
@@ -902,7 +902,7 @@
          clone = dna.refresh($('.s12-book').last(), { data: book2, html: true });
          dna.arrayPush(clone, 'chapters', { header: 'Bio', type: 'back' });
          dna.arrayPush(clone, 'chapters', moreChapters);
-         dna.destroy($('.s12-book').find(':contains(Bio 2)'), { main: false });
+         dna.destroy($('.s12-book').find(':contains(Bio 2)')[0], { main: false });
          dna.arrayPush(clone, 'chapters', lastChapter);
          clone.toggleClass('border-change', dna.getModel(clone).chapters.length === 5);
          $('.s12-book').find('.s12-book-authors--0[data-author=Jake]').addClass('color-change2');
@@ -1105,14 +1105,14 @@
          const badNews = (msg) => { throw 'handleByeDone --> ' + msg; };
          const handleByeDone = (param) => {
             const delay =       Date.now() - start;
-            const elemMissing = param[0] !== clone[0];
+            const elemMissing = param !== clone[0];
             const inDom =       !!clone.parent().length;
             handled = true;
             if (delay < delayRange.min || delay > delayRange.max || elemMissing || inDom)
                badNews('delay: ' + delay + 'ms, clone: ' + !elemMissing + ', removed: ' + !inDom);
             };
          if (event.type === 'click')
-            dna.bye(elem, handleByeDone);
+            dna.bye(elem).then(handleByeDone);
          if (event.type === 'click')
             globalThis.setTimeout(() => handled || badNews('delay exceeded: ' + delayRange.max), delayRange.max);
          },
