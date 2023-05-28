@@ -170,6 +170,7 @@ declare global { var dna: Dna }  //eslint-disable-line no-var
 
 const dnaName = {  //class name lookup table
    animating:         'dna-animating',
+   animatingDone:     'dna-animating-done',
    array:             'dna-array',
    clone:             'dna-clone',
    container:         'dna-container',
@@ -369,9 +370,9 @@ const dnaUi = {
       // Fades in an element after hiding it to create a single smooth flash effect (intended for
       // temporary status messages, like "Saving...").  Set showDuration to the length of time to
       // display the message or to null to leave the element visible indefinitely.
-      dna.core.assert(elem instanceof HTMLElement, 'Invalid element for dna.ui.pulse()', elem);
       const defaults = { fadeIn: 600, showDuration: 7000, fadeOut: 3000 };
       const settings = { ...defaults, ...options };
+      dna.core.assert(elem instanceof HTMLElement, 'Invalid element for dna.ui.pulse()', elem);
       const pulseStart = Date.now();
       dna.dom.state(elem).pulseStart = pulseStart;
       elem.style.transition = 'all 0ms';
@@ -397,26 +398,10 @@ const dnaUi = {
       const total = !settings.showDuration ? settings.fadeIn : settings.fadeIn + settings.showDuration + settings.fadeOut;
       return new Promise((resolve) => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
       },
-   slideFade<T>(elem: HTMLElement, callback?: DnaCallbackFn<T> | null, show = false): HTMLElement {
-      // Smooth slide plus fade effect.
-      enum Opacity    { Hide = 0, Show = 1 }
-      enum Transition { Immediate = 'opacity 0s', Smooth = 'opacity 400ms' }
-      const obscure = { opacity: Opacity.Hide, transition: Transition.Immediate };
-      const easeIn =  { opacity: Opacity.Show, transition: Transition.Smooth };
-      const easeOut = { opacity: Opacity.Hide, transition: Transition.Smooth };
-      const reset =   { transition: Transition.Immediate };
-      const doEaseIn = () => $(elem).css(easeIn);
-      const clearTransition = () => $(elem).css(reset);
-      if (show && globalThis.setTimeout(doEaseIn, 200))
-         $(elem).css(obscure).hide().delay(100).slideDown(callback || undefined);
-      else
-         $(elem).css(easeOut).delay(100).slideUp(callback || undefined);
-      $(elem).delay(200).promise().then(clearTransition);  //keep clean for other animations
-      return elem;
-      },
    slideFadeIn(elem: HTMLElement): Promise<HTMLElement> {
-      // Smooth slide plus fade effect.
+      // Smooth slide in plus fade in effect.
       const fadeTransition =  600;
+      dna.ui.show(elem);
       elem.style.transition = 'all 0ms';
       elem.style.opacity =    '0';
       elem.style.overflow =   'hidden';
@@ -429,14 +414,14 @@ const dnaUi = {
          'margin-top',
          'margin-bottom',
          ];
-      const computed =   getComputedStyle(elem);
+      const computed =   globalThis.getComputedStyle(elem);
       const heights =    verticals.map(prop => computed.getPropertyValue(prop));    //store natural heights
       const origValues = verticals.map(prop => elem.style.getPropertyValue(prop));  //store inline styles
-      verticals.map(prop => elem.style.setProperty(prop, '0px'));                   //squash down to zero
+      verticals.forEach(prop => elem.style.setProperty(prop, '0px'));               //squash down to zero
       const animate = () => {
          elem.style.transition = `all ${fadeTransition}ms`;
          elem.style.opacity =    '1';
-         verticals.map((prop, i) => elem.style.setProperty(prop, origValues[i] ?? heights[i]!));  //slowly restore natural heights
+         verticals.forEach((prop, i) => elem.style.setProperty(prop, origValues[i] || heights[i]!));  //slowly restore natural heights
          };
       globalThis.requestAnimationFrame(animate);
       const cleanup = () => {
@@ -448,48 +433,86 @@ const dnaUi = {
          };
       return new Promise((resolve) => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
       },
-   slideFadeOut<T>(elem: HTMLElement, callback?: DnaCallbackFn<T> | null): HTMLElement {
-      // Smooth slide plus fade effect.
-      return dna.ui.slideFade(elem, callback, false);
+   slideFadeOut(elem: HTMLElement): Promise<HTMLElement> {
+      // Smooth slide out plus fade out effect.
+      const fadeTransition =  600;
+      const computed =        globalThis.getComputedStyle(elem);
+      elem.style.transition = `all ${fadeTransition}ms`;
+      elem.style.opacity =    String(Math.min(1, Number(computed.getPropertyValue('opacity'))));
+      elem.style.overflow =   'hidden';
+      const verticals = [
+         'height',
+         'border-top-width',
+         'border-bottom-width',
+         'padding-top',
+         'padding-bottom',
+         'margin-top',
+         'margin-bottom',
+         ];
+      const heights =    verticals.map(prop => computed.getPropertyValue(prop));    //store natural heights
+      const origValues = verticals.map(prop => elem.style.getPropertyValue(prop));  //store inline styles
+      verticals.forEach((prop, i) => elem.style.setProperty(prop, heights[i]!));    //lock in natural heights
+      const animate = () => {
+         elem.style.opacity = '0';
+         verticals.forEach(prop => elem.style.setProperty(prop, '0px'));  //squash down to zero
+         };
+      globalThis.requestAnimationFrame(animate);
+      const cleanup = () => {
+         elem.style.display = 'none';
+         elem.style.removeProperty('transition');
+         elem.style.removeProperty('opacity');
+         elem.style.removeProperty('overflow');
+         verticals.forEach((prop, i) => !origValues[i] && elem.style.removeProperty(prop));
+         return elem;
+         };
+      return new Promise((resolve) => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
       },
-   slideFadeToggle<T>(elem: HTMLElement, callback?: DnaCallbackFn<T> | null): HTMLElement {
-      // Smooth slide plus fade effect.
-      return dna.ui.slideFade(elem, callback, $(elem).is(':hidden'));
+   slideFade(elem: HTMLElement, show: boolean): Promise<HTMLElement> {
+      return show ? dna.ui.slideFadeIn(elem) : dna.ui.slideFadeOut(elem);
       },
-   slideFadeDelete<T>(elem: HTMLElement, callback?: DnaCallbackFn<T> | null): HTMLElement {
-      // Smooth slide plus fade effect.
-      return dna.ui.slideFadeOut(elem, () => dna.core.remove(<JQuery>$(elem), callback));
+   slideFadeDelete(elem: HTMLElement): Promise<HTMLElement> {
+      // Smooth slide out plus fade out effect followed by removing the element.
+      return dna.ui.slideFadeOut(elem).then(dna.core.remove);
       },
-   smoothHeightSetBaseline(container: HTMLElement = globalThis.document.body): HTMLElement {
-      // See: smoothHeightAnimate below
-      const height = String(container.clientHeight) + 'px';
-      container.style.minHeight = height;
-      container.style.maxHeight = height;
-      container.style.overflow =  'hidden';
-      container.classList.add(dna.name.animating);
-      return container;
-      },
-   smoothHeightAnimate(container: HTMLElement = globalThis.document.body): HTMLElement {
+   smoothHeight(updateUI: () => unknown, options?: { container?: HTMLElement, transition?: number }): Promise<HTMLElement> {
       // Smoothly animates the height of a container element from a beginning height to a final
       // height.
-      const inProgress = container.classList.contains(dna.name.animating);
-      dna.core.assert(inProgress, 'Must call smoothHeightSetBaseline() first', container.nodeName);
-      const turnOffTransition = () => {
-         container.style.transition = 'none';
-         container.style.maxHeight =  'none';
-         container.classList.remove(dna.name.animating);
+      const defaults = { container: globalThis.document.body, transition: 1000 };
+      const settings = { ...defaults, ...options };
+      const container = settings.container;
+      const setBaseline = () => {
+         const height = String(container.clientHeight) + 'px';
+         container.style.minHeight = height;
+         container.style.maxHeight = height;
+         container.style.overflow =  'hidden';
+         container.classList.add(dna.name.animating);
          };
       const animate = () => {
-         container.style.minHeight = '0px';
-         container.style.maxHeight = '100vh';
-         globalThis.setTimeout(turnOffTransition, 1000);  //allow 1s transition to finish
+         const turnOffTransition = () => {
+            container.style.transition = 'none';
+            container.style.maxHeight =  'none';
+            container.classList.remove(dna.name.animating);
+            };
+         const animate = () => {
+            container.style.minHeight = '0px';
+            container.style.maxHeight = '100vh';
+            globalThis.setTimeout(turnOffTransition, 1000);  //allow 1s transition to finish
+            };
+         const setAnimationLength = () => {
+            container.style.transition = `all ${settings.transition}ms`;
+            globalThis.requestAnimationFrame(animate);  //allow transition to lock-in before animating
+            };
+         globalThis.requestAnimationFrame(setAnimationLength);  //allow baseline to lock-in starting height
          };
-      const setAnimationLength = () => {
-         container.style.transition = 'all 1s';
-         globalThis.requestAnimationFrame(animate);  //allow transition to lock-in before animating
+      const cleanup = () => {
+         container.classList.replace(dna.name.animating, dna.name.animatingDone);
+         return container;
          };
-      globalThis.requestAnimationFrame(setAnimationLength);  //allow baseline to lock-in starting height
-      return container;
+      setBaseline();
+      updateUI();
+      animate();
+      const delay = settings.transition + 100;
+      return new Promise((resolve) => globalThis.setTimeout(() => resolve(cleanup()), delay));
       },
    smoothMove<T>(elem: Element, up?: boolean, callback?: DnaCallbackFn<T> | null): Element {
       // Uses animation to smoothly slide an element up or down one slot amongst its siblings.
@@ -505,7 +528,7 @@ const dnaUi = {
          const finish = () => finishes++ && fn && fn(<JQuery>$(elem));
          const animate = () => {
             dna.ui.slideFadeIn(<HTMLElement>submissiveNode!).then(finish);
-            dna.ui.slideFadeDelete(ghostNode, finish);
+            dna.ui.slideFadeDelete(ghostNode).then(finish);
             };
          globalThis.setTimeout(animate);
          };
@@ -1093,72 +1116,72 @@ const dnaStore = {
    };
 
 const dnaEvents = {
-      on(type: string, listener: DnaEventListener, options?: DnaOptionsEventsOn) {
-         // See types: https://developer.mozilla.org/en-US/docs/Web/Events
-         const defaults = { keyFilter: null, selector: null };
-         const settings = { ...defaults, ...options };
-         const noFilter =   !settings.keyFilter;
-         const noSelector = !settings.selector;
-         const delegator = (event: Event) => {
-            const target = <HTMLElement>event.target;
-            const elem =   !target || noSelector ? target : <HTMLElement>target.closest(settings.selector!);
-            if (elem && (noFilter || settings.keyFilter === (<KeyboardEvent>event).key))
-               listener(elem, event, settings.selector);
-            };
-         globalThis.document.addEventListener(type, delegator);
-         },
-      onClick(listener: DnaEventListener, selector?: string) {
-         dna.events.on('click', listener, { selector: selector ?? null });
-         },
-      onChange(listener: DnaEventListener, selector?: string) {
-         dna.events.on('change', listener, { selector: selector ?? null });
-         },
-      onInput(listener: DnaEventListener, selector?: string) {
-         dna.events.on('input', listener, { selector: selector ?? null });
-         },
-      onKeyDown(listener: DnaEventListener, selector?: string) {
-         dna.events.on('keydown', listener, { selector: selector ?? null });
-         },
-      onKeyUp(listener: DnaEventListener, selector?: string) {
-         dna.events.on('keyup', listener, { selector: selector ?? null });
-         },
-      onEnterKey(listener: DnaEventListener, selector?: string) {
-         dna.events.on('keyup', listener, { selector: selector ?? null, keyFilter: 'Enter' });
-         },
-      onFocus(listener: DnaEventListener, selector?: string) {
-         dna.events.on('focus', listener, { selector: selector ?? null });
-         },
-      onBlur(listener: DnaEventListener, selector?: string) {
-         dna.events.on('blur', listener, { selector: selector ?? null });
-         },
-      onCut(listener: DnaEventListener, selector?: string) {
-         dna.events.on('cut', listener, { selector: selector ?? null });
-         },
-      onPaste(listener: DnaEventListener, selector?: string) {
-         dna.events.on('paste', listener, { selector: selector ?? null });
-         },
-      onHoverIn(listener: DnaEventListener, selector: string) {
-         let ready = true;
-         const delegator = (event: Event) => {
-            const target = <HTMLElement>(<HTMLElement>event.target)?.closest(selector);
-            if (target !== null && ready)
-               listener(target, event, selector);
-            ready = target === null;
-            };
-         globalThis.document.addEventListener('pointerover', delegator);
-         },
-      onHoverOut(listener: DnaEventListener, selector: string) {
-         let ready = false;
-         let prevTarget: HTMLElement | null = null;
-         const delegator = (event: Event) => {
-            const target = <HTMLElement>(<HTMLElement>event.target)?.closest(selector);
-            prevTarget = target ?? prevTarget;
-            if (target === null && ready)
-               listener(prevTarget!, event, selector);
-            ready = target !== null;
-            };
-         globalThis.document.addEventListener('pointerover', delegator);
-         },
+   on(type: string, listener: DnaEventListener, options?: DnaOptionsEventsOn) {
+      // See types: https://developer.mozilla.org/en-US/docs/Web/Events
+      const defaults = { keyFilter: null, selector: null };
+      const settings = { ...defaults, ...options };
+      const noFilter =   !settings.keyFilter;
+      const noSelector = !settings.selector;
+      const delegator = (event: Event) => {
+         const target = <HTMLElement>event.target;
+         const elem =   !target || noSelector ? target : <HTMLElement>target.closest(settings.selector!);
+         if (elem && (noFilter || settings.keyFilter === (<KeyboardEvent>event).key))
+            listener(elem, event, settings.selector);
+         };
+      globalThis.document.addEventListener(type, delegator);
+      },
+   onClick(listener: DnaEventListener, selector?: string) {
+      dna.events.on('click', listener, { selector: selector ?? null });
+      },
+   onChange(listener: DnaEventListener, selector?: string) {
+      dna.events.on('change', listener, { selector: selector ?? null });
+      },
+   onInput(listener: DnaEventListener, selector?: string) {
+      dna.events.on('input', listener, { selector: selector ?? null });
+      },
+   onKeyDown(listener: DnaEventListener, selector?: string) {
+      dna.events.on('keydown', listener, { selector: selector ?? null });
+      },
+   onKeyUp(listener: DnaEventListener, selector?: string) {
+      dna.events.on('keyup', listener, { selector: selector ?? null });
+      },
+   onEnterKey(listener: DnaEventListener, selector?: string) {
+      dna.events.on('keyup', listener, { selector: selector ?? null, keyFilter: 'Enter' });
+      },
+   onFocus(listener: DnaEventListener, selector?: string) {
+      dna.events.on('focus', listener, { selector: selector ?? null });
+      },
+   onBlur(listener: DnaEventListener, selector?: string) {
+      dna.events.on('blur', listener, { selector: selector ?? null });
+      },
+   onCut(listener: DnaEventListener, selector?: string) {
+      dna.events.on('cut', listener, { selector: selector ?? null });
+      },
+   onPaste(listener: DnaEventListener, selector?: string) {
+      dna.events.on('paste', listener, { selector: selector ?? null });
+      },
+   onHoverIn(listener: DnaEventListener, selector: string) {
+      let ready = true;
+      const delegator = (event: Event) => {
+         const target = <HTMLElement>(<HTMLElement>event.target)?.closest(selector);
+         if (target !== null && ready)
+            listener(target, event, selector);
+         ready = target === null;
+         };
+      globalThis.document.addEventListener('pointerover', delegator);
+      },
+   onHoverOut(listener: DnaEventListener, selector: string) {
+      let ready = false;
+      let prevTarget: HTMLElement | null = null;
+      const delegator = (event: Event) => {
+         const target = <HTMLElement>(<HTMLElement>event.target)?.closest(selector);
+         prevTarget = target ?? prevTarget;
+         if (target === null && ready)
+            listener(prevTarget!, event, selector);
+         ready = target !== null;
+         };
+      globalThis.document.addEventListener('pointerover', delegator);
+      },
    getContextDb: (): DnaContext => {
       const store =     $(globalThis.document.body).data();
       const initStore = () => store.dnaContextDb = {};
@@ -1490,7 +1513,8 @@ const dnaCore = {
       model[array.field] = <Json[]>subs.toArray().map(nodeToModel);
       return container;
       },
-   remove: <T>(clone: JQuery, callback?: DnaCallbackFn<T> | null): JQuery => {
+   remove: <T>(cloneNode: HTMLElement, callback?: DnaCallbackFn<T> | null): HTMLElement => {
+      const clone = $(cloneNode);
       const container = clone.parent();
       clone.detach();
       if (clone.hasClass(dna.name.subClone))
@@ -1499,7 +1523,7 @@ const dnaCore = {
       clone.remove();
       if (callback)
          callback(clone, <T>dna.getModel(clone));
-      return clone;
+      return cloneNode;
       },
    assert: (ok: boolean | unknown, message: string, info: unknown): void => {
       // Oops, file a tps report.
@@ -1648,7 +1672,7 @@ const dna = {
       if (settings.fade)
          clones.forEach(clone => dna.ui.slideFadeDelete(clone));
       else
-         clones.forEach(clone => dna.core.remove($(clone)));
+         clones.forEach(clone => dna.core.remove(clone));
       return clones;
       },
    insert<T>(name: string, data: T, options?: DnaOptionsInsert<T>): JQuery {
@@ -1711,12 +1735,16 @@ const dna = {
       // Removes an existing clone from the DOM.
       const defaults = { main: false, fade: false, callback: null };
       const settings = { ...defaults, ...options };
-      clone = dna.getClone(clone, options);
-      const arrayField = dna.core.getArrayName(clone);
+      const cloneElem =  dna.getClone(clone, options);
+      const cloneNode =  cloneElem[0]!;
+      const arrayField = dna.core.getArrayName(cloneElem);
       if (arrayField)
-         (<Json[]>(<DnaModel>dna.getModel(clone.parent()))[<keyof DnaModel>arrayField]).splice(dna.getIndex(clone), 1);
-      const fadeDelete = () => dna.ui.slideFadeDelete(clone[0]!, settings.callback);
-      return settings.fade ? <JQuery>$(fadeDelete()) : dna.core.remove(clone, settings.callback);
+         (<Json[]>(<DnaModel>dna.getModel(cloneElem.parent()))[<keyof DnaModel>arrayField]).splice(dna.getIndex(cloneElem), 1);
+      const fadeDelete = () => {
+         dna.ui.slideFadeDelete(cloneNode).then(() => settings.callback && settings.callback(cloneElem));
+         return cloneElem;
+         };
+      return settings.fade ? fadeDelete() : $(dna.core.remove(cloneNode, settings.callback));
       },
    getClone(elem: JQuery, options?: DnaOptionsGetClone): JQuery {
       // Returns the clone (or sub-clone) for the specified element.

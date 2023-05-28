@@ -1453,9 +1453,10 @@
          },
       smooth(range) {
          const container = document.querySelector('#spec18 .smooth-container');
-         dna.ui.smoothHeightSetBaseline(container);
-         spec.spec18.makeChapterBoxes(range);
-         dna.ui.smoothHeightAnimate(container);
+         const updateUI =  () => spec.spec18.makeChapterBoxes(range);
+         const status =    () => console.log(Date.now() % 10000, 'range:', Number(range.value));
+         status();
+         dna.ui.smoothHeight(updateUI, { container }).then(status);
          },
       run() {
          spec.spec18.makeChapterBoxes(document.querySelector('#spec18 input[type=range]'));

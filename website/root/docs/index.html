@@ -3304,13 +3304,9 @@
          <li>dna.ui.slideFade<br>
             <a href=#ui-slide-fade><b>dna.ui.slideFadeDelete</b>(elem)</a><br>
             <a href=#ui-slide-fade><b>dna.ui.slideFadeIn</b>(elem)</a><br>
-            <a href=#ui-slide-fade><b>dna.ui.slideFadeOut</b>(elem, callback)</a><br>
-            <a href=#ui-slide-fade><b>dna.ui.slideFadeToggle</b>(elem, callback)</a><br>
+            <a href=#ui-slide-fade><b>dna.ui.slideFadeOut</b>(elem)</a><br>
          </li>
-         <li>dna.ui.smoothHeight<br>
-            <a href=#ui-smooth-height><b>dna.ui.smoothHeightAnimate</b>(elem)</a><br>
-            <a href=#ui-smooth-height><b>dna.ui.smoothHeightSetBaseline</b>(elem)</a><br>
-         </li>
+         <li><a href=#ui-smooth-height><b>dna.ui.smoothHeight</b>(callback)</a><br></li>
          <li><a href=#ui-smooth-move><b>dna.ui.smoothMove</b>(elem, up)</a></li>
          <li><a href=#ui-to-elem><b>dna.ui.toElem</b>(elemOrEventOrIndex, that)</a></li>
          <li><a href=#util-apply><b>dna.util.apply</b>(func, params)</a></li>
@@ -3595,7 +3591,6 @@
       <h4>dna.ui.slideFadeDelete(elem)</h4>
       <h4>dna.ui.slideFadeIn(elem)</h4>
       <h4>dna.ui.slideFadeOut(elem)</h4>
-      <h4>dna.ui.slideFadeToggle(elem)</h4>
       <p class=api-description>
          Various functions to apply the smooth slide plus fade effect.
       </p>
@@ -3621,31 +3616,27 @@
       </figure>
    </section>
 
-   <!-- dna.ui.smoothHeightAnimate() -->
-   <!-- dna.ui.smoothHeightSetBaseline() -->
+   <!-- dna.ui.smoothHeight() -->
    <section id=ui-smooth-height>
-      <h4>dna.ui.smoothHeightSetBaseline([elem])</h4>
-      <h4>dna.ui.smoothHeightAnimate([elem])</h4>
+      <h4>dna.ui.smoothHeight(callback[, options])</h4>
       <p class=api-description>
          Smoothly animates the height of a container element from a beginning height to a final
          height.
       </p>
       <p>
          If no container element (<code>elem</code>) is specified, the <code>&lt;body&gt;</code>
-         element will be used for the baseline and the animation will use the previously set baseline.
+         element will be used.
       </p>
-      Usage steps:
-      <ol>
-         <li>Call <code>dna.ui.smoothHeightSetBaseline(container)</code> to establish the initial height
-            of the container.</li>
-         <li>Insert (show) and remove (hide) multiple elements within the container.</li>
-         <li>Call <code>dna.ui.smoothHeightAnimate(container)</code> to smoothly adjust the container
-            element to its new height.</li>
-      </ol>
       <div class=api-parameters>
          Parameters:
          <ul>
-            {% render 'website/templates/params/elem-simple.html' %}
+            {% render 'website/templates/params/callback.html' %}
+         </ul>
+      </div>
+      <div class=api-return-value>
+         Returns:
+         <ul>
+            {% render 'website/templates/return-values/elem-promise.html' %}
          </ul>
       </div>
       <figure>
@@ -3663,10 +3654,9 @@
                   dna.clone('chapter-box', {}, options);
                   };
                const smooth = (range) =&gt; {
-                  const elem = document.getElementById('smooth-container');
-                  dna.ui.smoothHeightSetBaseline(elem);
-                  makeChapters(range);
-                  dna.ui.smoothHeightAnimate(elem);
+                  const container = document.getElementById('smooth-container');
+                  const updateUI =  () => makeChapters(range);
+                  dna.ui.smoothHeight(updateUI, { container: container, transition: 2000 });
                   };
             &lt;/script&gt;
          </code></pre>
@@ -3688,10 +3678,9 @@
                   dna.clone('chapter-box', {}, options);
                   };
                const smooth = (range) => {
-                  const elem = document.getElementById('smooth-container');
-                  dna.ui.smoothHeightSetBaseline(elem);
-                  makeChapters(range);
-                  dna.ui.smoothHeightAnimate(elem);
+                  const container = document.getElementById('smooth-container');
+                  const updateUI =  () => makeChapters(range);
+                  dna.ui.smoothHeight(updateUI, { container: container, transition: 2000 });
                   };
             </script>
          </div>
