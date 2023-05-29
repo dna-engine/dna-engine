@@ -874,7 +874,7 @@
 <script>
    spec.spec12 = {
       recount(button) {
-         const isFourthBook = dna.getClone($(button)).index() === 3;
+         const isFourthBook = dna.dom.index(dna.getClone(button)) === 3;
          dna.recount($(button).parent().prev().filter('.dna-sub-clone'), { html: isFourthBook });
          },
       run() {
@@ -1017,7 +1017,7 @@
       <div class=book-list>
          <div id=s15-book class=dna-template data-callback=spec.spec15.configure>
             <div class=surrounded>
-               <span class=count>~~[count]~~</span>: <span>~~[value]~~</span>
+               <span class=count data-count=~~[count]~~>~~[count]~~</span>: <span>~~[value]~~</span>
                <button data-on-click=spec.spec15.animal>
                   🐅
                   <b>🐒</b>
@@ -1025,13 +1025,13 @@
                      <span data-on-click=spec.spec15.mouse>🐁</span>
                   </b>
                   <b data-on-hover-in=spec.spec15.ufoIn>
-                     <span data-on-hover-out=spec.spec15.ufoOut>🛸</span>
+                     <span class=ufo data-on-hover-out=spec.spec15.ufoOut>🛸</span>
                   </b>
                </button>
             </div>
-            <button class=1 data-on-click=dna.bye>Bye 1</button>
-            <button class=2>Bye 2</button>
-            <button class=3 data-on-click=spec.spec15.bye>Bye 3</button>
+            <button class=b1 data-on-click=dna.bye>Bye 1</button>
+            <button class=b2>Bye 2</button>
+            <button class=b3 data-on-click=spec.spec15.bye>Bye 3</button>
          </div>
       </div>
       <div data-placeholder=s15-book>No more clones!</div>
@@ -1041,7 +1041,7 @@
       <div class=book-list>
          <div class="dna-clone color-change border-change2">
             <div class=border-change style="color: white; padding: 10px;">
-               <span class=count>3</span>: <span>Howdy HTML5</span>
+               <span class=count data-count=3>3</span>: <span>Howdy HTML5</span>
                <button> 🐅 <b>🐒</b> <b>🐘 <span>🐁</span> </b> <b> <span>🛸</span> </b> </button>
             </div>
             <button>Bye 1</button>
@@ -1050,7 +1050,7 @@
          </div>
          <div class="dna-clone color-change border-change2">
             <div class=border-change style="color: white; padding: 10px;">
-               <span>5</span>: <span>Styling CSS3</span>
+               <span class=count data-count=5>5</span>: <span>Styling CSS3</span>
                <button> 🐅 <b>🐒</b> <b>🐘 <span>🐁</span> </b> <b> <span>🛸</span> </b> </button>
             </div>
             <button>Bye 1</button>
@@ -1098,15 +1098,15 @@
          elem.addClass('border-change2');
          },
       bye(elem, event) {  //<button class=3 data-on-click=spec.spec15.bye>Bye 3</button>
-         const clone =      dna.getClone($(elem));
+         const clone =      dna.getClone(elem);
          const delayRange = { min: 300, max: 1600 };
          const start =      Date.now();
          let handled = false;
          const badNews = (msg) => { throw 'handleByeDone --> ' + msg; };
          const handleByeDone = (param) => {
             const delay =       Date.now() - start;
-            const elemMissing = param !== clone[0];
-            const inDom =       !!clone.parent().length;
+            const elemMissing = param !== clone;
+            const inDom =       clone.parentElement instanceof Element;
             handled = true;
             if (delay < delayRange.min || delay > delayRange.max || elemMissing || inDom)
                badNews('delay: ' + delay + 'ms, clone: ' + !elemMissing + ', removed: ' + !inDom);
@@ -1123,14 +1123,15 @@
          dna.registerInitializer(spec.spec15.surround2, { onDocLoad: false });  //apply to each clone
          const titles = ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE'];
          dna.clone('s15-book', titles);
-         $('.s15-book button.2').on({ click: dna.bye });  //add handler
-         const getClone = (count) => $('.s15-book .count:contains(' + count + ')').closest('.dna-clone');
-         getClone(1).find('button.1').trigger('click');         //nuke 1st (bye w/data-on-click)
-         getClone(2).find('button.2').trigger('click');         //nuke 2nd (bye w/event handler)
-         getClone(8).find('button.3').trigger('click');         //nuke 8th (remove w/dna click callback)
-         dna.bye(getClone(4));                                  //nuke 4th (bye w/jQuery elem)
-         dna.getClone(getClone(7).find('span:last')).remove();  //nuke 7th (remove w/sub-node)
-         getClone(6).each(dna.bye);                             //nuke 6th (bye w/jQuery loop)
+         $('.s15-book button.b2').on({ click: dna.bye });  //add handler
+         const findClone = (count) =>
+            document.querySelector('.s15-book .count[data-count="' + count + '"]').closest('.dna-clone');
+         findClone(1).querySelector('button.b1').click();            //nuke 1st (bye w/data-on-click)
+         findClone(2).querySelector('button.b2').click();            //nuke 2nd (bye w/event handler)
+         findClone(8).querySelector('button.b3').click();            //nuke 8th (remove w/dna click callback)
+         dna.bye(findClone(4));                                      //nuke 4th (bye elem)
+         dna.getClone(findClone(7).querySelector('.ufo')).remove();  //nuke 7th (remove w/sub-node)
+         [findClone(6)].forEach(dna.bye);                            //nuke 6th (bye w/loop)
          dna.clearInitializers();
          },
       };

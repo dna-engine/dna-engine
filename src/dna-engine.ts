@@ -330,8 +330,22 @@ const dnaDom = {
       Array.prototype.forEach.call(elems, fn);
       return elems;
       },
+   index(elem: Element): number {
+      // Returns the index of element within its container (relative to all its sibling elements).
+      let index = 0;
+      let prev =  elem.previousElementSibling;
+      while (prev) {
+         index++;
+         prev = prev.previousElementSibling;
+         }
+      return index;
+      },
    indexOf(elems: NodeListOf<Element>, elem: Element): number {
+      // Returns the location an element within an array of elements.
       return Array.prototype.indexOf.call(elems, elem);
+      },
+   isElem(elem: Element): boolean {
+      return typeof elem === 'object' && !!elem?.nodeName;
       },
    };
 
@@ -371,7 +385,7 @@ const dnaUi = {
       // display the message or to null to leave the element visible indefinitely.
       const defaults = { fadeIn: 600, showDuration: 7000, fadeOut: 3000 };
       const settings = { ...defaults, ...options };
-      dna.core.assert(elem instanceof HTMLElement, 'Invalid element for dna.ui.pulse()', elem);
+      dna.core.assert(dna.dom.isElem(elem), 'Invalid element for dna.ui.pulse()', elem);
       const pulseStart = Date.now();
       dna.dom.state(elem).pulseStart = pulseStart;
       elem.style.transition = 'all 0ms';
@@ -718,7 +732,7 @@ const dnaFormat = {
       },
    };
 
-const dnaPlaceholder = {  //TODO: optimize
+const dnaPlaceholder = {
    // A template placeholder is only shown when its corresponding template is empty (has zero
    // clones).  The "data-placeholder" attribute specifies the name of the template.
    // Usage:
@@ -727,7 +741,8 @@ const dnaPlaceholder = {  //TODO: optimize
    //    </ol>
    //    <p data-placeholder=book>No books</p>  <!-- element hidden unless there are no books -->
    setup: () => {
-      $(globalThis.document.querySelectorAll('option.dna-template')).closest('select').addClass(dna.name.hide);
+      const hideSelect = (elem: Element) => elem.closest('select')?.classList.add(dna.name.hide);
+      globalThis.document.querySelectorAll('option.dna-template').forEach(hideSelect);
       const isEmpty = (elem: Element) => !!dna.getClones((<HTMLElement>elem).dataset.placeholder!).length;
       const fade =    (elem: Element) => isEmpty(elem) ? $(elem).fadeOut() : $(elem).fadeIn();
       const placeholders = globalThis.document.querySelectorAll('[data-placeholder]');
@@ -976,11 +991,13 @@ const dnaCompile = {
       //    <p data-array=~~tags~~>, 'array'  ==>  'tags'
       return elem.data(type).replace(dna.compile.regex.dnaBasePairs, '').trim();
       },
-   subTemplateName: (holder: JQuery | string, arrayField: string, index: number): string => {  //holder can be element or template name
+   subTemplateName(holder: HTMLElement | string, arrayField: string, index: number): string {
+      // Holder can be element or template name.
       // Example:
       //    subTemplateName('book', 'authors') ==> 'book-authors--2'
-      const getRules = (): DnaRules => dna.getClone(<JQuery>holder, { main: true }).data().dnaRules;
-      const templateName = holder instanceof $ ? getRules().template : holder;
+      const getRules = (): DnaRules =>
+         $(dna.getClone(<HTMLElement>holder, { main: true })!).data().dnaRules;
+      const templateName = typeof holder === 'string' ? holder : getRules().template;
       return templateName + '-' + arrayField + '--' + String(index);
       },
    rules: (elems: JQuery, type: string, isLists?: boolean): JQuery => {
@@ -1242,8 +1259,8 @@ const dnaEvents = {
          const isChecked =    (elem: HTMLInputElement) => elem.checked;
          const updateOption = (elem: Element) => updateField(elem, <DnaCallback>isChecked);
          const updateModel =  () => {
-            const mainClone = dna.getClone($(target), { main: true });
-            if (mainClone.length === 0) {  //TODO: figure out why some events are captured on the template instead of the clone
+            const mainClone = dna.getClone(target, { main: true });
+            if (!mainClone) {  //TODO: figure out why some events are captured on the template instead of the clone
                //console.error('Event not on clone:', event.timeStamp, event.type, target);
                return;
                }
@@ -1253,7 +1270,7 @@ const dnaEvents = {
                globalThis.document.querySelectorAll('input[type=radio][name=' + target.name + ']').forEach(updateOption);
             else if ($(target).data().dnaRules.val)
                updateField(target, <DnaCallback>getValue);
-            dna.refresh(mainClone);
+            dna.refresh($(mainClone));
             };
          if (target.classList.contains(dna.name.updateModel))
             updateModel();
@@ -1517,16 +1534,18 @@ const dnaCore = {
          callback(clone, <T>dna.getModel(clone));
       return cloneNode;
       },
-   assert: (ok: boolean | unknown, message: string, info: unknown): void => {
+   assert(ok: boolean | unknown, message: string, info?: unknown): void {
       // Oops, file a tps report.
-      try {
-         if (!ok)
-            throw Error('[dna-engine] ' + message + ': ' + String(info));
-         }
-      catch (e) {
-         console.error((<Error>e).stack);
-         throw Error((<Error>e).message);
-         }
+      if (!ok)
+         try {
+            throw Error('[dna-engine] ' + message);
+            }
+         catch (e) {
+            console.error((<Error>e).stack);
+            if (info !== undefined)
+               console.error(info);
+            throw Error((<Error>e).message);
+            }
       },
    plugin: (): void => {
       $.fn.forEach = function(fn: DnaForEachCallback): JQuery {
@@ -1619,7 +1638,7 @@ const dna = {
       // Clones a sub-template to append onto an array loop.
       const cloneSub = (field: string, index: number) => {
          const clone = () => {
-            const name =     dna.compile.subTemplateName(holderClone, arrayField, index);
+            const name =     dna.compile.subTemplateName(holderClone[0]!, arrayField, index);
             const selector = '.dna-contains-' + name;
             const settings = { container: holderClone.find(selector).addBack(selector) };
             dna.clone(name, data, { ...settings, ...options });
@@ -1648,7 +1667,7 @@ const dna = {
    getModel<T>(elemOrName: JQuery | string, options?: DnaOptionsGetModel): T | T[] | undefined {
       // Returns the underlying data of the clone.
       const getOne = (elem: JQuery) =>
-         dna.getClone($(elem), options).data('dnaModel');
+         $(dna.getClone(elem[0]!, options)!).data('dnaModel');
       const getAll = (name: string) =>
          dna.getClones(name).toArray().map(node => getOne($(node)));
       return typeof elemOrName === 'string' ? getAll(elemOrName) : getOne(elemOrName);
@@ -1677,9 +1696,10 @@ const dna = {
       // Updates an existing clone to reflect changes to the data model.
       const defaults = { html: false };
       const settings = { ...defaults, ...options };
-      const elem = dna.getClone(clone, options);
-      const data = settings.data ? settings.data : dna.getModel(elem);
-      return dna.core.inject(elem, data, elem.data().dnaCount, settings);
+      const elem = dna.getClone(clone[0]!, options)!;
+      const elemJ = $(elem);
+      const data = settings.data ? settings.data : dna.getModel(elemJ);
+      return dna.core.inject(elemJ, data, elemJ.data().dnaCount, settings);
       },
    refreshAll(name: string, options?: DnaOptionsRefreshAll): JQuery {
       // Updates all the clones of the specified template.
@@ -1705,69 +1725,66 @@ const dna = {
          update();
       return inputElem;
       },
-   recount(clone: JQuery, options?: DnaOptionsRecount): JQuery {
+   recount(elemJ: JQuery, options?: DnaOptionsRecount): HTMLElement {
       // Renumbers the counters starting from 1 for the clone and its siblings based on DOM order.
-      clone = dna.getClone(clone);
-      const renumber = () => {
-         const name = clone.data().dnaRules.template;
-         const update = (elem: JQuery, index: number) => {
-            elem.data().dnaCount = index + 1;
-            dna.refresh(elem, options);
-            };
-         const container = clone.parent();
-         const clones =    container.children('.dna-clone.' + name).forEach(update);
-         container.data().dnaCountsMap =       container.data().dnaCountsMap || {};
-         container.data().dnaCountsMap[name] = clones.length;
+      const clone = dna.getClone(elemJ[0]!)!;
+      dna.core.assert(clone, 'Cannot find clone', elemJ);
+      const name = $(clone).data().dnaRules.template;
+      const update = (elem: JQuery, index: number) => {
+         elem.data().dnaCount = index + 1;
+         dna.refresh(elem, options);
          };
-      if (clone.length)
-         renumber();
+      const container = $(clone).parent();
+      const clones =    container.children('.dna-clone.' + name).forEach(update);
+      container.data().dnaCountsMap =       container.data().dnaCountsMap || {};
+      container.data().dnaCountsMap[name] = clones.length;
       return clone;
       },
    destroy(clone: HTMLElement, options?: DnaOptionsDestroy): Promise<HTMLElement> {
       // Removes an existing clone from the DOM.
       const defaults = { main: false, fade: false, callback: null };
       const settings = { ...defaults, ...options };
-      const cloneElem =  dna.getClone(clone, options);
+      const cloneElem =  $(dna.getClone($(clone)[0]!, options)!);
       const cloneNode =  cloneElem[0]!;
       const arrayField = dna.core.getArrayName(cloneElem);
       if (arrayField)
-         (<Json[]>(<DnaModel>dna.getModel(cloneElem.parent()))[<keyof DnaModel>arrayField]).splice(dna.getIndex(cloneElem), 1);
+         (<Json[]>(<DnaModel>dna.getModel(cloneElem.parent()))[<keyof DnaModel>arrayField])
+            .splice(dna.getIndex(cloneElem), 1);
       return settings.fade ? dna.ui.slideFadeDelete(cloneNode) :
          new Promise(resolve => resolve(dna.core.remove(cloneNode)));
       },
-   getClone(elemJ: JQuery | HTMLElement, options?: DnaOptionsGetClone): JQuery {
+   getClone(elem: HTMLElement, options?: DnaOptionsGetClone): HTMLElement | null {
       // Returns the clone (or sub-clone) for the specified element.
-      const elem = $(elemJ)[0];
       const defaults = { main: false };
       const settings = { ...defaults, ...options };
-      const selector = settings.main ? '.dna-clone:not(.dna-sub-clone)' : dna.selector.clone;
-      return <JQuery>$(elem?.closest(selector) || $());
+      dna.core.assert(dna.dom.isElem(elem), 'Invalid element passed to dna.getClone()', elem);
+      return elem.closest(settings.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone');
       },
    getClones(name: string): JQuery {
       // Returns an array of all the existing clones for the given template.
       return dna.store.getTemplate(name).container.children('.dna-clone.' + name);
       },
-   getIndex(elem: JQuery, options?: DnaOptionsGetIndex): number {
+   getIndex(elemJ: JQuery, options?: DnaOptionsGetIndex): number {
       // Returns the index of the clone.
-      const clone = dna.getClone(elem, options);
-      return clone.parent().children('.dna-clone.' + clone.data().dnaRules.template).index(clone);
+      const clone = dna.getClone(elemJ[0]!, options)!;
+      return $(clone).parent().children('.dna-clone.' + $(clone).data().dnaRules.template).index(clone);
       },
    up(elemOrEventOrIndex: DnaElemEventIndex): Promise<HTMLElement> {
       // Smoothly moves a clone up one slot effectively swapping its position with the previous
       // clone.
-      const elem = dna.ui.toElem(elemOrEventOrIndex, this);
-      return dna.ui.smoothMoveUp(dna.getClone(elem)[0]!);
+      const elem = dna.ui.toElem(elemOrEventOrIndex, this)[0]!;
+      return dna.ui.smoothMoveUp(dna.getClone(elem)!);
       },
    down(elemOrEventOrIndex: DnaElemEventIndex): Promise<HTMLElement> {
       // Smoothly moves a clone down one slot effectively swapping its position with the next
       // clone.
-      const elem = dna.ui.toElem(elemOrEventOrIndex, this);
-      return dna.ui.smoothMoveDown(dna.getClone(elem)[0]!);
+      const elem = dna.ui.toElem(elemOrEventOrIndex, this)[0]!;
+      return dna.ui.smoothMoveDown(dna.getClone(elem)!);
       },
    bye(elemOrEventOrIndex: DnaElemEventIndex): Promise<HTMLElement> {
       // Performs a sliding fade out effect on the clone and then removes the element.
-      const elem = dna.ui.toElem(elemOrEventOrIndex, this);
-      return dna.destroy(dna.getClone(elem)[0]!, { fade: true });
+      const elem = dna.ui.toElem(elemOrEventOrIndex, this)[0]!;
+      return dna.destroy(dna.getClone(elem)!, { fade: true });
       },
    registerInitializer(fn: DnaFunctionName | DnaInitializerFn, options?: DnaOptionsRegisterInitializer): DnaInitializer[] {
       // Adds a callback function to the list of initializers that are run on all DOM elements.
