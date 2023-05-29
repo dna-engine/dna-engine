@@ -97,12 +97,12 @@ describe('Field formatter', () => {
    });
 
 ////////////////////////////////////////////////////////////////////////////////
-describe('Plugin call clone.dna("refresh")', () => {
+describe('The dna.refresh() function', () => {
 
    it('updates the displayed title of a book', () => {
       const clones = dna.clone('book', bookCatalog, { empty: true });
       dna.getModel(clones.first()).title = 'The DOM 2.0!';
-      clones.first().dna('refresh');
+      dna.refresh(clones.first());
       const titles =   $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
       const actual =   { titles: Array.from(titles) };
       const expected = { titles: ['The DOM 2.0!', 'Styling CSS3', 'Howdy HTML5'] };
@@ -112,10 +112,10 @@ describe('Plugin call clone.dna("refresh")', () => {
    });
 
 ////////////////////////////////////////////////////////////////////////////////
-describe('Plugin call clone.dna("destroy")', () => {
+describe('The dna.destroy() function', () => {
 
    it('deletes a book from the DOM', () => {
-      dna.getClones('book').last().last().dna('destroy');
+      dna.destroy(dna.getClones('book').last().last());
       const titles =   $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
       const actual =   { titles: Array.from(titles) };
       const expected = { titles: ['The DOM 2.0!', 'Styling CSS3'] };
