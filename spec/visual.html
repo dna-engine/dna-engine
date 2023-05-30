@@ -45,6 +45,7 @@
       #back, .id-back     { background-color: honeydew; }
       .border-change      { border: 2px solid darkorange; }
       .border-change2     { border: 2px solid darkslateblue; }
+      .assert-failed      { border: 5px dotted red; }
       .chapter-box        { display: inline-block; background-color: lightsteelblue; padding: 15px; margin: 5px }
       [title=usd], [title=usd100], [title=jpy] { text-align: right; }
       body:not(.minified-mode) .minified-show { display: none; }
@@ -551,7 +552,7 @@
          dna.getModel(clone2).authors = ['Ed II'];
          dna.getModel(clone2).score = 97;
          dna.refreshAll('s08-book');
-         modelOk = modelOk && dna.getModel('s08-book')[1].score === 97;  //verify updated model
+         modelOk = modelOk && dna.getModelArray('s08-book')[1].score === 97;  //verify updated model
          clone2.addClass(modelOk ? 'border-change' : 'color-change');
          },
       };
@@ -636,14 +637,17 @@
 <script>
    spec.spec10 = {
       run() {
-         const applyBackgnd = (elem, data) => elem.css({
+         const css = (image) => ({
             height:          '60px',
             color:           'white',
-            backgroundImage: data.image,
+            backgroundImage: image,
             backgroundSize:  '80px',
             });
-         const book =    { title: 'Background', image: 'url(https://dna-engine.org/graphics/dna-logo.png)' };
-         const options = { fade: true, callback: applyBackgnd, clones: 3 };
+         const applyCss =     (elem) => (entity) => elem.style.setProperty(dna.util.toKebab(entity[0]), entity[1]);
+         const applyBackgnd = (elem, model) => Object.entries(css(model.image)).forEach(applyCss(elem));
+         const url =          'https://dna-engine.org/graphics/dna-logo.png';
+         const book =         { title: 'Background', image: `url(${url})` };
+         const options =      { fade: true, callback: applyBackgnd, clones: 3 };
          dna.clone('s10-book', book, options);
          },
       };
@@ -1031,7 +1035,7 @@
             </div>
             <button class=b1 data-on-click=dna.bye>Bye 1</button>
             <button class=b2>Bye 2</button>
-            <button class=b3 data-on-click=spec.spec15.bye>Bye 3</button>
+            <button class=b3 data-on-click=spec.spec15.goodbye>Bye 3</button>
          </div>
       </div>
       <div data-placeholder=s15-book>No more clones!</div>
@@ -1063,8 +1067,9 @@
 </section>
 <script>
    spec.spec15 = {
-      configure(elem) {
-         elem.addClass('color-change');
+      configure(clone, model) {
+         clone = $(clone)[0];
+         clone.classList.add('color-change');
          },
       showMessage(message, elem) {
          const tag =  '<' + elem.nodeName + '>'
@@ -1088,16 +1093,17 @@
          spec.spec15.showMessage('⎍⎎⍜ bye', elem);
          },
       surround(elem) {
-         elem.addClass('border-change');
-         const addHr = () => $('#spec15 fieldset').first().append('<hr>');
-         elem.each(addHr);  //exactly 8 times (one for each clone)
+         elem.classList.add('border-change');
+         elem.style.color =   'white';
+         elem.style.padding = '10px';
+         $('#spec15 fieldset').first().append('<hr>');  //exactly 8 times (one for each clone)
          },
       surround2(elem) {
-         if (!elem.hasClass('s15-book'))
-            throw 'This is not the clone you are looking for: ' + (elem[0] && elem[0].nodeName);
-         elem.addClass('border-change2');
+         if (!elem.classList.contains('s15-book'))
+            throw 'This is not the clone you are looking for: ' + elem?.nodeName;
+         elem.classList.add('border-change2');
          },
-      bye(elem, event) {  //<button class=3 data-on-click=spec.spec15.bye>Bye 3</button>
+      goodbye(elem, event) {  //<button class=3 data-on-click=spec.spec15.goodbye>Bye 3</button>
          const clone =      dna.getClone(elem);
          const delayRange = { min: 300, max: 1600 };
          const start =      Date.now();
@@ -1111,19 +1117,19 @@
             if (delay < delayRange.min || delay > delayRange.max || elemMissing || inDom)
                badNews('delay: ' + delay + 'ms, clone: ' + !elemMissing + ', removed: ' + !inDom);
             };
-         if (event.type === 'click')
-            dna.bye(elem).then(handleByeDone);
-         if (event.type === 'click')
-            globalThis.setTimeout(() => handled || badNews('delay exceeded: ' + delayRange.max), delayRange.max);
+         if (event.type !== 'click')
+            elem.classList.add('assert-failed');
+         dna.bye(elem).then(handleByeDone);
+         const checkTheNews = () => handled || badNews('delay exceeded: ' + delayRange.max);
+         globalThis.setTimeout(checkTheNews, delayRange.max);
          },
       run() {
          dna.registerInitializer('spec.spec15.surround', { selector: '.surrounded' });
-         dna.registerInitializer('css', { selector: '.surrounded', params: { color: 'white' } });
-         dna.registerInitializer('css', { selector: '.surrounded', params: ['padding', '10px'] });
          dna.registerInitializer(spec.spec15.surround2, { onDocLoad: false });  //apply to each clone
          const titles = ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE'];
          dna.clone('s15-book', titles);
-         $('.s15-book button.b2').on({ click: dna.bye });  //add handler
+         const registerBye = (elem) => elem.addEventListener('click', dna.bye);
+         document.querySelectorAll('.s15-book button.b2').forEach(registerBye);
          const findClone = (count) =>
             document.querySelector('.s15-book .count[data-count="' + count + '"]').closest('.dna-clone');
          findClone(1).querySelector('button.b1').click();            //nuke 1st (bye w/data-on-click)
@@ -1375,9 +1381,11 @@
          <script>
             const bookshelf = {
                showMsg(elem, event, component) {
-                  elem.text(component.data().msg + event.timeStamp);
+                  console.log('showMsg',{elem, event, component});  /////////
+                  elem.innerText = component.dataset.msg + Math.floor(event.timeStamp);
                   },
                setup(elem, component) {
+                  console.log('setup',{elem, component});  /////////
                   const booksUrl = 'https://dna-engine.org/api/books/';
                   $(component).children('button')
                      .attr({ 'data-href': booksUrl })
@@ -1502,9 +1510,9 @@
 </section>
 <script>
    spec.spec19 = {
-      enhance(data) {
-         data.code =         dna.util.toKebab(data.title);
-         data.displayPrice = '$' + (data.price / 100).toFixed(2);
+      enhance(model) {
+         model.code =         dna.util.toKebab(model.title);
+         model.displayPrice = '$' + (model.price / 100).toFixed(2);
          },
       displayPanel(elem) {
          return elem.classList.add('border-change');

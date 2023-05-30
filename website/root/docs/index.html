@@ -3762,11 +3762,10 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            dna.util.apply('app.cart.buy', 7);      //app.cart.buy(7);
-            dna.util.apply(Math.max, [7, 21, -3]);  //21;
-            dna.util.apply('fadeIn', $('h1'));      //$('h1').fadeIn();
-            dna.util.apply('css', [$('h1'), { color: 'red' }]);
-            dna.util.apply('css', [$('h1'), 'color', 'gold']);
+            dna.util.apply('app.cart.buy', [7]);                //app.cart.buy(7);
+            dna.util.apply(Math.max, [7, 21, -3]);              //21;
+            const elem = document.getElementById('user007');
+            dna.util.apply('dna.ui.smoothMove', [elem, true]);  //dna.ui.smoothMove(elem, true);
          </code></pre>
       </figure>
    </section>
