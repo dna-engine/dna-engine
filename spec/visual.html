@@ -552,7 +552,7 @@
          dna.getModel(clone2).authors = ['Ed II'];
          dna.getModel(clone2).score = 97;
          dna.refreshAll('s08-book');
-         modelOk = modelOk && dna.getModelArray('s08-book')[1].score === 97;  //verify updated model
+         modelOk = modelOk && dna.getModels('s08-book')[1].score === 97;  //verify updated model
          clone2.addClass(modelOk ? 'border-change' : 'color-change');
          },
       };

@@ -3289,7 +3289,6 @@
       <ol>
          <li><a href=#array-find><b>dna.array.find</b>(array, code)</a></li>
          <li><a href=#array-from-map><b>dna.array.fromMap</b>(map, key)</a></li>
-         <li><a href=#array-last><b>dna.array.last</b>(array)</a></li>
          <li><a href=#array-to-map><b>dna.array.toMap</b>(array, key)</a></li>
          <li><a href=#array-to-map><b>dna.array.wrap</b>(value)</a></li>
          <li><a href=#browser-get-url-params><b>dna.browser.getUrlParams</b>()</a></li>
@@ -3375,26 +3374,6 @@
             const array = dna.array.fromMap(map);
             // New array:
             //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
-         </code></pre>
-      </figure>
-   </section>
-
-   <!-- dna.array.last() -->
-   <section id=array-last>
-      <h4>dna.array.last(array)</h4>
-      <p class=api-description>
-         Returns the last element of the array (or undefined if not possible).
-      </p>
-      <div class=api-parameters>
-         Parameters:
-         <ul>
-            {% render 'website/templates/params/array.html' %}
-         </ul>
-      </div>
-      <figure>
-         <figcaption>Examples</figcaption>
-         <pre><code class=language-javascript>
-            dna.array.last([3, 21, 7]) === 7;  //true
          </code></pre>
       </figure>
    </section>
