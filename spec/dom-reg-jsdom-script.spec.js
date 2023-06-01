@@ -9,6 +9,7 @@ import { html, bookCatalog } from './fixtures/mock-data.mjs';
 import fs from 'fs';
 
 // Setup
+const pkg =        JSON.parse(fs.readFileSync('package.json', 'utf-8'));
 const mode =       { type: 'Regular', file: 'dist/dna-engine.dev.js' };
 const filename =   import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =        new JSDOM(html, { runScripts: 'outside-only' });
@@ -141,14 +142,15 @@ describe('Function dna.info()', () => {
    it('reports the correct number of templates and clone instances', () => {
       const actual = dna.info();
       delete actual.store;
-      delete actual.version;
       const expected = {
+         version:      pkg.version,
          clones:       2,
          initializers: [],
          names:        ['book'],
          panels:       [],
          subs:         0,
          templates:    1,
+         state:        [],
          };
       assertDeepStrictEqual(actual, expected);
       });

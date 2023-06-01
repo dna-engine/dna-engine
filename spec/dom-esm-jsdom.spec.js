@@ -6,10 +6,12 @@ import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
 import { grabText } from './fixtures/spec-tools.mjs';
 import { html, bookCatalog } from './fixtures/mock-data.mjs';
+import fs from 'fs';
 import jQuery from 'jquery';
 
 // Setup
 import { dna } from '../dist/dna-engine.js';
+const pkg =      JSON.parse(fs.readFileSync('package.json', 'utf-8'));
 const mode =     { type: 'ES Module', file: 'dist/dna-engine.js' };
 const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =      new JSDOM(html);
@@ -141,14 +143,15 @@ describe('Function dna.info()', () => {
    it('reports the correct number of templates and clone instances', () => {
       const actual = dna.info();
       delete actual.store;
-      delete actual.version;
       const expected = {
+         version:      pkg.version,
          clones:       2,
          initializers: [],
          names:        ['book'],
          panels:       [],
          subs:         0,
          templates:    1,
+         state:        [],
          };
       assertDeepStrictEqual(actual, expected);
       });

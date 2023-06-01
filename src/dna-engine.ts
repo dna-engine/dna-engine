@@ -156,6 +156,7 @@ export type DnaInfo = {
    store:        DnaTemplateDb,
    initializers: DnaInitializer[],
    panels:       string[],
+   state:        unknown[],
    };
 
 // Types: Top Level
@@ -315,6 +316,12 @@ const dnaDom = {
       // Returns true if any of the elements in the given list have the specified class.
       return Array.prototype.some.call(elems, elem => elem.classList.contains(className));
       },
+   replaceClass(elem: Element, oldName: string, newName: string): Element {
+      // Same as native elem.classList.replace() except the new class name is always added.
+      elem.classList.remove(oldName);
+      elem.classList.add(newName);
+      return elem;
+      },
    addClass<T extends Element[] | HTMLCollection | NodeListOf<Element>>(elems: T, className: string): T {
       // Adds the specified class to each of the elements in the given list.
       Array.prototype.forEach.call(elems, elem => elem.classList.add(className));
@@ -339,13 +346,29 @@ const dnaDom = {
       // Returns the location an element within an array of elements.
       return Array.prototype.indexOf.call(elems, elem);
       },
+   findIndex(elems: HTMLCollection | NodeListOf<Element>, selector: string): number {
+      // Returns the location of the first matching element within an array of elements.
+      return Array.prototype.findIndex.call(elems, (elem) => elem.matches(selector));
+      },
    isElem(elem: unknown): boolean {
       return !!elem && typeof elem === 'object' && !!(<Element>elem).nodeName;
+      },
+   getAttrs(elem: Element): Attr[] {
+      // Returns the attributes of the element in a regular array.
+      return elem ? Object.values(elem.attributes) : [];
       },
    };
 
 const dnaUi = {
-   show(elem: Element) {
+   isHidden(elem: Element): boolean {
+      const computed = globalThis.getComputedStyle(elem);
+      return computed.display === 'none' || computed.visibility === 'hidden' ||
+         computed.visibility === 'collapse' || computed.opacity === '0' || elem.clientHeight === 0;
+      },
+   isVisible(elem: Element): boolean {
+      return !dna.ui.isHidden(elem);
+      },
+   show(elem: Element): Element {
       const style = (<HTMLElement>elem).style;
       style.removeProperty('display');
       style.removeProperty('opacity');
@@ -358,65 +381,36 @@ const dnaUi = {
       override('visibility', ['collapse', 'hidden'], 'visible');
       return elem;
       },
-   hide(elem: Element) {
+   hide(elem: Element): Element {
       (<HTMLElement>elem).style.display = 'none';
       return elem;
       },
-   focus: (elem: JQuery): JQuery => {
-      // Sets focus on an element.
-      return elem.trigger('focus');
-      },
-   getAttrs(elem: Element): Attr[] {
-      // Returns the attributes of the element in a regular array.
-      return elem ? Object.values(elem.attributes) : [];
-      },
-   getComponent(elem: Element): Element | null {
-      // Returns the component (container element with a <code>data-component</code> attribute) to
-      // which the element belongs.
-      return elem.closest('[data-component]');
-      },
-   pulse(elem: Element, options?: { fadeIn?: number, showDuration?: number | null, fadeOut?: number }): Promise<Element> {
-      // Fades in an element after hiding it to create a single smooth flash effect (intended for
-      // temporary status messages, like "Saving...").  Set showDuration to the length of time to
-      // display the message or to null to leave the element visible indefinitely.
-      const defaults = { fadeIn: 600, showDuration: 7000, fadeOut: 3000 };
-      const settings = { ...defaults, ...options };
-      dna.core.assert(dna.dom.isElem(elem), 'Invalid element for dna.ui.pulse()', elem);
-      const pulseStart = Date.now();
-      dna.dom.state(elem).pulseStart = pulseStart;
+   fadeIn(elem: Element): Promise<Element> {
+      // Smooth fade in effect.
+      const fadeTransition =  600;
+      const computed =        globalThis.getComputedStyle(elem);
+      const startOpacity =    dna.ui.isVisible(elem) ? computed.opacity : '0';
+      dna.ui.show(elem);
       const style = (<HTMLElement>elem).style;
       style.transition = 'all 0ms';
-      style.opacity =    '0';
+      style.opacity =    startOpacity;
       const animate = () => {
-         style.transition = `all ${settings.fadeIn}ms`;
+         style.transition = `all ${fadeTransition}ms`;
          style.opacity =    '1';
          };
-      const isLastPulse = () => dna.dom.state(elem).pulseStart === pulseStart;
-      const fadeAway = () => {
-         style.transition = `all ${settings.fadeOut}ms`;
-         if (isLastPulse())
-            style.opacity = '0';
-         };
       globalThis.requestAnimationFrame(animate);
-      if (settings.showDuration)
-         globalThis.setTimeout(fadeAway, settings.fadeIn + settings.showDuration);
       const cleanup = () => {
-         if (isLastPulse())
-            style.removeProperty('transition');
+         style.removeProperty('transition');
+         style.removeProperty('opacity');
+         dna.ui.show(elem);  //ensure visibility in case another animation interfered
          return elem;
          };
-      const total = !settings.showDuration ? settings.fadeIn :
-         settings.fadeIn + settings.showDuration + settings.fadeOut;
-      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
+      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
       },
    slideFadeIn(elem: Element): Promise<Element> {
       // Smooth slide in plus fade in effect.
       const fadeTransition =  600;
-      dna.ui.show(elem);
-      const style = (<HTMLElement>elem).style;
-      style.transition = 'all 0ms';
-      style.opacity =    '0';
-      style.overflow =   'hidden';
+      const style =           (<HTMLElement>elem).style;
       const verticals = [
          'height',
          'border-top-width',
@@ -426,21 +420,29 @@ const dnaUi = {
          'margin-top',
          'margin-bottom',
          ];
-      const computed =   globalThis.getComputedStyle(elem);
-      const heights =    verticals.map(prop => computed.getPropertyValue(prop));  //store natural heights
-      const origValues = verticals.map(prop => style.getPropertyValue(prop));     //store inline styles
-      verticals.forEach(prop => style.setProperty(prop, '0px'));                  //squash down to zero
-      const animate = () => {
-         style.transition = `all ${fadeTransition}ms`;
-         style.opacity =    '1';
-         verticals.forEach((prop, i) => style.setProperty(prop, origValues[i] || heights[i]!));  //slowly restore natural heights
+      const start = () => {
+         dna.ui.show(elem);
+         style.transition = 'all 0ms';
+         style.opacity =    '0';
+         style.overflow =   'hidden';
+         const computed =   globalThis.getComputedStyle(elem);
+         const heights =    verticals.map(prop => computed.getPropertyValue(prop));  //store natural heights
+         verticals.forEach(prop => style.setProperty(prop, '0px'));                  //squash down to zero
+         const animate = () => {
+            style.transition = `all ${fadeTransition}ms`;
+            style.opacity =    '1';
+            verticals.forEach((prop, i) => style.setProperty(prop, heights[i]!));  //slowly restore natural heights
+            };
+         globalThis.requestAnimationFrame(animate);
          };
-      globalThis.requestAnimationFrame(animate);
+      if (dna.ui.isHidden(elem))
+         start();
       const cleanup = () => {
          style.removeProperty('transition');
          style.removeProperty('opacity');
          style.removeProperty('overflow');
-         verticals.forEach((prop, i) => !origValues[i] && style.removeProperty(prop));
+         verticals.forEach((prop) => style.removeProperty(prop));
+         dna.ui.show(elem);  //ensure visibility in case another animation interfered
          return elem;
          };
       return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
@@ -449,7 +451,7 @@ const dnaUi = {
       // Smooth slide out plus fade out effect.
       const fadeTransition =  600;
       const computed =        globalThis.getComputedStyle(elem);
-      const style = (<HTMLElement>elem).style;
+      const style =           (<HTMLElement>elem).style;
       style.transition = `all ${fadeTransition}ms`;
       style.opacity =    String(Math.min(1, Number(computed.getPropertyValue('opacity'))));
       style.overflow =   'hidden';
@@ -462,9 +464,8 @@ const dnaUi = {
          'margin-top',
          'margin-bottom',
          ];
-      const heights =    verticals.map(prop => computed.getPropertyValue(prop));  //store natural heights
-      const origValues = verticals.map(prop => style.getPropertyValue(prop));     //store inline styles
-      verticals.forEach((prop, i) => style.setProperty(prop, heights[i]!));       //lock in natural heights
+      const heights = verticals.map(prop => computed.getPropertyValue(prop));  //store natural heights
+      verticals.forEach((prop, i) => style.setProperty(prop, heights[i]!));    //lock in natural heights
       const animate = () => {
          style.opacity = '0';
          verticals.forEach(prop => style.setProperty(prop, '0px'));  //squash down to zero
@@ -475,7 +476,7 @@ const dnaUi = {
          style.removeProperty('transition');
          style.removeProperty('opacity');
          style.removeProperty('overflow');
-         verticals.forEach((prop, i) => !origValues[i] && style.removeProperty(prop));
+         verticals.forEach((prop) => style.removeProperty(prop));
          return elem;
          };
       return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
@@ -553,10 +554,53 @@ const dnaUi = {
       // Uses animation to smoothly slide an element down one slot amongst its siblings.
       return dna.ui.smoothMove(elem, false);
       },
+   pulse(elem: Element, options?: { fadeIn?: number, showDuration?: number | null, fadeOut?: number }): Promise<Element> {
+      // Fades in an element after hiding it to create a single smooth flash effect (intended for
+      // temporary status messages, like "Saving...").  Set showDuration to the length of time to
+      // display the message or to null to leave the element visible indefinitely.
+      const defaults = { fadeIn: 600, showDuration: 7000, fadeOut: 3000 };
+      const settings = { ...defaults, ...options };
+      dna.core.assert(dna.dom.isElem(elem), 'Invalid element for dna.ui.pulse()', elem);
+      const pulseStart = Date.now();
+      dna.dom.state(elem).pulseStart = pulseStart;
+      const style = (<HTMLElement>elem).style;
+      style.transition = 'all 0ms';
+      style.opacity =    '0';
+      const animate = () => {
+         style.transition = `all ${settings.fadeIn}ms`;
+         style.opacity =    '1';
+         };
+      const isLastPulse = () => dna.dom.state(elem).pulseStart === pulseStart;
+      const fadeAway = () => {
+         style.transition = `all ${settings.fadeOut}ms`;
+         if (isLastPulse())
+            style.opacity = '0';
+         };
+      globalThis.requestAnimationFrame(animate);
+      if (settings.showDuration)
+         globalThis.setTimeout(fadeAway, settings.fadeIn + settings.showDuration);
+      const cleanup = () => {
+         if (isLastPulse())
+            style.removeProperty('transition');
+         return elem;
+         };
+      const total = !settings.showDuration ? settings.fadeIn :
+         settings.fadeIn + settings.showDuration + settings.fadeOut;
+      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
+      },
+   focus: (elem: JQuery): JQuery => {
+      // Sets focus on an element.
+      return elem.trigger('focus');
+      },
    toClone(elemOrEvent: Element | Event) {
       // Returns the clone for the given element or event with a target element.
       const elem = elemOrEvent instanceof Event ? <Element>elemOrEvent.target : elemOrEvent;
       return dna.getClone(elem);
+      },
+   getComponent(elem: Element): Element | null {
+      // Returns the component (container element with a <code>data-component</code> attribute) to
+      // which the element belongs.
+      return elem?.closest('[data-component]') ?? null;
       },
    };
 
@@ -724,13 +768,12 @@ const dnaPlaceholder = {
    //       <li id=book class=dna-template>~~title~~</li>
    //    </ol>
    //    <p data-placeholder=book>No books</p>  <!-- element hidden unless there are no books -->
-   setup: () => {
+   setup() {
       const hideSelect = (elem: Element) => elem.closest('select')?.classList.add(dna.name.hide);
       globalThis.document.querySelectorAll('option.dna-template').forEach(hideSelect);
       const isEmpty = (elem: Element) => !!dna.getClones((<HTMLElement>elem).dataset.placeholder!).length;
-      const fade =    (elem: Element) => isEmpty(elem) ? $(elem).fadeOut() : $(elem).fadeIn();
+      const fade =    (elem: Element) => isEmpty(elem) ? dna.ui.slideFadeOut(elem) : dna.ui.slideFadeIn(elem);
       const placeholders = globalThis.document.querySelectorAll('[data-placeholder]');
-      placeholders.forEach((elem: Element) => $(elem).stop(true));
       placeholders.forEach(fade);
       return placeholders;
       },
@@ -756,28 +799,28 @@ const dnaPanels = {
    // the ".dna-menu" element.
    display(menu: Element, location?: number, updateUrl?: boolean): Element {
       // Shows the panel at the given location (index).
-      const menuData =   $(menu).data();
-      const panels =     <HTMLCollection>menuData.dnaPanels;
-      const navName =    menuData.nav;
-      const menuItems =  $(menu).find(dna.selector.menuItem);
+      const menuData =   (<HTMLElement>menu).dataset;
+      const navName =    menuData.nav!;
+      const callback =   menuData.callback;
+      const panels =     <HTMLCollection>dna.dom.state(menu).dnaPanels;
+      const menuItems =  menu.querySelectorAll('.dna-menu-item');
       const savedIndex = Number(dna.pageToken.get(navName, 0));
       const bound =      (loc: number) => Math.max(0, Math.min(loc, menuItems.length - 1));
       const index =      bound(location === undefined ? savedIndex : location);
-      const callback =   (<HTMLElement>menu).dataset.callback;
       if (menu.nodeName === 'SELECT')  //check if elem is a drop-down control
          (<HTMLSelectElement>menu).selectedIndex = index;
-      menuItems.removeClass(dna.name.selected).addClass(dna.name.unselected);
-      menuItems.eq(index).addClass(dna.name.selected).removeClass(dna.name.unselected);
+      menuItems.forEach(elem => dna.dom.replaceClass(elem, dna.name.selected, dna.name.unselected));
+      dna.dom.replaceClass(menuItems[index]!, dna.name.unselected, dna.name.selected);
       const hidePanel = (panel: Element) => {
-         $(panel).hide();
+         dna.ui.hide(panel);
          panel.classList.remove(dna.name.displayed);
          panel.classList.add(dna.name.hidden);
          };
       dna.dom.forEach(panels, hidePanel);
       const panel = <Element>panels[index]!;
       panel.classList.replace(dna.name.hidden, dna.name.displayed);
-      $(panel).fadeIn();
-      const hash =  (<HTMLElement>panel).dataset.hash;  //example: <nav class=dna-menu data-hash=about-page ...
+      dna.ui.fadeIn(panel);
+      const hash = (<HTMLElement>panel).dataset.hash;  //example: <nav class=dna-menu data-hash=about-page ...
       dna.pageToken.put(navName, index);
       if (updateUrl && hash)
          globalThis.history.pushState(null, '', '#' + hash);
@@ -796,11 +839,15 @@ const dnaPanels = {
       return dna.panels.display(menu, (<HTMLSelectElement>menu).selectedIndex, true);
       },
    nextNav: 1,
-   initialize: (panelHolder?: Element) => {
+   initialize(panelHolder?: Element) {
       const generateNavName = (): string => {
          // Automatically generates a name for unnamed menus.
-         const navName = 'dna-panels-' + String(dna.panels.nextNav++);
-         $(panelHolder!).attr('data-nav', navName).prev(dna.selector.menu).attr('data-nav', navName);
+         const navName =    'dna-panels-' + String(dna.panels.nextNav++);
+         const setNavName = (elem: Element) => (<HTMLElement>elem).dataset.nav = navName;
+         const menu =       panelHolder!.previousElementSibling!;
+         dna.core.assert(menu?.classList.contains('dna-menu'), 'Menu not found for panels', panelHolder);
+         setNavName(menu);
+         setNavName(panelHolder!);
          return navName;
          };
       const init = () => {
@@ -808,13 +855,13 @@ const dnaPanels = {
          const menu =       globalThis.document.querySelector('.dna-menu[data-nav=' + navName + ']');
          const panels =     dna.dom.addClass(panelHolder!.children, dna.name.panel);
          const hash =       globalThis.location.hash.replace(/[^\w-]/g, '');  //remove leading "#"
-         const hashIndex =  (): number => $(panels).filter('[data-hash=' + hash + ']').index();
+         const hashIndex =  (): number => dna.dom.findIndex(panels, '[data-hash=' + hash + ']');
          const savedIndex = (): number => <number>dna.pageToken.get(navName, 0);
          const loc =        hash && (<HTMLElement>panels[0]).dataset.hash ? hashIndex() : savedIndex();
          panelHolder!.classList.add(dna.name.panelsInitialized);
          dna.core.assert(menu, 'Menu not found for panels', navName);
          menu!.classList.add(dna.name.panelsInitialized);
-         $(menu!).data().dnaPanels = panels;
+         dna.dom.state(menu!).dnaPanels = panels;
          if (!menu!.getElementsByClassName(dna.name.menuItem).length)  //set .dna-menu-item elems if not set in the html
             dna.dom.addClass(menu!.children, dna.name.menuItem);
          dna.panels.display(menu!, loc);
@@ -906,6 +953,7 @@ const dnaCompile = {
       //                                    ==>  <option class=dna-nucleotide + data-dnaRules={ props: ['selected', 'set'] }>
       //    <select data-option=~~color~~>  ==>  <select class=dna-nucleotide + data-dnaRules={ val: true } + data-dnaField=color>
       const elem = elemJ[0]!;
+      const data = (<HTMLElement>elem).dataset;
       const props: DnaProps = [];
       const attrs: DnaAttrs = [];
       const names: string[] = [];
@@ -941,34 +989,34 @@ const dnaCompile = {
          else if (attr.value.split(dna.compile.regex.dnaBasePair).length === 3)
             compileAttr(attr.name, attr.value);
          };
-      dna.ui.getAttrs(elem).forEach(compile);
+      dna.dom.getAttrs(elem).forEach(compile);
       const getRules = (): DnaRules => dna.compile.setupNucleotide(elemJ).data().dnaRules;
       if (props.length > 0)
          getRules().props = props;
       if (attrs.length > 0)
          getRules().attrs = attrs;
-      if (elem.dataset.formatCurrency)
-         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.dataset.formatCurrency);
-      if (elem.dataset.formatCurrency10)
-         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.dataset.formatCurrency10, 100);
-      if (elem.dataset.formatCurrency100)
-         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.dataset.formatCurrency100, 100);
-      if (elem.dataset.formatCurrency1000)
-         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.dataset.formatCurrency1000, 1000);
-      if (elem.dataset.formatCurrency10000)
-         getRules().formatter = dnaFormat.getCurrencyFormatter(elem.dataset.formatCurrency10000, 10000);
-      if (elem.dataset.formatDate)
-         getRules().formatter = dnaFormat.getDateFormatter(elem.dataset.formatDate);
-      if (elem.dataset.formatNumber)
-         getRules().formatter = dnaFormat.getNumberFormatter(elem.dataset.formatNumber);
-      if (elem.dataset.formatPercent)
-         getRules().formatter = dnaFormat.getPercentFormatter(elem.dataset.formatPercent);
-      if (elem.dataset.format)
-         getRules().formatter = dnaFormat.getFormatter(elem.dataset.format);
-      if (elem.dataset.transform)  //TODO: Determine if it's better to process only at top-level of clone
-         getRules().transform = elem.dataset.transform;  //TODO: string to fn
-      if (elem.dataset.callback)
-         getRules().callback = elem.dataset.callback;
+      if (data.formatCurrency)
+         getRules().formatter = dnaFormat.getCurrencyFormatter(data.formatCurrency);
+      if (data.formatCurrency10)
+         getRules().formatter = dnaFormat.getCurrencyFormatter(data.formatCurrency10, 100);
+      if (data.formatCurrency100)
+         getRules().formatter = dnaFormat.getCurrencyFormatter(data.formatCurrency100, 100);
+      if (data.formatCurrency1000)
+         getRules().formatter = dnaFormat.getCurrencyFormatter(data.formatCurrency1000, 1000);
+      if (data.formatCurrency10000)
+         getRules().formatter = dnaFormat.getCurrencyFormatter(data.formatCurrency10000, 10000);
+      if (data.formatDate)
+         getRules().formatter = dnaFormat.getDateFormatter(data.formatDate);
+      if (data.formatNumber)
+         getRules().formatter = dnaFormat.getNumberFormatter(data.formatNumber);
+      if (data.formatPercent)
+         getRules().formatter = dnaFormat.getPercentFormatter(data.formatPercent);
+      if (data.format)
+         getRules().formatter = dnaFormat.getFormatter(data.format);
+      if (data.transform)  //TODO: Determine if it's better to process only at top-level of clone
+         getRules().transform = data.transform;  //TODO: string to fn
+      if (data.callback)
+         getRules().callback = data.callback;
       dna.compile.addFieldClass(elemJ);
       elemJ.removeAttr(names.join(' '));
       },
@@ -1827,12 +1875,13 @@ const dna = {
       return {
          version:      dna.version,
          templates:    names.length,
-         clones:       $('.dna-clone:not(.dna-sub-clone)').length,
-         subs:         $(dna.selector.subClone).length,
+         clones:       globalThis.document.querySelectorAll('.dna-clone:not(.dna-sub-clone)').length,
+         subs:         globalThis.document.querySelectorAll('.dna-sub-clone').length,
          names:        names,
          store:        dna.store.getTemplateDb(),
          initializers: dna.events.getInitializers(),
          panels:       panels.toArray().map(elem => <string>$(elem).attr('data-nav')),
+         state:        dna.dom.stateDepot,
          };
       },
    name:        dnaName,

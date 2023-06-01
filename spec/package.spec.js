@@ -9,6 +9,7 @@ import jQuery from 'jquery';
 
 // Setup
 import { dna } from '../dist/dna-engine.js';
+const pkg =      JSON.parse(fs.readFileSync('package.json', 'utf-8'));
 const mode =     { type: 'ES Module', file: 'dist/dna-engine.js' };
 const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =      new JSDOM('');
@@ -55,7 +56,7 @@ describe('Function dna.info()', () => {
    it('reports correct numbers before any cloning', () => {
       const actual = dna.info();
       const expected = {
-         version:      dna.version,
+         version:      pkg.version,
          templates:    0,
          clones:       0,
          subs:         0,
@@ -63,6 +64,7 @@ describe('Function dna.info()', () => {
          store:        {},
          initializers: [],
          panels:       [],
+         state:        [],
          };
       assertDeepStrictEqual(actual, expected);
       });
