@@ -142,14 +142,13 @@ describe('Function dna.info()', () => {
 
    it('reports the correct number of templates and clone instances', () => {
       const actual = dna.info();
-      actual.state = actual.state.length;        //only verify array length
+      delete actual.state;
       actual.store = Object.keys(actual.store);  //only verify keys names
       const expected = {
          clones:       2,
          initializers: [],
          names:        ['book'],
          panels:       [],
-         state:        9,
          store:        ['book'],
          subs:         0,
          templates:    1,

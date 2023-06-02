@@ -55,14 +55,13 @@ describe('Function dna.info()', () => {
 
    it('reports correct numbers before any cloning', () => {
       const actual = dna.info();
-      actual.state = actual.state.length;        //only verify array length
+      delete actual.state;
       actual.store = Object.keys(actual.store);  //only verify keys names
       const expected = {
          clones:       0,
          initializers: [],
          names:        [],
          panels:       [],
-         state:        0,
          store:        [],
          subs:         0,
          templates:    0,
