@@ -55,16 +55,18 @@ describe('Function dna.info()', () => {
 
    it('reports correct numbers before any cloning', () => {
       const actual = dna.info();
+      actual.state = actual.state.length;        //only verify array length
+      actual.store = Object.keys(actual.store);  //only verify keys names
       const expected = {
-         version:      pkg.version,
-         templates:    0,
          clones:       0,
-         subs:         0,
-         names:        [],
-         store:        {},
          initializers: [],
+         names:        [],
          panels:       [],
-         state:        [],
+         state:        9,
+         store:        [],
+         subs:         0,
+         templates:    0,
+         version:      pkg.version,
          };
       assertDeepStrictEqual(actual, expected);
       });

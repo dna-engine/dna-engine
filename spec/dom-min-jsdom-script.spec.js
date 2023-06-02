@@ -141,16 +141,18 @@ describe('Function dna.info()', () => {
 
    it('reports the correct number of templates and clone instances', () => {
       const actual = dna.info();
-      delete actual.store;
+      actual.state = actual.state.length;        //only verify array length
+      actual.store = Object.keys(actual.store);  //only verify keys names
       const expected = {
-         version:      pkg.version,
          clones:       2,
          initializers: [],
          names:        ['book'],
          panels:       [],
+         state:        9,
+         store:        ['book'],
          subs:         0,
          templates:    1,
-         state:        [],
+         version:      pkg.version,
          };
       assertDeepStrictEqual(actual, expected);
       });
