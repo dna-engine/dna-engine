@@ -633,7 +633,7 @@ const dnaUtil = {
       const callable =   () => ['object', 'function'].includes(toValue('typeof ' + tag));
       const getContext = () => dna.registerContext(tag, toValue(tag));
       const getTop =     () => callable() ? getContext()[tag] : undefined;
-      const top =        tagValue ?? dna.events.getContextDb()[tag] ?? getTop();
+      const top =        tagValue ?? dna.events.db.context[tag] ?? getTop();
       const deep = (object: object, subfields: string[]): unknown =>
          !subfields.length ? object :                                   //function found
          !object ?           undefined :                                //function missing
@@ -1189,6 +1189,10 @@ const dnaTemplate = {
    };
 
 const dnaEvents = {
+   db: {
+      context: <DnaContext>{},  //storage to register callbacks when dna-engine is module loaded without window scope (webpack)
+      initializers: <DnaInitializer[]>[],  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
+      },
    on(type: string, listener: DnaEventListener, options?: DnaOptionsEventsOn) {
       // See types: https://developer.mozilla.org/en-US/docs/Web/Events
       const defaults = { keyFilter: null, selector: null };
@@ -1255,16 +1259,6 @@ const dnaEvents = {
          };
       globalThis.document.addEventListener('pointerover', delegator);
       },
-   getContextDb: (): DnaContext => {
-      const store =     $(globalThis.document.body).data();
-      const initStore = () => store.dnaContextDb = {};
-      return store.dnaContextDb || initStore();  //storage to register callbacks when dna-engine is module loaded without window scope (webpack)
-      },
-   getInitializers: (): DnaInitializer[] => {
-      const store =     $(globalThis.document.body).data() || {};
-      const initStore = () => store.dnaInitializers = [];
-      return store.dnaInitializers || initStore();  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
-      },
    runOnLoads(options?: DnaOptionsRunOnLoads): NodeListOf<Element> {
       // Executes each of the data-on-load functions once the function and its dependencies have loaded.
       // Example:
@@ -1310,7 +1304,7 @@ const dnaEvents = {
          if (initializer.selector)
             root.querySelectorAll(initializer.selector).forEach(initElem);
          };
-      dna.events.getInitializers().forEach(init);
+      dna.events.db.initializers.forEach(init);
       return root;
       },
    setup: (): NodeListOf<Element> => {
@@ -1870,19 +1864,19 @@ const dna = {
       if (settings.onDocLoad)
          onDocLoadElems().forEach(elem => dna.util.apply(fn, [elem, settings.params].flat()));
       const initializer = { fn: fn, selector: rootSelector, params: settings.params };
-      dna.events.getInitializers().push(initializer);
-      return dna.events.getInitializers();
+      dna.events.db.initializers.push(initializer);
+      return dna.events.db.initializers;
       },
    clearInitializers(): DnaInitializer[] {
       // Deletes all initializers.
-      return dna.events.getInitializers().splice(0);
+      return dna.events.db.initializers.splice(0);
       },
    registerContext(contextName: string, contextObjOrFn: { [name: string]: unknown } | DnaCallback): DnaContext {
       // Registers an application object or individual function to enable it to be used for event
       // callbacks.  Registration is needed when global namespace is not available to dna-engine, such
       // as when using webpack to load dna-engine as a module.
-      dna.events.getContextDb()[contextName] = contextObjOrFn;
-      return dna.events.getContextDb();
+      dna.events.db.context[contextName] = contextObjOrFn;
+      return dna.events.db.context;
       },
    initGlobal(thisWindow: GlobalWindow, thisJQuery: JQueryStatic): unknown {
       thisWindow.$ =   thisJQuery;
@@ -1910,7 +1904,7 @@ const dna = {
          subs:         globalThis.document.querySelectorAll('.dna-sub-clone').length,
          names:        names,
          store:        dna.template.db,
-         initializers: dna.events.getInitializers(),
+         initializers: dna.events.db.initializers,
          panels:       panels.toArray().map(elem => <string>$(elem).attr('data-nav')),
          state:        dna.dom.stateDepot,
          };
