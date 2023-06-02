@@ -117,7 +117,7 @@ export type DnaTemplate = {
    separators: number,
    wrapped:    boolean,
    };
-export type DnaTemplateDb =   { [name: string]: DnaTemplate };
+export type DnaTemplateDB =   { [name: string]: DnaTemplate };
 export type DnaTemplateName = string;
 export type DnaContext =      { [app: string]: { [field: string]: unknown } | DnaCallback };
 export type DnaFieldName =    string;
@@ -157,7 +157,7 @@ export type DnaInfo = {
    clones:       number,
    subs:         number,
    names:        string[],
-   store:        DnaTemplateDb,
+   store:        DnaTemplateDB,
    initializers: DnaInitializer[],
    panels:       string[],
    state:        unknown[],
@@ -947,18 +947,19 @@ const dnaCompile = {
       return !!value && dna.compile.regex.dnaField.test(<string>value);
       },
    addFieldClass: (elem: JQuery): JQuery => {
-      const field =    elem.data().dnaField;
+      const field =    <DnaFieldName>dna.dom.state(elem[0]!).dnaField;
       const htmlCase = () => dna.util.toKebab(field).replace(/[[\]]/g, '').replace(/[.]/g, '-');
       return field ? elem.addClass('dna-field-' + htmlCase()) : elem;
       },
    field: (elem: JQuery): void => {
       // Examples:
       //    <p>~~name~~</p>  ==>
-      //       <p class=dna-nucleotide data-dnaField=name></p>  <!-- rules: { text: true } -->
+      //       <p class=dna-nucleotide></p>  <!-- state: dnaField=name, rules: { text: true } -->
       //    <textarea>~~address~~</textarea>  ==>
-      //       <textarea class=dna-nucleotide data-dnaField=address></p>  <!-- rules: { val: true } -->
+      //       <textarea class=dna-nucleotide></p>  <!-- state: dnaField=address, rules: { val: true } -->
       dna.compile.setupNucleotide(elem);
-      elem.data().dnaField = elem.text().replace(dna.compile.regex.dnaBasePairs, '').trim();
+      const field = <DnaFieldName>elem.text().replace(dna.compile.regex.dnaBasePairs, '').trim();
+      dna.dom.state(elem[0]!).dnaField = field;
       dna.compile.addFieldClass(elem);
       const rules = dna.compile.getRules(elem[0]!);
       if (elem.is('textarea')) {
@@ -977,7 +978,7 @@ const dnaCompile = {
       //    <p data-tag=~~[value]~~>        ==>  <p class=dna-nucleotide>  <!-- rules: { attrs: ['data-tag', ['', 2, '']] } -->
       //    <input type=checkbox data-prop-checked=~~set~~>
       //                                    ==>  <option class=dna-nucleotide>  <!-- rules: { props: ['selected', 'set'] } -->
-      //    <select data-option=~~color~~>  ==>  <select class=dna-nucleotide data-dnaField=color>  <!-- rules: { val: true } -->
+      //    <select data-option=~~color~~>  ==>  <select class=dna-nucleotide>  <!-- state: dnaField=color, rules: { val: true } -->
       const elem = elemJ[0]!;
       const data = (<HTMLElement>elem).dataset;
       const rules = dna.compile.getRules(elem);
@@ -989,8 +990,10 @@ const dnaCompile = {
          key =   key.replace(/^data-prop-/, '').toLowerCase();
          value = value.replace(dna.compile.regex.dnaBasePairs, '');
          props.push(key, value);
-         if (key === 'checked' && elemJ.is('input'))
-            elemJ.addClass(dna.name.updateModel).data().dnaField = value;
+         if (key === 'checked' && elemJ.is('input')) {
+            elemJ.addClass(dna.name.updateModel);
+            dna.dom.state(elem).dnaField = value;
+            }
          };
       const compileAttr = (key: string, value: string) => {
          const parts = <DnaAttrParts>value.split(dna.compile.regex.dnaBasePair);
@@ -1002,7 +1005,7 @@ const dnaCompile = {
          names.push(key);
          const makeUpdatable = () => {
             dna.compile.setupNucleotide(elemJ).addClass(dna.name.updateModel);
-            elemJ.data().dnaField = parts[1];
+            dna.dom.state(elem).dnaField = parts[1];
             rules.val = true;
             };
          const hasTextVal = elemJ.is('input:not(:checkbox, :radio)') &&
@@ -1050,7 +1053,7 @@ const dnaCompile = {
    getDataField: (elem: JQuery, type: DnaRulesKey): string => {
       // Example:
       //    <p data-array=~~tags~~>, 'array'  ==>  'tags'
-      return elem.data(type).replace(dna.compile.regex.dnaBasePairs, '').trim();
+      return elem[0]!.dataset[type]!.replace(dna.compile.regex.dnaBasePairs, '').trim();
       },
    subTemplateName(holder: Element | string, arrayField: string, index: number): string {
       // Holder can be element or template name.
@@ -1123,17 +1126,13 @@ const dnaCompile = {
       const setTypeAttr = (inputElem: JQuery) =>  //example: <input data-attr-type=date  value=~~dueDate~~>
          inputElem.attr({ type: inputElem[0]!.dataset.attrType });
       $('input[data-attr-type]').forEach(setTypeAttr);
-      return dna.store.stash($(elem));
+      return dna.template.stash($(elem));
       },
    };
 
-const dnaStore = {
+const dnaTemplate = {
    // Handles storage and retrieval of templates.
-   getTemplateDb: (): DnaTemplateDb => {
-      const store = $(globalThis.document.body).data();
-      const initStore = () => store.dnaTemplateDb = {};
-      return store.dnaTemplateDb || initStore();
-      },
+   db: <DnaTemplateDB>{},
    stash: (elem: JQuery): DnaTemplate => {
       const name = dna.compile.getRules(elem[0]!).template!;
       const move = (subElem: JQuery) => {
@@ -1161,7 +1160,7 @@ const dnaStore = {
             separators: subElem.find('.dna-separator, .dna-last-separator').length,
             wrapped:    wrapped,
             };
-         dna.store.getTemplateDb()[name] = template;
+         dna.template.db[name] = template;
          subElem.removeClass(dna.name.template).addClass(dna.name.clone).addClass(name).detach();
          };
       const prepLoop = (subElem: JQuery) => {
@@ -1182,10 +1181,10 @@ const dnaStore = {
          };
       elem.find(dna.selector.template).addBack().forEach(move);
       elem.find(dna.selector.subClone).forEach(prepLoop).forEach(move);
-      return <DnaTemplate>dna.store.getTemplateDb()[name];
+      return dna.template.db[name]!;
       },
-   getTemplate: (name: string): DnaTemplate => {
-      return dna.store.getTemplateDb()[name] || dna.compile.template(name);
+   get(name: string): DnaTemplate {
+      return dna.template.db[name] || dna.compile.template(name);
       },
    };
 
@@ -1331,7 +1330,8 @@ const dnaEvents = {
          };
       const handleEvent = (target: Element, event: Event) => {
          const updateField =  (elem: Element, calc: DnaCallback) =>
-            dna.util.assign(<DnaDataObject>dna.getModel(<JQuery>$(elem)), $(elem).data().dnaField, <Json>calc(elem));
+            dna.util.assign(<DnaDataObject>dna.getModel(<JQuery>$(elem)),
+               <DnaFieldName>dna.dom.state(elem).dnaField, <Json>calc(elem));
          const getValue =     (elem: HTMLInputElement) => elem.value;
          const isChecked =    (elem: HTMLInputElement) => elem.checked;
          const updateOption = (elem: Element) => updateField(elem, <DnaCallback>isChecked);
@@ -1494,9 +1494,9 @@ const dnaCore = {
          if (rules.loop)
             processLoop(elem, rules.loop);
          if (rules.text)
-            injectField(elem, elem.data().dnaField, rules);
+            injectField(elem, <DnaFieldName>dna.dom.state(elem[0]!).dnaField, rules);
          if (rules.val)
-            injectValue(elem, elem.data().dnaField);
+            injectValue(elem, <DnaFieldName>dna.dom.state(elem[0]!).dnaField);
          if (rules.props)
             injectProps(elem, rules.props);
          if (rules.attrs)
@@ -1687,7 +1687,7 @@ const dna = {
          callback:  null,
          };
       const settings = { ...defaults, ...options };
-      const template = dna.store.getTemplate(name);
+      const template = dna.template.get(name);
       const missing =  template.nested && !settings.container;
       dna.core.assert(!missing, 'Container missing for nested template', name);
       if (settings.empty)
@@ -1727,10 +1727,10 @@ const dna = {
       elem.id = name;
       elem.classList.add(dna.name.template);
       holderNode.append(elem);
-      return dna.store.getTemplate(name);
+      return dna.template.get(name);
       },
    templateExists(name: string): boolean {
-      return !!dna.store.getTemplateDb()[name] || $('.dna-template#' + name).length > 0;
+      return !!dna.template.db[name] || $('.dna-template#' + name).length > 0;
       },
    getModel<T>(elemJ: JQuery | Element, options?: DnaOptionsGetModel): T | undefined {
       // Returns the underlying data of the clone.
@@ -1745,7 +1745,7 @@ const dna = {
       // Deletes all clones generated from the template.
       const defaults = { fade: false };
       const settings = { ...defaults, ...options };
-      const template = dna.store.getTemplate(name);
+      const template = dna.template.get(name);
       const clones =   template.container.children(dna.selector.clone).toArray();
       if (template.container.data().dnaCountsMap)
          template.container.data().dnaCountsMap[name] = 0;
@@ -1779,7 +1779,7 @@ const dna = {
       },
    updateField(inputElemJ: JQuery, value: Json): JQuery {
       const inputElem = $(inputElemJ);
-      const field = inputElem.data() && inputElem.data().dnaField;
+      const field = dna.dom.state(inputElem[0]!).dnaField;
       const update = () => {
          if (inputElem.is('input:checkbox'))
             inputElem.prop('checked', !!value);
@@ -1788,7 +1788,7 @@ const dna = {
          else if (inputElem.is('input, select, textarea'))
             inputElem.val(String(value));
          const model = <DnaDataObject>dna.getModel(inputElem);
-         model[field] = value;
+         model[<DnaFieldName>field] = value;
          };
       if (field)
          update();
@@ -1838,7 +1838,7 @@ const dna = {
       },
    getClones(name: string): JQuery {
       // Returns an array of all the existing clones for the given template.
-      return dna.store.getTemplate(name).container.children('.dna-clone.' + name);
+      return dna.template.get(name).container.children('.dna-clone.' + name);
       },
    getIndex(elemJ: JQuery, options?: DnaOptionsGetIndex): number {
       // Returns the index of the clone.
@@ -1901,7 +1901,7 @@ const dna = {
       },
    info(): DnaInfo {
       // Returns status information about templates on the current web page.
-      const names =  Object.keys(dna.store.getTemplateDb());
+      const names =  Object.keys(dna.template.db);
       const panels = $('.dna-menu.dna-panels-initialized');
       return {
          version:      dna.version,
@@ -1909,7 +1909,7 @@ const dna = {
          clones:       globalThis.document.querySelectorAll('.dna-clone:not(.dna-sub-clone)').length,
          subs:         globalThis.document.querySelectorAll('.dna-sub-clone').length,
          names:        names,
-         store:        dna.store.getTemplateDb(),
+         store:        dna.template.db,
          initializers: dna.events.getInitializers(),
          panels:       panels.toArray().map(elem => <string>$(elem).attr('data-nav')),
          state:        dna.dom.stateDepot,
@@ -1927,7 +1927,7 @@ const dna = {
    placeholder: dnaPlaceholder,
    panels:      dnaPanels,
    compile:     dnaCompile,
-   store:       dnaStore,
+   template:    dnaTemplate,
    events:      dnaEvents,
    core:        dnaCore,
    };

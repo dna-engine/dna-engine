@@ -10,7 +10,7 @@ import fs from 'fs';
 import jQuery from 'jquery';
 
 // Setup
-import { dna } from '../dist/dna-engine.js';
+import { dna } from '../dist/dna-engine.js?cache-bust=2';
 const pkg =      JSON.parse(fs.readFileSync('package.json', 'utf-8'));
 const mode =     { type: 'ES Module', file: 'dist/dna-engine.js' };
 const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
