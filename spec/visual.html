@@ -392,7 +392,7 @@
             extra:    'border-change',
             };
          dna.clone('s06-book', bouquin);
-         $('#123').find('[lang=fr]').addClass('color-change2');
+         document.getElementById('123').querySelector('[lang=fr]').classList.add('color-change2');
          },
       };
 </script>
@@ -534,9 +534,9 @@
    </fieldset>
 </section>
 <script>
-   var   spec08var =            { configure(elem) { elem.addClass('color-change2') } };
-   const spec08constConfigure = (elem) => elem.addClass('color-change');
-   let   spec08letConfigure =   (elem) => elem.addClass('color-change2');
+   var   spec08var =            { configure(elem) { elem[0].classList.add('color-change2') } };
+   const spec08constConfigure = (elem) => elem[0].classList.add('color-change');
+   let   spec08letConfigure =   (elem) => elem[0].classList.add('color-change2');
    spec.spec08 = {
       run() {
          dna.clone('s08-book-authors1', ['Jan']);
@@ -904,15 +904,15 @@
          dna.arrayPush(dna.getClones('s12-book').first(), 'authors', 'Bo II');
          let clone = $('.s12-book').first();
          clone.toggleClass('border-change', clone.data().title === 'The DOM');
-         const elem = clone.find('.s12-book-authors--0').last();
-         elem.addClass(elem.data().author === 'Bo II' ? 'color-change' : 'color-change2');
+         const elem = clone.find('.s12-book-authors--0').last()[0];
+         elem.classList.add(elem.dataset.author === 'Bo II' ? 'color-change' : 'color-change2');
          clone = $(dna.refresh($('.s12-book').last()[0], { data: book2, html: true }));
          dna.arrayPush(clone, 'chapters', { header: 'Bio', type: 'back' });
          dna.arrayPush(clone, 'chapters', moreChapters);
          dna.destroy($('.s12-book').find(':contains(Bio 2)')[0], { main: false });
          dna.arrayPush(clone, 'chapters', lastChapter);
          clone.toggleClass('border-change', dna.getModel(clone).chapters.length === 5);
-         $('.s12-book').find('.s12-book-authors--0[data-author=Jake]').addClass('color-change2');
+         $('.s12-book').find('.s12-book-authors--0[data-author=Jake]')[0].classList.add('color-change2');
          },
       };
 </script>
@@ -1010,7 +1010,8 @@
          const books = ['The DOM', 'Howdy HTML5', 'Styling CSS3'];
          dna.clone('s14-book', books);
          const countIsThree = (i, elem) => parseInt($(elem).data().count) === 3;
-         dna.getClones('s14-book').filter(countIsThree).addClass('border-change');
+         const changeBorder = (elem) => elem.classList.add('border-change');
+         dna.getClones('s14-book').filter(countIsThree).toArray().forEach(changeBorder);
          },
       };
 </script>
@@ -1071,8 +1072,7 @@
 <script>
    spec.spec15 = {
       configure(clone, model) {
-         clone = $(clone)[0];
-         clone.classList.add('color-change');
+         clone[0].classList.add('color-change');
          },
       showMessage(message, elem) {
          const tag =  '<' + elem.nodeName + '>'
@@ -1392,10 +1392,10 @@
                   const booksUrl = 'https://dna-engine.org/api/books/';
                   $(component).children('button')
                      .attr({ 'data-href': booksUrl })
-                     .addClass('external-site');
+                     .toArray().forEach(subElem => subElem.classList.add('external-site'));
                   const handle = (data) => dna.clone('s17-book', data);
                   fetchJson.get(booksUrl).then(handle);
-                  }
+                  },
                };
          </script>
       </div>

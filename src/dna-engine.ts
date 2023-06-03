@@ -975,20 +975,20 @@ const dnaCompile = {
          elem.classList.add('dna-field-' + htmlCase());
       return elem;
       },
-   field: (elemJ: JQuery): void => {
+   field(elem: Element): void {
       // Examples:
       //    <p>~~name~~</p>  ==>
       //       <p class=dna-nucleotide></p>  <!-- state: dnaField=name, rules: { text: true } -->
       //    <textarea>~~address~~</textarea>  ==>
       //       <textarea class=dna-nucleotide></p>  <!-- state: dnaField=address, rules: { val: true } -->
-      const elem = elemJ[0]!;
+      const elemJ = <JQuery>$(elem);
       dna.compile.setupNucleotide(elem);
       const field = <DnaFieldName>elemJ.text().replace(dna.compile.regex.dnaBasePairs, '').trim();
       dna.dom.state(elemJ[0]!).dnaField = field;
       dna.compile.addFieldClass(elem);
       const rules = dna.compile.getRules(elemJ[0]!);
       if (elemJ.is('textarea')) {
-         elemJ.addClass(dna.name.updateModel);
+         elem.classList.add(dna.name.updateModel);
          rules.val = true;
          }
       else
@@ -1016,7 +1016,7 @@ const dnaCompile = {
          value = value.replace(dna.compile.regex.dnaBasePairs, '');
          props.push(key, value);
          if (key === 'checked' && elemJ.is('input')) {
-            elemJ.addClass(dna.name.updateModel);
+            elem.classList.add(dna.name.updateModel);
             dna.dom.state(elem).dnaField = value;
             }
          };
@@ -1076,10 +1076,10 @@ const dnaCompile = {
       elemJ.removeAttr(names.join(' '));
       return elem;
       },
-   getDataField: (elem: JQuery, type: DnaRulesKey): string => {
+   getDataField(elem: Element, type: DnaRulesKey): string {
       // Example:
       //    <p data-array=~~tags~~>, 'array'  ==>  'tags'
-      return elem[0]!.dataset[type]!.replace(dna.compile.regex.dnaBasePairs, '').trim();
+      return (<HTMLElement>elem).dataset[type]!.replace(dna.compile.regex.dnaBasePairs, '').trim();
       },
    subTemplateName(holder: Element | string, arrayField: string, index: number): string {
       // Holder can be element or template name.
@@ -1089,13 +1089,12 @@ const dnaCompile = {
       const templateName = typeof holder === 'string' ? holder : getRules().template;
       return templateName + '-' + arrayField + '--' + String(index);
       },
-   rules: (elem: Element, type: DnaRulesKey, isLists = false, className?: string, init?: (elem: Element) => void): Element => {
+   rules(elem: Element, type: DnaRulesKey, isLists = false, className?: string, init?: (elem: Element) => void): Element {
       // Example:
       //    <p data-require=~~title~~>, 'require'  ==>  rule: { require: 'title' }
-      const addRule = (subElemJ: JQuery) => {
-         const subElem = subElemJ[0]!;
+      const addRule = (subElem: Element) => {
          dna.compile.setupNucleotide(subElem);
-         const field = dna.compile.getDataField(subElemJ, type);
+         const field = dna.compile.getDataField(subElem, type);
          const makeLists = () =>
             <DnaClassRule[]>field.split(';').map((list: string) => list.split(','));
          dna.compile.setElemRule(subElem, type, isLists ? makeLists() : field);
@@ -1103,12 +1102,15 @@ const dnaCompile = {
             subElem.classList.add(className);
          if (init)
             init(subElem);
+         subElem.removeAttribute('data-' + type);
          };
-      const elems = $(elem).find('*').addBack();
-      elems.filter('[data-' + type + ']').forEach(addRule).removeAttr('data-' + type);
+      const selector = '[data-' + type + ']';
+      if (elem.matches(selector))
+         addRule(elem);
+      elem.querySelectorAll(selector).forEach(addRule);
       return elem;
       },
-   separators: (elem: Element): JQuery => {
+   separators(elem: Element): Element {
       // Convert: data-separator=", "  ==>  <span class=dna-separator>, </span>
       const isWhitespaceNode = (index: number, node: Node): boolean =>
          node.nodeType === Node.TEXT_NODE && !/\S/.test(node.nodeValue!);
@@ -1126,9 +1128,11 @@ const dnaCompile = {
          if (data.lastSeparator)
             append(elem, data.lastSeparator, dna.name.lastSeparator);
          };
-      const clones = $(elem).find('.dna-template, .dna-sub-clone').addBack();
-      clones.toArray().forEach(processTemplate);
-      return clones;
+      const selector = '.dna-template, .dna-sub-clone';
+      if (elem.matches(selector))
+         processTemplate(elem);
+      elem.querySelectorAll(selector).forEach(processTemplate);
+      return elem;
       },
    template: (name: string): DnaTemplate => {  //prepare and stash template so it can be cloned
       const elem = globalThis.document.getElementById(name)!;
@@ -1143,7 +1147,9 @@ const dnaCompile = {
       saveName(elem);
       dna.dom.forEach(elem.getElementsByClassName(dna.name.template), saveName);
       const elems = $(elem).find('*').addBack();
-      elems.filter(dna.compile.isDnaField).forEach(dna.compile.field).addClass(dna.name.field);
+      const fieldElems = elems.filter(dna.compile.isDnaField).toArray();
+      fieldElems.forEach(dna.compile.field)
+      fieldElems.forEach(fieldElem => fieldElem.classList.add(dna.name.field));
       dna.compile.rules(elem, 'array', false, dna.name.subClone, initSubs);
       dna.compile.rules(elem, 'class', true);
       dna.compile.rules(elem, 'require');
@@ -1153,21 +1159,22 @@ const dnaCompile = {
       elems.forEach(elem => dna.compile.propsAndAttrs(elem[0]!));
       dna.compile.separators(elem);
       //support html5 values for "type" attribute
-      const setTypeAttr = (inputElem: JQuery) =>  //example: <input data-attr-type=date  value=~~dueDate~~>
-         inputElem.attr({ type: inputElem[0]!.dataset.attrType });
-      $('input[data-attr-type]').forEach(setTypeAttr);
-      return dna.template.stash($(elem));
+      const setTypeAttr = (inputElem: Element) =>  //example: <input data-attr-type=date  value=~~dueDate~~>
+         inputElem.setAttribute('type', (<HTMLElement>inputElem).dataset.attrType!);
+      document.querySelectorAll('input[data-attr-type]').forEach(setTypeAttr);
+      return dna.template.stash(elem);
       },
    };
 
 const dnaTemplate = {
    // Handles storage and retrieval of templates.
    db: <DnaTemplateDB>{},
-   stash: (elem: JQuery): DnaTemplate => {
-      const name = dna.compile.getRules(elem[0]!).template!;
-      const move = (subElem: JQuery) => {
-         const name =           dna.compile.getRules(subElem[0]!).template!;
-         const container =      subElem.parent();
+   stash(elem: Element): DnaTemplate {
+      const name = dna.compile.getRules(elem).template!;
+      const move = (subElem: Element) => {
+         const subElemJ =       <JQuery>$(subElem);
+         const name =           dna.compile.getRules(subElem).template!;
+         const container =      subElemJ.parent();
          const containerState = dna.dom.state(container[0]!);
          const wrapped =        container.children().length === 1 && !container.hasClass(dna.name.container);
          const compileSiblings = () => {
@@ -1183,16 +1190,19 @@ const dnaTemplate = {
             };
          if (!wrapped && !containerState.dnaContents)
             compileSiblings();
+         container[0]?.classList.add(dna.name.container, 'dna-contains-' + name);
          const template = <DnaTemplate>{
             name:       name,
-            elem:       subElem,
-            container:  container.addClass(dna.name.container).addClass('dna-contains-' + name),
+            elem:       subElemJ,
+            container:  container,
             nested:     container.closest(dna.selector.clone).length !== 0,
-            separators: subElem.find('.dna-separator, .dna-last-separator').length,
+            separators: subElemJ.find('.dna-separator, .dna-last-separator').length,
             wrapped:    wrapped,
             };
          dna.template.db[name] = template;
-         subElem.removeClass(dna.name.template).addClass(dna.name.clone).addClass(name).detach();
+         subElem.classList.remove(dna.name.template);
+         subElem.classList.add(dna.name.clone, name);
+         $(subElem).detach();
          };
       const prepLoop = (subElem: JQuery) => {
          // Pre (sub-template array loops -- data-array):
@@ -1211,8 +1221,8 @@ const dnaTemplate = {
          parentRules.loop = { name: rules.template, field: rules.array! };
          containerRules.subs!.push(rules.array!);
          };
-      elem.find(dna.selector.template).addBack().forEach(move);
-      elem.find(dna.selector.subClone).forEach(prepLoop).forEach(move);
+      $(elem).find(dna.selector.template).addBack().toArray().forEach(move);
+      $(elem).find(dna.selector.subClone).forEach(prepLoop).toArray().forEach(move);
       return dna.template.db[name]!;
       },
    get(name: string): DnaTemplate {
@@ -1482,7 +1492,7 @@ const dnaCore = {
                   elem.toggleClass(classList[2], !truth);
                };
             if (classList.length === 1)
-               elem.addClass(String(value));
+               elem[0]!.classList.add(String(value));
             else if (classList.length > 1)
                setBooleanClasses();
             };

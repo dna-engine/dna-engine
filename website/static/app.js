@@ -33,7 +33,7 @@ app.nav = {
       let current = $('header nav a[href$="' + folder + '"]').closest('li');
       if (!current.length)
          current = $('header nav li').first();
-      current.addClass('current');
+      current[0].classList.add('current');
       },
    };
 
