@@ -103,8 +103,8 @@ describe('The dna.refresh() function', () => {
 
    it('updates the displayed title of a book', () => {
       const clones = dna.clone('book', bookCatalog, { empty: true });
-      dna.getModel(clones.first()).title = 'The DOM 2.0!';
-      dna.refresh(clones.first());
+      dna.getModel(clones[0]).title = 'The DOM 2.0!';
+      dna.refresh(clones[0]);
       const titles =   $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
       const actual =   { titles: Array.from(titles) };
       const expected = { titles: ['The DOM 2.0!', 'Styling CSS3', 'Howdy HTML5'] };
