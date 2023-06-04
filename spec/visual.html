@@ -536,9 +536,9 @@
    </fieldset>
 </section>
 <script>
-   var   spec08var =            { configure(elem) { elem[0].classList.add('color-change2') } };
-   const spec08constConfigure = (elem) => elem[0].classList.add('color-change');
-   let   spec08letConfigure =   (elem) => elem[0].classList.add('color-change2');
+   var   spec08var =            { configure(elem) { elem.classList.add('color-change2') } };
+   const spec08constConfigure = (elem) => elem.classList.add('color-change');
+   let   spec08letConfigure =   (elem) => elem.classList.add('color-change2');
    spec.spec08 = {
       run() {
          dna.clone('s08-book-authors1', ['Jan']);
@@ -1076,7 +1076,7 @@
 <script>
    spec.spec15 = {
       configure(clone, model) {
-         clone[0].classList.add('color-change');
+         clone.classList.add('color-change');
          },
       showMessage(message, elem) {
          const tag =  '<' + elem.nodeName + '>'
