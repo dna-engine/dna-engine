@@ -900,18 +900,18 @@
          const book2 = { title: 'Howdy HTML5',  authors: authors, chapters: chapters };
          const book3 = { title: 'Styling CSS3', authors: [],      chapters: [] };
          dna.clone('s12-book', [book1, book2, book3, book1], { html: false });
-         dna.arrayPush(dna.getClones('s12-book').first(), 'authors', 'Bo I');
-         dna.arrayPush(dna.getClones('s12-book').first(), 'authors', 'Bo II');
+         dna.arrayPush(dna.getClones('s12-book')[0], 'authors', 'Bo I');
+         dna.arrayPush(dna.getClones('s12-book')[0], 'authors', 'Bo II');
          let clone = $('.s12-book').first();
          clone.toggleClass('border-change', clone.data().title === 'The DOM');
          const elem = clone.find('.s12-book-authors--0').last()[0];
          elem.classList.add(elem.dataset.author === 'Bo II' ? 'color-change' : 'color-change2');
-         clone = $(dna.refresh($('.s12-book').last()[0], { data: book2, html: true }));
+         clone = dna.refresh($('.s12-book').last()[0], { data: book2, html: true });
          dna.arrayPush(clone, 'chapters', { header: 'Bio', type: 'back' });
          dna.arrayPush(clone, 'chapters', moreChapters);
          dna.destroy($('.s12-book').find(':contains(Bio 2)')[0], { main: false });
          dna.arrayPush(clone, 'chapters', lastChapter);
-         clone.toggleClass('border-change', dna.getModel(clone).chapters.length === 5);
+         $(clone).toggleClass('border-change', dna.getModel(clone).chapters.length === 5);
          $('.s12-book').find('.s12-book-authors--0[data-author=Jake]')[0].classList.add('color-change2');
          },
       };
@@ -1009,9 +1009,9 @@
       run() {
          const books = ['The DOM', 'Howdy HTML5', 'Styling CSS3'];
          dna.clone('s14-book', books);
-         const countIsThree = (i, elem) => parseInt($(elem).data().count) === 3;
+         const countIsThree = (elem) => Number(elem.dataset.count) === 3;
          const changeBorder = (elem) => elem.classList.add('border-change');
-         dna.getClones('s14-book').filter(countIsThree).toArray().forEach(changeBorder);
+         dna.getClones('s14-book').filter(countIsThree).forEach(changeBorder);
          },
       };
 </script>

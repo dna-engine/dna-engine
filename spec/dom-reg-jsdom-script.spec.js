@@ -116,7 +116,7 @@ describe('The dna.refresh() function', () => {
 describe('The dna.destroy() function', () => {
 
    it('deletes a book from the DOM', () => {
-      dna.destroy(dna.getClones('book').last().last());
+      dna.destroy(dna.getClones('book').at(-1));
       const titles =   $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
       const actual =   { titles: Array.from(titles) };
       const expected = { titles: ['The DOM 2.0!', 'Styling CSS3'] };
