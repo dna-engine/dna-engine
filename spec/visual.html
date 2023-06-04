@@ -148,7 +148,7 @@
          dna.clone('s01-book', book1);
          const clone = dna.clone('s01-book', book2);
          dna.clone('s01-book', book3);
-         dna.destroy($(clone));
+         dna.destroy(clone);
          },
       };
 </script>
@@ -884,8 +884,8 @@
    spec.spec12 = {
       recount(button) {
          const isFourthBook = dna.dom.index(dna.getClone(button)) === 3;
-         const subClone = button.closest('.dna-clone').getElementsByClassName('dna-sub-clone').item(0);
-         dna.recount(subClone, { html: isFourthBook });
+         const subClones = button.closest('.dna-clone').getElementsByClassName('s12-book-chapters--2');
+         dna.recount(subClones.item(0), { html: isFourthBook });
          },
       run() {
          const chapters = [
