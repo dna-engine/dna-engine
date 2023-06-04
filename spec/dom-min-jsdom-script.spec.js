@@ -55,7 +55,8 @@ describe('Function dna.getModel()', () => {
 
    it('returns the data object for the clone', () => {
       dna.clone('book', bookCatalog[1]);
-      const actual =   { model: dna.getModel($('.book').last()) };
+      const lastBook = [...dom.window.document.getElementsByClassName('book')].at(-1);
+      const actual =   { model: dna.getModel(lastBook) };
       const expected = { model: bookCatalog[1] };
       assertDeepStrictEqual(actual, expected);
       });

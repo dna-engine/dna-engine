@@ -1132,8 +1132,9 @@
       </figure>
       <p>
          <em>Note:</em>
-         To get the data for all the clones of a template, pass in the template name (String).&nbsp;
-         For example, <code>dna.getModel('book')</code> will return an array of book objects.
+         To get the data for all the clones of a template, call <code>dna.getModels()</code>
+         with the template name (String).&nbsp;
+         For example, <code>dna.getModels('book')</code> will return an array of book objects.
       </p>
    </section>
 
@@ -1285,8 +1286,9 @@
                { title: 'Go JavaScript!' },
                { title: 'Styling CSS3' }
                ];
-            const html = '&lt;li&gt;~~title~~&lt;/li&gt;';
-            dna.createTemplate('book', html, $('ol#book-list'));
+            const html =   '&lt;li&gt;~~title~~&lt;/li&gt;';
+            const holder = document.getElementById('book-list')
+            dna.createTemplate('book', html, holder);
             dna.clone('book', books);
          </code></pre>
       </figure>

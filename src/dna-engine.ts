@@ -4,7 +4,6 @@
 export type Json =       string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = { [key: string | number]: Json };
 export type JsonData =   JsonObject | Json[];
-export type Elements =   Elements[] | HTMLCollection | NodeListOf<Element>;
 export type NavigatorUAData = {
    readonly brands: {
       brand:   string,  //examples: "Chromium", "Google Chrome"
@@ -1180,7 +1179,7 @@ const dnaCompile = {
       //support html5 values for "type" attribute
       const setTypeAttr = (inputElem: Element) =>  //example: <input data-attr-type=date value=~~dueDate~~>
          inputElem.setAttribute('type', (<HTMLElement>inputElem).dataset.attrType!);
-      document.querySelectorAll('input[data-attr-type]').forEach(setTypeAttr);
+      globalThis.document.querySelectorAll('input[data-attr-type]').forEach(setTypeAttr);
       return dna.template.stash(elem);
       },
    };
@@ -1329,7 +1328,7 @@ const dnaEvents = {
       //    <p data-on-load=app.cart.setup data-wait-for=Chart,R,fetchJson>
       const defaults = { msec: 300 };
       const settings = { ...defaults, ...options };
-      const elems =    document.querySelectorAll(`[data-on-load]:not(.${dna.name.onLoad})`);
+      const elems =    globalThis.document.querySelectorAll(`[data-on-load]:not(.${dna.name.onLoad})`);
       elems.forEach(elem => elem.classList.add(dna.name.onLoad))
       const addStart = (elem: Element) => dna.dom.state(elem).dnaOnLoad = <DnaOnLoad>{ start: Date.now(), checks: 0 };
       elems.forEach(addStart);
@@ -1387,7 +1386,7 @@ const dnaEvents = {
          };
       const handleEvent = (target: Element, event: Event) => {
          const updateField =  (elem: Element, calc: DnaCallback) =>
-            dna.util.assign(<DnaDataObject>dna.getModel(<JQuery>$(elem)),
+            dna.util.assign(<DnaDataObject>dna.getModel(elem),
                <DnaFieldName>dna.dom.state(elem).dnaField, <Json>calc(elem));
          const getValue =     (elem: HTMLInputElement) => elem.value;
          const isChecked =    (elem: HTMLInputElement) => elem.checked;
@@ -1654,17 +1653,17 @@ const dnaCore = {
       model[array.field] = <Json[]>subs.map(node => dna.getModel(node));
       return container;
       },
-   remove: <T>(cloneNode: Element, callback?: DnaCallbackFn<T> | null): Element => {
-      const clone =     <JQuery>$(cloneNode);
-      const container = <JQuery>clone.parent();
-      clone.detach();
-      if (clone.hasClass(dna.name.subClone))
-         dna.core.updateModelArray(container[0]!);
+   remove<T>(clone: Element, callback?: DnaCallbackFn<T> | null): Element {
+      const cloneJ = <JQuery>$(clone);
+      const container = clone.parentElement!;
+      cloneJ.detach();
+      if (cloneJ.hasClass(dna.name.subClone))
+         dna.core.updateModelArray(container);
       dna.placeholder.setup();
-      clone.remove();
+      cloneJ.remove();
       if (callback)
-         callback(cloneNode, <T>dna.getModel(clone));
-      return cloneNode;
+         callback(clone, <T>dna.getModel(clone));
+      return clone;
       },
    assert(ok: boolean | unknown, message: string, info?: unknown): void {
       // Oops, file a tps report.
@@ -1784,23 +1783,21 @@ const dna = {
       dna.compile.getRules(holderClone).subs!.forEach(cloneSub);
       return holderClone;
       },
-   createTemplate(name: string, html: string, holder: JQuery): DnaTemplate {
+   createTemplate(name: string, html: string, holder: Element): DnaTemplate {
       // Generates a template from an HTML string.
-      const holderNode = holder[0]!;
-      const div =        globalThis.document.createElement('div');
+      const div =     globalThis.document.createElement('div');
       div.innerHTML = html;
-      const elem = div.firstElementChild!;
-      elem.id = name;
+      const elem =    div.firstElementChild!;
+      elem.id =       name;
       elem.classList.add(dna.name.template);
-      holderNode.append(elem);
+      holder.append(elem);
       return dna.template.get(name);
       },
    templateExists(name: string): boolean {
       return !!dna.template.db[name] || $('.dna-template#' + name).length > 0;
       },
-   getModel<T>(elemJ: JQuery | Element, options?: DnaOptionsGetModel): T | undefined {
+   getModel<T>(elem: Element, options?: DnaOptionsGetModel): T | undefined {
       // Returns the underlying data of the clone.
-      const elem = elemJ instanceof $ ? (<JQuery>elemJ)[0]! : <Element>elemJ;
       return <T>dna.dom.state(dna.getClone(elem, options)).dnaModel;
       },
    getModels<T>(template: string, options?: DnaOptionsGetModel): T[] {
@@ -1822,11 +1819,11 @@ const dna = {
          clones.forEach(clone => dna.core.remove(clone));
       return clones;
       },
-   insert<T>(name: string, model: T, options?: DnaOptionsInsert<T>): JQuery {
+   insert<T>(name: string, model: T, options?: DnaOptionsInsert<T>): Element {
       // Updates the first clone if it already exists otherwise creates the first clone.
       const clones = dna.getClones(name);
-      return clones.length ? <JQuery>$(dna.refresh(clones.at(0)!, { model: model, html: !!options?.html })) :
-         <JQuery>$(dna.clone(name, model, options));
+      return clones.length ? dna.refresh(clones.at(0)!, { model: model, html: !!options?.html }) :
+         <Element>dna.clone(name, model, options);
       },
    refresh(clone: Element, options?: DnaOptionsRefresh): Element {
       // Updates an existing clone to reflect changes to the data model.
@@ -1843,16 +1840,16 @@ const dna = {
       clones.forEach(clone => dna.refresh(clone, options));
       return <JQuery>$(clones);
       },
-   updateField(inputElemJ: JQuery, value: Json): JQuery {
-      const inputElem = $(inputElemJ);
-      const field = dna.dom.state(inputElem[0]!).dnaField;
+   updateField(inputElem: Element, value: Json): Element {
+      const field = dna.dom.state(inputElem).dnaField;
       const update = () => {
-         if (inputElem.is('input:checkbox'))
-            inputElem.prop('checked', !!value);
-         else if (inputElem.is('input:radio'))
-            inputElem.prop('checked', !!value);  //TOOD: if true, deselect other buttons in model
-         else if (inputElem.is('input, select, textarea'))
-            inputElem.val(String(value));
+         const inputElemJ = <JQuery>$(inputElem);
+         if (inputElemJ.is('input:checkbox'))
+            inputElemJ.prop('checked', !!value);
+         else if (inputElemJ.is('input:radio'))
+            inputElemJ.prop('checked', !!value);  //TOOD: if true, deselect other buttons in model
+         else if (inputElemJ.is('input, select, textarea'))
+            inputElemJ.val(String(value));
          const model = <DnaDataObject>dna.getModel(inputElem);
          model[<DnaFieldName>field] = value;
          };
@@ -1860,10 +1857,9 @@ const dna = {
          update();
       return inputElem;
       },
-   recount(elemJ: JQuery, options?: DnaOptionsRecount): Element {
+   recount(elem: Element, options?: DnaOptionsRecount): Element {
       // Renumbers the counters starting from 1 for the clone and its siblings based on DOM order.
-      const clone = dna.getClone(elemJ[0]!);
-      dna.core.assert(clone, 'Cannot find clone', elemJ);
+      const clone = dna.getClone(elem);
       const name = dna.compile.getRules(clone).template!;
       const update = (subElemJ: JQuery, index: number) => {
          const subElem = subElemJ[0]!;
@@ -1886,7 +1882,7 @@ const dna = {
       const cloneElem =  <JQuery>$(dna.getClone($(clone)[0]!, options));
       const arrayField = dna.core.getArrayName(cloneNode);
       if (arrayField)
-         (<Json[]>(<DnaModel>dna.getModel(cloneElem.parent()))[<keyof DnaModel>arrayField])
+         (<Json[]>(<DnaModel>dna.getModel(cloneElem[0]!.parentElement!))[<keyof DnaModel>arrayField])
             .splice(dna.getIndex(cloneElem), 1);
       return settings.fade ? dna.ui.slideFadeDelete(cloneNode) :
          new Promise(resolve => resolve(dna.core.remove(cloneNode)));

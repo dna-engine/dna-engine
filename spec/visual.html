@@ -342,7 +342,8 @@
          data.code = data.author.charCodeAt(0) % 13 * 100;
          },
       run() {
-         dna.createTemplate('s05-book', spec.spec05.html, $('#s05-book-list'));
+         const holder = globalThis.document.getElementById('s05-book-list');
+         dna.createTemplate('s05-book', spec.spec05.html, holder);
          const book1 = { title: '1st', author: 'Lee' };  //code: 1100
          const book2 = { title: '2nd', author: 'Jan' };  //code: 900
          const bang = (book) => {
@@ -392,7 +393,8 @@
             extra:    'border-change',
             };
          dna.clone('s06-book', bouquin);
-         document.getElementById('123').querySelector('[lang=fr]').classList.add('color-change2');
+         const parleFrançais = globalThis.document.getElementById('123').querySelector('[lang=fr]');
+         parleFrançais.classList.add('color-change2');
          },
       };
 </script>
@@ -552,7 +554,7 @@
          //clone #2
          const clone2 = dna.clone('s08-book', book3);
          dna.getModel(clone2).authors = ['Ed II'];
-         dna.getModel(clone2).score = 97;
+         dna.getModel(clone2).score =   97;
          dna.refreshAll('s08-book');
          modelOk = modelOk && dna.getModels('s08-book')[1].score === 97;  //verify updated model
          clone2.classList.add(modelOk ? 'border-change' : 'color-change');
@@ -882,7 +884,8 @@
    spec.spec12 = {
       recount(button) {
          const isFourthBook = dna.dom.index(dna.getClone(button)) === 3;
-         dna.recount($(button).parent().prev().filter('.dna-sub-clone'), { html: isFourthBook });
+         const subClone = button.closest('.dna-clone').getElementsByClassName('dna-sub-clone').item(0);
+         dna.recount(subClone, { html: isFourthBook });
          },
       run() {
          const chapters = [
@@ -906,7 +909,8 @@
          clone.toggleClass('border-change', clone.data().title === 'The DOM');
          const elem = clone.find('.s12-book-authors--0').last()[0];
          elem.classList.add(elem.dataset.author === 'Bo II' ? 'color-change' : 'color-change2');
-         clone = dna.refresh($('.s12-book').last()[0], { data: book2, html: true });
+         const lastBook = [...globalThis.document.getElementsByClassName('s12-book')].at(-1);
+         clone = dna.refresh(lastBook, { data: book2, html: true });
          dna.arrayPush(clone, 'chapters', { header: 'Bio', type: 'back' });
          dna.arrayPush(clone, 'chapters', moreChapters);
          dna.destroy($('.s12-book').find(':contains(Bio 2)')[0], { main: false });
@@ -1132,9 +1136,9 @@
          const titles = ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE'];
          dna.clone('s15-book', titles);
          const registerBye = (elem) => elem.addEventListener('click', dna.bye);
-         document.querySelectorAll('.s15-book button.b2').forEach(registerBye);
+         globalThis.document.querySelectorAll('.s15-book button.b2').forEach(registerBye);
          const findClone = (count) =>
-            document.querySelector('.s15-book .count[data-count="' + count + '"]').closest('.dna-clone');
+            globalThis.document.querySelector('.s15-book .count[data-count="' + count + '"]').closest('.dna-clone');
          findClone(1).querySelector('button.b1').click();            //nuke 1st (bye w/data-on-click)
          findClone(2).querySelector('button.b2').click();            //nuke 2nd (bye w/event handler)
          findClone(8).querySelector('button.b3').click();            //nuke 8th (remove w/dna click callback)
@@ -1348,10 +1352,10 @@
             note:       '[change me]',
             };
          const clone = $(dna.clone('s16-book', book));
-         dna.updateField(clone.find('input:checkbox[value=fast]'), true);
-         dna.updateField(clone.find('textarea'), '0xDEADBEEF');
-         dna.updateField(clone.find('input').last(), 'Award winning');
-         const titleElem = document.querySelector('#spec16 .s16-book input');
+         dna.updateField(clone.find('input:checkbox[value=fast]')[0], true);
+         dna.updateField(clone.find('textarea')[0], '0xDEADBEEF');
+         dna.updateField(clone.find('input').last()[0], 'Award winning');
+         const titleElem = globalThis.document.querySelector('#spec16 .s16-book input');
          titleElem.value = 'The DOM!';
          titleElem.dispatchEvent(new Event('change', { bubbles: true }));  //simulate user edit
          $(titleElem).toggleClass('border-change', book.title === 'The DOM!');
@@ -1463,15 +1467,16 @@
          const clones = dna.clone('chapter-box', {}, { empty: true, clones: parseInt(range.value) });
          clones.forEach(clone => dna.ui.fadeIn(dna.ui.hide(clone)));
          },
-      smooth(range) {
-         const container = document.querySelector('#spec18 .smooth-container');
-         const updateUI =  () => spec.spec18.makeChapterBoxes(range);
-         const status =    () => console.log(Date.now() % 10000, 'range:', Number(range.value));
+      smooth(rangeSlider) {
+         const container = globalThis.document.querySelector('#spec18 .smooth-container');
+         const updateUI =  () => spec.spec18.makeChapterBoxes(rangeSlider);
+         const status =    () => console.log(Date.now() % 10000, 'range:', Number(rangeSlider.value));
          status();
          dna.ui.smoothHeight(updateUI, { container }).then(status);
          },
       run() {
-         spec.spec18.makeChapterBoxes(document.querySelector('#spec18 input[type=range]'));
+         const rangeSlider = globalThis.document.querySelector('#spec18 input[type=range]');
+         spec.spec18.makeChapterBoxes(rangeSlider);
          },
       };
 </script>
@@ -1523,7 +1528,8 @@
       run() {
          dna.clone('s19-book-title', specRunner.catalog);
          dna.clone('s19-book',       specRunner.catalog);
-         document.querySelectorAll('#spec19 .dna-menu .dna-menu-item')[1].click();  //button: "Styling CSS3"
+         const menuItems = globalThis.document.querySelectorAll('#spec19 .dna-menu .dna-menu-item');
+         menuItems[1].click();  //button: "Styling CSS3"
          },
       };
 </script>
@@ -1598,8 +1604,8 @@
 <script>
    spec.spec20 = {
       run() {
-         const postRenderClick = () =>
-            document.querySelectorAll('#spec20 .dna-menu .dna-menu-item')[2].click();  //menu item: "W3C"
+         const menuItems = globalThis.document.querySelectorAll('#spec20 .dna-menu .dna-menu-item');
+         const postRenderClick = () => menuItems[2].click();  //menu item: "W3C"
          globalThis.setTimeout(postRenderClick, 1000);
          },
       };
@@ -1644,7 +1650,7 @@
       run() {
          dna.clone('s21-book-author-nav-button', specRunner.catalog);
          dna.clone('s21-book-author',            specRunner.catalog);
-         const elem = document.querySelector('#spec21 .dna-menu');
+         const elem = globalThis.document.querySelector('#spec21 .dna-menu');
          elem.value = 'Abby';
          elem.dispatchEvent(new Event('change', { bubbles: true }));  //simulate user update
          },
