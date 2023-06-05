@@ -20,7 +20,7 @@ export type DnaOptionsClone<T> = {
    clones?:    number,
    html?:      boolean,
    empty?:     boolean,
-   holder?:    JQuery,
+   holder?:    Element | null,
    container?: Element | null,
    formatter?: DnaFormatter | null,
    transform?: DnaTransformFn<T> | null,
@@ -107,8 +107,8 @@ export type DnaInitializer = {
    };
 export type DnaTemplate = {
    name:       string,
-   elem:       JQuery,
-   container:  JQuery,
+   elem:       Element,
+   container:  Element,
    nested:     boolean,
    separators: number,
    wrapped:    boolean,
@@ -367,11 +367,19 @@ const dnaDom = {
       // Filters a list of elements.
       return Array.prototype.filter.call(elems, fn);
       },
+   filterBySelector(elems: Element[] | HTMLCollection, selector: string): Element[] {
+      // Returns direct child elements filtered by the specified selector.
+      return Array.prototype.filter.call(elems, elem => elem.matches(selector));
+      },
    filterByClass(elems: Element[] | HTMLCollection, ...classNames: string[]): Element[] {
       // Returns direct child elements filtered by one or more class names.
       const hasClass = (elem: Element) => elem.classList.contains(classNames[0]!);
       const filtered = Array.prototype.filter.call(elems, hasClass);
       return classNames.length === 1 ? filtered : dna.dom.filterByClass(filtered, ...classNames.splice(1));
+      },
+   find(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index?: number, elems?: unknown[]) => boolean): Element | null {
+      // Finds the first element that satisfies the given condition.
+      return Array.prototype.find.call(elems, fn) ?? null;
       },
    index(elem: Element): number {
       // Returns the index of element within its container (relative to all its sibling elements).
@@ -1139,10 +1147,12 @@ const dnaCompile = {
       },
    separators(elem: Element): Element {
       // Convert: data-separator=", "  ==>  <span class=dna-separator>, </span>
-      const isWhitespaceNode = (index: number, node: Node): boolean =>
+      const isWhitespaceNode = (node: Node): boolean =>
          node.nodeType === Node.TEXT_NODE && !/\S/.test(node.nodeValue!);
       const append = (elem: Element, text: string, className: string) => {
-         $(elem).contents().last().filter(isWhitespaceNode).remove();
+         const lastChildNode = elem.childNodes[elem.childNodes.length - 1];
+         if (lastChildNode && isWhitespaceNode(lastChildNode))
+            lastChildNode.remove();
          const span = globalThis.document.createElement('span');
          span.classList.add(className);
          span.innerHTML = text!;
@@ -1220,8 +1230,8 @@ const dnaTemplate = {
          container.classList.add(dna.name.container, 'dna-contains-' + name);
          const template = <DnaTemplate>{
             name:       name,
-            elem:       $(subElem),
-            container:  $(container),
+            elem:       subElem,
+            container:  container,
             nested:     container.closest(dna.selector.clone) !== null,
             separators: subElem.querySelectorAll('.dna-separator, .dna-last-separator').length,
             wrapped:    wrapped,
@@ -1229,7 +1239,7 @@ const dnaTemplate = {
          dna.template.db[name] = template;
          subElem.classList.remove(dna.name.template);
          subElem.classList.add(dna.name.clone, name);
-         $(subElem).detach();
+         subElem.remove();
          };
       const prepLoop = (subElem: Element) => {
          // Pre (sub-template array loops -- data-array):
@@ -1352,8 +1362,7 @@ const dnaEvents = {
          dna.core.assert(typeof fn === 'function' || !fn, 'Invalid data-on-load function', fnName);
          const run = () => {
             elem.classList.add(dna.name.executed);
-            const params = () => [elem, dna.getModel(elem), dna.ui.getComponent(elem)];
-            dna.util.apply(fnName, dna.isClone(elem) ? params() : [elem]);
+            dna.util.apply(fnName, [elem, dna.ui.getComponent(elem)]);
             };
          if (fn && !waitFor.map(dna.util.getFn).includes(undefined))
             run();
@@ -1492,9 +1501,17 @@ const dnaCore = {
          if (value !== null && value !== (<HTMLInputElement>elem).value)
             (<HTMLInputElement>elem).value = String(value);
          };
-      const injectProps = (elem: Element, props: DnaProps) => {  //example props: ['selected', 'set']
+      const setProperty = (elem: HTMLInputElement, property: string, state: boolean): HTMLInputElement => {
+         dna.core.assert(['checked', 'disabled'].includes(property), 'Invalid element property type', property);
+         if (property === 'checked')
+            elem.checked = state;
+         else
+            elem.disabled = state;
+         return elem;
+         };
+      const injectProps = (elem: Element, props: DnaProps) => {  //example props: ['selected', 'set'] from <input type=checkbox data-prop-checked=~~set~~>
          for (let prop = 0; prop*2 < props.length; prop++)  //each prop has a key and a field name
-            $(elem).prop(props[prop*2]!,
+            setProperty(<HTMLInputElement>elem, props[prop*2]!,
                dna.util.realTruth(dna.util.value(model, props[prop*2 + 1]!)));
          };
       const injectAttrs = (elem: Element, rules: DnaRules) => {
@@ -1541,7 +1558,7 @@ const dnaCore = {
                dna.core.inject(subElem, dataArray[index]!, index + 1, settings);
             };
          const rebuildSubClones = () => {
-            $(subClones).remove();
+            subClones.forEach(subClone => subClone.remove());
             dna.clone(loop.name, dataArray, { container: elem, html: !!settings.html });
             };
          if (!dataArray)
@@ -1575,7 +1592,7 @@ const dnaCore = {
             dna.ui.toggle(elem, dna.util.realTruth(dna.util.value(model, rules.true)));
          if (rules.false)
             dna.ui.toggle(elem, !dna.util.realTruth(dna.util.value(model, rules.false)));
-         if (rules.callback)
+         if (rules.callback)  //example: <span data-callback=blink>~~title~~<span>
             dna.util.apply(rules.callback, [elem]);
          };
       if (settings.transform)  //alternate version of data-transform
@@ -1596,10 +1613,9 @@ const dnaCore = {
       const subclass = () => 'dna-contains-' + template.name;
       const getContainer =   (name: string) => settings.container!.classList.contains(name) ?
          settings.container! : settings.container!.getElementsByClassName(name).item(0)!;
-      const container =      settings.container ? getContainer(subclass()) : template.container[0]!;
+      const container =      settings.container ? getContainer(subclass()) : template.container;
       const containerState = dna.dom.state(container);
-      const templateNode =   template.elem[0]!;
-      const clone =          dna.dom.cloneState(<Element>templateNode.cloneNode(true));
+      const clone =          dna.dom.cloneState(<Element>template.elem.cloneNode(true));
       const name =           dna.compile.getRules(clone).template!;
       if (!containerState.dnaCountsMap)
          containerState.dnaCountsMap = <DnaCountsMap>{};
@@ -1613,18 +1629,17 @@ const dnaCore = {
             const index =    contents.indexOf(template.name);
             const adjustment = (clonesAbove: number, name: string) =>
                clonesAbove + (name && contents.indexOf(name) < index ?
-                  $(allClones).filter('.' + name).length - 1 : 0);
-            const target = $(container).children().eq(index + contents.reduce(adjustment, 0));
-            const targetNode = target[0];
-            return targetNode ? container.insertBefore(clone, targetNode) : container.append(clone);
+                  allClones.filter(clone => clone.classList.contains(name)).length - 1 : 0);
+            const target = container.children[index + contents.reduce(adjustment, 0)];
+            return target ? container.insertBefore(clone, target) : container.append(clone);
             };
-         const sameClones = $(allClones).filter('.' + template.name);
+         const sameClones = allClones.filter(clone => clone.classList.contains(template.name));
          if (!sameClones.length)
             firstClone();
          else if (settings.top)
-            container.insertBefore(clone, sameClones.first()[0]!);
+            container.insertBefore(clone, sameClones.at(0)!);
          else
-            container.insertBefore(clone, sameClones.last()[0]!.nextSibling);
+            container.insertBefore(clone, sameClones.at(-1)!.nextSibling);
          };
       if (!template.wrapped)
          intoUnwrapped();
@@ -1633,11 +1648,25 @@ const dnaCore = {
       else
          container.append(clone);
       const displaySeparators = () => {
+         // <span class=dna-clone data-separator=", " data-last-separator=" and ">
+         //    <span>Apple</span>
+         //    <span class=dna-separator>, </span>
+         //    <span class=dna-last-separator> and </span>
+         // </span>
          const clones = dna.dom.filterByClass(container.children, template.name);
-         $(clones).find(dna.selector.separator).show().end().last().find(dna.selector.separator).hide();
-         $(clones).find(dna.selector.lastSeparator).hide().end()
-            .eq(-2).find(dna.selector.lastSeparator).show()
-            .closest(dna.selector.clone).find(dna.selector.separator).hide();
+         const process = (clone: Element, index: number) => {
+            const separator =     (<HTMLElement>clone.getElementsByClassName(dna.name.separator)[0]);
+            const lastSeparator = (<HTMLElement>clone.getElementsByClassName(dna.name.lastSeparator)[0]);
+            const isAlmostLast =  index === clones.length - 2;
+            const isLast =        index === clones.length - 1;
+            const display = (elem: HTMLElement, show: boolean) =>
+               show ? elem.style.removeProperty('display') : elem.style.display = 'none';
+            if (separator)
+               display(separator,     !isAlmostLast && !isLast);
+            if (lastSeparator)
+               display(lastSeparator, isAlmostLast);
+            };
+         clones.forEach(process);
          };
       if (template.separators)
          displaySeparators();
@@ -1663,11 +1692,10 @@ const dnaCore = {
       },
    remove<T>(clone: Element, callback?: DnaCallbackFn<T> | null): Element {
       const container = clone.parentElement!;
-      $(clone).detach();
+      clone.remove();
       if (clone.classList.contains(dna.name.subClone))
          dna.core.updateModelArray(container);
       dna.placeholder.setup();
-      $(clone).remove();
       if (callback)
          callback(clone, <T>dna.getModel(clone));
       return clone;
@@ -1767,11 +1795,12 @@ const dna = {
       // Clones a sub-template to append onto an array loop.
       const cloneSub = (field: string, index: number) => {
          const clone = () => {
-            const name =     dna.compile.subTemplateName(holderClone, arrayField, index);
-            const selector = '.dna-contains-' + name;
-            const settings = { container: $(holderClone).find(selector).addBack(selector)[0]! };
-            dna.clone(name, model, { ...settings, ...options });
-            dna.core.updateModelArray(settings.container);
+            const name =      dna.compile.subTemplateName(holderClone, arrayField, index);
+            const className = 'dna-contains-' + name;
+            const find =      () => holderClone.getElementsByClassName(className)[0]!;
+            const container = holderClone.classList.contains(className) ? holderClone : find();
+            dna.clone(name, model, { ...{ container }, ...options });
+            dna.core.updateModelArray(container);
             };
          if (field === arrayField)
             clone();
@@ -1806,8 +1835,8 @@ const dna = {
       const defaults =  { fade: false };
       const settings =  { ...defaults, ...options };
       const template =  dna.template.get(name);
-      const clones =    template.container.children(dna.selector.clone).toArray();
-      const countsMap = <DnaCountsMap>dna.dom.state(template.container[0]!).dnaCountsMap;
+      const clones =    dna.dom.filterByClass(template.container.children, dna.name.clone);
+      const countsMap = <DnaCountsMap>dna.dom.state(template.container).dnaCountsMap;
       if (countsMap)
          countsMap[name] = 0;
       if (settings.fade)
@@ -1841,9 +1870,9 @@ const dna = {
       const field = dna.dom.state(inputElem).dnaField;
       const update = () => {
          if (inputElem.matches('input[type=checkbox]'))
-            $(inputElem).prop('checked', !!value);
+            (<HTMLInputElement>inputElem).checked = !!value;
          else if (inputElem.matches('input[type=radio]'))
-            $(inputElem).prop('checked', !!value);  //TOOD: if true, deselect other buttons in model
+            (<HTMLInputElement>inputElem).checked = !!value;  //TOOD: if true, deselect other buttons in model
          else if (inputElem.matches('input, select, textarea'))
             (<HTMLInputElement>inputElem).value = String(value);
          const model = <DnaDataObject>dna.getModel(inputElem);
@@ -1896,7 +1925,7 @@ const dna = {
       },
    getClones(name: string): Element[] {
       // Returns an array of all the existing clones for the given template.
-      return dna.template.get(name).container.children('.dna-clone.' + name).toArray();
+      return dna.dom.filterByClass(dna.template.get(name).container.children, dna.name.clone, name);
       },
    getIndex(elem: Element, options?: DnaOptionsGetIndex): number {
       // Returns the index of the clone.
@@ -1924,8 +1953,10 @@ const dna = {
       const defaults = { selector: null, params: [], onDocLoad: true };
       const settings = { ...defaults, ...options };
       const rootSelector = settings.selector;
-      const onDocLoadElems = () => !rootSelector ? [globalThis.document] :
-         $(rootSelector).not(dna.selector.template).not(rootSelector).addClass(dna.name.initialized).toArray();
+      const notTemplate =  (elem: Element) => !elem.classList.contains(dna.name.template);
+      const selectElems =  () => dna.dom.filter(globalThis.document.querySelectorAll(rootSelector!), notTemplate);
+      const onDocLoadElems = () => !rootSelector ? [globalThis.document.body] :
+         dna.dom.addClass(selectElems(), dna.name.initialized);
       if (settings.onDocLoad)
          onDocLoadElems().forEach(elem => dna.util.apply(fn, [elem, settings.params].flat()));
       const initializer = { fn: fn, selector: rootSelector, params: settings.params };

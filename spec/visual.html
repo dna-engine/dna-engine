@@ -66,18 +66,18 @@
             { title: 'Howdy HTML5',  author: 'Ed',   price: 3750 },
             ],
          setup() {
-            $('body').toggleClass('minified-mode', globalThis.location.pathname.includes('visual.min'));
-            $('.version-number').text(dna.version === '{{pkg.version}}' ? '' : 'v' + dna.version);
+            dna.dom.toggleClass(document.body, 'minified-mode', globalThis.location.pathname.includes('visual.min'));
+            const version = dna.version === '{{pkg.version}}' ? '' : 'v' + dna.version;
+            document.querySelector('.version-number').innerText = version;
             const runSpec = (sectionNode) => {
-               const name = $(sectionNode).attr('id');
-               console.log(name);
-               spec[name].run();
+               console.log(sectionNode.id);
+               spec[sectionNode.id].run();
                };
             console.log('~~ dna-engine ~~');
             console.log('Version: ' + dna.info().version);
             console.log('Specifications:');
             const start = Date.now();
-            $('main >section').toArray().forEach(runSpec);
+            document.querySelectorAll('main >section').forEach(runSpec);
             console.log('Run time (msec):', Date.now() - start);
             console.log('Report:', dna.info());
             console.log('');
@@ -905,18 +905,19 @@
          dna.clone('s12-book', [book1, book2, book3, book1], { html: false });
          dna.arrayPush(dna.getClones('s12-book')[0], 'authors', 'Bo I');
          dna.arrayPush(dna.getClones('s12-book')[0], 'authors', 'Bo II');
-         let clone = $('.s12-book').first();
-         clone.toggleClass('border-change', clone.data().title === 'The DOM');
-         const elem = clone.find('.s12-book-authors--0').last()[0];
+         const clone1 = document.querySelector('.s12-book');
+         dna.dom.toggleClass(clone1, 'border-change', clone1.dataset.title === 'The DOM');
+         const elem = document.querySelector('.s12-book-authors--0:last-child');
          elem.classList.add(elem.dataset.author === 'Bo II' ? 'color-change' : 'color-change2');
          const lastBook = [...globalThis.document.getElementsByClassName('s12-book')].at(-1);
-         clone = dna.refresh(lastBook, { data: book2, html: true });
-         dna.arrayPush(clone, 'chapters', { header: 'Bio', type: 'back' });
-         dna.arrayPush(clone, 'chapters', moreChapters);
-         dna.destroy($('.s12-book').find(':contains(Bio 2)')[0], { main: false });
-         dna.arrayPush(clone, 'chapters', lastChapter);
-         $(clone).toggleClass('border-change', dna.getModel(clone).chapters.length === 5);
-         $('.s12-book').find('.s12-book-authors--0[data-author=Jake]')[0].classList.add('color-change2');
+         const clone2 = dna.refresh(lastBook, { data: book2, html: true });
+         dna.arrayPush(clone2, 'chapters', { header: 'Bio', type: 'back' });
+         dna.arrayPush(clone2, 'chapters', moreChapters);
+         const spans = document.querySelectorAll('.s12-book span');
+         dna.destroy(dna.dom.find(spans, span => span.innerText === 'Bio 2'), { main: false });
+         dna.arrayPush(clone2, 'chapters', lastChapter);
+         dna.dom.toggleClass(clone2, 'border-change', dna.getModel(clone2).chapters.length === 5);
+         document.querySelector('.s12-book .s12-book-authors--0[data-author=Jake]').classList.add('color-change2');
          },
       };
 </script>
@@ -943,7 +944,7 @@
             Title: <span>&lt;script&gt;alert(2);&lt;/script&gt;</span>
          </div>
          <div class=dna-clone>
-            Title: <span>3</span>
+            Title: <span>21</span>
          </div>
       </div>
    </fieldset>
@@ -953,7 +954,7 @@
       run() {
          dna.clone('s13-book', '<script>alert(1);<\/script>');
          dna.clone('s13-book', '<script>alert(2);<\/script>', { html: false });
-         dna.clone('s13-book', '<script>$(".s13-book").last().find("span").text(3);<\/script>', { html: true });
+         dna.clone('s13-book', '<script>document.querySelector(".s13-book:last-child span").innerText=21;<\/script>', { html: true });
          },
       };
 </script>
@@ -1079,10 +1080,11 @@
          clone.classList.add('color-change');
          },
       showMessage(message, elem) {
-         const tag =  '<' + elem.nodeName + '>'
-         const msec = String(Date.now() % 10000).padStart(4, '0');
-         const p =    $('<p>').text([msec, message, tag].join(' '));
-         $('#spec15 fieldset').first().append(p);
+         const tag =   '<' + elem.nodeName + '>'
+         const msec =  String(Date.now() % 10000).padStart(4, '0');
+         const p =     document.createElement('p');
+         p.innerText = [msec, message, tag].join(' ');
+         document.querySelector('#spec15 fieldset').append(p);
          },
       animal(elem) {
          spec.spec15.showMessage('animal', elem);
@@ -1103,7 +1105,8 @@
          elem.classList.add('border-change');
          elem.style.color =   'white';
          elem.style.padding = '10px';
-         $('#spec15 fieldset').first().append('<hr>');  //exactly 8 times (one for each clone)
+         const hr = document.createElement('hr');
+         document.querySelector('#spec15 fieldset').append(hr);  //exactly 8 times (one for each clone)
          },
       surround2(elem) {
          if (!elem.classList.contains('s15-book'))
@@ -1351,22 +1354,26 @@
             coverColor: '#daa520',
             note:       '[change me]',
             };
-         const clone = $(dna.clone('s16-book', book));
-         dna.updateField(clone.find('input:checkbox[value=fast]')[0], true);
-         dna.updateField(clone.find('textarea')[0], '0xDEADBEEF');
-         dna.updateField(clone.find('input').last()[0], 'Award winning');
+         const clone = dna.clone('s16-book', book);
+         dna.updateField(clone.querySelector('input[type=checkbox][value=fast]'), true);
+         dna.updateField(clone.querySelector('textarea'), '0xDEADBEEF');
+         dna.updateField(clone.querySelector('p:last-child input'), 'Award winning');
          const titleElem = globalThis.document.querySelector('#spec16 .s16-book input');
          titleElem.value = 'The DOM!';
          titleElem.dispatchEvent(new Event('change', { bubbles: true }));  //simulate user edit
-         $(titleElem).toggleClass('border-change', book.title === 'The DOM!');
-         if (clone.find('input[value=fast]').prop('checked'))  //expect "Overnight" selected
-            clone.find('input[value=gift]').trigger('click');  //also select "Gift" option
-         if (clone.find('input[name=cover]:checked').val() === 'soft')  //expect "Paperback" selected
-            clone.find('input[value=hard]').prop({ checked: true }).trigger('click');  //change to "Hardcover"
-         const purposeElem = clone.find('select').first();
-         if (purposeElem.val() === 'edu')  //expect "School" selected
-            purposeElem.val('fun').trigger('change');  //change to "Personal"
-         purposeElem.toggleClass('border-change', book.purpose === 'fun');
+         const checkIt = (elem) => {
+            elem.check = true;
+            elem.click();
+            };
+         dna.dom.toggleClass(titleElem, 'border-change', book.title === 'The DOM!');
+         if (clone.querySelector('input[value=fast]').checked)  //expect "Overnight" selected
+            clone.querySelector('input[value=gift]').click();   //also select "Gift" option
+         if (clone.querySelector('input[name=cover]:checked').value === 'soft')  //expect "Paperback" selected
+            checkIt(clone.querySelector('input[value=hard]'));                    //change to "Hardcover"
+         const purposeElem = clone.querySelector('select');
+         if (purposeElem.value === 'edu')  //expect "School" selected
+            purposeElem.value = 'fun';     //change to "Personal"
+         dna.dom.toggleClass(purposeElem, 'border-change', book.purpose === 'fun');
          },
       };
 </script>
@@ -1388,17 +1395,14 @@
          <script>
             const bookshelf = {
                showMsg(elem, event, component) {
-                  console.log('showMsg',{elem, event, component});  /////////
                   elem.innerText = component.dataset.msg + Math.floor(event.timeStamp);
                   },
                setup(elem, component) {
-                  console.log('setup',{elem, component});  /////////
                   const booksUrl = 'https://dna-engine.org/api/books/';
-                  $(component).children('button')
-                     .attr({ 'data-href': booksUrl })
-                     .toArray().forEach(subElem => subElem.classList.add('external-site'));
-                  const handle = (data) => dna.clone('s17-book', data);
-                  fetchJson.get(booksUrl).then(handle);
+                  const button =   component.querySelector('button');
+                  button.dataset.href = booksUrl;
+                  button.classList.add('external-site');
+                  fetchJson.get(booksUrl).then(data => dna.clone('s17-book', data));
                   },
                };
          </script>
