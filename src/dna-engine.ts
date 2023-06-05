@@ -163,7 +163,7 @@ export type DnaInfo = {
 
 // Types: Top Level
 type GlobalKey =    keyof typeof globalThis;
-type GlobalWindow = Window & typeof globalThis & { $: JQueryStatic };
+type GlobalWindow = Window & typeof globalThis;
 type Dna =          typeof dna;
 declare global { var dna: Dna }  //eslint-disable-line no-var
 
@@ -1713,14 +1713,18 @@ const dnaCore = {
             throw Error((<Error>e).message);
             }
       },
-   setup: (): unknown => {
+   setup(): unknown {
       const setupBrowser = () => {
-         $(dna.placeholder.setup);
-         $(dna.panels.setup);
-         $(dna.events.setup);
+         dna.placeholder.setup();
+         dna.panels.setup();
+         dna.events.setup();
          };
-      if (typeof window === 'object' && typeof $ === 'function')
+      if (typeof globalThis.window === 'undefined')
+         console.log('Browser window not detected.  State:', globalThis.document?.readyState);
+      else if (globalThis.document?.readyState === 'complete')
          setupBrowser();
+      else
+         globalThis.window.addEventListener('DOMContentLoaded', setupBrowser);
       return dna;
       },
    };
@@ -1974,8 +1978,7 @@ const dna = {
       dna.events.db.context[contextName] = contextObjOrFn;
       return dna.events.db.context;
       },
-   initGlobal(thisWindow: GlobalWindow, thisJQuery: JQueryStatic): unknown {
-      thisWindow.$ =   thisJQuery;
+   initGlobal(thisWindow: GlobalWindow): unknown {
       thisWindow.dna = dna;
       const writable = (prop: string): boolean => !globalThis[<GlobalKey>prop] ||
          !!Object.getOwnPropertyDescriptor(globalThis, prop)?.writable;
@@ -1983,8 +1986,6 @@ const dna = {
          globalThis.window = thisWindow;
       if (writable('document'))
          globalThis.document = thisWindow.document;
-      if (writable('$'))
-         (<GlobalWindow><unknown>globalThis).$ = thisJQuery;
       if (writable('dna'))
          globalThis.dna = dna;
       return dna.core.setup();

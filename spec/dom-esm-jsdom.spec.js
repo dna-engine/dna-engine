@@ -4,7 +4,6 @@
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
-import { grabText } from './fixtures/spec-tools.mjs';
 import { html, bookCatalog } from './fixtures/mock-data.mjs';
 import fs from 'fs';
 import jQuery from 'jquery';
@@ -38,13 +37,13 @@ describe('Template cloning function dna.clone()', () => {
 
    it('creates a book with the correct title', () => {
       dna.clone('book', bookCatalog[0]);
-      const actual =   { title: $('.book h2').text() };
+      const actual =   { title: document.querySelector('.book h2').textContent };
       const expected = { title: bookCatalog[0].title };
       assertDeepStrictEqual(actual, expected);
       });
 
    it('creates a book with the correct author', () => {
-      const actual =   { author: $('.book cite').text() };
+      const actual =   { author: document.querySelector('.book cite').textContent };
       const expected = { author: bookCatalog[0].author };
       assertDeepStrictEqual(actual, expected);
       });
@@ -69,6 +68,7 @@ describe('Field formatter', () => {
 
    it('for currency correctly formats prices', () => {
       dna.clone('book', bookCatalog[2]);
+      const grabText = (elems) => elems.toArray().map(elem => $(elem).text());
       const actual = {
          usd:    grabText($('output.usd')),
          jpy:    grabText($('output.jpy')),

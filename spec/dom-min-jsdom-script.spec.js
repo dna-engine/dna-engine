@@ -4,7 +4,6 @@
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
-import { grabText } from './fixtures/spec-tools.mjs';
 import { html, bookCatalog } from './fixtures/mock-data.mjs';
 import fs from 'fs';
 
@@ -68,6 +67,7 @@ describe('Field formatter', () => {
 
    it('for currency correctly formats prices', () => {
       dna.clone('book', bookCatalog[2]);
+      const grabText = (elems) => elems.toArray().map(elem => $(elem).text());
       const actual = {
          usd:    grabText($('output.usd')),
          jpy:    grabText($('output.jpy')),
