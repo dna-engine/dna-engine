@@ -34,7 +34,7 @@
          <li><a href=#step3>Add search results component</a></li>
          <li><a href=#step4>Style search results</a></li>
          <li><a href=#step5>Define book template</a></li>
-         <li><a href=#step6>Load jQuery and dna-engine</a></li>
+         <li><a href=#step6>Load dna-engine</a></li>
          <li><a href=#step7>Wire up search callback</a></li>
          <li><a href=#step8>Make REST call</a></li>
          <li><a href=#step9>Smarten up the search field</a></li>
@@ -239,7 +239,7 @@
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <section id=step6>
-      <h3>Step 6: Load jQuery, dna-engine, and fetch-json</h3>
+      <h3>Step 6: Load dna-engine and fetch-json</h3>
       <p>
          The easiest way to get the necessary CSS and JavaScript libraries is the pull them from a
          <a href=https://en.wikipedia.org/wiki/Content_delivery_network
@@ -260,14 +260,13 @@
       <figure>
          <figcaption>JS link at bottom of the <code>body</code> section</figcaption>
          <pre><code class=language-html>
-            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@{{pkg.devDependencies.jquery|minor-version}}/dist/jquery.min.js&gt;&lt;/script&gt;
             &lt;script src=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.min.js&gt;&lt;/script&gt;
             &lt;script src=https://cdn.jsdelivr.net/npm/fetch-json@{{pkg.devDependencies.fetch-json|minor-version}}/dist/fetch-json.min.js&gt;&lt;/script&gt;
          </code></pre>
       </figure>
       <p>
          Go to your web browser and reload the <code>book-finder.html</code> page.&nbsp;
-         Verify jQuery and dna-engine loaded properly by going into the
+         Verify dna-engine loaded properly by going into the
          <a href=https://webmasters.stackexchange.com/questions/8525/how-to-open-the-javascript-console-in-different-browsers
             class=external-site>JavaScript console</a>
          and entering the command:
@@ -438,7 +437,6 @@
                &lt;/section&gt;
             &lt;/main&gt;
 
-            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@{{pkg.devDependencies.jquery|minor-version}}/dist/jquery.min.js&gt;&lt;/script&gt;
             &lt;script src=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.min.js&gt;&lt;/script&gt;
             &lt;script src=https://cdn.jsdelivr.net/npm/fetch-json@{{pkg.devDependencies.fetch-json|minor-version}}/dist/fetch-json.min.js&gt;&lt;/script&gt;
             &lt;script&gt;

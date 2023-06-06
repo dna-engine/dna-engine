@@ -145,7 +145,6 @@
                <ol>
                   <li><a href=#index-classes>Classes</a></li>
                   <li><a href=#index-attributes>Attributes</a></li>
-                  <li><a href=#index-jquery>jQuery Functions</a></li>
                   <li><a href=#index-examples>Examples</a></li>
                </ol>
             </li>
@@ -156,7 +155,7 @@
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <div id=system>
-      <h3>Terminology and Browser Support</h3>
+      <h3>Terminology</h3>
    </div>
 
    <section id=system-terms>
@@ -184,31 +183,6 @@
             is added as each clone's class name.
          </dd>
       </dl>
-   </section>
-
-   <section id=system-browsers>
-      <h4>Browser Support</h4>
-      <dl>
-         <dt>Web Browsers:</dt>
-         <dd>
-            dna-engine supports Chrome, Firefox, IE/Edge, Opera, and Safari.&nbsp;  It also runs on Node.js
-            with jsdom.
-         </dd>
-      </dl>
-      <dl>
-         <dt>Versions:</dt>
-         <dd>
-            dna-engine requires jQuery 3.4 or above, and it has the same system requirements
-            and <a href=https://jquery.com/browser-support class=external-site>browser
-            support</a> as the version of jQuery you use.
-         </dd>
-      </dl>
-      <div style="max-width: 350px; margin: auto;">
-         <figure class=video-container-link>
-            <iframe src=https://www.youtube.com/embed/{{pkg.websiteInfo.youTube.jquery}}></iframe>
-            <figcaption>The Legend of jQuery</figcaption>
-         </figure>
-      </div>
    </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -240,7 +214,6 @@
       <figure>
          <figcaption>Load JavaScript libraries</figcaption>
          <pre><code class=language-html>
-            &lt;script src=https://cdn.jsdelivr.net/npm/jquery@{{pkg.devDependencies.jquery|minor-version}}/dist/jquery.min.js&gt;&lt;/script&gt;
             &lt;script src=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.min.js&gt;&lt;/script&gt;
          </code></pre>
       </figure>
@@ -259,7 +232,7 @@
       <figure>
          <figcaption>npm</figcaption>
          <pre><code class=language-bash>
-            $ npm install jquery dna-engine
+            $ npm install dna-engine
          </code></pre>
       </figure>
       <p class=big-symbol><i class=icon data-icon=arrow-alt-circle-down></i></p>
@@ -268,8 +241,7 @@
          <pre><code class=language-json>
             ...
             "dependencies": {
-               "dna-engine": "~{{pkg.version|minor-version}}",
-               "jquery": "~{{pkg.devDependencies.jquery|minor-version}}"
+               "dna-engine": "~{{pkg.version|minor-version}}"
             }
             ...
          </code></pre>
@@ -303,7 +275,6 @@
          <pre><code class=language-javascript>
             // Imports
             import 'dna-engine/dist/dna-engine.css';
-            import $ from 'jquery';
             import 'dna-engine';
 
             // Application
@@ -312,7 +283,7 @@
                };
 
             // Initialization
-            const dna = globalThis.dna.initGlobal(window, $);
+            const dna = globalThis.dna.initGlobal(window);
             dna.registerContext('myApp', myApp);
          </code></pre>
       </figure>
@@ -813,8 +784,8 @@
             <tr><td><code>locale-time</code></td>   <td>1:00:00 AM</td>                             <td><i>local</i></td></tr>
             <tr><td><code>string</code></td>        <td>Sat May 04 2030 01:00:00 GMT-0700 (PDT)</td><td><i>local</i></td></tr>
             <tr><td><code>time</code></td>          <td>01:00:00 GMT-0700 (PDT)</td>                <td><i>local</i></td></tr>
-            <tr><td><code>timestamp</code></td>     <td>2030-05-04@08:00:00</td>                    <td><i>UTC</i></td></tr>
-            <tr><td><code>timestamp-msec</code></td><td>2030-05-04@08:00:00.000</td>                <td><i>UTC</i></td></tr>
+            <tr><td><code>timestamp</code></td>     <td>2030-05-04+08:00:00</td>                    <td><i>UTC</i></td></tr>
+            <tr><td><code>timestamp-msec</code></td><td>2030-05-04+08:00:00.000</td>                <td><i>UTC</i></td></tr>
             <tr><td><code>utc</code></td>           <td>Sat, 04 May 2030 08:00:00 GMT</td>          <td><i>UTC</i></td></tr>
          </tbody>
       </table>
@@ -1223,9 +1194,9 @@
          <li><b>dna.destroy</b>(clone, options)</li>
          <li><b>dna.getClones</b>(name)</li>
          <li><b>dna.getIndex</b>(elem, options)</li>
-         <li><b>dna.up</b>(elemOrEventOrIndex)</li>
-         <li><b>dna.down</b>(elemOrEventOrIndex)</li>
-         <li><b>dna.bye</b>(elemOrEventOrIndex)</li>
+         <li><b>dna.up</b>(elem)</li>
+         <li><b>dna.down</b>(elem)</li>
+         <li><b>dna.bye</b>(elem)</li>
          <li><b>dna.registerInitializer</b>(callback, options)</li>
          <li><b>dna.clearInitializers</b>()</li>
          <li><b>dna.registerContext</b>(contextName, contextObjectOrFunction)</li>
@@ -1507,14 +1478,14 @@
 
    <!-- dna.up() -->
    <section id=api-up>
-      <h4>dna.up(elemOrEventOrIndex)</h4>
+      <h4>dna.up(elem)</h4>
       <p class=api-description>
          Smoothly moves a clone up one slot effectively swapping its position with the previous clone.
       </p>
       <div class=api-parameters>
          Parameters:
          <ul>
-            {% render 'website/templates/params/elem-or-event-or-index.html' %}
+            {% render 'website/templates/params/elem.html' %}
          </ul>
       </div>
       <figure>
@@ -1535,14 +1506,14 @@
 
    <!-- dna.down() -->
    <section id=api-down>
-      <h4>dna.down(elemOrEventOrIndex)</h4>
+      <h4>dna.down(elem)</h4>
       <p class=api-description>
          Smoothly moves a clone down one slot effectively swapping its position with the next clone.
       </p>
       <div class=api-parameters>
          Parameters:
          <ul>
-            {% render 'website/templates/params/elem-or-event-or-index.html' %}
+            {% render 'website/templates/params/elem.html' %}
          </ul>
       </div>
       <p>
@@ -1552,16 +1523,16 @@
 
    <!-- dna.bye() -->
    <section id=api-bye>
-      <h4>dna.bye(elemOrEventOrIndex)</h4>
+      <h4>dna.bye(elem)</h4>
       <p class=api-description>
          Performs a <a href=#ui-slide-fade>sliding fade out effect</a> on the clone
-         and then removes the element.&nbsp; The function can be called: 1) as an event callback,
-         2) from a jQuery loop, or 3) directly with the clone as the parameter.
+         and then removes the element.&nbsp; The function can be called: 1) as an event callback
+         or 2) directly with the clone as the parameter.
       </p>
       <div class=api-parameters>
          Parameters:
          <ul>
-            {% render 'website/templates/params/elem-or-event-or-index.html' %}
+            {% render 'website/templates/params/elem.html' %}
          </ul>
       </div>
       <figure>
@@ -1574,13 +1545,7 @@
          </code></pre>
       </figure>
       <figure>
-         <figcaption>Example 2: jQuery loop</figcaption>
-         <pre><code class=language-javascript>
-            $('.book.favorite').each(dna.bye);  //deletes all favorite books
-         </code></pre>
-      </figure>
-      <figure>
-         <figcaption>Example 3: Direct function call</figcaption>
+         <figcaption>Example 2: Direct function call</figcaption>
          <pre><code class=language-javascript>
             const clone = dna.clone('book', { title: 'The DOM' });
             dna.bye(clone);  //deletes 'The DOM'
@@ -2008,11 +1973,12 @@
    <section id=event-user>
       <h4>Click, Change, and Key Events</h4>
       <p>
-         Event bindings in dna-engine are done with data attributes directly on DOM elements that need
-         to trigger callbacks.&nbsp; The value assigned to the attribute is the name of the
-         function to be called when the event occurs.&nbsp; The jQuery element which triggered the
-         event is passed into the callback function as the first parameter, and the event object is
-         passed in as the second parameter.
+         Event bindings in dna-engine are done with data attributes directly on DOM elements that
+         need to trigger callbacks.&nbsp;
+         The value assigned to the attribute is the name of the function to be called when the
+         event occurs.&nbsp;
+         The element which triggered the event is passed into the callback function as the first
+         parameter, and the event object is passed in as the second parameter.
       </p>
       Element attributes for supported events:
       <ol>
@@ -2319,9 +2285,7 @@
          </tbody>
       </table>
       <p>
-         If the registered initializer function is a method on the jQuery element, dna-engine will execute
-         the method on the element and use the <code>params</code> option for the parameters.&nbsp;
-         Otherwise, the element is passed into the function as the first parameter with the
+         The element is passed into the function as the first parameter with the
          <code>params</code> supplied as additional parameters.
       </p>
       <figure>
@@ -3046,16 +3010,17 @@
                         { id: &#39;RLG21IfQDckC&#39;, title: &#39;Designing Apps&#39; },
                         { id: &#39;_xB0PyT9Y24C&#39;, title: &#39;CSS3 Guide&#39; },
                         { id: &#39;PXa2bby0oQ0C&#39;, title: &#39;The Good Parts&#39; },
-                        { id: &#39;4x6Gj_0UHMsC&#39;, title: &#39;Pro jQuery&#39; }
+                        { id: &#39;9U5I_tskq9MC&#39;, title: &#39;Eloquent JavaScript&#39; },
+                        { id: &#39;3TJwDwAAQBAJ&#39;, title: &#39;Mastering SVG&#39; },
                         ],
-                     addCover: (data) =&gt; {
+                     addCover(data) {
                         data.cover = &#39;https://books.google.com/books/content?id=&#39; +
                            data.id + &#39;&amp;printsec=frontcover&amp;img=1&amp;zoom=1&#39;;
                         },
-                     setup: () =&gt; {
+                     setup() {
                         dna.clone(&#39;book-menu-item&#39;, bookCatalog.data);
                         dna.clone(&#39;book-panel&#39;,     bookCatalog.data);
-                        }
+                        },
                      };
                &lt;/script&gt;
             &lt;/div&gt;
@@ -3086,16 +3051,17 @@
                         { id: 'RLG21IfQDckC', title: 'Designing Apps' },
                         { id: '_xB0PyT9Y24C', title: 'CSS3 Guide' },
                         { id: 'PXa2bby0oQ0C', title: 'The Good Parts' },
-                        { id: '4x6Gj_0UHMsC', title: 'Pro jQuery' }
+                        { id: '9U5I_tskq9MC', title: 'Eloquent JavaScript' },
+                        { id: '3TJwDwAAQBAJ', title: 'Mastering SVG' },
                         ],
-                     addCover: (data) => {
+                     addCover(data) {
                         data.cover = 'https://books.google.com/books/content?id=' +
                            data.id + '&printsec=frontcover&img=1&zoom=1';
                         },
-                     setup: () => {
+                     setup() {
                         dna.clone('book-menu-item', bookCatalog.data);
                         dna.clone('book-panel',     bookCatalog.data);
-                        }
+                        },
                      };
                </script>
             </div>
@@ -3183,8 +3149,14 @@
                <script>
                   const updatePanel = (panel, hash) => {
                      const url = location.origin + location.pathname + '#' + hash;
-                     if (!panel.find('a').length)
-                        panel.append($('<a>', { text: url, href: url }));
+                     const makeLink = () => {
+                        const elem = globalThis.document.createElement('a');
+                        elem.textContent = url;
+                        elem.href =        url;
+                        return elem;
+                        };
+                     if (!panel.getElementsByTag('a').length)
+                        panel.append(makeLink());
                      };
                </script>
             </div>
@@ -3313,7 +3285,6 @@
          </li>
          <li><a href=#ui-smooth-height><b>dna.ui.smoothHeight</b>(callback)</a><br></li>
          <li><a href=#ui-smooth-move><b>dna.ui.smoothMove</b>(elem, up)</a></li>
-         <li><a href=#ui-to-elem><b>dna.ui.toElem</b>(elemOrEventOrIndex, that)</a></li>
          <li><a href=#util-apply><b>dna.util.apply</b>(func, params)</a></li>
          <li><a href=#util-assign><b>dna.util.assign</b>(data, field, value)</a></li>
          <li><a href=#util-get-fn><b>dna.util.getFn</b>(funcName)</a></li>
@@ -3555,15 +3526,9 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            dna.ui.pulse($('#msg').text('Error!'));  //simple flash effect
-         </code></pre>
-      </figure>
-      <figure>
-         <figcaption>Example JavaScript</figcaption>
-         <pre><code class=language-javascript>
-            const elem = $('#msg').text('Error!');
-            const options = { interval: 7000, out: 2000 };
-            dna.ui.pulse(elem, options);  //show for 7 seconds then slowly fade
+            const msgElem = document.getElementById('msg');
+            msg.textContent = 'Error!';
+            dna.ui.pulse(msgElem);  //simple flash effect and slow fade out
          </code></pre>
       </figure>
       <p>
@@ -3704,31 +3669,6 @@
          The book <i>Go JavaScript!</i> will be first on the list after <code>smoothMove()</code> has
          executed.
       </p>
-   </section>
-
-   <!-- dna.ui.toElem() -->
-   <section id=ui-to-elem>
-      <h4>dna.ui.toElem(elemOrEventOrIndex, that)</h4>
-      <p class=api-description>
-         A flexible way to get the jQuery element whether it is passed in directly, the target of
-         an event, or comes from the jQuery context.
-      </p>
-      <div class=api-parameters>
-         Parameters:
-         <ul>
-            {% render 'website/templates/params/elem-or-event-or-index.html' %}
-            {% render 'website/templates/params/that.html' %}
-         </ul>
-      </div>
-      <figure>
-         <figcaption>Example JavaScript</figcaption>
-         <pre><code class=language-javascript>
-            function logFadeDone(e) {
-               console.log('Element faded out:', dna.ui.toElem(e, this));
-               }
-            $('.box').last().fadeOut(logFadeDone);
-         </code></pre>
-      </figure>
    </section>
 
    <!-- dna.util.apply() -->

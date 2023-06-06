@@ -5,7 +5,7 @@ const app = {
    setup: () => {
       app.nav.setup();
       app.documenation.setup();
-      $('.version-number').text(dna.version);
+      document.querySelector('.version-number').textContent = dna.version;
       },
    };
 
@@ -28,24 +28,24 @@ app.bookstore = {
    };
 
 app.nav = {
-   setup: () => {
-      const folder = globalThis.location.pathname.split('/').slice(-2)[0];
-      let current = $('header nav a[href$="' + folder + '"]').closest('li');
-      if (!current.length)
-         current = $('header nav li').first();
-      current[0].classList.add('current');
+   setup() {
+      const folder =   globalThis.location.pathname.split('/').slice(-2)[0];
+      const selector = 'header nav a[href="' + folder + '"]';
+      const active =   globalThis.document.querySelector(selector).closest('li');
+      const current =  active || globalThis.document.querySelector('header nav li');
+      current.classList.add('current');
       },
    };
 
 app.documenation = {
-   setup: () => {
-      const addOutlineNumber = (i, elem) => {
-         const letter = String.fromCharCode('A'.charCodeAt() + i);
-         $(elem).text(letter + '. ' + $(elem).text());
+   setup() {
+      const addOutlineNumber = (elem, index) => {
+         const letter = String.fromCharCode('A'.charCodeAt() + index);
+         elem.textContent = letter + '. ' + elem.textContent;
          };
       if (globalThis.location.pathname.indexOf('/docs') !== -1)
-         $('main >div >h3').each(addOutlineNumber);
+         globalThis.document.querySelectorAll('main >div >h3').forEach(addOutlineNumber);
       },
    };
 
-$(app.setup);
+globalThis.window.setTimeout(app.setup, 1000);

@@ -759,8 +759,8 @@ const dnaFormat = {
    getDateFormatter(format: string): DnaFormatter {
       // Returns a function to format dates into strings, like "2030-05-04 1:00am".
       const twoDigit =      (value: number) => String(value).padStart(2, '0');
-      const timestamp =     (date: Date) => date.toISOString().replace('T', '@').slice(0, -5);
-      const timestampMsec = (date: Date) => date.toISOString().replace('T', '@').slice(0, -1);
+      const timestamp =     (date: Date) => date.toISOString().replace('T', '+').slice(0, -5);
+      const timestampMsec = (date: Date) => date.toISOString().replace('T', '+').slice(0, -1);
       const space =         (date: string) => date.replace(/\s/g, ' ');
       const general = {  //format parts of the general timestamp, ex: "2030-05-04 1:00am Sat"
          date:  (d: Date) => `${d.getFullYear()}-${twoDigit(d.getMonth() + 1)}-${twoDigit(d.getDate())}`,
@@ -780,8 +780,8 @@ const dnaFormat = {
          localeTime:    (msec: DnaMsec) => space(new Date(msec).toLocaleTimeString()),  //ex: "1:00:00 AM"
          string:        (msec: DnaMsec) => new Date(msec).toString(),                   //ex: "Sat May 04 2030 01:00:00 GMT-0700 (PDT)"
          time:          (msec: DnaMsec) => new Date(msec).toTimeString(),               //ex: "01:00:00 GMT-0700 (PDT)"
-         timestamp:     (msec: DnaMsec) => timestamp(new Date(msec)),                   //ex: "2030-05-04@08:00:00"
-         timestampMsec: (msec: DnaMsec) => timestampMsec(new Date(msec)),               //ex: "2030-05-04@08:00:00.000"
+         timestamp:     (msec: DnaMsec) => timestamp(new Date(msec)),                   //ex: "2030-05-04+08:00:00"
+         timestampMsec: (msec: DnaMsec) => timestampMsec(new Date(msec)),               //ex: "2030-05-04+08:00:00.000"
          utc:           (msec: DnaMsec) => new Date(msec).toUTCString(),                //ex: "Sat, 04 May 2030 08:00:00 GMT"
          };
       const formatter = dateFormatters[dna.util.toCamel(format)];
@@ -1719,8 +1719,9 @@ const dnaCore = {
          dna.panels.setup();
          dna.events.setup();
          };
+      const timestamp = () => dna.format.getDateFormatter('timestamp-msec')(Date.now());
       if (typeof globalThis.window === 'undefined')
-         console.log('Browser window not detected.  State:', globalThis.document?.readyState);
+         console.log(timestamp(), 'Browserless context loaded dna-engine');
       else if (globalThis.document?.readyState === 'complete')
          setupBrowser();
       else

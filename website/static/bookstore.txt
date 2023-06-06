@@ -6,7 +6,7 @@ Video ~~ Transcript
 
 2) To illustrate how to use dna-engine we will convert a very simple static HTML page that displays the title and author of two books into a page with a data-driven semantic template that displays books stored in a JavaScript array.
 
-3) Before we get going, we need to load the jQuery and dna-engine libraries.  Leveraging a CDN (Content Delivery Network), we can do this with 3 lines of HTML.  In the HEAD section, add a LINK tag to the CSS file for dna-engine.  Then just before the closing BODY tag, load the JavaScript file for jQuery and the JavaScript file for dna-engine.
+3) Before we get going, we need to load the dna-engine library.  Leveraging a CDN (Content Delivery Network), we can do this with 3 lines of HTML.  In the HEAD section, add a LINK tag to the CSS file for dna-engine.  Then just before the closing BODY tag, load the JavaScript file for dna-engine.
 
 4) Now we can convert the static HTML into a template.  To build the template, we only need HTML for one book.  So, we can delete the other book.  Name the template with the ID attribute, and in this case the name of the template will be "book".  We designate the element as a template by adding the class "dna-template".
 

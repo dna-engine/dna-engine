@@ -4,9 +4,9 @@
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
+import { grabText, grabAllText } from './fixtures/spec-tools.mjs';
 import { html, bookCatalog } from './fixtures/mock-data.mjs';
 import fs from 'fs';
-import jQuery from 'jquery';
 
 // Setup
 import { dna } from '../dist/dna-engine.js?cache-bust=2';
@@ -14,8 +14,7 @@ const pkg =      JSON.parse(fs.readFileSync('package.json', 'utf-8'));
 const mode =     { type: 'ES Module', file: 'dist/dna-engine.js' };
 const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =      new JSDOM(html);
-const $ =        jQuery(dom.window);
-const setupEnv = (done) => dna.initGlobal(dom.window, $) && done();
+const setupEnv = (done) => dna.initGlobal(dom.window) && done();
 
 // Specification suite
 describe(`Specifications: ${filename} - ${mode.type} (${mode.file})`, () => {
@@ -37,13 +36,13 @@ describe('Template cloning function dna.clone()', () => {
 
    it('creates a book with the correct title', () => {
       dna.clone('book', bookCatalog[0]);
-      const actual =   { title: document.querySelector('.book h2').textContent };
+      const actual =   { title: grabText(dom, '.book h2') };
       const expected = { title: bookCatalog[0].title };
       assertDeepStrictEqual(actual, expected);
       });
 
    it('creates a book with the correct author', () => {
-      const actual =   { author: document.querySelector('.book cite').textContent };
+      const actual =   { author: grabText(dom, '.book cite') };
       const expected = { author: bookCatalog[0].author };
       assertDeepStrictEqual(actual, expected);
       });
@@ -68,11 +67,10 @@ describe('Field formatter', () => {
 
    it('for currency correctly formats prices', () => {
       dna.clone('book', bookCatalog[2]);
-      const grabText = (elems) => elems.toArray().map(elem => $(elem).text());
       const actual = {
-         usd:    grabText($('output.usd')),
-         jpy:    grabText($('output.jpy')),
-         usd100: grabText($('output.usd100')),
+         usd:    grabAllText(dom, 'output.usd'),
+         jpy:    grabAllText(dom, 'output.jpy'),
+         usd100: grabAllText(dom, 'output.usd100'),
          };
       const expected = {
          usd:    ['$2,499.00', '$1,999.00', ''],
@@ -83,11 +81,11 @@ describe('Field formatter', () => {
       });
 
    it('for dates correctly formats timestamps', () => {
-      const timestamp =  /^\d{4}-\d{2}-\d{2}@\d{2}:\d{2}:\d{2}$/;  //example: '2030-05-04@08:00:00'
+      const timestamp =  /^\d{4}-\d{2}-\d{2}[+]\d{2}:\d{2}:\d{2}$/;  //example: '2030-05-04+08:00:00'
       const actual = {
-         locale:    $('#978-3 output.locale').text(),
-         general:   $('#978-3 output.general').text(),
-         timestamp: timestamp.test($('#978-3 output.timestamp').text()),
+         locale:    grabText(dom, '#N978-3 output.locale'),
+         general:   grabText(dom, '#N978-3 output.general'),
+         timestamp: timestamp.test(grabText(dom, '#N978-3 output.timestamp')),
          };
       const expected = {
          locale:    '5/4/2030, 1:00:00 AM',
@@ -106,8 +104,7 @@ describe('The dna.refresh() function', () => {
       const clones = dna.clone('book', bookCatalog, { empty: true });
       dna.getModel(clones[0]).title = 'The DOM 2.0!';
       dna.refresh(clones[0]);
-      const titles =   $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
-      const actual =   { titles: Array.from(titles) };
+      const actual =   { titles: grabAllText(dom, '.dna-clone.book h2') };
       const expected = { titles: ['The DOM 2.0!', 'Styling CSS3', 'Howdy HTML5'] };
       assertDeepStrictEqual(actual, expected);
       });
@@ -119,8 +116,7 @@ describe('The dna.destroy() function', () => {
 
    it('deletes a book from the DOM', () => {
       dna.destroy(dna.getClones('book').at(-1));
-      const titles =   $('.dna-clone.book').toArray().map(elem => $(elem).find('h2').text());
-      const actual =   { titles: Array.from(titles) };
+      const actual =   { titles: grabAllText(dom, '.dna-clone.book h2') };
       const expected = { titles: ['The DOM 2.0!', 'Styling CSS3'] };
       assertDeepStrictEqual(actual, expected);
       });

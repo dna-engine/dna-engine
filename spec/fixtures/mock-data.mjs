@@ -31,9 +31,9 @@ const html = `
 const timestamp = new Date('2030-05-04T01:00:00').getTime();  //May 4, 2030 at 1:00am (local time)
 
 const bookCatalog = [
-   { isbn: '978-1', title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en' },
-   { isbn: '978-2', title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr' },
-   { isbn: '978-3', title: 'Howdy HTML5',  author: 'Ed',   event: timestamp },
+   { isbn: 'N978-1', title: 'The DOM',      author: 'Jan',  price: 2499, sale: false, language: 'en' },
+   { isbn: 'N978-2', title: 'Styling CSS3', author: 'Abby', price: 1999, sale: true,  language: 'fr' },
+   { isbn: 'N978-3', title: 'Howdy HTML5',  author: 'Ed',   event: timestamp },
    ];
 
 export { html, timestamp, bookCatalog };

@@ -18,14 +18,12 @@
       .book img { width: 100px; margin-right: 10px; }
       .book h2  { margin: 0px; }
    </style>
-   <script defer src=https://cdn.jsdelivr.net/npm/jquery@{{pkg.devDependencies.jquery|minor-version}}/dist/jquery.min.js></script>
    <script defer src=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.min.js></script>
    <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@{{pkg.devDependencies.fetch-json|minor-version}}/dist/fetch-json.min.js></script>
    <script>
       const findBooks = (elem) => {
-         //const terms = $('input').val();
-         const terms = elem.val();
-         const url = 'https://www.googleapis.com/books/v1/volumes';
+         const terms = elem.value;
+         const url =  'https://www.googleapis.com/books/v1/volumes';
          const handleResults = (data) =>
             dna.clone('book', data.items, { empty: true, fade: true });
          fetchJson.get(url, { q: terms }).then(handleResults);

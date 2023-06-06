@@ -4,7 +4,6 @@
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
-import jQuery from  'jquery';
 import { timestamp } from './fixtures/mock-data.mjs';
 
 // Setup
@@ -12,8 +11,7 @@ import { dna } from '../dist/dna-engine.js';
 const mode =     { type: 'ES Module', file: 'dist/dna-engine.js' };
 const filename = import.meta.url.replace(/.*\//, '');  //jshint ignore:line
 const dom =      new JSDOM('');
-const $ =        jQuery(dom.window);
-const setupEnv = (done) => dna.initGlobal(dom.window, $) && done();
+const setupEnv = (done) => dna.initGlobal(dom.window) && done();
 
 // Specification suite
 describe(`Specifications: ${filename} - ${mode.type} (${mode.file})`, () => {
