@@ -469,19 +469,18 @@
          </code></pre>
       </figure>
       <p>
-         If there are two or three names (comma separated), the first name is still the name of the
-         data field but the data field is evaluated for <a href=#real-truth>"real" truth</a>.
+         Alternatively, brackets can be used to indicate class names selected by a boolean data
+         field (the data field is evaluated for <a href=#real-truth>"real" truth)</a>.
       </p>
       <figure>
-         <figcaption>Example HTML (three names)</figcaption>
+         <figcaption>Example HTML (boolean data field)</figcaption>
          <pre><code class=language-html>
-            &lt;div data-class=~~onSale,highlight,no-highlight~~&gt;
+            &lt;div data-class=~~onSale[highlight,no-highlight]~~&gt;
          </code></pre>
       </figure>
       <p>
-         For true, the second name is added to the element as a class name while the class
-         for third name, if provided, is removed.&nbsp; For false, the third name, if provided, is
-         added to the element as a class name while the class for second name is removed.
+         The first class name is added to the element if the data field evaluates to true.&nbsp;
+         If a second class name is provided, it is added to the element when the field is false.
       </p>
       <table>
          <thead>
@@ -1576,7 +1575,7 @@
                <ul>
                   {% render 'website/templates/options/selector.html' %}
                   {% render 'website/templates/options/params.html' %}
-                  {% render 'website/templates/options/on-doc-load.html' %}
+                  {% render 'website/templates/options/on-dom-ready.html' %}
                </ul>
             </li>
          </ul>
@@ -1584,8 +1583,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            // Line below replaces:  $('.comment-form').validate();
-            dna.registerInitializer('validate', { selector: '.comment-form' });
+            dna.registerInitializer(libX.bubbleHelp.setup);
          </code></pre>
       </figure>
       <p>
@@ -1990,8 +1988,8 @@
          <li><code>data-on-key-down</code></li>
          <li><code>data-on-key-up</code></li>
          <li><code>data-on-enter-key</code></li>
-         <li><code>data-on-focus</code></li>
-         <li><code>data-on-blur</code></li>
+         <li><code>data-on-focus-in</code></li>
+         <li><code>data-on-focus-out</code></li>
       </ol>
       <figure>
          <figcaption>Example</figcaption>
@@ -2005,12 +2003,13 @@
             &lt;p&gt;Key down:  &lt;input  data-on-key-down=showMsg  value=6&gt;&lt;/p&gt;
             &lt;p&gt;Key up:    &lt;input  data-on-key-up=showMsg    value=7&gt;&lt;/p&gt;
             &lt;p&gt;Submit:    &lt;input  data-on-enter-key=showMsg value=8&gt;&lt;/p&gt;
-            &lt;p&gt;Focus:     &lt;input  data-on-focus=showMsg     value=9&gt;&lt;/p&gt;
-            &lt;p&gt;Blur:      &lt;input  data-on-blur=showMsg      value=A&gt;&lt;/p&gt;
+            &lt;p&gt;Focus in:  &lt;input  data-on-focus-in=showMsg  value=9&gt;&lt;/p&gt;
+            &lt;p&gt;Focus out: &lt;input  data-on-focus-out=showMsg value=A&gt;&lt;/p&gt;
             &lt;script&gt;
                const showMsg = (elem, event) =&gt; {
                   const msg = 'Value "' + elem.value + '" on ' + event.type;
-                  $('#message').text(msg).stop().hide().fadeIn();
+                  globalThis.document.getElementById('#message').textContent = msg;
+                  .stop().hide().fadeIn();
                   };
             &lt;/script&gt;
          </code></pre>
@@ -2029,12 +2028,13 @@
             <p>Key down:  <input  data-on-key-down=showMsg  value=6></p>
             <p>Key up:    <input  data-on-key-up=showMsg    value=7></p>
             <p>Submit:    <input  data-on-enter-key=showMsg value=8></p>
-            <p>Focus:     <input  data-on-focus=showMsg     value=9></p>
-            <p>Blur:      <input  data-on-blur=showMsg      value=A></p>
+            <p>Focus in:  <input  data-on-focus-in=showMsg  value=9></p>
+            <p>Focus out: <input  data-on-focus-out=showMsg value=A></p>
             <script>
                const showMsg = (elem, event) => {
-                  const msg = 'Value "' + elem.val() + '" on ' + event.type;
-                  $('#message').text(msg).stop().hide().fadeIn();
+                  const msg = 'Value "' + elem.value + '" on ' + event.type;
+                  globalThis.document.getElementById('#message').textContent = msg;
+                  //).stop().hide().fadeIn();
                   };
             </script>
          </div>
@@ -2205,16 +2205,18 @@
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
             const bookInfo = {
-               update: (elem) =&gt; {
+               update(elem) {
                   const data = JSON.stringify(dna.getModel(elem));
-                  $('#data').text(data).hide().fadeIn();
+                  const elem = globalThis.document.getElementById('data')
+                  elem.textContent = data;
+                  dna.ui.pulse(elem);
                   },
-               setup: () =&gt; {
+               setup() {
                   const book = { title: 'Styling CSS', ebook: true };
                   dna.clone('book', book);
-                  }
+                  },
                };
-            $(bookInfo.setup);
+            dna.dom.onReady(bookInfo.setup);
          </code></pre>
       </figure>
       <!-- Start: Result -->
@@ -2235,7 +2237,8 @@
                const bookInfo = {
                   update: (elem) => {
                      const data = JSON.stringify(dna.getModel(elem));
-                     $('#data').text(data).hide().fadeIn();
+                     globalThis.document.getElementById('#data').textContent = data;
+                     //).hide().fadeIn();
                      },
                   setup: () => {
                      const book = { title: 'Styling CSS', ebook: true };
@@ -2258,14 +2261,13 @@
       <h4>Initializers</h4>
       <p>
          On a static page where all the HTML is sent in a single HTTP response, any needed element
-         initialization can be done one time just after page load.&nbsp; For example, the line
-         <code>$('.tooltip').qtip();</code> could be used to setup all tooltips.&nbsp; Cloning with
-         dna-engine creates elements and adds them to the DOM after the page is loaded, and those new
-         elements also need to be initialized.
+         initialization can be done one time just after page load.&nbsp;
+         Cloning with dna-engine creates elements and adds them to the DOM after the page is
+         loaded, and those new elements also need to be initialized.
       </p>
       <p>
-         When you register your initializer functions, dna-engine ensures DOM elements are setup even if
-         the elements are added to the DOM via cloning after the page is loaded.
+         When you register your initializer functions, dna-engine ensures DOM elements are setup
+         even if the elements are added to the DOM via cloning after the page is loaded.
       </p>
       <table>
          <thead>
@@ -2275,7 +2277,7 @@
             <tr>
                <td>Yes</td>
                <td><code>{ selector: '.tooltip' }</code></td>
-               <td>Immediately run on selected elements (example: <code>$('.tooltip')</code>) and then on new clones</td>
+               <td>Immediately run on selected elements and then on elements in new clones that match the selector.</td>
             </tr>
             <tr>
                <td>No</td>
@@ -2294,36 +2296,29 @@
             const app = {
 
                setup() {
-                  const highlight = (elem) =&gt; elem.css({ backgroundColor: 'gold' });
-
-                  // Highlight each new clone
-                  dna.registerInitializer(highlight);
-
-                  // Setup tooltips for each new clone:  $('.tooltip').qtip();
-                  dna.registerInitializer('qtip', { selector: '.tooltip' });
-
-                  // Style each new clone:  $('.gap').css({ padding: '8px' });
-                  const options = { selector: '.gap', params: { padding: '8px' } }
-                  dna.registerInitializer('css', options);
+                  const highlight = (elem) =&gt;
+                     elem.style.backgroundColor = 'gold';
+                  dna.registerInitializer(highlight);  //highlight each new clone
                   },
 
                };
 
-            $(app.setup);
+            dna.dom.onDomReady(app.setup);
          </code></pre>
       </figure>
       <p>
          <em>Note 1:</em>
          Initializers perform a similar function as <a href=#event-element-callback>element
-         callbacks</a> (<code>data-callback</code>), but an initializer is general to all clones and
-         an element callback is specific to clones of one template.&nbsp; For example, an initializer
-         is appropriate for configuring tooltips that can occur in any clone.
+         callbacks</a> (<code>data-callback</code>), but an initializer is general to all clones
+         and an element callback is specific to clones of one template.&nbsp;
+         For example, an initializer is appropriate for configuring tooltips that can occur in
+         any clone.
       </p>
       <p>
          <em>Note 2:</em>
-         In the event that your application dynamically adds elements to the DOM without using dna-engine,
-         it may be necessary to explicitly run the initializers by passing the root element of new
-         elements into: <code>dna.events.runInitializers(root);</code>
+         In the event that your application dynamically adds elements to the DOM without using
+         dna-engine, it may be necessary to explicitly run the initializers by passing the root
+         element of new elements into: <code>dna.events.runInitializers(root);</code>
       </p>
    </section>
 
@@ -2477,7 +2472,7 @@
          The polling interval to check if the callback function and dependencies are loaded is 300
          millisecond.&nbsp;
          To display degbug information, including waiting time:
-         <code>console.log($('[data-on-load]').data());</code>
+         <code>console.log(globalThis.document.querySelectorAll('[data-on-load]').data());</code>
       </p>
    </section>
 
@@ -3600,7 +3595,7 @@
             &lt;/div&gt;
             &lt;script&gt;
                const makeChapters = (range) =&gt; {
-                  const options = { empty: true, clones: +range.val() };
+                  const options = { empty: true, clones: +range.value };
                   dna.clone('chapter-box', {}, options);
                   };
                const smooth = (range) =&gt; {
@@ -3624,7 +3619,7 @@
             </div>
             <script>
                const makeChapters = (range) => {
-                  const options = { empty: true, clones: +range.val() };
+                  const options = { empty: true, clones: +range.value };
                   dna.clone('chapter-box', {}, options);
                   };
                const smooth = (range) => {
@@ -3909,8 +3904,8 @@
          <li><a href=#event-user>            <code>data-on-change</code></a>:      Callback to run on change event</li>
          <li><a href=#event-user>            <code>data-on-click</code></a>:       Callback to run on click event</li>
          <li><a href=#event-user>            <code>data-on-enter-key</code></a>:   Callback to run on enter key event</li>
-         <li><a href=#event-user>            <code>data-on-focus</code></a>:       Callback to run when an element receives focus</li>
-         <li><a href=#event-user>            <code>data-on-blur</code></a>:        Callback to run when an element loses focus</li>
+         <li><a href=#event-user>            <code>data-on-focus-in</code></a>:    Callback to run when an element receives focus</li>
+         <li><a href=#event-user>            <code>data-on-focus-out</code></a>:   Callback to run when an element loses focus</li>
          <li><a href=#event-user>            <code>data-on-hover-in</code></a>:    Callback to run on mouse enter event</li>
          <li><a href=#event-user>            <code>data-on-hover-out</code></a>:   Callback to run on mouse leave event</li>
          <li><a href=#event-user>            <code>data-on-input</code></a>:       Callback to run on input event</li>

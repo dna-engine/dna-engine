@@ -46,13 +46,13 @@ export type DnaOptionsInsert<T> = {
    callback?:  DnaCallbackFn<T>,
    };
 export type DnaSettingsRefresh = {
-   model:      unknown,
+   data:       unknown,
    main:       boolean,
    html:       boolean,
    };
 export type DnaOptionsRefresh = Partial<DnaSettingsRefresh>;
 export type DnaSettingsRefreshAll = {
-   model:      unknown,
+   data:       unknown,
    main:       boolean,
    html:       boolean,
    };
@@ -76,7 +76,7 @@ export type DnaOptionsGetIndex = Partial<DnaSettingsGetIndex>;
 export type DnaSettingsRegisterInitializer = {
    selector:   string | null,
    params:     unknown[],
-   onDocLoad:  boolean,
+   onDomReady: boolean,
    };
 export type DnaOptionsRegisterInitializer = Partial<DnaSettingsRegisterInitializer>;
 export type DnaSettingsRunOnLoads = {
@@ -84,7 +84,7 @@ export type DnaSettingsRunOnLoads = {
    };
 export type DnaOptionsEventsOn = Partial<DnaSettingsEventsOn>;
 export type DnaSettingsEventsOn = {
-   keyFilter:  string | null,
+   keyFilter:  KeyboardEvent["key"] | null,
    selector:   string | null,
    };
 export type DnaOptionsRunOnLoads = Partial<DnaSettingsRunOnLoads>;
@@ -242,7 +242,7 @@ const dnaArray = {
       array.forEach(obj => map[getKey(obj)] = obj);
       return map;
       },
-   wrap: <T>(itemOrItems: T | T[]): T[] => {
+   wrap<T>(itemOrItems: T | T[]): T[] {
       // Always returns an array.
       const isNothing = itemOrItems === null || itemOrItems === undefined;
       return isNothing ? [] : Array.isArray(itemOrItems) ? itemOrItems : [itemOrItems];
@@ -354,16 +354,16 @@ const dnaDom = {
       Array.prototype.forEach.call(elems, elem => elem.classList.add(className));
       return elems;
       },
-   forEach<T extends HTMLCollection>(elems: T, fn: (elem: Element, index?: number, elems?: unknown[]) => unknown): T {
+   forEach<T extends HTMLCollection>(elems: T, fn: (elem: Element, index: number, elems: unknown[]) => unknown): T {
       // Loops over the given list of elements to pass each element to the specified function.
       Array.prototype.forEach.call(elems, fn);
       return elems;
       },
-   map<T>(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index?: number, elems?: unknown[]) => T): T[] {
+   map<T>(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index: number, elems: unknown[]) => T): T[] {
       // Loops over the given list of elements to pass each element to the specified function.
       return <T[]>Array.prototype.map.call(elems, fn);
       },
-   filter(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index?: number, elems?: unknown[]) => unknown): Element[] {
+   filter(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index: number, elems: unknown[]) => unknown): Element[] {
       // Filters a list of elements.
       return Array.prototype.filter.call(elems, fn);
       },
@@ -377,7 +377,7 @@ const dnaDom = {
       const filtered = Array.prototype.filter.call(elems, hasClass);
       return classNames.length === 1 ? filtered : dna.dom.filterByClass(filtered, ...classNames.splice(1));
       },
-   find(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index?: number, elems?: unknown[]) => boolean): Element | null {
+   find(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index: number, elems: unknown[]) => boolean): Element | null {
       // Finds the first element that satisfies the given condition.
       return Array.prototype.find.call(elems, fn) ?? null;
       },
@@ -405,6 +405,87 @@ const dnaDom = {
    getAttrs(elem: Element): Attr[] {
       // Returns the attributes of the element in a regular array.
       return elem ? Object.values(elem.attributes) : [];
+      },
+   toElem(elemOrEvent: Element | Event): HTMLElement {
+      // Allows convenient support of both:
+      //    dna.dom.onClick(addBorder, 'h1');
+      //    titleElem.addEventListener('click', addBorder);
+      return <HTMLElement>(dna.dom.isElem(elemOrEvent) ? elemOrEvent : (<Event>elemOrEvent).target);
+      },
+   on(type: string, listener: DnaEventListener, options?: DnaOptionsEventsOn) {
+      // See types: https://developer.mozilla.org/en-US/docs/Web/Events
+      const defaults = { keyFilter: null, selector: null };
+      const settings = { ...defaults, ...options };
+      const noFilter =   !settings.keyFilter;
+      const noSelector = !settings.selector;
+      const delegator = (event: Event) => {
+         const target = <Element>event.target;
+         const elem =   !target || noSelector ? target : <Element>target.closest(settings.selector!);
+         if (elem && (noFilter || settings.keyFilter === (<KeyboardEvent>event).key))
+            listener(elem, event, settings.selector);
+         };
+      globalThis.document.addEventListener(type, delegator);
+      },
+   onClick(listener: DnaEventListener, selector?: string) {
+      dna.dom.on('click', listener, { selector: selector ?? null });
+      },
+   onChange(listener: DnaEventListener, selector?: string) {
+      dna.dom.on('change', listener, { selector: selector ?? null });
+      },
+   onInput(listener: DnaEventListener, selector?: string) {
+      dna.dom.on('input', listener, { selector: selector ?? null });
+      },
+   onKeyDown(listener: DnaEventListener, selector?: string) {
+      dna.dom.on('keydown', listener, { selector: selector ?? null });
+      },
+   onKeyUp(listener: DnaEventListener, selector?: string) {
+      dna.dom.on('keyup', listener, { selector: selector ?? null });
+      },
+   onEnterKey(listener: DnaEventListener, selector?: string) {
+      dna.dom.on('keyup', listener, { selector: selector ?? null, keyFilter: 'Enter' });
+      },
+   onFocusIn(listener: DnaEventListener, selector?: string) {
+      dna.dom.on('focusin', listener, { selector: selector ?? null });
+      },
+   onFocusOut(listener: DnaEventListener, selector?: string) {
+      dna.dom.on('focusin', listener, { selector: selector ?? null });
+      },
+   onCut(listener: DnaEventListener, selector?: string) {
+      dna.dom.on('cut', listener, { selector: selector ?? null });
+      },
+   onPaste(listener: DnaEventListener, selector?: string) {
+      dna.dom.on('paste', listener, { selector: selector ?? null });
+      },
+   onTouchStart(listener: DnaEventListener, selector?: string) {
+      dna.dom.on('touchstart', listener, { selector: selector ?? null });
+      },
+   onTouchEnd(listener: DnaEventListener, selector?: string) {
+      dna.dom.on('touchend', listener, { selector: selector ?? null });
+      },
+   onSubmit(listener: DnaEventListener, selector?: string) {
+      dna.dom.on('submit', listener, { selector: selector ?? null });
+      },
+   onHoverIn(listener: DnaEventListener, selector: string) {
+      let ready = true;
+      const delegator = (event: Event) => {
+         const target = <Element>(<Element>event.target)?.closest(selector);
+         if (target !== null && ready)
+            listener(target, event, selector);
+         ready = target === null;
+         };
+      globalThis.document.addEventListener('pointerover', delegator);
+      },
+   onHoverOut(listener: DnaEventListener, selector: string) {
+      let ready = false;
+      let prevTarget: Element | null = null;
+      const delegator = (event: Event) => {
+         const target = <Element>(<Element>event.target)?.closest(selector);
+         prevTarget = target ?? prevTarget;
+         if (target === null && ready)
+            listener(prevTarget!, event, selector);
+         ready = target !== null;
+         };
+      globalThis.document.addEventListener('pointerover', delegator);
       },
    };
 
@@ -455,6 +536,25 @@ const dnaUi = {
          style.removeProperty('transition');
          style.removeProperty('opacity');
          dna.ui.show(elem);  //ensure visibility in case another animation interfered
+         return elem;
+         };
+      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
+      },
+   fadeOut(elem: Element): Promise<Element> {
+      // Smooth fade out effect.
+      const fadeTransition =  600;
+      const style =           (<HTMLElement>elem).style;
+      style.transition =      'all 0ms';
+      style.opacity =         globalThis.getComputedStyle(elem).opacity;
+      const animate = () => {
+         style.transition = `all ${fadeTransition}ms`;
+         style.opacity =    '0';
+         };
+      if (dna.ui.isVisible(elem))
+         globalThis.requestAnimationFrame(animate);
+      const cleanup = () => {
+         style.removeProperty('transition');
+         style.opacity = '0';
          return elem;
          };
       return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
@@ -928,8 +1028,8 @@ const dnaPanels = {
    setup() {
       const panels = globalThis.document.querySelectorAll(dna.selector.panels)
       panels.forEach(dna.panels.initialize);
-      dna.events.onClick(dna.panels.clickRotate, '.dna-menu .dna-menu-item');
-      dna.events.onChange(dna.panels.selectRotate, 'select.dna-menu');
+      dna.dom.onClick(dna.panels.clickRotate, '.dna-menu .dna-menu-item');
+      dna.dom.onChange(dna.panels.selectRotate, 'select.dna-menu');
       return panels;
       },
    };
@@ -951,7 +1051,7 @@ const dnaCompile = {
    //
    // Pre-compile data attribute                     Post-compile new rule
    // ---------------------------------------------  ---------------------
-   // data-class=~~field,name-true,name-false~~      class=[['field','name-true','name-false']]
+   // data-class=~~field[name-true,name-false]~~     class=[['field','name-true','name-false']]
    // data-attr-{NAME}=pre~~field~~post              attrs=['{NAME}', ['pre', 'field', 'post']]
    // data-prop-{NAME}=pre~~field~~post              props=['{NAME}', 'field']
    // data-option=~~field~~                          option='field'
@@ -1125,13 +1225,14 @@ const dnaCompile = {
       return templateName + '-' + arrayField + '--' + String(index);
       },
    rules(elem: Element, type: DnaRulesKey, isLists = false, className?: string, init?: (elem: Element) => void): Element {
-      // Example:
-      //    <p data-require=~~title~~>, 'require'  ==>  rule: { require: 'title' }
+      // Examples:
+      //    <p data-require=~~title~~>,          'require'  ==>  rule: { require: 'title' }
+      //    <i data-class=~~onSale[red,blue]~~>, 'class'    ==>  rule: { class:   [['onSale','red','blue']] }
       const addRule = (subElem: Element) => {
          dna.compile.setupNucleotide(subElem);
          const field = dna.compile.getDataField(subElem, type);
          const makeLists = () =>
-            <DnaClassRule[]>field.split(';').map((list: string) => list.split(','));
+            <DnaClassRule[]>field.split(';').map(list => list.replace(']', '').split(/[[,]/));
          dna.compile.setElemRule(subElem, type, isLists ? makeLists() : field);
          if (className)
             subElem.classList.add(className);
@@ -1275,72 +1376,6 @@ const dnaEvents = {
       context: <DnaContext>{},  //storage to register callbacks when dna-engine is module loaded without window scope (webpack)
       initializers: <DnaInitializer[]>[],  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
       },
-   on(type: string, listener: DnaEventListener, options?: DnaOptionsEventsOn) {
-      // See types: https://developer.mozilla.org/en-US/docs/Web/Events
-      const defaults = { keyFilter: null, selector: null };
-      const settings = { ...defaults, ...options };
-      const noFilter =   !settings.keyFilter;
-      const noSelector = !settings.selector;
-      const delegator = (event: Event) => {
-         const target = <Element>event.target;
-         const elem =   !target || noSelector ? target : <Element>target.closest(settings.selector!);
-         if (elem && (noFilter || settings.keyFilter === (<KeyboardEvent>event).key))
-            listener(elem, event, settings.selector);
-         };
-      globalThis.document.addEventListener(type, delegator);
-      },
-   onClick(listener: DnaEventListener, selector?: string) {
-      dna.events.on('click', listener, { selector: selector ?? null });
-      },
-   onChange(listener: DnaEventListener, selector?: string) {
-      dna.events.on('change', listener, { selector: selector ?? null });
-      },
-   onInput(listener: DnaEventListener, selector?: string) {
-      dna.events.on('input', listener, { selector: selector ?? null });
-      },
-   onKeyDown(listener: DnaEventListener, selector?: string) {
-      dna.events.on('keydown', listener, { selector: selector ?? null });
-      },
-   onKeyUp(listener: DnaEventListener, selector?: string) {
-      dna.events.on('keyup', listener, { selector: selector ?? null });
-      },
-   onEnterKey(listener: DnaEventListener, selector?: string) {
-      dna.events.on('keyup', listener, { selector: selector ?? null, keyFilter: 'Enter' });
-      },
-   onFocus(listener: DnaEventListener, selector?: string) {
-      dna.events.on('focus', listener, { selector: selector ?? null });
-      },
-   onBlur(listener: DnaEventListener, selector?: string) {
-      dna.events.on('blur', listener, { selector: selector ?? null });
-      },
-   onCut(listener: DnaEventListener, selector?: string) {
-      dna.events.on('cut', listener, { selector: selector ?? null });
-      },
-   onPaste(listener: DnaEventListener, selector?: string) {
-      dna.events.on('paste', listener, { selector: selector ?? null });
-      },
-   onHoverIn(listener: DnaEventListener, selector: string) {
-      let ready = true;
-      const delegator = (event: Event) => {
-         const target = <Element>(<Element>event.target)?.closest(selector);
-         if (target !== null && ready)
-            listener(target, event, selector);
-         ready = target === null;
-         };
-      globalThis.document.addEventListener('pointerover', delegator);
-      },
-   onHoverOut(listener: DnaEventListener, selector: string) {
-      let ready = false;
-      let prevTarget: Element | null = null;
-      const delegator = (event: Event) => {
-         const target = <Element>(<Element>event.target)?.closest(selector);
-         prevTarget = target ?? prevTarget;
-         if (target === null && ready)
-            listener(prevTarget!, event, selector);
-         ready = target !== null;
-         };
-      globalThis.document.addEventListener('pointerover', delegator);
-      },
    runOnLoads(options?: DnaOptionsRunOnLoads): NodeListOf<Element> {
       // Executes each of the data-on-load functions once the function and its dependencies have loaded.
       // Example:
@@ -1463,32 +1498,32 @@ const dnaEvents = {
          const data = (<HTMLElement>elem).dataset;
          globalThis.open(data.href, useSameTab ? '_self' : data.target ?? target);
          };
-      dna.events.onClick(handleEvent);
-      dna.events.onChange(handleEvent);
-      dna.events.onKeyDown(handleEvent);
-      dna.events.onKeyUp(handleEvent);
-      dna.events.onInput(handleEvent);
-      dna.events.onEnterKey((elem, event) => runner(elem, 'on-enter-key', event), '[data-on-enter-key]');
-      dna.events.onFocus(   (elem, event) => runner(elem, 'on-focus',     event), '[data-on-focus]');
-      dna.events.onBlur(    (elem, event) => runner(elem, 'on-blur',      event), '[data-on-blur]');
-      dna.events.onHoverIn( (elem, event) => runner(elem, 'on-hover-in',  event), '[data-on-hover-in]');
-      dna.events.onHoverOut((elem, event) => runner(elem, 'on-hover-out', event), '[data-on-hover-out]');
-      dna.events.onKeyDown(handleSmartUpdate, 'input[data-smart-update]');
-      dna.events.onKeyUp(  handleSmartUpdate, 'input[data-smart-update]');
-      dna.events.onChange( handleSmartUpdate, 'input[data-smart-update]');
-      dna.events.onClick(jumpToUrl, '[data-href]');
+      dna.dom.onClick(handleEvent);
+      dna.dom.onChange(handleEvent);
+      dna.dom.onKeyDown(handleEvent);
+      dna.dom.onKeyUp(handleEvent);
+      dna.dom.onInput(handleEvent);
+      dna.dom.onEnterKey((elem, event) => runner(elem, 'on-enter-key', event), '[data-on-enter-key]');
+      dna.dom.onFocusIn( (elem, event) => runner(elem, 'on-focus-in',  event), '[data-on-focus-in]');
+      dna.dom.onFocusOut((elem, event) => runner(elem, 'on-focus-out', event), '[data-on-focus-out]');
+      dna.dom.onHoverIn( (elem, event) => runner(elem, 'on-hover-in',  event), '[data-on-hover-in]');
+      dna.dom.onHoverOut((elem, event) => runner(elem, 'on-hover-out', event), '[data-on-hover-out]');
+      dna.dom.onKeyDown(handleSmartUpdate, 'input[data-smart-update]');
+      dna.dom.onKeyUp(  handleSmartUpdate, 'input[data-smart-update]');
+      dna.dom.onChange( handleSmartUpdate, 'input[data-smart-update]');
+      dna.dom.onClick(jumpToUrl, '[data-href]');
       return dna.events.runOnLoads();
       },
    };
 
 const dnaCore = {
-   inject<T>(clone: Element, model: T, count: number, settings: DnaOptionsClone<T>): Element {
+   inject<T>(clone: Element, data: T, count: number, settings: DnaOptionsClone<T>): Element {
       // Inserts data into a clone and executes its rules.
       const injectField = (elem: Element, field: string, rules: DnaRules) => {  //example: <h2>~~title~~</h2>
-         const value = field === '[count]' ? count : field === '[value]' ? model :
-            dna.util.value(model, field);
+         const value = field === '[count]' ? count : field === '[value]' ? data :
+            dna.util.value(data, field);
          const formatted = () => rules.formatter ?
-            rules.formatter(<DnaFormatterValue>value, model) : String(value);
+            rules.formatter(<DnaFormatterValue>value, data) : String(value);
          const injectable = ['string', 'number', 'boolean'].includes(typeof value);
          if (injectable && settings.html)
             elem.innerHTML = formatted();
@@ -1497,7 +1532,7 @@ const dnaCore = {
          };
       const injectValue = (elem: Element, field: string) => {
          const value = field === '[count]' ? count :
-            field === '[value]' ? model : dna.util.value(model, field);
+            field === '[value]' ? data : dna.util.value(data, field);
          if (value !== null && value !== (<HTMLInputElement>elem).value)
             (<HTMLInputElement>elem).value = String(value);
          };
@@ -1512,16 +1547,16 @@ const dnaCore = {
       const injectProps = (elem: Element, props: DnaProps) => {  //example props: ['selected', 'set'] from <input type=checkbox data-prop-checked=~~set~~>
          for (let prop = 0; prop*2 < props.length; prop++)  //each prop has a key and a field name
             setProperty(<HTMLInputElement>elem, props[prop*2]!,
-               dna.util.realTruth(dna.util.value(model, props[prop*2 + 1]!)));
+               dna.util.realTruth(dna.util.value(data, props[prop*2 + 1]!)));
          };
       const injectAttrs = (elem: Element, rules: DnaRules) => {
          const attrs = rules.attrs!;  //example attrs: ['data-tag', ['', 'tag', '']]
          const inject = (key: DnaAttrName, parts: DnaAttrParts) => {  //example parts: 'J~~code.num~~' ==> ['J', 'code.num', '']
             const field =     parts[1];
-            const core =      field === 1 ? count : field === 2 ? model : dna.util.value(model, field);
+            const core =      field === 1 ? count : field === 2 ? data : dna.util.value(data, field);
             const value =     [parts[0], core, parts[2]].join('');
             const formatted = rules.formatter ?
-               rules.formatter(<DnaFormatterValue>value, model) : value;
+               rules.formatter(<DnaFormatterValue>value, data) : value;
             elem.setAttribute(key, formatted);
             if (key === 'value' && value !== (<HTMLInputElement>elem).value)  //set elem val for input fields, example: <input value=~~tag~~>
                (<HTMLInputElement>elem).value = value;
@@ -1532,7 +1567,7 @@ const dnaCore = {
       const injectClass = (elem: Element, classLists: string[][]) => {
          // classLists = [['field', 'class-true', 'class-false'], ...]
          const process = (classList: string[]) => {
-            const value = dna.util.value(model, <string>classList[0]);
+            const value = dna.util.value(data, <string>classList[0]);
             const truth = dna.util.realTruth(value);
             const setBooleanClasses = () => {
                dna.dom.toggleClass(elem, classList[1]!, truth);
@@ -1547,11 +1582,11 @@ const dnaCore = {
          classLists.forEach(process);
          };
       const fieldExists = (fieldName: string): boolean => {
-         const value = dna.util.value(model, fieldName);
+         const value = dna.util.value(data, fieldName);
          return value !== undefined && value !== null;
          };
       const processLoop = (elem: Element, loop: DnaLoop) => {
-         const dataArray = <T[]>dna.util.value(model, loop.field);
+         const dataArray = <T[]>dna.util.value(data, loop.field);
          const subClones = dna.dom.filterByClass(elem.children, loop.name);
          const injectSubClone = (subElem: Element, index: number) => {
             if (!subElem.matches('option'))  //prevent select from closing on chrome
@@ -1562,7 +1597,7 @@ const dnaCore = {
             dna.clone(loop.name, dataArray, { container: elem, html: !!settings.html });
             };
          if (!dataArray)
-            (model[<keyof typeof model>loop.field]) = <T[keyof T]><unknown>[];
+            (data[<keyof typeof data>loop.field]) = <T[keyof T]><unknown>[];
          else if (dataArray.length === subClones.length)
             subClones.forEach(injectSubClone);
          else
@@ -1571,7 +1606,7 @@ const dnaCore = {
       const process = (elem: Element) => {
          const rules = dna.compile.getRules(elem);
          if (rules.transform)  //alternate version of the "transform" option
-            dna.util.apply(rules.transform, [model]);
+            dna.util.apply(rules.transform, [data]);
          if (rules.loop)
             processLoop(elem, rules.loop);
          if (rules.text)
@@ -1589,14 +1624,14 @@ const dnaCore = {
          if (rules.missing)
             dna.ui.toggle(elem, !fieldExists(rules.missing));
          if (rules.true)
-            dna.ui.toggle(elem, dna.util.realTruth(dna.util.value(model, rules.true)));
+            dna.ui.toggle(elem, dna.util.realTruth(dna.util.value(data, rules.true)));
          if (rules.false)
-            dna.ui.toggle(elem, !dna.util.realTruth(dna.util.value(model, rules.false)));
+            dna.ui.toggle(elem, !dna.util.realTruth(dna.util.value(data, rules.false)));
          if (rules.callback)  //example: <span data-callback=blink>~~title~~<span>
             dna.util.apply(rules.callback, [elem]);
          };
       if (settings.transform)  //alternate version of data-transform
-         settings.transform(model);
+         settings.transform(data);
       const notSubClone = (elem: Element) => !elem.classList.contains(dna.name.subClone);
       const dig = (elem: Element) => {
          if (elem.classList.contains(dna.name.nucleotide))
@@ -1604,11 +1639,11 @@ const dnaCore = {
          dna.dom.filter(elem.children, notSubClone).forEach(dig);
          };
       dig(clone);
-      dna.dom.state(clone).dnaModel = model;
+      dna.dom.state(clone).dnaModel = data;
       dna.dom.state(clone).dnaCount = count;
       return clone;
       },
-   replicate: <T>(template: DnaTemplate, model: T, settings: DnaOptionsClone<T>): Element => {
+   replicate: <T>(template: DnaTemplate, data: T, settings: DnaOptionsClone<T>): Element => {
       // Creates and sets up a clone.
       const subclass = () => 'dna-contains-' + template.name;
       const getContainer =   (name: string) => settings.container!.classList.contains(name) ?
@@ -1621,7 +1656,7 @@ const dnaCore = {
          containerState.dnaCountsMap = <DnaCountsMap>{};
       const countsMap = <DnaCountsMap>containerState.dnaCountsMap;
       countsMap[name] = !countsMap[name] ? 1 : countsMap[name]! + 1;
-      dna.core.inject(clone, model, countsMap[name]!, settings);
+      dna.core.inject(clone, data, countsMap[name]!, settings);
       const intoUnwrapped = () => {
          const allClones =  dna.dom.filterByClass(container.children, dna.name.clone);
          const firstClone = () => {
@@ -1672,7 +1707,7 @@ const dnaCore = {
          displaySeparators();
       dna.events.runInitializers(clone);
       if (settings.callback)
-         settings.callback(clone, model);
+         settings.callback(clone, data);
       if (settings.fade)
          dna.ui.slideFadeIn(clone);
       return clone;
@@ -1756,7 +1791,7 @@ const dna = {
    //    dna.registerContext()
    //    dna.info()
    // See: https://dna-engine.org/docs/#api
-   clone<T>(name: string, model: T | T[], options?: DnaOptionsClone<T>): Element | Element[] {
+   clone<T>(name: string, data: T | T[], options?: DnaOptionsClone<T>): Element | Element[] {
       // Generates a copy of the template and populates the fields, attributes, and
       // classes from the supplied data.
       const defaults = {
@@ -1783,20 +1818,20 @@ const dna = {
             dna.dom.replaceClass(firstClone.closest(dna.selector.hide)!, dna.name.hide, dna.name.unhide);
          };
       const many = (): Element[] => {
-         const models = makeCopies ? <T[]>Array(settings.clones).fill(model) : <T[]>model;
+         const models = makeCopies ? <T[]>Array(settings.clones).fill(data) : <T[]>data;
          const clones = models.map(data => dna.core.replicate(template, data, settings));
          if (clones.length)
             finish(clones[0]!);
          return clones;
          };
       const single = (): Element => {
-         const clone = dna.core.replicate(template, <T>model, settings);
+         const clone = dna.core.replicate(template, <T>data, settings);
          finish(clone);
          return clone;
          };
-      return Array.isArray(model) || makeCopies ? many() : single();
+      return Array.isArray(data) || makeCopies ? many() : single();
       },
-   arrayPush<T>(holderClone: Element, arrayField: string, model: T | T[], options?: DnaOptionsArrayPush): Element {
+   arrayPush<T>(holderClone: Element, arrayField: string, data: T | T[], options?: DnaOptionsArrayPush): Element {
       // Clones a sub-template to append onto an array loop.
       const cloneSub = (field: string, index: number) => {
          const clone = () => {
@@ -1804,7 +1839,7 @@ const dna = {
             const className = 'dna-contains-' + name;
             const find =      () => holderClone.getElementsByClassName(className)[0]!;
             const container = holderClone.classList.contains(className) ? holderClone : find();
-            dna.clone(name, model, { ...{ container }, ...options });
+            dna.clone(name, data, { ...{ container }, ...options });
             dna.core.updateModelArray(container);
             };
          if (field === arrayField)
@@ -1850,18 +1885,18 @@ const dna = {
          clones.forEach(clone => dna.core.remove(clone));
       return clones;
       },
-   insert<T>(name: string, model: T, options?: DnaOptionsInsert<T>): Element {
+   insert<T>(name: string, data: T, options?: DnaOptionsInsert<T>): Element {
       // Updates the first clone if it already exists otherwise creates the first clone.
       const clones = dna.getClones(name);
-      return clones.length ? dna.refresh(clones.at(0)!, { model: model, html: !!options?.html }) :
-         <Element>dna.clone(name, model, options);
+      return clones.length ? dna.refresh(clones.at(0)!, { data: data, html: !!options?.html }) :
+         <Element>dna.clone(name, data, options);
       },
    refresh(clone: Element, options?: DnaOptionsRefresh): Element {
       // Updates an existing clone to reflect changes to the data model.
       const defaults = { html: false };
       const settings = { ...defaults, ...options };
       const elem =  dna.getClone(clone, options);
-      const model = settings.model ? settings.model : dna.getModel(elem);
+      const model = settings.data ? settings.data : dna.getModel(elem);
       const count = <number>dna.dom.state(elem).dnaCount;
       return dna.core.inject(elem, model, count, settings);
       },
@@ -1955,15 +1990,15 @@ const dna = {
       },
    registerInitializer(fn: DnaFunctionName | DnaInitializerFn, options?: DnaOptionsRegisterInitializer): DnaInitializer[] {
       // Adds a callback function to the list of initializers that are run on all DOM elements.
-      const defaults = { selector: null, params: [], onDocLoad: true };
+      const defaults = { selector: null, params: [], onDomReady: true };
       const settings = { ...defaults, ...options };
-      const rootSelector = settings.selector;
-      const notTemplate =  (elem: Element) => !elem.classList.contains(dna.name.template);
-      const selectElems =  () => dna.dom.filter(globalThis.document.querySelectorAll(rootSelector!), notTemplate);
-      const onDocLoadElems = () => !rootSelector ? [globalThis.document.body] :
+      const rootSelector =    settings.selector;
+      const notTemplate =     (elem: Element) => !elem.classList.contains(dna.name.template);
+      const selectElems =     () => dna.dom.filter(globalThis.document.querySelectorAll(rootSelector!), notTemplate);
+      const onDomReadyElems = () => !rootSelector ? [globalThis.document.body] :
          dna.dom.addClass(selectElems(), dna.name.initialized);
-      if (settings.onDocLoad)
-         onDocLoadElems().forEach(elem => dna.util.apply(fn, [elem, settings.params].flat()));
+      if (settings.onDomReady)
+         onDomReadyElems().forEach(elem => dna.util.apply(fn, [elem, settings.params].flat()));
       const initializer = { fn: fn, selector: rootSelector, params: settings.params };
       dna.events.db.initializers.push(initializer);
       return dna.events.db.initializers;

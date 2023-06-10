@@ -63,17 +63,17 @@ input[type=checkbox], button {
 -->
 <script data-on-load=todo.setup>
    const todo = {
-      add: () => {  //create task
-         const task = { title: $('#task-title').val() };
-         dna.clone('task', task, { fade: true });
+      add() {  //create task
+         const title = globalThis.document.getElementById('#task-title').value;
+         dna.clone('task', { title }, { fade: true });
          },
-      setup: () => {  //start with one task
+      setup() {  //start with one task
          const task = {
             title: 'Check out: dna-engine.org',
             done:  false
             };
          dna.clone('task', task);
-         }
+         },
       };
 </script>
 
@@ -111,16 +111,17 @@ button {
       books: [
          { title: 'JavaScript!', author: 'Jake' },
          { title: 'CSS3!',       author: 'Abby' },
-         { title: 'HTML5!',      author: 'Ed' }
+         { title: 'HTML5!',      author: 'Ed' },
          ],
-      add: () => {
-         const i = $('.book').length % store.books.length;
+      add() {
+         const elems =   globalThis.document.getElementsByClassName('book');
+         const index =   elems.length % store.books.length;
          const options = { fade: true };
-         dna.clone('book', store.books[i], options);
+         dna.clone('book', store.books[index], options);
          },
-      clear: () => {
+      clear() {
          dna.empty('book', { fade: true });
-         }
+         },
       };
 </script>
 

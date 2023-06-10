@@ -288,7 +288,7 @@
          <pre><code class=language-html>
             &lt;script&gt;
                const findBooks = (elem) =&gt; {
-                  const terms = $('input').val();
+                  const terms = globalThis.document.querySelector('input').value;
                   console.log(terms);  //verify user input
                   };
             &lt;/script&gt;
@@ -370,8 +370,9 @@
       <p>
          dna-engine passes the event target element into the callback.&nbsp;
          The callback event now happens on the <code>&lt;input&gt;</code> element, so we can
-         replace the old <code>const terms = $('input').val();</code> line with a more robust line of
-         code:
+         replace the old
+         <code>const terms = globalThis.document.querySelector('input').value;</code>
+         line with a more robust line of code:
       </p>
       <figure>
          <figcaption>Smart update</figcaption>
@@ -441,7 +442,7 @@
             &lt;script src=https://cdn.jsdelivr.net/npm/fetch-json@{{pkg.devDependencies.fetch-json|minor-version}}/dist/fetch-json.min.js&gt;&lt;/script&gt;
             &lt;script&gt;
                const findBooks = (elem) =&gt; {
-                  const terms = elem.val();
+                  const terms = elem.value;
                   const url = 'https://www.googleapis.com/books/v1/volumes';
                   const handleResults = (data) =&gt;
                      dna.clone('book', data.items, { empty: true, fade: true });

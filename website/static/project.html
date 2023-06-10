@@ -37,7 +37,8 @@
    <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@{{pkg.devDependencies.fetch-json|minor-version}}/dist/fetch-json.min.js></script>
    <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@{{pkg.devDependencies.web-ignition|minor-version}}/dist/lib-x.min.js></script>
    <script data-on-load=showVersion>
-      const showVersion = () => $('.version-number').text(dna.version);
+      const showVersion = () =>
+         globalThis.document.querySelectorAll('.version-number').textContent = dna.version;
    </script>
 </head>
 <body>
