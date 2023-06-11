@@ -746,6 +746,11 @@ const dnaUi = {
       (<HTMLInputElement>elem)?.focus();
       return elem;
       },
+   setText(elem: Element | null, text: string): Element | null {
+      if (elem)
+         elem.textContent = text;
+      return elem;
+      },
    toClone(elemOrEvent: Element | Event) {
       // Returns the clone for the given element or event with a target element.
       const elem = elemOrEvent instanceof Event ? <Element>elemOrEvent.target : elemOrEvent;

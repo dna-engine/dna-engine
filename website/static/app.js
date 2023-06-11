@@ -5,7 +5,9 @@ const app = {
    setup: () => {
       app.nav.setup();
       app.documenation.setup();
-      document.querySelector('.version-number').textContent = dna.version;
+      const versionNumber = document.querySelector('.version-number');
+      if (versionNumber)
+         versionNumber.textContent = dna.version;
       },
    };
 
@@ -29,10 +31,9 @@ app.bookstore = {
 
 app.nav = {
    setup() {
-      const folder =   globalThis.location.pathname.split('/').slice(-2)[0];
-      const selector = 'header nav a[href="' + folder + '"]';
-      const active =   globalThis.document.querySelector(selector).closest('li');
-      const current =  active || globalThis.document.querySelector('header nav li');
+      const folder =  globalThis.location.pathname.split('/').slice(-2)[0];
+      const active =  globalThis.document.getElementById('nav-' + folder)?.parentElement;
+      const current = active || globalThis.document.querySelector('header nav li');
       current.classList.add('current');
       },
    };

@@ -14,40 +14,40 @@
    <link rel=icon       href=https://dna-engine.org/graphics/bookmark.png>
    <link rel=stylesheet href=../dist/dna-engine.css>
    <style>
-      body                 { font-family: system-ui, sans-serif; margin: 30px; }
-      body >header         { display: flex; justify-content: space-between; margin-bottom: 30px; }
-      body >footer         { text-align: center; background: silver; padding: 10px 10px; }
-      h1, h3               { margin: 0px 0px 5px 0px; }
-      h2                   { margin: 0px; }
-      h4                   { margin: 0px; min-height: 1.6em; font-weight: normal; }
-      p                    { margin: 0px 0px 3px 0px; }
-      button               { font-size: 1.0rem; cursor: pointer; }
-      label                { display: block; }
-      output               { display: block; font-size: 0.9rem; margin-bottom: 8px; }
-      output >samp         { display: block; background-color: lightsteelblue; padding: 3px 8px; border: 2px solid transparent; transition: border-color 400ms; }
+      body               { font-family: system-ui, sans-serif; margin: 30px; }
+      body >header       { display: flex; justify-content: space-between; margin-bottom: 30px; }
+      body >footer       { text-align: center; background: silver; padding: 10px 10px; }
+      h1, h3             { margin: 0px 0px 5px 0px; }
+      h2                 { margin: 0px; }
+      h4                 { margin: 0px; min-height: 1.6em; font-weight: normal; }
+      p                  { margin: 0px 0px 3px 0px; }
+      button             { font-size: 1.0rem; cursor: pointer; }
+      label              { display: block; }
+      output             { display: block; font-size: 0.9rem; margin-bottom: 8px; }
+      output >samp       { display: block; background-color: lightsteelblue; padding: 3px 8px; border: 2px solid transparent; transition: border-color 400ms; }
       output >samp:nth-child(2n) { background-color: gainsboro; }
-      output >samp:hover   { border-color: darkorange; }
-      .in-a-row            { display: inline-block; }
-      main >section        { display: inline-block; vertical-align: top; border: 1px solid silver;
+      output >samp:hover { border-color: darkorange; }
+      .in-a-row          { display: inline-block; }
+      main >section      { display: inline-block; vertical-align: top; border: 1px solid silver;
                               padding: 10px; margin: 0px 20px 20px 0px; }
-      fieldset             { float: left; width: 220px; border: 1px solid silver; padding-bottom: 0px; }
-      legend               { border: 1px solid silver; padding: 0px 10px; }
-      input[type=range]    { -webkit-appearance: none; width: 100%; height: 20px;
+      fieldset           { float: left; width: 220px; border: 1px solid silver; padding-bottom: 0px; }
+      legend             { border: 1px solid silver; padding: 0px 10px; }
+      input[type=range]  { -webkit-appearance: none; width: 100%; height: 20px;
                               background-color: mintcream; border: 1px solid silver; }
-      input[type=number]   { width: 7em; font-family: monospace; text-align: right; }
-      [title]              { cursor: help; }
-      [data-component]     { background-color: gainsboro; padding: 15px; }
-      .dna-clone           { background-color: darkseagreen; }
-      div.dna-clone        { padding: 10px; margin-bottom: 15px; }
-      .dna-clone img       { width: 120px; }
-      .color-change-blue   { background-color: lightsteelblue; }
-      .color-change-gold   { background-color: gold; }
-      .border-change-pink  { border: 2px solid magenta; }
-      .border-change-black { border: 2px solid black; }
-      .color-fail          { border: 5px dotted red; }
-      .assert-failed       { border: 5px dotted red; }
-      #back, .id-back      { background-color: honeydew; }
-      .chapter-box         { display: inline-block; background-color: lightsteelblue; padding: 15px; margin: 5px }
+      input[type=number] { width: 7em; font-family: monospace; text-align: right; }
+      [title]            { cursor: help; }
+      [data-component]   { background-color: gainsboro; padding: 15px; }
+      .dna-clone         { background-color: darkseagreen; }
+      div.dna-clone      { padding: 10px; margin-bottom: 15px; }
+      .dna-clone img     { width: 120px; }
+      .color-change1     { background-color: lightsteelblue; }
+      .color-change2     { background-color: gold; }
+      .border-change1    { border: 2px solid magenta; }
+      .border-change2    { border: 2px solid black; }
+      .color-fail        { border: 5px dotted red; }
+      .assert-fail       { border: 5px dotted red; }
+      #back, .id-back    { background-color: honeydew; }
+      .chapter-box       { display: inline-block; background-color: lightsteelblue; padding: 15px; margin: 5px }
       [title=usd], [title=usd100], [title=jpy] { text-align: right; }
       body:not(.minified-mode) .minified-show { display: none; }
       body.minified-mode       .minified-hide { display: none; }
@@ -164,11 +164,11 @@
          <hr>
          <hr class=dna-hide>
          <div id=s02-book class=dna-template>
-            <div data-class=~~class;onSale[border-change-pink]~~>
+            <div data-class=~~class;onSale[border-change1]~~>
                Title: <span>{{title}}</span>
             </div>
-            <div data-class=~~onSale[border-change-black,border-change-pink]~~>
-               Author: <cite data-class=~~onSale[color-change-blue]~~>{{author}}</cite>
+            <div data-class=~~onSale[border-change2,border-change1]~~>
+               Author: <cite data-class=~~onSale[color-change1]~~>{{author}}</cite>
             </div>
          </div>
          <hr>
@@ -179,10 +179,10 @@
       <div class=book-list>
          <hr>
          <div class=dna-clone>
-            <div class=color-change-blue>
-               Title: <span class=color-change-gold>The One</span>
+            <div class=color-change1>
+               Title: <span class=color-change2>The One</span>
             </div>
-            <div class="color-change-blue border-change-pink">
+            <div class=border-change1>
                Author: <cite>Lee</cite>
             </div>
          </div>
@@ -195,11 +195,11 @@
       run() {
          const book1 = { title: 'The DOM',     author: 'Jan' };
          const book2 = { title: 'Howdy HTML5', author: 'Ed' };
-         const book3 = { title: 'The One',     author: 'Lee', class: 'color-change-blue', onSale: false };
+         const book3 = { title: 'The One',     author: 'Lee', class: 'color-change1', onSale: false };
          dna.clone('s02-book', [book1, book2]);
          dna.empty('s02-book');
          const titleElem = dna.clone('s02-book', book1).getElementsByTagName('span')[0];
-         titleElem.classList.add('color-change-gold');
+         titleElem.classList.add('color-change2');
          dna.refresh(titleElem, { data: book3 });
          },
       };
@@ -232,7 +232,7 @@
             <div>Title:  <span>2nd</span></div>
             <div>Author: <cite>Jan</cite></div>
          </div>
-         <div class="dna-clone color-change-blue">
+         <div class="dna-clone color-change1">
             <div>Title:  <span>1<sup>st</sup> &bull;</span></div>
             <div>Author: <cite>Jan</cite></div>
          </div>
@@ -247,7 +247,7 @@
          const book2 = { title: '2nd', author: 'Jan' };
          const book3 = { title: '3rd', author: 'Jan' };
          const options = { fade: true, top: true, html: true };
-         dna.clone('s03-book', book1, options).classList.add('color-change-blue');
+         dna.clone('s03-book', book1, options).classList.add('color-change1');
          dna.clone('s03-book', book2, options);
          dna.clone('s03-book', book3, options);
          },
@@ -315,13 +315,13 @@
             <div>Code:   <span>900</span></div>
             <div>Location: <span>2</span></div>
          </div>
-         <div class="dna-clone color-change-blue">
+         <div class="dna-clone color-change1">
             <div>Title:  <span>1st!!!</span></div>
             <div>Author: <cite>Lee</cite></div>
             <div>Code:   <span>1100</span></div>
             <div>Location: <span>3</span></div>
          </div>
-         <div class="dna-clone color-change-blue">
+         <div class="dna-clone color-change1">
             <div>Title:  <span>2nd!!!</span></div>
             <div>Author: <cite>Jan</cite></div>
             <div>Code:   <span>900</span></div>
@@ -351,7 +351,7 @@
             book.title = book.title + '!';
             return book;
             };
-         const changeColor = (elem) => elem.classList.add('color-change-blue');
+         const changeColor = (elem) => elem.classList.add('color-change1');
          dna.clone('s05-book', [book1, book2], { transform: bang }).forEach(changeColor);
          dna.clone('s05-book', [book1, book2], { transform: bang, empty: true });
          dna.clone('s05-book', [book1, book2], { transform: bang }).forEach(changeColor);
@@ -367,7 +367,7 @@
       <legend>Actual</legend>
       <div class=book-list>
          <div id=s06-book class=dna-template data-class=~~extra~~>
-            <div id=~~info.isbn~~ data-class=~~language[color-change-blue,color-fail]~~>
+            <div id=~~info.isbn~~ data-class=~~language[color-change1,color-fail]~~>
                Title: <span data-lang=~~language~~ data-attr-lang=~~language~~>~~title~~</span>
             </div>
          </div>
@@ -376,9 +376,9 @@
    <fieldset>
       <legend>Expected</legend>
       <div class=book-list>
-         <div class="dna-clone border-change-pink">
-            <div id=123-expected class=color-change-blue>
-               Title: <span lang=fr class=color-change-gold>Les Attributs</span>
+         <div class="dna-clone border-change1">
+            <div id=123-expected class=color-change1>
+               Title: <span lang=fr class=color-change2>Les Attributs</span>
             </div>
          </div>
       </div>
@@ -391,11 +391,11 @@
             title:    'Les Attributs',
             info:     { isbn: 123 },
             language: 'fr',
-            extra:    'border-change-pink',
+            extra:    'border-change1',
             };
          dna.clone('s06-book', bouquin);
          const parleFrançais = globalThis.document.getElementById('123').querySelector('[lang=fr]');
-         parleFrançais.classList.add('color-change-gold');
+         parleFrançais.classList.add('color-change2');
          },
       };
 </script>
@@ -428,12 +428,12 @@
          <div class=dna-clone>
             <div>Author: <cite>Jan</cite></div>
             <div>
-               <div class="dna-clone color-change-blue">
+               <div class="dna-clone color-change1">
                   <div>Chapter: <span>Preface</span><span></span></div>
                   <div></div>
                </div>
-               <div class="dna-clone color-change-blue">
-                  <div class=color-change-blue>Chapter: <span>Index</span><span></span></div>
+               <div class="dna-clone color-change1">
+                  <div class=color-change1>Chapter: <span>Index</span><span></span></div>
                </div>
             </div>
          </div>
@@ -454,7 +454,7 @@
          dna.clone('s07-book', book1);
          const clone =       dna.clone('s07-book', book2);
          const chapters =    [{ header: 'Preface' }, { header: 'Index' }]
-         const changeColor = (elem) => elem.classList.add('color-change-blue');
+         const changeColor = (elem) => elem.classList.add('color-change1');
          dna.clone('s07-book-chapter', chapters, { container: clone }).forEach(changeColor);
          dna.clone('s07-book', book3);
          },
@@ -519,27 +519,27 @@
          <div class=dna-clone>
             <div>Title: <span>The New DOM</span></div>
             <div>Authors: <span>
-               *<span class=color-change-gold>Jan II</span></span><span>
-               *<span class=color-change-gold>Bo</span></span>
+               *<span class=color-change2>Jan II</span></span><span>
+               *<span class=color-change2>Bo</span></span>
             </div>
-            <div class=color-change-blue>Score: <span>81</span></div>
-            <div>On Sale: <span class=color-change-gold>true</span></div>
+            <div class=color-change1>Score: <span>81</span></div>
+            <div>On Sale: <span class=color-change2>true</span></div>
          </div>
-         <div class="dna-clone border-change-pink">
+         <div class="dna-clone border-change1">
             <div>Title: <span>Howdy HTML5</span></div>
             <div>Authors: <span>
-               *<span class=color-change-gold>Ed II</span></span>
+               *<span class=color-change2>Ed II</span></span>
             </div>
-            <div class=color-change-blue>Score: <span>97</span></div>
-            <div>On Sale: <span class=color-change-gold>false</span></div>
+            <div class=color-change1>Score: <span>97</span></div>
+            <div>On Sale: <span class=color-change2>false</span></div>
          </div>
       </div>
    </fieldset>
 </section>
 <script>
-   var   spec08var =            { configure(elem) { elem.classList.add('color-change-gold') } };
-   const spec08constConfigure = (elem) => elem.classList.add('color-change-blue');
-   let   spec08letConfigure =   (elem) => elem.classList.add('color-change-gold');
+   var   spec08var =            { configure(elem) { elem.classList.add('color-change2') } };
+   const spec08constConfigure = (elem) => elem.classList.add('color-change1');
+   let   spec08letConfigure =   (elem) => elem.classList.add('color-change2');
    spec.spec08 = {
       run() {
          dna.clone('s08-book-authors1', ['Jan']);
@@ -558,7 +558,7 @@
          dna.getModel(clone2).score =   97;
          dna.refreshAll('s08-book');
          modelOk = modelOk && dna.getModels('s08-book')[1].score === 97;  //verify updated model
-         clone2.classList.add(modelOk ? 'border-change-pink' : 'color-change-blue');
+         clone2.classList.add(modelOk ? 'border-change1' : 'color-change1');
          },
       };
 </script>
@@ -653,7 +653,7 @@
          const applyBackgnd = (elem, model) => Object.entries(css(model.image)).forEach(applyCss(elem));
          const url =          'https://dna-engine.org/graphics/dna-logo.png';
          const book =         { title: 'Background', image: `url(${url})` };
-         const options =      { fade: true, callback: applyBackgnd, clones: 3 };
+         const options =      { fade: false, callback: applyBackgnd, clones: 3 };
          dna.clone('s10-book', book, options);
          },
       };
@@ -724,7 +724,7 @@
             <div>
                Title: <span>~~title~~</span>
             </div>
-            Authors:
+            Authors 1:
             <span>
                <span data-array=~~authors~~ data-author=~~[value]~~>
                   (<span>~~[count]~~</span>)
@@ -738,7 +738,7 @@
                   [<cite>~~[value]~~</cite>]
                </span>
             </span>
-            <div class=color-change-blue data-array=~~chapters~~>
+            <div class=color-change1 data-array=~~chapters~~>
                <span>~~[count]~~</span>.
                <span data-class=~~type~~ data-type=~~type~~>~~type~~</span>:
                <span id=~~type~~>~~header~~</span>
@@ -755,12 +755,12 @@
    <fieldset>
       <legend>Expected</legend>
       <div class=book-list>
-         <div class="dna-clone border-change-pink">
+         <div class="dna-clone border-change1">
             <div>Title: <span>The DOM</span></div>
-            Authors:
+            Authors 1:
             <span>
                <span class=dna-clone>                (1) <cite>Bo I</cite></span>
-               <span class="dna-clone color-change-blue"> (2) <cite>Bo II</cite></span>
+               <span class="dna-clone color-change1"> (2) <cite>Bo II</cite></span>
             </span>
             <br>
             Authors 2:
@@ -772,10 +772,10 @@
          </div>
          <div class=dna-clone>
             <div>Title: <span>Howdy HTML5</span></div>
-            Authors:
+            Authors 1:
             <span>
                <span class=dna-clone>                 (1) <cite>Ed</cite></span>
-               <span class="dna-clone color-change-gold"> (2) <cite>Jake</cite></span>
+               <span class="dna-clone color-change2"> (2) <cite>Jake</cite></span>
                <span class=dna-clone>                 (3) <cite>Abby</cite></span>
             </span>
             <br>
@@ -785,7 +785,7 @@
                [<cite>Jake</cite>]
                [<cite>Abby</cite>]
             </span>
-            <div class="dna-clone color-change-blue">
+            <div class="dna-clone color-change1">
                <span>1. front</span>:
                <span class=id-front>Preface &amp;star;</span>
                <nav>
@@ -794,7 +794,7 @@
                   <button>&times;</button>
                </nav>
             </div>
-            <div class="dna-clone color-change-blue">
+            <div class="dna-clone color-change1">
                <span>2. back</span>:
                <span class=id-back>Index</span>
                <nav>
@@ -807,7 +807,7 @@
          </div>
          <div class=dna-clone>
             <div>Title: <span>Styling CSS3</span></div>
-            Authors:
+            Authors 1:
             <span>
             </span>
             <br>
@@ -816,12 +816,12 @@
             </span>
             <div><button>Recount</button></div>
          </div>
-         <div class="dna-clone border-change-pink">
+         <div class="dna-clone border-change1">
             <div>Title: <span>Howdy HTML5</span></div>
-            Authors:
+            Authors 1:
             <span>
                <span class=dna-clone>                 (1) <cite>Ed</cite></span>
-               <span class="dna-clone color-change-gold"> (2) <cite>Jake</cite></span>
+               <span class="dna-clone color-change2"> (2) <cite>Jake</cite></span>
                <span class=dna-clone>                 (3) <cite>Abby</cite></span>
             </span>
             <br>
@@ -831,7 +831,7 @@
                [<cite>Jake</cite>]
                [<cite>Abby</cite>]
             </span>
-            <div class="dna-clone color-change-blue">
+            <div class="dna-clone color-change1">
                <span>1. front</span>:
                <span class=id-front>Preface &star;</span>
                <nav>
@@ -840,7 +840,7 @@
                   <button>&times;</button>
                </nav>
             </div>
-            <div class="dna-clone color-change-blue">
+            <div class="dna-clone color-change1">
                <span>2. back</span>:
                <span class=id-back>Index</span>
                <nav>
@@ -849,7 +849,7 @@
                   <button>&times;</button>
                </nav>
             </div>
-            <div class="dna-clone color-change-blue">
+            <div class="dna-clone color-change1">
                <span>3. back</span>:
                <span class=id-back>Bio</span>
                <nav>
@@ -858,7 +858,7 @@
                   <button>&times;</button>
                </nav>
             </div>
-            <div class="dna-clone color-change-blue">
+            <div class="dna-clone color-change1">
                <span>5. back</span>:
                <span class=id-back>Bio 3</span>
                <nav>
@@ -867,7 +867,7 @@
                   <button>&times;</button>
                </nav>
             </div>
-            <div class="dna-clone color-change-blue">
+            <div class="dna-clone color-change1">
                <span>6. back</span>:
                <span class=id-back>Bio X</span>
                <nav>
@@ -907,9 +907,9 @@
          dna.arrayPush(dna.getClones('s12-book')[0], 'authors', 'Bo I');
          dna.arrayPush(dna.getClones('s12-book')[0], 'authors', 'Bo II');
          const clone1 = document.querySelector('.s12-book');
-         dna.dom.toggleClass(clone1, 'border-change-pink', clone1.dataset.title === 'The DOM');
+         dna.dom.toggleClass(clone1, 'border-change1', clone1.dataset.title === 'The DOM');
          const elem = document.querySelector('.s12-book-authors--0:last-child');
-         elem.classList.add(elem.dataset.author === 'Bo II' ? 'color-change-blue' : 'color-change-gold');
+         elem.classList.add(elem.dataset.author === 'Bo II' ? 'color-change1' : 'color-change2');
          const lastBook = [...globalThis.document.getElementsByClassName('s12-book')].at(-1);
          const clone2 = dna.refresh(lastBook, { data: book2, html: true });
          dna.arrayPush(clone2, 'chapters', { header: 'Bio', type: 'back' });
@@ -917,8 +917,9 @@
          const spans = document.querySelectorAll('.s12-book span');
          dna.destroy(dna.dom.find(spans, span => span.innerText === 'Bio 2'), { main: false });
          dna.arrayPush(clone2, 'chapters', lastChapter);
-         dna.dom.toggleClass(clone2, 'border-change-pink', dna.getModel(clone2).chapters.length === 5);
-         document.querySelector('.s12-book .s12-book-authors--0[data-author=Jake]').classList.add('color-change-gold');
+         dna.dom.toggleClass(clone2, 'border-change1', dna.getModel(clone2).chapters.length === 5);
+         const colorChange2 = (elem) => elem.classList.add('color-change2');
+         document.querySelectorAll('.s12-book .s12-book-authors--0[data-author=Jake]').forEach(colorChange2);
          },
       };
 </script>
@@ -998,7 +999,7 @@
             </div>
             Book #<span>2</span>: <span>Howdy HTML5</span>
          </div>
-         <div class="dna-clone border-change-pink">
+         <div class="dna-clone border-change1">
             <div>
                <button>&uarr;</button>
                <button>&darr;</button>
@@ -1016,7 +1017,7 @@
          const books = ['The DOM', 'Howdy HTML5', 'Styling CSS3'];
          dna.clone('s14-book', books);
          const countIsThree = (elem) => Number(elem.dataset.count) === 3;
-         const changeBorder = (elem) => elem.classList.add('border-change-pink');
+         const changeBorder = (elem) => elem.classList.add('border-change1');
          dna.getClones('s14-book').filter(countIsThree).forEach(changeBorder);
          },
       };
@@ -1053,8 +1054,8 @@
    <fieldset>
       <legend>Expected</legend>
       <div class=book-list>
-         <div class="dna-clone color-change-blue border-change-black">
-            <div class=border-change-pink style="color: white; padding: 10px;">
+         <div class="dna-clone color-change1 border-change2">
+            <div class=border-change1 style="color: white; padding: 10px;">
                <span class=count data-count=3>3</span>: <span>Howdy HTML5</span>
                <button> 🐅 <b>🐒</b> <b>🐘 <span>🐁</span> </b> <b> <span>🛸</span> </b> </button>
             </div>
@@ -1062,8 +1063,8 @@
             <button>Bye 2</button>
             <button>Bye 3</button>
          </div>
-         <div class="dna-clone color-change-blue border-change-black">
-            <div class=border-change-pink style="color: white; padding: 10px;">
+         <div class="dna-clone color-change1 border-change2">
+            <div class=border-change1 style="color: white; padding: 10px;">
                <span class=count data-count=5>5</span>: <span>Styling CSS3</span>
                <button> 🐅 <b>🐒</b> <b>🐘 <span>🐁</span> </b> <b> <span>🛸</span> </b> </button>
             </div>
@@ -1078,7 +1079,7 @@
 <script>
    spec.spec15 = {
       configure(clone, model) {
-         clone.classList.add('color-change-blue');
+         clone.classList.add('color-change1');
          },
       showMessage(message, elem) {
          const tag =   '<' + elem.nodeName + '>'
@@ -1103,7 +1104,7 @@
          spec.spec15.showMessage('⎍⎎⍜ bye', elem);
          },
       surround(elem) {
-         elem.classList.add('border-change-pink');
+         elem.classList.add('border-change1');
          elem.style.color =   'white';
          elem.style.padding = '10px';
          const hr = document.createElement('hr');
@@ -1112,7 +1113,7 @@
       surround2(elem) {
          if (!elem.classList.contains('s15-book'))
             throw 'This is not the clone you are looking for: ' + elem?.nodeName;
-         elem.classList.add('border-change-black');
+         elem.classList.add('border-change2');
          },
       goodbye(elem, event) {  //<button class=3 data-on-click=spec.spec15.goodbye>Bye 3</button>
          const clone =      dna.getClone(elem);
@@ -1129,7 +1130,7 @@
                badNews('delay: ' + delay + 'ms, clone: ' + !elemMissing + ', removed: ' + !inDom);
             };
          if (event.type !== 'click')
-            elem.classList.add('assert-failed');
+            elem.classList.add('assert-fail');
          dna.bye(elem).then(handleByeDone);
          const checkTheNews = () => handled || badNews('delay exceeded: ' + delayRange.max);
          globalThis.setTimeout(checkTheNews, delayRange.max);
@@ -1165,14 +1166,14 @@
             <p>Title: <input value=~~title~~></p>
             Options:
             <div>
-               <label data-array=~~options~~ data-class=~~set[border-change-pink,border-change-black]~~>
+               <label data-array=~~options~~ data-class=~~set[border-change1,border-change2]~~>
                   <input type=checkbox value=~~code~~ data-prop-checked=~~set~~>
                   <span>~~name~~</span> [<span>~~[count]~~</span>]
                </label>
             </div>
             Cover:
             <div>
-               <label data-array=~~covers~~ data-input-name=cover data-class=~~set[border-change-pink]~~>
+               <label data-array=~~covers~~ data-input-name=cover data-class=~~set[border-change1]~~>
                   <input type=radio value=~~code~~ name=cover
                      data-prop-disabled=~~unavailable~~ data-prop-checked=~~set~~>
                   <span>~~name~~</span> [<span>~~[count]~~</span>]
@@ -1234,18 +1235,18 @@
       <legend>Expected</legend>
       <div class=book-list>
          <div class=dna-clone>
-            <p>Title: <input value="The DOM!" class=border-change-pink></p>
+            <p>Title: <input value="The DOM!" class=border-change1></p>
             Options:
             <div>
-               <label class=border-change-pink>
+               <label class=border-change1>
                   <input type=checkbox value=fast checked>
                   <span>Overnight [1]</span>
                </label>
-               <label class=border-change-black>
+               <label class=border-change2>
                   <input type=checkbox value=share>
                   <span>Social Share [2]</span>
                </label>
-               <label class=border-change-pink>
+               <label class=border-change1>
                   <input type=checkbox value=gift checked>
                   <span>Gift [3]</span>
                </label>
@@ -1256,7 +1257,7 @@
                   <input type=radio value=soft name=cover-expected>
                   <span>Paperback [1]</span>
                </label>
-               <label class=border-change-pink>
+               <label class=border-change1>
                   <input type=radio value=hard name=cover-expected checked>
                   <span>Hardcover [2]</span>
                </label>
@@ -1266,7 +1267,7 @@
                </label>
             </div>
             Purpose:
-            <select class=border-change-pink>
+            <select class=border-change1>
                <option value=work>Business</option>
                <option value=fun selected>Personal</option>
                <option value=edu>School</option>
@@ -1366,15 +1367,16 @@
             elem.check = true;
             elem.click();
             };
-         dna.dom.toggleClass(titleElem, 'border-change-pink', book.title === 'The DOM!');
+         dna.dom.toggleClass(titleElem, 'border-change1', book.title === 'The DOM!');
          if (clone.querySelector('input[value=fast]').checked)  //expect "Overnight" selected
             clone.querySelector('input[value=gift]').click();   //also select "Gift" option
          if (clone.querySelector('input[name=cover]:checked').value === 'soft')  //expect "Paperback" selected
             checkIt(clone.querySelector('input[value=hard]'));                    //change to "Hardcover"
          const purposeElem = clone.querySelector('select');
-         if (purposeElem.value === 'edu')  //expect "School" selected
-            purposeElem.value = 'fun';     //change to "Personal"
-         dna.dom.toggleClass(purposeElem, 'border-change-pink', book.purpose === 'fun');
+         if (purposeElem.value === 'edu')                                    //expect "School" selected
+            purposeElem.value = 'fun';                                       //change to "Personal"
+         purposeElem.dispatchEvent(new Event('change', { bubbles: true }));  //trigger update event
+         dna.dom.toggleClass(purposeElem, 'border-change1', book.purpose === 'fun');
          },
       };
 </script>
@@ -1469,7 +1471,7 @@
          dna.ui.pulse(button.nextElementSibling);
          },
       makeChapterBoxes(range) {
-         const clones = dna.clone('chapter-box', {}, { empty: true, clones: parseInt(range.value) });
+         const clones = dna.clone('chapter-box', {}, { empty: true, clones: Number(range.value) });
          clones.forEach(clone => dna.ui.fadeIn(dna.ui.hide(clone)));
          },
       smooth(rangeSlider) {
@@ -1512,7 +1514,7 @@
          <button class=dna-clone>Howdy HTML5</button>
       </nav>
       <div>
-         <section class="dna-clone border-change-pink">
+         <section class="dna-clone border-change1">
             <h2>Styling CSS3</h2>
             <cite>Abby</cite>
             <p>$19.99</p>
@@ -1528,7 +1530,7 @@
          model.displayPrice = '$' + (model.price / 100).toFixed(2);
          },
       displayPanel(elem) {
-         return elem.classList.add('border-change-pink');
+         return elem.classList.add('border-change1');
          },
       run() {
          dna.clone('s19-book-title', specRunner.catalog);
