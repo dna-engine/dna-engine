@@ -487,6 +487,20 @@ const dnaDom = {
          };
       globalThis.document.addEventListener('pointerover', delegator);
       },
+   onReady(callback: (...args: unknown[]) => unknown, options?: { quiet?: boolean, name?: string }): DocumentReadyState | 'browserless' {
+      // Calls the specified function once the web page is loaded and ready.
+      // Example (execute myApp.setup() as soon as the DOM is interactive):
+      //    dna.dom.onReady(myApp.setup);
+      const state = globalThis.document ? globalThis.document.readyState : 'browserless';
+      const name =  options?.name ?? 'dna-engine';
+      if (state === 'browserless' && !options?.quiet)
+         console.log(dna.util.timestampMsec(), name, 'loaded into browserless context');
+      if (['complete', 'browserless'].includes(state))
+         callback();
+      else
+         globalThis.window.addEventListener('DOMContentLoaded', callback);
+      return state;
+      },
    };
 
 const dnaUi = {
@@ -640,10 +654,14 @@ const dnaUi = {
       // Smooth slide out plus fade out effect followed by removing the element.
       return dna.ui.slideFadeOut(elem).then(dna.core.remove);
       },
-   smoothHeight(updateUI: () => unknown, options?: { container?: Element, transition?: number }): Promise<Element> {
+   smoothHeight(updateUI: () => unknown, options?: { container?: Element, overflowHidden: boolean, transition?: number }): Promise<Element> {
       // Smoothly animates the height of a container element from a beginning height to a final
       // height.
-      const defaults = { container: globalThis.document.body, transition: 1000 };
+      const defaults = {
+         container:      globalThis.document.body,
+         overflowHidden: true,
+         transition:     1000,
+         };
       const settings = { ...defaults, ...options };
       const container = settings.container;
       const style = (<HTMLElement>container).style;
@@ -651,7 +669,8 @@ const dnaUi = {
          const height = String(container.clientHeight) + 'px';
          style.minHeight = height;
          style.maxHeight = height;
-         style.overflow =  'hidden';
+         if (settings.overflowHidden)
+            style.overflow = 'hidden';
          container.classList.add(dna.name.animating);
          };
       const animate = () => {
@@ -852,6 +871,12 @@ const dnaUtil = {
    isObj: (value: unknown): boolean => {
       return !!value && typeof value === 'object' && !Array.isArray(value);
       },
+   timestamp() {
+      return dna.format.getDateFormatter('timestamp')(Date.now());
+      },
+   timestampMsec() {
+      return dna.format.getDateFormatter('timestamp-msec')(Date.now());
+      },
    };
 
 const dnaFormat = {
@@ -961,30 +986,45 @@ const dnaPanels = {
       const menuData =   (<HTMLElement>menu).dataset;
       const navName =    menuData.nav!;
       const callback =   menuData.callback;
-      const panels =     <HTMLCollection>dna.dom.state(menu).dnaPanels;
+      const panels =     <HTMLElement>dna.dom.state(menu).dnaPanels;
       const menuItems =  menu.querySelectorAll('.dna-menu-item');
       const savedIndex = Number(dna.pageToken.get(navName, 0));
       const bound =      (loc: number) => Math.max(0, Math.min(loc, menuItems.length - 1));
       const index =      bound(location === undefined ? savedIndex : location);
-      if (menu.nodeName === 'SELECT')  //check if elem is a drop-down control
-         (<HTMLSelectElement>menu).selectedIndex = index;
-      menuItems.forEach(elem => dna.dom.replaceClass(elem, dna.name.selected, dna.name.unselected));
-      dna.dom.replaceClass(menuItems[index]!, dna.name.unselected, dna.name.selected);
-      const hidePanel = (panel: Element) => {
-         dna.ui.hide(panel);
-         panel.classList.remove(dna.name.displayed);
-         panel.classList.add(dna.name.hidden);
+      const update = () => {
+         if (menu.nodeName === 'SELECT')  //check if elem is a drop-down control
+            (<HTMLSelectElement>menu).selectedIndex = index;
+         menuItems.forEach(elem => dna.dom.replaceClass(elem, dna.name.selected, dna.name.unselected));
+         dna.dom.replaceClass(menuItems[index]!, dna.name.unselected, dna.name.selected);
+         const hidePanel = (panel: Element) => {
+            dna.ui.hide(panel);
+            panel.classList.remove(dna.name.displayed);
+            panel.classList.add(dna.name.hidden);
+            };
+         dna.dom.forEach(panels.children, hidePanel);
+         const panel = panels.children[index]!;
+         panel.classList.replace(dna.name.hidden, dna.name.displayed);
+         dna.ui.fadeIn(panel);
+         const hash = (<HTMLElement>panel).dataset.hash;  //example: <nav class=dna-menu data-hash=about-page ...
+         dna.pageToken.put(navName, index);
+         if (updateUrl && hash)
+            globalThis.history.pushState(null, '', '#' + hash);
+         if (callback)
+            dna.util.apply(callback, [panel, hash]);
+         return panel;
          };
-      dna.dom.forEach(panels, hidePanel);
-      const panel = <Element>panels[index]!;
-      panel.classList.replace(dna.name.hidden, dna.name.displayed);
-      dna.ui.fadeIn(panel);
-      const hash = (<HTMLElement>panel).dataset.hash;  //example: <nav class=dna-menu data-hash=about-page ...
-      dna.pageToken.put(navName, index);
-      if (updateUrl && hash)
-         globalThis.history.pushState(null, '', '#' + hash);
-      if (callback)
-         dna.util.apply(callback, [panel, hash]);
+      const heightTransition =  100;
+      const startHieght =       panels.clientHeight
+      const panel =             update();
+      const endHieght =         panels.clientHeight
+      panels.style.transition = 'all 0ms';
+      panels.style.height =     String(startHieght) + 'px';
+      const animate = () => {
+         panels.style.transition = `all ${heightTransition}ms`;
+         panels.style.height =     String(endHieght) + 'px';
+         };
+      globalThis.requestAnimationFrame(animate);
+      globalThis.setTimeout(() => panels.style.removeProperty('height'), heightTransition + 100);
       return panel;
       },
    clickRotate(menuItem: Element): Element {
@@ -998,26 +1038,27 @@ const dnaPanels = {
       return dna.panels.display(menu, (<HTMLSelectElement>menu).selectedIndex, true);
       },
    nextNav: 1,
-   initialize(panelHolder: Element | null): Element | null {
+   initialize(panels: Element | null): Element | null {
       const generateNavName = (): string => {
          // Automatically generates a name for unnamed menus.
          const navName =    'dna-panels-' + String(dna.panels.nextNav++);
          const setNavName = (elem: Element) => (<HTMLElement>elem).dataset.nav = navName;
-         const menu =       panelHolder!.previousElementSibling!;
-         dna.core.assert(menu?.classList.contains('dna-menu'), 'Menu not found for panels', panelHolder);
+         const menu =       panels!.previousElementSibling!;
+         dna.core.assert(menu?.classList.contains('dna-menu'), 'Menu not found for panels', panels);
          setNavName(menu);
-         setNavName(panelHolder!);
+         setNavName(panels!);
          return navName;
          };
       const init = () => {
-         const navName =    (<HTMLElement>panelHolder!).dataset.nav || generateNavName();
+         const navName =    (<HTMLElement>panels!).dataset.nav || generateNavName();
          const menu =       globalThis.document.querySelector('.dna-menu[data-nav=' + navName + ']');
-         const panels =     dna.dom.addClass(panelHolder!.children, dna.name.panel);
          const hash =       globalThis.location.hash.replace(/[^\w-]/g, '');  //remove leading "#"
-         const hashIndex =  (): number => dna.dom.findIndex(panels, '[data-hash=' + hash + ']');
+         const hashIndex =  (): number => dna.dom.findIndex(panels!.children, '[data-hash=' + hash + ']');
          const savedIndex = (): number => <number>dna.pageToken.get(navName, 0);
-         const loc =        hash && (<HTMLElement>panels[0]).dataset.hash ? hashIndex() : savedIndex();
-         panelHolder!.classList.add(dna.name.panelsInitialized);
+         const first =      <HTMLElement>panels!.children[0]!;
+         const loc =        hash && first.dataset.hash ? hashIndex() : savedIndex();
+         dna.dom.addClass(panels!.children, dna.name.panel);
+         panels!.classList.add(dna.name.panelsInitialized);
          dna.core.assert(menu, 'Menu not found for panels', navName);
          menu!.classList.add(dna.name.panelsInitialized);
          dna.dom.state(menu!).dnaPanels = panels;
@@ -1025,10 +1066,10 @@ const dnaPanels = {
             dna.dom.addClass(menu!.children, dna.name.menuItem);
          dna.panels.display(menu!, loc);
          };
-      const isInitialized = !panelHolder || panelHolder.classList.contains(dna.name.panelsInitialized);
-      if (!isInitialized && !dna.dom.hasClass(panelHolder.children, dna.name.template))
+      const isInitialized = !panels || panels.classList.contains(dna.name.panelsInitialized);
+      if (!isInitialized && !dna.dom.hasClass(panels.children, dna.name.template))
          init();
-      return panelHolder;
+      return panels;
       },
    setup() {
       const panels = globalThis.document.querySelectorAll(dna.selector.panels)
@@ -1759,13 +1800,8 @@ const dnaCore = {
          dna.panels.setup();
          dna.events.setup();
          };
-      const timestamp = () => dna.format.getDateFormatter('timestamp-msec')(Date.now());
-      if (typeof globalThis.window === 'undefined')
-         console.log(timestamp(), 'Browserless context loaded dna-engine');
-      else if (globalThis.document?.readyState === 'complete')
+      if (globalThis.document)
          setupBrowser();
-      else
-         globalThis.window.addEventListener('DOMContentLoaded', setupBrowser);
       return dna;
       },
    };
@@ -2064,6 +2100,6 @@ const dna = {
    core:        dnaCore,
    };
 
-dna.core.setup();
+dna.dom.onReady(dna.core.setup);
 
 export { dna };
