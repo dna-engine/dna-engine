@@ -2,5 +2,4 @@
 
 .dna-template, .dna-panels >*:not(.displayed), [data-placeholder], .dna-hide { display: none; }
 .dna-menu .dna-menu-item, [data-on-click], [data-href] { cursor: pointer; }
-.dna-panels .dna-panel::after { content: ""; display: block; clear: both; }
 [data-format-currency], [data-format-currency100], [data-format-percent], [data-format-number] { text-align: right; }

@@ -40,7 +40,7 @@ publishWebFiles() {
       echo "Publishing:"
       echo $publishSite
       mkdir -p $publishFolder
-      cp -R website-target/* $publishFolder
+      cp -R website-target/prod/* $publishFolder
       ls -o $publishSite | grep dna
       test -x "$(which tree)" && tree $publishFolder
       }

@@ -1,6 +1,6 @@
 {
    "name": "dna-engine",
-   "version": "3.0.0",
+   "version": "3.0.1",
    "description": "An uncomplicated user interface library for cloning semantic templates",
    "license": "MIT",
    "type": "module",
@@ -118,13 +118,14 @@
       ],
       "web": [
          "rimraf website-target",
-         "copy-folder website/static website-target",
-         "replacer website/static --ext=.html website-target --pkg",
-         "replacer website/root --ext=.html website-target --pkg",
-         "replacer spec --ext=.html website-target --find=../dist/ --replacement=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version{{pipe}}minor-version}}/dist/ --pkg",
-         "html-validator website-target",
-         "copy-file website-target/project.html docs/index.html",
-         "replacer website-target website-target/dev-mode '--regex=/https:.*dna-engine.min.js/m' --replacement=/dist/dna-engine.dev.js{{space}}class{{equals}}dev-mode"
+         "copy-folder website/static website-target/prod",
+         "replacer website/static --ext=.html website-target/prod --pkg",
+         "replacer website/root --ext=.html website-target/prod --pkg",
+         "replacer spec --ext=.html website-target/prod --find=../dist/ --replacement=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version{{pipe}}minor-version}}/dist/ --pkg",
+         "html-validator website-target/prod",
+         "copy-file website-target/prod/project.html docs/index.html",
+         "copy-folder website-target/prod website-target/dev",
+         "replacer website-target/prod --ext=.html website-target/dev '--regex=/https:.*dna-engine.min.js/m' --replacement=/dist/dna-engine.dev.js{{space}}class{{equals}}dev-mode"
       ]
    },
    "scripts": {
@@ -132,7 +133,7 @@
       "test": "mocha spec/*.spec.js",
       "dev": "npm test && run-scripts dev --parallel",
       "build-website": "run-scripts web",
-      "interactive": "browser-sync . --directory --startPath website-target/index.html --files website-target"
+      "interactive": "browser-sync . --startPath website-target/dev/index.html --files website-target/dev"
    },
    "devDependencies": {
       "@fortawesome/fontawesome-free": "~6.4",
@@ -149,7 +150,7 @@
       "esm-to-plain-js": "~1.0",
       "fetch-json": "~3.1",
       "highlight.js": "~11.8",
-      "hljs-enhance": "~1.1",
+      "hljs-enhance": "~2.0",
       "jsdom": "~22.1",
       "jshint": "~2.13",
       "mocha": "~10.2",

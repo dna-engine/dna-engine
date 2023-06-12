@@ -1,4 +1,4 @@
-//! dna-engine v3.0.0 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.1 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -265,6 +265,18 @@ const dnaDom = {
         };
         globalThis.document.addEventListener('pointerover', delegator);
     },
+    onReady(callback, options) {
+        var _a;
+        const state = globalThis.document ? globalThis.document.readyState : 'browserless';
+        const name = (_a = options === null || options === void 0 ? void 0 : options.name) !== null && _a !== void 0 ? _a : 'dna-engine';
+        if (state === 'browserless' && !(options === null || options === void 0 ? void 0 : options.quiet))
+            console.log(dna.util.timestampMsec(), name, 'loaded into browserless context');
+        if (['complete', 'browserless'].includes(state))
+            callback();
+        else
+            globalThis.window.addEventListener('DOMContentLoaded', callback);
+        return state;
+    },
 };
 const dnaUi = {
     isHidden(elem) {
@@ -412,7 +424,11 @@ const dnaUi = {
         return dna.ui.slideFadeOut(elem).then(dna.core.remove);
     },
     smoothHeight(updateUI, options) {
-        const defaults = { container: globalThis.document.body, transition: 1000 };
+        const defaults = {
+            container: globalThis.document.body,
+            overflowHidden: true,
+            transition: 1000,
+        };
         const settings = Object.assign(Object.assign({}, defaults), options);
         const container = settings.container;
         const style = container.style;
@@ -420,7 +436,8 @@ const dnaUi = {
             const height = String(container.clientHeight) + 'px';
             style.minHeight = height;
             style.maxHeight = height;
-            style.overflow = 'hidden';
+            if (settings.overflowHidden)
+                style.overflow = 'hidden';
             container.classList.add(dna.name.animating);
         };
         const animate = () => {
@@ -583,6 +600,12 @@ const dnaUtil = {
     isObj: (value) => {
         return !!value && typeof value === 'object' && !Array.isArray(value);
     },
+    timestamp() {
+        return dna.format.getDateFormatter('timestamp')(Date.now());
+    },
+    timestampMsec() {
+        return dna.format.getDateFormatter('timestamp-msec')(Date.now());
+    },
 };
 const dnaFormat = {
     getCurrencyFormatter(iso4217, units = 1) {
@@ -662,25 +685,40 @@ const dnaPanels = {
         const savedIndex = Number(dna.pageToken.get(navName, 0));
         const bound = (loc) => Math.max(0, Math.min(loc, menuItems.length - 1));
         const index = bound(location === undefined ? savedIndex : location);
-        if (menu.nodeName === 'SELECT')
-            menu.selectedIndex = index;
-        menuItems.forEach(elem => dna.dom.replaceClass(elem, dna.name.selected, dna.name.unselected));
-        dna.dom.replaceClass(menuItems[index], dna.name.unselected, dna.name.selected);
-        const hidePanel = (panel) => {
-            dna.ui.hide(panel);
-            panel.classList.remove(dna.name.displayed);
-            panel.classList.add(dna.name.hidden);
+        const update = () => {
+            if (menu.nodeName === 'SELECT')
+                menu.selectedIndex = index;
+            menuItems.forEach(elem => dna.dom.replaceClass(elem, dna.name.selected, dna.name.unselected));
+            dna.dom.replaceClass(menuItems[index], dna.name.unselected, dna.name.selected);
+            const hidePanel = (panel) => {
+                dna.ui.hide(panel);
+                panel.classList.remove(dna.name.displayed);
+                panel.classList.add(dna.name.hidden);
+            };
+            dna.dom.forEach(panels.children, hidePanel);
+            const panel = panels.children[index];
+            panel.classList.replace(dna.name.hidden, dna.name.displayed);
+            dna.ui.fadeIn(panel);
+            const hash = panel.dataset.hash;
+            dna.pageToken.put(navName, index);
+            if (updateUrl && hash)
+                globalThis.history.pushState(null, '', '#' + hash);
+            if (callback)
+                dna.util.apply(callback, [panel, hash]);
+            return panel;
         };
-        dna.dom.forEach(panels, hidePanel);
-        const panel = panels[index];
-        panel.classList.replace(dna.name.hidden, dna.name.displayed);
-        dna.ui.fadeIn(panel);
-        const hash = panel.dataset.hash;
-        dna.pageToken.put(navName, index);
-        if (updateUrl && hash)
-            globalThis.history.pushState(null, '', '#' + hash);
-        if (callback)
-            dna.util.apply(callback, [panel, hash]);
+        const heightTransition = 100;
+        const startHieght = panels.clientHeight;
+        const panel = update();
+        const endHieght = panels.clientHeight;
+        panels.style.transition = 'all 0ms';
+        panels.style.height = String(startHieght) + 'px';
+        const animate = () => {
+            panels.style.transition = `all ${heightTransition}ms`;
+            panels.style.height = String(endHieght) + 'px';
+        };
+        globalThis.requestAnimationFrame(animate);
+        globalThis.setTimeout(() => panels.style.removeProperty('height'), heightTransition + 100);
         return panel;
     },
     clickRotate(menuItem) {
@@ -692,25 +730,26 @@ const dnaPanels = {
         return dna.panels.display(menu, menu.selectedIndex, true);
     },
     nextNav: 1,
-    initialize(panelHolder) {
+    initialize(panels) {
         const generateNavName = () => {
             const navName = 'dna-panels-' + String(dna.panels.nextNav++);
             const setNavName = (elem) => elem.dataset.nav = navName;
-            const menu = panelHolder.previousElementSibling;
-            dna.core.assert(menu === null || menu === void 0 ? void 0 : menu.classList.contains('dna-menu'), 'Menu not found for panels', panelHolder);
+            const menu = panels.previousElementSibling;
+            dna.core.assert(menu === null || menu === void 0 ? void 0 : menu.classList.contains('dna-menu'), 'Menu not found for panels', panels);
             setNavName(menu);
-            setNavName(panelHolder);
+            setNavName(panels);
             return navName;
         };
         const init = () => {
-            const navName = panelHolder.dataset.nav || generateNavName();
+            const navName = panels.dataset.nav || generateNavName();
             const menu = globalThis.document.querySelector('.dna-menu[data-nav=' + navName + ']');
-            const panels = dna.dom.addClass(panelHolder.children, dna.name.panel);
             const hash = globalThis.location.hash.replace(/[^\w-]/g, '');
-            const hashIndex = () => dna.dom.findIndex(panels, '[data-hash=' + hash + ']');
+            const hashIndex = () => dna.dom.findIndex(panels.children, '[data-hash=' + hash + ']');
             const savedIndex = () => dna.pageToken.get(navName, 0);
-            const loc = hash && panels[0].dataset.hash ? hashIndex() : savedIndex();
-            panelHolder.classList.add(dna.name.panelsInitialized);
+            const first = panels.children[0];
+            const loc = hash && first.dataset.hash ? hashIndex() : savedIndex();
+            dna.dom.addClass(panels.children, dna.name.panel);
+            panels.classList.add(dna.name.panelsInitialized);
             dna.core.assert(menu, 'Menu not found for panels', navName);
             menu.classList.add(dna.name.panelsInitialized);
             dna.dom.state(menu).dnaPanels = panels;
@@ -718,10 +757,10 @@ const dnaPanels = {
                 dna.dom.addClass(menu.children, dna.name.menuItem);
             dna.panels.display(menu, loc);
         };
-        const isInitialized = !panelHolder || panelHolder.classList.contains(dna.name.panelsInitialized);
-        if (!isInitialized && !dna.dom.hasClass(panelHolder.children, dna.name.template))
+        const isInitialized = !panels || panels.classList.contains(dna.name.panelsInitialized);
+        if (!isInitialized && !dna.dom.hasClass(panels.children, dna.name.template))
             init();
-        return panelHolder;
+        return panels;
     },
     setup() {
         const panels = globalThis.document.querySelectorAll(dna.selector.panels);
@@ -1352,24 +1391,18 @@ const dnaCore = {
             }
     },
     setup() {
-        var _a;
         const setupBrowser = () => {
             dna.placeholder.setup();
             dna.panels.setup();
             dna.events.setup();
         };
-        const timestamp = () => dna.format.getDateFormatter('timestamp-msec')(Date.now());
-        if (typeof globalThis.window === 'undefined')
-            console.log(timestamp(), 'Browserless context loaded dna-engine');
-        else if (((_a = globalThis.document) === null || _a === void 0 ? void 0 : _a.readyState) === 'complete')
+        if (globalThis.document)
             setupBrowser();
-        else
-            globalThis.window.addEventListener('DOMContentLoaded', setupBrowser);
         return dna;
     },
 };
 const dna = {
-    version: '3.0.0',
+    version: '3.0.1',
     clone(name, data, options) {
         const defaults = {
             fade: false,
@@ -1613,5 +1646,5 @@ const dna = {
     events: dnaEvents,
     core: dnaCore,
 };
-dna.core.setup();
+dna.dom.onReady(dna.core.setup);
 export { dna };

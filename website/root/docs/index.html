@@ -2756,12 +2756,13 @@
                &lt;script&gt;
                   const bookshelf = {
                      booksUrl: 'https://dna-engine.org/api/books/',
-                     show: (elem, event, component) =&gt;
-                        elem.text(component.data().component + '!'),
-                     setup: (elem) =&gt; {
+                     show(elem, event, component) {
+                        elem.textContent = component.dataset.component + '!';
+                        },
+                     setup(elem) {
                         const handle = (data) =&gt; dna.clone('my-book', data);
                         fetchJson.get(bookshelf.booksUrl).then(handle);
-                        }
+                        },
                      };
                &lt;/script&gt;
             &lt;/div&gt;
@@ -2785,12 +2786,13 @@
                <script>
                   const bookshelf = {
                      booksUrl: 'https://dna-engine.org/api/books/',
-                     show: (elem, event, component) =>
-                        elem.text(component.data().component + '!'),
-                     setup: (elem) => {
+                     show(elem, event, component) {
+                        elem.textContent = component.dataset.component + '!';
+                        },
+                     setup(elem) {
                         const handle = (data) => dna.clone('my-book', data);
                         fetchJson.get(bookshelf.booksUrl).then(handle);
-                        }
+                        },
                      };
                </script>
             </div>
@@ -3154,7 +3156,7 @@
                         elem.href =        url;
                         return elem;
                         };
-                     if (!panel.getElementsByTag('a').length)
+                     if (!panel.getElementsByTagName('a').length)
                         panel.append(makeLink());
                      };
                </script>

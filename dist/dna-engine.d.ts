@@ -1,4 +1,4 @@
-//! dna-engine v3.0.0 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.1 ~~ https://dna-engine.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -348,6 +348,10 @@ declare const dna: {
         onSubmit(listener: DnaEventListener, selector?: string): void;
         onHoverIn(listener: DnaEventListener, selector: string): void;
         onHoverOut(listener: DnaEventListener, selector: string): void;
+        onReady(callback: (...args: unknown[]) => unknown, options?: {
+            quiet?: boolean;
+            name?: string;
+        }): DocumentReadyState | 'browserless';
     };
     ui: {
         isHidden(elem: Element): boolean;
@@ -363,6 +367,7 @@ declare const dna: {
         slideFadeDelete(elem: Element): Promise<Element>;
         smoothHeight(updateUI: () => unknown, options?: {
             container?: Element;
+            overflowHidden: boolean;
             transition?: number;
         }): Promise<Element>;
         smoothMove(elem: Element, up: boolean): Promise<Element>;
@@ -388,6 +393,8 @@ declare const dna: {
         toKebab: (camelStr: string) => string;
         value<T_11>(data: T_11, field: string | string[]): unknown;
         isObj: (value: unknown) => boolean;
+        timestamp(): string;
+        timestampMsec(): string;
     };
     format: {
         getCurrencyFormatter(iso4217: string, units?: number): DnaFormatter;
@@ -404,7 +411,7 @@ declare const dna: {
         clickRotate(menuItem: Element): Element;
         selectRotate(menu: Element): Element;
         nextNav: number;
-        initialize(panelHolder: Element | null): Element | null;
+        initialize(panels: Element | null): Element | null;
         setup(): NodeListOf<Element>;
     };
     compile: {
