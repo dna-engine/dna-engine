@@ -66,9 +66,10 @@
             { title: 'Howdy HTML5',  author: 'Ed',   price: 3750 },
             ],
          setup() {
-            dna.dom.toggleClass(document.body, 'minified-mode', globalThis.location.pathname.includes('visual.min'));
-            const version = dna.version === '{{pkg.version}}' ? '' : 'v' + dna.version;
-            document.querySelector('.version-number').innerText = version;
+            const minifiedMode = globalThis.location.pathname.includes('visual.min');
+            dna.dom.toggleClass(document.body, 'minified-mode', minifiedMode);
+            const version = dna.version === '{{pkg.version}}' ? '[DEV]' : dna.version;
+            document.querySelectorAll('.version-number').forEach(elem => elem.innerText = version);
             const runSpec = (sectionNode) => {
                console.log(sectionNode.id);
                spec[sectionNode.id].run();
@@ -98,7 +99,7 @@
 
 <header>
    <div>
-      <h1>dna-engine <span class=version-number></span></h1>
+      <h1>dna-engine v<span class=version-number></span></h1>
       <h2>Visual Specification Runner</h2>
    </div>
    <nav>
@@ -1918,7 +1919,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 </main>
 <footer>
-   dna-engine <span class=version-number></span>
+   dna-engine v<span class=version-number></span>
 </footer>
 
 </body>

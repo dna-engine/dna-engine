@@ -2,7 +2,7 @@
 // Copyright (c) 2013-2023 Individual contributors to dna-engine
 
 const app = {
-   setup: () => {
+   setup() {
       app.nav.setup();
       app.documenation.setup();
       const versionNumber = document.querySelector('.version-number');
@@ -17,14 +17,14 @@ app.bookstore = {
       { title: 'Styling CSS3',  author: 'Abby' },
       { title: 'Howdy HTML5',   author: 'Ed' },
       ],
-   clear: () => {
+   clear() {
       dna.empty('book', { fade: true });
       },
-   feelLucky: () => {
+   feelLucky() {
       const lucky = Math.floor(Math.random() * app.bookstore.books.length);
       dna.clone('book', app.bookstore.books[lucky], { fade: true });
       },
-   setup: () => {
+   setup() {
       dna.clone('book', { title: 'The DOM', author: 'Jan' });
       },
    };
@@ -49,4 +49,4 @@ app.documenation = {
       },
    };
 
-globalThis.window.setTimeout(app.setup, 1000);
+dna.dom.onReady(app.setup);

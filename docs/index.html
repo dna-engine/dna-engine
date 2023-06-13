@@ -37,7 +37,7 @@
    <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@2.0/dist/lib-x.min.js></script>
    <script data-on-load=showVersion>
       const showVersion = () =>
-         globalThis.document.querySelectorAll('.version-number').textContent = dna.version;
+         globalThis.document.getElementById('version-number').textContent = dna.version;
    </script>
 </head>
 <body>
@@ -68,7 +68,7 @@
       converts your JSON data into dynamically generated DOM elements.
    </p>
    <p>
-      dna-engine v<span class=version-number></span> &mdash; open source under the MIT License.
+      dna-engine v<span id=version-number></span> &mdash; open source under the MIT License.
    </p>
 </main>
 
