@@ -87,7 +87,8 @@
          };
       const setup = () => {
          dna.clone('circle', circles, { callback: addStyle });
-         globalThis.document.getElementById('#circle-data').textContent = JSON.stringify(circles);
+         const circleData = globalThis.document.getElementById('circle-data');
+         circleData.textContent = JSON.stringify(circles);
          };
    </script>
 </head>

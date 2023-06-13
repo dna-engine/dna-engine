@@ -63,7 +63,7 @@ input[type=checkbox], button {
 <script data-on-load=todo.setup>
    const todo = {
       add() {  //create task
-         const title = globalThis.document.getElementById('#task-title').value;
+         const title = globalThis.document.getElementById('task-title').value;
          dna.clone('task', { title }, { fade: true });
          },
       setup() {  //start with one task

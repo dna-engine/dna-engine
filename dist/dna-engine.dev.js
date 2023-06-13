@@ -1,4 +1,4 @@
-//! dna-engine v3.0.1 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.2 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -224,7 +224,7 @@ const dnaDom = {
         dna.dom.on('focusin', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
     },
     onFocusOut(listener, selector) {
-        dna.dom.on('focusin', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
+        dna.dom.on('focusout', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
     },
     onCut(listener, selector) {
         dna.dom.on('cut', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
@@ -345,7 +345,7 @@ const dnaUi = {
         };
         return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
     },
-    slideFadeIn(elem) {
+    slideFadeIn(elem, options) {
         const fadeTransition = 600;
         const style = elem.style;
         const verticals = [
@@ -372,7 +372,7 @@ const dnaUi = {
             };
             globalThis.requestAnimationFrame(animate);
         };
-        if (dna.ui.isHidden(elem))
+        if (dna.ui.isHidden(elem) || (options === null || options === void 0 ? void 0 : options.force))
             start();
         const cleanup = () => {
             style.removeProperty('transition');
@@ -426,8 +426,8 @@ const dnaUi = {
     smoothHeight(updateUI, options) {
         const defaults = {
             container: globalThis.document.body,
-            overflowHidden: true,
-            transition: 1000,
+            overflow: true,
+            smoothMsec: 1000,
         };
         const settings = Object.assign(Object.assign({}, defaults), options);
         const container = settings.container;
@@ -436,7 +436,7 @@ const dnaUi = {
             const height = String(container.clientHeight) + 'px';
             style.minHeight = height;
             style.maxHeight = height;
-            if (settings.overflowHidden)
+            if (settings.overflow)
                 style.overflow = 'hidden';
             container.classList.add(dna.name.animating);
         };
@@ -452,7 +452,7 @@ const dnaUi = {
                 globalThis.setTimeout(turnOffTransition, 1000);
             };
             const setAnimationLength = () => {
-                style.transition = `all ${settings.transition}ms`;
+                style.transition = `all ${settings.smoothMsec}ms`;
                 globalThis.requestAnimationFrame(animate);
             };
             globalThis.requestAnimationFrame(setAnimationLength);
@@ -464,7 +464,7 @@ const dnaUi = {
         setBaseline();
         updateUI();
         animate();
-        const delay = settings.transition + 100;
+        const delay = settings.smoothMsec + 100;
         return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), delay));
     },
     smoothMove(elem, up) {
@@ -490,7 +490,11 @@ const dnaUi = {
         return dna.ui.smoothMove(elem, false);
     },
     pulse(elem, options) {
-        const defaults = { fadeIn: 600, showDuration: 7000, fadeOut: 3000 };
+        const defaults = {
+            fadeInMsec: 600,
+            displayMsec: 7000,
+            fadeOutMsec: 3000,
+        };
         const settings = Object.assign(Object.assign({}, defaults), options);
         dna.core.assert(dna.dom.isElem(elem), 'Invalid element for dna.ui.pulse()', elem);
         const pulseStart = Date.now();
@@ -499,25 +503,25 @@ const dnaUi = {
         style.transition = 'all 0ms';
         style.opacity = '0';
         const animate = () => {
-            style.transition = `all ${settings.fadeIn}ms`;
+            style.transition = `all ${settings.fadeInMsec}ms`;
             style.opacity = '1';
         };
         const isLastPulse = () => dna.dom.state(elem).dnaPulseStart === pulseStart;
         const fadeAway = () => {
-            style.transition = `all ${settings.fadeOut}ms`;
+            style.transition = `all ${settings.fadeOutMsec}ms`;
             if (isLastPulse())
                 style.opacity = '0';
         };
         globalThis.requestAnimationFrame(animate);
-        if (settings.showDuration)
-            globalThis.setTimeout(fadeAway, settings.fadeIn + settings.showDuration);
+        if (settings.displayMsec)
+            globalThis.setTimeout(fadeAway, settings.fadeInMsec + settings.displayMsec);
         const cleanup = () => {
             if (isLastPulse())
                 style.removeProperty('transition');
             return elem;
         };
-        const total = !settings.showDuration ? settings.fadeIn :
-            settings.fadeIn + settings.showDuration + settings.fadeOut;
+        const total = !settings.displayMsec ? settings.fadeInMsec :
+            settings.fadeInMsec + settings.displayMsec + settings.fadeOutMsec;
         return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
     },
     focus(elem) {
@@ -1044,7 +1048,7 @@ const dnaEvents = {
         initializers: [],
     },
     runOnLoads(options) {
-        const defaults = { msec: 300 };
+        const defaults = { pollMsec: 300 };
         const settings = Object.assign(Object.assign({}, defaults), options);
         const elems = globalThis.document.querySelectorAll(`[data-on-load]:not(.${dna.name.onLoad})`);
         elems.forEach(elem => elem.classList.add(dna.name.onLoad));
@@ -1067,7 +1071,7 @@ const dnaEvents = {
             if (fn && !waitFor.map(dna.util.getFn).includes(undefined))
                 run();
             else
-                globalThis.setTimeout(() => runOnLoad(elem), settings.msec);
+                globalThis.setTimeout(() => runOnLoad(elem), settings.pollMsec);
         };
         elems.forEach(runOnLoad);
         return elems;
@@ -1295,7 +1299,8 @@ const dnaCore = {
         dna.dom.state(clone).dnaCount = count;
         return clone;
     },
-    replicate: (template, data, settings) => {
+    replicate(template, data, options) {
+        const settings = options;
         const subclass = () => 'dna-contains-' + template.name;
         const getContainer = (name) => settings.container.classList.contains(name) ?
             settings.container : settings.container.getElementsByClassName(name).item(0);
@@ -1353,7 +1358,7 @@ const dnaCore = {
         if (settings.callback)
             settings.callback(clone, data);
         if (settings.fade)
-            dna.ui.slideFadeIn(clone);
+            dna.ui.slideFadeIn(clone, { force: true });
         return clone;
     },
     getArrayName(subClone) {
@@ -1402,17 +1407,19 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.0.1',
+    version: '3.0.2',
     clone(name, data, options) {
         const defaults = {
-            fade: false,
-            top: false,
+            callback: null,
+            clones: 1,
             container: null,
             empty: false,
-            clones: 1,
+            fade: false,
+            formatter: null,
+            holder: null,
             html: false,
+            top: false,
             transform: null,
-            callback: null,
         };
         const settings = Object.assign(Object.assign({}, defaults), options);
         const template = dna.template.get(name);
@@ -1496,7 +1503,7 @@ const dna = {
             dna.clone(name, data, options);
     },
     refresh(clone, options) {
-        const defaults = { html: false };
+        const defaults = { data: null, html: false, main: false };
         const settings = Object.assign(Object.assign({}, defaults), options);
         const elem = dna.getClone(clone, options);
         const model = settings.data ? settings.data : dna.getModel(elem);
@@ -1540,7 +1547,7 @@ const dna = {
         return clone;
     },
     destroy(elem, options) {
-        const defaults = { main: false, fade: false, callback: null };
+        const defaults = { main: false, fade: false };
         const settings = Object.assign(Object.assign({}, defaults), options);
         const clone = dna.getClone(elem, options);
         const arrayField = dna.core.getArrayName(clone);
@@ -1580,7 +1587,11 @@ const dna = {
         return dna.destroy(dna.ui.toClone(elemOrEvent), { fade: true });
     },
     registerInitializer(fn, options) {
-        const defaults = { selector: null, params: [], onDomReady: true };
+        const defaults = {
+            selector: null,
+            params: [],
+            onDomReady: true,
+        };
         const settings = Object.assign(Object.assign({}, defaults), options);
         const rootSelector = settings.selector;
         const notTemplate = (elem) => !elem.classList.contains(dna.name.template);

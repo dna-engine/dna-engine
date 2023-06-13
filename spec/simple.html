@@ -9,7 +9,7 @@
    <meta name=viewport content="width=device-width, initial-scale=1">
    <title>dna-engine ~~ Simple Specification Case</title>
    <link rel=icon       href=https://dna-engine.org/graphics/bookmark.png>
-   <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna-engine@2/dist/dna-engine.css>
+   <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna-engine@3/dist/dna-engine.css>
    <style>
       body               { font-family: system-ui, sans-serif; margin: 30px; }
       main               { max-width: 500px; }
@@ -21,22 +21,25 @@
    <script data-on-load=app.setup>
       const app = {
          books: [
-            { id: 'B003', title: 'The DOM',      author: 'Jan',  price: 2495, color: 'r' },
-            { id: 'B005', title: 'Styling CSS3', author: 'Abby', price: 1995, color: 'b' },
+            { id: 'B003', title: 'The DOM',      author: 'Jan',  price: 2495, color: 'r001' },
+            { id: 'B005', title: 'Styling CSS3', author: 'Abby', price: 1995, color: 'b002' },
             { id: 'B007', title: 'Howdy HTML5',  author: 'Ed',   price: 2995, color: null },
             ],
          colors: [
-            { code: 'r', name: 'Red' },
-            { code: 'b', name: 'Blue' },
+            { code: 'r001', name: 'Red' },
+            { code: 'b002', name: 'Blue' },
+            { code: 'g003', name: 'Green' },
+            { code: 'p004', name: 'Purple' },
+            { code: 's005', name: 'Silver' },
             ],
-         doSomeStuff: () => {
+         doSomeStuff() {
             const addCodes = (book) => book.colors = app.colors;
             dna.clone('book', app.books, { transform: addCodes });
             },
-         setup: () => {
+         setup() {
             const start = Date.now();
             app.doSomeStuff(),
-            console.log('Run duration:', (Date.now() - start) + 'ms');
+            console.log('Run duration (milliseconds):', Date.now() - start);
             console.log('Template info:');
             console.log(dna.info());
             console.log('Data model:');
@@ -59,7 +62,9 @@
                <option disabled>--------------</option>
                <option data-array=~~colors~~ value=~~code~~>~~name~~</option>
             </select>
-            <code>~~color~~</code>
+            <span data-require=~~color~~>
+               Code: <strong><code>~~color~~</code></strong>
+            </span>
          </div>
       </section>
    </book-list>

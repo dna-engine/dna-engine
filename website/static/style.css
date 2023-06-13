@@ -147,8 +147,8 @@ h4 {
 h5 {
    font-size: 1.3rem
    }
-table thead th,
-table tbody td {
+table thead tr th,
+table tbody tr td {
    text-align: left;
    }
 dt {
@@ -278,6 +278,12 @@ section >p >em {
    }
 main.docs-page #smooth-container button {
    margin: 0px 5px 5px 0px;
+   }
+main.docs-page #interactive-events p {
+   margin-bottom: 10px;
+   }
+main.docs-page #interactive-events p input {
+   margin: 0px;
    }
 
 .api-description {

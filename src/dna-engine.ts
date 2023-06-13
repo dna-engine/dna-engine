@@ -441,7 +441,7 @@ const dnaDom = {
       dna.dom.on('focusin', listener, { selector: selector ?? null });
       },
    onFocusOut(listener: DnaEventListener, selector?: string) {
-      dna.dom.on('focusin', listener, { selector: selector ?? null });
+      dna.dom.on('focusout', listener, { selector: selector ?? null });
       },
    onCut(listener: DnaEventListener, selector?: string) {
       dna.dom.on('cut', listener, { selector: selector ?? null });
@@ -1675,7 +1675,7 @@ const dnaCore = {
             dna.util.apply(rules.callback, [elem]);
          };
       if (settings.transform)  //alternate version of data-transform
-         'settings.transform(data)';
+         settings.transform(data);
       const notSubClone = (elem: Element) => !elem.classList.contains(dna.name.subClone);
       const dig = (elem: Element) => {
          if (elem.classList.contains(dna.name.nucleotide))

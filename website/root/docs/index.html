@@ -684,8 +684,8 @@
                <th>Code</th>
                <th>Minor Unit</th>
                <th>Template HTML</th>
-               <th>Example Value</th>
-               <th>Example Display</th>
+               <th class=num>Example Value</th>
+               <th class=num>Example Display</th>
             </tr>
          </thead>
          <tbody>
@@ -693,43 +693,43 @@
                <td><code>gbp</code></td>
                <td><i class=icon data-icon=times-circle></i></td>
                <td><code>data-format-currency=gbp</code></td>
-               <td><code>1234.5678</code></td>
-               <td><b>&pound;1,234.57</b></td>
+               <td class=num><code>1234.5678</code></td>
+               <td class=num><b>&pound;1,234.57</b></td>
             </tr>
             <tr>
                <td><code>krw</code></td>
                <td><i class=icon data-icon=times-circle></i></td>
                <td><code>data-format-currency=krw</code></td>
-               <td><code>1234.5678</code></td>
-               <td><b>&#8361;1,235</b></td>
+               <td class=num><code>1234.5678</code></td>
+               <td class=num><b>&#8361;1,235</b></td>
             </tr>
             <tr>
                <td><code>eur</code></td>
                <td><i class=icon data-icon=times-circle></i></td>
                <td><code>data-format-currency=eur</code></td>
-               <td><code>2999</code></td>
-               <td><b>&euro;2,999.00</b></td>
+               <td class=num><code>2999</code></td>
+               <td class=num><b>&euro;2,999.00</b></td>
             </tr>
             <tr>
                <td><code>eur</code></td>
                <td><i class=icon data-icon=check-circle></i></td>
                <td><code>data-format-currency100=eur</code></td>
-               <td><code>2999</code></td>
-               <td><b>&euro;29.99</b></td>
+               <td class=num><code>2999</code></td>
+               <td class=num><b>&euro;29.99</b></td>
             </tr>
             <tr>
                <td><code>usd</code></td>
                <td><i class=icon data-icon=times-circle></i></td>
                <td><code>data-format-currency=usd</code></td>
-               <td><code>2999</code></td>
-               <td><b>&dollar;2,999.00</b></td>
+               <td class=num><code>2999</code></td>
+               <td class=num><b>&dollar;2,999.00</b></td>
             </tr>
             <tr>
                <td><code>usd</code></td>
                <td><i class=icon data-icon=check-circle></i></td>
                <td><code>data-format-currency100=usd</code></td>
-               <td><code>2999</code></td>
-               <td><b>&dollar;29.99</b></td>
+               <td class=num><code>2999</code></td>
+               <td class=num><b>&dollar;29.99</b></td>
             </tr>
          </tbody>
       </table>
@@ -773,7 +773,7 @@
       <table>
          <caption>Supported Date Formats</caption>
          <thead>
-            <tr><th>Format Code</th>              <th>Example Output</th>                         <th>Display Time Zone</th></tr>
+            <tr><th>Format Code</th>                <th>Example Output</th>                         <th>Display Time Zone</th></tr>
          </thead>
          <tbody>
             <tr><td><code>date</code></td>          <td>Sat May 04 2030</td>                        <td><i>local</i></td></tr>
@@ -828,35 +828,35 @@
          <thead>
             <tr>
                <th>Template HTML</th>
-               <th>Example Value</th>
-               <th>Example Display</th>
+               <th class=num>Example Value</th>
+               <th class=num>Example Display</th>
             </tr>
          </thead>
          <tbody>
             <tr>
                <td><code>data-format-number=#.####</code></td>
-               <td><code>-7</code></td>
-               <td><b>-7.0000</b></td>
+               <td class=num><code>-7</code></td>
+               <td class=num><b>-7.0000</b></td>
             </tr>
             <tr>
                <td><code>data-format-number=#</code></td>
-               <td><code>1234.5678</code></td>
-               <td><b>1,235</b></td>
+               <td class=num><code>1234.5678</code></td>
+               <td class=num><b>1,235</b></td>
             </tr>
             <tr>
                <td><code>data-format-number=#.#</code></td>
-               <td><code>1234.5678</code></td>
-               <td><b>1,234.6</b></td>
+               <td class=num><code>1234.5678</code></td>
+               <td class=num><b>1,234.6</b></td>
             </tr>
             <tr>
                <td><code>data-format-number=#.##</code></td>
-               <td><code>1234.5678</code></td>
-               <td><b>1,234.57</b></td>
+               <td class=num><code>1234.5678</code></td>
+               <td class=num><b>1,234.57</b></td>
             </tr>
             <tr>
                <td><code>data-format-number=#.###</code></td>
-               <td><code>1234.5678</code></td>
-               <td><b>1,234.568</b></td>
+               <td class=num><code>1234.5678</code></td>
+               <td class=num><b>1,234.568</b></td>
             </tr>
          </tbody>
       </table>
@@ -875,8 +875,8 @@
          <figcaption>Example HTML for rendering an integer and a float</figcaption>
          <pre><code class=language-html>
             &lt;div id=book class=dna-template&gt;
-               &lt;p&gt;Score:         &lt;span data-format-percent=#&gt;~~score~~&lt;/span&gt;&lt;/p&gt;
-               &lt;p&gt;Foreign Sales: &lt;span data-format-percent=#.#&gt;~~sales.foreign~~&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Score: &lt;span data-format-percent=#&gt;~~score~~&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Sales: &lt;span data-format-percent=#.#&gt;~~sales.foreign~~&lt;/span&gt;&lt;/p&gt;
             &lt;/div&gt;
          </code></pre>
       </figure>
@@ -886,8 +886,8 @@
          <figcaption>Resulting HTML</figcaption>
          <pre><code class=language-html>
             &lt;div class=book&gt;
-               &lt;p&gt;Score:         &lt;span&gt;90%&lt;/span&gt;&lt;/p&gt;
-               &lt;p&gt;Foreign Sales: &lt;span&gt;12.2%&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Score: &lt;span&gt;90%&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Sales: &lt;span&gt;12.2%&lt;/span&gt;&lt;/p&gt;
             &lt;/div&gt;
          </code></pre>
       </figure>
@@ -897,30 +897,30 @@
          <thead>
             <tr>
                <th>Template HTML</th>
-               <th>Example Value</th>
-               <th>Example Display</th>
+               <th class=num>Example Value</th>
+               <th class=num>Example Display</th>
             </tr>
          </thead>
          <tbody>
             <tr>
                <td><code>data-format-percent=#.###</code></td>
-               <td><code>-1</code></td>
-               <td><b>-100.000%</b></td>
+               <td class=num><code>-1</code></td>
+               <td class=num><b>-100.000%</b></td>
             </tr>
             <tr>
                <td><code>data-format-percent=#</code></td>
-               <td><code>0.12345678</code></td>
-               <td><b>12%</b></td>
+               <td class=num><code>0.12345678</code></td>
+               <td class=num><b>12%</b></td>
             </tr>
             <tr>
                <td><code>data-format-percent=#.#</code></td>
-               <td><code>0.12345678</code></td>
-               <td><b>12.3%</b></td>
+               <td class=num><code>0.12345678</code></td>
+               <td class=num><b>12.3%</b></td>
             </tr>
             <tr>
                <td><code>data-format-percent=#.##</code></td>
-               <td><code>0.12345678</code></td>
-               <td><b>12.35%</b></td>
+               <td class=num><code>0.12345678</code></td>
+               <td class=num><b>12.35%</b></td>
             </tr>
          </tbody>
       </table>
@@ -1231,8 +1231,8 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            const book = { title: 'Interwebz', chapters: ['ARPANET', 'TCP/IP'] };
-            const clone = dna.clone('book', book);
+            const book =    { title: 'Interwebz', chapters: ['ARPANET', 'TCP/IP'] };
+            const clone =   dna.clone('book', book);
             const options = { fade: true, top: false };
             dna.arrayPush(clone, 'chapters', 'CERN', options);  //append chapter
          </code></pre>
@@ -1953,7 +1953,10 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            const blink = (elem) =&gt; elem.fadeOut().fadeIn().fadeOut().fadeIn();
+            const showHide = (elem) =&gt;
+               dna.ui.fadeOut(elem).then(dna.ui.fadeIn);
+            const blink = (elem) =&gt;
+               window.setInterval(showHide, 2000);
          </code></pre>
       </figure>
       <p>
@@ -2011,16 +2014,17 @@
             &lt;p&gt;Focus out: &lt;input  data-on-focus-out=showMsg value=A&gt;&lt;/p&gt;
             &lt;script&gt;
                const showMsg = (elem, event) =&gt; {
-                  const msg = 'Value "' + elem.value + '" on ' + event.type;
-                  globalThis.document.getElementById('#message').textContent = msg;
-                  .stop().hide().fadeIn();
+                  const msg =    'Value "' + elem.value + '" on ' + event.type;
+                  const output = globalThis.document.getElementById('message');
+                  output.textContent = msg;
+                  dna.ui.pulse(output);
                   };
             &lt;/script&gt;
          </code></pre>
       </figure>
       <!-- Start: Result -->
       <p class=big-symbol><i class=icon data-icon=arrow-alt-circle-down></i></p>
-      <figure class=hljs-enhance>
+      <figure id=interactive-events class=hljs-enhance>
          <figcaption>Result (interactive)</figcaption>
          <div class=no-disable>
             <output id=message>&nbsp;</output>
@@ -2036,9 +2040,10 @@
             <p>Focus out: <input  data-on-focus-out=showMsg value=A></p>
             <script>
                const showMsg = (elem, event) => {
-                  const msg = 'Value "' + elem.value + '" on ' + event.type;
-                  globalThis.document.getElementById('#message').textContent = msg;
-                  //).stop().hide().fadeIn();
+                  const msg =    'Value "' + elem.value + '" on ' + event.type;
+                  const output = globalThis.document.getElementById('message');
+                  output.textContent = msg;
+                  dna.ui.pulse(output);
                   };
             </script>
          </div>
@@ -2080,12 +2085,14 @@
          <pre><code class=language-html>
             &lt;input data-smart-update=logNow placeholder="Type here"&gt;
             &lt;div id=log-message class=dna-template&gt;
-               &lt;code&gt;~~message~~&lt;/code&gt;
+               &lt;code data-format-date=timestamp&gt;~~time~~&lt;/code&gt;:
+               &lt;strong&gt;~~message~~&lt;/strong&gt;
             &lt;/div&gt;
             &lt;script&gt;
                const logNow = (elem) =&gt; {
-                  const msg = Date.now() + ': ' + elem.value;
-                  dna.clone('log-message', { message: msg }, { fade: true });
+                  const data =  { time: Date.now(), message: elem.value };
+                  const clone = dna.clone('log-message', data, { fade: true });
+                  clone.firstElementChild.style.color = 'royalblue';
                   };
             &lt;/script&gt;
          </code></pre>
@@ -2097,12 +2104,14 @@
          <div>
             <input data-smart-update=logNow placeholder="Type here">
             <div id=log-message class=dna-template>
-               <code>~~message~~</code>
+               <code data-format-date=timestamp>~~time~~</code>:
+               <strong>~~message~~</strong>
             </div>
             <script>
                const logNow = (elem) => {
-                  const msg = Date.now() + ': ' + elem.value;
-                  dna.clone('log-message', { message: msg }, { fade: true });
+                  const data =  { time: Date.now(), message: elem.value };
+                  const clone = dna.clone('log-message', data, { fade: true });
+                  clone.firstElementChild.style.color = 'royalblue';
                   };
             </script>
          </div>
@@ -2146,7 +2155,7 @@
       <figure class=hljs-enhance>
          <figcaption>Result (interactive)</figcaption>
          <div>
-            <button data-href=../book-finder.html>Book Finder</button>
+            <button data-href=../book-finder.html class=external-site>Book Finder</button>
          </div>
       </figure>
       <!-- End: Result -->
@@ -2197,7 +2206,7 @@
          <pre><code class=language-html>
             &lt;h2&gt;Book Information&lt;/h2&gt;
             &lt;div id=book class=dna-template&gt;
-               Title: &lt;input value=~~title~~ data-key-up=bookInfo.update&gt;
+               Title: &lt;input value=~~title~~ data-on-key-up=bookInfo.update&gt;
                ebook: &lt;input type=checkbox data-prop-checked=~~ebook~~
                   data-on-change=bookInfo.update&gt;
             &lt;/div&gt;
@@ -2210,10 +2219,10 @@
          <pre><code class=language-javascript>
             const bookInfo = {
                update(elem) {
-                  const data = JSON.stringify(dna.getModel(elem));
-                  const elem = globalThis.document.getElementById('data')
-                  elem.textContent = data;
-                  dna.ui.pulse(elem);
+                  const data =     JSON.stringify(dna.getModel(elem));
+                  const dataElem = globalThis.document.getElementById('data');
+                  dataElem.textContent = data;
+                  dna.ui.pulse(dataElem, { displayMsec: null });
                   },
                setup() {
                   const book = { title: 'Styling CSS', ebook: true };
@@ -2230,7 +2239,7 @@
          <div>
             <h2>Book Information</h2>
             <div id=book class=dna-template>
-               Title: <input value=~~title~~ data-key-up=bookInfo.update>
+               Title: <input value=~~title~~ data-on-key-up=bookInfo.update>
                <br>
                ebook: <input type=checkbox data-prop-checked=~~ebook~~
                   data-on-change=bookInfo.update>
@@ -2239,16 +2248,20 @@
             <div>Data: <code id=data>[YOUR MOVE]</code></div>
             <script data-on-load=bookInfo.setup>
                const bookInfo = {
-                  update: (elem) => {
-                     const data = JSON.stringify(dna.getModel(elem));
-                     globalThis.document.getElementById('#data').textContent = data;
-                     //).hide().fadeIn();
+                  update(elem) {
+                     const data =     JSON.stringify(dna.getModel(elem));
+                     const dataElem = globalThis.document.getElementById('data');
+                     dataElem.textContent = data;
+                     dna.ui.pulse(dataElem, { displayMsec: null });
                      },
-                  setup: () => {
+                  setup() {
                      const book = { title: 'Styling CSS', ebook: true };
                      dna.clone('book', book);
-                     }
+                     },
                   };
+               // Note: Using data-on-load=bookInfo.setup because inline <script> executes
+               // before defer scripts.
+               // dna.dom.onReady(bookInfo.setup);
             </script>
          </div>
       </figure>
@@ -2454,13 +2467,16 @@
       <figure>
          <figcaption>Example HTML</figcaption>
          <pre><code class=language-html>
-            &lt;p data-on-load=blink data-wait-for=myEventLogger&gt;
-               This paragraph will blink on page load!
+            &lt;p data-on-load=doubleBlink data-wait-for=myEventLogger&gt;
+               This paragraph will blink twice on page load!
             &lt;/p&gt;
             &lt;script&gt;
-               const blink = (elem) =&gt; {
-                  elem.fadeOut().fadeIn().fadeOut().fadeIn();
-                  myEventLogger('Blink happened');
+               const doubleBlink = (elem) =&gt; {
+                  dna.ui.fadeOut(elem)
+                     .then(dna.ui.fadeIn)
+                     .then(dna.ui.fadeOut)
+                     .then(dna.ui.fadeIn)
+                     .then(() => myEventLogger('Double blink happened'));
                   };
             &lt;/script&gt;
          </code></pre>
@@ -3151,10 +3167,10 @@
                   const updatePanel = (panel, hash) => {
                      const url = location.origin + location.pathname + '#' + hash;
                      const makeLink = () => {
-                        const elem = globalThis.document.createElement('a');
-                        elem.textContent = url;
-                        elem.href =        url;
-                        return elem;
+                        const link = globalThis.document.createElement('a');
+                        link.textContent = url;
+                        link.href =        url;
+                        return link;
                         };
                      if (!panel.getElementsByTagName('a').length)
                         panel.append(makeLink());

@@ -1,4 +1,4 @@
-//! dna-engine v3.0.1 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.2 ~~ https://dna-engine.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -13,80 +13,73 @@ export type NavigatorUAData = {
     readonly mobile: boolean;
     readonly platform: string;
 };
-export type DnaOptionsClone<T> = {
-    fade?: boolean;
-    top?: boolean;
-    clones?: number;
-    html?: boolean;
-    empty?: boolean;
-    holder?: Element | null;
-    container?: Element | null;
-    formatter?: DnaFormatter | null;
-    transform?: DnaTransformFn<T> | null;
-    callback?: DnaCallbackFn<T> | null;
-};
-export type DnaSettingsArrayPush = {
+export type DnaOptionsClone<T> = Partial<{
+    callback: DnaCallbackFn<T> | null;
+    clones: number;
+    container: Element | null;
+    empty: boolean;
+    fade: boolean;
+    formatter: DnaFormatter | null;
+    holder: Element | null;
+    html: boolean;
+    top: boolean;
+    transform: DnaTransformFn<T> | null;
+}>;
+export type DnaOptionsArrayPush = Partial<{
     fade: boolean;
     top: boolean;
-};
-export type DnaOptionsArrayPush = Partial<DnaSettingsArrayPush>;
-export type DnaSettingsGetModel = {
+}>;
+export type DnaOptionsGetModel = Partial<{
     main: boolean;
-};
-export type DnaOptionsGetModel = Partial<DnaSettingsGetModel>;
-export type DnaSettingsEmpty = {
+}>;
+export type DnaOptionsEmpty = Partial<{
     fade: boolean;
-};
-export type DnaOptionsEmpty = Partial<DnaSettingsEmpty>;
-export type DnaOptionsInsert<T> = {
-    fade?: boolean;
-    html?: boolean;
-    transform?: DnaTransformFn<T>;
-    callback?: DnaCallbackFn<T>;
-};
-export type DnaSettingsRefresh = {
+}>;
+export type DnaOptionsRefresh = Partial<{
     data: unknown;
-    main: boolean;
     html: boolean;
-};
-export type DnaOptionsRefresh = Partial<DnaSettingsRefresh>;
-export type DnaSettingsRefreshAll = {
+    main: boolean;
+}>;
+export type DnaOptionsRefreshAll = Partial<{
     data: unknown;
-    main: boolean;
     html: boolean;
-};
-export type DnaOptionsRefreshAll = Partial<DnaSettingsRefreshAll>;
-export type DnaSettingsRecount = {
+    main: boolean;
+}>;
+export type DnaOptionsRecount = Partial<{
     html: boolean;
-};
-export type DnaOptionsRecount = Partial<DnaSettingsRecount>;
-export type DnaOptionsDestroy = {
-    main?: boolean;
-    fade?: boolean;
-};
-export type DnaSettingsGetClone = {
+}>;
+export type DnaOptionsDestroy = Partial<{
+    fade: boolean;
     main: boolean;
-};
-export type DnaOptionsGetClone = Partial<DnaSettingsGetClone>;
-export type DnaSettingsGetIndex = {
+}>;
+export type DnaOptionsGetClone = Partial<{
     main: boolean;
-};
-export type DnaOptionsGetIndex = Partial<DnaSettingsGetIndex>;
-export type DnaSettingsRegisterInitializer = {
-    selector: string | null;
-    params: unknown[];
+}>;
+export type DnaOptionsGetIndex = Partial<{
+    main: boolean;
+}>;
+export type DnaOptionsRegisterInitializer = Partial<{
     onDomReady: boolean;
-};
-export type DnaOptionsRegisterInitializer = Partial<DnaSettingsRegisterInitializer>;
-export type DnaSettingsRunOnLoads = {
-    msec: number;
-};
-export type DnaOptionsEventsOn = Partial<DnaSettingsEventsOn>;
-export type DnaSettingsEventsOn = {
+    params: unknown[];
+    selector: string | null;
+}>;
+export type DnaOptionsRunOnLoads = Partial<{
+    pollMsec: number;
+}>;
+export type DnaOptionsEventsOn = Partial<{
     keyFilter: KeyboardEvent["key"] | null;
     selector: string | null;
-};
-export type DnaOptionsRunOnLoads = Partial<DnaSettingsRunOnLoads>;
+}>;
+export type DnaOptionsPulse = Partial<{
+    displayMsec: number | null;
+    fadeInMsec: number;
+    fadeOutMsec: number;
+}>;
+export type DnaOptionsSmoothHeight = Partial<{
+    container: Element;
+    overflow: boolean;
+    smoothMsec: number;
+}>;
 export type DnaModel = JsonData;
 export type DnaDataObject = JsonObject;
 export type DnaFormatter = <T>(value: DnaFormatterValue, model?: T) => string;
@@ -94,10 +87,10 @@ export type DnaFormatterValue = number | string | boolean;
 export type DnaMsec = number | string;
 export type DnaCallback = (...args: unknown[]) => unknown;
 export interface DnaTransformFn<T> {
-    (model: T): void;
+    (data: T): unknown;
 }
 export interface DnaCallbackFn<T> {
-    (elem: Element, model?: T): void;
+    (elem: Element, data?: T): unknown;
 }
 export interface DnaInitializerFn {
     (elem: Element, ...params: unknown[]): void;
@@ -185,14 +178,36 @@ declare global {
 }
 declare const dna: {
     version: string;
-    clone<T>(name: string, data: T | T[], options?: DnaOptionsClone<T> | undefined): Element | Element[];
+    clone<T>(name: string, data: T | T[], options?: Partial<{
+        callback: DnaCallbackFn<T> | null;
+        clones: number;
+        container: Element | null;
+        empty: boolean;
+        fade: boolean;
+        formatter: DnaFormatter | null;
+        holder: Element | null;
+        html: boolean;
+        top: boolean;
+        transform: DnaTransformFn<T> | null;
+    }> | undefined): Element | Element[];
     arrayPush<T_1>(holderClone: Element, arrayField: string, data: T_1 | T_1[], options?: DnaOptionsArrayPush): Element;
     createTemplate(name: string, html: string, holder: Element): DnaTemplate;
     templateExists(name: string): boolean;
     getModel<T_2>(elem: Element, options?: DnaOptionsGetModel): T_2 | undefined;
     getModels<T_3>(template: string, options?: DnaOptionsGetModel): T_3[];
     empty(name: string, options?: DnaOptionsEmpty): Element[];
-    insert<T_4>(name: string, data: T_4, options?: DnaOptionsInsert<T_4> | undefined): Element;
+    insert<T_4>(name: string, data: T_4, options?: Partial<{
+        callback: DnaCallbackFn<T_4> | null;
+        clones: number;
+        container: Element | null;
+        empty: boolean;
+        fade: boolean;
+        formatter: DnaFormatter | null;
+        holder: Element | null;
+        html: boolean;
+        top: boolean;
+        transform: DnaTransformFn<T_4> | null;
+    }> | undefined): Element;
     refresh(clone: Element, options?: DnaOptionsRefresh): Element;
     refreshAll(name: string, options?: DnaOptionsRefreshAll): Element[];
     updateField(inputElem: Element, value: Json): Element;
@@ -361,23 +376,17 @@ declare const dna: {
         toggle(elem: Element, display: boolean): Element;
         fadeIn(elem: Element): Promise<Element>;
         fadeOut(elem: Element): Promise<Element>;
-        slideFadeIn(elem: Element): Promise<Element>;
+        slideFadeIn(elem: Element, options?: {
+            force: boolean;
+        }): Promise<Element>;
         slideFadeOut(elem: Element): Promise<Element>;
         slideFade(elem: Element, show: boolean): Promise<Element>;
         slideFadeDelete(elem: Element): Promise<Element>;
-        smoothHeight(updateUI: () => unknown, options?: {
-            container?: Element;
-            overflowHidden: boolean;
-            transition?: number;
-        }): Promise<Element>;
+        smoothHeight(updateUI: () => unknown, options?: DnaOptionsSmoothHeight): Promise<Element>;
         smoothMove(elem: Element, up: boolean): Promise<Element>;
         smoothMoveUp(elem: Element): Promise<Element>;
         smoothMoveDown(elem: Element): Promise<Element>;
-        pulse(elem: Element, options?: {
-            fadeIn?: number;
-            showDuration?: number | null;
-            fadeOut?: number;
-        }): Promise<Element>;
+        pulse(elem: Element, options?: DnaOptionsPulse): Promise<Element>;
         focus(elem: Element): Element;
         setText(elem: Element | null, text: string): Element | null;
         toClone(elemOrEvent: Element | Event): Element;
@@ -449,8 +458,30 @@ declare const dna: {
         setup: () => NodeListOf<Element>;
     };
     core: {
-        inject<T_12>(clone: Element, data: T_12, count: number, settings: DnaOptionsClone<T_12>): Element;
-        replicate: <T_13>(template: DnaTemplate, data: T_13, settings: DnaOptionsClone<T_13>) => Element;
+        inject<T_12>(clone: Element, data: T_12, count: number, settings: Partial<{
+            callback: DnaCallbackFn<T_12> | null;
+            clones: number;
+            container: Element | null;
+            empty: boolean;
+            fade: boolean;
+            formatter: DnaFormatter | null;
+            holder: Element | null;
+            html: boolean;
+            top: boolean;
+            transform: DnaTransformFn<T_12> | null;
+        }>): Element;
+        replicate<T_13>(template: DnaTemplate, data: T_13, options: Partial<{
+            callback: DnaCallbackFn<T_13> | null;
+            clones: number;
+            container: Element | null;
+            empty: boolean;
+            fade: boolean;
+            formatter: DnaFormatter | null;
+            holder: Element | null;
+            html: boolean;
+            top: boolean;
+            transform: DnaTransformFn<T_13> | null;
+        }>): Element;
         getArrayName(subClone: Element): string | null;
         updateModelArray(container: Element): Element;
         remove<T_14>(clone: Element, callback?: DnaCallbackFn<T_14> | null | undefined): Element;
