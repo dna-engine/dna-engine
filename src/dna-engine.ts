@@ -14,80 +14,73 @@ export type NavigatorUAData = {
    };
 
 // Types: Options
-export type DnaOptionsClone<T> = {
-   fade?:      boolean,
-   top?:       boolean,
-   clones?:    number,
-   html?:      boolean,
-   empty?:     boolean,
-   holder?:    Element | null,
-   container?: Element | null,
-   formatter?: DnaFormatter | null,
-   transform?: DnaTransformFn<T> | null,
-   callback?:  DnaCallbackFn<T> | null,
-   };
-export type DnaSettingsArrayPush = {
-   fade:       boolean,
-   top:        boolean,
-   };
-export type DnaOptionsArrayPush = Partial<DnaSettingsArrayPush>;
-export type DnaSettingsGetModel = {
-   main:       boolean,
-   };
-export type DnaOptionsGetModel = Partial<DnaSettingsGetModel>;
-export type DnaSettingsEmpty = {
-   fade:       boolean,
-   };
-export type DnaOptionsEmpty = Partial<DnaSettingsEmpty>;
-export type DnaOptionsInsert<T> = {
-   fade?:      boolean,
-   html?:      boolean,
-   transform?: DnaTransformFn<T>,
-   callback?:  DnaCallbackFn<T>,
-   };
-export type DnaSettingsRefresh = {
-   data:       unknown,
-   main:       boolean,
-   html:       boolean,
-   };
-export type DnaOptionsRefresh = Partial<DnaSettingsRefresh>;
-export type DnaSettingsRefreshAll = {
-   data:       unknown,
-   main:       boolean,
-   html:       boolean,
-   };
-export type DnaOptionsRefreshAll = Partial<DnaSettingsRefreshAll>;
-export type DnaSettingsRecount = {
-   html:       boolean,
-   };
-export type DnaOptionsRecount = Partial<DnaSettingsRecount>;
-export type DnaOptionsDestroy = {
-   main?:      boolean,
-   fade?:      boolean,
-   };
-export type DnaSettingsGetClone = {
-   main:       boolean,
-   };
-export type DnaOptionsGetClone = Partial<DnaSettingsGetClone>;
-export type DnaSettingsGetIndex = {
-   main:       boolean,
-   };
-export type DnaOptionsGetIndex = Partial<DnaSettingsGetIndex>;
-export type DnaSettingsRegisterInitializer = {
-   selector:   string | null,
-   params:     unknown[],
-   onDomReady: boolean,
-   };
-export type DnaOptionsRegisterInitializer = Partial<DnaSettingsRegisterInitializer>;
-export type DnaSettingsRunOnLoads = {
-   msec:       number,  //milliseconds
-   };
-export type DnaOptionsEventsOn = Partial<DnaSettingsEventsOn>;
-export type DnaSettingsEventsOn = {
-   keyFilter:  KeyboardEvent["key"] | null,
-   selector:   string | null,
-   };
-export type DnaOptionsRunOnLoads = Partial<DnaSettingsRunOnLoads>;
+export type DnaOptionsClone<T> = Partial<{
+   callback:    DnaCallbackFn<T> | null,
+   clones:      number,
+   container:   Element | null,
+   empty:       boolean,
+   fade:        boolean,
+   formatter:   DnaFormatter | null,
+   holder:      Element | null,
+   html:        boolean,
+   top:         boolean,
+   transform:   DnaTransformFn<T> | null,
+   }>;
+export type DnaOptionsArrayPush = Partial<{
+   fade:        boolean,
+   top:         boolean,
+   }>;
+export type DnaOptionsGetModel = Partial<{
+   main:        boolean,
+   }>;
+export type DnaOptionsEmpty = Partial<{
+   fade:        boolean,
+   }>;
+export type DnaOptionsRefresh = Partial<{
+   data:        unknown,
+   html:        boolean,
+   main:        boolean,
+   }>;
+export type DnaOptionsRefreshAll = Partial<{
+   data:        unknown,
+   html:        boolean,
+   main:        boolean,
+   }>;
+export type DnaOptionsRecount = Partial<{
+   html:        boolean,
+   }>;
+export type DnaOptionsDestroy = Partial<{
+   fade:        boolean,
+   main:        boolean,
+   }>;
+export type DnaOptionsGetClone = Partial<{
+   main:        boolean,
+   }>;
+export type DnaOptionsGetIndex = Partial<{
+   main:        boolean,
+   }>;
+export type DnaOptionsRegisterInitializer = Partial<{
+   onDomReady:  boolean,
+   params:      unknown[],
+   selector:    string | null,
+   }>;
+export type DnaOptionsRunOnLoads = Partial<{
+   pollMsec:    number,
+   }>;
+export type DnaOptionsEventsOn = Partial<{
+   keyFilter:   KeyboardEvent["key"] | null,
+   selector:    string | null,
+   }>;
+export type DnaOptionsPulse = Partial<{
+   displayMsec: number | null,
+   fadeInMsec:  number,
+   fadeOutMsec: number,
+   }>;
+export type DnaOptionsSmoothHeight = Partial<{
+   container:   Element,
+   overflow:    boolean,
+   smoothMsec:  number,
+   }>;
 
 // Types: Data, Templates, and Callbacks
 export type DnaModel =          JsonData;
@@ -96,8 +89,8 @@ export type DnaFormatter =      <T>(value: DnaFormatterValue, model?: T) => stri
 export type DnaFormatterValue = number | string | boolean;
 export type DnaMsec =           number | string;  //milliseconds UTC (or ISO 8601 string)
 export type DnaCallback =       (...args: unknown[]) => unknown;
-export interface DnaTransformFn<T> { (model: T): void }
-export interface DnaCallbackFn<T> { (elem: Element, model?: T): void }
+export interface DnaTransformFn<T> { (data: T): unknown }
+export interface DnaCallbackFn<T> { (elem: Element, data?: T): unknown }
 export interface DnaInitializerFn { (elem: Element, ...params: unknown[]): void }
 export type DnaEventListener = (elem: Element, event: Event, selector: string | null) => void;
 export type DnaInitializer = {
@@ -414,8 +407,8 @@ const dnaDom = {
       },
    on(type: string, listener: DnaEventListener, options?: DnaOptionsEventsOn) {
       // See types: https://developer.mozilla.org/en-US/docs/Web/Events
-      const defaults = { keyFilter: null, selector: null };
-      const settings = { ...defaults, ...options };
+      const defaults: Required<DnaOptionsEventsOn> = { keyFilter: null, selector: null };
+      const settings =   { ...defaults, ...options };
       const noFilter =   !settings.keyFilter;
       const noSelector = !settings.selector;
       const delegator = (event: Event) => {
@@ -573,7 +566,7 @@ const dnaUi = {
          };
       return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
       },
-   slideFadeIn(elem: Element): Promise<Element> {
+   slideFadeIn(elem: Element, options?: { force: boolean }): Promise<Element> {
       // Smooth slide in plus fade in effect.
       const fadeTransition =  600;
       const style =           (<HTMLElement>elem).style;
@@ -601,7 +594,7 @@ const dnaUi = {
             };
          globalThis.requestAnimationFrame(animate);
          };
-      if (dna.ui.isHidden(elem))
+      if (dna.ui.isHidden(elem) || options?.force)
          start();
       const cleanup = () => {
          style.removeProperty('transition');
@@ -654,22 +647,22 @@ const dnaUi = {
       // Smooth slide out plus fade out effect followed by removing the element.
       return dna.ui.slideFadeOut(elem).then(dna.core.remove);
       },
-   smoothHeight(updateUI: () => unknown, options?: { container?: Element, overflowHidden: boolean, transition?: number }): Promise<Element> {
+   smoothHeight(updateUI: () => unknown, options?: DnaOptionsSmoothHeight): Promise<Element> {
       // Smoothly animates the height of a container element from a beginning height to a final
       // height.
-      const defaults = {
-         container:      globalThis.document.body,
-         overflowHidden: true,
-         transition:     1000,
+      const defaults: Required<DnaOptionsSmoothHeight> = {
+         container:  globalThis.document.body,
+         overflow:   true,
+         smoothMsec: 1000,
          };
-      const settings = { ...defaults, ...options };
+      const settings =  { ...defaults, ...options };
       const container = settings.container;
-      const style = (<HTMLElement>container).style;
+      const style =     (<HTMLElement>container).style;
       const setBaseline = () => {
          const height = String(container.clientHeight) + 'px';
          style.minHeight = height;
          style.maxHeight = height;
-         if (settings.overflowHidden)
+         if (settings.overflow)
             style.overflow = 'hidden';
          container.classList.add(dna.name.animating);
          };
@@ -685,7 +678,7 @@ const dnaUi = {
             globalThis.setTimeout(turnOffTransition, 1000);  //allow 1s transition to finish
             };
          const setAnimationLength = () => {
-            style.transition = `all ${settings.transition}ms`;
+            style.transition = `all ${settings.smoothMsec}ms`;
             globalThis.requestAnimationFrame(animate);  //allow transition to lock-in before animating
             };
          globalThis.requestAnimationFrame(setAnimationLength);  //allow baseline to lock-in starting height
@@ -697,7 +690,7 @@ const dnaUi = {
       setBaseline();
       updateUI();
       animate();
-      const delay = settings.transition + 100;
+      const delay = settings.smoothMsec + 100;
       return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), delay));
       },
    smoothMove(elem: Element, up: boolean): Promise<Element> {
@@ -725,11 +718,15 @@ const dnaUi = {
       // Uses animation to smoothly slide an element down one slot amongst its siblings.
       return dna.ui.smoothMove(elem, false);
       },
-   pulse(elem: Element, options?: { fadeIn?: number, showDuration?: number | null, fadeOut?: number }): Promise<Element> {
+   pulse(elem: Element, options?: DnaOptionsPulse): Promise<Element> {
       // Fades in an element after hiding it to create a single smooth flash effect (intended for
       // temporary status messages, like "Saving...").  Set showDuration to the length of time to
       // display the message or to null to leave the element visible indefinitely.
-      const defaults = { fadeIn: 600, showDuration: 7000, fadeOut: 3000 };
+      const defaults: Required<DnaOptionsPulse> = {
+         fadeInMsec:  600,
+         displayMsec: 7000,
+         fadeOutMsec: 3000,
+         };
       const settings = { ...defaults, ...options };
       dna.core.assert(dna.dom.isElem(elem), 'Invalid element for dna.ui.pulse()', elem);
       const pulseStart = Date.now();
@@ -738,25 +735,25 @@ const dnaUi = {
       style.transition = 'all 0ms';
       style.opacity =    '0';
       const animate = () => {
-         style.transition = `all ${settings.fadeIn}ms`;
+         style.transition = `all ${settings.fadeInMsec}ms`;
          style.opacity =    '1';
          };
       const isLastPulse = () => dna.dom.state(elem).dnaPulseStart === pulseStart;
       const fadeAway = () => {
-         style.transition = `all ${settings.fadeOut}ms`;
+         style.transition = `all ${settings.fadeOutMsec}ms`;
          if (isLastPulse())
             style.opacity = '0';
          };
       globalThis.requestAnimationFrame(animate);
-      if (settings.showDuration)
-         globalThis.setTimeout(fadeAway, settings.fadeIn + settings.showDuration);
+      if (settings.displayMsec)
+         globalThis.setTimeout(fadeAway, settings.fadeInMsec + settings.displayMsec);
       const cleanup = () => {
          if (isLastPulse())
             style.removeProperty('transition');
          return elem;
          };
-      const total = !settings.showDuration ? settings.fadeIn :
-         settings.fadeIn + settings.showDuration + settings.fadeOut;
+      const total = !settings.displayMsec ? settings.fadeInMsec :
+         settings.fadeInMsec + settings.displayMsec + settings.fadeOutMsec;
       return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
       },
    focus(elem: Element): Element {
@@ -1426,11 +1423,12 @@ const dnaEvents = {
       // Executes each of the data-on-load functions once the function and its dependencies have loaded.
       // Example:
       //    <p data-on-load=app.cart.setup data-wait-for=Chart,R,fetchJson>
-      const defaults = { msec: 300 };
+      const defaults: Required<DnaOptionsRunOnLoads> = { pollMsec: 300 };
       const settings = { ...defaults, ...options };
       const elems =    globalThis.document.querySelectorAll(`[data-on-load]:not(.${dna.name.onLoad})`);
       elems.forEach(elem => elem.classList.add(dna.name.onLoad))
-      const addStart = (elem: Element) => dna.dom.state(elem).dnaOnLoad = <DnaOnLoad>{ start: Date.now(), checks: 0 };
+      const addStart = (elem: Element) =>
+         dna.dom.state(elem).dnaOnLoad = <DnaOnLoad>{ start: Date.now(), checks: 0 };
       elems.forEach(addStart);
       const runOnLoad = (elem: Element) => {
          const data =     (<HTMLElement>elem).dataset;
@@ -1448,7 +1446,7 @@ const dnaEvents = {
          if (fn && !waitFor.map(dna.util.getFn).includes(undefined))
             run();
          else
-            globalThis.setTimeout(() => runOnLoad(elem), settings.msec);
+            globalThis.setTimeout(() => runOnLoad(elem), settings.pollMsec);
          };
       elems.forEach(runOnLoad);
       return elems;
@@ -1550,13 +1548,13 @@ const dnaEvents = {
       dna.dom.onKeyUp(handleEvent);
       dna.dom.onInput(handleEvent);
       dna.dom.onEnterKey((elem, event) => runner(elem, 'on-enter-key', event), '[data-on-enter-key]');
-      dna.dom.onFocusIn( (elem, event) => runner(elem, 'on-focus-in',  event), '[data-on-focus-in]');
+      dna.dom.onFocusIn((elem, event) =>  runner(elem, 'on-focus-in',  event), '[data-on-focus-in]');
       dna.dom.onFocusOut((elem, event) => runner(elem, 'on-focus-out', event), '[data-on-focus-out]');
-      dna.dom.onHoverIn( (elem, event) => runner(elem, 'on-hover-in',  event), '[data-on-hover-in]');
+      dna.dom.onHoverIn((elem, event) =>  runner(elem, 'on-hover-in',  event), '[data-on-hover-in]');
       dna.dom.onHoverOut((elem, event) => runner(elem, 'on-hover-out', event), '[data-on-hover-out]');
       dna.dom.onKeyDown(handleSmartUpdate, 'input[data-smart-update]');
-      dna.dom.onKeyUp(  handleSmartUpdate, 'input[data-smart-update]');
-      dna.dom.onChange( handleSmartUpdate, 'input[data-smart-update]');
+      dna.dom.onKeyUp(handleSmartUpdate,   'input[data-smart-update]');
+      dna.dom.onChange(handleSmartUpdate,  'input[data-smart-update]');
       dna.dom.onClick(jumpToUrl, '[data-href]');
       return dna.events.runOnLoads();
       },
@@ -1677,7 +1675,7 @@ const dnaCore = {
             dna.util.apply(rules.callback, [elem]);
          };
       if (settings.transform)  //alternate version of data-transform
-         settings.transform(data);
+         'settings.transform(data)';
       const notSubClone = (elem: Element) => !elem.classList.contains(dna.name.subClone);
       const dig = (elem: Element) => {
          if (elem.classList.contains(dna.name.nucleotide))
@@ -1689,10 +1687,11 @@ const dnaCore = {
       dna.dom.state(clone).dnaCount = count;
       return clone;
       },
-   replicate: <T>(template: DnaTemplate, data: T, settings: DnaOptionsClone<T>): Element => {
+   replicate<T>(template: DnaTemplate, data: T, options: DnaOptionsClone<T>): Element {
       // Creates and sets up a clone.
+      const settings = options;
       const subclass = () => 'dna-contains-' + template.name;
-      const getContainer =   (name: string) => settings.container!.classList.contains(name) ?
+      const getContainer = (name: string) => settings.container!.classList.contains(name) ?
          settings.container! : settings.container!.getElementsByClassName(name).item(0)!;
       const container =      settings.container ? getContainer(subclass()) : template.container;
       const containerState = dna.dom.state(container);
@@ -1755,7 +1754,7 @@ const dnaCore = {
       if (settings.callback)
          settings.callback(clone, data);
       if (settings.fade)
-         dna.ui.slideFadeIn(clone);
+         dna.ui.slideFadeIn(clone, { force: true });
       return clone;
       },
    getArrayName(subClone: Element): string | null {
@@ -1835,18 +1834,20 @@ const dna = {
    clone<T>(name: string, data: T | T[], options?: DnaOptionsClone<T>): Element | Element[] {
       // Generates a copy of the template and populates the fields, attributes, and
       // classes from the supplied data.
-      const defaults = {
-         fade:      false,
-         top:       false,
+      const defaults: Required<DnaOptionsClone<T>> = {
+         callback:  null,
+         clones:    1,
          container: null,
          empty:     false,
-         clones:    1,
+         fade:      false,
+         formatter: null,
+         holder:    null,
          html:      false,
+         top:       false,
          transform: null,
-         callback:  null,
          };
-      const settings = { ...defaults, ...options };
-      const template = dna.template.get(name);
+      const settings =   { ...defaults, ...options };
+      const template =   dna.template.get(name);
       const makeCopies = options?.clones !== undefined;
       const missing =    template.nested && !settings.container;
       dna.core.assert(!missing, 'Container missing for nested template', name);
@@ -1913,7 +1914,7 @@ const dna = {
       },
    empty(name: string, options?: DnaOptionsEmpty): Element[] {
       // Deletes all clones generated from the template.
-      const defaults =  { fade: false };
+      const defaults: Required<DnaOptionsEmpty> = { fade: false };
       const settings =  { ...defaults, ...options };
       const template =  dna.template.get(name);
       const clones =    dna.dom.filterByClass(template.container.children, dna.name.clone);
@@ -1926,7 +1927,7 @@ const dna = {
          clones.forEach(clone => dna.core.remove(clone));
       return clones;
       },
-   insert<T>(name: string, data: T, options?: DnaOptionsInsert<T>): Element {
+   insert<T>(name: string, data: T, options?: DnaOptionsClone<T>): Element {
       // Updates the first clone if it already exists otherwise creates the first clone.
       const clones = dna.getClones(name);
       return clones.length ? dna.refresh(clones.at(0)!, { data: data, html: !!options?.html }) :
@@ -1934,11 +1935,11 @@ const dna = {
       },
    refresh(clone: Element, options?: DnaOptionsRefresh): Element {
       // Updates an existing clone to reflect changes to the data model.
-      const defaults = { html: false };
+      const defaults: Required<DnaOptionsRefresh> = { data: null, html: false, main: false };
       const settings = { ...defaults, ...options };
-      const elem =  dna.getClone(clone, options);
-      const model = settings.data ? settings.data : dna.getModel(elem);
-      const count = <number>dna.dom.state(elem).dnaCount;
+      const elem =     dna.getClone(clone, options);
+      const model =    settings.data ? settings.data : dna.getModel(elem);
+      const count =    <number>dna.dom.state(elem).dnaCount;
       return dna.core.inject(elem, model, count, settings);
       },
    refreshAll(name: string, options?: DnaOptionsRefreshAll): Element[] {
@@ -1981,8 +1982,8 @@ const dna = {
       },
    destroy(elem: Element, options?: DnaOptionsDestroy): Promise<Element> {
       // Removes an existing clone from the DOM.
-      const defaults = { main: false, fade: false, callback: null };
-      const settings = { ...defaults, ...options };
+      const defaults: Required<DnaOptionsDestroy> = { main: false, fade: false };
+      const settings =   { ...defaults, ...options };
       const clone =      dna.getClone(elem, options);
       const arrayField = dna.core.getArrayName(clone);
       if (arrayField)
@@ -1997,7 +1998,7 @@ const dna = {
       },
    getClone(elem: Element, options?: DnaOptionsGetClone): Element {
       // Returns the clone (or sub-clone) for the specified element.
-      const defaults = { main: false };
+      const defaults: Required<DnaOptionsGetClone> = { main: false };
       const settings = { ...defaults, ...options };
       dna.core.assert(dna.dom.isElem(elem), 'Invalid element', elem);
       const clone = elem.closest(settings.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone')!;
@@ -2031,8 +2032,12 @@ const dna = {
       },
    registerInitializer(fn: DnaFunctionName | DnaInitializerFn, options?: DnaOptionsRegisterInitializer): DnaInitializer[] {
       // Adds a callback function to the list of initializers that are run on all DOM elements.
-      const defaults = { selector: null, params: [], onDomReady: true };
-      const settings = { ...defaults, ...options };
+      const defaults: Required<DnaOptionsRegisterInitializer> = {
+         selector:   null,
+         params:     [],
+         onDomReady: true,
+         };
+      const settings =        { ...defaults, ...options };
       const rootSelector =    settings.selector;
       const notTemplate =     (elem: Element) => !elem.classList.contains(dna.name.template);
       const selectElems =     () => dna.dom.filter(globalThis.document.querySelectorAll(rootSelector!), notTemplate);
