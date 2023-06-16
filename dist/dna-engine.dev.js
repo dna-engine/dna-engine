@@ -1,4 +1,4 @@
-//! dna-engine v3.0.3 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.4 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -1180,9 +1180,9 @@ const dnaEvents = {
         dna.dom.onFocusOut((elem, event) => runner(elem, 'on-focus-out', event), '[data-on-focus-out]');
         dna.dom.onHoverIn((elem, event) => runner(elem, 'on-hover-in', event), '[data-on-hover-in]');
         dna.dom.onHoverOut((elem, event) => runner(elem, 'on-hover-out', event), '[data-on-hover-out]');
-        dna.dom.onKeyDown(handleSmartUpdate, 'input[data-on-smart-update]');
-        dna.dom.onKeyUp(handleSmartUpdate, 'input[data-on-smart-update]');
-        dna.dom.onChange(handleSmartUpdate, 'input[data-on-smart-update]');
+        dna.dom.onKeyDown(handleSmartUpdate, '[data-on-smart-update]');
+        dna.dom.onKeyUp(handleSmartUpdate, '[data-on-smart-update]');
+        dna.dom.onChange(handleSmartUpdate, '[data-on-smart-update]');
         dna.dom.onClick(jumpToUrl, '[data-href]');
         return dna.events.runOnLoads();
     },
@@ -1419,7 +1419,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.0.3',
+    version: '3.0.4',
     clone(name, data, options) {
         const defaults = {
             callback: null,
