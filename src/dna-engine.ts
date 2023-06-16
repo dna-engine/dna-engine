@@ -497,9 +497,14 @@ const dnaDom = {
          globalThis.window.addEventListener('DOMContentLoaded', callback);
       return state;
       },
-   triggerEvent(elem: Element) {
+   triggerChange(elem: Element, delayMsec?: number): Event {
       // Simulate user interaction to change an element.
-      elem.dispatchEvent(new Event('change', { bubbles: true }));
+      const event = new Event('change', { bubbles: true });
+      if (delayMsec)
+         globalThis.setTimeout(() => elem.dispatchEvent(event), delayMsec);
+      else
+         elem.dispatchEvent(event);
+      return event;
       },
    };
 
@@ -974,37 +979,38 @@ const dnaPanels = {
    // Each click of a menu item displays its corresponding panel and optionally passes the panel
    // element and hash to the function specified by the "data-callback" attribute.
    // Usage:
-   //    <nav class=dna-menu data-nav={NAME} data-callback={CALLBACK}>  <-- menu         [role=tablist]  -->
-   //       <button>See X1</button>                                     <-- menu item #1 [role=tab]      -->
-   //       <button>See X2</button>                                     <-- menu item #2 [role=tab]      -->
+   //    <nav class=dna-menu data-menu-nav={NAME} data-callback={CALLBACK}>  <-- menu         [role=tablist]  -->
+   //       <button>See X1</button>                                          <-- menu item #1 [role=tab]      -->
+   //       <button>See X2</button>                                          <-- menu item #2 [role=tab]      -->
    //    </nav>
-   //    <div class=dna-panels data-nav={NAME}>                         <-- panels                       -->
-   //       <section data-hash=x1>The X1</section>                      <-- panel #1     [role=tabpanel] -->
-   //       <section data-hash=x2>The X2</section>                      <-- panel #2     [role=tabpanel] -->
+   //    <div class=dna-panels data-menu-nav={NAME}>                         <-- panels                       -->
+   //       <section data-hash=x1>The X1</section>                           <-- panel #1     [role=tabpanel] -->
+   //       <section data-hash=x2>The X2</section>                           <-- panel #2     [role=tabpanel] -->
    //    </div>
    // Note 1:
    // The optional "data-hash" attribute on the .dna-menu element specifies the hash (URL
    // fragment ID) and updates the location bar.
    // Note 2:
-   // The "data-nav" attributes can be omitted if the ".dna-panels" element immediately follows
-   // the ".dna-menu" element.
+   // The "data-menu-nav" attributes can be omitted if the ".dna-panels" element immediately
+   // follows the ".dna-menu" element.
    display(menu: Element, location?: number, updateUrl?: boolean): Element {
       // Shows the panel at the given location (index).
-      const menuData =   (<HTMLElement>menu).dataset;
-      const navName =    menuData.nav!;
-      const callback =   menuData.callback;
-      const panels =     <HTMLElement>dna.dom.state(menu).dnaPanels;
-      const menuItems =  menu.querySelectorAll('.dna-menu-item');
-      const savedIndex = Number(dna.pageToken.get(navName, 0));
-      const bound =      (loc: number) => Math.max(0, Math.min(loc, menuItems.length - 1));
-      const index =      bound(location === undefined ? savedIndex : location);
+      const menuData =    (<HTMLElement>menu).dataset;
+      const menuNavName = menuData.menuNav!;
+      const callback =    menuData.callback;
+      const panels =      <HTMLElement>dna.dom.state(menu).dnaPanels;
+      const menuItems =   menu.querySelectorAll('.dna-menu-item');
+      const savedIndex =  Number(dna.pageToken.get(menuNavName, 0));
+      const bound =       (loc: number) => Math.max(0, Math.min(loc, menuItems.length - 1));
+      const index =       bound(location === undefined ? savedIndex : location);
       const update = () => {
          if (menu.nodeName === 'SELECT')  //check if elem is a drop-down control
             (<HTMLSelectElement>menu).selectedIndex = index;
          menuItems.forEach(elem => dna.dom.replaceClass(elem, dna.name.selected, dna.name.unselected));
          dna.dom.replaceClass(menuItems[index]!, dna.name.unselected, dna.name.selected);
          const hidePanel = (panel: Element) => {
-            dna.ui.hide(panel);
+            // dna.ui.hide(panel);
+            (<HTMLElement>panel).style.display = 'none';
             panel.classList.remove(dna.name.displayed);
             panel.classList.add(dna.name.hidden);
             };
@@ -1013,7 +1019,7 @@ const dnaPanels = {
          panel.classList.replace(dna.name.hidden, dna.name.displayed);
          dna.ui.fadeIn(panel);
          const hash = (<HTMLElement>panel).dataset.hash;  //example: <nav class=dna-menu data-hash=about-page ...
-         dna.pageToken.put(navName, index);
+         dna.pageToken.put(menuNavName, index);
          if (updateUrl && hash)
             globalThis.history.pushState(null, '', '#' + hash);
          if (callback)
@@ -1044,29 +1050,30 @@ const dnaPanels = {
       // Moves to the selected panel.
       return dna.panels.display(menu, (<HTMLSelectElement>menu).selectedIndex, true);
       },
-   nextNav: 1,
+   nextMenuNav: 1,
    initialize(panels: Element | null): Element | null {
       const generateNavName = (): string => {
          // Automatically generates a name for unnamed menus.
-         const navName =    'dna-panels-' + String(dna.panels.nextNav++);
-         const setNavName = (elem: Element) => (<HTMLElement>elem).dataset.nav = navName;
-         const menu =       panels!.previousElementSibling!;
+         const menuNavName = 'dna-panels-' + String(dna.panels.nextMenuNav++);
+         const setNavName =  (elem: Element) => (<HTMLElement>elem).dataset.menuNav = menuNavName;
+         const menu =        panels!.previousElementSibling!;
          dna.core.assert(menu?.classList.contains('dna-menu'), 'Menu not found for panels', panels);
          setNavName(menu);
          setNavName(panels!);
-         return navName;
+         return menuNavName;
          };
       const init = () => {
-         const navName =    (<HTMLElement>panels!).dataset.nav || generateNavName();
-         const menu =       globalThis.document.querySelector('.dna-menu[data-nav=' + navName + ']');
-         const hash =       globalThis.location.hash.replace(/[^\w-]/g, '');  //remove leading "#"
-         const hashIndex =  (): number => dna.dom.findIndex(panels!.children, '[data-hash=' + hash + ']');
-         const savedIndex = (): number => <number>dna.pageToken.get(navName, 0);
-         const first =      <HTMLElement>panels!.children[0]!;
-         const loc =        hash && first.dataset.hash ? hashIndex() : savedIndex();
+         const menuNavName =  (<HTMLElement>panels!).dataset.menuNav || generateNavName();
+         const menuSelector = '.dna-menu[data-menu-nav=' + menuNavName + ']';
+         const menu =         globalThis.document.querySelector(menuSelector);
+         const hash =         globalThis.location.hash.replace(/[^\w-]/g, '');  //remove leading "#"
+         const hashIndex =    (): number => dna.dom.findIndex(panels!.children, '[data-hash=' + hash + ']');
+         const savedIndex =   (): number => <number>dna.pageToken.get(menuNavName, 0);
+         const first =        <HTMLElement>panels!.children[0]!;
+         const loc =          hash && first.dataset.hash ? hashIndex() : savedIndex();
          dna.dom.addClass(panels!.children, dna.name.panel);
          panels!.classList.add(dna.name.panelsInitialized);
-         dna.core.assert(menu, 'Menu not found for panels', navName);
+         dna.core.assert(menu, 'Menu not found for panels', menuNavName);
          menu!.classList.add(dna.name.panelsInitialized);
          dna.dom.state(menu!).dnaPanels = panels;
          if (!menu!.getElementsByClassName(dna.name.menuItem).length)  //set .dna-menu-item elems if not set in the html
@@ -2094,7 +2101,7 @@ const dna = {
          names:        names,
          store:        dna.template.db,
          initializers: dna.events.db.initializers,
-         panels:       dna.dom.map(panels, panel => (<HTMLElement>panel).dataset.nav!),
+         panels:       dna.dom.map(panels, panel => (<HTMLElement>panel).dataset.menuNav!),
          state:        dna.dom.stateDepot,
          };
       },

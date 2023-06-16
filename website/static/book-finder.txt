@@ -30,7 +30,7 @@ Video Tutorial ~~ Transcript
 
 14) Let's test it in the browser by searching for books about "ice".  The first book returned by the REST call is The Book of Ice and it costs $9.99.  Clicking the "Find" button works and is simple, but it makes for a cumbersome user experience.  We can leverage the smart update feature of dna-engine to replace the button with automatic live searching.
 
-15) Add the attribute "data-smart-update" directly to the <input> tag.  This causes the findBooks function to be called when the user updates the input field, but the calls are throttled to reduce load on the server and prevent the REST responses from overlapping.  Now we can get rid of the annoying "Find" button.  Additionally, we can make the "findBooks" function more robust.  dna-engine passes the element that was changed to the callback function, so the user's input can now be read with just elem.val.
+15) Add the attribute "data-on-smart-update" directly to the <input> tag.  This causes the findBooks function to be called when the user updates the input field, but the calls are throttled to reduce load on the server and prevent the REST responses from overlapping.  Now we can get rid of the annoying "Find" button.  Additionally, we can make the "findBooks" function more robust.  dna-engine passes the element that was changed to the callback function, so the user's input can now be read with just elem.val.
 
 16) Return to the browser and refresh the page to see the improved UI.  Let's search for "fireworks china".  Relevant books are displayed as the user types in the search terms.  Let's hop back to the code and step though the the process of going from user input to the REST call to displaying search results.
 

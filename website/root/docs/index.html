@@ -2016,8 +2016,7 @@
                const showMsg = (elem, event) =&gt; {
                   const msg =    'Value "' + elem.value + '" on ' + event.type;
                   const output = globalThis.document.getElementById('message');
-                  output.textContent = msg;
-                  dna.ui.pulse(output);
+                  dna.ui.pulse(output, { textContent: msg });
                   };
             &lt;/script&gt;
          </code></pre>
@@ -2042,8 +2041,7 @@
                const showMsg = (elem, event) => {
                   const msg =    'Value "' + elem.value + '" on ' + event.type;
                   const output = globalThis.document.getElementById('message');
-                  output.textContent = msg;
-                  dna.ui.pulse(output);
+                  dna.ui.pulse(output, { textContent: msg });
                   };
             </script>
          </div>
@@ -2052,7 +2050,7 @@
       <p>
          <em>Note:</em>
          For text fields <code>input</code> and <code>textarea</code>, use
-         <a href=#event-smart>data-smart-update</a>.
+         <a href=#event-smart>data-on-smart-update</a>.
       </p>
       <p>
          Experiment with click events:
@@ -2076,14 +2074,14 @@
          <code>input</code>, and the calls are throttled to be at least one second apart.
       </p>
       <p>
-         The <code>data-smart-update</code> attribute sets the callback, and the
+         The <code>data-on-smart-update</code> attribute sets the callback, and the
          <code>data-smart-throttle</code> attribute sets the throttle rate in milliseconds to
          override the 1000 millisecond default.
       </p>
       <figure>
          <figcaption>Example</figcaption>
          <pre><code class=language-html>
-            &lt;input data-smart-update=logNow placeholder="Type here"&gt;
+            &lt;input data-on-smart-update=logNow placeholder="Type here"&gt;
             &lt;div id=log-message class=dna-template&gt;
                &lt;code data-format-date=timestamp&gt;~~time~~&lt;/code&gt;:
                &lt;strong&gt;~~message~~&lt;/strong&gt;
@@ -2102,7 +2100,7 @@
       <figure class=hljs-enhance>
          <figcaption>Result (interactive)</figcaption>
          <div>
-            <input data-smart-update=logNow placeholder="Type here">
+            <input data-on-smart-update=logNow placeholder="Type here">
             <div id=log-message class=dna-template>
                <code data-format-date=timestamp>~~time~~</code>:
                <strong>~~message~~</strong>
@@ -2490,9 +2488,7 @@
       <p>
          <em>Note #2:</em>
          The polling interval to check if the callback function and dependencies are loaded is 300
-         millisecond.&nbsp;
-         To display degbug information, including waiting time:
-         <code>console.log(globalThis.document.querySelectorAll('[data-on-load]').data());</code>
+         millisecond.
       </p>
    </section>
 
@@ -2848,7 +2844,7 @@
       <figure>
          <figcaption>Basic format for panels</figcaption>
          <pre><code class=language-html>
-            &lt;nav class=dna-menu&gt;
+            &lt;nav class=dna-menu data-callback=myApp.updatePanel&gt;
                &lt;span&gt;Menu item #1&lt;/span&gt;
                &lt;span&gt;Menu item #2&lt;/span&gt;
                &lt;span&gt;Menu item #3&lt;/span&gt;
@@ -2866,19 +2862,24 @@
       </p>
       <p>
          If the menu container and panels container need to be separated in the DOM, link the menu
-         to the panels by setting their respective <code>data-nav</code> attributes to the same
+         to the panels by setting their respective <code>data-menu-nav</code> attributes to the same
          name.
       </p>
+      <p>
+         The optional <code>data-callback</code> attribute specifies a function that will be
+         callled immediately before a panel is displayed.&nbsp;
+         The function will be passed the panel element for the panel being displayed.
+      </p>
       <figure>
-         <figcaption>Linked menu and panels using <code>data-nav</code></figcaption>
+         <figcaption>Linked menu and panels using <code>data-menu-nav</code></figcaption>
          <pre><code class=language-html>
-            &lt;nav class=dna-menu data-nav=author-info&gt;
+            &lt;nav class=dna-menu data-menu-nav=author-info&gt;
                &lt;span&gt;Menu item #1&lt;/span&gt;
                &lt;span&gt;Menu item #2&lt;/span&gt;
                &lt;span&gt;Menu item #3&lt;/span&gt;
             &lt;/nav&gt;
             &lt;meter value=7 min=0 max=10&gt;&lt;/meter&gt;
-            &lt;div class=dna-panels data-nav=author-info&gt;
+            &lt;div class=dna-panels data-menu-nav=author-info&gt;
                &lt;section&gt;Content of panel #1&lt;/section&gt;
                &lt;section&gt;Content of panel #2&lt;/section&gt;
                &lt;section&gt;Content of panel #3&lt;/section&gt;
@@ -2926,12 +2927,12 @@
             &lt;div data-component=author&gt;
                &lt;h2&gt;Author Information&lt;/h2&gt;
                Select:
-               &lt;ul class=dna-menu data-nav=author-info&gt;
+               &lt;ul class=dna-menu data-menu-nav=author-info&gt;
                   &lt;li&gt;Jake&lt;/li&gt;
                   &lt;li&gt;Abby&lt;/li&gt;
                   &lt;li&gt;Ed&lt;/li&gt;
                &lt;/ul&gt;
-               &lt;div class=dna-panels data-nav=author-info&gt;
+               &lt;div class=dna-panels data-menu-nav=author-info&gt;
                   &lt;section&gt;
                      &lt;h5&gt;Name: Jake&lt;/h5&gt;
                      &lt;p&gt;Publisher: O'Reilly&lt;/p&gt;
@@ -2959,12 +2960,12 @@
             <div data-component=author>
                <h2>Author Information</h2>
                Select:
-               <ul class=dna-menu data-nav=author-info>
+               <ul class=dna-menu data-menu-nav=author-info>
                   <li>Jake</li>
                   <li>Abby</li>
                   <li>Ed</li>
                </ul>
-               <div class=dna-panels data-nav=author-info>
+               <div class=dna-panels data-menu-nav=author-info>
                   <section>
                      <h5>Name: Jake</h5>
                      <p>Publisher: O'Reilly</p>
@@ -3009,12 +3010,12 @@
          <pre><code class=language-html>
             &lt;div data-component=book-catalog data-on-load=bookCatalog.setup&gt;
                &lt;h2&gt;Book Catalog&lt;/h2&gt;
-               &lt;nav class=dna-menu data-nav=book-catalog&gt;
+               &lt;nav class=dna-menu data-menu-nav=book-catalog&gt;
                   &lt;button id=book-menu-item class=dna-template&gt;
                      ~~[count]~~
                   &lt;/button&gt;
                &lt;/nav&gt;
-               &lt;div class=dna-panels data-nav=book-catalog&gt;
+               &lt;div class=dna-panels data-menu-nav=book-catalog&gt;
                   &lt;section id=book-panel class=dna-template
                         data-transform=bookCatalog.addCover&gt;
                      &lt;h4&gt;~~title~~&lt;/h4&gt;
@@ -3050,12 +3051,12 @@
          <div>
             <div data-component=book-catalog data-on-load=bookCatalog.setup>
                <h2>Book Catalog</h2>
-               <nav class=dna-menu data-nav=book-catalog>
+               <nav class=dna-menu data-menu-nav=book-catalog>
                   <button id=book-menu-item class=dna-template>
                      ~~[count]~~
                   </button>
                </nav>
-               <div class=dna-panels data-nav=book-catalog>
+               <div class=dna-panels data-menu-nav=book-catalog>
                   <section id=book-panel class=dna-template
                         data-transform=bookCatalog.addCover>
                      <h4>~~title~~</h4>
@@ -3104,12 +3105,12 @@
          <figcaption>Example HTML</figcaption>
          <pre><code class=language-html>
                &lt;h2&gt;Publishers&lt;/h2&gt;
-               &lt;nav class=dna-menu data-nav=publisher-info data-callback=updatePanel&gt;
+               &lt;nav class=dna-menu data-menu-nav=publisher-info data-callback=updatePanel&gt;
                   &lt;button&gt;Pearson&lt;/button&gt;
                   &lt;button&gt;Shueisha&lt;/button&gt;
                   &lt;button&gt;Wiley&lt;/button&gt;
                &lt;/nav&gt;
-               &lt;div class=dna-panels data-nav=publisher-info&gt;
+               &lt;div class=dna-panels data-menu-nav=publisher-info&gt;
                   &lt;section data-hash=pearson&gt;
                      &lt;h2&gt;Pearson&lt;/h2&gt;
                      &lt;p&gt;UK&lt;/p&gt;
@@ -3144,12 +3145,12 @@
          <div>
             <div>
                <h2>Publishers</h2>
-               <nav class=dna-menu data-nav=publisher-info data-callback=updatePanel>
+               <nav class=dna-menu data-menu-nav=publisher-info data-callback=updatePanel>
                   <button>Pearson</button>
                   <button>Shueisha</button>
                   <button>Wiley</button>
                </nav>
-               <div class=dna-panels data-nav=publisher-info>
+               <div class=dna-panels data-menu-nav=publisher-info>
                   <section data-hash=pearson>
                      <h2>Pearson</h2>
                      <p>UK</p>
@@ -3196,12 +3197,12 @@
          <figcaption>Example HTML for flat tabs styling</figcaption>
          <pre><code class=language-html>
                &lt;h2&gt;Book format&lt;/h2&gt;
-               &lt;nav class=dna-menu data-nav=book-format data-style=flat-tabs&gt;
+               &lt;nav class=dna-menu data-menu-nav=book-format data-style=flat-tabs&gt;
                   &lt;span&gt;Hardcover&lt;/span&gt;
                   &lt;span&gt;Paperback&lt;/span&gt;
                   &lt;span&gt;eBook&lt;/span&gt;
                &lt;/nav&gt;
-               &lt;div class=dna-panels data-nav=book-format&gt;
+               &lt;div class=dna-panels data-menu-nav=book-format&gt;
                   &lt;p&gt;Hardcovers are the nicest.&lt;/p&gt;
                   &lt;p&gt;Paperbacks are the easiest.&lt;/p&gt;
                   &lt;p&gt;EBooks are the future.&lt;/p&gt;
@@ -3215,12 +3216,12 @@
          <div>
             <div>
                <h2>Book format</h2>
-               <nav class=dna-menu data-nav=book-format data-style=flat-tabs>
+               <nav class=dna-menu data-menu-nav=book-format data-style=flat-tabs>
                   <span>Hardcover</span>
                   <span>Paperback</span>
                   <span>eBook</span>
                </nav>
-               <div class=dna-panels data-nav=book-format>
+               <div class=dna-panels data-menu-nav=book-format>
                   <p>Hardcovers are the nicest.</p>
                   <p>Paperbacks are the easiest.</p>
                   <p>eBooks are the future.</p>
@@ -3234,12 +3235,12 @@
          <figcaption>Example HTML for pillbox tabs</figcaption>
          <pre><code class=language-html>
                &lt;h2&gt;Book type&lt;/h2&gt;
-               &lt;nav class=dna-menu data-nav=book-type data-style=pillbox-tabs&gt;
+               &lt;nav class=dna-menu data-menu-nav=book-type data-style=pillbox-tabs&gt;
                   &lt;span&gt;Action&lt;/span&gt;
                   &lt;span&gt;Mystery&lt;/span&gt;
                   &lt;span&gt;Science Fiction&lt;/span&gt;
                &lt;/nav&gt;
-               &lt;div class=dna-panels data-nav=book-type&gt;
+               &lt;div class=dna-panels data-menu-nav=book-type&gt;
                   &lt;p&gt;Action books&lt;/p&gt;
                   &lt;p&gt;Mystery books&lt;/p&gt;
                   &lt;p&gt;Science fiction books are the best!&lt;/p&gt;
@@ -3253,12 +3254,12 @@
          <div>
             <div>
                <h2>Book type</h2>
-               <nav class=dna-menu data-nav=book-type data-style=pillbox-tabs>
+               <nav class=dna-menu data-menu-nav=book-type data-style=pillbox-tabs>
                   <span>Action</span>
                   <span>Mystery</span>
                   <span>Science Fiction</span>
                </nav>
-               <div class=dna-panels data-nav=book-type>
+               <div class=dna-panels data-menu-nav=book-type>
                   <p>Action books rock!</p>
                   <p>Mystery books rule!</p>
                   <p>Science fiction books are the best!</p>
@@ -3536,6 +3537,7 @@
                   {% render 'website/templates/options/duration.html' %}
                   {% render 'website/templates/options/interval.html' %}
                   {% render 'website/templates/options/out.html' %}
+                  {% render 'website/templates/options/text-content.html' %}
                </ul>
             </li>
          </ul>
@@ -3911,41 +3913,41 @@
    <section id=index-attributes>
       <h4>List of Data Attributes</h4>
       <ol>
-         <li><a href=#loop-sub-templates>    <code>data-array</code></a>:          Mark an element as a sub-template array loop</li>
-         <li><a href=#html-attr>             <code>data-attr-{NAME}</code></a>:    Set value of an element attribute</li>
-         <li><a href=#event-element-callback><code>data-callback</code></a>:       Pass element into function when clone is created</li>
-         <li><a href=#html-class>            <code>data-class</code></a>:          Add a class to the element</li>
-         <li><a href=#components>            <code>data-component</code></a>:      Mark a container element as a component</li>
-         <li><a href=#structure-thimblerig>  <code>data-false</code></a>:          Show element only if field evaluates to false</li>
-         <li><a href=#formatters>            <code>data-format-{TYPE}</code></a>:  Format a value for proper rendering</li>
-         <li><a href=#formatters-custom>     <code>data-format</code></a>:         Custom format function</li>
-         <li><a href=#panels-routes>         <code>data-hash</code></a>:           Set the fragment ID (hash) for a panel's URL</li>
-         <li><a href=#event-jump>            <code>data-href</code></a>:           Jumps to the URL (like an <code>&lt;a&gt;</code> link)</li>
-         <li><a href=#loop-separators>       <code>data-last-separator</code></a>: Insert text, like a comma, between clones</li>
-         <li><a href=#structure-thimblerig>  <code>data-missing</code></a>:        Show element only if field does not exist</li>
-         <li><a href=#event-user>            <code>data-on-change</code></a>:      Callback to run on change event</li>
-         <li><a href=#event-user>            <code>data-on-click</code></a>:       Callback to run on click event</li>
-         <li><a href=#event-user>            <code>data-on-enter-key</code></a>:   Callback to run on enter key event</li>
-         <li><a href=#event-user>            <code>data-on-focus-in</code></a>:    Callback to run when an element receives focus</li>
-         <li><a href=#event-user>            <code>data-on-focus-out</code></a>:   Callback to run when an element loses focus</li>
-         <li><a href=#event-user>            <code>data-on-hover-in</code></a>:    Callback to run on mouse enter event</li>
-         <li><a href=#event-user>            <code>data-on-hover-out</code></a>:   Callback to run on mouse leave event</li>
-         <li><a href=#event-user>            <code>data-on-input</code></a>:       Callback to run on input event</li>
-         <li><a href=#event-user>            <code>data-on-key-down</code></a>:    Callback to run on key down event</li>
-         <li><a href=#event-user>            <code>data-on-key-up</code></a>:      Callback to run on key up event</li>
-         <li><a href=#event-on-load>         <code>data-on-load</code></a>:        Pass element into function after HTML is loaded</li>
-         <li><a href=#html-option>           <code>data-option</code></a>:         Set option in a select drop-down</li>
-         <li><a href=#structure-placeholder> <code>data-placeholder</code></a>:    Show element only if named template is empty</li>
-         <li><a href=#html-prop>             <code>data-prop-checked</code></a>:   Enable or disable "checked" property</li>
-         <li><a href=#html-prop>             <code>data-prop-disabled</code></a>:  Enable or disable "disabled" property</li>
-         <li><a href=#html-prop>             <code>data-prop-selected</code></a>:  Enable or disable "selected" property</li>
-         <li><a href=#structure-thimblerig>  <code>data-require</code></a>:        Show element only if field exists</li>
-         <li><a href=#loop-separators>       <code>data-separator</code></a>:      Insert text between the last two clones</li>
-         <li><a href=#event-smart>           <code>data-smart-throttle</code></a>: Delay (milliseconds) between smart update callbacks</li>
-         <li><a href=#event-smart>           <code>data-smart-update</code></a>:   Throttled callback to run on change of an input value</li>
-         <li><a href=#event-transform>       <code>data-transform</code></a>:      Callback to enhance data immediately before cloning</li>
-         <li><a href=#structure-thimblerig>  <code>data-true</code></a>:           Show element only if field evaluates to true</li>
-         <li><a href=#event-on-load>         <code>data-wait-for</code></a>:       Specify optional dependencies for data-on-load</li>
+         <li><a href=#loop-sub-templates>    <code>data-array</code></a>:           Mark an element as a sub-template array loop</li>
+         <li><a href=#html-attr>             <code>data-attr-{NAME}</code></a>:     Set value of an element attribute</li>
+         <li><a href=#event-element-callback><code>data-callback</code></a>:        Pass element into function when clone is created</li>
+         <li><a href=#html-class>            <code>data-class</code></a>:           Add a class to the element</li>
+         <li><a href=#components>            <code>data-component</code></a>:       Mark a container element as a component</li>
+         <li><a href=#structure-thimblerig>  <code>data-false</code></a>:           Show element only if field evaluates to false</li>
+         <li><a href=#formatters>            <code>data-format-{TYPE}</code></a>:   Format a value for proper rendering</li>
+         <li><a href=#formatters-custom>     <code>data-format</code></a>:          Custom format function</li>
+         <li><a href=#panels-routes>         <code>data-hash</code></a>:            Set the fragment ID (hash) for a panel's URL</li>
+         <li><a href=#event-jump>            <code>data-href</code></a>:            Jumps to the URL (like an <code>&lt;a&gt;</code> link)</li>
+         <li><a href=#loop-separators>       <code>data-last-separator</code></a>:  Insert text, like a comma, between clones</li>
+         <li><a href=#structure-thimblerig>  <code>data-missing</code></a>:         Show element only if field does not exist</li>
+         <li><a href=#event-user>            <code>data-on-change</code></a>:       Callback to run on change event</li>
+         <li><a href=#event-user>            <code>data-on-click</code></a>:        Callback to run on click event</li>
+         <li><a href=#event-user>            <code>data-on-enter-key</code></a>:    Callback to run on enter key event</li>
+         <li><a href=#event-user>            <code>data-on-focus-in</code></a>:     Callback to run when an element receives focus</li>
+         <li><a href=#event-user>            <code>data-on-focus-out</code></a>:    Callback to run when an element loses focus</li>
+         <li><a href=#event-user>            <code>data-on-hover-in</code></a>:     Callback to run on mouse enter event</li>
+         <li><a href=#event-user>            <code>data-on-hover-out</code></a>:    Callback to run on mouse leave event</li>
+         <li><a href=#event-user>            <code>data-on-input</code></a>:        Callback to run on input event</li>
+         <li><a href=#event-user>            <code>data-on-key-down</code></a>:     Callback to run on key down event</li>
+         <li><a href=#event-user>            <code>data-on-key-up</code></a>:       Callback to run on key up event</li>
+         <li><a href=#event-on-load>         <code>data-on-load</code></a>:         Pass element into function after HTML is loaded</li>
+         <li><a href=#event-smart>           <code>data-on-smart-update</code></a>: Throttled callback to run on change of an input value</li>
+         <li><a href=#html-option>           <code>data-option</code></a>:          Set option in a select drop-down</li>
+         <li><a href=#structure-placeholder> <code>data-placeholder</code></a>:     Show element only if named template is empty</li>
+         <li><a href=#html-prop>             <code>data-prop-checked</code></a>:    Enable or disable "checked" property</li>
+         <li><a href=#html-prop>             <code>data-prop-disabled</code></a>:   Enable or disable "disabled" property</li>
+         <li><a href=#html-prop>             <code>data-prop-selected</code></a>:   Enable or disable "selected" property</li>
+         <li><a href=#structure-thimblerig>  <code>data-require</code></a>:         Show element only if field exists</li>
+         <li><a href=#loop-separators>       <code>data-separator</code></a>:       Insert text between the last two clones</li>
+         <li><a href=#event-smart>           <code>data-smart-throttle</code></a>:  Delay (milliseconds) between smart update callbacks</li>
+         <li><a href=#event-transform>       <code>data-transform</code></a>:       Callback to enhance data immediately before cloning</li>
+         <li><a href=#structure-thimblerig>  <code>data-true</code></a>:            Show element only if field evaluates to true</li>
+         <li><a href=#event-on-load>         <code>data-wait-for</code></a>:        Specify optional dependencies for data-on-load</li>
       </ol>
    </section>
 

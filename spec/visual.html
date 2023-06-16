@@ -1362,7 +1362,7 @@
          dna.updateField(clone.querySelector('p:last-child input'), 'Award winning');
          const titleElem = globalThis.document.querySelector('#spec16 .s16-book input');
          titleElem.value = 'The DOM!';
-         titleElem.dispatchEvent(new Event('change', { bubbles: true }));  //simulate user edit
+         dna.dom.triggerChange(titleElem);
          const checkIt = (elem) => {
             elem.check = true;
             elem.click();
@@ -1371,11 +1371,11 @@
          if (clone.querySelector('input[value=fast]').checked)  //expect "Overnight" selected
             clone.querySelector('input[value=gift]').click();   //also select "Gift" option
          if (clone.querySelector('input[name=cover]:checked').value === 'soft')  //expect "Paperback" selected
-            checkIt(clone.querySelector('input[value=hard]'));                    //change to "Hardcover"
+            checkIt(clone.querySelector('input[value=hard]'));                   //change to "Hardcover"
          const purposeElem = clone.querySelector('select');
-         if (purposeElem.value === 'edu')                                    //expect "School" selected
-            purposeElem.value = 'fun';                                       //change to "Personal"
-         purposeElem.dispatchEvent(new Event('change', { bubbles: true }));  //trigger update event
+         if (purposeElem.value === 'edu')  //expect "School" selected
+            purposeElem.value = 'fun';     //change to "Personal"
+         dna.dom.triggerChange(purposeElem);
          dna.dom.toggleClass(purposeElem, 'border-change1', book.purpose === 'fun');
          },
       };
@@ -1538,7 +1538,7 @@
          dna.clone('s19-book-title', specRunner.catalog);
          dna.clone('s19-book',       specRunner.catalog);
          const menuItems = globalThis.document.querySelectorAll('#spec19 .dna-menu .dna-menu-item');
-         menuItems[1].click();  //button: "Styling CSS3"
+         globalThis.setTimeout(() => menuItems[1].click(), 1000);  //button: "Styling CSS3"
          },
       };
 </script>
@@ -1549,7 +1549,7 @@
    <p>Panels - nested</p>
    <fieldset>
       <legend>Actual</legend>
-      <ul class=dna-menu data-nav=s20-books>
+      <ul class=dna-menu data-menu-nav=s20-books>
          <li><div>Web</div>
             <ul>
                <li><div>Technologies</div>
@@ -1572,7 +1572,7 @@
             </ol>
          </li>
       </ul>
-      <div class=dna-panels data-nav=s20-books>
+      <div class=dna-panels data-menu-nav=s20-books>
          <p>HTML!</p>
          <p>CSS!</p>
          <p>W3C!</p>
@@ -1614,8 +1614,7 @@
    spec.spec20 = {
       run() {
          const menuItems = globalThis.document.querySelectorAll('#spec20 .dna-menu .dna-menu-item');
-         const postRenderClick = () => menuItems[2].click();  //menu item: "W3C"
-         globalThis.setTimeout(postRenderClick, 1000);
+         globalThis.setTimeout(() => menuItems[2].click(), 1000);  //menu item: "W3C"
          },
       };
 </script>
@@ -1661,7 +1660,7 @@
          dna.clone('s21-book-author',            specRunner.catalog);
          const elem = globalThis.document.querySelector('#spec21 .dna-menu');
          elem.value = 'Abby';
-         elem.dispatchEvent(new Event('change', { bubbles: true }));  //simulate user update
+         dna.dom.triggerChange(elem, 1500);
          },
       };
 </script>
