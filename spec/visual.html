@@ -35,6 +35,7 @@
       input[type=range]  { -webkit-appearance: none; width: 100%; height: 20px;
                               background-color: mintcream; border: 1px solid silver; }
       input[type=number] { width: 7em; font-family: monospace; text-align: right; }
+      textarea           { display: block; margin: 5px 0px; }
       [title]            { cursor: help; }
       [data-component]   { background-color: gainsboro; padding: 15px; }
       .dna-clone         { background-color: darkseagreen; }
@@ -1218,9 +1219,10 @@
                <input data-attr-type=color value=~~coverColor~~>
                <code>~~coverColor~~</code>
             </p>
-            Note (2s smart updates):
+            Note (2s and 1s smart updates):
             <p>
-               <input data-on-smart-update=spec.spec16.submitNote data-smart-throttle=2000 value=~~note~~><br>
+               <input data-on-smart-update=spec.spec16.submitNote data-smart-throttle=2000 value=~~note~~>
+               <textarea data-on-smart-update=spec.spec16.submitNote>~~note~~</textarea>
                <code>~~note~~</code>
             </p>
          </div>
@@ -1311,9 +1313,10 @@
                <input type=color value=#daa520>
                <code>#daa520</code>
             </p>
-            Note (2s smart updates):
+            Note (2s and 1s smart updates):
             <p>
-               <input value="Award winning"><br>
+               <input value="Award winning">
+               <textarea>Award winning</textarea>
                <code>Award winning</code>
             </p>
          </div>
