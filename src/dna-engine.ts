@@ -75,6 +75,7 @@ export type DnaOptionsPulse = Partial<{
    displayMsec: number | null,
    fadeInMsec:  number,
    fadeOutMsec: number,
+   textContent: string | null,
    }>;
 export type DnaOptionsSmoothHeight = Partial<{
    container:   Element,
@@ -330,6 +331,8 @@ const dnaDom = {
       },
    toggleClass(elem: Element, className: string, state?: boolean): Element {
       // Adds or removes an element class.
+      // Example:
+      //    dna.dom.toggleClass(document.body, 'dark-mode', new Date().getHours() > 17);
       if (state === undefined ? !elem.classList.contains(className) : state)
          elem.classList.add(className);
       else
@@ -493,6 +496,10 @@ const dnaDom = {
       else
          globalThis.window.addEventListener('DOMContentLoaded', callback);
       return state;
+      },
+   triggerEvent(elem: Element) {
+      // Simulate user interaction to change an element.
+      elem.dispatchEvent(new Event('change', { bubbles: true }));
       },
    };
 
@@ -726,6 +733,7 @@ const dnaUi = {
          fadeInMsec:  600,
          displayMsec: 7000,
          fadeOutMsec: 3000,
+         textContent: null,
          };
       const settings = { ...defaults, ...options };
       dna.core.assert(dna.dom.isElem(elem), 'Invalid element for dna.ui.pulse()', elem);
@@ -734,6 +742,8 @@ const dnaUi = {
       const style = (<HTMLElement>elem).style;
       style.transition = 'all 0ms';
       style.opacity =    '0';
+      if (settings.textContent !== null)
+         elem.textContent = settings.textContent;
       const animate = () => {
          style.transition = `all ${settings.fadeInMsec}ms`;
          style.opacity =    '1';
@@ -1507,7 +1517,7 @@ const dnaEvents = {
          return runner(target, 'on-' + event.type.replace('key', 'key-'), event);
          };
       const handleSmartUpdate = (elem: Element, event: Event) => {
-         // <input data-smart-update=saveNote data-smart-throttle=2000 value=~~note~~>
+         // <input data-on-smart-update=saveNote data-smart-throttle=2000 value=~~note~~>
          const throttleDefault = 1000;  //default 1 second delay between callbacks
          const throttleSetting = (<HTMLElement>elem).dataset.smartThrottle;
          const throttle =        throttleSetting ? Number(throttleSetting) : throttleDefault;
@@ -1517,7 +1527,7 @@ const dnaEvents = {
             state.dnaLastUpdated = Date.now();
             state.dnaLastValue =   value();
             state.dnaTimeoutID =   null;
-            runner(elem, 'smart-update', event);
+            runner(elem, 'on-smart-update', event);
             };
          const handleChange = () => {
             if (Date.now() < <number>state.dnaLastUpdated + throttle)
@@ -1552,9 +1562,9 @@ const dnaEvents = {
       dna.dom.onFocusOut((elem, event) => runner(elem, 'on-focus-out', event), '[data-on-focus-out]');
       dna.dom.onHoverIn((elem, event) =>  runner(elem, 'on-hover-in',  event), '[data-on-hover-in]');
       dna.dom.onHoverOut((elem, event) => runner(elem, 'on-hover-out', event), '[data-on-hover-out]');
-      dna.dom.onKeyDown(handleSmartUpdate, 'input[data-smart-update]');
-      dna.dom.onKeyUp(handleSmartUpdate,   'input[data-smart-update]');
-      dna.dom.onChange(handleSmartUpdate,  'input[data-smart-update]');
+      dna.dom.onKeyDown(handleSmartUpdate, 'input[data-on-smart-update]');
+      dna.dom.onKeyUp(handleSmartUpdate,   'input[data-on-smart-update]');
+      dna.dom.onChange(handleSmartUpdate,  'input[data-on-smart-update]');
       dna.dom.onClick(jumpToUrl, '[data-href]');
       return dna.events.runOnLoads();
       },

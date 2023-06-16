@@ -1220,7 +1220,7 @@
             </p>
             Note (2s smart updates):
             <p>
-               <input data-smart-update=spec.spec16.submitNote data-smart-throttle=2000 value=~~note~~><br>
+               <input data-on-smart-update=spec.spec16.submitNote data-smart-throttle=2000 value=~~note~~><br>
                <code>~~note~~</code>
             </p>
          </div>
@@ -1451,7 +1451,7 @@
          <p id=chapter-box class=dna-template>~~[count]~~</p>
       </div>
       <button data-on-click=spec.spec18.pulse>Pulse</button> &nbsp;
-      <span>Status message...</span>
+      <p>Status message...</p>
    </fieldset>
    <fieldset>
       <legend>Expected</legend>
@@ -1462,13 +1462,13 @@
          <p class=chapter-box>3</p>
       </div>
       <button>Pulse</button> &nbsp;
-      <span>Status message...</span>
+      <p>Status message...</p>
    </fieldset>
 </section>
 <script>
    spec.spec18 = {
       pulse(button) {
-         dna.ui.pulse(button.nextElementSibling);
+         dna.ui.pulse(button.nextElementSibling, { textContent: dna.util.timestamp()});
          },
       makeChapterBoxes(range) {
          const clones = dna.clone('chapter-box', {}, { empty: true, clones: Number(range.value) });
