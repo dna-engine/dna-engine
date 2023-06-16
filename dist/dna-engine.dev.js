@@ -1,4 +1,4 @@
-//! dna-engine v3.0.2 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.3 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -277,6 +277,14 @@ const dnaDom = {
             globalThis.window.addEventListener('DOMContentLoaded', callback);
         return state;
     },
+    triggerChange(elem, delayMsec) {
+        const event = new Event('change', { bubbles: true });
+        if (delayMsec)
+            globalThis.setTimeout(() => elem.dispatchEvent(event), delayMsec);
+        else
+            elem.dispatchEvent(event);
+        return event;
+    },
 };
 const dnaUi = {
     isHidden(elem) {
@@ -494,6 +502,7 @@ const dnaUi = {
             fadeInMsec: 600,
             displayMsec: 7000,
             fadeOutMsec: 3000,
+            textContent: null,
         };
         const settings = Object.assign(Object.assign({}, defaults), options);
         dna.core.assert(dna.dom.isElem(elem), 'Invalid element for dna.ui.pulse()', elem);
@@ -502,6 +511,8 @@ const dnaUi = {
         const style = elem.style;
         style.transition = 'all 0ms';
         style.opacity = '0';
+        if (settings.textContent !== null)
+            elem.textContent = settings.textContent;
         const animate = () => {
             style.transition = `all ${settings.fadeInMsec}ms`;
             style.opacity = '1';
@@ -682,11 +693,11 @@ const dnaPlaceholder = {
 const dnaPanels = {
     display(menu, location, updateUrl) {
         const menuData = menu.dataset;
-        const navName = menuData.nav;
+        const menuNavName = menuData.menuNav;
         const callback = menuData.callback;
         const panels = dna.dom.state(menu).dnaPanels;
         const menuItems = menu.querySelectorAll('.dna-menu-item');
-        const savedIndex = Number(dna.pageToken.get(navName, 0));
+        const savedIndex = Number(dna.pageToken.get(menuNavName, 0));
         const bound = (loc) => Math.max(0, Math.min(loc, menuItems.length - 1));
         const index = bound(location === undefined ? savedIndex : location);
         const update = () => {
@@ -695,7 +706,7 @@ const dnaPanels = {
             menuItems.forEach(elem => dna.dom.replaceClass(elem, dna.name.selected, dna.name.unselected));
             dna.dom.replaceClass(menuItems[index], dna.name.unselected, dna.name.selected);
             const hidePanel = (panel) => {
-                dna.ui.hide(panel);
+                panel.style.display = 'none';
                 panel.classList.remove(dna.name.displayed);
                 panel.classList.add(dna.name.hidden);
             };
@@ -704,7 +715,7 @@ const dnaPanels = {
             panel.classList.replace(dna.name.hidden, dna.name.displayed);
             dna.ui.fadeIn(panel);
             const hash = panel.dataset.hash;
-            dna.pageToken.put(navName, index);
+            dna.pageToken.put(menuNavName, index);
             if (updateUrl && hash)
                 globalThis.history.pushState(null, '', '#' + hash);
             if (callback)
@@ -733,28 +744,29 @@ const dnaPanels = {
     selectRotate(menu) {
         return dna.panels.display(menu, menu.selectedIndex, true);
     },
-    nextNav: 1,
+    nextMenuNav: 1,
     initialize(panels) {
         const generateNavName = () => {
-            const navName = 'dna-panels-' + String(dna.panels.nextNav++);
-            const setNavName = (elem) => elem.dataset.nav = navName;
+            const menuNavName = 'dna-panels-' + String(dna.panels.nextMenuNav++);
+            const setNavName = (elem) => elem.dataset.menuNav = menuNavName;
             const menu = panels.previousElementSibling;
             dna.core.assert(menu === null || menu === void 0 ? void 0 : menu.classList.contains('dna-menu'), 'Menu not found for panels', panels);
             setNavName(menu);
             setNavName(panels);
-            return navName;
+            return menuNavName;
         };
         const init = () => {
-            const navName = panels.dataset.nav || generateNavName();
-            const menu = globalThis.document.querySelector('.dna-menu[data-nav=' + navName + ']');
+            const menuNavName = panels.dataset.menuNav || generateNavName();
+            const menuSelector = '.dna-menu[data-menu-nav=' + menuNavName + ']';
+            const menu = globalThis.document.querySelector(menuSelector);
             const hash = globalThis.location.hash.replace(/[^\w-]/g, '');
             const hashIndex = () => dna.dom.findIndex(panels.children, '[data-hash=' + hash + ']');
-            const savedIndex = () => dna.pageToken.get(navName, 0);
+            const savedIndex = () => dna.pageToken.get(menuNavName, 0);
             const first = panels.children[0];
             const loc = hash && first.dataset.hash ? hashIndex() : savedIndex();
             dna.dom.addClass(panels.children, dna.name.panel);
             panels.classList.add(dna.name.panelsInitialized);
-            dna.core.assert(menu, 'Menu not found for panels', navName);
+            dna.core.assert(menu, 'Menu not found for panels', menuNavName);
             menu.classList.add(dna.name.panelsInitialized);
             dna.dom.state(menu).dnaPanels = panels;
             if (!menu.getElementsByClassName(dna.name.menuItem).length)
@@ -1135,7 +1147,7 @@ const dnaEvents = {
                 state.dnaLastUpdated = Date.now();
                 state.dnaLastValue = value();
                 state.dnaTimeoutID = null;
-                runner(elem, 'smart-update', event);
+                runner(elem, 'on-smart-update', event);
             };
             const handleChange = () => {
                 if (Date.now() < state.dnaLastUpdated + throttle)
@@ -1168,9 +1180,9 @@ const dnaEvents = {
         dna.dom.onFocusOut((elem, event) => runner(elem, 'on-focus-out', event), '[data-on-focus-out]');
         dna.dom.onHoverIn((elem, event) => runner(elem, 'on-hover-in', event), '[data-on-hover-in]');
         dna.dom.onHoverOut((elem, event) => runner(elem, 'on-hover-out', event), '[data-on-hover-out]');
-        dna.dom.onKeyDown(handleSmartUpdate, 'input[data-smart-update]');
-        dna.dom.onKeyUp(handleSmartUpdate, 'input[data-smart-update]');
-        dna.dom.onChange(handleSmartUpdate, 'input[data-smart-update]');
+        dna.dom.onKeyDown(handleSmartUpdate, 'input[data-on-smart-update]');
+        dna.dom.onKeyUp(handleSmartUpdate, 'input[data-on-smart-update]');
+        dna.dom.onChange(handleSmartUpdate, 'input[data-on-smart-update]');
         dna.dom.onClick(jumpToUrl, '[data-href]');
         return dna.events.runOnLoads();
     },
@@ -1407,7 +1419,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.0.2',
+    version: '3.0.3',
     clone(name, data, options) {
         const defaults = {
             callback: null,
@@ -1637,7 +1649,7 @@ const dna = {
             names: names,
             store: dna.template.db,
             initializers: dna.events.db.initializers,
-            panels: dna.dom.map(panels, panel => panel.dataset.nav),
+            panels: dna.dom.map(panels, panel => panel.dataset.menuNav),
             state: dna.dom.stateDepot,
         };
     },

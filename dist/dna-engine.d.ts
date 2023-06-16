@@ -1,4 +1,4 @@
-//! dna-engine v3.0.2 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.3 ~~ https://dna-engine.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -74,6 +74,7 @@ export type DnaOptionsPulse = Partial<{
     displayMsec: number | null;
     fadeInMsec: number;
     fadeOutMsec: number;
+    textContent: string | null;
 }>;
 export type DnaOptionsSmoothHeight = Partial<{
     container: Element;
@@ -367,6 +368,7 @@ declare const dna: {
             quiet?: boolean;
             name?: string;
         }): DocumentReadyState | 'browserless';
+        triggerChange(elem: Element, delayMsec?: number): Event;
     };
     ui: {
         isHidden(elem: Element): boolean;
@@ -419,7 +421,7 @@ declare const dna: {
         display(menu: Element, location?: number, updateUrl?: boolean): Element;
         clickRotate(menuItem: Element): Element;
         selectRotate(menu: Element): Element;
-        nextNav: number;
+        nextMenuNav: number;
         initialize(panels: Element | null): Element | null;
         setup(): NodeListOf<Element>;
     };
