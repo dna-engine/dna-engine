@@ -1471,7 +1471,7 @@
 <script>
    spec.spec18 = {
       pulse(button) {
-         dna.ui.pulse(button.nextElementSibling, { textContent: dna.util.timestamp()});
+         dna.ui.pulse(button.nextElementSibling, { text: dna.util.timestamp()});
          },
       makeChapterBoxes(range) {
          const clones = dna.clone('chapter-box', {}, { empty: true, clones: Number(range.value) });

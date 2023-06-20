@@ -2016,7 +2016,7 @@
                const showMsg = (elem, event) =&gt; {
                   const msg =    'Value "' + elem.value + '" on ' + event.type;
                   const output = globalThis.document.getElementById('message');
-                  dna.ui.pulse(output, { textContent: msg });
+                  dna.ui.pulse(output, { text: msg });
                   };
             &lt;/script&gt;
          </code></pre>
@@ -3578,7 +3578,7 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            const boxes = document.querySelectorAll('.box');
+            const boxes = document.getElementsByClass('box');
             dna.ui.slideFadeIn(boxes[0]);      //shows the 1st box
             dna.ui.slideFadeDelete(boxes[1]);  //removes the 2nd box
          </code></pre>

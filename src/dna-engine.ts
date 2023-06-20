@@ -72,10 +72,11 @@ export type DnaOptionsEventsOn = Partial<{
    selector:    string | null,
    }>;
 export type DnaOptionsPulse = Partial<{
-   displayMsec: number | null,
+   displayMsec: number,
    fadeInMsec:  number,
    fadeOutMsec: number,
-   textContent: string | null,
+   noFadeOut:   boolean,
+   text:        string | null,
    }>;
 export type DnaOptionsSmoothHeight = Partial<{
    container:   Element,
@@ -317,6 +318,25 @@ const dnaDom = {
          copy(clone);
       dna.dom.forEach(clone.getElementsByClassName('dna-state'), copy);
       return clone;
+      },
+   create(tag: string, options?: { id?: string, subTags?: string[], class?: string, href?: string, html?: string, src?: string, text?: string }): Element {
+      const elem = globalThis.document.createElement(tag);
+      if (options?.id)
+         elem.id = options.id;
+      if (options?.class)
+         elem.classList.add(options.class);
+      if (options?.href)
+         (<HTMLAnchorElement>elem).href = options.href;
+      if (options?.html)
+         elem.innerHTML = options.html;
+      if (options?.src)
+         (<HTMLImageElement>elem).src = options.src;
+      if (options?.text)
+         elem.textContent = options.text;
+      if (options?.subTags)
+         options.subTags.forEach(
+            subTag => elem.appendChild(globalThis.document.createElement(subTag)));
+      return elem;
       },
    removeState(elem: Element): Element {
       dna.core.assert(dna.dom.isElem(elem), 'Invalid element for removing state', elem);
@@ -735,10 +755,11 @@ const dnaUi = {
       // temporary status messages, like "Saving...").  Set showDuration to the length of time to
       // display the message or to null to leave the element visible indefinitely.
       const defaults: Required<DnaOptionsPulse> = {
-         fadeInMsec:  600,
          displayMsec: 7000,
+         fadeInMsec:  600,
          fadeOutMsec: 3000,
-         textContent: null,
+         noFadeOut:   false,
+         text:        null,
          };
       const settings = { ...defaults, ...options };
       dna.core.assert(dna.dom.isElem(elem), 'Invalid element for dna.ui.pulse()', elem);
@@ -747,8 +768,8 @@ const dnaUi = {
       const style = (<HTMLElement>elem).style;
       style.transition = 'all 0ms';
       style.opacity =    '0';
-      if (settings.textContent !== null)
-         elem.textContent = settings.textContent;
+      if (settings.text !== null)
+         elem.textContent = settings.text;
       const animate = () => {
          style.transition = `all ${settings.fadeInMsec}ms`;
          style.opacity =    '1';
@@ -760,14 +781,14 @@ const dnaUi = {
             style.opacity = '0';
          };
       globalThis.requestAnimationFrame(animate);
-      if (settings.displayMsec)
+      if (!settings.noFadeOut)
          globalThis.setTimeout(fadeAway, settings.fadeInMsec + settings.displayMsec);
       const cleanup = () => {
          if (isLastPulse())
             style.removeProperty('transition');
          return elem;
          };
-      const total = !settings.displayMsec ? settings.fadeInMsec :
+      const total = settings.noFadeOut ? settings.fadeInMsec :
          settings.fadeInMsec + settings.displayMsec + settings.fadeOutMsec;
       return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
       },
@@ -880,14 +901,16 @@ const dnaUtil = {
       const fieldValue = notFound ? null : data[<keyof typeof data>parts[0]];
       return notFound || parts.length < 2 ? fieldValue : dna.util.value(fieldValue, parts.slice(1));
       },
-   isObj: (value: unknown): boolean => {
+   isObj(value: unknown): boolean {
       return !!value && typeof value === 'object' && !Array.isArray(value);
       },
-   timestamp() {
-      return dna.format.getDateFormatter('timestamp')(Date.now());
+   timestamp(date?: number): string {
+      // Example: "2030-05-04+08:00:00"
+      return dna.format.getDateFormatter('timestamp')(date ?? Date.now());
       },
-   timestampMsec() {
-      return dna.format.getDateFormatter('timestamp-msec')(Date.now());
+   timestampMsec(date?: number): string {
+      // Example: "2030-05-04+08:00:00.000"
+      return dna.format.getDateFormatter('timestamp-msec')(date ?? Date.now());
       },
    };
 
@@ -1314,10 +1337,7 @@ const dnaCompile = {
          const lastChildNode = elem.childNodes[elem.childNodes.length - 1];
          if (lastChildNode && isWhitespaceNode(lastChildNode))
             lastChildNode.remove();
-         const span = globalThis.document.createElement('span');
-         span.classList.add(className);
-         span.innerHTML = text!;
-         elem.append(span);
+         elem.append(dna.dom.create('span', { class: className, html: text }));
          };
       const processTemplate = (elem: Element) => {
          const data = (<HTMLElement>elem).dataset;
@@ -1909,10 +1929,8 @@ const dna = {
       },
    createTemplate(name: string, html: string, holder: Element): DnaTemplate {
       // Generates a template from an HTML string.
-      const div =     globalThis.document.createElement('div');
-      div.innerHTML = html;
-      const elem =    div.firstElementChild!;
-      elem.id =       name;
+      const elem = dna.dom.create('div', { html }).firstElementChild!;
+      elem.id =    name;
       elem.classList.add(dna.name.template);
       holder.append(elem);
       return dna.template.get(name);
