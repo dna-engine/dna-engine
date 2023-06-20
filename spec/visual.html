@@ -747,6 +747,7 @@
                   <button data-on-click=dna.up>&uarr;</button>
                   <button data-on-click=dna.down>&darr;</button>
                   <button data-on-click=dna.bye>&times;</button>
+                  [<span>~~[index]~~</span>]
                </nav>
             </div>
             <div><button data-on-click=spec.spec12.recount>Recount</button></div>
@@ -760,7 +761,7 @@
             <div>Title: <span>The DOM</span></div>
             Authors 1:
             <span>
-               <span class=dna-clone>                (1) <cite>Bo I</cite></span>
+               <span class=dna-clone>                 (1) <cite>Bo I</cite></span>
                <span class="dna-clone color-change1"> (2) <cite>Bo II</cite></span>
             </span>
             <br>
@@ -793,6 +794,7 @@
                   <button>&uarr;</button>
                   <button>&darr;</button>
                   <button>&times;</button>
+                  [<span>0</span>]
                </nav>
             </div>
             <div class="dna-clone color-change1">
@@ -802,6 +804,7 @@
                   <button>&uarr;</button>
                   <button>&darr;</button>
                   <button>&times;</button>
+                  [<span>1</span>]
                </nav>
             </div>
             <div><button>Recount</button></div>
@@ -839,6 +842,7 @@
                   <button>&uarr;</button>
                   <button>&darr;</button>
                   <button>&times;</button>
+                  [<span>0</span>]
                </nav>
             </div>
             <div class="dna-clone color-change1">
@@ -848,6 +852,7 @@
                   <button>&uarr;</button>
                   <button>&darr;</button>
                   <button>&times;</button>
+                  [<span>1</span>]
                </nav>
             </div>
             <div class="dna-clone color-change1">
@@ -857,6 +862,7 @@
                   <button>&uarr;</button>
                   <button>&darr;</button>
                   <button>&times;</button>
+                  [<span>2</span>]
                </nav>
             </div>
             <div class="dna-clone color-change1">
@@ -866,6 +872,7 @@
                   <button>&uarr;</button>
                   <button>&darr;</button>
                   <button>&times;</button>
+                  [<span>4</span>]
                </nav>
             </div>
             <div class="dna-clone color-change1">
@@ -875,6 +882,7 @@
                   <button>&uarr;</button>
                   <button>&darr;</button>
                   <button>&times;</button>
+                  [<span>5</span>]
                </nav>
             </div>
             <div><button>Recount</button></div>
@@ -1169,7 +1177,7 @@
             <div>
                <label data-array=~~options~~ data-class=~~set[border-change1,border-change2]~~>
                   <input type=checkbox value=~~code~~ data-prop-checked=~~set~~>
-                  <span>~~name~~</span> [<span>~~[count]~~</span>]
+                  <span>~~name~~</span> #<span>~~[count]~~</span>
                </label>
             </div>
             Cover:
@@ -1177,7 +1185,7 @@
                <label data-array=~~covers~~ data-input-name=cover data-class=~~set[border-change1]~~>
                   <input type=radio value=~~code~~ name=cover
                      data-prop-disabled=~~unavailable~~ data-prop-checked=~~set~~>
-                  <span>~~name~~</span> [<span>~~[count]~~</span>]
+                  <span>~~name~~</span> #<span>~~[count]~~</span>
                </label>
             </div>
             Purpose:
@@ -1242,30 +1250,30 @@
             <div>
                <label class=border-change1>
                   <input type=checkbox value=fast checked>
-                  <span>Overnight [1]</span>
+                  <span>Overnight #1</span>
                </label>
                <label class=border-change2>
                   <input type=checkbox value=share>
-                  <span>Social Share [2]</span>
+                  <span>Social Share #2</span>
                </label>
                <label class=border-change1>
                   <input type=checkbox value=gift checked>
-                  <span>Gift [3]</span>
+                  <span>Gift #3</span>
                </label>
             </div>
             Cover:
             <div>
                <label>
                   <input type=radio value=soft name=cover-expected>
-                  <span>Paperback [1]</span>
+                  <span>Paperback #1</span>
                </label>
                <label class=border-change1>
                   <input type=radio value=hard name=cover-expected checked>
-                  <span>Hardcover [2]</span>
+                  <span>Hardcover #2</span>
                </label>
                <label>
                   <input type=radio value=ebook name=cover-expected disabled>
-                  <span>Digital [3]</span>
+                  <span>Digital #3</span>
                </label>
             </div>
             Purpose:

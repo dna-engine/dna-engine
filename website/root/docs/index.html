@@ -1375,8 +1375,9 @@
          Renumbers the counters starting from 1 for the clone and its siblings based on DOM order.
       </p>
       <p>
-         When using the special field <code><a href=#loop-primitives>[count]</a></code>, you may
-         need to renumber the counters after moving, inserting or deleting clones.
+         When using the special fields <code><a href=#loop-primitives>[index]</a></code> and
+         <code><a href=#loop-primitives>[count]</a></code>, you may need to renumber the counters
+         after moving, inserting or deleting clones.
       </p>
       <div class=api-parameters>
          Parameters:
@@ -1764,8 +1765,13 @@
       <h4>Arrays of Primitives (strings, numbers, booleans)</h4>
       <p>
          The special field <code>[value]</code> tells the template to use simple values
-         from an array of primitives.&nbsp; The special field <code>[count]</code>
-         is the value's index number in the array plus 1.
+         from an array of primitives.
+      </p>
+      <p>
+         The special field <code>[index]</code> is the value's index number in the array.
+      </p>
+      <p>
+         The special field <code>[count]</code> is the value's index number in the array plus 1.
       </p>
       <figure>
          <figcaption>Example HTML</figcaption>
@@ -1799,7 +1805,7 @@
       <p>
          <em>Note:</em>
          After moving, inserting, or removing clone elements, you can reset the counter for the
-         special field <code>[count]</code> by calling
+         special fields <code>[index]</code> and <code>[count]</code> by calling
          <code><a href=#api-recount>dna.recount()</a></code>.
       </p>
    </section>

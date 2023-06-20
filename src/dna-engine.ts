@@ -118,7 +118,7 @@ export type DnaFunctionName = string;
 export type DnaClassName =    string;
 export type DnaClassRule =    [DnaFieldName, DnaClassName, DnaClassName];
 export type DnaAttrName =     string;
-export type DnaAttrParts =    [string, DnaFieldName | 1 | 2, string];
+export type DnaAttrParts =    [string, DnaFieldName | 0 | 1 | 2, string];
 export type DnaAttrs =        (DnaAttrName | DnaAttrParts)[];
 export type DnaPropName =     string;
 export type DnaProps =        (DnaPropName | DnaFieldName)[];
@@ -1216,6 +1216,7 @@ const dnaCompile = {
       // Examples:
       //    <p id=~~num~~>                  ==>  <p class=dna-nucleotide>  <!-- rules: { attrs: ['id', ['', 'num', '']] } -->
       //    <p data-attr-src=~~url~~>       ==>  <p class=dna-nucleotide>  <!-- rules: { attrs: ['src', ['', 'url', '']] } -->
+      //    <p data-tag=~~[index]~~>        ==>  <p class=dna-nucleotide>  <!-- rules: { attrs: ['data-tag', ['', 0, '']] } -->
       //    <p data-tag=~~[count]~~>        ==>  <p class=dna-nucleotide>  <!-- rules: { attrs: ['data-tag', ['', 1, '']] } -->
       //    <p data-tag=~~[value]~~>        ==>  <p class=dna-nucleotide>  <!-- rules: { attrs: ['data-tag', ['', 2, '']] } -->
       //    <input type=checkbox data-prop-checked=~~set~~>
@@ -1240,10 +1241,9 @@ const dnaCompile = {
          };
       const compileAttr = (key: string, value: string) => {
          const parts = <DnaAttrParts>value.split(dna.compile.regex.dnaBasePair);
-         if (parts[1] === '[count]')
-            parts[1] = 1;
-         else if (parts[1] === '[value]')
-            parts[1] = 2;
+         const raw = ['[index]', '[count]', '[value]'].indexOf(<string>parts[1]);
+         if (raw !== -1)
+            parts[1] = <DnaAttrParts[1]>raw;
          attrs.push(key.replace(/^data-attr-/, ''), parts);
          names.push(key);
          const makeUpdatable = () => {
@@ -1600,8 +1600,11 @@ const dnaEvents = {
 const dnaCore = {
    inject<T>(clone: Element, data: T, count: number, settings: DnaOptionsClone<T>): Element {
       // Inserts data into a clone and executes its rules.
+      const index = count - 1;
       const injectField = (elem: Element, field: string, rules: DnaRules) => {  //example: <h2>~~title~~</h2>
-         const value = field === '[count]' ? count : field === '[value]' ? data :
+         const value = field === '[value]' ? data :
+            field === '[index]' ? index :
+            field === '[count]' ? index + 1 :
             dna.util.value(data, field);
          const formatted = () => rules.formatter ?
             rules.formatter(<DnaFormatterValue>value, data) : String(value);
@@ -1612,8 +1615,10 @@ const dnaCore = {
             elem.textContent = formatted();  //consider switching to .innerText when supported by jsdom
          };
       const injectValue = (elem: Element, field: string) => {
-         const value = field === '[count]' ? count :
-            field === '[value]' ? data : dna.util.value(data, field);
+         const value = field === '[value]' ? data :
+            field === '[index]' ? index :
+            field === '[count]' ? index + 1 :
+            dna.util.value(data, field);
          if (value !== null && value !== (<HTMLInputElement>elem).value)
             (<HTMLInputElement>elem).value = String(value);
          };
@@ -1634,7 +1639,7 @@ const dnaCore = {
          const attrs = rules.attrs!;  //example attrs: ['data-tag', ['', 'tag', '']]
          const inject = (key: DnaAttrName, parts: DnaAttrParts) => {  //example parts: 'J~~code.num~~' ==> ['J', 'code.num', '']
             const field =     parts[1];
-            const core =      field === 1 ? count : field === 2 ? data : dna.util.value(data, field);
+            const core =      field === 0 ? index : field === 1 ? index + 1 : field === 2 ? data : dna.util.value(data, field);
             const value =     [parts[0], core, parts[2]].join('');
             const formatted = rules.formatter ?
                rules.formatter(<DnaFormatterValue>value, data) : value;
@@ -1721,7 +1726,7 @@ const dnaCore = {
          };
       dig(clone);
       dna.dom.state(clone).dnaModel = data;
-      dna.dom.state(clone).dnaCount = count;
+      dna.dom.state(clone).dnaCount = index + 1;
       return clone;
       },
    replicate<T>(template: DnaTemplate, data: T, options: DnaOptionsClone<T>): Element {
