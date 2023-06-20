@@ -1,4 +1,4 @@
-//! dna-engine v3.0.4 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.5 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -116,6 +116,24 @@ const dnaDom = {
             copy(clone);
         dna.dom.forEach(clone.getElementsByClassName('dna-state'), copy);
         return clone;
+    },
+    create(tag, options) {
+        const elem = globalThis.document.createElement(tag);
+        if (options === null || options === void 0 ? void 0 : options.id)
+            elem.id = options.id;
+        if (options === null || options === void 0 ? void 0 : options.class)
+            elem.classList.add(options.class);
+        if (options === null || options === void 0 ? void 0 : options.href)
+            elem.href = options.href;
+        if (options === null || options === void 0 ? void 0 : options.html)
+            elem.innerHTML = options.html;
+        if (options === null || options === void 0 ? void 0 : options.src)
+            elem.src = options.src;
+        if (options === null || options === void 0 ? void 0 : options.text)
+            elem.textContent = options.text;
+        if (options === null || options === void 0 ? void 0 : options.subTags)
+            options.subTags.forEach(subTag => elem.appendChild(globalThis.document.createElement(subTag)));
+        return elem;
     },
     removeState(elem) {
         dna.core.assert(dna.dom.isElem(elem), 'Invalid element for removing state', elem);
@@ -499,10 +517,11 @@ const dnaUi = {
     },
     pulse(elem, options) {
         const defaults = {
-            fadeInMsec: 600,
             displayMsec: 7000,
+            fadeInMsec: 600,
             fadeOutMsec: 3000,
-            textContent: null,
+            noFadeOut: false,
+            text: null,
         };
         const settings = Object.assign(Object.assign({}, defaults), options);
         dna.core.assert(dna.dom.isElem(elem), 'Invalid element for dna.ui.pulse()', elem);
@@ -511,8 +530,8 @@ const dnaUi = {
         const style = elem.style;
         style.transition = 'all 0ms';
         style.opacity = '0';
-        if (settings.textContent !== null)
-            elem.textContent = settings.textContent;
+        if (settings.text !== null)
+            elem.textContent = settings.text;
         const animate = () => {
             style.transition = `all ${settings.fadeInMsec}ms`;
             style.opacity = '1';
@@ -524,14 +543,14 @@ const dnaUi = {
                 style.opacity = '0';
         };
         globalThis.requestAnimationFrame(animate);
-        if (settings.displayMsec)
+        if (!settings.noFadeOut)
             globalThis.setTimeout(fadeAway, settings.fadeInMsec + settings.displayMsec);
         const cleanup = () => {
             if (isLastPulse())
                 style.removeProperty('transition');
             return elem;
         };
-        const total = !settings.displayMsec ? settings.fadeInMsec :
+        const total = settings.noFadeOut ? settings.fadeInMsec :
             settings.fadeInMsec + settings.displayMsec + settings.fadeOutMsec;
         return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
     },
@@ -612,14 +631,14 @@ const dnaUtil = {
         const fieldValue = notFound ? null : data[parts[0]];
         return notFound || parts.length < 2 ? fieldValue : dna.util.value(fieldValue, parts.slice(1));
     },
-    isObj: (value) => {
+    isObj(value) {
         return !!value && typeof value === 'object' && !Array.isArray(value);
     },
-    timestamp() {
-        return dna.format.getDateFormatter('timestamp')(Date.now());
+    timestamp(date) {
+        return dna.format.getDateFormatter('timestamp')(date !== null && date !== void 0 ? date : Date.now());
     },
-    timestampMsec() {
-        return dna.format.getDateFormatter('timestamp-msec')(Date.now());
+    timestampMsec(date) {
+        return dna.format.getDateFormatter('timestamp-msec')(date !== null && date !== void 0 ? date : Date.now());
     },
 };
 const dnaFormat = {
@@ -862,10 +881,9 @@ const dnaCompile = {
         };
         const compileAttr = (key, value) => {
             const parts = value.split(dna.compile.regex.dnaBasePair);
-            if (parts[1] === '[count]')
-                parts[1] = 1;
-            else if (parts[1] === '[value]')
-                parts[1] = 2;
+            const raw = ['[index]', '[count]', '[value]'].indexOf(parts[1]);
+            if (raw !== -1)
+                parts[1] = raw;
             attrs.push(key.replace(/^data-attr-/, ''), parts);
             names.push(key);
             const makeUpdatable = () => {
@@ -948,10 +966,7 @@ const dnaCompile = {
             const lastChildNode = elem.childNodes[elem.childNodes.length - 1];
             if (lastChildNode && isWhitespaceNode(lastChildNode))
                 lastChildNode.remove();
-            const span = globalThis.document.createElement('span');
-            span.classList.add(className);
-            span.innerHTML = text;
-            elem.append(span);
+            elem.appendChild(dna.dom.create('span', { class: className, html: text }));
         };
         const processTemplate = (elem) => {
             const data = elem.dataset;
@@ -1189,9 +1204,12 @@ const dnaEvents = {
 };
 const dnaCore = {
     inject(clone, data, count, settings) {
+        const index = count - 1;
         const injectField = (elem, field, rules) => {
-            const value = field === '[count]' ? count : field === '[value]' ? data :
-                dna.util.value(data, field);
+            const value = field === '[value]' ? data :
+                field === '[index]' ? index :
+                    field === '[count]' ? index + 1 :
+                        dna.util.value(data, field);
             const formatted = () => rules.formatter ?
                 rules.formatter(value, data) : String(value);
             const injectable = ['string', 'number', 'boolean'].includes(typeof value);
@@ -1201,8 +1219,10 @@ const dnaCore = {
                 elem.textContent = formatted();
         };
         const injectValue = (elem, field) => {
-            const value = field === '[count]' ? count :
-                field === '[value]' ? data : dna.util.value(data, field);
+            const value = field === '[value]' ? data :
+                field === '[index]' ? index :
+                    field === '[count]' ? index + 1 :
+                        dna.util.value(data, field);
             if (value !== null && value !== elem.value)
                 elem.value = String(value);
         };
@@ -1222,7 +1242,7 @@ const dnaCore = {
             const attrs = rules.attrs;
             const inject = (key, parts) => {
                 const field = parts[1];
-                const core = field === 1 ? count : field === 2 ? data : dna.util.value(data, field);
+                const core = field === 0 ? index : field === 1 ? index + 1 : field === 2 ? data : dna.util.value(data, field);
                 const value = [parts[0], core, parts[2]].join('');
                 const formatted = rules.formatter ?
                     rules.formatter(value, data) : value;
@@ -1308,7 +1328,7 @@ const dnaCore = {
         };
         dig(clone);
         dna.dom.state(clone).dnaModel = data;
-        dna.dom.state(clone).dnaCount = count;
+        dna.dom.state(clone).dnaCount = index + 1;
         return clone;
     },
     replicate(template, data, options) {
@@ -1333,7 +1353,7 @@ const dnaCore = {
                 const adjustment = (clonesAbove, name) => clonesAbove + (name && contents.indexOf(name) < index ?
                     allClones.filter(clone => clone.classList.contains(name)).length - 1 : 0);
                 const target = container.children[index + contents.reduce(adjustment, 0)];
-                return target ? container.insertBefore(clone, target) : container.append(clone);
+                return target ? container.insertBefore(clone, target) : container.appendChild(clone);
             };
             const sameClones = allClones.filter(clone => clone.classList.contains(template.name));
             if (!sameClones.length)
@@ -1419,7 +1439,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.0.4',
+    version: '3.0.5',
     clone(name, data, options) {
         const defaults = {
             callback: null,
@@ -1477,12 +1497,10 @@ const dna = {
         return holderClone;
     },
     createTemplate(name, html, holder) {
-        const div = globalThis.document.createElement('div');
-        div.innerHTML = html;
-        const elem = div.firstElementChild;
+        const elem = dna.dom.create('div', { html }).firstElementChild;
         elem.id = name;
         elem.classList.add(dna.name.template);
-        holder.append(elem);
+        holder.appendChild(elem);
         return dna.template.get(name);
     },
     templateExists(name) {

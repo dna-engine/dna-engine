@@ -1,4 +1,4 @@
-//! dna-engine v3.0.4 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.5 ~~ https://dna-engine.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -71,10 +71,11 @@ export type DnaOptionsEventsOn = Partial<{
     selector: string | null;
 }>;
 export type DnaOptionsPulse = Partial<{
-    displayMsec: number | null;
+    displayMsec: number;
     fadeInMsec: number;
     fadeOutMsec: number;
-    textContent: string | null;
+    noFadeOut: boolean;
+    text: string | null;
 }>;
 export type DnaOptionsSmoothHeight = Partial<{
     container: Element;
@@ -132,7 +133,7 @@ export type DnaFunctionName = string;
 export type DnaClassName = string;
 export type DnaClassRule = [DnaFieldName, DnaClassName, DnaClassName];
 export type DnaAttrName = string;
-export type DnaAttrParts = [string, DnaFieldName | 1 | 2, string];
+export type DnaAttrParts = [string, DnaFieldName | 0 | 1 | 2, string];
 export type DnaAttrs = (DnaAttrName | DnaAttrParts)[];
 export type DnaPropName = string;
 export type DnaProps = (DnaPropName | DnaFieldName)[];
@@ -331,6 +332,15 @@ declare const dna: {
             [key: symbol]: unknown;
         };
         cloneState(clone: Element): Element;
+        create(tag: string, options?: {
+            id?: string;
+            subTags?: string[];
+            class?: string;
+            href?: string;
+            html?: string;
+            src?: string;
+            text?: string;
+        }): Element;
         removeState(elem: Element): Element;
         hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, className: string): boolean;
         toggleClass(elem: Element, className: string, state?: boolean): Element;
@@ -403,9 +413,9 @@ declare const dna: {
         toCamel: (kebabStr: string) => string;
         toKebab: (camelStr: string) => string;
         value<T_11>(data: T_11, field: string | string[]): unknown;
-        isObj: (value: unknown) => boolean;
-        timestamp(): string;
-        timestampMsec(): string;
+        isObj(value: unknown): boolean;
+        timestamp(date?: number): string;
+        timestampMsec(date?: number): string;
     };
     format: {
         getCurrencyFormatter(iso4217: string, units?: number): DnaFormatter;

@@ -3173,14 +3173,8 @@
                <script>
                   const updatePanel = (panel, hash) => {
                      const url = location.origin + location.pathname + '#' + hash;
-                     const makeLink = () => {
-                        const link = globalThis.document.createElement('a');
-                        link.textContent = url;
-                        link.href =        url;
-                        return link;
-                        };
                      if (!panel.getElementsByTagName('a').length)
-                        panel.append(makeLink());
+                        panel.appendChild(dna.dom.create('a', { text: url, href: url }));
                      };
                </script>
             </div>

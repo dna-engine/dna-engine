@@ -1337,7 +1337,7 @@ const dnaCompile = {
          const lastChildNode = elem.childNodes[elem.childNodes.length - 1];
          if (lastChildNode && isWhitespaceNode(lastChildNode))
             lastChildNode.remove();
-         elem.append(dna.dom.create('span', { class: className, html: text }));
+         elem.appendChild(dna.dom.create('span', { class: className, html: text }));
          };
       const processTemplate = (elem: Element) => {
          const data = (<HTMLElement>elem).dataset;
@@ -1753,7 +1753,7 @@ const dnaCore = {
                clonesAbove + (name && contents.indexOf(name) < index ?
                   allClones.filter(clone => clone.classList.contains(name)).length - 1 : 0);
             const target = container.children[index + contents.reduce(adjustment, 0)];
-            return target ? container.insertBefore(clone, target) : container.append(clone);
+            return target ? container.insertBefore(clone, target) : container.appendChild(clone);
             };
          const sameClones = allClones.filter(clone => clone.classList.contains(template.name));
          if (!sameClones.length)
@@ -1937,7 +1937,7 @@ const dna = {
       const elem = dna.dom.create('div', { html }).firstElementChild!;
       elem.id =    name;
       elem.classList.add(dna.name.template);
-      holder.append(elem);
+      holder.appendChild(elem);
       return dna.template.get(name);
       },
    templateExists(name: string): boolean {

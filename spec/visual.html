@@ -1095,7 +1095,7 @@
          const msec =  String(Date.now() % 10000).padStart(4, '0');
          const p =     document.createElement('p');
          p.innerText = [msec, message, tag].join(' ');
-         document.querySelector('#spec15 fieldset').append(p);
+         document.querySelector('#spec15 fieldset').appendChild(p);
          },
       animal(elem) {
          spec.spec15.showMessage('animal', elem);
@@ -1117,7 +1117,7 @@
          elem.style.color =   'white';
          elem.style.padding = '10px';
          const hr = document.createElement('hr');
-         document.querySelector('#spec15 fieldset').append(hr);  //exactly 8 times (one for each clone)
+         document.querySelector('#spec15 fieldset').appendChild(hr);  //exactly 8 times (one for each clone)
          },
       surround2(elem) {
          if (!elem.classList.contains('s15-book'))
