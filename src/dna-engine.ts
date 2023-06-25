@@ -934,18 +934,22 @@ const dnaFormat = {
       const twoDigit =      (value: number) => String(value).padStart(2, '0');
       const timestamp =     (date: Date) => date.toISOString().replace('T', '+').slice(0, -5);
       const timestampMsec = (date: Date) => date.toISOString().replace('T', '+').slice(0, -1);
+      const timeZone =      (date: Date) => date.toLocaleString([], { timeZoneName: 'short' }).split(' ').pop();
+      const timeZoneLong =  (date: Date) => date.toLocaleString([], { year: 'numeric', timeZoneName: 'long' }).split(' ').slice(1).join(' ');
       const space =         (date: string) => date.replace(/\s/g, ' ');
       const general = {  //format parts of the general timestamp, ex: "2030-05-04 1:00am Sat"
          date:  (d: Date) => `${d.getFullYear()}-${twoDigit(d.getMonth() + 1)}-${twoDigit(d.getDate())}`,
          time:  (d: Date) => d.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(/\s/, '').toLowerCase(),
          day:   (d: Date) => d.toLocaleString([], { weekday: 'short' }),
-         stamp: (d: Date) => general.date(d) + ' ' + general.time(d) + ' ' + general.day(d),
+         stamp: (d: Date) => `${general.date(d)} ${general.time(d)} ${general.day(d)}`,
+         long:  (d: Date) => `${general.stamp(d)} (${timeZone(d)})`,
          };
       const dateFormatters = <{ [format: string]: DnaFormatter }>{                      //ex: 1904112000000 (msec)
          date:          (msec: DnaMsec) => new Date(msec).toDateString(),               //ex: "Sat May 04 2030"
          general:       (msec: DnaMsec) => general.stamp(new Date(msec)),               //ex: "2030-05-04 1:00am Sat"
          generalDate:   (msec: DnaMsec) => general.date(new Date(msec)),                //ex: "2030-05-04"
          generalDay:    (msec: DnaMsec) => general.day(new Date(msec)),                 //ex: "Sat"
+         generalLong:   (msec: DnaMsec) => general.long(new Date(msec)),                //ex: "2030-05-04 1:00am Sat (PDT)"
          generalTime:   (msec: DnaMsec) => general.time(new Date(msec)),                //ex: "1:00am"
          iso:           (msec: DnaMsec) => new Date(msec).toISOString(),                //ex: "2030-05-04T08:00:00.000Z"
          locale:        (msec: DnaMsec) => space(new Date(msec).toLocaleString()),      //ex: "5/4/2030, 1:00:00 AM"
@@ -955,6 +959,8 @@ const dnaFormat = {
          time:          (msec: DnaMsec) => new Date(msec).toTimeString(),               //ex: "01:00:00 GMT-0700 (PDT)"
          timestamp:     (msec: DnaMsec) => timestamp(new Date(msec)),                   //ex: "2030-05-04+08:00:00"
          timestampMsec: (msec: DnaMsec) => timestampMsec(new Date(msec)),               //ex: "2030-05-04+08:00:00.000"
+         timeZone:      (msec: DnaMsec) => timeZone(new Date(msec)),                    //ex: "PDT"
+         timeZoneLong:  (msec: DnaMsec) => timeZoneLong(new Date(msec)),                //ex: "Pacific Daylight Time"
          utc:           (msec: DnaMsec) => new Date(msec).toUTCString(),                //ex: "Sat, 04 May 2030 08:00:00 GMT"
          };
       const formatter = dateFormatters[dna.util.toCamel(format)];
