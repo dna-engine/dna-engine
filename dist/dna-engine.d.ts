@@ -1,4 +1,4 @@
-//! dna-engine v3.0.5 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.6 ~~ https://dna-engine.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -180,7 +180,7 @@ declare global {
 }
 declare const dna: {
     version: string;
-    clone<T>(name: string, data: T | T[], options?: Partial<{
+    clone<M extends T | T[], T>(name: string, data: M, options?: Partial<{
         callback: DnaCallbackFn<T> | null;
         clones: number;
         container: Element | null;
@@ -191,7 +191,7 @@ declare const dna: {
         html: boolean;
         top: boolean;
         transform: DnaTransformFn<T> | null;
-    }> | undefined): Element | Element[];
+    }> | undefined): M extends T[] ? HTMLElement[] : HTMLElement;
     arrayPush<T_1>(holderClone: Element, arrayField: string, data: T_1 | T_1[], options?: DnaOptionsArrayPush): Element;
     createTemplate(name: string, html: string, holder: Element): DnaTemplate;
     templateExists(name: string): boolean;
@@ -332,15 +332,18 @@ declare const dna: {
             [key: symbol]: unknown;
         };
         cloneState(clone: Element): Element;
-        create(tag: string, options?: {
+        create<K extends keyof HTMLElementTagNameMap>(tag: K, options?: {
             id?: string;
             subTags?: string[];
             class?: string;
             href?: string;
             html?: string;
+            name?: string;
+            rel?: string;
             src?: string;
             text?: string;
-        }): Element;
+            type?: string;
+        }): HTMLElementTagNameMap[K];
         removeState(elem: Element): Element;
         hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, className: string): boolean;
         toggleClass(elem: Element, className: string, state?: boolean): Element;

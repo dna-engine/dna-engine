@@ -2045,9 +2045,10 @@
             <p>Focus out: <input  data-on-focus-out=showMsg value=A></p>
             <script>
                const showMsg = (elem, event) => {
-                  const msg =    'Value "' + elem.value + '" on ' + event.type;
+                  const key =    event.key ? `for key "${event.key}"` : '';
+                  const msg =    `Value "${elem.value}" on ${event.type} ${key}`;
                   const output = globalThis.document.getElementById('message');
-                  dna.ui.pulse(output, { textContent: msg });
+                  dna.ui.pulse(output, { text: msg });
                   };
             </script>
          </div>

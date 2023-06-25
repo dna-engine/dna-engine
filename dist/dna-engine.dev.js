@@ -1,4 +1,4 @@
-//! dna-engine v3.0.5 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.6 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -127,10 +127,16 @@ const dnaDom = {
             elem.href = options.href;
         if (options === null || options === void 0 ? void 0 : options.html)
             elem.innerHTML = options.html;
+        if (options === null || options === void 0 ? void 0 : options.name)
+            elem.name = options.name;
+        if (options === null || options === void 0 ? void 0 : options.rel)
+            elem.rel = options.rel;
         if (options === null || options === void 0 ? void 0 : options.src)
             elem.src = options.src;
         if (options === null || options === void 0 ? void 0 : options.text)
             elem.textContent = options.text;
+        if (options === null || options === void 0 ? void 0 : options.type)
+            elem.type = options.type;
         if (options === null || options === void 0 ? void 0 : options.subTags)
             options.subTags.forEach(subTag => elem.appendChild(globalThis.document.createElement(subTag)));
         return elem;
@@ -1439,7 +1445,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.0.5',
+    version: '3.0.6',
     clone(name, data, options) {
         const defaults = {
             callback: null,
@@ -1478,7 +1484,8 @@ const dna = {
             finish(clone);
             return clone;
         };
-        return Array.isArray(data) || makeCopies ? many() : single();
+        const result = Array.isArray(data) || makeCopies ? many() : single();
+        return result;
     },
     arrayPush(holderClone, arrayField, data, options) {
         const cloneSub = (field, index) => {
