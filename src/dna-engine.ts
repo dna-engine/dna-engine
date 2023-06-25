@@ -319,7 +319,7 @@ const dnaDom = {
       dna.dom.forEach(clone.getElementsByClassName('dna-state'), copy);
       return clone;
       },
-   create(tag: string, options?: { id?: string, subTags?: string[], class?: string, href?: string, html?: string, src?: string, text?: string }): Element {
+   create<K extends keyof HTMLElementTagNameMap>(tag: K, options?: { id?: string, subTags?: string[], class?: string, href?: string, html?: string, name?: string, rel?: string, src?: string, text?: string, type?: string }): HTMLElementTagNameMap[K] {
       const elem = globalThis.document.createElement(tag);
       if (options?.id)
          elem.id = options.id;
@@ -329,10 +329,16 @@ const dnaDom = {
          (<HTMLAnchorElement>elem).href = options.href;
       if (options?.html)
          elem.innerHTML = options.html;
+      if (options?.name)
+         (<HTMLInputElement>elem).name = options.name;
+      if (options?.rel)
+         (<HTMLLinkElement>elem).rel = options.rel;
       if (options?.src)
          (<HTMLImageElement>elem).src = options.src;
       if (options?.text)
          elem.textContent = options.text;
+      if (options?.type)
+         (<HTMLInputElement>elem).type = options.type;
       if (options?.subTags)
          options.subTags.forEach(
             subTag => elem.appendChild(globalThis.document.createElement(subTag)));
@@ -429,7 +435,9 @@ const dnaDom = {
       return <HTMLElement>(dna.dom.isElem(elemOrEvent) ? elemOrEvent : (<Event>elemOrEvent).target);
       },
    on(type: string, listener: DnaEventListener, options?: DnaOptionsEventsOn) {
-      // See types: https://developer.mozilla.org/en-US/docs/Web/Events
+      // Resources:
+      //    type ->      https://developer.mozilla.org/en-US/docs/Web/Events
+      //    keyFilter -> https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
       const defaults: Required<DnaOptionsEventsOn> = { keyFilter: null, selector: null };
       const settings =   { ...defaults, ...options };
       const noFilter =   !settings.keyFilter;
@@ -1873,7 +1881,7 @@ const dna = {
    //    dna.registerContext()
    //    dna.info()
    // See: https://dna-engine.org/docs/#api
-   clone<T>(name: string, data: T | T[], options?: DnaOptionsClone<T>): Element | Element[] {
+   clone<M extends T | T[], T>(name: string, data: M, options?: DnaOptionsClone<T>) {
       // Generates a copy of the template and populates the fields, attributes, and
       // classes from the supplied data.
       const defaults: Required<DnaOptionsClone<T>> = {
@@ -1913,7 +1921,8 @@ const dna = {
          finish(clone);
          return clone;
          };
-      return Array.isArray(data) || makeCopies ? many() : single();
+      const result = Array.isArray(data) || makeCopies ? many() : single();
+      return <M extends T[] ? HTMLElement[] : HTMLElement>result;
       },
    arrayPush<T>(holderClone: Element, arrayField: string, data: T | T[], options?: DnaOptionsArrayPush): Element {
       // Clones a sub-template to append onto an array loop.
