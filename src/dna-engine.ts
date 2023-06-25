@@ -319,7 +319,7 @@ const dnaDom = {
       dna.dom.forEach(clone.getElementsByClassName('dna-state'), copy);
       return clone;
       },
-   create<K extends keyof HTMLElementTagNameMap>(tag: K, options?: { id?: string, subTags?: string[], class?: string, href?: string, html?: string, name?: string, rel?: string, src?: string, text?: string, type?: string }): HTMLElementTagNameMap[K] {
+   create<K extends keyof HTMLElementTagNameMap | string>(tag: K, options?: { id?: string, subTags?: string[], class?: string, href?: string, html?: string, name?: string, rel?: string, src?: string, text?: string, type?: string }) {
       const elem = globalThis.document.createElement(tag);
       if (options?.id)
          elem.id = options.id;
@@ -342,7 +342,7 @@ const dnaDom = {
       if (options?.subTags)
          options.subTags.forEach(
             subTag => elem.appendChild(globalThis.document.createElement(subTag)));
-      return elem;
+      return <K extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[K] : HTMLElement>elem;
       },
    removeState(elem: Element): Element {
       dna.core.assert(dna.dom.isElem(elem), 'Invalid element for removing state', elem);
