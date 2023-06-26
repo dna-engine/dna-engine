@@ -15,73 +15,73 @@ export type NavigatorUAData = {
 
 // Types: Options
 export type DnaOptionsClone<T> = Partial<{
-   callback:    DnaCallbackFn<T> | null,
-   clones:      number,
-   container:   Element | null,
-   empty:       boolean,
-   fade:        boolean,
-   formatter:   DnaFormatter | null,
-   holder:      Element | null,
-   html:        boolean,
-   top:         boolean,
-   transform:   DnaTransformFn<T> | null,
+   callback:     DnaCallbackFn<T> | null,
+   clones:       number,
+   container:    Element | null,
+   empty:        boolean,
+   fade:         boolean,
+   formatter:    DnaFormatter | null,
+   holder:       Element | null,
+   html:         boolean,
+   top:          boolean,
+   transform:    DnaTransformFn<T> | null,
    }>;
 export type DnaOptionsArrayPush = Partial<{
-   fade:        boolean,
-   top:         boolean,
+   fade:         boolean,
+   top:          boolean,
    }>;
 export type DnaOptionsGetModel = Partial<{
-   main:        boolean,
+   main:         boolean,
    }>;
 export type DnaOptionsEmpty = Partial<{
-   fade:        boolean,
+   fade:         boolean,
    }>;
 export type DnaOptionsRefresh = Partial<{
-   data:        unknown,
-   html:        boolean,
-   main:        boolean,
+   data:         unknown,
+   html:         boolean,
+   main:         boolean,
    }>;
 export type DnaOptionsRefreshAll = Partial<{
-   data:        unknown,
-   html:        boolean,
-   main:        boolean,
+   data:         unknown,
+   html:         boolean,
+   main:         boolean,
    }>;
 export type DnaOptionsRecount = Partial<{
-   html:        boolean,
+   html:         boolean,
    }>;
 export type DnaOptionsDestroy = Partial<{
-   fade:        boolean,
-   main:        boolean,
+   fade:         boolean,
+   main:         boolean,
    }>;
 export type DnaOptionsGetClone = Partial<{
-   main:        boolean,
+   main:         boolean,
    }>;
 export type DnaOptionsGetIndex = Partial<{
-   main:        boolean,
+   main:         boolean,
    }>;
 export type DnaOptionsRegisterInitializer = Partial<{
-   onDomReady:  boolean,
-   params:      unknown[],
-   selector:    string | null,
+   onDomReady:   boolean,
+   params:       unknown[],
+   selector:     string | null,
    }>;
 export type DnaOptionsRunOnLoads = Partial<{
-   pollMsec:    number,
+   pollInterval:number,  //milliseconds
    }>;
 export type DnaOptionsEventsOn = Partial<{
-   keyFilter:   KeyboardEvent["key"] | null,
-   selector:    string | null,
+   keyFilter:    KeyboardEvent["key"] | null,
+   selector:     string | null,
    }>;
 export type DnaOptionsPulse = Partial<{
-   displayMsec: number,
-   fadeInMsec:  number,
-   fadeOutMsec: number,
-   noFadeOut:   boolean,
-   text:        string | null,
+   duration:     number,   //milliseconds
+   durationIn:   number,   //milliseconds
+   durationOut:  number,   //milliseconds
+   noFadeOut:    boolean,  //if true, duration and durationOut are ignored
+   text:         string | null,
    }>;
 export type DnaOptionsSmoothHeight = Partial<{
-   container:   Element,
-   overflow:    boolean,
-   smoothMsec:  number,
+   container:    Element,
+   overflow:     boolean,
+   duration:     number,  //milliseconds
    }>;
 
 // Types: Data, Templates, and Callbacks
@@ -525,11 +525,11 @@ const dnaDom = {
          globalThis.window.addEventListener('DOMContentLoaded', callback);
       return state;
       },
-   triggerChange(elem: Element, delayMsec?: number): Event {
+   triggerChange(elem: Element, delay?: number): Event {
       // Simulate user interaction to change an element.
       const event = new Event('change', { bubbles: true });
-      if (delayMsec)
-         globalThis.setTimeout(() => elem.dispatchEvent(event), delayMsec);
+      if (delay)
+         globalThis.setTimeout(() => elem.dispatchEvent(event), delay);
       else
          elem.dispatchEvent(event);
       return event;
@@ -565,17 +565,17 @@ const dnaUi = {
    toggle(elem: Element, display: boolean): Element {
       return display ? dna.ui.show(elem) : dna.ui.hide(elem);
       },
-   fadeIn(elem: Element): Promise<Element> {
+   fadeIn(elem: Element, options?: { duration: number }): Promise<Element> {
       // Smooth fade in effect.
-      const fadeTransition =  600;
-      const computed =        globalThis.getComputedStyle(elem);
-      const startOpacity =    dna.ui.isVisible(elem) ? computed.opacity : '0';
+      const duration =     options?.duration ?? 600;
+      const computed =     globalThis.getComputedStyle(elem);
+      const startOpacity = dna.ui.isVisible(elem) ? computed.opacity : '0';
       dna.ui.show(elem);
       const style = (<HTMLElement>elem).style;
       style.transition = 'all 0ms';
       style.opacity =    startOpacity;
       const animate = () => {
-         style.transition = `all ${fadeTransition}ms`;
+         style.transition = `all ${duration}ms`;
          style.opacity =    '1';
          };
       globalThis.requestAnimationFrame(animate);
@@ -585,16 +585,16 @@ const dnaUi = {
          dna.ui.show(elem);  //ensure visibility in case another animation interfered
          return elem;
          };
-      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
+      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), duration + 100));
       },
-   fadeOut(elem: Element): Promise<Element> {
+   fadeOut(elem: Element, options?: { duration: number }): Promise<Element> {
       // Smooth fade out effect.
-      const fadeTransition =  600;
-      const style =           (<HTMLElement>elem).style;
-      style.transition =      'all 0ms';
-      style.opacity =         globalThis.getComputedStyle(elem).opacity;
+      const duration =   options?.duration ?? 600;
+      const style =      (<HTMLElement>elem).style;
+      style.transition = 'all 0ms';
+      style.opacity =    globalThis.getComputedStyle(elem).opacity;
       const animate = () => {
-         style.transition = `all ${fadeTransition}ms`;
+         style.transition = `all ${duration}ms`;
          style.opacity =    '0';
          };
       if (dna.ui.isVisible(elem))
@@ -604,7 +604,7 @@ const dnaUi = {
          style.opacity = '0';
          return elem;
          };
-      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
+      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), duration + 100));
       },
    slideFadeIn(elem: Element, options?: { force: boolean }): Promise<Element> {
       // Smooth slide in plus fade in effect.
@@ -693,7 +693,7 @@ const dnaUi = {
       const defaults: Required<DnaOptionsSmoothHeight> = {
          container:  globalThis.document.body,
          overflow:   true,
-         smoothMsec: 1000,
+         duration: 1000,
          };
       const settings =  { ...defaults, ...options };
       const container = settings.container;
@@ -718,7 +718,7 @@ const dnaUi = {
             globalThis.setTimeout(turnOffTransition, 1000);  //allow 1s transition to finish
             };
          const setAnimationLength = () => {
-            style.transition = `all ${settings.smoothMsec}ms`;
+            style.transition = `all ${settings.duration}ms`;
             globalThis.requestAnimationFrame(animate);  //allow transition to lock-in before animating
             };
          globalThis.requestAnimationFrame(setAnimationLength);  //allow baseline to lock-in starting height
@@ -730,7 +730,7 @@ const dnaUi = {
       setBaseline();
       updateUI();
       animate();
-      const delay = settings.smoothMsec + 100;
+      const delay = settings.duration + 100;
       return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), delay));
       },
    smoothMove(elem: Element, up: boolean): Promise<Element> {
@@ -763,9 +763,9 @@ const dnaUi = {
       // temporary status messages, like "Saving...").  Set showDuration to the length of time to
       // display the message or to null to leave the element visible indefinitely.
       const defaults: Required<DnaOptionsPulse> = {
-         displayMsec: 7000,
-         fadeInMsec:  600,
-         fadeOutMsec: 3000,
+         duration: 7000,
+         durationIn:  600,
+         durationOut: 3000,
          noFadeOut:   false,
          text:        null,
          };
@@ -779,25 +779,25 @@ const dnaUi = {
       if (settings.text !== null)
          elem.textContent = settings.text;
       const animate = () => {
-         style.transition = `all ${settings.fadeInMsec}ms`;
+         style.transition = `all ${settings.durationIn}ms`;
          style.opacity =    '1';
          };
       const isLastPulse = () => dna.dom.state(elem).dnaPulseStart === pulseStart;
       const fadeAway = () => {
-         style.transition = `all ${settings.fadeOutMsec}ms`;
+         style.transition = `all ${settings.durationOut}ms`;
          if (isLastPulse())
             style.opacity = '0';
          };
       globalThis.requestAnimationFrame(animate);
       if (!settings.noFadeOut)
-         globalThis.setTimeout(fadeAway, settings.fadeInMsec + settings.displayMsec);
+         globalThis.setTimeout(fadeAway, settings.durationIn + settings.duration);
       const cleanup = () => {
          if (isLastPulse())
             style.removeProperty('transition');
          return elem;
          };
-      const total = settings.noFadeOut ? settings.fadeInMsec :
-         settings.fadeInMsec + settings.displayMsec + settings.fadeOutMsec;
+      const total = settings.noFadeOut ? settings.durationIn :
+         settings.durationIn + settings.duration + settings.durationOut;
       return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
       },
    focus(elem: Element): Element {
@@ -1474,7 +1474,7 @@ const dnaEvents = {
       // Executes each of the data-on-load functions once the function and its dependencies have loaded.
       // Example:
       //    <p data-on-load=app.cart.setup data-wait-for=Chart,R,fetchJson>
-      const defaults: Required<DnaOptionsRunOnLoads> = { pollMsec: 300 };
+      const defaults: Required<DnaOptionsRunOnLoads> = { pollInterval: 300 };
       const settings = { ...defaults, ...options };
       const elems =    globalThis.document.querySelectorAll(`[data-on-load]:not(.${dna.name.onLoad})`);
       elems.forEach(elem => elem.classList.add(dna.name.onLoad))
@@ -1497,7 +1497,7 @@ const dnaEvents = {
          if (fn && !waitFor.map(dna.util.getFn).includes(undefined))
             run();
          else
-            globalThis.setTimeout(() => runOnLoad(elem), settings.pollMsec);
+            globalThis.setTimeout(() => runOnLoad(elem), settings.pollInterval);
          };
       elems.forEach(runOnLoad);
       return elems;

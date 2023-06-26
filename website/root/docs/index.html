@@ -2230,7 +2230,7 @@
                   const data =     JSON.stringify(dna.getModel(elem));
                   const dataElem = globalThis.document.getElementById('data');
                   dataElem.textContent = data;
-                  dna.ui.pulse(dataElem, { displayMsec: null });
+                  dna.ui.pulse(dataElem, { duration: null });
                   },
                setup() {
                   const book = { title: 'Styling CSS', ebook: true };
@@ -2260,7 +2260,7 @@
                      const data =     JSON.stringify(dna.getModel(elem));
                      const dataElem = globalThis.document.getElementById('data');
                      dataElem.textContent = data;
-                     dna.ui.pulse(dataElem, { displayMsec: null });
+                     dna.ui.pulse(dataElem, { duration: null });
                      },
                   setup() {
                      const book = { title: 'Styling CSS', ebook: true };
