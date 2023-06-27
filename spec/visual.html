@@ -1483,7 +1483,7 @@
          },
       makeChapterBoxes(range) {
          const clones = dna.clone('chapter-box', {}, { empty: true, clones: Number(range.value) });
-         clones.forEach(clone => dna.ui.fadeIn(dna.ui.hide(clone)));
+         clones.forEach(clone => dna.ui.fadeIn(clone, { reset: true }));
          },
       smooth(rangeSlider) {
          const container = globalThis.document.querySelector('#spec18 .smooth-container');

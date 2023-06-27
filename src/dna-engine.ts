@@ -75,7 +75,6 @@ export type DnaOptionsPulse = Partial<{
    duration:     number,   //milliseconds
    durationIn:   number,   //milliseconds
    durationOut:  number,   //milliseconds
-   noFadeOut:    boolean,  //if true, duration and durationOut are ignored
    text:         string | null,
    }>;
 export type DnaOptionsSmoothHeight = Partial<{
@@ -562,14 +561,14 @@ const dnaUi = {
       (<HTMLElement>elem).style.display = 'none';
       return elem;
       },
-   toggle(elem: Element, display: boolean): Element {
-      return display ? dna.ui.show(elem) : dna.ui.hide(elem);
+   toggle(elem: Element, display?: boolean): Element {
+      return display ?? dna.ui.isHidden(elem) ? dna.ui.show(elem) : dna.ui.hide(elem);
       },
-   fadeIn(elem: Element, options?: { duration: number }): Promise<Element> {
+   fadeIn(elem: Element, options?: { duration?: number, reset?: boolean }): Promise<Element> {
       // Smooth fade in effect.
       const duration =     options?.duration ?? 600;
       const computed =     globalThis.getComputedStyle(elem);
-      const startOpacity = dna.ui.isVisible(elem) ? computed.opacity : '0';
+      const startOpacity = options?.reset || dna.ui.isHidden(elem) ? '0' : computed.opacity;
       dna.ui.show(elem);
       const style = (<HTMLElement>elem).style;
       style.transition = 'all 0ms';
@@ -587,7 +586,7 @@ const dnaUi = {
          };
       return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), duration + 100));
       },
-   fadeOut(elem: Element, options?: { duration: number }): Promise<Element> {
+   fadeOut(elem: Element, options?: { duration?: number }): Promise<Element> {
       // Smooth fade out effect.
       const duration =   options?.duration ?? 600;
       const style =      (<HTMLElement>elem).style;
@@ -606,10 +605,11 @@ const dnaUi = {
          };
       return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), duration + 100));
       },
-   slideFadeIn(elem: Element, options?: { force: boolean }): Promise<Element> {
+   slideFadeIn(elem: Element, options?: { duration?: number, reset?: boolean }): Promise<Element> {
       // Smooth slide in plus fade in effect.
-      const fadeTransition =  600;
-      const style =           (<HTMLElement>elem).style;
+      const duration =  options?.duration ?? 600;
+      const reset =     options?.reset ?? false;
+      const style =     (<HTMLElement>elem).style;
       const verticals = [
          'height',
          'border-top-width',
@@ -628,13 +628,13 @@ const dnaUi = {
          const heights =    verticals.map(prop => computed.getPropertyValue(prop));  //store natural heights
          verticals.forEach(prop => style.setProperty(prop, '0px'));                  //squash down to zero
          const animate = () => {
-            style.transition = `all ${fadeTransition}ms`;
+            style.transition = `all ${duration}ms`;
             style.opacity =    '1';
             verticals.forEach((prop, i) => style.setProperty(prop, heights[i]!));  //slowly restore natural heights
             };
          globalThis.requestAnimationFrame(animate);
          };
-      if (dna.ui.isHidden(elem) || options?.force)
+      if (reset || dna.ui.isHidden(elem))
          start();
       const cleanup = () => {
          style.removeProperty('transition');
@@ -644,14 +644,14 @@ const dnaUi = {
          dna.ui.show(elem);  //ensure visibility in case another animation interfered
          return elem;
          };
-      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
+      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), duration + 100));
       },
-   slideFadeOut(elem: Element): Promise<Element> {
+   slideFadeOut(elem: Element, options?: { duration?: number }): Promise<Element> {
       // Smooth slide out plus fade out effect.
-      const fadeTransition =  600;
-      const computed =        globalThis.getComputedStyle(elem);
-      const style =           (<HTMLElement>elem).style;
-      style.transition = `all ${fadeTransition}ms`;
+      const duration =   options?.duration ?? 600;
+      const computed =   globalThis.getComputedStyle(elem);
+      const style =      (<HTMLElement>elem).style;
+      style.transition = `all ${duration}ms`;
       style.opacity =    String(Math.min(1, Number(computed.getPropertyValue('opacity'))));
       style.overflow =   'hidden';
       const verticals = [
@@ -678,7 +678,7 @@ const dnaUi = {
          verticals.forEach((prop) => style.removeProperty(prop));
          return elem;
          };
-      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
+      return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), duration + 100));
       },
    slideFade(elem: Element, show: boolean): Promise<Element> {
       return show ? dna.ui.slideFadeIn(elem) : dna.ui.slideFadeOut(elem);
@@ -691,9 +691,9 @@ const dnaUi = {
       // Smoothly animates the height of a container element from a beginning height to a final
       // height.
       const defaults: Required<DnaOptionsSmoothHeight> = {
-         container:  globalThis.document.body,
-         overflow:   true,
-         duration: 1000,
+         container: globalThis.document.body,
+         overflow:  true,
+         duration:  1000,
          };
       const settings =  { ...defaults, ...options };
       const container = settings.container;
@@ -760,44 +760,44 @@ const dnaUi = {
       },
    pulse(elem: Element, options?: DnaOptionsPulse): Promise<Element> {
       // Fades in an element after hiding it to create a single smooth flash effect (intended for
-      // temporary status messages, like "Saving...").  Set showDuration to the length of time to
-      // display the message or to null to leave the element visible indefinitely.
+      // temporary status messages, like "Saving...").
       const defaults: Required<DnaOptionsPulse> = {
-         duration: 7000,
+         duration:    7000,
          durationIn:  600,
          durationOut: 3000,
-         noFadeOut:   false,
          text:        null,
          };
       const settings = { ...defaults, ...options };
       dna.core.assert(dna.dom.isElem(elem), 'Invalid element for dna.ui.pulse()', elem);
-      const pulseStart = Date.now();
-      dna.dom.state(elem).dnaPulseStart = pulseStart;
-      const style = (<HTMLElement>elem).style;
-      style.transition = 'all 0ms';
-      style.opacity =    '0';
+      const data =         (<HTMLElement>elem).dataset;
+      const pulseStart =   String(Date.now());
+      data.dnaPulseStart = pulseStart;
+      const isLastPulse =  () => data.dnaPulseStart === pulseStart;
+      const style =        (<HTMLElement>elem).style;
+      style.transition =   'all 0ms';
+      style.opacity =      '0';
       if (settings.text !== null)
          elem.textContent = settings.text;
       const animate = () => {
          style.transition = `all ${settings.durationIn}ms`;
          style.opacity =    '1';
          };
-      const isLastPulse = () => dna.dom.state(elem).dnaPulseStart === pulseStart;
       const fadeAway = () => {
          style.transition = `all ${settings.durationOut}ms`;
          if (isLastPulse())
             style.opacity = '0';
          };
-      globalThis.requestAnimationFrame(animate);
-      if (!settings.noFadeOut)
-         globalThis.setTimeout(fadeAway, settings.durationIn + settings.duration);
+      if (elem.clientHeight === 0)
+         dna.ui.slideFadeIn(elem, { duration: settings.durationIn });
+      else
+         globalThis.requestAnimationFrame(animate);
+      globalThis.setTimeout(fadeAway, settings.durationIn + settings.duration);
       const cleanup = () => {
          if (isLastPulse())
             style.removeProperty('transition');
          return elem;
          };
-      const total = settings.noFadeOut ? settings.durationIn :
-         settings.durationIn + settings.duration + settings.durationOut;
+      const total = settings.durationIn + settings.duration + settings.durationOut;
       return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
       },
    focus(elem: Element): Element {
@@ -1811,7 +1811,7 @@ const dnaCore = {
       if (settings.callback)
          settings.callback(clone, data);
       if (settings.fade)
-         dna.ui.slideFadeIn(clone, { force: true });
+         dna.ui.slideFadeIn(clone, { reset: true });
       return clone;
       },
    getArrayName(subClone: Element): string | null {
