@@ -759,8 +759,8 @@ const dnaUi = {
       return dna.ui.smoothMove(elem, false);
       },
    pulse(elem: Element, options?: DnaOptionsPulse): Promise<Element> {
-      // Fades in an element after hiding it to create a single smooth flash effect (intended for
-      // temporary status messages, like "Saving...").
+      // Slide fades in an element after hiding it to create a single smooth flash effect (intended
+      // for temporary status messages, like "Saving...").
       const defaults: Required<DnaOptionsPulse> = {
          duration:    7000,
          durationIn:  600,
@@ -800,10 +800,11 @@ const dnaUi = {
       const total = settings.durationIn + settings.duration + settings.durationOut;
       return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
       },
-   focus(elem: Element): Element {
+   focus(elem: Element, options?: { firstInput?: boolean }): Element {
       // Sets focus on an element.
       // <input data-on-load=dna.ui.focus>
-      (<HTMLInputElement>elem)?.focus();
+      const input = options?.firstInput ? elem.querySelector('input') : elem;
+      globalThis.requestAnimationFrame(() => (<HTMLInputElement>input)?.focus());
       return elem;
       },
    setText(elem: Element | null, text: string): Element | null {
@@ -1613,9 +1614,8 @@ const dnaEvents = {
    };
 
 const dnaCore = {
-   inject<T>(clone: Element, data: T, count: number, settings: DnaOptionsClone<T>): Element {
+   inject<T>(clone: Element, data: T, index: number, settings: DnaOptionsClone<T>): Element {
       // Inserts data into a clone and executes its rules.
-      const index = count - 1;
       const injectField = (elem: Element, field: string, rules: DnaRules) => {  //example: <h2>~~title~~</h2>
          const value = field === '[value]' ? data :
             field === '[index]' ? index :
@@ -1691,7 +1691,7 @@ const dnaCore = {
          const subClones = dna.dom.filterByClass(elem.children, loop.name);
          const injectSubClone = (subElem: Element, index: number) => {
             if (!subElem.matches('option'))  //prevent select from closing on chrome
-               dna.core.inject(subElem, dataArray[index]!, index + 1, settings);
+               dna.core.inject(subElem, dataArray[index]!, index, settings);
             };
          const rebuildSubClones = () => {
             subClones.forEach(subClone => subClone.remove());
@@ -1741,7 +1741,7 @@ const dnaCore = {
          };
       dig(clone);
       dna.dom.state(clone).dnaModel = data;
-      dna.dom.state(clone).dnaCount = index + 1;
+      dna.dom.state(clone).dnaIndex = index;
       return clone;
       },
    replicate<T>(template: DnaTemplate, data: T, options: DnaOptionsClone<T>): Element {
@@ -1758,7 +1758,7 @@ const dnaCore = {
          containerState.dnaCountsMap = <DnaCountsMap>{};
       const countsMap = <DnaCountsMap>containerState.dnaCountsMap;
       countsMap[name] = !countsMap[name] ? 1 : countsMap[name]! + 1;
-      dna.core.inject(clone, data, countsMap[name]!, settings);
+      dna.core.inject(clone, data, countsMap[name]! - 1, settings);
       const intoUnwrapped = () => {
          const allClones =  dna.dom.filterByClass(container.children, dna.name.clone);
          const firstClone = () => {
@@ -1995,8 +1995,8 @@ const dna = {
       const settings = { ...defaults, ...options };
       const elem =     dna.getClone(clone, options);
       const model =    settings.data ? settings.data : dna.getModel(elem);
-      const count =    <number>dna.dom.state(elem).dnaCount;
-      return dna.core.inject(elem, model, count, settings);
+      const index =    <number>dna.dom.state(elem).dnaIndex;
+      return dna.core.inject(elem, model, index, settings);
       },
    refreshAll(name: string, options?: DnaOptionsRefreshAll): Element[] {
       // Updates all the clones of the specified template.
@@ -2023,9 +2023,9 @@ const dna = {
    recount(elem: Element, options?: DnaOptionsRecount): Element {
       // Renumbers the counters starting from 1 for the clone and its siblings based on DOM order.
       const clone = dna.getClone(elem);
-      const name = dna.compile.getRules(clone).template!;
+      const name =  dna.compile.getRules(clone).template!;
       const update = (subElem: Element, index: number) => {
-         dna.dom.state(subElem).dnaCount = index + 1;
+         dna.dom.state(subElem).dnaIndex = index;
          dna.refresh(subElem, options);
          };
       const container =      clone.parentElement!;
