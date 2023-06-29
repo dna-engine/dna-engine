@@ -1,4 +1,4 @@
-//! dna-engine v3.0.6 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.7 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -301,10 +301,10 @@ const dnaDom = {
             globalThis.window.addEventListener('DOMContentLoaded', callback);
         return state;
     },
-    triggerChange(elem, delayMsec) {
+    triggerChange(elem, delay) {
         const event = new Event('change', { bubbles: true });
-        if (delayMsec)
-            globalThis.setTimeout(() => elem.dispatchEvent(event), delayMsec);
+        if (delay)
+            globalThis.setTimeout(() => elem.dispatchEvent(event), delay);
         else
             elem.dispatchEvent(event);
         return event;
@@ -336,18 +336,19 @@ const dnaUi = {
         return elem;
     },
     toggle(elem, display) {
-        return display ? dna.ui.show(elem) : dna.ui.hide(elem);
+        return (display !== null && display !== void 0 ? display : dna.ui.isHidden(elem)) ? dna.ui.show(elem) : dna.ui.hide(elem);
     },
-    fadeIn(elem) {
-        const fadeTransition = 600;
+    fadeIn(elem, options) {
+        var _a;
+        const duration = (_a = options === null || options === void 0 ? void 0 : options.duration) !== null && _a !== void 0 ? _a : 600;
         const computed = globalThis.getComputedStyle(elem);
-        const startOpacity = dna.ui.isVisible(elem) ? computed.opacity : '0';
+        const startOpacity = (options === null || options === void 0 ? void 0 : options.reset) || dna.ui.isHidden(elem) ? '0' : computed.opacity;
         dna.ui.show(elem);
         const style = elem.style;
         style.transition = 'all 0ms';
         style.opacity = startOpacity;
         const animate = () => {
-            style.transition = `all ${fadeTransition}ms`;
+            style.transition = `all ${duration}ms`;
             style.opacity = '1';
         };
         globalThis.requestAnimationFrame(animate);
@@ -357,15 +358,16 @@ const dnaUi = {
             dna.ui.show(elem);
             return elem;
         };
-        return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
+        return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), duration + 100));
     },
-    fadeOut(elem) {
-        const fadeTransition = 600;
+    fadeOut(elem, options) {
+        var _a;
+        const duration = (_a = options === null || options === void 0 ? void 0 : options.duration) !== null && _a !== void 0 ? _a : 600;
         const style = elem.style;
         style.transition = 'all 0ms';
         style.opacity = globalThis.getComputedStyle(elem).opacity;
         const animate = () => {
-            style.transition = `all ${fadeTransition}ms`;
+            style.transition = `all ${duration}ms`;
             style.opacity = '0';
         };
         if (dna.ui.isVisible(elem))
@@ -375,10 +377,12 @@ const dnaUi = {
             style.opacity = '0';
             return elem;
         };
-        return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
+        return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), duration + 100));
     },
     slideFadeIn(elem, options) {
-        const fadeTransition = 600;
+        var _a, _b;
+        const duration = (_a = options === null || options === void 0 ? void 0 : options.duration) !== null && _a !== void 0 ? _a : 600;
+        const reset = (_b = options === null || options === void 0 ? void 0 : options.reset) !== null && _b !== void 0 ? _b : false;
         const style = elem.style;
         const verticals = [
             'height',
@@ -398,13 +402,13 @@ const dnaUi = {
             const heights = verticals.map(prop => computed.getPropertyValue(prop));
             verticals.forEach(prop => style.setProperty(prop, '0px'));
             const animate = () => {
-                style.transition = `all ${fadeTransition}ms`;
+                style.transition = `all ${duration}ms`;
                 style.opacity = '1';
                 verticals.forEach((prop, i) => style.setProperty(prop, heights[i]));
             };
             globalThis.requestAnimationFrame(animate);
         };
-        if (dna.ui.isHidden(elem) || (options === null || options === void 0 ? void 0 : options.force))
+        if (reset || dna.ui.isHidden(elem))
             start();
         const cleanup = () => {
             style.removeProperty('transition');
@@ -414,13 +418,14 @@ const dnaUi = {
             dna.ui.show(elem);
             return elem;
         };
-        return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
+        return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), duration + 100));
     },
-    slideFadeOut(elem) {
-        const fadeTransition = 600;
+    slideFadeOut(elem, options) {
+        var _a;
+        const duration = (_a = options === null || options === void 0 ? void 0 : options.duration) !== null && _a !== void 0 ? _a : 600;
         const computed = globalThis.getComputedStyle(elem);
         const style = elem.style;
-        style.transition = `all ${fadeTransition}ms`;
+        style.transition = `all ${duration}ms`;
         style.opacity = String(Math.min(1, Number(computed.getPropertyValue('opacity'))));
         style.overflow = 'hidden';
         const verticals = [
@@ -447,7 +452,7 @@ const dnaUi = {
             verticals.forEach((prop) => style.removeProperty(prop));
             return elem;
         };
-        return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), fadeTransition + 100));
+        return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), duration + 100));
     },
     slideFade(elem, show) {
         return show ? dna.ui.slideFadeIn(elem) : dna.ui.slideFadeOut(elem);
@@ -459,7 +464,7 @@ const dnaUi = {
         const defaults = {
             container: globalThis.document.body,
             overflow: true,
-            smoothMsec: 1000,
+            duration: 1000,
         };
         const settings = Object.assign(Object.assign({}, defaults), options);
         const container = settings.container;
@@ -484,7 +489,7 @@ const dnaUi = {
                 globalThis.setTimeout(turnOffTransition, 1000);
             };
             const setAnimationLength = () => {
-                style.transition = `all ${settings.smoothMsec}ms`;
+                style.transition = `all ${settings.duration}ms`;
                 globalThis.requestAnimationFrame(animate);
             };
             globalThis.requestAnimationFrame(setAnimationLength);
@@ -496,7 +501,7 @@ const dnaUi = {
         setBaseline();
         updateUI();
         animate();
-        const delay = settings.smoothMsec + 100;
+        const delay = settings.duration + 100;
         return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), delay));
     },
     smoothMove(elem, up) {
@@ -523,45 +528,50 @@ const dnaUi = {
     },
     pulse(elem, options) {
         const defaults = {
-            displayMsec: 7000,
-            fadeInMsec: 600,
-            fadeOutMsec: 3000,
+            duration: 7000,
+            durationIn: 600,
+            durationOut: 3000,
             noFadeOut: false,
             text: null,
         };
         const settings = Object.assign(Object.assign({}, defaults), options);
         dna.core.assert(dna.dom.isElem(elem), 'Invalid element for dna.ui.pulse()', elem);
-        const pulseStart = Date.now();
-        dna.dom.state(elem).dnaPulseStart = pulseStart;
+        const data = elem.dataset;
+        const pulseStart = String(Date.now());
+        data.dnaPulseStart = pulseStart;
+        const isLastPulse = () => data.dnaPulseStart === pulseStart;
         const style = elem.style;
         style.transition = 'all 0ms';
         style.opacity = '0';
         if (settings.text !== null)
             elem.textContent = settings.text;
         const animate = () => {
-            style.transition = `all ${settings.fadeInMsec}ms`;
+            style.transition = `all ${settings.durationIn}ms`;
             style.opacity = '1';
         };
-        const isLastPulse = () => dna.dom.state(elem).dnaPulseStart === pulseStart;
         const fadeAway = () => {
-            style.transition = `all ${settings.fadeOutMsec}ms`;
+            style.transition = `all ${settings.durationOut}ms`;
             if (isLastPulse())
                 style.opacity = '0';
         };
-        globalThis.requestAnimationFrame(animate);
+        if (elem.clientHeight === 0)
+            dna.ui.slideFadeIn(elem, { duration: settings.durationIn });
+        else
+            globalThis.requestAnimationFrame(animate);
         if (!settings.noFadeOut)
-            globalThis.setTimeout(fadeAway, settings.fadeInMsec + settings.displayMsec);
+            globalThis.setTimeout(fadeAway, settings.durationIn + settings.duration);
         const cleanup = () => {
             if (isLastPulse())
                 style.removeProperty('transition');
             return elem;
         };
-        const total = settings.noFadeOut ? settings.fadeInMsec :
-            settings.fadeInMsec + settings.displayMsec + settings.fadeOutMsec;
+        const total = settings.durationIn +
+            (settings.noFadeOut ? 0 : settings.duration + settings.durationOut);
         return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
     },
-    focus(elem) {
-        elem === null || elem === void 0 ? void 0 : elem.focus();
+    focus(elem, options) {
+        const input = (options === null || options === void 0 ? void 0 : options.firstInput) ? elem.querySelector('input') : elem;
+        globalThis.requestAnimationFrame(() => input === null || input === void 0 ? void 0 : input.focus());
         return elem;
     },
     setText(elem, text) {
@@ -657,31 +667,38 @@ const dnaFormat = {
         const twoDigit = (value) => String(value).padStart(2, '0');
         const timestamp = (date) => date.toISOString().replace('T', '+').slice(0, -5);
         const timestampMsec = (date) => date.toISOString().replace('T', '+').slice(0, -1);
-        const space = (date) => date.replace(/\s/g, ' ');
+        const timeZone = (date) => date.toLocaleString([], { timeZoneName: 'short' }).split(' ').pop();
+        const timeZoneLong = (date) => date.toLocaleString([], { timeZoneName: 'long', year: 'numeric' }).split(' ').slice(1).join(' ');
+        const space = (format) => format.replace(/\s/g, ' ');
         const general = {
-            date: (d) => `${d.getFullYear()}-${twoDigit(d.getMonth() + 1)}-${twoDigit(d.getDate())}`,
-            time: (d) => d.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(/\s/, '').toLowerCase(),
-            day: (d) => d.toLocaleString([], { weekday: 'short' }),
-            stamp: (d) => general.date(d) + ' ' + general.time(d) + ' ' + general.day(d),
+            date: (date) => `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())}`,
+            time: (date) => date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(/\s/, '').toLowerCase(),
+            day: (date) => date.toLocaleString([], { weekday: 'short' }),
+            stamp: (date) => `${general.date(date)} ${general.time(date)} ${general.day(date)}`,
+            long: (date) => `${general.stamp(date)} (${timeZone(date)})`,
         };
-        const dateFormatters = {
-            date: (msec) => new Date(msec).toDateString(),
-            general: (msec) => general.stamp(new Date(msec)),
-            generalDate: (msec) => general.date(new Date(msec)),
-            generalDay: (msec) => general.day(new Date(msec)),
-            generalTime: (msec) => general.time(new Date(msec)),
-            iso: (msec) => new Date(msec).toISOString(),
-            locale: (msec) => space(new Date(msec).toLocaleString()),
-            localeDate: (msec) => new Date(msec).toLocaleDateString(),
-            localeTime: (msec) => space(new Date(msec).toLocaleTimeString()),
-            string: (msec) => new Date(msec).toString(),
-            time: (msec) => new Date(msec).toTimeString(),
-            timestamp: (msec) => timestamp(new Date(msec)),
-            timestampMsec: (msec) => timestampMsec(new Date(msec)),
-            utc: (msec) => new Date(msec).toUTCString(),
+        const transformers = {
+            date: (date) => date.toDateString(),
+            general: (date) => general.stamp(date),
+            generalDate: (date) => general.date(date),
+            generalDay: (date) => general.day(date),
+            generalLong: (date) => general.long(date),
+            generalTime: (date) => general.time(date),
+            iso: (date) => date.toISOString(),
+            locale: (date) => space(date.toLocaleString()),
+            localeDate: (date) => date.toLocaleDateString(),
+            localeTime: (date) => space(date.toLocaleTimeString()),
+            string: (date) => date.toString(),
+            time: (date) => date.toTimeString(),
+            timestamp: (date) => timestamp(date),
+            timestampMsec: (date) => timestampMsec(date),
+            timeZone: (date) => timeZone(date),
+            timeZoneLong: (date) => timeZoneLong(date),
+            utc: (date) => date.toUTCString(),
         };
-        const formatter = dateFormatters[dna.util.toCamel(format)];
-        dna.core.assert(formatter, 'Unknown date format code', format);
+        const transformer = transformers[dna.util.toCamel(format)];
+        dna.core.assert(transformer, 'Unknown date format code', format);
+        const formatter = (msec) => transformer(new Date(msec));
         return formatter;
     },
     getNumberFormatter(format) {
@@ -1081,7 +1098,7 @@ const dnaEvents = {
         initializers: [],
     },
     runOnLoads(options) {
-        const defaults = { pollMsec: 300 };
+        const defaults = { pollInterval: 300 };
         const settings = Object.assign(Object.assign({}, defaults), options);
         const elems = globalThis.document.querySelectorAll(`[data-on-load]:not(.${dna.name.onLoad})`);
         elems.forEach(elem => elem.classList.add(dna.name.onLoad));
@@ -1104,7 +1121,7 @@ const dnaEvents = {
             if (fn && !waitFor.map(dna.util.getFn).includes(undefined))
                 run();
             else
-                globalThis.setTimeout(() => runOnLoad(elem), settings.pollMsec);
+                globalThis.setTimeout(() => runOnLoad(elem), settings.pollInterval);
         };
         elems.forEach(runOnLoad);
         return elems;
@@ -1209,8 +1226,7 @@ const dnaEvents = {
     },
 };
 const dnaCore = {
-    inject(clone, data, count, settings) {
-        const index = count - 1;
+    inject(clone, data, index, settings) {
         const injectField = (elem, field, rules) => {
             const value = field === '[value]' ? data :
                 field === '[index]' ? index :
@@ -1284,7 +1300,7 @@ const dnaCore = {
             const subClones = dna.dom.filterByClass(elem.children, loop.name);
             const injectSubClone = (subElem, index) => {
                 if (!subElem.matches('option'))
-                    dna.core.inject(subElem, dataArray[index], index + 1, settings);
+                    dna.core.inject(subElem, dataArray[index], index, settings);
             };
             const rebuildSubClones = () => {
                 subClones.forEach(subClone => subClone.remove());
@@ -1334,7 +1350,7 @@ const dnaCore = {
         };
         dig(clone);
         dna.dom.state(clone).dnaModel = data;
-        dna.dom.state(clone).dnaCount = index + 1;
+        dna.dom.state(clone).dnaIndex = index;
         return clone;
     },
     replicate(template, data, options) {
@@ -1350,7 +1366,7 @@ const dnaCore = {
             containerState.dnaCountsMap = {};
         const countsMap = containerState.dnaCountsMap;
         countsMap[name] = !countsMap[name] ? 1 : countsMap[name] + 1;
-        dna.core.inject(clone, data, countsMap[name], settings);
+        dna.core.inject(clone, data, countsMap[name] - 1, settings);
         const intoUnwrapped = () => {
             const allClones = dna.dom.filterByClass(container.children, dna.name.clone);
             const firstClone = () => {
@@ -1396,7 +1412,7 @@ const dnaCore = {
         if (settings.callback)
             settings.callback(clone, data);
         if (settings.fade)
-            dna.ui.slideFadeIn(clone, { force: true });
+            dna.ui.slideFadeIn(clone, { reset: true });
         return clone;
     },
     getArrayName(subClone) {
@@ -1445,7 +1461,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.0.6',
+    version: '3.0.7',
     clone(name, data, options) {
         const defaults = {
             callback: null,
@@ -1544,8 +1560,8 @@ const dna = {
         const settings = Object.assign(Object.assign({}, defaults), options);
         const elem = dna.getClone(clone, options);
         const model = settings.data ? settings.data : dna.getModel(elem);
-        const count = dna.dom.state(elem).dnaCount;
-        return dna.core.inject(elem, model, count, settings);
+        const index = dna.dom.state(elem).dnaIndex;
+        return dna.core.inject(elem, model, index, settings);
     },
     refreshAll(name, options) {
         const clones = dna.getClones(name);
@@ -1572,7 +1588,7 @@ const dna = {
         const clone = dna.getClone(elem);
         const name = dna.compile.getRules(clone).template;
         const update = (subElem, index) => {
-            dna.dom.state(subElem).dnaCount = index + 1;
+            dna.dom.state(subElem).dnaIndex = index;
             dna.refresh(subElem, options);
         };
         const container = clone.parentElement;

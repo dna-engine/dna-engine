@@ -1,4 +1,4 @@
-//! dna-engine v3.0.6 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.7 ~~ https://dna-engine.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -64,23 +64,23 @@ export type DnaOptionsRegisterInitializer = Partial<{
     selector: string | null;
 }>;
 export type DnaOptionsRunOnLoads = Partial<{
-    pollMsec: number;
+    pollInterval: number;
 }>;
 export type DnaOptionsEventsOn = Partial<{
     keyFilter: KeyboardEvent["key"] | null;
     selector: string | null;
 }>;
 export type DnaOptionsPulse = Partial<{
-    displayMsec: number;
-    fadeInMsec: number;
-    fadeOutMsec: number;
+    duration: number;
+    durationIn: number;
+    durationOut: number;
     noFadeOut: boolean;
     text: string | null;
 }>;
 export type DnaOptionsSmoothHeight = Partial<{
     container: Element;
     overflow: boolean;
-    smoothMsec: number;
+    duration: number;
 }>;
 export type DnaModel = JsonData;
 export type DnaDataObject = JsonObject;
@@ -332,7 +332,7 @@ declare const dna: {
             [key: symbol]: unknown;
         };
         cloneState(clone: Element): Element;
-        create<K extends keyof HTMLElementTagNameMap>(tag: K, options?: {
+        create<K extends string>(tag: K, options?: {
             id?: string;
             subTags?: string[];
             class?: string;
@@ -343,7 +343,7 @@ declare const dna: {
             src?: string;
             text?: string;
             type?: string;
-        }): HTMLElementTagNameMap[K];
+        }): K extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[K] : HTMLElement;
         removeState(elem: Element): Element;
         hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, className: string): boolean;
         toggleClass(elem: Element, className: string, state?: boolean): Element;
@@ -381,20 +381,28 @@ declare const dna: {
             quiet?: boolean;
             name?: string;
         }): DocumentReadyState | 'browserless';
-        triggerChange(elem: Element, delayMsec?: number): Event;
+        triggerChange(elem: Element, delay?: number): Event;
     };
     ui: {
         isHidden(elem: Element): boolean;
         isVisible(elem: Element): boolean;
         show(elem: Element): Element;
         hide(elem: Element): Element;
-        toggle(elem: Element, display: boolean): Element;
-        fadeIn(elem: Element): Promise<Element>;
-        fadeOut(elem: Element): Promise<Element>;
-        slideFadeIn(elem: Element, options?: {
-            force: boolean;
+        toggle(elem: Element, display?: boolean): Element;
+        fadeIn(elem: Element, options?: {
+            duration?: number;
+            reset?: boolean;
         }): Promise<Element>;
-        slideFadeOut(elem: Element): Promise<Element>;
+        fadeOut(elem: Element, options?: {
+            duration?: number;
+        }): Promise<Element>;
+        slideFadeIn(elem: Element, options?: {
+            duration?: number;
+            reset?: boolean;
+        }): Promise<Element>;
+        slideFadeOut(elem: Element, options?: {
+            duration?: number;
+        }): Promise<Element>;
         slideFade(elem: Element, show: boolean): Promise<Element>;
         slideFadeDelete(elem: Element): Promise<Element>;
         smoothHeight(updateUI: () => unknown, options?: DnaOptionsSmoothHeight): Promise<Element>;
@@ -402,7 +410,9 @@ declare const dna: {
         smoothMoveUp(elem: Element): Promise<Element>;
         smoothMoveDown(elem: Element): Promise<Element>;
         pulse(elem: Element, options?: DnaOptionsPulse): Promise<Element>;
-        focus(elem: Element): Element;
+        focus(elem: Element, options?: {
+            firstInput?: boolean;
+        }): Element;
         setText(elem: Element | null, text: string): Element | null;
         toClone(elemOrEvent: Element | Event): Element;
         getComponent(elem: Element): Element | null;
@@ -473,7 +483,7 @@ declare const dna: {
         setup: () => NodeListOf<Element>;
     };
     core: {
-        inject<T_12>(clone: Element, data: T_12, count: number, settings: Partial<{
+        inject<T_12>(clone: Element, data: T_12, index: number, settings: Partial<{
             callback: DnaCallbackFn<T_12> | null;
             clones: number;
             container: Element | null;

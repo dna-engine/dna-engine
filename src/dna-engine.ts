@@ -75,6 +75,7 @@ export type DnaOptionsPulse = Partial<{
    duration:     number,   //milliseconds
    durationIn:   number,   //milliseconds
    durationOut:  number,   //milliseconds
+   noFadeOut:    boolean,  //if true, ignore durationOut
    text:         string | null,
    }>;
 export type DnaOptionsSmoothHeight = Partial<{
@@ -765,6 +766,7 @@ const dnaUi = {
          duration:    7000,
          durationIn:  600,
          durationOut: 3000,
+         noFadeOut:   false,
          text:        null,
          };
       const settings = { ...defaults, ...options };
@@ -791,13 +793,15 @@ const dnaUi = {
          dna.ui.slideFadeIn(elem, { duration: settings.durationIn });
       else
          globalThis.requestAnimationFrame(animate);
-      globalThis.setTimeout(fadeAway, settings.durationIn + settings.duration);
+      if (!settings.noFadeOut)
+         globalThis.setTimeout(fadeAway, settings.durationIn + settings.duration);
       const cleanup = () => {
          if (isLastPulse())
             style.removeProperty('transition');
          return elem;
          };
-      const total = settings.durationIn + settings.duration + settings.durationOut;
+      const total = settings.durationIn +
+         (settings.noFadeOut ? 0 : settings.duration + settings.durationOut);
       return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
       },
    focus(elem: Element, options?: { firstInput?: boolean }): Element {

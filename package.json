@@ -1,6 +1,6 @@
 {
    "name": "dna-engine",
-   "version": "3.0.6",
+   "version": "3.0.7",
    "description": "An uncomplicated user interface library for cloning semantic templates",
    "license": "MIT",
    "type": "module",
@@ -144,7 +144,7 @@
       "copy-folder-util": "~1.1",
       "eslint": "~8.43",
       "esm-to-plain-js": "~1.1",
-      "fetch-json": "~3.1",
+      "fetch-json": "~3.2",
       "highlight.js": "~11.8",
       "hljs-enhance": "~2.0",
       "jsdom": "~22.1",
