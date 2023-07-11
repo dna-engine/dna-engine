@@ -404,14 +404,8 @@ const dnaDom = {
       return Array.prototype.find.call(elems, fn) ?? null;
       },
    index(elem: Element): number {
-      // Returns the index of element within its container (relative to all its sibling elements).
-      let index = 0;
-      let prev =  elem.previousElementSibling;
-      while (prev) {
-         index++;
-         prev = prev.previousElementSibling;
-         }
-      return index;
+      // Returns the index of the element within its container (relative to all its sibling elements).
+      return Array.prototype.indexOf.call(elem.parentElement!.children, elem);
       },
    indexOf(elems: NodeListOf<Element>, elem: Element): number {
       // Returns the location an element within an array of elements.

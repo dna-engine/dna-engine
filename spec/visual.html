@@ -68,9 +68,9 @@
             ],
          setup() {
             const minifiedMode = globalThis.location.pathname.includes('visual.min');
-            dna.dom.toggleClass(document.body, 'minified-mode', minifiedMode);
+            dna.dom.toggleClass(globalThis.document.body, 'minified-mode', minifiedMode);
             const version = dna.version === '{{pkg.version}}' ? '[DEV]' : dna.version;
-            document.querySelectorAll('.version-number').forEach(elem => elem.innerText = version);
+            globalThis.document.querySelectorAll('.version-number').forEach(elem => elem.innerText = version);
             const runSpec = (sectionNode) => {
                console.log(sectionNode.id);
                spec[sectionNode.id].run();
@@ -79,7 +79,7 @@
             console.log('Version: ' + dna.info().version);
             console.log('Specifications:');
             const start = Date.now();
-            document.querySelectorAll('main >section').forEach(runSpec);
+            globalThis.document.querySelectorAll('main >section').forEach(runSpec);
             console.log('Run time (msec):', Date.now() - start);
             console.log('Report:', dna.info());
             console.log('');
@@ -915,20 +915,21 @@
          dna.clone('s12-book', [book1, book2, book3, book1], { html: false });
          dna.arrayPush(dna.getClones('s12-book')[0], 'authors', 'Bo I');
          dna.arrayPush(dna.getClones('s12-book')[0], 'authors', 'Bo II');
-         const clone1 = document.querySelector('.s12-book');
+         const clone1 = globalThis.document.querySelector('.s12-book');
          dna.dom.toggleClass(clone1, 'border-change1', clone1.dataset.title === 'The DOM');
-         const elem = document.querySelector('.s12-book-authors--0:last-child');
+         const elem = globalThis.document.querySelector('.s12-book-authors--0:last-child');
          elem.classList.add(elem.dataset.author === 'Bo II' ? 'color-change1' : 'color-change2');
          const lastBook = [...globalThis.document.getElementsByClassName('s12-book')].at(-1);
          const clone2 = dna.refresh(lastBook, { data: book2, html: true });
          dna.arrayPush(clone2, 'chapters', { header: 'Bio', type: 'back' });
          dna.arrayPush(clone2, 'chapters', moreChapters);
-         const spans = document.querySelectorAll('.s12-book span');
+         const spans = globalThis.document.querySelectorAll('.s12-book span');
          dna.destroy(dna.dom.find(spans, span => span.innerText === 'Bio 2'), { main: false });
          dna.arrayPush(clone2, 'chapters', lastChapter);
          dna.dom.toggleClass(clone2, 'border-change1', dna.getModel(clone2).chapters.length === 5);
          const colorChange2 = (elem) => elem.classList.add('color-change2');
-         document.querySelectorAll('.s12-book .s12-book-authors--0[data-author=Jake]').forEach(colorChange2);
+         const authorElems = globalThis.document.querySelectorAll('.s12-book .s12-book-authors--0[data-author=Jake]');
+         authorElems.forEach(colorChange2);
          },
       };
 </script>
@@ -1093,9 +1094,9 @@
       showMessage(message, elem) {
          const tag =   '<' + elem.nodeName + '>'
          const msec =  String(Date.now() % 10000).padStart(4, '0');
-         const p =     document.createElement('p');
+         const p =     globalThis.document.createElement('p');
          p.innerText = [msec, message, tag].join(' ');
-         document.querySelector('#spec15 fieldset').appendChild(p);
+         globalThis.document.querySelector('#spec15 fieldset').appendChild(p);
          },
       animal(elem) {
          spec.spec15.showMessage('animal', elem);
@@ -1116,8 +1117,8 @@
          elem.classList.add('border-change1');
          elem.style.color =   'white';
          elem.style.padding = '10px';
-         const hr = document.createElement('hr');
-         document.querySelector('#spec15 fieldset').appendChild(hr);  //exactly 8 times (one for each clone)
+         const hr = globalThis.document.createElement('hr');
+         globalThis.document.querySelector('#spec15 fieldset').appendChild(hr);  //exactly 8 times (one for each clone)
          },
       surround2(elem) {
          if (!elem.classList.contains('s15-book'))
@@ -1128,7 +1129,7 @@
          const clone =      dna.getClone(elem);
          const delayRange = { min: 300, max: 1600 };
          const start =      Date.now();
-         let handled = false;
+         let handled =      false;
          const badNews = (msg) => { throw 'handleByeDone --> ' + msg; };
          const handleByeDone = (param) => {
             const delay =       Date.now() - start;
@@ -1335,8 +1336,9 @@
    spec.spec16 = {
       start: Date.now(),
       submitNote(elem) {
-         const ms = Date.now() - spec.spec16.start;
-         dna.clone('note', { seconds: ms / 1000, note: elem.value }, { top: true, fade: true });
+         const ms =   Date.now() - spec.spec16.start;
+         const note = { seconds: ms / 1000, note: elem.value };
+         dna.clone('note', note, { top: true, fade: true });
          },
       run() {
          const options = [

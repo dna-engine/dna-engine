@@ -5,7 +5,7 @@ const app = {
    setup() {
       app.nav.setup();
       app.documenation.setup();
-      const versionNumber = document.querySelector('.version-number');
+      const versionNumber = globalThis.document.querySelector('.version-number');
       if (versionNumber)
          versionNumber.textContent = dna.version;
       },

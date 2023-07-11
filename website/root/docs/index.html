@@ -21,14 +21,14 @@
       </blockquote>
       <aside>
          <figure class=video-container-link>
-            <iframe src=https://www.youtube.com/embed/{{pkg.websiteInfo.youTube.intro}}></iframe>
+            <iframe src=https://www.youtube.com/embed/{{pkg.websiteInfo.youTube.intro}} allow=fullscreen></iframe>
             <figcaption>Introduction to dna-engine</figcaption>
          </figure>
       </aside>
       <nav class=toc>
          <h4>Contents:</h4>
          <ol>
-            <li><a href=#system>Terminology and Browser Support</a></li>
+            <li><a href=#terminology>Terminology</a></li>
             <li>
                <a href=#setup>Setup JS and CSS Assets</a>
                <ol>
@@ -158,11 +158,11 @@
    </header>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <div id=system>
+   <div id=terminology>
       <h3>Terminology</h3>
    </div>
 
-   <section id=system-terms>
+   <section>
       <h4>Terminology</h4>
       <dl>
          <dt>Template:</dt>
@@ -3651,7 +3651,7 @@
                   dna.clone('chapter-box', {}, options);
                   };
                const smooth = (range) => {
-                  const container = document.getElementById('smooth-container');
+                  const container = globalThis.document.getElementById('smooth-container');
                   const updateUI =  () => makeChapters(range);
                   dna.ui.smoothHeight(updateUI, { container: container, transition: 2000 });
                   };
