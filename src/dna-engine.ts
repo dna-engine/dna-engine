@@ -415,6 +415,15 @@ const dnaDom = {
       // Returns the location of the first matching element within an array of elements.
       return Array.prototype.findIndex.call(elems, (elem) => elem.matches(selector));
       },
+   insertAt<T extends Element>(container: Element, elem: T, index: number): T {
+      const inbounds = index >= 0 && index <= container.children.length;
+      dna.core.assert(inbounds, 'Invalid index to insert element', index);
+      if (index === 0)
+         container.prepend(elem);
+      else
+         container.children[index - 1]!.insertAdjacentElement('afterend', elem);
+      return elem;
+      },
    isElem(elem: unknown): boolean {
       return !!elem && typeof elem === 'object' && !!(<Element>elem).nodeName;
       },
@@ -930,6 +939,7 @@ const dnaFormat = {
       },
    getDateFormatter(format: string): DnaFormatter {
       // Returns a function to format dates into strings, like "2030-05-04 1:00am".
+      const simpleDate =    (date: Date) => date.toLocaleString([], { day: 'numeric', month: 'short', year: "numeric" });  //ex: May 4, 2030
       const twoDigit =      (value: number) => String(value).padStart(2, '0');
       const timestamp =     (date: Date) => date.toISOString().replace('T', '+').slice(0, -5);
       const timestampMsec = (date: Date) => date.toISOString().replace('T', '+').slice(0, -1);
@@ -954,6 +964,7 @@ const dnaFormat = {
          locale:        (date: Date) => space(date.toLocaleString()),      //ex: "5/4/2030, 1:00:00 AM"
          localeDate:    (date: Date) => date.toLocaleDateString(),         //ex: "5/4/2030"
          localeTime:    (date: Date) => space(date.toLocaleTimeString()),  //ex: "1:00:00 AM"
+         simpleDate:    (date: Date) => simpleDate(date),                  //ex: May 4, 2030
          string:        (date: Date) => date.toString(),                   //ex: "Sat May 04 2030 01:00:00 GMT-0700 (PDT)"
          time:          (date: Date) => date.toTimeString(),               //ex: "01:00:00 GMT-0700 (PDT)"
          timestamp:     (date: Date) => timestamp(date),                   //ex: "2030-05-04+08:00:00"
@@ -1393,7 +1404,7 @@ const dnaCompile = {
       dna.compile.separators(elem);
       //support html5 values for "type" attribute
       const setTypeAttr = (inputElem: Element) =>  //example: <input data-attr-type=date value=~~dueDate~~>
-         inputElem.setAttribute('type', (<HTMLElement>inputElem).dataset.attrType!);
+         (<HTMLInputElement>inputElem).type = (<HTMLElement>inputElem).dataset.attrType!;
       globalThis.document.querySelectorAll('input[data-attr-type]').forEach(setTypeAttr);
       return dna.template.stash(elem);
       },

@@ -140,6 +140,7 @@ describe('Formatter dna.format.getDateFormatter()', () => {
          皿('locale'),
          皿('localeDate'),
          皿('localeTime'),
+         皿('simpleDate'),
          ];
       const expected = [
          'Sat May 04 2030',        //date
@@ -150,6 +151,7 @@ describe('Formatter dna.format.getDateFormatter()', () => {
          '5/4/2030, 1:00:00 AM',   //locale
          '5/4/2030',               //localeDate
          '1:00:00 AM',             //localeTime
+         'May 4, 2030',            //simpleDate
          ];
       assertDeepStrictEqual(actual, expected);
       });
