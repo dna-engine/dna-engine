@@ -2109,7 +2109,8 @@ const dna = {
       const onDomReadyElems = () => !rootSelector ? [globalThis.document.body] :
          dna.dom.addClass(selectElems(), dna.name.initialized);
       if (settings.onDomReady)
-         onDomReadyElems().forEach(elem => dna.util.apply(fn, [elem, settings.params].flat()));
+         dna.dom.onReady(() => onDomReadyElems().forEach(
+            elem => dna.util.apply(fn, [elem, settings.params].flat())));
       const initializer = { fn: fn, selector: rootSelector, params: settings.params };
       dna.events.db.initializers.push(initializer);
       return dna.events.db.initializers;
