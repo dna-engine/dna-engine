@@ -1,4 +1,4 @@
-//! dna-engine v3.0.7 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.8 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -37,14 +37,14 @@ const dnaArray = {
     },
     fromMap(map, options) {
         const defaults = { key: 'code', kebabCodes: false };
-        const settings = Object.assign(Object.assign({}, defaults), options);
+        const settings = { ...defaults, ...options };
         const codeValue = (key) => settings.kebabCodes ? dna.util.toKebab(key) : key;
         const toObj = (item) => dna.util.isObj(item) ? item : { value: item };
-        return Object.keys(map).map(key => (Object.assign({ [settings.key]: codeValue(key) }, toObj(map[key]))));
+        return Object.keys(map).map(key => ({ ...{ [settings.key]: codeValue(key) }, ...toObj(map[key]) }));
     },
     toMap(array, options) {
         const defaults = { key: 'code', camelKeys: false };
-        const settings = Object.assign(Object.assign({}, defaults), options);
+        const settings = { ...defaults, ...options };
         const map = {};
         const keyName = settings.key;
         const getKeyRaw = (obj) => obj[keyName];
@@ -67,22 +67,20 @@ const dnaBrowser = {
         return params;
     },
     userAgentData() {
-        var _a;
         const polyfill = () => {
-            var _a, _b, _c, _d, _e;
-            const brandEntry = (_b = (_a = globalThis.navigator.userAgent.split(' ').pop()) === null || _a === void 0 ? void 0 : _a.split('/')) !== null && _b !== void 0 ? _b : [];
+            const brandEntry = globalThis.navigator.userAgent.split(' ').pop()?.split('/') ?? [];
             const hasTouch = !!navigator.maxTouchPoints;
             const platform = globalThis.navigator.platform;
             const mac = hasTouch ? 'iOS' : 'macOS';
             const platforms = { 'MacIntel': mac, 'Win32': 'Windows', 'iPhone': 'iOS', 'iPad': 'iOS' };
             return {
-                brands: [{ brand: (_c = brandEntry === null || brandEntry === void 0 ? void 0 : brandEntry[0]) !== null && _c !== void 0 ? _c : '', version: (_d = brandEntry === null || brandEntry === void 0 ? void 0 : brandEntry[1]) !== null && _d !== void 0 ? _d : '' }],
+                brands: [{ brand: brandEntry?.[0] ?? '', version: brandEntry?.[1] ?? '' }],
                 mobile: hasTouch || /Android|iPhone|iPad|Mobi/i.test(globalThis.navigator.userAgent),
-                platform: (_e = platforms[platform]) !== null && _e !== void 0 ? _e : platform,
+                platform: platforms[platform] ?? platform,
             };
         };
         const uaData = globalThis.navigator['userAgentData'];
-        return (_a = uaData) !== null && _a !== void 0 ? _a : polyfill();
+        return uaData ?? polyfill();
     },
 };
 const dnaPageToken = {
@@ -109,7 +107,7 @@ const dnaDom = {
         dna.core.assert(dna.dom.isElem(clone), 'Invalid element for copying state', clone);
         const copy = (elem) => {
             const data = elem.dataset;
-            const newState = Object.assign({}, dna.dom.stateDepot[Number(data.dnaState)]);
+            const newState = { ...dna.dom.stateDepot[Number(data.dnaState)] };
             data.dnaState = String(dna.dom.stateDepot.push(newState) - 1);
         };
         if (clone.classList.contains('dna-state'))
@@ -119,25 +117,25 @@ const dnaDom = {
     },
     create(tag, options) {
         const elem = globalThis.document.createElement(tag);
-        if (options === null || options === void 0 ? void 0 : options.id)
+        if (options?.id)
             elem.id = options.id;
-        if (options === null || options === void 0 ? void 0 : options.class)
+        if (options?.class)
             elem.classList.add(options.class);
-        if (options === null || options === void 0 ? void 0 : options.href)
+        if (options?.href)
             elem.href = options.href;
-        if (options === null || options === void 0 ? void 0 : options.html)
+        if (options?.html)
             elem.innerHTML = options.html;
-        if (options === null || options === void 0 ? void 0 : options.name)
+        if (options?.name)
             elem.name = options.name;
-        if (options === null || options === void 0 ? void 0 : options.rel)
+        if (options?.rel)
             elem.rel = options.rel;
-        if (options === null || options === void 0 ? void 0 : options.src)
+        if (options?.src)
             elem.src = options.src;
-        if (options === null || options === void 0 ? void 0 : options.text)
+        if (options?.text)
             elem.textContent = options.text;
-        if (options === null || options === void 0 ? void 0 : options.type)
+        if (options?.type)
             elem.type = options.type;
-        if (options === null || options === void 0 ? void 0 : options.subTags)
+        if (options?.subTags)
             options.subTags.forEach(subTag => elem.appendChild(globalThis.document.createElement(subTag)));
         return elem;
     },
@@ -186,23 +184,25 @@ const dnaDom = {
         return classNames.length === 1 ? filtered : dna.dom.filterByClass(filtered, ...classNames.splice(1));
     },
     find(elems, fn) {
-        var _a;
-        return (_a = Array.prototype.find.call(elems, fn)) !== null && _a !== void 0 ? _a : null;
+        return Array.prototype.find.call(elems, fn) ?? null;
     },
     index(elem) {
-        let index = 0;
-        let prev = elem.previousElementSibling;
-        while (prev) {
-            index++;
-            prev = prev.previousElementSibling;
-        }
-        return index;
+        return Array.prototype.indexOf.call(elem.parentElement.children, elem);
     },
     indexOf(elems, elem) {
         return Array.prototype.indexOf.call(elems, elem);
     },
     findIndex(elems, selector) {
         return Array.prototype.findIndex.call(elems, (elem) => elem.matches(selector));
+    },
+    insertAt(container, elem, index) {
+        const inbounds = index >= 0 && index <= container.children.length;
+        dna.core.assert(inbounds, 'Invalid index to insert element', index);
+        if (index === 0)
+            container.prepend(elem);
+        else
+            container.children[index - 1].insertAdjacentElement('afterend', elem);
+        return elem;
     },
     isElem(elem) {
         return !!elem && typeof elem === 'object' && !!elem.nodeName;
@@ -215,7 +215,7 @@ const dnaDom = {
     },
     on(type, listener, options) {
         const defaults = { keyFilter: null, selector: null };
-        const settings = Object.assign(Object.assign({}, defaults), options);
+        const settings = { ...defaults, ...options };
         const noFilter = !settings.keyFilter;
         const noSelector = !settings.selector;
         const delegator = (event) => {
@@ -227,49 +227,48 @@ const dnaDom = {
         globalThis.document.addEventListener(type, delegator);
     },
     onClick(listener, selector) {
-        dna.dom.on('click', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
+        dna.dom.on('click', listener, { selector: selector ?? null });
     },
     onChange(listener, selector) {
-        dna.dom.on('change', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
+        dna.dom.on('change', listener, { selector: selector ?? null });
     },
     onInput(listener, selector) {
-        dna.dom.on('input', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
+        dna.dom.on('input', listener, { selector: selector ?? null });
     },
     onKeyDown(listener, selector) {
-        dna.dom.on('keydown', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
+        dna.dom.on('keydown', listener, { selector: selector ?? null });
     },
     onKeyUp(listener, selector) {
-        dna.dom.on('keyup', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
+        dna.dom.on('keyup', listener, { selector: selector ?? null });
     },
     onEnterKey(listener, selector) {
-        dna.dom.on('keyup', listener, { selector: selector !== null && selector !== void 0 ? selector : null, keyFilter: 'Enter' });
+        dna.dom.on('keyup', listener, { selector: selector ?? null, keyFilter: 'Enter' });
     },
     onFocusIn(listener, selector) {
-        dna.dom.on('focusin', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
+        dna.dom.on('focusin', listener, { selector: selector ?? null });
     },
     onFocusOut(listener, selector) {
-        dna.dom.on('focusout', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
+        dna.dom.on('focusout', listener, { selector: selector ?? null });
     },
     onCut(listener, selector) {
-        dna.dom.on('cut', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
+        dna.dom.on('cut', listener, { selector: selector ?? null });
     },
     onPaste(listener, selector) {
-        dna.dom.on('paste', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
+        dna.dom.on('paste', listener, { selector: selector ?? null });
     },
     onTouchStart(listener, selector) {
-        dna.dom.on('touchstart', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
+        dna.dom.on('touchstart', listener, { selector: selector ?? null });
     },
     onTouchEnd(listener, selector) {
-        dna.dom.on('touchend', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
+        dna.dom.on('touchend', listener, { selector: selector ?? null });
     },
     onSubmit(listener, selector) {
-        dna.dom.on('submit', listener, { selector: selector !== null && selector !== void 0 ? selector : null });
+        dna.dom.on('submit', listener, { selector: selector ?? null });
     },
     onHoverIn(listener, selector) {
         let ready = true;
         const delegator = (event) => {
-            var _a;
-            const target = (_a = event.target) === null || _a === void 0 ? void 0 : _a.closest(selector);
+            const target = event.target?.closest(selector);
             if (target !== null && ready)
                 listener(target, event, selector);
             ready = target === null;
@@ -280,9 +279,8 @@ const dnaDom = {
         let ready = false;
         let prevTarget = null;
         const delegator = (event) => {
-            var _a;
-            const target = (_a = event.target) === null || _a === void 0 ? void 0 : _a.closest(selector);
-            prevTarget = target !== null && target !== void 0 ? target : prevTarget;
+            const target = event.target?.closest(selector);
+            prevTarget = target ?? prevTarget;
             if (target === null && ready)
                 listener(prevTarget, event, selector);
             ready = target !== null;
@@ -290,10 +288,9 @@ const dnaDom = {
         globalThis.document.addEventListener('pointerover', delegator);
     },
     onReady(callback, options) {
-        var _a;
         const state = globalThis.document ? globalThis.document.readyState : 'browserless';
-        const name = (_a = options === null || options === void 0 ? void 0 : options.name) !== null && _a !== void 0 ? _a : 'dna-engine';
-        if (state === 'browserless' && !(options === null || options === void 0 ? void 0 : options.quiet))
+        const name = options?.name ?? 'dna-engine';
+        if (state === 'browserless' && !options?.quiet)
             console.log(dna.util.timestampMsec(), name, 'loaded into browserless context');
         if (['complete', 'browserless'].includes(state))
             callback();
@@ -336,13 +333,12 @@ const dnaUi = {
         return elem;
     },
     toggle(elem, display) {
-        return (display !== null && display !== void 0 ? display : dna.ui.isHidden(elem)) ? dna.ui.show(elem) : dna.ui.hide(elem);
+        return display ?? dna.ui.isHidden(elem) ? dna.ui.show(elem) : dna.ui.hide(elem);
     },
     fadeIn(elem, options) {
-        var _a;
-        const duration = (_a = options === null || options === void 0 ? void 0 : options.duration) !== null && _a !== void 0 ? _a : 600;
+        const duration = options?.duration ?? 600;
         const computed = globalThis.getComputedStyle(elem);
-        const startOpacity = (options === null || options === void 0 ? void 0 : options.reset) || dna.ui.isHidden(elem) ? '0' : computed.opacity;
+        const startOpacity = options?.reset || dna.ui.isHidden(elem) ? '0' : computed.opacity;
         dna.ui.show(elem);
         const style = elem.style;
         style.transition = 'all 0ms';
@@ -361,8 +357,7 @@ const dnaUi = {
         return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), duration + 100));
     },
     fadeOut(elem, options) {
-        var _a;
-        const duration = (_a = options === null || options === void 0 ? void 0 : options.duration) !== null && _a !== void 0 ? _a : 600;
+        const duration = options?.duration ?? 600;
         const style = elem.style;
         style.transition = 'all 0ms';
         style.opacity = globalThis.getComputedStyle(elem).opacity;
@@ -380,9 +375,8 @@ const dnaUi = {
         return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), duration + 100));
     },
     slideFadeIn(elem, options) {
-        var _a, _b;
-        const duration = (_a = options === null || options === void 0 ? void 0 : options.duration) !== null && _a !== void 0 ? _a : 600;
-        const reset = (_b = options === null || options === void 0 ? void 0 : options.reset) !== null && _b !== void 0 ? _b : false;
+        const duration = options?.duration ?? 600;
+        const reset = options?.reset ?? false;
         const style = elem.style;
         const verticals = [
             'height',
@@ -421,8 +415,7 @@ const dnaUi = {
         return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), duration + 100));
     },
     slideFadeOut(elem, options) {
-        var _a;
-        const duration = (_a = options === null || options === void 0 ? void 0 : options.duration) !== null && _a !== void 0 ? _a : 600;
+        const duration = options?.duration ?? 600;
         const computed = globalThis.getComputedStyle(elem);
         const style = elem.style;
         style.transition = `all ${duration}ms`;
@@ -466,7 +459,7 @@ const dnaUi = {
             overflow: true,
             duration: 1000,
         };
-        const settings = Object.assign(Object.assign({}, defaults), options);
+        const settings = { ...defaults, ...options };
         const container = settings.container;
         const style = container.style;
         const setBaseline = () => {
@@ -534,7 +527,7 @@ const dnaUi = {
             noFadeOut: false,
             text: null,
         };
-        const settings = Object.assign(Object.assign({}, defaults), options);
+        const settings = { ...defaults, ...options };
         dna.core.assert(dna.dom.isElem(elem), 'Invalid element for dna.ui.pulse()', elem);
         const data = elem.dataset;
         const pulseStart = String(Date.now());
@@ -570,8 +563,8 @@ const dnaUi = {
         return new Promise(resolve => globalThis.setTimeout(() => resolve(cleanup()), total + 100));
     },
     focus(elem, options) {
-        const input = (options === null || options === void 0 ? void 0 : options.firstInput) ? elem.querySelector('input') : elem;
-        globalThis.requestAnimationFrame(() => input === null || input === void 0 ? void 0 : input.focus());
+        const input = options?.firstInput ? elem.querySelector('input') : elem;
+        globalThis.requestAnimationFrame(() => input?.focus());
         return elem;
     },
     setText(elem, text) {
@@ -584,8 +577,7 @@ const dnaUi = {
         return dna.getClone(elem);
     },
     getComponent(elem) {
-        var _a;
-        return (_a = elem === null || elem === void 0 ? void 0 : elem.closest('[data-component]')) !== null && _a !== void 0 ? _a : null;
+        return elem?.closest('[data-component]') ?? null;
     },
 };
 const dnaUtil = {
@@ -598,7 +590,6 @@ const dnaUtil = {
         return callback(...params);
     },
     getFn(name) {
-        var _a;
         dna.core.assert(!/[^\p{Letter}\d.]/u.test(name), 'Invalid function name', name);
         const fields = name.split('.');
         const tag = fields[0];
@@ -607,7 +598,7 @@ const dnaUtil = {
         const callable = () => ['object', 'function'].includes(toValue('typeof ' + tag));
         const getContext = () => dna.registerContext(tag, toValue(tag));
         const getTop = () => callable() ? getContext()[tag] : undefined;
-        const top = (_a = tagValue !== null && tagValue !== void 0 ? tagValue : dna.events.db.context[tag]) !== null && _a !== void 0 ? _a : getTop();
+        const top = tagValue ?? dna.events.db.context[tag] ?? getTop();
         const deep = (object, subfields) => !subfields.length ? object :
             !object ? undefined :
                 deep(object[subfields[0]], subfields.slice(1));
@@ -651,10 +642,10 @@ const dnaUtil = {
         return !!value && typeof value === 'object' && !Array.isArray(value);
     },
     timestamp(date) {
-        return dna.format.getDateFormatter('timestamp')(date !== null && date !== void 0 ? date : Date.now());
+        return dna.format.getDateFormatter('timestamp')(date ?? Date.now());
     },
     timestampMsec(date) {
-        return dna.format.getDateFormatter('timestamp-msec')(date !== null && date !== void 0 ? date : Date.now());
+        return dna.format.getDateFormatter('timestamp-msec')(date ?? Date.now());
     },
 };
 const dnaFormat = {
@@ -664,6 +655,7 @@ const dnaFormat = {
         return (value) => formatter(Number(value) / units);
     },
     getDateFormatter(format) {
+        const simpleDate = (date) => date.toLocaleString([], { day: 'numeric', month: 'short', year: "numeric" });
         const twoDigit = (value) => String(value).padStart(2, '0');
         const timestamp = (date) => date.toISOString().replace('T', '+').slice(0, -5);
         const timestampMsec = (date) => date.toISOString().replace('T', '+').slice(0, -1);
@@ -688,6 +680,7 @@ const dnaFormat = {
             locale: (date) => space(date.toLocaleString()),
             localeDate: (date) => date.toLocaleDateString(),
             localeTime: (date) => space(date.toLocaleTimeString()),
+            simpleDate: (date) => simpleDate(date),
             string: (date) => date.toString(),
             time: (date) => date.toTimeString(),
             timestamp: (date) => timestamp(date),
@@ -723,7 +716,7 @@ const dnaFormat = {
 };
 const dnaPlaceholder = {
     setup() {
-        const hideSelect = (elem) => { var _a; return (_a = elem.closest('select')) === null || _a === void 0 ? void 0 : _a.classList.add(dna.name.hide); };
+        const hideSelect = (elem) => elem.closest('select')?.classList.add(dna.name.hide);
         globalThis.document.querySelectorAll('option.dna-template').forEach(hideSelect);
         const isEmpty = (elem) => !!dna.getClones(elem.dataset.placeholder).length;
         const fade = (elem) => isEmpty(elem) ? dna.ui.slideFadeOut(elem) : dna.ui.slideFadeIn(elem);
@@ -792,7 +785,7 @@ const dnaPanels = {
             const menuNavName = 'dna-panels-' + String(dna.panels.nextMenuNav++);
             const setNavName = (elem) => elem.dataset.menuNav = menuNavName;
             const menu = panels.previousElementSibling;
-            dna.core.assert(menu === null || menu === void 0 ? void 0 : menu.classList.contains('dna-menu'), 'Menu not found for panels', panels);
+            dna.core.assert(menu?.classList.contains('dna-menu'), 'Menu not found for panels', panels);
             setNavName(menu);
             setNavName(panels);
             return menuNavName;
@@ -854,8 +847,7 @@ const dnaCompile = {
         return elem;
     },
     isDnaField(node) {
-        var _a;
-        const value = (_a = node.firstChild) === null || _a === void 0 ? void 0 : _a.nodeValue;
+        const value = node.firstChild?.nodeValue;
         return !!value && dna.compile.regex.dnaField.test(value);
     },
     addFieldClass(elem) {
@@ -1029,7 +1021,7 @@ const dnaCompile = {
         dna.compile.propsAndAttrs(elem);
         subElems.forEach(dna.compile.propsAndAttrs);
         dna.compile.separators(elem);
-        const setTypeAttr = (inputElem) => inputElem.setAttribute('type', inputElem.dataset.attrType);
+        const setTypeAttr = (inputElem) => inputElem.type = inputElem.dataset.attrType;
         globalThis.document.querySelectorAll('input[data-attr-type]').forEach(setTypeAttr);
         return dna.template.stash(elem);
     },
@@ -1099,18 +1091,17 @@ const dnaEvents = {
     },
     runOnLoads(options) {
         const defaults = { pollInterval: 300 };
-        const settings = Object.assign(Object.assign({}, defaults), options);
+        const settings = { ...defaults, ...options };
         const elems = globalThis.document.querySelectorAll(`[data-on-load]:not(.${dna.name.onLoad})`);
         elems.forEach(elem => elem.classList.add(dna.name.onLoad));
         const addStart = (elem) => dna.dom.state(elem).dnaOnLoad = { start: Date.now(), checks: 0 };
         elems.forEach(addStart);
         const runOnLoad = (elem) => {
-            var _a, _b;
             const data = elem.dataset;
             const fnName = data.onLoad;
             const fn = dna.util.getFn(fnName);
             const onLoad = dna.dom.state(elem).dnaOnLoad;
-            const waitFor = (_b = (_a = data.waitFor) === null || _a === void 0 ? void 0 : _a.split(',')) !== null && _b !== void 0 ? _b : [];
+            const waitFor = data.waitFor?.split(',') ?? [];
             onLoad.waiting = Date.now() - onLoad.start;
             onLoad.checks++;
             dna.core.assert(typeof fn === 'function' || !fn, 'Invalid data-on-load function', fnName);
@@ -1142,13 +1133,12 @@ const dnaEvents = {
     },
     setup: () => {
         const runner = (elem, type, event) => {
-            var _a;
             const target = elem.closest('[data-' + type + ']');
-            const fn = target === null || target === void 0 ? void 0 : target.dataset[dna.util.toCamel(type)];
-            const isLink = (target === null || target === void 0 ? void 0 : target.nodeName) === 'A';
-            if (type === 'click' && isLink && (fn === null || fn === void 0 ? void 0 : fn.match(/^dna[.]/)))
+            const fn = target?.dataset[dna.util.toCamel(type)];
+            const isLink = target?.nodeName === 'A';
+            if (type === 'click' && isLink && fn?.match(/^dna[.]/))
                 event.preventDefault();
-            const nextClickTarget = (_a = target === null || target === void 0 ? void 0 : target.parentElement) === null || _a === void 0 ? void 0 : _a.closest('[data-on-click]');
+            const nextClickTarget = target?.parentElement?.closest('[data-on-click]');
             if (type === 'click' && nextClickTarget)
                 runner(nextClickTarget, type, event);
             return fn && dna.util.apply(fn, [target, event, dna.ui.getComponent(target)]);
@@ -1202,11 +1192,10 @@ const dnaEvents = {
             globalThis.setTimeout(checkForValueChange);
         };
         const jumpToUrl = (elem) => {
-            var _a;
             const useSameTab = dna.browser.userAgentData().mobile;
             const target = elem.closest('.external-site') ? '_blank' : '_self';
             const data = elem.dataset;
-            globalThis.open(data.href, useSameTab ? '_self' : (_a = data.target) !== null && _a !== void 0 ? _a : target);
+            globalThis.open(data.href, useSameTab ? '_self' : data.target ?? target);
         };
         dna.dom.onClick(handleEvent);
         dna.dom.onChange(handleEvent);
@@ -1461,7 +1450,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.0.7',
+    version: '3.0.8',
     clone(name, data, options) {
         const defaults = {
             callback: null,
@@ -1475,9 +1464,9 @@ const dna = {
             top: false,
             transform: null,
         };
-        const settings = Object.assign(Object.assign({}, defaults), options);
+        const settings = { ...defaults, ...options };
         const template = dna.template.get(name);
-        const makeCopies = (options === null || options === void 0 ? void 0 : options.clones) !== undefined;
+        const makeCopies = options?.clones !== undefined;
         const missing = template.nested && !settings.container;
         dna.core.assert(!missing, 'Container missing for nested template', name);
         if (settings.empty)
@@ -1510,7 +1499,7 @@ const dna = {
                 const className = 'dna-contains-' + name;
                 const find = () => holderClone.getElementsByClassName(className)[0];
                 const container = holderClone.classList.contains(className) ? holderClone : find();
-                dna.clone(name, data, Object.assign({ container }, options));
+                dna.clone(name, data, { ...{ container }, ...options });
                 dna.core.updateModelArray(container);
             };
             if (field === arrayField)
@@ -1538,7 +1527,7 @@ const dna = {
     },
     empty(name, options) {
         const defaults = { fade: false };
-        const settings = Object.assign(Object.assign({}, defaults), options);
+        const settings = { ...defaults, ...options };
         const template = dna.template.get(name);
         const clones = dna.dom.filterByClass(template.container.children, dna.name.clone);
         const countsMap = dna.dom.state(template.container).dnaCountsMap;
@@ -1552,12 +1541,12 @@ const dna = {
     },
     insert(name, data, options) {
         const clones = dna.getClones(name);
-        return clones.length ? dna.refresh(clones.at(0), { data: data, html: !!(options === null || options === void 0 ? void 0 : options.html) }) :
+        return clones.length ? dna.refresh(clones.at(0), { data: data, html: !!options?.html }) :
             dna.clone(name, data, options);
     },
     refresh(clone, options) {
         const defaults = { data: null, html: false, main: false };
-        const settings = Object.assign(Object.assign({}, defaults), options);
+        const settings = { ...defaults, ...options };
         const elem = dna.getClone(clone, options);
         const model = settings.data ? settings.data : dna.getModel(elem);
         const index = dna.dom.state(elem).dnaIndex;
@@ -1601,7 +1590,7 @@ const dna = {
     },
     destroy(elem, options) {
         const defaults = { main: false, fade: false };
-        const settings = Object.assign(Object.assign({}, defaults), options);
+        const settings = { ...defaults, ...options };
         const clone = dna.getClone(elem, options);
         const arrayField = dna.core.getArrayName(clone);
         if (arrayField)
@@ -1615,7 +1604,7 @@ const dna = {
     },
     getClone(elem, options) {
         const defaults = { main: false };
-        const settings = Object.assign(Object.assign({}, defaults), options);
+        const settings = { ...defaults, ...options };
         dna.core.assert(dna.dom.isElem(elem), 'Invalid element', elem);
         const clone = elem.closest(settings.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone');
         dna.core.assert(clone, 'Cannot find clone', elem);
@@ -1645,14 +1634,14 @@ const dna = {
             params: [],
             onDomReady: true,
         };
-        const settings = Object.assign(Object.assign({}, defaults), options);
+        const settings = { ...defaults, ...options };
         const rootSelector = settings.selector;
         const notTemplate = (elem) => !elem.classList.contains(dna.name.template);
         const selectElems = () => dna.dom.filter(globalThis.document.querySelectorAll(rootSelector), notTemplate);
         const onDomReadyElems = () => !rootSelector ? [globalThis.document.body] :
             dna.dom.addClass(selectElems(), dna.name.initialized);
         if (settings.onDomReady)
-            onDomReadyElems().forEach(elem => dna.util.apply(fn, [elem, settings.params].flat()));
+            dna.dom.onReady(() => onDomReadyElems().forEach(elem => dna.util.apply(fn, [elem, settings.params].flat())));
         const initializer = { fn: fn, selector: rootSelector, params: settings.params };
         dna.events.db.initializers.push(initializer);
         return dna.events.db.initializers;
@@ -1666,11 +1655,8 @@ const dna = {
     },
     initGlobal(thisWindow) {
         thisWindow.dna = dna;
-        const writable = (prop) => {
-            var _a;
-            return !globalThis[prop] ||
-                !!((_a = Object.getOwnPropertyDescriptor(globalThis, prop)) === null || _a === void 0 ? void 0 : _a.writable);
-        };
+        const writable = (prop) => !globalThis[prop] ||
+            !!Object.getOwnPropertyDescriptor(globalThis, prop)?.writable;
         if (writable('window'))
             globalThis.window = thisWindow;
         if (writable('document'))

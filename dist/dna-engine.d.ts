@@ -1,4 +1,4 @@
-//! dna-engine v3.0.7 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.8 ~~ https://dna-engine.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -358,6 +358,7 @@ declare const dna: {
         index(elem: Element): number;
         indexOf(elems: NodeListOf<Element>, elem: Element): number;
         findIndex(elems: HTMLCollection | NodeListOf<Element>, selector: string): number;
+        insertAt<T_10 extends Element>(container: Element, elem: T_10, index: number): T_10;
         isElem(elem: unknown): boolean;
         getAttrs(elem: Element): Attr[];
         toElem(elemOrEvent: Element | Event): HTMLElement;
@@ -418,14 +419,14 @@ declare const dna: {
         getComponent(elem: Element): Element | null;
     };
     util: {
-        apply<T_10>(fn: string | DnaInitializerFn | DnaCallbackFn<T_10>, params: unknown[]): unknown;
+        apply<T_11>(fn: string | DnaInitializerFn | DnaCallbackFn<T_11>, params: unknown[]): unknown;
         getFn(name: string): any;
         assign(data: DnaDataObject, field: string, value: Json): DnaDataObject;
         printf: (format: string, ...values: unknown[]) => string;
         realTruth: (value: unknown) => boolean;
         toCamel: (kebabStr: string) => string;
         toKebab: (camelStr: string) => string;
-        value<T_11>(data: T_11, field: string | string[]): unknown;
+        value<T_12>(data: T_12, field: string | string[]): unknown;
         isObj(value: unknown): boolean;
         timestamp(date?: number): string;
         timestampMsec(date?: number): string;
@@ -483,19 +484,7 @@ declare const dna: {
         setup: () => NodeListOf<Element>;
     };
     core: {
-        inject<T_12>(clone: Element, data: T_12, index: number, settings: Partial<{
-            callback: DnaCallbackFn<T_12> | null;
-            clones: number;
-            container: Element | null;
-            empty: boolean;
-            fade: boolean;
-            formatter: DnaFormatter | null;
-            holder: Element | null;
-            html: boolean;
-            top: boolean;
-            transform: DnaTransformFn<T_12> | null;
-        }>): Element;
-        replicate<T_13>(template: DnaTemplate, data: T_13, options: Partial<{
+        inject<T_13>(clone: Element, data: T_13, index: number, settings: Partial<{
             callback: DnaCallbackFn<T_13> | null;
             clones: number;
             container: Element | null;
@@ -507,9 +496,21 @@ declare const dna: {
             top: boolean;
             transform: DnaTransformFn<T_13> | null;
         }>): Element;
+        replicate<T_14>(template: DnaTemplate, data: T_14, options: Partial<{
+            callback: DnaCallbackFn<T_14> | null;
+            clones: number;
+            container: Element | null;
+            empty: boolean;
+            fade: boolean;
+            formatter: DnaFormatter | null;
+            holder: Element | null;
+            html: boolean;
+            top: boolean;
+            transform: DnaTransformFn<T_14> | null;
+        }>): Element;
         getArrayName(subClone: Element): string | null;
         updateModelArray(container: Element): Element;
-        remove<T_14>(clone: Element, callback?: DnaCallbackFn<T_14> | null | undefined): Element;
+        remove<T_15>(clone: Element, callback?: DnaCallbackFn<T_15> | null | undefined): Element;
         assert(ok: boolean | unknown, message: string, info?: unknown): void;
         setup(): unknown;
     };

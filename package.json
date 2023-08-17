@@ -1,6 +1,6 @@
 {
    "name": "dna-engine",
-   "version": "3.0.7",
+   "version": "3.0.8",
    "description": "An uncomplicated user interface library for cloning semantic templates",
    "license": "MIT",
    "type": "module",
@@ -94,9 +94,11 @@
       "clean": [
          "rimraf build dist"
       ],
-      "build": [
+      "lint": [
          "jshint . --exclude-path .gitignore",
-         "eslint --max-warnings 0 src --ext .ts",
+         "eslint --max-warnings 0 src --ext .ts"
+      ],
+      "build": [
          "tsc",
          "copy-file src/dna-engine.css           --folder build",
          "copy-file website/static/panel-nav.css --folder build",
@@ -126,7 +128,7 @@
       ]
    },
    "scripts": {
-      "pretest": "run-scripts clean build",
+      "pretest": "run-scripts clean lint build",
       "test": "mocha spec/*.spec.js",
       "dev": "npm test && run-scripts dev --parallel",
       "build-website": "run-scripts web",
@@ -134,16 +136,16 @@
    },
    "devDependencies": {
       "@fortawesome/fontawesome-free": "~6.4",
-      "@types/node": "~20.4",
-      "@typescript-eslint/eslint-plugin": "~6.0",
-      "@typescript-eslint/parser": "~6.0",
-      "add-dist-header": "~1.1",
+      "@types/node": "~20.5",
+      "@typescript-eslint/eslint-plugin": "~6.4",
+      "@typescript-eslint/parser": "~6.4",
+      "add-dist-header": "~1.2",
       "assert-deep-strict-equal": "~1.1",
       "browser-sync": "~2.29",
       "chokidar-cli": "~3.0",
       "copy-file-util": "~1.1",
       "copy-folder-util": "~1.1",
-      "eslint": "~8.44",
+      "eslint": "~8.47",
       "esm-to-plain-js": "~1.1",
       "fetch-json": "~3.2",
       "highlight.js": "~11.8",
@@ -151,7 +153,7 @@
       "jsdom": "~22.1",
       "jshint": "~2.13",
       "mocha": "~10.2",
-      "replacer-util": "~1.1",
+      "replacer-util": "~1.2",
       "rimraf": "~5.0",
       "run-scripts-util": "~1.2",
       "serve": "~14.2",
