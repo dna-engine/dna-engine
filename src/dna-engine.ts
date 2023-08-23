@@ -14,7 +14,7 @@ export type NavigatorUAData = {
    };
 
 // Types: Options
-export type DnaOptionsClone<T> = Partial<{
+export type DnaSettingsClone<T> = {
    callback:     DnaCallbackFn<T> | null,
    clones:       number,
    container:    Element | null,
@@ -25,64 +25,64 @@ export type DnaOptionsClone<T> = Partial<{
    html:         boolean,
    top:          boolean,
    transform:    DnaTransformFn<T> | null,
-   }>;
-export type DnaOptionsArrayPush = Partial<{
+   };
+export type DnaSettingsArrayPush = {
    fade:         boolean,
    top:          boolean,
-   }>;
-export type DnaOptionsGetModel = Partial<{
+   };
+export type DnaSettingsGetModel = {
    main:         boolean,
-   }>;
-export type DnaOptionsEmpty = Partial<{
+   };
+export type DnaSettingsEmpty = {
    fade:         boolean,
-   }>;
-export type DnaOptionsRefresh = Partial<{
+   };
+export type DnaSettingsRefresh = {
    data:         unknown,
    html:         boolean,
    main:         boolean,
-   }>;
-export type DnaOptionsRefreshAll = Partial<{
+   };
+export type DnaSettingsRefreshAll = {
    data:         unknown,
    html:         boolean,
    main:         boolean,
-   }>;
-export type DnaOptionsRecount = Partial<{
+   };
+export type DnaSettingsRecount = {
    html:         boolean,
-   }>;
-export type DnaOptionsDestroy = Partial<{
+   };
+export type DnaSettingsDestroy = {
    fade:         boolean,
    main:         boolean,
-   }>;
-export type DnaOptionsGetClone = Partial<{
+   };
+export type DnaSettingsGetClone = {
    main:         boolean,
-   }>;
-export type DnaOptionsGetIndex = Partial<{
+   };
+export type DnaSettingsGetIndex = {
    main:         boolean,
-   }>;
-export type DnaOptionsRegisterInitializer = Partial<{
+   };
+export type DnaSettingsRegisterInitializer = {
    onDomReady:   boolean,
    params:       unknown[],
    selector:     string | null,
-   }>;
-export type DnaOptionsRunOnLoads = Partial<{
-   pollInterval:number,  //milliseconds
-   }>;
-export type DnaOptionsEventsOn = Partial<{
+   };
+export type DnaSettingsRunOnLoads = {
+   pollInterval: number,  //milliseconds
+   };
+export type DnaSettingsEventsOn = {
    keyFilter:    KeyboardEvent["key"] | null,
    selector:     string | null,
-   }>;
-export type DnaOptionsPulse = Partial<{
+   };
+export type DnaSettingsPulse = {
    duration:     number,   //milliseconds
    durationIn:   number,   //milliseconds
    durationOut:  number,   //milliseconds
    noFadeOut:    boolean,  //if true, ignore durationOut
    text:         string | null,
-   }>;
-export type DnaOptionsSmoothHeight = Partial<{
+   };
+export type DnaSettingsSmoothHeight = {
    container:    Element,
    overflow:     boolean,
    duration:     number,  //milliseconds
-   }>;
+   };
 
 // Types: Data, Templates, and Callbacks
 export type DnaModel =          JsonData;
@@ -437,11 +437,11 @@ const dnaDom = {
       //    titleElem.addEventListener('click', addBorder);
       return <HTMLElement>(dna.dom.isElem(elemOrEvent) ? elemOrEvent : (<Event>elemOrEvent).target);
       },
-   on(type: string, listener: DnaEventListener, options?: DnaOptionsEventsOn) {
+   on(type: string, listener: DnaEventListener, options?: Partial<DnaSettingsEventsOn>) {
       // Resources:
       //    type ->      https://developer.mozilla.org/en-US/docs/Web/Events
       //    keyFilter -> https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
-      const defaults: Required<DnaOptionsEventsOn> = { keyFilter: null, selector: null };
+      const defaults: DnaSettingsEventsOn = { keyFilter: null, selector: null };
       const settings =   { ...defaults, ...options };
       const noFilter =   !settings.keyFilter;
       const noSelector = !settings.selector;
@@ -691,10 +691,10 @@ const dnaUi = {
       // Smooth slide out plus fade out effect followed by removing the element.
       return dna.ui.slideFadeOut(elem).then(dna.core.remove);
       },
-   smoothHeight(updateUI: () => unknown, options?: DnaOptionsSmoothHeight): Promise<Element> {
+   smoothHeight(updateUI: () => unknown, options?: Partial<DnaSettingsSmoothHeight>): Promise<Element> {
       // Smoothly animates the height of a container element from a beginning height to a final
       // height.
-      const defaults: Required<DnaOptionsSmoothHeight> = {
+      const defaults: DnaSettingsSmoothHeight = {
          container: globalThis.document.body,
          overflow:  true,
          duration:  1000,
@@ -762,10 +762,10 @@ const dnaUi = {
       // Uses animation to smoothly slide an element down one slot amongst its siblings.
       return dna.ui.smoothMove(elem, false);
       },
-   pulse(elem: Element, options?: DnaOptionsPulse): Promise<Element> {
+   pulse(elem: Element, options?: Partial<DnaSettingsPulse>): Promise<Element> {
       // Slide fades in an element after hiding it to create a single smooth flash effect (intended
       // for temporary status messages, like "Saving...").
-      const defaults: Required<DnaOptionsPulse> = {
+      const defaults: DnaSettingsPulse = {
          duration:    7000,
          durationIn:  600,
          durationOut: 3000,
@@ -1481,11 +1481,11 @@ const dnaEvents = {
       context: <DnaContext>{},  //storage to register callbacks when dna-engine is module loaded without window scope (webpack)
       initializers: <DnaInitializer[]>[],  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
       },
-   runOnLoads(options?: DnaOptionsRunOnLoads): NodeListOf<Element> {
+   runOnLoads(options?: Partial<DnaSettingsRunOnLoads>): NodeListOf<Element> {
       // Executes each of the data-on-load functions once the function and its dependencies have loaded.
       // Example:
       //    <p data-on-load=app.cart.setup data-wait-for=Chart,R,fetchJson>
-      const defaults: Required<DnaOptionsRunOnLoads> = { pollInterval: 300 };
+      const defaults: DnaSettingsRunOnLoads = { pollInterval: 300 };
       const settings = { ...defaults, ...options };
       const elems =    globalThis.document.querySelectorAll(`[data-on-load]:not(.${dna.name.onLoad})`);
       elems.forEach(elem => elem.classList.add(dna.name.onLoad))
@@ -1623,7 +1623,7 @@ const dnaEvents = {
    };
 
 const dnaCore = {
-   inject<T>(clone: Element, data: T, index: number, settings: DnaOptionsClone<T>): Element {
+   inject<T>(clone: Element, data: T, index: number, options: Partial<DnaSettingsClone<T>>): Element {
       // Inserts data into a clone and executes its rules.
       const injectField = (elem: Element, field: string, rules: DnaRules) => {  //example: <h2>~~title~~</h2>
          const value = field === '[value]' ? data :
@@ -1633,10 +1633,10 @@ const dnaCore = {
          const formatted = () => rules.formatter ?
             rules.formatter(<DnaFormatterValue>value, data) : String(value);
          const injectable = ['string', 'number', 'boolean'].includes(typeof value);
-         if (injectable && settings.html)
+         if (injectable && options.html)
             elem.innerHTML = formatted();
          else if (injectable)
-            elem.textContent = formatted();  //consider switching to .innerText when supported by jsdom
+            elem.textContent = formatted();
          };
       const injectValue = (elem: Element, field: string) => {
          const value = field === '[value]' ? data :
@@ -1700,11 +1700,11 @@ const dnaCore = {
          const subClones = dna.dom.filterByClass(elem.children, loop.name);
          const injectSubClone = (subElem: Element, index: number) => {
             if (!subElem.matches('option'))  //prevent select from closing on chrome
-               dna.core.inject(subElem, dataArray[index]!, index, settings);
+               dna.core.inject(subElem, dataArray[index]!, index, options);
             };
          const rebuildSubClones = () => {
             subClones.forEach(subClone => subClone.remove());
-            dna.clone(loop.name, dataArray, { container: elem, html: !!settings.html });
+            dna.clone(loop.name, dataArray, { container: elem, html: !!options.html });
             };
          if (!dataArray)
             (data[<keyof typeof data>loop.field]) = <T[keyof T]><unknown>[];
@@ -1740,8 +1740,8 @@ const dnaCore = {
          if (rules.callback)  //example: <span data-callback=blink>~~title~~<span>
             dna.util.apply(rules.callback, [elem]);
          };
-      if (settings.transform)  //alternate version of data-transform
-         settings.transform(data);
+      if (options.transform)  //alternate version of data-transform
+         options.transform(data);
       const notSubClone = (elem: Element) => !elem.classList.contains(dna.name.subClone);
       const dig = (elem: Element) => {
          if (elem.classList.contains(dna.name.nucleotide))
@@ -1753,9 +1753,8 @@ const dnaCore = {
       dna.dom.state(clone).dnaIndex = index;
       return clone;
       },
-   replicate<T>(template: DnaTemplate, data: T, options: DnaOptionsClone<T>): Element {
+   replicate<T>(template: DnaTemplate, data: T, settings: DnaSettingsClone<T>): Element {
       // Creates and sets up a clone.
-      const settings = options;
       const subclass = () => 'dna-contains-' + template.name;
       const getContainer = (name: string) => settings.container!.classList.contains(name) ?
          settings.container! : settings.container!.getElementsByClassName(name).item(0)!;
@@ -1897,10 +1896,10 @@ const dna = {
    //    dna.registerContext()
    //    dna.info()
    // See: https://dna-engine.org/docs/#api
-   clone<M extends T | T[], T>(name: string, data: M, options?: DnaOptionsClone<T>) {
+   clone<M extends T | T[], T>(name: string, data: M, options?: Partial<DnaSettingsClone<T>>) {
       // Generates a copy of the template and populates the fields, attributes, and
       // classes from the supplied data.
-      const defaults: Required<DnaOptionsClone<T>> = {
+      const defaults: DnaSettingsClone<T> = {
          callback:  null,
          clones:    1,
          container: null,
@@ -1940,7 +1939,7 @@ const dna = {
       const result = Array.isArray(data) || makeCopies ? many() : single();
       return <M extends T[] ? HTMLElement[] : HTMLElement>result;
       },
-   arrayPush<T>(holderClone: Element, arrayField: string, data: T | T[], options?: DnaOptionsArrayPush): Element {
+   arrayPush<T>(holderClone: Element, arrayField: string, data: T | T[], options?: Partial<DnaSettingsArrayPush>): Element {
       // Clones a sub-template to append onto an array loop.
       const cloneSub = (field: string, index: number) => {
          const clone = () => {
@@ -1969,17 +1968,17 @@ const dna = {
       return !!dna.template.db[name] ||
          globalThis.document.querySelector('.dna-template#' + name) !== null;
       },
-   getModel<T>(elem: Element, options?: DnaOptionsGetModel): T | undefined {
+   getModel<T>(elem: Element, options?: Partial<DnaSettingsGetModel>): T | undefined {
       // Returns the underlying data of the clone.
       return <T>dna.dom.state(dna.getClone(elem, options)).dnaModel;
       },
-   getModels<T>(template: string, options?: DnaOptionsGetModel): T[] {
+   getModels<T>(template: string, options?: Partial<DnaSettingsGetModel>): T[] {
       // Returns the underlying data of the clones for a given template.
       return dna.getClones(template).map(elem => dna.getModel(elem, options)!);
       },
-   empty(name: string, options?: DnaOptionsEmpty): Element[] {
+   empty(name: string, options?: Partial<DnaSettingsEmpty>): Element[] {
       // Deletes all clones generated from the template.
-      const defaults: Required<DnaOptionsEmpty> = { fade: false };
+      const defaults: DnaSettingsEmpty = { fade: false };
       const settings =  { ...defaults, ...options };
       const template =  dna.template.get(name);
       const clones =    dna.dom.filterByClass(template.container.children, dna.name.clone);
@@ -1992,22 +1991,22 @@ const dna = {
          clones.forEach(clone => dna.core.remove(clone));
       return clones;
       },
-   insert<T>(name: string, data: T, options?: DnaOptionsClone<T>): Element {
+   insert<T>(name: string, data: T, options?: Partial<DnaSettingsClone<T>>): Element {
       // Updates the first clone if it already exists otherwise creates the first clone.
       const clones = dna.getClones(name);
       return clones.length ? dna.refresh(clones.at(0)!, { data: data, html: !!options?.html }) :
          <Element>dna.clone(name, data, options);
       },
-   refresh(clone: Element, options?: DnaOptionsRefresh): Element {
+   refresh(clone: Element, options?: Partial<DnaSettingsRefresh>): Element {
       // Updates an existing clone to reflect changes to the data model.
-      const defaults: Required<DnaOptionsRefresh> = { data: null, html: false, main: false };
+      const defaults: DnaSettingsRefresh = { data: null, html: false, main: false };
       const settings = { ...defaults, ...options };
       const elem =     dna.getClone(clone, options);
       const model =    settings.data ? settings.data : dna.getModel(elem);
       const index =    <number>dna.dom.state(elem).dnaIndex;
       return dna.core.inject(elem, model, index, settings);
       },
-   refreshAll(name: string, options?: DnaOptionsRefreshAll): Element[] {
+   refreshAll(name: string, options?: Partial<DnaSettingsRefreshAll>): Element[] {
       // Updates all the clones of the specified template.
       const clones = dna.getClones(name);
       clones.forEach(clone => dna.refresh(clone, options));
@@ -2029,7 +2028,7 @@ const dna = {
          update();
       return inputElem;
       },
-   recount(elem: Element, options?: DnaOptionsRecount): Element {
+   recount(elem: Element, options?: Partial<DnaSettingsRecount>): Element {
       // Renumbers the counters starting from 1 for the clone and its siblings based on DOM order.
       const clone = dna.getClone(elem);
       const name =  dna.compile.getRules(clone).template!;
@@ -2045,9 +2044,9 @@ const dna = {
       (<DnaCountsMap>containerState.dnaCountsMap)[name] = clones.length;
       return clone;
       },
-   destroy(elem: Element, options?: DnaOptionsDestroy): Promise<Element> {
+   destroy(elem: Element, options?: Partial<DnaSettingsDestroy>): Promise<Element> {
       // Removes an existing clone from the DOM.
-      const defaults: Required<DnaOptionsDestroy> = { main: false, fade: false };
+      const defaults: DnaSettingsDestroy = { main: false, fade: false };
       const settings =   { ...defaults, ...options };
       const clone =      dna.getClone(elem, options);
       const arrayField = dna.core.getArrayName(clone);
@@ -2061,9 +2060,9 @@ const dna = {
       // Returns true if the element is a clone or is inside a clone.
       return !!elem.closest('.dna-clone');
       },
-   getClone(elem: Element, options?: DnaOptionsGetClone): Element {
+   getClone(elem: Element, options?: Partial<DnaSettingsGetClone>): Element {
       // Returns the clone (or sub-clone) for the specified element.
-      const defaults: Required<DnaOptionsGetClone> = { main: false };
+      const defaults: DnaSettingsGetClone = { main: false };
       const settings = { ...defaults, ...options };
       dna.core.assert(dna.dom.isElem(elem), 'Invalid element', elem);
       const clone = elem.closest(settings.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone')!;
@@ -2074,7 +2073,7 @@ const dna = {
       // Returns an array of all the existing clones for the given template.
       return dna.dom.filterByClass(dna.template.get(name).container.children, dna.name.clone, name);
       },
-   getIndex(elem: Element, options?: DnaOptionsGetIndex): number {
+   getIndex(elem: Element, options?: Partial<DnaSettingsGetIndex>): number {
       // Returns the index of the clone.
       const clone =  dna.getClone(elem, options)!;
       const rules =  dna.compile.getRules(clone);
@@ -2095,9 +2094,9 @@ const dna = {
       // Performs a sliding fade out effect on the clone and then removes the element.
       return dna.destroy(dna.ui.toClone(elemOrEvent), { fade: true });
       },
-   registerInitializer(fn: DnaFunctionName | DnaInitializerFn, options?: DnaOptionsRegisterInitializer): DnaInitializer[] {
+   registerInitializer(fn: DnaFunctionName | DnaInitializerFn, options?: Partial<DnaSettingsRegisterInitializer>): DnaInitializer[] {
       // Adds a callback function to the list of initializers that are run on all DOM elements.
-      const defaults: Required<DnaOptionsRegisterInitializer> = {
+      const defaults: DnaSettingsRegisterInitializer = {
          selector:   null,
          params:     [],
          onDomReady: true,
