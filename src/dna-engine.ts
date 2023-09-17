@@ -239,6 +239,7 @@ const dnaArray = {
       },
    wrap<T>(itemOrItems: T | T[]): T[] {
       // Always returns an array.
+      console.log('dna.array.wrap() is deprecated -- use native [itemOrItems].flat() instead.');
       const isNothing = itemOrItems === null || itemOrItems === undefined;
       return isNothing ? [] : Array.isArray(itemOrItems) ? itemOrItems : [itemOrItems];
       },
