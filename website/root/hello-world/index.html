@@ -20,29 +20,18 @@
          <figcaption>bookstore.html</figcaption>
          <pre><code class=language-html>
             &lt;!doctype html&gt;
-            &lt;!-- - - - - - --&gt;
-            &lt;!-- Bookstore --&gt;
-            &lt;!-- - - - - - --&gt;
             &lt;html&gt;
             &lt;head&gt;
                &lt;meta charset=utf-8&gt;
                &lt;title&gt;Bookstore&lt;/title&gt;
-               &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.css&gt;
+               &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|major-version}}/dist/dna-engine.css&gt;
                &lt;style&gt;
                   body     { font-family: system-ui, sans-serif; margin: 30px; }
                   .books   { width: 250px; }
                   .book    { background-color: gold; padding: 10px; margin-bottom: 15px; }
                   .book h2 { font-size: 1.1rem; margin: 0px; }
                &lt;/style&gt;
-               &lt;script defer src=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.min.js&gt;&lt;/script&gt;
-               &lt;script data-on-load=startup&gt;
-                  const books = [
-                     { title: 'The DOM',      author: 'Jan' },
-                     { title: 'Howdy HTML5',  author: 'Ed' },
-                     { title: 'Styling CSS3', author: 'Abby' }
-                     ];
-                  const startup = () => dna.clone('book', books);
-               &lt;/script&gt;
+               &lt;script src=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|major-version}}/dist/dna-engine.min.js&gt;&lt;/script&gt;
             &lt;/head&gt;
             &lt;body&gt;
 
@@ -56,6 +45,14 @@
                &lt;/section&gt;
             &lt;/main&gt;
 
+            &lt;script&gt;
+               const books = [
+                  { title: 'The DOM',      author: 'Jan' },
+                  { title: 'Howdy HTML5',  author: 'Ed' },
+                  { title: 'Styling CSS3', author: 'Abby' },
+                  ];
+               dna.clone('book', books);
+            &lt;/script&gt;
             &lt;/body&gt;
             &lt;/html&gt;
          </code></pre>

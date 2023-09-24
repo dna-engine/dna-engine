@@ -3291,8 +3291,6 @@
          <li><a href=#array-find><b>dna.array.find</b>(array, code)</a></li>
          <li><a href=#array-from-map><b>dna.array.fromMap</b>(map, key)</a></li>
          <li><a href=#array-to-map><b>dna.array.toMap</b>(array, key)</a></li>
-         <li><a href=#array-to-map><b>dna.array.wrap</b>(value)</a></li>
-         <li><a href=#browser-get-url-params><b>dna.browser.getUrlParams</b>()</a></li>
          <li>dna.pageToken<br>
             <a href=#page-token><b>dna.pageToken.get</b>(key, value)</a><br>
             <a href=#page-token><b>dna.pageToken.put</b>(key, defaultValue)</a><br>
@@ -3404,37 +3402,6 @@
             //    { a: { code: 'a', word: 'Ant' }, b: { code: 'b', word: 'Bat' } }
          </code></pre>
       </figure>
-   </section>
-
-   <!-- dna.array.wrap() -->
-   <section id=array-wrap>
-      <h4>dna.array.wrap(value)</h4>
-      <p class=api-description>
-         Always returns an array.
-      </p>
-      <div class=api-parameters>
-         Parameters:
-         <ul>
-            {% render 'website/templates/params/value.html' %}
-         </ul>
-      </div>
-      <figure>
-         <figcaption>Examples</figcaption>
-         <pre><code class=language-javascript>
-            dna.array.wrap('hello');       //['hello']
-            dna.array.wrap([3, null, 7]);  //[3, null, 7]
-            dna.array.wrap();              //[]
-            dna.array.wrap(null);          //[]
-         </code></pre>
-      </figure>
-   </section>
-
-   <!-- dna.browser.getUrlParams() -->
-   <section id=browser-get-url-params>
-      <h4>dna.browser.getUrlParams()</h4>
-      <p class=api-description>
-         Returns the query parameters as an object literal.
-      </p>
    </section>
 
    <!-- dna.pageToken.get() -->

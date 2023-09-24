@@ -116,9 +116,9 @@ export type DnaContext =      { [app: string]: { [field: string]: unknown } | Dn
 export type DnaFieldName =    string;
 export type DnaFunctionName = string;
 export type DnaClassName =    string;
-export type DnaClassRule =    [DnaFieldName, DnaClassName, DnaClassName];
+export type DnaClassRule =    [field: DnaFieldName, classTrue: DnaClassName, classFalse: DnaClassName];
 export type DnaAttrName =     string;
-export type DnaAttrParts =    [string, DnaFieldName | 0 | 1 | 2, string];
+export type DnaAttrParts =    [preText: string, field: DnaFieldName | 0 | 1 | 2, postText: string];
 export type DnaAttrs =        (DnaAttrName | DnaAttrParts)[];
 export type DnaPropName =     string;
 export type DnaProps =        (DnaPropName | DnaFieldName)[];
@@ -246,15 +246,12 @@ const dnaArray = {
    };
 
 const dnaBrowser = {
-   getUrlParams: (): { [param: string]: string } => {
+   getUrlParams(): { [param: string]: string } {
       // Returns the query parameters as an object literal.
       // Example:
       //    https://example.com?lang=jp&code=7 ==> { lang: 'jp', code: '7' }
-      const params: { [param: string]: string } = {};
-      const addParam = (parts: [string, string]) => params[parts[0]] = parts[1];
-      const addPair =  (pair: string) => pair && addParam(<[string, string]>pair.split('='));
-      globalThis.location.search.slice(1).split('&').forEach(addPair);
-      return params;
+      console.log('dna.browser.getUrlParams() is deprecated -- use native URLSearchParams instead.');
+      return Object.fromEntries(new URLSearchParams(globalThis.location.search));
       },
    userAgentData(): NavigatorUAData {
       const polyfill = (): NavigatorUAData => {
@@ -1808,7 +1805,7 @@ const dnaCore = {
             const display = (elem: HTMLElement, show: boolean) =>
                show ? elem.style.removeProperty('display') : elem.style.display = 'none';
             if (separator)
-               display(separator,     !isAlmostLast && !isLast);
+               display(separator, !isAlmostLast && !isLast);
             if (lastSeparator)
                display(lastSeparator, isAlmostLast);
             };

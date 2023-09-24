@@ -17,7 +17,10 @@
       },
       "./": "./dist/"
    },
-   "repository": "github:dna-engine/dna-engine",
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/dna-engine/dna-engine.git"
+   },
    "homepage": "https://dna-engine.org",
    "bugs": "https://github.com/dna-engine/dna-engine/issues",
    "docs": "https://dna-engine.org/docs",
@@ -145,7 +148,7 @@
       "chokidar-cli": "~3.0",
       "copy-file-util": "~1.1",
       "copy-folder-util": "~1.1",
-      "eslint": "~8.49",
+      "eslint": "~8.50",
       "esm-to-plain-js": "~1.1",
       "fetch-json": "~3.2",
       "highlight.js": "~11.8",
@@ -159,7 +162,7 @@
       "serve": "~14.2",
       "typescript": "~5.2",
       "uglify-js": "~3.17",
-      "w3c-html-validator": "~1.4",
+      "w3c-html-validator": "~1.5",
       "web-ignition": "~2.0"
    }
 }

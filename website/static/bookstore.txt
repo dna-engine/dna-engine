@@ -4,17 +4,17 @@ Video ~~ Transcript
 
 1) Welcome to the introduction to dna-engine.  dna-engine is an open source UI library for building semantic templates that convert JSON data into dynamically generated DOM elements.
 
-2) To illustrate how to use dna-engine we will convert a very simple static HTML page that displays the title and author of two books into a page with a data-driven semantic template that displays books stored in a JavaScript array.
+2) To illustrate how to use dna-engine we will take a very simple static HTML page that displays the title and author of two books and convert the web page to use a data-driven semantic template to display books stored in a JavaScript array.
 
-3) Before we get going, we need to load the dna-engine library.  Leveraging a CDN (Content Delivery Network), we can do this with 3 lines of HTML.  In the HEAD section, add a LINK tag to the CSS file for dna-engine.  Then just before the closing BODY tag, load the JavaScript file for dna-engine.
+3) Before we get going, we need to load the dna-engine library.  Leveraging a CDN (Content Delivery Network), we can this is two lines of code.  In the <head> section, add a <link> tag to get the CSS file for dna-engine.  Then add a <script> tag to load the JavaScript file for dna-engine.
 
 4) Now we can convert the static HTML into a template.  To build the template, we only need HTML for one book.  So, we can delete the other book.  Name the template with the ID attribute, and in this case the name of the template will be "book".  We designate the element as a template by adding the class "dna-template".
 
 5) Next, we inject data fields into the template by wrapping field names in double tildes (~~).  Our first field is for the book title.  This becomes "~~title~~".  We do the same thing for the "author" field, and our template is now complete.
 
-6) Let's add some JavaScript to define the book data and then send that data to the template engine.  Our example book object will have the "title" field set to "The DOM" and the "author" field set to "Jan".  The last step is to call "dna.clone" to make a copy of the "book" template and inject the data into the template.
+6) Let's add some JavaScript to define the book data and then send that data to the template engine.  Our example book object will have the "title" field set to "The DOM" and the "author" field set to "Jan".  The last step is to call "dna.clone()" to make a copy of the "book" template and inject the data into the template.
 
-7) When we reload the web page, we can see our book titled "The DOM" by the author "Jan".  Most likely we want to display a list of books.  All we need to do is rename the "book" variable to "books", and change its value from a single object to an array of objects.  Let's add two more books titled "Howdy HTML5" and "Styling CSS3".  The "clone" function automatically generates a list of clones when the data is an array of objects.
+7) When we reload the web page, we can see our book titled "The DOM" by the author "Jan".  Most likely we want to display a list of books.  All we need to do is rename the "book" variable to "books", and change its value from a single object to an array of objects.  Let's add two more books titled "Howdy HTML5" and "Styling CSS3".  The "clone()" function automatically generates a list of clones when the data is an array of objects.
 
 8) Back to the browser.  Refresh.  And, there's our three books: "The DOM", "Howdy HTML5", and "Styling CSS3"
 
