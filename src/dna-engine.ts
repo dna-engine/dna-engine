@@ -1857,6 +1857,8 @@ const dnaCore = {
             }
       },
    setup(): unknown {
+      if (!globalThis.dna)
+         globalThis.dna = dna;  //ensure run-time visibility of dna-engine used with module bundlers
       const setupBrowser = () => {
          dna.placeholder.setup();
          dna.panels.setup();
@@ -2131,8 +2133,6 @@ const dna = {
          globalThis.window = thisWindow;
       if (writable('document'))
          globalThis.document = thisWindow.document;
-      if (writable('dna'))
-         globalThis.dna = dna;
       return dna.core.setup();
       },
    info(): DnaInfo {
