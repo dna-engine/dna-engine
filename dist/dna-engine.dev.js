@@ -1,4 +1,4 @@
-//! dna-engine v3.0.8 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.0.9 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -54,17 +54,15 @@ const dnaArray = {
         return map;
     },
     wrap(itemOrItems) {
+        console.log('dna.array.wrap() is deprecated -- use native [itemOrItems].flat() instead.');
         const isNothing = itemOrItems === null || itemOrItems === undefined;
         return isNothing ? [] : Array.isArray(itemOrItems) ? itemOrItems : [itemOrItems];
     },
 };
 const dnaBrowser = {
-    getUrlParams: () => {
-        const params = {};
-        const addParam = (parts) => params[parts[0]] = parts[1];
-        const addPair = (pair) => pair && addParam(pair.split('='));
-        globalThis.location.search.slice(1).split('&').forEach(addPair);
-        return params;
+    getUrlParams() {
+        console.log('dna.browser.getUrlParams() is deprecated -- use native URLSearchParams instead.');
+        return Object.fromEntries(new URLSearchParams(globalThis.location.search));
     },
     userAgentData() {
         const polyfill = () => {
@@ -1215,7 +1213,7 @@ const dnaEvents = {
     },
 };
 const dnaCore = {
-    inject(clone, data, index, settings) {
+    inject(clone, data, index, options) {
         const injectField = (elem, field, rules) => {
             const value = field === '[value]' ? data :
                 field === '[index]' ? index :
@@ -1224,7 +1222,7 @@ const dnaCore = {
             const formatted = () => rules.formatter ?
                 rules.formatter(value, data) : String(value);
             const injectable = ['string', 'number', 'boolean'].includes(typeof value);
-            if (injectable && settings.html)
+            if (injectable && options.html)
                 elem.innerHTML = formatted();
             else if (injectable)
                 elem.textContent = formatted();
@@ -1289,11 +1287,11 @@ const dnaCore = {
             const subClones = dna.dom.filterByClass(elem.children, loop.name);
             const injectSubClone = (subElem, index) => {
                 if (!subElem.matches('option'))
-                    dna.core.inject(subElem, dataArray[index], index, settings);
+                    dna.core.inject(subElem, dataArray[index], index, options);
             };
             const rebuildSubClones = () => {
                 subClones.forEach(subClone => subClone.remove());
-                dna.clone(loop.name, dataArray, { container: elem, html: !!settings.html });
+                dna.clone(loop.name, dataArray, { container: elem, html: !!options.html });
             };
             if (!dataArray)
                 (data[loop.field]) = [];
@@ -1329,8 +1327,8 @@ const dnaCore = {
             if (rules.callback)
                 dna.util.apply(rules.callback, [elem]);
         };
-        if (settings.transform)
-            settings.transform(data);
+        if (options.transform)
+            options.transform(data);
         const notSubClone = (elem) => !elem.classList.contains(dna.name.subClone);
         const dig = (elem) => {
             if (elem.classList.contains(dna.name.nucleotide))
@@ -1342,8 +1340,7 @@ const dnaCore = {
         dna.dom.state(clone).dnaIndex = index;
         return clone;
     },
-    replicate(template, data, options) {
-        const settings = options;
+    replicate(template, data, settings) {
         const subclass = () => 'dna-contains-' + template.name;
         const getContainer = (name) => settings.container.classList.contains(name) ?
             settings.container : settings.container.getElementsByClassName(name).item(0);
@@ -1439,6 +1436,8 @@ const dnaCore = {
             }
     },
     setup() {
+        if (!globalThis.dna)
+            globalThis.dna = dna;
         const setupBrowser = () => {
             dna.placeholder.setup();
             dna.panels.setup();
@@ -1450,7 +1449,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.0.8',
+    version: '3.0.9',
     clone(name, data, options) {
         const defaults = {
             callback: null,
@@ -1661,8 +1660,6 @@ const dna = {
             globalThis.window = thisWindow;
         if (writable('document'))
             globalThis.document = thisWindow.document;
-        if (writable('dna'))
-            globalThis.dna = dna;
         return dna.core.setup();
     },
     info() {
