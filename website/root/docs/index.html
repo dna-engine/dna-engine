@@ -177,7 +177,8 @@
             Data fields identify where in the template data is to be injected during the cloning
             process.&nbsp; The name of the data field (object property) is surrounded by a pair of
             double tildes (example: <code>~~author~~</code>).&nbsp;
-            Mustache notation with curly braces (<code>{% raw %}{{</code> and <code>}}{% endraw %}</code>) is also supported.
+            Mustache notation with curly braces (<code>{% raw %}{{'{{'}}</code> and
+            <code>}}{% endraw %}</code>) is also supported.
          </dd>
       </dl>
       <dl>
@@ -283,12 +284,17 @@
 
             // Application
             const myApp = {
-               doSomething() { ... },
+               doSomething() {
+                  // Business logic goes here
+                  },
+               setup() {
+                  // Initiation code goes here
+                  },
                };
 
             // Initialization
-            const dna = globalThis.dna.initGlobal(window);
-            dna.registerContext('myApp', myApp);
+            dna.registerContext('myApp', myApp);  //make application visible to dna-engine
+            dna.dom.onReady(myApp.setup);  //call function myApp.setup() once DOM is ready
          </code></pre>
       </figure>
       <p class=external-site>
