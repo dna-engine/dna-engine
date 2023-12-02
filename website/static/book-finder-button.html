@@ -17,10 +17,10 @@
    <script>
       const url = 'https://www.googleapis.com/books/v1/volumes';
       const findBooks = (elem) => {
+         const terms = document.getElementsByTagName('input')[0].value;
          const handleResults =
             (data) => dna.clone('book', data.items, { empty: true, fade: true });
-         fetchJson.get(url, { q: elem.value }).then(handleResults);
-         console.log(terms);  //verify user input
+         fetchJson.get(url, { q: terms }).then(handleResults);
          };
    </script>
 </head>
@@ -30,8 +30,9 @@
    <h1>Book Finder</h1>
    <label>
       Search:
-      <input data-on-smart-update=findBooks placeholder="Enter terms" autofocus>
+      <input placeholder="Enter terms" autofocus>
    </label>
+   <button data-on-click=findBooks>Find</button>
    <img src=https://books.google.com/googlebooks/images/poweredby.png alt=google>
    <section class=books>
       <div id=book class=dna-template>

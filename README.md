@@ -51,7 +51,7 @@ Need to clone the template multiple times?&nbsp;  Simply pass an array of data o
 ## B) Additional Information
 * [https://dna-engine.org](https://dna-engine.org/) (see the *"Try it out"* section for an interactive example)
 * [Sample To-Do Application](https://jsfiddle.net/3qbkjguy/1) (jsfiddle)
-* [Introduction to dna-engine](https://youtu.be/Mi5VPvvxfDA) (YouTube)
+* [Introduction to dna-engine](https://youtu.be/1CrYAFZPdAg) (YouTube)
 * [Documentation](https://dna-engine.org/docs)
 * [Release Notes](https://github.com/dna-engine/dna-engine/wiki/Release-Notes)
 
