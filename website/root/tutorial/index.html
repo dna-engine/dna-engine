@@ -15,8 +15,8 @@
       <p style="overflow: scroll;">
          View a sample of the JSON results you will be using:
          <span class=block-indent>
-            <a href="https://www.googleapis.com/books/v1/volumes?q=ice" class=external-site>
-               https://www.googleapis.com/books/v1/volumes?q=ice
+            <a href="https://www.googleapis.com/books/v1/volumes?q=spacex" class=external-site>
+               https://www.googleapis.com/books/v1/volumes?q=spacex
             </a>
          </span>
       </p>
@@ -55,8 +55,8 @@
             &lt;!doctype html&gt;
             &lt;html&gt;
             &lt;head&gt;
-            &lt;meta charset=utf-8&gt;
-            &lt;title&gt;Book Finder&lt;/title&gt;
+               &lt;meta charset=utf-8&gt;
+               &lt;title&gt;Book Finder&lt;/title&gt;
             &lt;/head&gt;
             &lt;body&gt;
 
@@ -137,11 +137,9 @@
          <figcaption>Example HTML</figcaption>
          <pre><code class=language-html>
             &lt;style&gt;
-               body      { font-family: system-ui; margin: 30px; }
+               body      { font-family: system-ui, sans-serif; margin: 30px; }
                input     { font-size: 1.2rem; background-color: aliceblue; }
-               .book     { display: flex; align-items: flex-start;
-                           max-width: 400px; background-color: skyblue;
-                           padding: 10px; margin: 10px 0px; }
+               .book     { display: flex; align-items: flex-start; max-width: 400px; background-color: skyblue; padding: 10px; margin: 10px 0px; }
                .book img { width: 100px; margin-right: 10px; }
                .book h2  { margin: 0px; }
             &lt;/style&gt;
@@ -160,7 +158,7 @@
       <p>
          Before we convert the static book HTML into a data-driven template, we need to know the
          structure of the data.&nbsp; Do this by manually examining the results of a
-         <a href="https://www.googleapis.com/books/v1/volumes?q=ice"
+         <a href="https://www.googleapis.com/books/v1/volumes?q=spacex"
             class=external-site>sample search</a>.
       </p>
       <p>
@@ -170,25 +168,25 @@
          <figcaption>Sample Google Books API response</figcaption>
          <pre><code class=language-json>
             {
-               "totalItems": 1026,
+               "totalItems": 1306,
                "items": [
                   {
-                     "id": "YfimjGQIo7gC",
+                     "id": "5VVDAAAAQBAJ",
                      "volumeInfo": {
-                        "title": "The Book of Ice",
-                        "publisher": "Subliminal Kid Inc",
+                        "title": "SpaceX",
+                        "publisher": "Springer Science & Business Media",
                         "imageLinks": {
-                           "thumbnail": "https://books.google.com/books/..."
-                        }
+                           "thumbnail": "https://books.google.com/books/...",
+                        },
                      },
                      "saleInfo": {
                         "listPrice": {
-                           "amount": 9.99
-                        }
-                     }
-                  }
-               ]
-            }
+                           "amount": 44.99,
+                        },
+                     },
+                  },
+               ],
+            },
          </code></pre>
       </figure>
       <p>
@@ -197,9 +195,9 @@
       </p>
       The desired fields from each book are:
       <ul>
-         <li><code>volumeInfo.imageLinks.thumbnail</code> (cover)</li>
          <li><code>volumeInfo.title</code> (title)</li>
          <li><code>volumeInfo.publisher</code> (publisher)</li>
+         <li><code>volumeInfo.imageLinks.thumbnail</code> (cover)</li>
          <li><code>saleInfo.listPrice.amount</code> (price)</li>
       </ul>
       <p>
@@ -246,20 +244,12 @@
             class=external-site>CDN</a>.
       </p>
       <p>
-         First, add the following line into the <code>&lt;head&gt;</code> section:
+         Add the following line into the <code>&lt;head&gt;</code> section:
       </p>
       <figure>
-         <figcaption>CSS link in <code>head</code> section</figcaption>
+         <figcaption>CSS and JS links in <code>head</code> section</figcaption>
          <pre><code class=language-html>
             &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.css&gt;
-         </code></pre>
-      </figure>
-      <p>
-         Then, add the following three lines just before the closing <code>&lt;/body&gt;</code> tag:
-      </p>
-      <figure>
-         <figcaption>JS link at bottom of the <code>body</code> section</figcaption>
-         <pre><code class=language-html>
             &lt;script src=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.min.js&gt;&lt;/script&gt;
             &lt;script src=https://cdn.jsdelivr.net/npm/fetch-json@{{pkg.devDependencies.fetch-json|version}}/dist/fetch-json.min.js&gt;&lt;/script&gt;
          </code></pre>
@@ -278,18 +268,19 @@
    <section id=step7>
       <h3>Step 7: Wire up search callback</h3>
       <p>
-         Start by writing the shell of a JavaScript function called <code>findBooks()</code>.
+         Start by declaring the <code>url</code> variable and
+         writing the shell of a function called <code>findBooks()</code>.
       </p>
       <p>
-         Put the function just before the closing <code>&lt;/body&gt;</code> tag:
+         Put the function just before the closing <code>&lt;/head&gt;</code> tag:
       </p>
       <figure>
          <figcaption>Callback event for button</figcaption>
          <pre><code class=language-html>
             &lt;script&gt;
+               const url = 'https://www.googleapis.com/books/v1/volumes';
                const findBooks = (elem) =&gt; {
                   const terms = globalThis.document.querySelector('input').value;
-                  console.log(terms);  //verify user input
                   };
             &lt;/script&gt;
          </code></pre>
@@ -324,7 +315,6 @@
       <figure>
          <figcaption>REST</figcaption>
          <pre><code class=language-javascript>
-            const url = 'https://www.googleapis.com/books/v1/volumes';
             const handleResults = (data) =&gt;
                dna.clone('book', data.items, { empty: true, fade: true });
             fetchJson.get(url, { q: terms }).then(handleResults);
@@ -333,7 +323,7 @@
       The code:
       <ol>
          <li>Builds the REST URL</li>
-         <li>Invokes <a href=https://github.com/center-key/fetch-json#http-get
+         <li>Invokes <a href=https://github.com/center-key/fetch-json#1-http-get
             class=external-site>fetchJson.get()</a> function to call the Google Books API</li>
          <li>Passes the search results data to the templating engine:
             <a href=docs/#api-clone>dna.clone()</a></li>
@@ -370,14 +360,14 @@
       <p>
          dna-engine passes the event target element into the callback.&nbsp;
          The callback event now happens on the <code>&lt;input&gt;</code> element, so we can
-         replace the old
+         delete the old
          <code>const terms = globalThis.document.querySelector('input').value;</code>
-         line with a more robust line of code:
+         line and replace <code>terms</code> with <code>elem.value</code>.
       </p>
       <figure>
          <figcaption>Smart update</figcaption>
          <pre><code class=language-javascript>
-            const terms = elem.value;
+            { q: elem.value }
          </code></pre>
       </figure>
       <p>
@@ -395,7 +385,7 @@
       <p>
          Finished version:
          <span class=block-indent>
-            <button data-href=../book-finder.html class=external-site>book-finder.html</button>
+            <button data-href=../tutorial-files/book-finder.html class=external-site>book-finder.html</button>
          </span>
       </p>
       <h4>Code</h4>
@@ -405,18 +395,26 @@
             &lt;!doctype html&gt;
             &lt;html&gt;
             &lt;head&gt;
-            &lt;meta charset=utf-8&gt;
-            &lt;title&gt;Book Finder&lt;/title&gt;
-            &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.css&gt;
-            &lt;style&gt;
-               body      { font-family: system-ui; margin: 30px; }
-               input     { font-size: 1.2rem; background-color: aliceblue; }
-               .book     { display: flex; align-items: flex-start;
-                           max-width: 400px; background-color: skyblue;
-                           padding: 10px; margin: 10px 0px; }
-               .book img { width: 100px; margin-right: 10px; }
-               .book h2  { margin: 0px; }
-            &lt;/style&gt;
+               &lt;meta charset=utf-8&gt;
+               &lt;title&gt;Book Finder&lt;/title&gt;
+               &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.css&gt;
+               &lt;script src=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.min.js&gt;&lt;/script&gt;
+               &lt;script src=https://cdn.jsdelivr.net/npm/fetch-json@{{pkg.devDependencies.fetch-json|version}}/dist/fetch-json.min.js&gt;&lt;/script&gt;
+               &lt;style&gt;
+                  body      { font-family: system-ui; margin: 30px; }
+                  input     { font-size: 1.2rem; background-color: aliceblue; }
+                  .book     { display: flex; align-items: flex-start; max-width: 400px; background-color: skyblue; padding: 10px; margin: 10px 0px; }
+                  .book img { width: 100px; margin-right: 10px; }
+                  .book h2  { margin: 0px; }
+               &lt;/style&gt;
+               &lt;script&gt;
+                  const url = 'https://www.googleapis.com/books/v1/volumes';
+                  const findBooks = (elem) =&gt; {
+                     const handleResults = (data) =&gt;
+                        dna.clone('book', data.items, { empty: true, fade: true });
+                     fetchJson.get(url, { q: elem.value }).then(handleResults);
+                     };
+               &lt;/script&gt;
             &lt;/head&gt;
             &lt;body&gt;
 
@@ -438,18 +436,6 @@
                &lt;/section&gt;
             &lt;/main&gt;
 
-            &lt;script src=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.min.js&gt;&lt;/script&gt;
-            &lt;script src=https://cdn.jsdelivr.net/npm/fetch-json@{{pkg.devDependencies.fetch-json|version}}/dist/fetch-json.min.js&gt;&lt;/script&gt;
-            &lt;script&gt;
-               const findBooks = (elem) =&gt; {
-                  const terms = elem.value;
-                  const url = 'https://www.googleapis.com/books/v1/volumes';
-                  const handleResults = (data) =&gt;
-                     dna.clone('book', data.items, { empty: true, fade: true });
-                  fetchJson.get(url, { q: terms }).then(handleResults);
-                  console.log(terms);  //verify user input
-                  };
-            &lt;/script&gt;
             &lt;/body&gt;
             &lt;/html&gt;
          </code></pre>

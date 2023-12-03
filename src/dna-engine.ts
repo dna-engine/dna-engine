@@ -72,9 +72,9 @@ export type DnaSettingsEventsOn = {
    selector:     string | null,
    };
 export type DnaSettingsPulse = {
-   duration:     number,   //milliseconds
-   durationIn:   number,   //milliseconds
-   durationOut:  number,   //milliseconds
+   duration:     number,   //milliseconds displayed
+   durationIn:   number,   //milliseconds fade in
+   durationOut:  number,   //milliseconds fade out
    noFadeOut:    boolean,  //if true, ignore durationOut
    text:         string | null,
    };

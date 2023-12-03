@@ -15,10 +15,6 @@
          dna-engine <b>v<span class=version-number></span></b>
          is powering the interactive examples on this page.
       </p>
-      <blockquote style="font-size: 1.2rem; text-align: center; color: white; background-color: black; padding: 30px 20px;">
-         For information about versions of <b>dna-engine</b> <i>before</i> v3:<br>
-         <a href=https://web.archive.org/web/20230321082625/https://dna-engine.org/docs class=external-site>Archive documentation v2</a>
-      </blockquote>
       <aside>
          <figure class=video-container-link>
             <iframe src=https://www.youtube.com/embed/{{pkg.websiteInfo.youTube.intro}} allow=fullscreen></iframe>
@@ -2071,8 +2067,8 @@
       </p>
       <p>
          Experiment with click events:
-         <button data-href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.dataClick}} class=external-site>
-            jsfiddle.net/{{pkg.websiteInfo.jsFiddle.dataClick}}
+         <button data-href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.clickEvents}} class=external-site>
+            jsfiddle.net/{{pkg.websiteInfo.jsFiddle.clickEvents}}
          </button>
       </p>
       <p>
@@ -2162,7 +2158,7 @@
       <figure>
          <figcaption>Example</figcaption>
          <pre><code class=language-html>
-            &lt;button data-href=../book-finder.html&gt;Book Finder&lt;/button&gt;
+            &lt;button data-href=../tutorial-files/book-finder.html&gt;Book Finder&lt;/button&gt;
          </code></pre>
       </figure>
       <!-- Start: Result -->
@@ -2170,7 +2166,7 @@
       <figure class=hljs-enhance>
          <figcaption>Result (interactive)</figcaption>
          <div>
-            <button data-href=../book-finder.html class=external-site>Book Finder</button>
+            <button data-href=../tutorial-files/book-finder.html class=external-site>Book Finder</button>
          </div>
       </figure>
       <!-- End: Result -->
@@ -3345,7 +3341,7 @@
          <pre><code class=language-javascript>
             const things = [
                { code: 'a', word: 'Ant' },
-               { code: 'b', word: 'Bat' }
+               { code: 'b', word: 'Bat' },
                ];
             const x = dna.array.find(things, 'b');  //{ index: 1, item: { code: 'b', word: 'Bat' } }
             const y = dna.array.find(things, 'b').index;  //1
@@ -3373,7 +3369,7 @@
          <pre><code class=language-javascript>
             const map = {
                a: { word: 'Ant' },
-               b: { word: 'Bat' }
+               b: { word: 'Bat' },
                };
             const array = dna.array.fromMap(map);
             // New array:
@@ -3401,7 +3397,7 @@
          <pre><code class=language-javascript>
             const words = [
                { code: 'a', word: 'Ant' },
-               { code: 'b', word: 'Bat' }
+               { code: 'b', word: 'Bat' },
                ];
             const wordMap = dna.array.toMap(words);
             // wordMap:
@@ -3938,7 +3934,7 @@
          <tbody class=external-site>
             <tr><td><code>Add a Book</code></td>      <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.addABook}}>      jsfiddle.net/{{pkg.websiteInfo.jsFiddle.addABook}}</a></td></tr>
             <tr><td><code>Book Finder</code></td>     <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.bookFinder}}>    jsfiddle.net/{{pkg.websiteInfo.jsFiddle.bookFinder}}</a></td></tr>
-            <tr><td><code>Click Events</code></td>    <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.dataClick}}>     jsfiddle.net/{{pkg.websiteInfo.jsFiddle.dataClick}}</a></td></tr>
+            <tr><td><code>Click Events</code></td>    <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.clickEvents}}>   jsfiddle.net/{{pkg.websiteInfo.jsFiddle.clickEvents}}</a></td></tr>
             <tr><td><code>Live Model</code></td>      <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}}>     jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}}</a></td></tr>
             <tr><td><code>Panels Click</code></td>    <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsClick}}>   jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsClick}}</a></td></tr>
             <tr><td><code>Panels Drop-down</code></td><td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsDropDown}}>jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsDropDown}}</a></td></tr>

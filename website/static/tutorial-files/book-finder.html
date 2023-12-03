@@ -20,7 +20,6 @@
          const handleResults =
             (data) => dna.clone('book', data.items, { empty: true, fade: true });
          fetchJson.get(url, { q: elem.value }).then(handleResults);
-         console.log(terms);  //verify user input
          };
    </script>
 </head>
