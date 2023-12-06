@@ -1,4 +1,4 @@
-dna-engine Tutorial to Build a REST-driven Search Component
+📘 dna-engine Tutorial to Build a REST-driven Search Component 📘
 An uncomplicated user interface library for cloning semantic templates
 
 1) Welcome to the dna-engine tutorial to build a REST-driven search component.  We will use dna-engine to power a simple book search tool that calls the Google Books API.

@@ -54,10 +54,12 @@
          <figcaption>HTML for <code>book</code> template</figcaption>
          <pre><code class=language-html>
             &lt;h1&gt;Featured Books&lt;/h1&gt;
-            &lt;div id=book class=dna-template&gt;
-               &lt;h2&gt;~~title~~&lt;/h2&gt;
-               Author: &lt;cite&gt;~~author~~&lt;/cite&gt;
-            &lt;/div&gt;
+            &lt;section class=books&gt;
+               &lt;div id=book class=dna-template&gt;
+                  &lt;h2&gt;~~title~~&lt;/h2&gt;
+                  Author: &lt;cite&gt;~~author~~&lt;/cite&gt;
+               &lt;/div&gt;
+            &lt;/section&gt;
          </code></pre>
       </figure>
       <p class=big-symbol><i class=icon data-icon=plus-circle></i></p>
@@ -72,10 +74,12 @@
          <figcaption>Resulting HTML with clone</figcaption>
          <pre><code class=language-html>
             &lt;h1&gt;Featured Books&lt;/h1&gt;
-            &lt;div class=book&gt;
-               &lt;h2&gt;The DOM&lt;/h2&gt;
-               Author: &lt;cite&gt;Jan&lt;/cite&gt;
-            &lt;/div&gt;
+            &lt;section class=books&gt;
+               &lt;div class=book&gt;
+                  &lt;h2&gt;The DOM&lt;/h2&gt;
+                  Author: &lt;cite&gt;Jan&lt;/cite&gt;
+               &lt;/div&gt;
+            &lt;/section&gt;
          </code></pre>
       </figure>
       <p>
@@ -92,7 +96,7 @@
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <section id=try>
-      <h3>Try It Out</h3>
+      <h3>📚 Try It Out</h3>
       <p>
          Click "Add a Book" to trigger an event that calls the
          <code>dna.clone()</code> function.&nbsp;
@@ -124,31 +128,11 @@
    </section>
 
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-   <section id=live-model>
-      <h3>Live Model</h3>
-      <aside>
-         <a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}} class=external-site>
-            <img src=graphics/icon-live-model.png alt=screenshot>
-         </a>
-      </aside>
-      <p>
-         dna-engine keeps track of the data model (the "M" in MVC) and updates the UI as the user
-         changes the model.<br>
-      </p>
-      <p>
-         Interact with the live model at:
-         <button data-href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}} class=external-site>
-            jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}}
-         </button>
-      </p>
-   </section>
-
-   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <section id=todo>
-      <h3>To-Do List Application</h3>
+      <h3>✅ To-Do List Application Example</h3>
       <aside>
          <a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.toDo}} class=external-site>
-            <img src=graphics/icon-todo-app.png alt=screenshot>
+            <img src=graphics/app-todo.png alt=screenshot>
          </a>
       </aside>
       <p>
@@ -165,6 +149,51 @@
          The core of the to-do list application is not even <b>10 lines of JavaScript</b>, yet the
          application includes add a task, complete a task with style change, delete a task, and
          smooth animation effects.
+      </p>
+   </section>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=book-finder>
+      <h3>📘 Book Finder Example</h3>
+      <aside>
+         <a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.bookFinder}} class=external-site>
+            <img src=graphics/app-book-finder.png alt=screenshot>
+         </a>
+      </aside>
+      <p>
+         dna-engine is designed work well in REST applicatons.&nbsp;
+         This simple example shows results from the Google Books API being fed into the
+         <code>dna.clone()</code> function.
+      </p>
+      <p>
+         Experiment with the Book Finder example at:
+         <button data-href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.bookFinder}} class=external-site>
+            jsfiddle.net/{{pkg.websiteInfo.jsFiddle.bookFinder}}
+         </button>
+      </p>
+      <p>
+         For a step-by-step explanation of the code, check out the
+         <a href=tutorial>Tutorial to Build a REST-driven Search Component</a>.
+      </p>
+   </section>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <section id=live-model>
+      <h3>☯️ Live Model Example</h3>
+      <aside>
+         <a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}} class=external-site>
+            <img src=graphics/app-live-model.png alt=screenshot>
+         </a>
+      </aside>
+      <p>
+         dna-engine keeps track of the data model (the "M" in MVC) and updates the UI as the user
+         changes the model.<br>
+      </p>
+      <p>
+         Interact with the live model at:
+         <button data-href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}} class=external-site>
+            jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}}
+         </button>
       </p>
    </section>
 
@@ -190,8 +219,7 @@
          <li><b>Stealth:</b>
             <a href=https://blog.centerkey.com/2013/02/lazy-setup-50x-javascript-performance.html
             class=external-site>Zero setup</a> until data is pushed (can be after page load).</li>
-         <li><b>Data:</b> Stay away from serialization/deserialization and working with HTML
-            strings.</li>
+         <li><b>Data:</b> Stay away from serialization/deserialization and HTML strings.</li>
          <li><b>Declarative:</b> Declaring callbacks using simple HTML attributes is more cohesive
             and semantically meaningful than programmatically binding with JavaScript code.</li>
       </ol>
@@ -206,11 +234,9 @@
          If you use a traditional server-side web framework, such as Grails, PHP, Rails, Django,
          or Flask, dna-engine can simplify your HTML templates and improve performance by moving
          processing to the client.&nbsp;
-         However, dna-engine is best within a
-         <a href=https://jamstack.org class=external-site>JAMstack</a>
-         web application, leveraging a modern architecture without a web server where "dynamic
-         programming during the request/response cycle is handled by JavaScript, running entirely
-         on the client".
+         However, dna-engine is best as a
+         <a href=https://jamstack.org class=external-site>Jamstack</a>
+         web application running entirely on the client.
       </p>
       <p>
          dna-engine is all about keeping it simple.

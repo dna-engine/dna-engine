@@ -1008,14 +1008,14 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
-                  {% render 'website/templates/options/fade.html' %}
-                  {% render 'website/templates/options/top.html' %}
-                  {% render 'website/templates/options/clones.html' %}
-                  {% render 'website/templates/options/html.html' %}
-                  {% render 'website/templates/options/empty.html' %}
-                  {% render 'website/templates/options/holder.html' %}
-                  {% render 'website/templates/options/transform.html' %}
-                  {% render 'website/templates/options/callback.html' %}
+                  {% render 'website/templates/options/fade.html',      default: false %}
+                  {% render 'website/templates/options/top.html',       default: false %}
+                  {% render 'website/templates/options/clones.html',    default: 1 %}
+                  {% render 'website/templates/options/html.html',      default: false %}
+                  {% render 'website/templates/options/empty.html',     default: false %}
+                  {% render 'website/templates/options/holder.html',    default: 'null' %}
+                  {% render 'website/templates/options/transform.html', default: 'null' %}
+                  {% render 'website/templates/options/callback.html',  default: 'null' %}
                </ul>
             </li>
          </ul>
@@ -1042,7 +1042,7 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
-                  {% render 'website/templates/options/main.html' %}
+                  {% render 'website/templates/options/main.html', default: false %}
                </ul>
             </li>
          </ul>
@@ -1099,7 +1099,7 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
-                  {% render 'website/templates/options/main.html' %}
+                  {% render 'website/templates/options/main.html', default: false %}
                </ul>
             </li>
          </ul>
@@ -1135,9 +1135,9 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
-                  {% render 'website/templates/options/data.html' %}
-                  {% render 'website/templates/options/main.html' %}
-                  {% render 'website/templates/options/html.html' %}
+                  {% render 'website/templates/options/data.html', default: 'null' %}
+                  {% render 'website/templates/options/main.html', default: false %}
+                  {% render 'website/templates/options/html.html', default: false %}
                </ul>
             </li>
          </ul>
@@ -1175,10 +1175,10 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
-                  {% render 'website/templates/options/fade.html' %}
-                  {% render 'website/templates/options/html.html' %}
-                  {% render 'website/templates/options/transform.html' %}
-                  {% render 'website/templates/options/callback.html' %}
+                  {% render 'website/templates/options/fade.html',      default: ???????? %}
+                  {% render 'website/templates/options/html.html',      default: false  %}
+                  {% render 'website/templates/options/transform.html', default: 'null' %}
+                  {% render 'website/templates/options/callback.html',  default: 'null' %}
                </ul>
             </li>
          </ul>
@@ -1228,8 +1228,8 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
-                  {% render 'website/templates/options/fade.html' %}
-                  {% render 'website/templates/options/top.html' %}
+                  {% render 'website/templates/options/fade.html', default: false %}
+                  {% render 'website/templates/options/top.html',  default: false %}
                </ul>
             </li>
          </ul>
@@ -1325,7 +1325,7 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
-                  {% render 'website/templates/options/fade.html' %}
+                  {% render 'website/templates/options/fade.html', default: false %}
                </ul>
             </li>
          </ul>
@@ -1355,9 +1355,9 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
-                  {% render 'website/templates/options/data.html' %}
-                  {% render 'website/templates/options/main.html' %}
-                  {% render 'website/templates/options/html.html' %}
+                  {% render 'website/templates/options/data.html', default: ????? %}
+                  {% render 'website/templates/options/main.html', default: false %}
+                  {% render 'website/templates/options/html.html', default: false %}
                </ul>
             </li>
          </ul>
@@ -1392,7 +1392,7 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
-                  {% render 'website/templates/options/html.html' %}
+                  {% render 'website/templates/options/html.html', default: false %}
                </ul>
             </li>
          </ul>
@@ -1425,9 +1425,9 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
-                  {% render 'website/templates/options/fade.html' %}
-                  {% render 'website/templates/options/main.html' %}
-                  {% render 'website/templates/options/callback.html' %}
+                  {% render 'website/templates/options/fade.html',     default: false %}
+                  {% render 'website/templates/options/main.html',     default: false %}
+                  {% render 'website/templates/options/callback.html', default: 'null' %}
                </ul>
             </li>
          </ul>
@@ -1479,7 +1479,7 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
-                  {% render 'website/templates/options/main.html' %}
+                  {% render 'website/templates/options/main.html', default: false %}
                </ul>
             </li>
          </ul>
@@ -1584,9 +1584,9 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
-                  {% render 'website/templates/options/selector.html' %}
-                  {% render 'website/templates/options/params.html' %}
-                  {% render 'website/templates/options/on-dom-ready.html' %}
+                  {% render 'website/templates/options/selector.html',     default: 'null' %}
+                  {% render 'website/templates/options/params.html',       default: undefined %}
+                  {% render 'website/templates/options/on-dom-ready.html', default: true %}
                </ul>
             </li>
          </ul>
@@ -3508,10 +3508,11 @@
             <li>
                <label><b>options</b> (Object) <i>[optional]</i>:</label>
                <ul>
-                  {% render 'website/templates/options/duration.html' %}
-                  {% render 'website/templates/options/interval.html' %}
-                  {% render 'website/templates/options/out.html' %}
-                  {% render 'website/templates/options/text-content.html' %}
+                  {% render 'website/templates/options/duration.html',     default: 7000 %}
+                  {% render 'website/templates/options/duration-in.html',  default:  600 %}
+                  {% render 'website/templates/options/duration-out.html', default: 3000 %}
+                  {% render 'website/templates/options/no-fade-out.html'   default: false %}
+                  {% render 'website/templates/options/text.html'          default: 'null' %}
                </ul>
             </li>
          </ul>
@@ -3574,6 +3575,14 @@
          Parameters:
          <ul>
             {% render 'website/templates/params/callback.html' %}
+            <li>
+               <label><b>options</b> (Object) <i>[optional]</i>:</label>
+               <ul>
+                  {% render 'website/templates/options/container.html', default: '&lt;body&gt;' %}
+                  {% render 'website/templates/options/overflow.html',  default: true %}
+                  {% render 'website/templates/options/duration.html',  default: 400 %}
+               </ul>
+            </li>
          </ul>
       </div>
       <div class=api-return-value>
@@ -3932,15 +3941,15 @@
             <tr><th>Example</th><th>Link</th></tr>
          </thead>
          <tbody class=external-site>
-            <tr><td><code>Add a Book</code></td>      <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.addABook}}>      jsfiddle.net/{{pkg.websiteInfo.jsFiddle.addABook}}</a></td></tr>
-            <tr><td><code>Book Finder</code></td>     <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.bookFinder}}>    jsfiddle.net/{{pkg.websiteInfo.jsFiddle.bookFinder}}</a></td></tr>
-            <tr><td><code>Click Events</code></td>    <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.clickEvents}}>   jsfiddle.net/{{pkg.websiteInfo.jsFiddle.clickEvents}}</a></td></tr>
-            <tr><td><code>Live Model</code></td>      <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}}>     jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}}</a></td></tr>
-            <tr><td><code>Panels Click</code></td>    <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsClick}}>   jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsClick}}</a></td></tr>
-            <tr><td><code>Panels Drop-down</code></td><td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsDropDown}}>jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsDropDown}}</a></td></tr>
-            <tr><td><code>Photo Upload</code></td>    <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.photoUpload}}>   jsfiddle.net/{{pkg.websiteInfo.jsFiddle.photoUpload}}</a></td></tr>
-            <tr><td><code>Smart Updates</code></td>   <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.smartUpdates}}>  jsfiddle.net/{{pkg.websiteInfo.jsFiddle.smartUpdates}}</a></td></tr>
-            <tr><td><code>To Do</code></td>           <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.toDo}}>          jsfiddle.net/{{pkg.websiteInfo.jsFiddle.toDo}}</a></td></tr>
+            <tr><td><code>📚 Add a Book</code></td>      <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.addABook}}>      jsfiddle.net/{{pkg.websiteInfo.jsFiddle.addABook}}</a></td></tr>
+            <tr><td><code>📘 Book Finder</code></td>     <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.bookFinder}}>    jsfiddle.net/{{pkg.websiteInfo.jsFiddle.bookFinder}}</a></td></tr>
+            <tr><td><code>🎟️ Click Events</code></td>    <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.clickEvents}}>   jsfiddle.net/{{pkg.websiteInfo.jsFiddle.clickEvents}}</a></td></tr>
+            <tr><td><code>☯️ Live Model</code></td>      <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}}>     jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}}</a></td></tr>
+            <tr><td><code>🗂️ Panels Click</code></td>    <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsClick}}>   jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsClick}}</a></td></tr>
+            <tr><td><code>🎛 Panels Drop-down</code></td><td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsDropDown}}>jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsDropDown}}</a></td></tr>
+            <tr><td><code>🌊 Photo Upload</code></td>    <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.photoUpload}}>   jsfiddle.net/{{pkg.websiteInfo.jsFiddle.photoUpload}}</a></td></tr>
+            <tr><td><code>⚡️ Smart Updates</code></td>   <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.smartUpdates}}>  jsfiddle.net/{{pkg.websiteInfo.jsFiddle.smartUpdates}}</a></td></tr>
+            <tr><td><code>✅ To Do</code></td>           <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.toDo}}>          jsfiddle.net/{{pkg.websiteInfo.jsFiddle.toDo}}</a></td></tr>
          </tbody>
       </table>
    </section>

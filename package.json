@@ -163,6 +163,6 @@
       "typescript": "~5.3",
       "uglify-js": "~3.17",
       "w3c-html-validator": "~1.6",
-      "web-ignition": "~2.0"
+      "web-ignition": "~2.1"
    }
 }
