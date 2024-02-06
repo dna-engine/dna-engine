@@ -9,8 +9,9 @@
 
 banner="dna-engine.org Website"
 projectHome=$(cd $(dirname $0)/..; pwd)
-apacheCfg=/usr/local/etc/httpd
-apacheLog=/usr/local/var/log/httpd/error_log
+pkgInstallHome=$(dirname $(dirname $(which httpd)))
+apacheCfg=$pkgInstallHome/etc/httpd
+apacheLog=$pkgInstallHome/var/log/httpd/error_log
 webDocRoot=$(grep ^DocumentRoot $apacheCfg/httpd.conf | awk -F'"' '{ print $2 }')
 cliFlagMsg="Use the '--no-server' flag to skip the interactive web server."
 cliFlag=$1
