@@ -1871,7 +1871,7 @@ const dnaCore = {
    };
 
 const dna = {
-   version: '{{pkg.version}}',
+   version: '{{package.version}}',
    // API:
    //    dna.clone()
    //    dna.arrayPush()

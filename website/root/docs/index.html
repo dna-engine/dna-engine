@@ -17,7 +17,7 @@
       </p>
       <aside>
          <figure class=video-container-link>
-            <iframe src=https://www.youtube.com/embed/{{pkg.websiteInfo.youTube.intro}} allow=fullscreen></iframe>
+            <iframe src=https://www.youtube.com/embed/{{package.websiteInfo.youTube.intro}} allow=fullscreen></iframe>
             <figcaption>Introduction to dna-engine</figcaption>
          </figure>
       </aside>
@@ -209,13 +209,13 @@
       <figure>
          <figcaption>Load CSS file</figcaption>
          <pre><code class=language-html>
-            &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.css&gt;
+            &lt;link rel=stylesheet href=https://cdn.jsdelivr.net/npm/dna-engine@{{package.version|minor-version}}/dist/dna-engine.css&gt;
          </code></pre>
       </figure>
       <figure>
          <figcaption>Load JavaScript libraries</figcaption>
          <pre><code class=language-html>
-            &lt;script src=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.min.js&gt;&lt;/script&gt;
+            &lt;script src=https://cdn.jsdelivr.net/npm/dna-engine@{{package.version|minor-version}}/dist/dna-engine.min.js&gt;&lt;/script&gt;
          </code></pre>
       </figure>
       <p>
@@ -242,7 +242,7 @@
          <pre><code class=language-json>
             ...
             "dependencies": {
-               "dna-engine": "~{{pkg.version|minor-version}}"
+               "dna-engine": "~{{package.version|minor-version}}"
             }
             ...
          </code></pre>
@@ -2067,15 +2067,15 @@
       </p>
       <p>
          Experiment with click events:
-         <button data-href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.clickEvents}} class=external-site>
-            jsfiddle.net/{{pkg.websiteInfo.jsFiddle.clickEvents}}
+         <button data-href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.clickEvents}} class=external-site>
+            jsfiddle.net/{{package.websiteInfo.jsFiddle.clickEvents}}
          </button>
       </p>
       <p>
          See how events can be used with <code>FileReader()</code> to make a reusable photo upload
          component:
-         <button data-href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.photoUpload}} class=external-site>
-            jsfiddle.net/{{pkg.websiteInfo.jsFiddle.photoUpload}}
+         <button data-href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.photoUpload}} class=external-site>
+            jsfiddle.net/{{package.websiteInfo.jsFiddle.photoUpload}}
          </button>
       </p>
    </section>
@@ -2130,8 +2130,8 @@
       <!-- End: Result -->
       <p>
          Experiment with smart update events:
-         <button data-href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.smartUpdates}} class=external-site>
-            jsfiddle.net/{{pkg.websiteInfo.jsFiddle.smartUpdates}}
+         <button data-href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.smartUpdates}} class=external-site>
+            jsfiddle.net/{{package.websiteInfo.jsFiddle.smartUpdates}}
          </button>
       </p>
       <p>
@@ -2832,8 +2832,8 @@
       <p>
          See how events can be used with <code>FileReader()</code> to make a reusable photo upload
          component:
-         <button data-href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.photoUpload}} class=external-site>
-            jsfiddle.net/{{pkg.websiteInfo.jsFiddle.photoUpload}}
+         <button data-href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.photoUpload}} class=external-site>
+            jsfiddle.net/{{package.websiteInfo.jsFiddle.photoUpload}}
          </button>
       </p>
    </section>
@@ -3001,14 +3001,14 @@
       <!-- End: Result -->
       <p>
          Experiment with button navigation panels:
-         <button data-href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsClick}} class=external-site>
-            jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsClick}}
+         <button data-href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.panelsClick}} class=external-site>
+            jsfiddle.net/{{package.websiteInfo.jsFiddle.panelsClick}}
          </button>
       </p>
       <p>
          Experiment with drop-down navigation panels:
-         <button data-href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsDropDown}} class=external-site>
-            jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsDropDown}}
+         <button data-href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.panelsDropDown}} class=external-site>
+            jsfiddle.net/{{package.websiteInfo.jsFiddle.panelsDropDown}}
          </button>
       </p>
    </section>
@@ -3941,15 +3941,15 @@
             <tr><th>Example</th><th>Link</th></tr>
          </thead>
          <tbody class=external-site>
-            <tr><td><code>📚 Add a Book</code></td>      <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.addABook}}>      jsfiddle.net/{{pkg.websiteInfo.jsFiddle.addABook}}</a></td></tr>
-            <tr><td><code>📘 Book Finder</code></td>     <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.bookFinder}}>    jsfiddle.net/{{pkg.websiteInfo.jsFiddle.bookFinder}}</a></td></tr>
-            <tr><td><code>🎟️ Click Events</code></td>    <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.clickEvents}}>   jsfiddle.net/{{pkg.websiteInfo.jsFiddle.clickEvents}}</a></td></tr>
-            <tr><td><code>☯️ Live Model</code></td>      <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}}>     jsfiddle.net/{{pkg.websiteInfo.jsFiddle.liveModel}}</a></td></tr>
-            <tr><td><code>🗂️ Panels Click</code></td>    <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsClick}}>   jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsClick}}</a></td></tr>
-            <tr><td><code>🎛 Panels Drop-down</code></td><td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsDropDown}}>jsfiddle.net/{{pkg.websiteInfo.jsFiddle.panelsDropDown}}</a></td></tr>
-            <tr><td><code>🌊 Photo Upload</code></td>    <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.photoUpload}}>   jsfiddle.net/{{pkg.websiteInfo.jsFiddle.photoUpload}}</a></td></tr>
-            <tr><td><code>⚡️ Smart Updates</code></td>   <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.smartUpdates}}>  jsfiddle.net/{{pkg.websiteInfo.jsFiddle.smartUpdates}}</a></td></tr>
-            <tr><td><code>✅ To Do</code></td>           <td><a href=https://jsfiddle.net/{{pkg.websiteInfo.jsFiddle.toDo}}>          jsfiddle.net/{{pkg.websiteInfo.jsFiddle.toDo}}</a></td></tr>
+            <tr><td><code>📚 Add a Book</code></td>      <td><a href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.addABook}}>      jsfiddle.net/{{package.websiteInfo.jsFiddle.addABook}}</a></td></tr>
+            <tr><td><code>📘 Book Finder</code></td>     <td><a href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.bookFinder}}>    jsfiddle.net/{{package.websiteInfo.jsFiddle.bookFinder}}</a></td></tr>
+            <tr><td><code>🎟️ Click Events</code></td>    <td><a href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.clickEvents}}>   jsfiddle.net/{{package.websiteInfo.jsFiddle.clickEvents}}</a></td></tr>
+            <tr><td><code>☯️ Live Model</code></td>      <td><a href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.liveModel}}>     jsfiddle.net/{{package.websiteInfo.jsFiddle.liveModel}}</a></td></tr>
+            <tr><td><code>🗂️ Panels Click</code></td>    <td><a href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.panelsClick}}>   jsfiddle.net/{{package.websiteInfo.jsFiddle.panelsClick}}</a></td></tr>
+            <tr><td><code>🎛 Panels Drop-down</code></td><td><a href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.panelsDropDown}}>jsfiddle.net/{{package.websiteInfo.jsFiddle.panelsDropDown}}</a></td></tr>
+            <tr><td><code>🌊 Photo Upload</code></td>    <td><a href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.photoUpload}}>   jsfiddle.net/{{package.websiteInfo.jsFiddle.photoUpload}}</a></td></tr>
+            <tr><td><code>⚡️ Smart Updates</code></td>   <td><a href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.smartUpdates}}>  jsfiddle.net/{{package.websiteInfo.jsFiddle.smartUpdates}}</a></td></tr>
+            <tr><td><code>✅ To Do</code></td>           <td><a href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.toDo}}>          jsfiddle.net/{{package.websiteInfo.jsFiddle.toDo}}</a></td></tr>
          </tbody>
       </table>
    </section>

@@ -12,7 +12,7 @@
    <title>dna-engine Logo</title>
    <link rel=icon             href=https://dna-engine.org/graphics/bookmark.png>
    <link rel=apple-touch-icon href=https://dna-engine.org/graphics/mobile-home-screen.png>
-   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.css>
+   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/dna-engine@{{package.version|minor-version}}/dist/dna-engine.css>
    <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/web-ignition@2.1/dist/reset.min.css>
    <style>
       @import url(https://fonts.googleapis.com/css?family=Comfortaa);
@@ -69,8 +69,8 @@
          display: block;
          }
    </style>
-   <script defer src=https://cdn.jsdelivr.net/npm/dna-engine@{{pkg.version|minor-version}}/dist/dna-engine.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@{{pkg.devDependencies.web-ignition|version}}/dist/lib-x.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/dna-engine@{{package.version|minor-version}}/dist/dna-engine.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@{{package.devDependencies.web-ignition|version}}/dist/lib-x.min.js></script>
    <script data-on-load=setup>
       const circles = [
          { x:  5, y: 50, color: 'forestgreen' },

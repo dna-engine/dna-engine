@@ -69,7 +69,7 @@
          setup() {
             const minifiedMode = globalThis.location.pathname.includes('visual.min');
             dna.dom.toggleClass(globalThis.document.body, 'minified-mode', minifiedMode);
-            const version = dna.version === '{{pkg.version}}' ? '[DEV]' : dna.version;
+            const version = dna.version === '{{package.version}}' ? '[DEV]' : dna.version;
             globalThis.document.querySelectorAll('.version-number').forEach(elem => elem.innerText = version);
             const runSpec = (sectionNode) => {
                console.log(sectionNode.id);
