@@ -133,6 +133,7 @@ export type DnaRules = Partial<{
    attrs:     DnaAttrs,
    props:     DnaProps,
    option:    DnaFieldName,
+   precision: number | null,
    formatter: DnaFormatter | null,
    transform: DnaFunctionName,
    callback:  DnaFunctionName,
@@ -239,7 +240,7 @@ const dnaArray = {
       },
    wrap<T>(itemOrItems: T | T[]): T[] {
       // Always returns an array.
-      console.log('dna.array.wrap() is deprecated -- use native [itemOrItems].flat() instead.');
+      console.warn('dna.array.wrap() is deprecated -- use native [itemOrItems].flat() instead.');
       const isNothing = itemOrItems === null || itemOrItems === undefined;
       return isNothing ? [] : Array.isArray(itemOrItems) ? itemOrItems : [itemOrItems];
       },
@@ -250,7 +251,7 @@ const dnaBrowser = {
       // Returns the query parameters as an object literal.
       // Example:
       //    https://example.com?lang=jp&code=7 ==> { lang: 'jp', code: '7' }
-      console.log('dna.browser.getUrlParams() is deprecated -- use native URLSearchParams instead.');
+      console.warn('dna.browser.getUrlParams() is deprecated -- use native URLSearchParams instead.');
       return Object.fromEntries(new URLSearchParams(globalThis.location.search));
       },
    userAgentData(): NavigatorUAData {
@@ -883,6 +884,11 @@ const dnaUtil = {
       return values.reduce((output: string, value: unknown) =>
          output.replace(/%s/, String(value)), format);
       },
+   round(value: number, precision: number) {
+      // Rounds a number to the specified digits of precision.
+      // Example: round(555.555, 2) -> "5.6e+2" -> 560
+      return Number(value.toExponential(precision - 1));
+      },
    realTruth: (value: unknown): boolean => {
       // Returns the "real" boolean truth of a value.
       // Examples:
@@ -1151,8 +1157,9 @@ const dnaCompile = {
    // attr rule    <p data-attr-src=~~url~~>         class=dna-nucleotide + attrs=['src', ['', 'url', '']]
    // prop rule    <input data-prop-checked=~~on~~>  class=dna-nucleotide + props=['checked', 'on']
    // select rule  <select data-option=~~day~~>      class=dna-nucleotide + option='day'
-   // transform    <p data-transform=app.enhance>    class=dna-nucleotide + transform='app.enhance'
+   // precision    <p data-precision=2>              class=dna-nucleotide + precision=2
    // format       <p data-format-date=iso>          class=dna-nucleotide + formatter=fn()
+   // transform    <p data-transform=app.enhance>    class=dna-nucleotide + transform='app.enhance'
    // callback     <p data-callback=app.configure>   class=dna-nucleotide + callback='app.configure'
    //
    // Pre-compile data attribute                     Post-compile new rule
@@ -1165,6 +1172,7 @@ const dnaCompile = {
    // data-missing=~~field~~                         missing='field'
    // data-true=~~field~~                            true='field'
    // data-false=~~field~~                           false='field'
+   // data-precision=number                          precision=number
    // data-format=fn                                 formatter=fn()
    // data-transform=fn                              transform='fn'
    // data-callback=fn                               callback='fn'
@@ -1291,6 +1299,8 @@ const dnaCompile = {
          getRules().props = props;
       if (attrs.length > 0)
          getRules().attrs = attrs;
+      if (data.precision)
+         getRules().precision = Number(data.precision);
       if (data.formatCurrency)
          getRules().formatter = dnaFormat.getCurrencyFormatter(data.formatCurrency);
       if (data.formatCurrency10)
@@ -1623,11 +1633,15 @@ const dnaEvents = {
 const dnaCore = {
    inject<T>(clone: Element, data: T, index: number, options: Partial<DnaSettingsClone<T>>): Element {
       // Inserts data into a clone and executes its rules.
-      const injectField = (elem: Element, field: string, rules: DnaRules) => {  //example: <h2>~~title~~</h2>
-         const value = field === '[value]' ? data :
+      const injectField = (elem: Element, field: string, rules: DnaRules) => {
+         // Example field: <h2>~~title~~</h2>
+         const rawValue =
+            field === '[value]' ? data :
             field === '[index]' ? index :
             field === '[count]' ? index + 1 :
             dna.util.value(data, field);
+         const hasPrecision = !!rules.precision && typeof rawValue === 'number';
+         const value = hasPrecision ? dna.util.round(rawValue, rules.precision!) : rawValue;
          const formatted = () => rules.formatter ?
             rules.formatter(<DnaFormatterValue>value, data) : String(value);
          const injectable = ['string', 'number', 'boolean'].includes(typeof value);
@@ -1652,21 +1666,24 @@ const dnaCore = {
             elem.disabled = state;
          return elem;
          };
-      const injectProps = (elem: Element, props: DnaProps) => {  //example props: ['selected', 'set'] from <input type=checkbox data-prop-checked=~~set~~>
+      const injectProps = (elem: Element, props: DnaProps) => {
+         // Example props: ['selected', 'set'] from <input type=checkbox data-prop-checked=~~set~~>
          for (let prop = 0; prop*2 < props.length; prop++)  //each prop has a key and a field name
             setProperty(<HTMLInputElement>elem, props[prop*2]!,
                dna.util.realTruth(dna.util.value(data, props[prop*2 + 1]!)));
          };
       const injectAttrs = (elem: Element, rules: DnaRules) => {
          const attrs = rules.attrs!;  //example attrs: ['data-tag', ['', 'tag', '']]
-         const inject = (key: DnaAttrName, parts: DnaAttrParts) => {  //example parts: 'J~~code.num~~' ==> ['J', 'code.num', '']
+         const inject = (key: DnaAttrName, parts: DnaAttrParts) => {
+            // Example parts: 'J~~code.num~~' ==> ['J', 'code.num', '']
             const field =     parts[1];
             const core =      field === 0 ? index : field === 1 ? index + 1 : field === 2 ? data : dna.util.value(data, field);
             const value =     [parts[0], core, parts[2]].join('');
             const formatted = rules.formatter ?
                rules.formatter(<DnaFormatterValue>value, data) : value;
             elem.setAttribute(key, formatted);
-            if (key === 'value' && value !== (<HTMLInputElement>elem).value)  //set elem val for input fields, example: <input value=~~tag~~>
+            if (key === 'value' && value !== (<HTMLInputElement>elem).value)
+               // Set elem val for input fields, example: <input value=~~tag~~>
                (<HTMLInputElement>elem).value = value;
             };
          for (let i = 0; i*2 < attrs.length; i++)  //each attr has a key and parts

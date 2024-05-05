@@ -53,6 +53,7 @@
                   <li><a href=#formatters-date>Date Format</a></li>
                   <li><a href=#formatters-number>Number Format</a></li>
                   <li><a href=#formatters-percent>Percent Format</a></li>
+                  <li><a href=#formatters-precision>Precision Rounding</a></li>
                   <li><a href=#formatters-custom>Custom Format Function</a></li>
                </ol>
             </li>
@@ -623,6 +624,7 @@
          <li><a href=#formatters-date>Date Format</a></li>
          <li><a href=#formatters-number>Number Format</a></li>
          <li><a href=#formatters-percent>Percent Format</a></li>
+         <li><a href=#formatters-precision>Precision Rounding</a></li>
          <li><a href=#formatters-custom>Custom Format Function</a></li>
       </ol>
       <p>
@@ -930,6 +932,14 @@
             </tr>
          </tbody>
       </table>
+   </section>
+
+   <!-- Precision Rounding -->
+   <section id=formatters-precision>
+      <h4>Precision Rounding</h4>
+      <p>
+         Use the <code>data-precision</code> attribute to...
+      </p>
    </section>
 
    <!-- Custom Format Function -->
@@ -3314,6 +3324,7 @@
          <li><a href=#util-is-obj><b>dna.util.isObj</b>(value)</a></li>
          <li><a href=#util-printf><b>dna.util.printf</b>(formatString, parameters...)</a></li>
          <li><a href=#util-real-truth><b>dna.util.realTruth</b>(value)</a></li>
+         <li><a href=#util-round><b>dna.util.round</b>(value, precision)</a></li>
          <li><a href=#util-to-camel><b>dna.util.toCamel</b>(kebabCaseStr)</a></li>
          <li><a href=#util-to-kebab><b>dna.util.toKebab</b>(camelCaseStr)</a></li>
          <li><a href=#util-value><b>dna.util.value</b>(data, field)</a></li>
@@ -3809,6 +3820,27 @@
       </figure>
    </section>
 
+   <!-- dna.util.round() -->
+   <section id=util-round>
+      <h4>dna.util.round(value, precision)</h4>
+      <p class=api-description>
+         Rounds a number to the specified digits of precision.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            {% render 'website/templates/params/number-value.html' %}
+            {% render 'website/templates/params/precision.html' %}
+         </ul>
+      </div>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            dna.util.round(5555.55, 2);  //5600
+         </code></pre>
+      </figure>
+   </section>
+
    <!-- dna.util.toCamel() -->
    <section id=util-to-camel>
       <h4>dna.util.toCamel(kebabCaseStr)</h4>
@@ -3925,6 +3957,7 @@
          <li><a href=#html-prop>             <code>data-prop-checked</code></a>:    Enable or disable "checked" property</li>
          <li><a href=#html-prop>             <code>data-prop-disabled</code></a>:   Enable or disable "disabled" property</li>
          <li><a href=#html-prop>             <code>data-prop-selected</code></a>:   Enable or disable "selected" property</li>
+         <li><a href=#formatters-precision>  <code>data-precision</code></a>:       Round a value to the specified number of leading digits</li>
          <li><a href=#structure-thimblerig>  <code>data-require</code></a>:         Show element only if field exists</li>
          <li><a href=#loop-separators>       <code>data-separator</code></a>:       Insert text between the last two clones</li>
          <li><a href=#event-smart>           <code>data-smart-throttle</code></a>:  Delay (milliseconds) between smart update callbacks</li>

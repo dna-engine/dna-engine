@@ -1782,14 +1782,22 @@
                <samp data-format-currency=jpy    title=jpy>~~price~~</samp>
             </output>
             <div>
-               <samp data-format-number=#          title=#>~~π~~</samp> |
-               <samp data-format-number=#.####     title=#.####>~~π~~</samp> |
-               <samp data-format-number=#.######## title=#.########>~~π~~</samp>
+               <samp                                       title=unformatted>~~fives~~</samp>:
+               <samp data-precision=1 data-format-number=# title=precision(1)>~~fives~~</samp> |
+               <samp data-precision=2 data-format-number=# title=precision(2)>~~fives~~</samp> |
+               <samp data-precision=3 data-format-number=# title=precision(3)>~~fives~~</samp>
             </div>
             <div>
-               <samp data-format-percent=#    title=#>~~σ~~</samp> |
-               <samp data-format-percent=#.#  title=#.#>~~σ~~</samp> |
-               <samp data-format-percent=#.## title=#.###>~~σ~~</samp>
+               <samp                               title=pi>π</samp>:
+               <samp data-format-number=#          title=number(#)>~~π~~</samp> |
+               <samp data-format-number=#.####     title=number(#.####)>~~π~~</samp> |
+               <samp data-format-number=#.######## title=number(#.########)>~~π~~</samp>
+            </div>
+            <div>
+               <samp data-precision=4         title=rounded>~~σ~~</samp>:
+               <samp data-format-percent=#    title=percent(#)>~~σ~~</samp> |
+               <samp data-format-percent=#.#  title=percent(#.#)>~~σ~~</samp> |
+               <samp data-format-percent=#.## title=percent(#.###)>~~σ~~</samp>
             </div>
          </div>
       </div>
@@ -1830,14 +1838,22 @@
                <samp title=jpy>¥2,499</samp>
             </output>
             <div>
-               <samp title=#>3</samp> |
-               <samp title=#.####>3.1416</samp> |
-               <samp title=#.########>3.14159265</samp>
+               <samp title=unformatted>5555.5</samp>:
+               <samp title=precision(1)>6,000</samp> |
+               <samp title=precision(2)>5,600</samp> |
+               <samp title=precision(3)>5,560</samp>
             </div>
             <div>
-               <samp title=#>71%</samp> |
-               <samp title=#.#>70.7%</samp> |
-               <samp title=#.##>70.71%</samp>
+               <samp title=pi>π</samp>:
+               <samp title=number(#)>3</samp> |
+               <samp title=number(#.####)>3.1416</samp> |
+               <samp title=number(#.########)>3.14159265</samp>
+            </div>
+            <div>
+               <samp title=rounded>0.7071</samp>:
+               <samp title=percent(#)>71%</samp> |
+               <samp title=percent(#.#)>70.7%</samp> |
+               <samp title=percent(#.###)>70.71%</samp>
             </div>
          </div>
          <div class=dna-clone>
@@ -1873,14 +1889,22 @@
                <samp title=jpy>¥1,999</samp>
             </output>
             <div>
-               <samp title=#>3</samp> |
-               <samp title=#.####>3.1416</samp> |
-               <samp title=#.########>3.14159265</samp>
+               <samp title=unformatted>5555.5</samp>:
+               <samp title=precision(1)>6,000</samp> |
+               <samp title=precision(2)>5,600</samp> |
+               <samp title=precision(3)>5,560</samp>
             </div>
             <div>
-               <samp title=#>71%</samp> |
-               <samp title=#.#>70.7%</samp> |
-               <samp title=#.##>70.71%</samp>
+               <samp title=pi>π</samp>:
+               <samp title=number(#)>3</samp> |
+               <samp title=number(#.####)>3.1416</samp> |
+               <samp title=number(#.########)>3.14159265</samp>
+            </div>
+            <div>
+               <samp title=rounded>0.7071</samp>:
+               <samp title=percent(#)>71%</samp> |
+               <samp title=percent(#.#)>70.7%</samp> |
+               <samp title=percent(#.###)>70.71%</samp>
             </div>
          </div>
          <div class=dna-clone>
@@ -1916,14 +1940,22 @@
                <samp title=jpy>¥3,750</samp>
             </output>
             <div>
-               <samp title=#>3</samp> |
-               <samp title=#.####>3.1416</samp> |
-               <samp title=#.########>3.14159265</samp>
+               <samp title=unformatted>5555.5</samp>:
+               <samp title=precision(1)>6,000</samp> |
+               <samp title=precision(2)>5,600</samp> |
+               <samp title=precision(3)>5,560</samp>
             </div>
             <div>
-               <samp title=#>71%</samp> |
-               <samp title=#.#>70.7%</samp> |
-               <samp title=#.##>70.71%</samp>
+               <samp title=pi>π</samp>:
+               <samp title=number(#)>3</samp> |
+               <samp title=number(#.####)>3.1416</samp> |
+               <samp title=number(#.########)>3.14159265</samp>
+            </div>
+            <div>
+               <samp title=rounded>0.7071</samp>:
+               <samp title=percent(#)>71%</samp> |
+               <samp title=percent(#.#)>70.7%</samp> |
+               <samp title=percent(#.###)>70.71%</samp>
             </div>
          </div>
       </div>
@@ -1933,6 +1965,7 @@
    spec.spec23 = {
       addΣ(book) {
          book.σ = Math.SQRT1_2;
+         book.fives = 5555.5;
          },
       up(value, data) {
          return value.toUpperCase() + (data.language === 'en' ? '!' : '');

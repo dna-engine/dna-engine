@@ -85,6 +85,23 @@ describe('Utility function dna.util.printf()', () => {
    });
 
 ////////////////////////////////////////////////////////////////////////////////
+describe('Utility function dna.util.round()', () => {
+
+   it('rounds numbers to the correct precision', () => {
+      const data = [333.333, 555.555, 999.999, -0.00222];
+      const actual = data.map(num => [1, 2, 3].map(digits => dna.util.round(num, digits)));
+      const expected = [
+         [300, 330, 333],
+         [600, 560, 556],
+         [1000, 1000, 1000],
+         [-0.002, -0.0022, -0.00222],
+         ];
+      assertDeepStrictEqual(actual, expected);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////
 describe('Utility function dna.util.apply()', () => {
 
    const app = {
