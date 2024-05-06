@@ -938,8 +938,41 @@
    <section id=formatters-precision>
       <h4>Precision Rounding</h4>
       <p>
-         Use the <code>data-precision</code> attribute to...
+         Use the <code>data-precision</code> attribute to display a numerical field rounded to
+         a specificed number of leading significant digits.&nbsp;
+         This attribute solves the problem of fake precision.&nbsp;
       </p>
+      <p>
+         Set the attribute to the desired number of significant digits.
+      </p>
+      <figure>
+         <figcaption>Example HTML for round a number</figcaption>
+         <pre><code class=language-html>
+            &lt;div id=book class=dna-template&gt;
+               &lt;p&gt;Citations: &lt;span&gt;~~timesCited~~&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Citations: &lt;span data-precision=1&gt;~~timesCited~~&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Citations: &lt;span data-precision=2&gt;~~timesCited~~&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Citations: &lt;span data-precision=3&gt;~~timesCited~~&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Citations:
+                  &lt;span data-precision=2 format-number=#&gt;~~timesCited~~&lt;/span&gt;&lt;/p&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <!-- Start: Result -->
+      <p class=big-symbol><i class=icon data-icon=arrow-alt-circle-down></i></p>
+      <figure>
+         <figcaption>Resulting HTML</figcaption>
+         <pre><code class=language-html>
+            &lt;div class=book&gt;
+               &lt;p&gt;Citations: &lt;span&gt;5621&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Citations: &lt;span&gt;600&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Citations: &lt;span&gt;5600&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Citations: &lt;span&gt;5620&lt;/span&gt;&lt;/p&gt;
+               &lt;p&gt;Citations: &lt;span&gt;5,600&lt;/span&gt;&lt;/p&gt;
+            &lt;/div&gt;
+         </code></pre>
+      </figure>
+      <!-- End: Result -->
    </section>
 
    <!-- Custom Format Function -->

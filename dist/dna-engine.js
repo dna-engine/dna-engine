@@ -1,4 +1,4 @@
-//! dna-engine v3.1.0 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.2.0 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -54,14 +54,14 @@ const dnaArray = {
         return map;
     },
     wrap(itemOrItems) {
-        console.log('dna.array.wrap() is deprecated -- use native [itemOrItems].flat() instead.');
+        console.warn('dna.array.wrap() is deprecated -- use native [itemOrItems].flat() instead.');
         const isNothing = itemOrItems === null || itemOrItems === undefined;
         return isNothing ? [] : Array.isArray(itemOrItems) ? itemOrItems : [itemOrItems];
     },
 };
 const dnaBrowser = {
     getUrlParams() {
-        console.log('dna.browser.getUrlParams() is deprecated -- use native URLSearchParams instead.');
+        console.warn('dna.browser.getUrlParams() is deprecated -- use native URLSearchParams instead.');
         return Object.fromEntries(new URLSearchParams(globalThis.location.search));
     },
     userAgentData() {
@@ -617,6 +617,9 @@ const dnaUtil = {
     printf: (format, ...values) => {
         return values.reduce((output, value) => output.replace(/%s/, String(value)), format);
     },
+    round(value, precision) {
+        return Number(value.toExponential(precision - 1));
+    },
     realTruth: (value) => {
         const falseyStr = () => /^(f|false|n|no|0)$/i.test(String(value));
         const emptyArray = () => value instanceof Array && value.length === 0;
@@ -921,6 +924,8 @@ const dnaCompile = {
             getRules().props = props;
         if (attrs.length > 0)
             getRules().attrs = attrs;
+        if (data.precision)
+            getRules().precision = Number(data.precision);
         if (data.formatCurrency)
             getRules().formatter = dnaFormat.getCurrencyFormatter(data.formatCurrency);
         if (data.formatCurrency10)
@@ -1215,10 +1220,12 @@ const dnaEvents = {
 const dnaCore = {
     inject(clone, data, index, options) {
         const injectField = (elem, field, rules) => {
-            const value = field === '[value]' ? data :
+            const rawValue = field === '[value]' ? data :
                 field === '[index]' ? index :
                     field === '[count]' ? index + 1 :
                         dna.util.value(data, field);
+            const hasPrecision = !!rules.precision && typeof rawValue === 'number';
+            const value = hasPrecision ? dna.util.round(rawValue, rules.precision) : rawValue;
             const formatted = () => rules.formatter ?
                 rules.formatter(value, data) : String(value);
             const injectable = ['string', 'number', 'boolean'].includes(typeof value);
@@ -1449,7 +1456,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.1.0',
+    version: '3.2.0',
     clone(name, data, options) {
         const defaults = {
             callback: null,

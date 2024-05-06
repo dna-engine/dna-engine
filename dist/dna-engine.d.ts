@@ -1,4 +1,4 @@
-//! dna-engine v3.1.0 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.2.0 ~~ https://dna-engine.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -151,6 +151,7 @@ export type DnaRules = Partial<{
     attrs: DnaAttrs;
     props: DnaProps;
     option: DnaFieldName;
+    precision: number | null;
     formatter: DnaFormatter | null;
     transform: DnaFunctionName;
     callback: DnaFunctionName;
@@ -180,7 +181,7 @@ declare global {
 }
 declare const dna: {
     version: string;
-    clone<M extends T | T[], T>(name: string, data: M, options?: Partial<DnaSettingsClone<T>> | undefined): M extends T[] ? HTMLElement[] : HTMLElement;
+    clone<M extends T | T[], T>(name: string, data: M, options?: Partial<DnaSettingsClone<T>>): M extends T[] ? HTMLElement[] : HTMLElement;
     arrayPush<T_1>(holderClone: Element, arrayField: string, data: T_1 | T_1[], options?: Partial<DnaSettingsArrayPush>): Element;
     createTemplate(name: string, html: string, holder: Element): DnaTemplate;
     templateExists(name: string): boolean;
@@ -202,9 +203,9 @@ declare const dna: {
     bye(elemOrEvent: Element | Event): Promise<Element>;
     registerInitializer(fn: DnaFunctionName | DnaInitializerFn, options?: Partial<DnaSettingsRegisterInitializer>): DnaInitializer[];
     clearInitializers(): DnaInitializer[];
-    registerContext(contextName: string, contextObjOrFn: DnaCallback | {
+    registerContext(contextName: string, contextObjOrFn: {
         [name: string]: unknown;
-    }): DnaContext;
+    } | DnaCallback): DnaContext;
     initGlobal(thisWindow: GlobalWindow): unknown;
     info(): DnaInfo;
     name: {
@@ -269,8 +270,7 @@ declare const dna: {
             item: T_5 | null;
         };
         fromMap<E>(map: {
-            [code: string]: E;
-            [code: number]: E;
+            [code: string | number]: E;
         }, options?: {
             key?: string;
             kebabCodes?: boolean;
@@ -401,6 +401,7 @@ declare const dna: {
         getFn(name: string): any;
         assign(data: DnaDataObject, field: string, value: Json): DnaDataObject;
         printf: (format: string, ...values: unknown[]) => string;
+        round(value: number, precision: number): number;
         realTruth: (value: unknown) => boolean;
         toCamel: (kebabStr: string) => string;
         toKebab: (camelStr: string) => string;
@@ -443,7 +444,7 @@ declare const dna: {
         propsAndAttrs(elem: Element): Element;
         getDataField(elem: Element, type: DnaRulesKey): string;
         subTemplateName(holder: Element | string, arrayField: string, index: number): string;
-        rules(elem: Element, type: DnaRulesKey, isLists?: boolean, className?: string, init?: ((elem: Element) => void) | undefined): Element;
+        rules(elem: Element, type: DnaRulesKey, isLists?: boolean, className?: string, init?: (elem: Element) => void): Element;
         separators(elem: Element): Element;
         template(name: string): DnaTemplate;
     };
