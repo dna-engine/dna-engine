@@ -1,4 +1,4 @@
-//! dna-engine v3.2.1 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.2.2 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -1456,7 +1456,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.2.1',
+    version: '3.2.2',
     clone(name, data, options) {
         const defaults = {
             callback: null,
