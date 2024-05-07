@@ -13,7 +13,7 @@
    ],
    "exports": {
       ".": "./dist/dna-engine.js",
-      "./dna-engine.css": "./dist/dna-engine.css"
+      "./": "./dist/"
    },
    "repository": {
       "type": "git",
