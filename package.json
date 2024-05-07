@@ -11,7 +11,10 @@
    "files": [
       "dist"
    ],
-   "exports": "./dist/dna-engine.js",
+   "exports": {
+      ".": "./dist/dna-engine.js",
+      "./dna-engine.css": "./dist/dna-engine.css"
+   },
    "repository": {
       "type": "git",
       "url": "git+https://github.com/dna-engine/dna-engine.git"
