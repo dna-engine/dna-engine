@@ -1860,18 +1860,11 @@ const dnaCore = {
          callback(clone, <T>dna.getModel(clone));
       return clone;
       },
-   assert(ok: boolean | unknown, message: string, info?: unknown): void {
+   assert(ok: boolean | unknown, message: string, info: unknown): void {
       // Oops, file a tps report.
+      const quoteStr = (info: unknown) => typeof info === 'string' ? `"${info}"` : String(info);
       if (!ok)
-         try {
-            throw Error('[dna-engine] ' + message);
-            }
-         catch (e) {
-            console.error((<Error>e).stack);
-            if (info !== undefined)
-               console.error(info);
-            throw Error((<Error>e).message);
-            }
+         throw Error(`[dna-engine] ${message} --> ${quoteStr(info)}`);
       },
    setup(): unknown {
       if (!globalThis.dna)

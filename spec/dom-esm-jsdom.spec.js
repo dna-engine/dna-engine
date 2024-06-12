@@ -6,7 +6,8 @@ import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
 import { grabText, grabAllText } from './fixtures/spec-tools.mjs';
 import { html, bookCatalog } from './fixtures/mock-data.mjs';
-import fs from 'fs';
+import assert from 'assert';
+import fs     from 'fs';
 
 // Setup
 import { dna } from '../dist/dna-engine.js?cache-bust=2';
@@ -152,6 +153,17 @@ describe('Function dna.info()', () => {
          version:      pkg.version,
          };
       assertDeepStrictEqual(actual, expected);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////
+describe('Correct error is thrown', () => {
+
+   it('when dna.getModel() is called with an invalid template name', () => {
+      const makeBogusCall = () => dna.getModel('wrong-template-name');
+      const exception =     { message: '[dna-engine] Invalid element --> "wrong-template-name"' };
+      assert.throws(makeBogusCall, exception);
       });
 
    });
