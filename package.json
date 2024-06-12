@@ -1,6 +1,6 @@
 {
    "name": "dna-engine",
-   "version": "3.2.2",
+   "version": "3.2.3",
    "description": "An uncomplicated user interface library for cloning semantic templates",
    "license": "MIT",
    "type": "module",
@@ -8,13 +8,13 @@
    "browser": "dist/dna-engine.min.js",
    "style": "dist/dna-engine.css",
    "types": "dist/dna-engine.d.ts",
-   "files": [
-      "dist"
-   ],
    "exports": {
       ".": "./dist/dna-engine.js",
       "./": "./dist/"
    },
+   "files": [
+      "dist"
+   ],
    "repository": {
       "type": "git",
       "url": "git+https://github.com/dna-engine/dna-engine.git"
@@ -110,7 +110,7 @@
          "html-validator spec"
       ],
       "dev": [
-         "tsc --watch",
+         "tsc --watch --preserveWatchOutput",
          "chokidar 'src/dna-engine.ts' --command 'src/eslint dna-engine.ts'",
          "chokidar 'build/dna-engine'  --command 'npm run step:10'",
          "browser-sync . --directory --startPath spec/visual.html --files dist spec"
@@ -136,10 +136,9 @@
       "interactive": "browser-sync . --startPath website-target/dev/index.html --files website-target/dev"
    },
    "devDependencies": {
+      "@eslint/js": "~9.4",
       "@fortawesome/fontawesome-free": "~6.5",
-      "@types/node": "~20.12",
-      "@typescript-eslint/eslint-plugin": "~7.8",
-      "@typescript-eslint/parser": "~7.8",
+      "@types/node": "~20.14",
       "add-dist-header": "~1.4",
       "assert-deep-strict-equal": "~1.2",
       "browser-sync": "~3.0",
@@ -151,7 +150,7 @@
       "fetch-json": "~3.3",
       "highlight.js": "~11.9",
       "hljs-enhance": "~2.0",
-      "jsdom": "~24.0",
+      "jsdom": "~24.1",
       "jshint": "~2.13",
       "mocha": "~10.4",
       "replacer-util": "~1.3",
@@ -159,8 +158,9 @@
       "run-scripts-util": "~1.2",
       "serve": "~14.2",
       "typescript": "~5.4",
-      "uglify-js": "~3.17",
+      "typescript-eslint": "~7.13",
+      "uglify-js": "~3.18",
       "w3c-html-validator": "~1.8",
-      "web-ignition": "~2.1"
+      "web-ignition": "~2.2"
    }
 }

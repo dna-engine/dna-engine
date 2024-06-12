@@ -1,4 +1,4 @@
-//! dna-engine v3.2.2 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.2.3 ~~ https://dna-engine.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -468,7 +468,7 @@ declare const dna: {
         getArrayName(subClone: Element): string | null;
         updateModelArray(container: Element): Element;
         remove<T_15>(clone: Element, callback?: DnaCallbackFn<T_15> | null | undefined): Element;
-        assert(ok: boolean | unknown, message: string, info?: unknown): void;
+        assert(ok: boolean | unknown, message: string, info: unknown): void;
         setup(): unknown;
     };
 };

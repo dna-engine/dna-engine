@@ -1,4 +1,4 @@
-//! dna-engine v3.2.2 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.2.3 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -1431,16 +1431,9 @@ const dnaCore = {
         return clone;
     },
     assert(ok, message, info) {
+        const quoteStr = (info) => typeof info === 'string' ? `"${info}"` : String(info);
         if (!ok)
-            try {
-                throw Error('[dna-engine] ' + message);
-            }
-            catch (e) {
-                console.error(e.stack);
-                if (info !== undefined)
-                    console.error(info);
-                throw Error(e.message);
-            }
+            throw Error(`[dna-engine] ${message} --> ${quoteStr(info)}`);
     },
     setup() {
         if (!globalThis.dna)
@@ -1456,7 +1449,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.2.2',
+    version: '3.2.3',
     clone(name, data, options) {
         const defaults = {
             callback: null,

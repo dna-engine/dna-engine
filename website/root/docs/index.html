@@ -276,8 +276,10 @@
          <figcaption>webpack</figcaption>
          <pre><code class=language-javascript>
             // Imports
-            import 'dna-engine/dist/dna-engine.css';
+            import 'dna-engine/dna-engine.css';
             import 'dna-engine';
+
+            @import "dna-engine/dna-engine.css";
 
             // Application
             const myApp = {
@@ -437,8 +439,8 @@
                categories: [
                   { code: 'art', label: 'Arts and humanities' },
                   { code: 'sci', label: 'Science' },
-                  { code: 'med', label: 'Medical' }
-               ]
+                  { code: 'med', label: 'Medical' },
+               ],
             }
          </code></pre>
       </figure>
@@ -518,7 +520,7 @@
          <pre><code class=language-javascript>
             const books = [
                { title: 'The DOM',     onSale: true },
-               { title: 'Styling CSS', onSale: false }
+               { title: 'Styling CSS', onSale: false },
                ];
             dna.clone('book', books);
          </code></pre>
@@ -1311,7 +1313,7 @@
             const books = [
                { title: 'The DOM' },
                { title: 'Go JavaScript!' },
-               { title: 'Styling CSS3' }
+               { title: 'Styling CSS3' },
                ];
             const html =   '&lt;li&gt;~~title~~&lt;/li&gt;';
             const holder = document.getElementById('book-list')
@@ -1446,7 +1448,7 @@
             const books = [
                { title: 'The DOM' },         //count: 1
                { title: 'Go JavaScript!' },  //count: 2
-               { title: 'Styling CSS3' }     //count: 3
+               { title: 'Styling CSS3' },    //count: 3
                ];
             const clones = dna.clone('book', books);
             dna.down(clones.first());   //move "The DOM" to be just after "Go JavaScript!"
@@ -1732,7 +1734,7 @@
          <pre><code class=language-javascript>
             const books = [
                { title: 'The DOM' },
-               { title: 'Interwebz' }
+               { title: 'Interwebz' },
                ];
             dna.clone('book', books);
          </code></pre>
@@ -1779,7 +1781,7 @@
             const book = {
                title:    'Interwebz',
                authors:  ['Ed', 'Jake', 'Abby'],
-               chapters: { header: 'ARPANET', header: 'TCP/IP' }
+               chapters: [{ header: 'ARPANET' }, { header: 'TCP/IP' }],
                };
             dna.clone('book', book);
          </code></pre>
@@ -1950,7 +1952,7 @@
                };
             const books = [
                { title: 'The DOM',   rating: 2 },
-               { title: 'Interwebz', rating: 5 }
+               { title: 'Interwebz', rating: 5 },
                ];
             dna.clone('book', books);
          </code></pre>
@@ -2421,7 +2423,7 @@
                };
             const books = [
                { title: 'The DOM',   rating: 2 },
-               { title: 'Interwebz', rating: 5 }
+               { title: 'Interwebz', rating: 5 },
                ];
             dna.clone('book', books, { transform: enhanceBook });
          </code></pre>
@@ -2573,7 +2575,7 @@
          <pre><code class=language-javascript>
             const book = {
                title: 'The DOM',
-               author: { first: 'Bo', last: 'Smith' }
+               author: { first: 'Bo', last: 'Smith' },
                };
             dna.clone('book', book);
          </code></pre>
@@ -2647,7 +2649,7 @@
          <pre><code class=language-javascript>
             const books = [
                { author: 'Bo', title: 'The DOM' },
-               { author: 'Jan' }
+               { author: 'Jan' },
                ];
             dna.clone('book', books);
          </code></pre>

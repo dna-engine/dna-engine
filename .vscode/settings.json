@@ -1,5 +1,6 @@
 {
    "css.lint.emptyRules": "ignore",
+   "editor.rulers": [100],
    "editor.scrollBeyondLastLine": false,
    "editor.tabSize": 3,
    "files.insertFinalNewline": true,
