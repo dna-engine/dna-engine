@@ -133,7 +133,7 @@
       "test": "mocha spec/*.spec.js",
       "dev": "npm test && run-scripts dev --parallel",
       "build-website": "run-scripts web",
-      "interactive": "browser-sync . --startPath website-target/dev/index.html --files website-target/dev"
+      "interactive": "browser-sync . --startPath website-target/dev --files website-target/dev"
    },
    "devDependencies": {
       "@eslint/js": "~9.4",

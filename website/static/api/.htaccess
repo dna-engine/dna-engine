@@ -1,0 +1,11 @@
+# dna-engine ~~ dna-engine.org ~~ MIT
+# Send all API calls to the REST controller (ex: /api/books/021 --> /api/books/index.php)
+
+# Following works in Apache but nto in LiteSpeed Web Server.
+# FallbackResource ../
+
+# URL is 404 if filename is not a file (!-f) and not a folder (!-d).
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ %{REQUEST_URI}/../ [last]

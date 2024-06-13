@@ -28,7 +28,8 @@ displayIntro() {
 buildHtmlFiles() {
    cd $projectHome
    echo "Tasks:"
-   pwd
+   folderListing="$projectHome/../(gists)/folder-listing.php/folder-listing.php"
+   test -f $folderListing && cp $folderListing $projectHome/website/static/api/index.php
    npm run build-website
    echo
    }
