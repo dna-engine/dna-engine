@@ -238,22 +238,9 @@ const dnaArray = {
       array.forEach(obj => map[getKey(obj)] = obj);
       return map;
       },
-   wrap<T>(itemOrItems: T | T[]): T[] {
-      // Always returns an array.
-      console.warn('dna.array.wrap() is deprecated -- use native [itemOrItems].flat() instead.');
-      const isNothing = itemOrItems === null || itemOrItems === undefined;
-      return isNothing ? [] : Array.isArray(itemOrItems) ? itemOrItems : [itemOrItems];
-      },
    };
 
 const dnaBrowser = {
-   getUrlParams(): { [param: string]: string } {
-      // Returns the query parameters as an object literal.
-      // Example:
-      //    https://example.com?lang=jp&code=7 ==> { lang: 'jp', code: '7' }
-      console.warn('dna.browser.getUrlParams() is deprecated -- use native URLSearchParams instead.');
-      return Object.fromEntries(new URLSearchParams(globalThis.location.search));
-      },
    userAgentData(): NavigatorUAData {
       const polyfill = (): NavigatorUAData => {
          const brandEntry = globalThis.navigator.userAgent.split(' ').pop()?.split('/') ?? [];
@@ -304,6 +291,11 @@ const dnaDom = {
          data.dnaState = String(dna.dom.stateDepot.push({}) - 1);
       return dna.dom.stateDepot[Number(data.dnaState)]!;
       },
+   componentState(elem: Element) {
+      const component = dna.ui.getComponent(elem);
+      dna.core.assert(component, 'Component not found for element', elem);
+      return dna.dom.state(component!);
+      },
    cloneState(clone: Element): Element {
       // Use imediately after cloning an element in order to grant the clone its own state
       // data (note: it's a shallow copy).
@@ -317,6 +309,13 @@ const dnaDom = {
          copy(clone);
       dna.dom.forEach(clone.getElementsByClassName('dna-state'), copy);
       return clone;
+      },
+   removeState(elem: Element): Element {
+      dna.core.assert(dna.dom.isElem(elem), 'Invalid element for removing state', elem);
+      const data = (<HTMLElement>elem).dataset;
+      if (data.dnaState)
+         dna.dom.stateDepot[Number(data.dnaState)] = {};
+      return elem;
       },
    create<K extends keyof HTMLElementTagNameMap | string>(tag: K, options?: { id?: string, subTags?: string[], class?: string, href?: string, html?: string, name?: string, rel?: string, src?: string, text?: string, type?: string }) {
       const elem = globalThis.document.createElement(tag);
@@ -342,13 +341,6 @@ const dnaDom = {
          options.subTags.forEach(
             subTag => elem.appendChild(globalThis.document.createElement(subTag)));
       return <K extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[K] : HTMLElement>elem;
-      },
-   removeState(elem: Element): Element {
-      dna.core.assert(dna.dom.isElem(elem), 'Invalid element for removing state', elem);
-      const data = (<HTMLElement>elem).dataset;
-      if (data.dnaState)
-         dna.dom.stateDepot[Number(data.dnaState)] = {};
-      return elem;
       },
    hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, className: string): boolean {
       // Returns true if any of the elements in the given list have the specified class.
@@ -1581,7 +1573,7 @@ const dnaEvents = {
          const throttleDefault = 1000;  //default 1 second delay between callbacks
          const throttleSetting = (<HTMLElement>elem).dataset.smartThrottle;
          const throttle =        throttleSetting ? Number(throttleSetting) : throttleDefault;
-         const state =            dna.dom.state(elem);
+         const state =           dna.dom.state(elem);
          const value =           () => (<HTMLInputElement>elem).value;
          const doCallback = () => {
             state.dnaLastUpdated = Date.now();

@@ -136,7 +136,7 @@
       "interactive": "browser-sync . --startPath website-target/dev --files website-target/dev"
    },
    "devDependencies": {
-      "@eslint/js": "~9.4",
+      "@eslint/js": "~9.5",
       "@fortawesome/fontawesome-free": "~6.5",
       "@types/node": "~20.14",
       "add-dist-header": "~1.4",
