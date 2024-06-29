@@ -1,4 +1,4 @@
-//! dna-engine v3.2.3 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.2.4 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -53,17 +53,8 @@ const dnaArray = {
         array.forEach(obj => map[getKey(obj)] = obj);
         return map;
     },
-    wrap(itemOrItems) {
-        console.warn('dna.array.wrap() is deprecated -- use native [itemOrItems].flat() instead.');
-        const isNothing = itemOrItems === null || itemOrItems === undefined;
-        return isNothing ? [] : Array.isArray(itemOrItems) ? itemOrItems : [itemOrItems];
-    },
 };
 const dnaBrowser = {
-    getUrlParams() {
-        console.warn('dna.browser.getUrlParams() is deprecated -- use native URLSearchParams instead.');
-        return Object.fromEntries(new URLSearchParams(globalThis.location.search));
-    },
     userAgentData() {
         const polyfill = () => {
             const brandEntry = globalThis.navigator.userAgent.split(' ').pop()?.split('/') ?? [];
@@ -101,6 +92,11 @@ const dnaDom = {
             data.dnaState = String(dna.dom.stateDepot.push({}) - 1);
         return dna.dom.stateDepot[Number(data.dnaState)];
     },
+    componentState(elem) {
+        const component = dna.ui.getComponent(elem);
+        dna.core.assert(component, 'Component not found for element', elem);
+        return dna.dom.state(component);
+    },
     cloneState(clone) {
         dna.core.assert(dna.dom.isElem(clone), 'Invalid element for copying state', clone);
         const copy = (elem) => {
@@ -112,6 +108,13 @@ const dnaDom = {
             copy(clone);
         dna.dom.forEach(clone.getElementsByClassName('dna-state'), copy);
         return clone;
+    },
+    removeState(elem) {
+        dna.core.assert(dna.dom.isElem(elem), 'Invalid element for removing state', elem);
+        const data = elem.dataset;
+        if (data.dnaState)
+            dna.dom.stateDepot[Number(data.dnaState)] = {};
+        return elem;
     },
     create(tag, options) {
         const elem = globalThis.document.createElement(tag);
@@ -135,13 +138,6 @@ const dnaDom = {
             elem.type = options.type;
         if (options?.subTags)
             options.subTags.forEach(subTag => elem.appendChild(globalThis.document.createElement(subTag)));
-        return elem;
-    },
-    removeState(elem) {
-        dna.core.assert(dna.dom.isElem(elem), 'Invalid element for removing state', elem);
-        const data = elem.dataset;
-        if (data.dnaState)
-            dna.dom.stateDepot[Number(data.dnaState)] = {};
         return elem;
     },
     hasClass(elems, className) {
@@ -287,9 +283,9 @@ const dnaDom = {
     },
     onReady(callback, options) {
         const state = globalThis.document ? globalThis.document.readyState : 'browserless';
-        const name = options?.name ?? 'dna-engine';
+        const message = 'dna-engine loaded into browserless context and DOM is interactive';
         if (state === 'browserless' && !options?.quiet)
-            console.log(dna.util.timestampMsec(), name, 'loaded into browserless context');
+            console.log(dna.util.timestampMsec(), message);
         if (['complete', 'browserless'].includes(state))
             callback();
         else
@@ -651,8 +647,11 @@ const dnaUtil = {
 };
 const dnaFormat = {
     getCurrencyFormatter(iso4217, units = 1) {
-        const currency = { style: 'currency', currency: iso4217.toUpperCase() };
-        const formatter = new Intl.NumberFormat([], currency).format;
+        const options = {
+            style: 'currency',
+            currency: iso4217.toUpperCase(),
+        };
+        const formatter = new Intl.NumberFormat([], options).format;
         return (value) => formatter(Number(value) / units);
     },
     getDateFormatter(format) {
@@ -704,12 +703,12 @@ const dnaFormat = {
     getPercentFormatter(format) {
         dna.core.assert(/^#([.]#+)?$/.test(format), 'Unknown percent format code', format);
         const digits = format === '#' ? 0 : format.length - 2;
-        const percent = {
+        const options = {
             style: 'percent',
             minimumFractionDigits: digits,
             maximumFractionDigits: digits,
         };
-        return new Intl.NumberFormat([], percent).format;
+        return new Intl.NumberFormat([], options).format;
     },
     getFormatter(fn) {
         return (value, data) => String(dna.util.apply(fn, [value, data]));
@@ -1449,7 +1448,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.2.3',
+    version: '3.2.4',
     clone(name, data, options) {
         const defaults = {
             callback: null,

@@ -1,4 +1,4 @@
-//! dna-engine v3.2.3 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.2.4 ~~ https://dna-engine.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -179,16 +179,44 @@ type Dna = typeof dna;
 declare global {
     var dna: Dna;
 }
+declare const dnaName: {
+    animating: string;
+    animatingDone: string;
+    array: string;
+    clone: string;
+    container: string;
+    displayed: string;
+    executed: string;
+    field: string;
+    hidden: string;
+    hide: string;
+    initialized: string;
+    lastSeparator: string;
+    menu: string;
+    menuItem: string;
+    nucleotide: string;
+    onLoad: string;
+    panel: string;
+    panels: string;
+    panelsInitialized: string;
+    selected: string;
+    separator: string;
+    subClone: string;
+    template: string;
+    unhide: string;
+    unselected: string;
+    updateModel: string;
+};
 declare const dna: {
     version: string;
     clone<M extends T | T[], T>(name: string, data: M, options?: Partial<DnaSettingsClone<T>>): M extends T[] ? HTMLElement[] : HTMLElement;
-    arrayPush<T_1>(holderClone: Element, arrayField: string, data: T_1 | T_1[], options?: Partial<DnaSettingsArrayPush>): Element;
+    arrayPush<T>(holderClone: Element, arrayField: string, data: T | T[], options?: Partial<DnaSettingsArrayPush>): Element;
     createTemplate(name: string, html: string, holder: Element): DnaTemplate;
     templateExists(name: string): boolean;
-    getModel<T_2>(elem: Element, options?: Partial<DnaSettingsGetModel>): T_2 | undefined;
-    getModels<T_3>(template: string, options?: Partial<DnaSettingsGetModel>): T_3[];
+    getModel<T>(elem: Element, options?: Partial<DnaSettingsGetModel>): T | undefined;
+    getModels<T>(template: string, options?: Partial<DnaSettingsGetModel>): T[];
     empty(name: string, options?: Partial<DnaSettingsEmpty>): Element[];
-    insert<T_4>(name: string, data: T_4, options?: Partial<DnaSettingsClone<T_4>> | undefined): Element;
+    insert<T>(name: string, data: T, options?: Partial<DnaSettingsClone<T>>): Element;
     refresh(clone: Element, options?: Partial<DnaSettingsRefresh>): Element;
     refreshAll(name: string, options?: Partial<DnaSettingsRefreshAll>): Element[];
     updateField(inputElem: Element, value: Json): Element;
@@ -236,38 +264,11 @@ declare const dna: {
         unselected: string;
         updateModel: string;
     };
-    selector: {
-        animating: string;
-        animatingDone: string;
-        array: string;
-        clone: string;
-        container: string;
-        displayed: string;
-        executed: string;
-        field: string;
-        hidden: string;
-        hide: string;
-        initialized: string;
-        lastSeparator: string;
-        menu: string;
-        menuItem: string;
-        nucleotide: string;
-        onLoad: string;
-        panel: string;
-        panels: string;
-        panelsInitialized: string;
-        selected: string;
-        separator: string;
-        subClone: string;
-        template: string;
-        unhide: string;
-        unselected: string;
-        updateModel: string;
-    };
+    selector: typeof dnaName;
     array: {
-        find: <T_5, V>(array: T_5[], value: V, key?: string) => {
+        find: <T, V>(array: T[], value: V, key?: string) => {
             index: number;
-            item: T_5 | null;
+            item: T | null;
         };
         fromMap<E>(map: {
             [code: string | number]: E;
@@ -279,19 +280,14 @@ declare const dna: {
         }) | {
             [keyOrValue: string]: string | E;
         })[];
-        toMap<E_1>(array: E_1[], options?: {
+        toMap<E>(array: E[], options?: {
             key?: string;
             camelKeys?: boolean;
         }): {
-            [code: string]: E_1;
-            [code: number]: E_1;
+            [code: string | number]: E;
         };
-        wrap<T_6>(itemOrItems: T_6 | T_6[]): T_6[];
     };
     browser: {
-        getUrlParams(): {
-            [param: string]: string;
-        };
         userAgentData(): NavigatorUAData;
     };
     pageToken: {
@@ -300,17 +296,21 @@ declare const dna: {
     };
     dom: {
         stateDepot: {
-            [key: string]: unknown;
-            [key: number]: unknown;
-            [key: symbol]: unknown;
+            [key: string | number | symbol]: unknown;
         }[];
         state(elem: Element): {
             [key: string]: unknown;
             [key: number]: unknown;
             [key: symbol]: unknown;
         };
+        componentState(elem: Element): {
+            [key: string]: unknown;
+            [key: number]: unknown;
+            [key: symbol]: unknown;
+        };
         cloneState(clone: Element): Element;
-        create<K extends string>(tag: K, options?: {
+        removeState(elem: Element): Element;
+        create<K extends keyof HTMLElementTagNameMap | string>(tag: K, options?: {
             id?: string;
             subTags?: string[];
             class?: string;
@@ -322,13 +322,12 @@ declare const dna: {
             text?: string;
             type?: string;
         }): K extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[K] : HTMLElement;
-        removeState(elem: Element): Element;
         hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, className: string): boolean;
         toggleClass(elem: Element, className: string, state?: boolean): Element;
         replaceClass(elem: Element, oldName: string, newName: string): Element;
-        addClass<T_7 extends HTMLCollection | Element[] | NodeListOf<Element>>(elems: T_7, className: string): T_7;
-        forEach<T_8 extends HTMLCollection>(elems: T_8, fn: (elem: Element, index: number, elems: unknown[]) => unknown): T_8;
-        map<T_9>(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index: number, elems: unknown[]) => T_9): T_9[];
+        addClass<T extends Element[] | HTMLCollection | NodeListOf<Element>>(elems: T, className: string): T;
+        forEach<T extends HTMLCollection>(elems: T, fn: (elem: Element, index: number, elems: unknown[]) => unknown): T;
+        map<T>(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index: number, elems: unknown[]) => T): T[];
         filter(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index: number, elems: unknown[]) => unknown): Element[];
         filterBySelector(elems: Element[] | HTMLCollection, selector: string): Element[];
         filterByClass(elems: Element[] | HTMLCollection, ...classNames: string[]): Element[];
@@ -336,7 +335,7 @@ declare const dna: {
         index(elem: Element): number;
         indexOf(elems: NodeListOf<Element>, elem: Element): number;
         findIndex(elems: HTMLCollection | NodeListOf<Element>, selector: string): number;
-        insertAt<T_10 extends Element>(container: Element, elem: T_10, index: number): T_10;
+        insertAt<T extends Element>(container: Element, elem: T, index: number): T;
         isElem(elem: unknown): boolean;
         getAttrs(elem: Element): Attr[];
         toElem(elemOrEvent: Element | Event): HTMLElement;
@@ -358,8 +357,7 @@ declare const dna: {
         onHoverOut(listener: DnaEventListener, selector: string): void;
         onReady(callback: (...args: unknown[]) => unknown, options?: {
             quiet?: boolean;
-            name?: string;
-        }): DocumentReadyState | 'browserless';
+        }): DocumentReadyState | "browserless";
         triggerChange(elem: Element, delay?: number): Event;
     };
     ui: {
@@ -397,7 +395,7 @@ declare const dna: {
         getComponent(elem: Element): Element | null;
     };
     util: {
-        apply<T_11>(fn: string | DnaInitializerFn | DnaCallbackFn<T_11>, params: unknown[]): unknown;
+        apply<T>(fn: string | DnaCallbackFn<T> | DnaInitializerFn, params: unknown[]): unknown;
         getFn(name: string): any;
         assign(data: DnaDataObject, field: string, value: Json): DnaDataObject;
         printf: (format: string, ...values: unknown[]) => string;
@@ -405,7 +403,7 @@ declare const dna: {
         realTruth: (value: unknown) => boolean;
         toCamel: (kebabStr: string) => string;
         toKebab: (camelStr: string) => string;
-        value<T_12>(data: T_12, field: string | string[]): unknown;
+        value<T>(data: T, field: string | string[]): unknown;
         isObj(value: unknown): boolean;
         timestamp(date?: number): string;
         timestampMsec(date?: number): string;
@@ -463,11 +461,11 @@ declare const dna: {
         setup: () => NodeListOf<Element>;
     };
     core: {
-        inject<T_13>(clone: Element, data: T_13, index: number, options: Partial<DnaSettingsClone<T_13>>): Element;
-        replicate<T_14>(template: DnaTemplate, data: T_14, settings: DnaSettingsClone<T_14>): Element;
+        inject<T>(clone: Element, data: T, index: number, options: Partial<DnaSettingsClone<T>>): Element;
+        replicate<T>(template: DnaTemplate, data: T, settings: DnaSettingsClone<T>): Element;
         getArrayName(subClone: Element): string | null;
         updateModelArray(container: Element): Element;
-        remove<T_15>(clone: Element, callback?: DnaCallbackFn<T_15> | null | undefined): Element;
+        remove<T>(clone: Element, callback?: DnaCallbackFn<T> | null): Element;
         assert(ok: boolean | unknown, message: string, info: unknown): void;
         setup(): unknown;
     };

@@ -1,6 +1,6 @@
 {
    "name": "dna-engine",
-   "version": "3.2.3",
+   "version": "3.2.4",
    "description": "An uncomplicated user interface library for cloning semantic templates",
    "license": "MIT",
    "type": "module",
@@ -136,7 +136,7 @@
       "interactive": "browser-sync . --startPath website-target/dev --files website-target/dev"
    },
    "devDependencies": {
-      "@eslint/js": "~9.5",
+      "@eslint/js": "~9.6",
       "@fortawesome/fontawesome-free": "~6.5",
       "@types/node": "~20.14",
       "add-dist-header": "~1.4",
@@ -152,13 +152,13 @@
       "hljs-enhance": "~2.0",
       "jsdom": "~24.1",
       "jshint": "~2.13",
-      "mocha": "~10.4",
+      "mocha": "~10.5",
       "replacer-util": "~1.3",
       "rimraf": "~5.0",
       "run-scripts-util": "~1.2",
       "serve": "~14.2",
-      "typescript": "~5.4",
-      "typescript-eslint": "~7.13",
+      "typescript": "~5.5",
+      "typescript-eslint": "~7.14",
       "uglify-js": "~3.18",
       "w3c-html-validator": "~1.8",
       "web-ignition": "~2.2"
