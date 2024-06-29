@@ -279,7 +279,7 @@ const dnaPageToken = {
 const dnaDom = {
    stateDepot: <{ [key: string | number | symbol]: unknown }[]>[],
    state(elem: Element) {
-      // Returns an object associated with the element that can be used to store values.
+      // Returns an object associated with the element that can be used to store arbitrary values.
       // Usage:
       //    dna.dom.state(document.body).lastUpdate = Date.now();
       // Class added to element:
@@ -505,14 +505,14 @@ const dnaDom = {
          };
       globalThis.document.addEventListener('pointerover', delegator);
       },
-   onReady(callback: (...args: unknown[]) => unknown, options?: { quiet?: boolean, name?: string }): DocumentReadyState | 'browserless' {
+   onReady(callback: (...args: unknown[]) => unknown, options?: { quiet?: boolean }): DocumentReadyState | 'browserless' {
       // Calls the specified function once the web page is loaded and ready.
       // Example (execute myApp.setup() as soon as the DOM is interactive):
       //    dna.dom.onReady(myApp.setup);
-      const state = globalThis.document ? globalThis.document.readyState : 'browserless';
-      const name =  options?.name ?? 'dna-engine';
+      const state =   globalThis.document ? globalThis.document.readyState : 'browserless';
+      const message = 'dna-engine loaded into browserless context and DOM is interactive';
       if (state === 'browserless' && !options?.quiet)
-         console.log(dna.util.timestampMsec(), name, 'loaded into browserless context');
+         console.log(dna.util.timestampMsec(), message);
       if (['complete', 'browserless'].includes(state))
          callback();
       else
@@ -929,8 +929,11 @@ const dnaUtil = {
 const dnaFormat = {
    getCurrencyFormatter(iso4217: string, units = 1): DnaFormatter {
       // Returns a function to format monetary values into strings, like "¥2,499" and "$4.95".
-      const currency =  { style: 'currency', currency: iso4217.toUpperCase() };
-      const formatter = new Intl.NumberFormat([], currency).format;
+      const options: Intl.NumberFormatOptions = {
+         style:    'currency',
+         currency: iso4217.toUpperCase(),
+         };
+      const formatter = new Intl.NumberFormat([], options).format;
       return (value: DnaFormatterValue) => formatter(Number(value) / units);
       },
    getDateFormatter(format: string): DnaFormatter {
@@ -988,12 +991,12 @@ const dnaFormat = {
       // format ("#", "#.#", "#.##", "#.###", ...).
       dna.core.assert(/^#([.]#+)?$/.test(format), 'Unknown percent format code', format);
       const digits = format === '#' ? 0 : format.length - 2;
-      const percent = {
+      const options: Intl.NumberFormatOptions = {
          style:                 'percent',
          minimumFractionDigits: digits,
          maximumFractionDigits: digits,
          };
-      return <DnaFormatter>new Intl.NumberFormat([], percent).format;
+      return <DnaFormatter>new Intl.NumberFormat([], options).format;
       },
    getFormatter(fn: string): DnaFormatter {
       return <T>(value: DnaFormatterValue, data: T) => String(dna.util.apply(fn, [value, data]));
