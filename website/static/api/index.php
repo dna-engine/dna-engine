@@ -1,7 +1,7 @@
 <!doctype html>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- Folder Listing                                              -->
-<!-- v1.3.3 (June 6, 2024)                                       -->
+<!-- v1.3.4 (June 27, 2024)                                      -->
 <!-- A good looking replacement for Directory Listings:          -->
 <!--     Rename this file to "index.php" and copy it into a web  -->
 <!--     server directory to enable browsing on that directory.  -->
@@ -38,9 +38,9 @@
       body >main ul.simple-text { margin: 0px 0px 30px 15px; }
       body >main ul.simple-text li { display: flex; align-items: center; margin-bottom: 10px; }
       body >main ul.simple-text li i.font-icon { width: 1.8em; text-align: center; color: darkslateblue; }
-      body >main ul.simple-text li i.font-icon[data-icon=arrow-alt-circle-up] { color: dimgray; }
+      body >main ul.simple-text li i.font-icon[data-icon=circle-up] { color: dimgray; }
       body >main ul.simple-text li i.font-icon[data-icon=folder] { color: darkgoldenrod; }
-      body >main ul.simple-text li i.font-icon[data-icon=external-link-square-alt] { color: brown; }
+      body >main ul.simple-text li i.font-icon[data-icon=square-up-right] { color: brown; }
       body >main p a { margin-right: 8px; }
       @media (max-width: 667px) {  /* selects iPhone 6/6s/7/8/SE2/SE3 landscape and anything narrower */
          body { margin: 0px; }
@@ -48,14 +48,13 @@
          body >main ul.simple-text { margin-left: 0px; }
          }
       @media (prefers-color-scheme: dark) {  /* dark mode */
-         :root { --charcoal: #222222; }
-         body { color: silver; background-color: var(--charcoal); }
+         body { color: silver; background-color: var(--colorCharcoal); }
          body >main h1 { color: lightseagreen; }
          body >main a { color: gainsboro; }
          body >main ul.simple-text li i.font-icon { color: mediumslateblue; }
-         body >main ul.simple-text li i.font-icon[data-icon=arrow-alt-circle-up] { color: silver; }
+         body >main ul.simple-text li i.font-icon[data-icon=circle-up] { color: silver; }
          body >main ul.simple-text li i.font-icon[data-icon=folder] { color: goldenrod; }
-         body >main ul.simple-text li i.font-icon[data-icon=external-link-square-alt] { color: crimson; }
+         body >main ul.simple-text li i.font-icon[data-icon=square-up-right] { color: crimson; }
          }
    </style>
    <script defer src=https://cdn.jsdelivr.net/npm/dna-engine@3.2/dist/dna-engine.min.js></script>
@@ -108,7 +107,7 @@
             // Looks for the ".link.md" extension and reads the markdown syntax for a
             // hyperlink.  For example, the file "example-website.link.md" could have
             // one line of text like "[Click me](https://example.org)".
-            $icon =        "external-link-square-alt";
+            $icon =        "square-up-right";
             $md =          preg_split("/[\[\]()]/", htmlspecialchars(file_get_contents($file)));
             $file =        $md[3];
             $url =         parse_url($file);
@@ -126,7 +125,7 @@
    <h1>Folder Listing</h1>
    <h2>[URL]</h2>
    <ul class=simple-text>
-      <li><a href=..><i data-icon=arrow-alt-circle-up></i></a> <a href=..>Parent folder</a></li>
+      <li><a href=..><i data-icon=circle-up></i></a> <a href=..>Parent folder</a></li>
       <?=implode(PHP_EOL, array_map("toHtml", glob("*", GLOB_ONLYDIR)))?>
       <?=implode(PHP_EOL, array_map("toHtml", glob("*.link.md")))?>
       <?=implode(PHP_EOL, array_map("toHtml", array_filter(glob("*"), "showFile")))?>
