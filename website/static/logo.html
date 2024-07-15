@@ -13,7 +13,7 @@
    <link rel=icon             href=https://dna-engine.org/graphics/bookmark.png>
    <link rel=apple-touch-icon href=https://dna-engine.org/graphics/mobile-home-screen.png>
    <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/dna-engine@{{package.version|minor-version}}/dist/dna-engine.css>
-   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/web-ignition@2.2/dist/reset.min.css>
+   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/web-ignition@{{package.devDependencies.web-ignition|version}}/dist/reset.min.css>
    <style>
       @import url(https://fonts.googleapis.com/css?family=Comfortaa);
       body >header {
@@ -36,7 +36,7 @@
       #logo-canvas >span {
          position: absolute;
          font-family: "Comfortaa";
-         font-size: 7rem;
+         font-size: 6rem;
          font-weight: 900;
          }
       #logo-canvas >span:nth-child(1) {
@@ -79,11 +79,14 @@
          { x: 66, y: 50, color: 'crimson' },
          { x: 51, y: 50, color: 'darkblue' },       //layer over crimson circle
          ];
-      const addStyle = (circleElem, data) =>
-         circleElem.css({ backgroundColor: data.color, left: data.x + '%', bottom: data.y + '%' });
+      const addStyle = (circleElem, data) => {
+         circleElem.style.backgroundColor = data.color;
+         circleElem.style.left =            data.x + '%';
+         circleElem.style.bottom =          data.y + '%';
+         };
       const scaleRange = (range) => {
          const scale = Math.max(range.value, 5) / 100;
-         globalThis.document.querySelectorAll('figure#logo-canvas').css({ transform: `scale(${scale})` });
+         globalThis.document.getElementById('logo-canvas').style.transform = `scale(${scale})`;
          };
       const setup = () => {
          dna.clone('circle', circles, { callback: addStyle });
@@ -104,7 +107,7 @@
 <main>
    <label>
       <span>Zoom:</span>
-      <input type=range value=100 data-input=scaleRange>
+      <input type=range value=100 data-on-input=scaleRange>
    </label>
    <figure id=logo-canvas>
       <span>dna</span>
@@ -121,7 +124,7 @@
             (600 wide / no padding / transparent)<br>
             duplicate full &rarr; crop 3:2, Instant Alpha, resize
          </figcaption>
-         <img src=graphics/dna-logo.png alt=logo>
+         <img src=assets/dna-logo.png alt=logo>
       </figure>
       <figure>
          <figcaption>
@@ -130,7 +133,7 @@
             duplicate full &rarr; crop to blue circle 1:1, Instant Alpha (keep just blue circle),
             delete "d" artifact, resize
          </figcaption>
-         <img src=graphics/bookmark.png alt=logo>
+         <img src=assets/bookmark.png alt=logo>
       </figure>
       <figure>
          <figcaption>
@@ -139,7 +142,7 @@
             duplicate full &rarr; copy whole image, cover with white rectangle,
             resize, paste image
          </figcaption>
-         <img src=graphics/dna-logo-square.png alt=logo>
+         <img src=assets/social-media/dna-logo-square.png alt=logo>
       </figure>
       <figure>
          <figcaption>
@@ -147,7 +150,7 @@
             (180x180 / padding / solid)<br>
             duplicate square logo &rarr; resize
          </figcaption>
-         <img src=graphics/mobile-home-screen.png alt=logo>
+         <img src=assets/mobile-home-screen.png alt=logo>
       </figure>
       <figure>
          <figcaption>
@@ -155,7 +158,7 @@
             (600x400 / padding / solid)<br>
             duplicate square logo &rarr; crop
          </figcaption>
-         <img src=graphics/dna-logo-card.png alt=logo>
+         <img src=assets/dna-logo-card.png alt=logo>
       </figure>
    </div>
 </main>

@@ -95,9 +95,13 @@
       "clean": [
          "rimraf build dist"
       ],
+      "minimize-visual": [
+         "replacer spec/visual.html spec --rename=visual.min.html --find=dist/dna-engine.dev.js --replacement=dist/dna-engine.min.js"
+      ],
       "lint": [
          "jshint . --exclude-path .gitignore",
-         "eslint --max-warnings 0 src --ext .ts"
+         "eslint --max-warnings 0 src --ext .ts",
+         "html-validator spec"
       ],
       "build": [
          "tsc",
@@ -105,9 +109,7 @@
          "copy-file website/static/panel-nav.css --folder build",
          "esm-to-plain-js --cd=build dna-engine.js dna-engine.dev.js",
          "uglifyjs build/dna-engine.dev.js --output build/dna-engine.min.js",
-         "add-dist-header build dist",
-         "replacer spec/visual.html spec --rename=visual.min.html --find=dist/dna-engine.dev.js --replacement=dist/dna-engine.min.js",
-         "html-validator spec"
+         "add-dist-header build dist"
       ],
       "dev": [
          "tsc --watch --preserveWatchOutput",
@@ -117,26 +119,34 @@
       ],
       "web": [
          "rimraf website-target",
-         "copy-folder website/static website-target/prod",
-         "replacer website/static --ext=.html website-target/prod",
-         "replacer website/root   --ext=.html website-target/prod",
-         "replacer spec/visual.html spec --rename=visual.min.html --find=dist/dna-engine.dev.js --replacement=dist/dna-engine.min.js --note=also-in-build",
-         "replacer spec --ext=.html website-target/prod/spec --find=../dist/ --replacement=https://cdn.jsdelivr.net/npm/dna-engine@{{package.version{{pipe}}minor-version}}/dist/",
-         "html-validator website-target/prod",
-         "copy-file website-target/prod/project.html docs/index.html",
-         "copy-folder website-target/prod website-target/dev",
-         "replacer website-target/prod --ext=.html website-target/dev '--regex=/https:.*dna-engine.min.js/m' --replacement=/dist/dna-engine.dev.js{{space}}class{{equals}}dev-mode"
+         "copy-folder website/static website-target/1-stage",
+         "replacer website/static    website-target/1-stage --ext=.html",
+         "replacer website/root      website-target/1-stage --ext=.html",
+         "replacer spec --ext=.html  website-target/1-stage/spec --find=../dist/ --replacement=https://cdn.jsdelivr.net/npm/dna-engine@{{package.version{{pipe}}minor-version}}/dist/"
+      ],
+      "web-dev": [
+         "copy-folder website-target/1-stage website-target/2-dev",
+         "replacer    website-target/1-stage website-target/2-dev --ext=.html '--regex=/https:.*dna-engine.min.js/m' --replacement=/dist/dna-engine.dev.js{{space}}class{{equals}}dev-mode"
+      ],
+      "web-publish": [
+         "copy-file      website-target/1-stage/project.html docs/index.html",
+         "rev-web-assets website-target/1-stage --manifest --skip=social-media             website-target/3-prod --meta-content-base=https://dna-engine.org",
+         "copy-file      website/static/assets/bookmark.png                       --folder website-target/3-prod/graphics",
+         "copy-file      website/static/assets/dna-logo.png                       --folder website-target/3-prod/graphics",
+         "copy-file      website/static/assets/mobile-home-screen.png             --folder website-target/3-prod/graphics",
+         "copy-file      website/static/assets/social-media/sample-book-cover.jpg --folder website-target/3-prod/graphics",
+         "html-validator website-target/3-prod"
       ]
    },
    "scripts": {
-      "pretest": "run-scripts clean lint build",
+      "pretest": "run-scripts clean minimize-visual lint build",
       "test": "mocha spec/*.spec.js",
       "dev": "npm test && run-scripts dev --parallel",
-      "build-website": "run-scripts web",
-      "interactive": "browser-sync . --startPath website-target/dev --files website-target/dev"
+      "build-website": "run-scripts minimize-visual web web-dev web-publish",
+      "interactive": "browser-sync . --startPath website-target/2-dev --files website-target/2-dev"
    },
    "devDependencies": {
-      "@eslint/js": "~9.6",
+      "@eslint/js": "~9.7",
       "@fortawesome/fontawesome-free": "~6.5",
       "@types/node": "~20.14",
       "add-dist-header": "~1.4",
@@ -148,17 +158,18 @@
       "eslint": "8.57.0",
       "esm-to-plain-js": "~1.1",
       "fetch-json": "~3.3",
-      "highlight.js": "~11.9",
+      "highlight.js": "~11.10",
       "hljs-enhance": "~2.0",
       "jsdom": "~24.1",
       "jshint": "~2.13",
-      "mocha": "~10.5",
+      "mocha": "~10.6",
       "replacer-util": "~1.3",
-      "rimraf": "~5.0",
+      "rev-web-assets": "~1.4",
+      "rimraf": "~6.0",
       "run-scripts-util": "~1.2",
       "serve": "~14.2",
       "typescript": "~5.5",
-      "typescript-eslint": "~7.14",
+      "typescript-eslint": "~7.16",
       "uglify-js": "~3.18",
       "w3c-html-validator": "~1.8",
       "web-ignition": "~2.2"

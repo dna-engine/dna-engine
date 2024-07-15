@@ -69,8 +69,8 @@
          setup() {
             const minifiedMode = globalThis.location.pathname.includes('visual.min');
             dna.dom.toggleClass(globalThis.document.body, 'minified-mode', minifiedMode);
-            const version = dna.version === '{{package.version}}' ? '[DEV]' : dna.version;
-            globalThis.document.querySelectorAll('.version-number').forEach(elem => elem.innerText = version);
+            const setVersion = (elem) => elem.innerText = dna.version;
+            globalThis.document.querySelectorAll('.version-number').forEach(setVersion);
             const runSpec = (sectionNode) => {
                console.log(sectionNode.id);
                spec[sectionNode.id].run();
@@ -166,10 +166,10 @@
          <hr class=dna-hide>
          <div id=s02-book class=dna-template>
             <div data-class=~~class;onSale[border-change1]~~>
-               Title: <span>{{title}}</span>
+               Title: <span>~~title~~</span>
             </div>
             <div data-class=~~onSale[border-change2,border-change1]~~>
-               Author: <cite data-class=~~onSale[color-change1]~~>{{author}}</cite>
+               Author: <cite data-class=~~onSale[color-change1]~~>~~author~~</cite>
             </div>
          </div>
          <hr>

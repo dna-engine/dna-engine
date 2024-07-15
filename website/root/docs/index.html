@@ -2068,7 +2068,7 @@
             &lt;p&gt;Key up:    &lt;input  data-on-key-up=showMsg    value=7&gt;&lt;/p&gt;
             &lt;p&gt;Submit:    &lt;input  data-on-enter-key=showMsg value=8&gt;&lt;/p&gt;
             &lt;p&gt;Focus in:  &lt;input  data-on-focus-in=showMsg  value=9&gt;&lt;/p&gt;
-            &lt;p&gt;Focus out: &lt;input  data-on-focus-out=showMsg value=A&gt;&lt;/p&gt;
+            &lt;p&gt;Focus out: &lt;input  data-on-focus-out=showMsg value=10&gt;&lt;/p&gt;
             &lt;script&gt;
                const showMsg = (elem, event) =&gt; {
                   const msg =    'Value "' + elem.value + '" on ' + event.type;
@@ -2093,7 +2093,7 @@
             <p>Key up:    <input  data-on-key-up=showMsg    value=7></p>
             <p>Submit:    <input  data-on-enter-key=showMsg value=8></p>
             <p>Focus in:  <input  data-on-focus-in=showMsg  value=9></p>
-            <p>Focus out: <input  data-on-focus-out=showMsg value=A></p>
+            <p>Focus out: <input  data-on-focus-out=showMsg value=10></p>
             <script>
                const showMsg = (elem, event) => {
                   const key =    event.key ? `for key "${event.key}"` : '';
@@ -2476,11 +2476,10 @@
       <figure>
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
-            const applyBkgnd = (elem, data) =&gt; {
-               elem.css({ backgroundImage: data.cover });
-               };
-            const options = { fade: true, callback: applyBkgnd };
-            const book = { title: 'Taskmaster', cover: 'url(cover.png)' };
+            const applyBackground = (elem, data) =&gt;
+               elem.style.backgroundImage = data.cover;
+            const options = { fade: true, callback: applyBackground };
+            const book =    { title: 'Go JavaScript', cover: 'url(cover.png)' };
             dna.clone('book', book, options);
          </code></pre>
       </figure>
@@ -2490,7 +2489,7 @@
          <figcaption>Resulting HTML</figcaption>
          <pre><code class=language-html>
             &lt;div class=book style="background-image: url(cover.png);"&gt;
-               Taskmaster
+               Go JavaScript
             &lt;/div&gt;
          </code></pre>
       </figure>
