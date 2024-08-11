@@ -4,7 +4,7 @@
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
-import { timestamp } from './fixtures/mock-data.mjs';
+import { timestamp } from './fixtures/mock-data.js';
 
 // Setup
 import { dna } from '../dist/dna-engine.js';

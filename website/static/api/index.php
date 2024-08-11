@@ -20,12 +20,12 @@
    <meta name=description                content="Folder listing for <?=basename(__DIR__)?>">
    <meta name=apple-mobile-web-app-title content="<?=basename(__DIR__)?>">
    <title>Folder: <?=basename(__DIR__)?></title>
-   <link rel=icon             href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5/svgs/solid/folder.svg>
-   <link rel=apple-touch-icon href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5/svgs/solid/folder.svg>
-   <link rel=mask-icon        href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5/svgs/solid/folder.svg color=darkgoldenrod>
+   <link rel=icon             href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6/svgs/solid/folder.svg>
+   <link rel=apple-touch-icon href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6/svgs/solid/folder.svg>
+   <link rel=mask-icon        href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6/svgs/solid/folder.svg color=darkgoldenrod>
    <link rel=preconnect       href=https://fonts.googleapis.com>
    <link rel=preconnect       href=https://fonts.gstatic.com crossorigin>
-   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5/css/all.min.css>
+   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6/css/all.min.css>
    <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/dna-engine@3.2/dist/dna-engine.css>
    <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/web-ignition@2.2/dist/reset.min.css>
    <style>

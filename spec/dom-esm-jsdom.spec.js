@@ -4,8 +4,8 @@
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { JSDOM } from 'jsdom';
-import { grabText, grabAllText } from './fixtures/spec-tools.mjs';
-import { html, bookCatalog } from './fixtures/mock-data.mjs';
+import { grabText, grabAllText } from './fixtures/spec-tools.js';
+import { html, bookCatalog } from './fixtures/mock-data.js';
 import assert from 'assert';
 import fs     from 'fs';
 

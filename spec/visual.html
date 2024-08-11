@@ -1122,7 +1122,7 @@
          },
       surround2(elem) {
          if (!elem.classList.contains('s15-book'))
-            throw 'This is not the clone you are looking for: ' + elem?.nodeName;
+            throw new Error('This is not the clone you are looking for: ' + elem?.nodeName);
          elem.classList.add('border-change2');
          },
       goodbye(elem, event) {  //<button class=3 data-on-click=spec.spec15.goodbye>Bye 3</button>
@@ -1130,7 +1130,7 @@
          const delayRange = { min: 300, max: 1600 };
          const start =      Date.now();
          let handled =      false;
-         const badNews = (msg) => { throw 'handleByeDone --> ' + msg; };
+         const badNews =    (msg) => { throw new Error('handleByeDone --> ' + msg); };
          const handleByeDone = (param) => {
             const delay =       Date.now() - start;
             const elemMissing = param !== clone;
