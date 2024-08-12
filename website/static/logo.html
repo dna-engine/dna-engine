@@ -68,6 +68,10 @@
       .repository figure figcaption code {
          display: block;
          }
+      .repository figure figcaption i {
+         display: block;
+         font-weight: lighter;
+         }
    </style>
    <script defer src=https://cdn.jsdelivr.net/npm/dna-engine@{{package.version|minor-version}}/dist/dna-engine.min.js></script>
    <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@{{package.devDependencies.web-ignition|version}}/dist/lib-x.min.js></script>
@@ -105,6 +109,7 @@
 </header>
 
 <main>
+
    <label>
       <span>Zoom:</span>
       <input type=range value=100 data-on-input=scaleRange>
@@ -117,50 +122,57 @@
       </div>
    </figure>
    <code id=circle-data></code>
+   <p>
+      Create full logo (<code>dna-logo-full.png</code>)
+      by capturing screen with full zoom and cropping to no excess padding.
+   </p>
+
    <div class=repository>
       <figure>
          <figcaption>
             <code>dna-logo.png</code>
-            (600 wide / no padding / transparent)<br>
-            duplicate full &rarr; crop 3:2, Instant Alpha, resize
+            (600 wide / no padding / transparent)
+            <i>duplicate full logo &rarr; crop 3:2, Instant Alpha, resize</i>
          </figcaption>
          <img src=assets/dna-logo.png alt=logo>
       </figure>
       <figure>
          <figcaption>
             <code>bookmark.png</code>
-            (96x96 / no padding / transparent)<br>
-            duplicate full &rarr; crop to blue circle 1:1, Instant Alpha (keep just blue circle),
-            delete "d" artifact, resize
+            (96&times;96 / no padding / transparent)
+            <i>duplicate full logo &rarr; crop to blue circle 1:1, Instant Alpha (keep just blue circle),
+            delete "d" artifact, resize</i>
          </figcaption>
          <img src=assets/bookmark.png alt=logo>
       </figure>
       <figure>
          <figcaption>
             <code>dna-logo-square.png</code>
-            (600x600 / padding / solid)
-            duplicate full &rarr; copy whole image, cover with white rectangle,
-            resize, paste image
+            (600&times;600 / padding / solid)
+            <i>duplicate full logo &rarr; copy whole image, cover with white rectangle,
+            resize, paste image</i>
          </figcaption>
          <img src=assets/social-media/dna-logo-square.png alt=logo>
       </figure>
       <figure>
          <figcaption>
             <code>mobile-home-screen.png</code>
-            (180x180 / padding / solid)<br>
-            duplicate square logo &rarr; resize
+            (180&times;180 / padding / solid)<br>
+            <i>duplicate square logo &rarr; resize</i>
          </figcaption>
          <img src=assets/mobile-home-screen.png alt=logo>
       </figure>
       <figure>
          <figcaption>
             <code>dna-logo-card.png</code>
-            (600x400 / padding / solid)<br>
-            duplicate square logo &rarr; crop
+            (1200&times;630 / padding / solid)<br>
+            <i>duplicate full logo &rarr; copy whole image, cover with white rectangle,
+            resize, paste image</i>
          </figcaption>
          <img src=assets/dna-logo-card.png alt=logo>
       </figure>
    </div>
+
 </main>
 
 </body>
