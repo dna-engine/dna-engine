@@ -1,4 +1,4 @@
-//! dna-engine v3.2.4 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.2.5 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -63,13 +63,13 @@ const dnaBrowser = {
             const mac = hasTouch ? 'iOS' : 'macOS';
             const platforms = { 'MacIntel': mac, 'Win32': 'Windows', 'iPhone': 'iOS', 'iPad': 'iOS' };
             return {
-                brands: [{ brand: brandEntry?.[0] ?? '', version: brandEntry?.[1] ?? '' }],
+                brands: [{ brand: brandEntry[0] ?? '', version: brandEntry[1] ?? '' }],
                 mobile: hasTouch || /Android|iPhone|iPad|Mobi/i.test(globalThis.navigator.userAgent),
                 platform: platforms[platform] ?? platform,
             };
         };
         const uaData = globalThis.navigator['userAgentData'];
-        return uaData ?? polyfill();
+        return (uaData ?? polyfill());
     },
 };
 const dnaPageToken = {
@@ -78,7 +78,8 @@ const dnaPageToken = {
         return value;
     },
     get: (key, defaultValue) => {
-        const value = globalThis.sessionStorage[key + globalThis.location.pathname];
+        const pageKey = key + globalThis.location.pathname;
+        const value = globalThis.sessionStorage[pageKey];
         return value === undefined ? defaultValue : JSON.parse(value);
     },
 };
@@ -116,6 +117,30 @@ const dnaDom = {
             dna.dom.stateDepot[Number(data.dnaState)] = {};
         return elem;
     },
+    createCustom(tag, options) {
+        const elem = globalThis.document.createElement(tag);
+        if (options?.id)
+            elem.id = options.id;
+        if (options?.class)
+            elem.classList.add(options.class);
+        if (options?.href)
+            elem.href = options.href;
+        if (options?.html)
+            elem.innerHTML = options.html;
+        if (options?.name)
+            elem.name = options.name;
+        if (options?.rel)
+            elem.rel = options.rel;
+        if (options?.src)
+            elem.src = options.src;
+        if (options?.text)
+            elem.textContent = options.text;
+        if (options?.type)
+            elem.type = options.type;
+        if (options?.subTags)
+            options.subTags.forEach(subTag => elem.appendChild(globalThis.document.createElement(subTag)));
+        return elem;
+    },
     create(tag, options) {
         const elem = globalThis.document.createElement(tag);
         if (options?.id)
@@ -141,7 +166,8 @@ const dnaDom = {
         return elem;
     },
     hasClass(elems, className) {
-        return Array.prototype.some.call(elems, elem => elem.classList.contains(className));
+        const elemHasClass = (elem) => elem.classList.contains(className);
+        return Array.prototype.some.call(elems, elemHasClass);
     },
     toggleClass(elem, className, state) {
         if (state === undefined ? !elem.classList.contains(className) : state)
@@ -156,7 +182,8 @@ const dnaDom = {
         return elem;
     },
     addClass(elems, className) {
-        Array.prototype.forEach.call(elems, elem => elem.classList.add(className));
+        const addClass = (elem) => elem.classList.add(className);
+        Array.prototype.forEach.call(elems, addClass);
         return elems;
     },
     forEach(elems, fn) {
@@ -170,12 +197,14 @@ const dnaDom = {
         return Array.prototype.filter.call(elems, fn);
     },
     filterBySelector(elems, selector) {
-        return Array.prototype.filter.call(elems, elem => elem.matches(selector));
+        const elemMatches = (elem) => elem.matches(selector);
+        return Array.prototype.filter.call(elems, elemMatches);
     },
     filterByClass(elems, ...classNames) {
         const hasClass = (elem) => elem.classList.contains(classNames[0]);
         const filtered = Array.prototype.filter.call(elems, hasClass);
-        return classNames.length === 1 ? filtered : dna.dom.filterByClass(filtered, ...classNames.splice(1));
+        const filterMore = () => dna.dom.filterByClass(filtered, ...classNames.splice(1));
+        return classNames.length === 1 ? filtered : filterMore();
     },
     find(elems, fn) {
         return Array.prototype.find.call(elems, fn) ?? null;
@@ -187,7 +216,8 @@ const dnaDom = {
         return Array.prototype.indexOf.call(elems, elem);
     },
     findIndex(elems, selector) {
-        return Array.prototype.findIndex.call(elems, (elem) => elem.matches(selector));
+        const elemMatches = (elem) => elem.matches(selector);
+        return Array.prototype.findIndex.call(elems, elemMatches);
     },
     insertAt(container, elem, index) {
         const inbounds = index >= 0 && index <= container.children.length;
@@ -262,10 +292,11 @@ const dnaDom = {
     onHoverIn(listener, selector) {
         let ready = true;
         const delegator = (event) => {
-            const target = event.target?.closest(selector);
-            if (target !== null && ready)
-                listener(target, event, selector);
-            ready = target === null;
+            const target = event.target;
+            const elem = target?.closest(selector);
+            if (elem && ready)
+                listener(elem, event, selector);
+            ready = elem === null;
         };
         globalThis.document.addEventListener('pointerover', delegator);
     },
@@ -273,19 +304,21 @@ const dnaDom = {
         let ready = false;
         let prevTarget = null;
         const delegator = (event) => {
-            const target = event.target?.closest(selector);
-            prevTarget = target ?? prevTarget;
-            if (target === null && ready)
+            const target = event.target;
+            const elem = target?.closest(selector);
+            prevTarget = elem ?? prevTarget;
+            if (elem === null && ready)
                 listener(prevTarget, event, selector);
-            ready = target !== null;
+            ready = elem !== null;
         };
         globalThis.document.addEventListener('pointerover', delegator);
     },
     onReady(callback, options) {
-        const state = globalThis.document ? globalThis.document.readyState : 'browserless';
-        const message = 'dna-engine loaded into browserless context and DOM is interactive';
-        if (state === 'browserless' && !options?.quiet)
-            console.log(dna.util.timestampMsec(), message);
+        const browserless = !globalThis.document;
+        const state = browserless ? 'browserless' : globalThis.document.readyState;
+        const message = 'loaded into browserless context -- DOM is interactive';
+        if (browserless && !options?.quiet)
+            console.log(dna.util.timestampMsec(), `[dna-engine] ${message}`);
         if (['complete', 'browserless'].includes(state))
             callback();
         else
@@ -581,7 +614,7 @@ const dnaUtil = {
                 typeof fn === 'string' ? dna.util.getFn(fn) :
                     null;
         dna.core.assert(callback, 'Invalid callback function', fn);
-        return callback(...params);
+        return callback(params[0], ...params.slice(1));
     },
     getFn(name) {
         dna.core.assert(!/[^\p{Letter}\d.]/u.test(name), 'Invalid function name', name);
@@ -829,11 +862,13 @@ const dnaCompile = {
         return state.dnaRules;
     },
     setRule(rules, key, value) {
-        rules[key] = value;
+        const settableRules = rules;
+        settableRules[key] = value;
         return rules;
     },
     setElemRule(elem, key, value) {
-        dna.compile.getRules(elem)[key] = value;
+        const rules = dna.compile.getRules(elem);
+        rules[key] = value;
         return elem;
     },
     regex: {
@@ -957,7 +992,7 @@ const dnaCompile = {
     subTemplateName(holder, arrayField, index) {
         const getRules = () => dna.compile.getRules(dna.getClone(holder, { main: true }));
         const templateName = typeof holder === 'string' ? holder : getRules().template;
-        return templateName + '-' + arrayField + '--' + String(index);
+        return `${templateName}-${arrayField}--${index}`;
     },
     rules(elem, type, isLists = false, className, init) {
         const addRule = (subElem) => {
@@ -1357,7 +1392,8 @@ const dnaCore = {
         if (!containerState.dnaCountsMap)
             containerState.dnaCountsMap = {};
         const countsMap = containerState.dnaCountsMap;
-        countsMap[name] = !countsMap[name] ? 1 : countsMap[name] + 1;
+        const count = countsMap[name];
+        countsMap[name] = !count ? 1 : count + 1;
         dna.core.inject(clone, data, countsMap[name] - 1, settings);
         const intoUnwrapped = () => {
             const allClones = dna.dom.filterByClass(container.children, dna.name.clone);
@@ -1432,7 +1468,7 @@ const dnaCore = {
     assert(ok, message, info) {
         const quoteStr = (info) => typeof info === 'string' ? `"${info}"` : String(info);
         if (!ok)
-            throw Error(`[dna-engine] ${message} --> ${quoteStr(info)}`);
+            throw new Error(`[dna-engine] ${message} --> ${quoteStr(info)}`);
     },
     setup() {
         if (!globalThis.dna)
@@ -1448,7 +1484,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.2.4',
+    version: '3.2.5',
     clone(name, data, options) {
         const defaults = {
             callback: null,

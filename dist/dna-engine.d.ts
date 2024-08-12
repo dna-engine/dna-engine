@@ -1,4 +1,4 @@
-//! dna-engine v3.2.4 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.2.5 ~~ https://dna-engine.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -84,7 +84,7 @@ export type DnaSettingsSmoothHeight = {
 };
 export type DnaModel = JsonData;
 export type DnaDataObject = JsonObject;
-export type DnaFormatter = <T>(value: DnaFormatterValue, model?: T) => string;
+export type DnaFormatter = (value: DnaFormatterValue, model?: unknown) => string;
 export type DnaFormatterValue = number | string | boolean;
 export type DnaMsec = number | string;
 export type DnaCallback = (...args: unknown[]) => unknown;
@@ -136,14 +136,15 @@ export type DnaAttrName = string;
 export type DnaAttrParts = [preText: string, field: DnaFieldName | 0 | 1 | 2, postText: string];
 export type DnaAttrs = (DnaAttrName | DnaAttrParts)[];
 export type DnaPropName = string;
-export type DnaProps = (DnaPropName | DnaFieldName)[];
+export type DnaProps = string[];
 export type DnaLoop = {
     name: string;
     field: DnaFieldName;
 };
 export type DnaRulesKey = keyof DnaRules;
 export type DnaRulesValue = DnaRules[DnaRulesKey];
-export type DnaRules = Partial<{
+export type DnaRules = Partial<DnaRulesFields>;
+export type DnaRulesFields = {
     template: DnaTemplateName;
     array: DnaFieldName;
     text: boolean;
@@ -162,7 +163,7 @@ export type DnaRules = Partial<{
     false: DnaFieldName;
     loop: DnaLoop;
     subs: DnaFieldName[];
-}>;
+};
 export type DnaInfo = {
     version: string;
     templates: number;
@@ -266,7 +267,7 @@ declare const dna: {
     };
     selector: typeof dnaName;
     array: {
-        find: <T, V>(array: T[], value: V, key?: string) => {
+        find: <T>(array: T[], value: unknown, key?: string) => {
             index: number;
             item: T | null;
         };
@@ -310,7 +311,7 @@ declare const dna: {
         };
         cloneState(clone: Element): Element;
         removeState(elem: Element): Element;
-        create<K extends keyof HTMLElementTagNameMap | string>(tag: K, options?: {
+        createCustom(tag: string, options?: {
             id?: string;
             subTags?: string[];
             class?: string;
@@ -321,7 +322,19 @@ declare const dna: {
             src?: string;
             text?: string;
             type?: string;
-        }): K extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[K] : HTMLElement;
+        }): HTMLElement;
+        create<K extends keyof HTMLElementTagNameMap>(tag: K, options?: {
+            id?: string;
+            subTags?: string[];
+            class?: string;
+            href?: string;
+            html?: string;
+            name?: string;
+            rel?: string;
+            src?: string;
+            text?: string;
+            type?: string;
+        }): HTMLElementTagNameMap[K];
         hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, className: string): boolean;
         toggleClass(elem: Element, className: string, state?: boolean): Element;
         replaceClass(elem: Element, oldName: string, newName: string): Element;
@@ -396,14 +409,14 @@ declare const dna: {
     };
     util: {
         apply<T>(fn: string | DnaCallbackFn<T> | DnaInitializerFn, params: unknown[]): unknown;
-        getFn(name: string): any;
+        getFn(name: string): unknown;
         assign(data: DnaDataObject, field: string, value: Json): DnaDataObject;
         printf: (format: string, ...values: unknown[]) => string;
         round(value: number, precision: number): number;
         realTruth: (value: unknown) => boolean;
         toCamel: (kebabStr: string) => string;
         toKebab: (camelStr: string) => string;
-        value<T>(data: T, field: string | string[]): unknown;
+        value(data: unknown, field: string | string[]): unknown;
         isObj(value: unknown): boolean;
         timestamp(date?: number): string;
         timestampMsec(date?: number): string;
@@ -466,7 +479,7 @@ declare const dna: {
         getArrayName(subClone: Element): string | null;
         updateModelArray(container: Element): Element;
         remove<T>(clone: Element, callback?: DnaCallbackFn<T> | null): Element;
-        assert(ok: boolean | unknown, message: string, info: unknown): void;
+        assert(ok: unknown, message: string, info: unknown): void;
         setup(): unknown;
     };
 };
