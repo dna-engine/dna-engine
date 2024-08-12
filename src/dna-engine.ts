@@ -87,7 +87,7 @@ export type DnaSettingsSmoothHeight = {
 // Types: Data, Templates, and Callbacks
 export type DnaModel =          JsonData;
 export type DnaDataObject =     JsonObject;
-export type DnaFormatter =      <T>(value: DnaFormatterValue, model?: T) => string;
+export type DnaFormatter =      (value: DnaFormatterValue, model?: unknown) => string;
 export type DnaFormatterValue = number | string | boolean;
 export type DnaMsec =           number | string;  //milliseconds UTC (or ISO 8601 string)
 export type DnaCallback =       (...args: unknown[]) => unknown;
@@ -121,11 +121,12 @@ export type DnaAttrName =     string;
 export type DnaAttrParts =    [preText: string, field: DnaFieldName | 0 | 1 | 2, postText: string];
 export type DnaAttrs =        (DnaAttrName | DnaAttrParts)[];
 export type DnaPropName =     string;
-export type DnaProps =        (DnaPropName | DnaFieldName)[];
+export type DnaProps =        string[];  //array of DnaPropName and DnaFieldName
 export type DnaLoop =         { name: string, field: DnaFieldName };
 export type DnaRulesKey =     keyof DnaRules;
 export type DnaRulesValue =   DnaRules[DnaRulesKey];
-export type DnaRules = Partial<{
+export type DnaRules =        Partial<DnaRulesFields>;
+export type DnaRulesFields = {
    template:  DnaTemplateName,
    array:     DnaFieldName,
    text:      boolean,
@@ -144,7 +145,7 @@ export type DnaRules = Partial<{
    false:     DnaFieldName,
    loop:      DnaLoop,
    subs:      DnaFieldName[],
-   }>;
+   };
 export type DnaInfo = {
    version:      string,
    templates:    number,
@@ -193,7 +194,7 @@ const dnaName = {  //class name lookup table
    };
 
 const dnaArray = {
-   find: <T, V>(array: T[], value: V, key = 'code'): { index: number, item: T | null } => {
+   find: <T>(array: T[], value: unknown, key = 'code'): { index: number, item: T | null } => {
       // Returns the index and a reference to the first array element with a key equal to the
       // supplied value.  The default key is "code".
       // Examples:
@@ -245,17 +246,18 @@ const dnaBrowser = {
       const polyfill = (): NavigatorUAData => {
          const brandEntry = globalThis.navigator.userAgent.split(' ').pop()?.split('/') ?? [];
          const hasTouch =   !!navigator.maxTouchPoints;
-         const platform =   <keyof typeof platforms>globalThis.navigator.platform;
+         const platform =   globalThis.navigator.platform;
          const mac =        hasTouch ? 'iOS' : 'macOS';
-         const platforms =  { 'MacIntel': mac, 'Win32': 'Windows', 'iPhone': 'iOS', 'iPad': 'iOS' };
+         const platforms: { [platform: string]: string} =
+            { 'MacIntel': mac, 'Win32': 'Windows', 'iPhone': 'iOS', 'iPad': 'iOS' };
          return {
-            brands:   [{ brand: brandEntry?.[0] ?? '', version: brandEntry?.[1] ?? '' }],
+            brands:   [{ brand: brandEntry[0] ?? '', version: brandEntry[1] ?? '' }],
             mobile:   hasTouch || /Android|iPhone|iPad|Mobi/i.test(globalThis.navigator.userAgent),
             platform: platforms[platform] ?? platform,
             };
          };
-      const uaData = <unknown>globalThis.navigator[<keyof typeof globalThis.navigator>'userAgentData'];
-      return <NavigatorUAData>uaData ?? polyfill();
+      const uaData = <unknown>globalThis.navigator[<keyof Navigator>'userAgentData'];
+      return <NavigatorUAData>(uaData ?? polyfill());
       },
    };
 
@@ -271,8 +273,9 @@ const dnaPageToken = {
    get: (key: string, defaultValue: Json): Json => {
       // Example:
       //   dna.pageToken.get('favorite', 0);  //returns 0 if not set
-      const value = globalThis.sessionStorage[key + globalThis.location.pathname];
-      return value === undefined ? defaultValue : JSON.parse(value);
+      const pageKey = key + globalThis.location.pathname;
+      const value =   <string | undefined>globalThis.sessionStorage[pageKey];
+      return value === undefined ? defaultValue : <Json>JSON.parse(value);
       },
    };
 
@@ -303,7 +306,7 @@ const dnaDom = {
       const copy = (elem: Element) => {
          const data =     (<HTMLElement>elem).dataset;
          const newState = { ...dna.dom.stateDepot[Number(data.dnaState)] };
-         data.dnaState = String(dna.dom.stateDepot.push(newState) - 1);
+         data.dnaState =  String(dna.dom.stateDepot.push(newState) - 1);
          };
       if (clone.classList.contains('dna-state'))
          copy(clone);
@@ -317,7 +320,7 @@ const dnaDom = {
          dna.dom.stateDepot[Number(data.dnaState)] = {};
       return elem;
       },
-   create<K extends keyof HTMLElementTagNameMap | string>(tag: K, options?: { id?: string, subTags?: string[], class?: string, href?: string, html?: string, name?: string, rel?: string, src?: string, text?: string, type?: string }) {
+   createCustom(tag: string, options?: { id?: string, subTags?: string[], class?: string, href?: string, html?: string, name?: string, rel?: string, src?: string, text?: string, type?: string }): HTMLElement {
       const elem = globalThis.document.createElement(tag);
       if (options?.id)
          elem.id = options.id;
@@ -340,11 +343,37 @@ const dnaDom = {
       if (options?.subTags)
          options.subTags.forEach(
             subTag => elem.appendChild(globalThis.document.createElement(subTag)));
-      return <K extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[K] : HTMLElement>elem;
+      return elem;
+      },
+   create<K extends keyof HTMLElementTagNameMap>(tag: K, options?: { id?: string, subTags?: string[], class?: string, href?: string, html?: string, name?: string, rel?: string, src?: string, text?: string, type?: string }): HTMLElementTagNameMap[K] {
+      const elem = globalThis.document.createElement(tag);
+      if (options?.id)
+         elem.id = options.id;
+      if (options?.class)
+         elem.classList.add(options.class);
+      if (options?.href)
+         (<HTMLAnchorElement>elem).href = options.href;
+      if (options?.html)
+         elem.innerHTML = options.html;
+      if (options?.name)
+         (<HTMLInputElement>elem).name = options.name;
+      if (options?.rel)
+         (<HTMLLinkElement>elem).rel = options.rel;
+      if (options?.src)
+         (<HTMLImageElement>elem).src = options.src;
+      if (options?.text)
+         elem.textContent = options.text;
+      if (options?.type)
+         (<HTMLInputElement>elem).type = options.type;
+      if (options?.subTags)
+         options.subTags.forEach(
+            subTag => elem.appendChild(globalThis.document.createElement(subTag)));
+      return elem;
       },
    hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, className: string): boolean {
       // Returns true if any of the elements in the given list have the specified class.
-      return Array.prototype.some.call(elems, elem => elem.classList.contains(className));
+      const elemHasClass = (elem: Element) => elem.classList.contains(className);
+      return Array.prototype.some.call(elems, elemHasClass);
       },
    toggleClass(elem: Element, className: string, state?: boolean): Element {
       // Adds or removes an element class.
@@ -364,7 +393,8 @@ const dnaDom = {
       },
    addClass<T extends Element[] | HTMLCollection | NodeListOf<Element>>(elems: T, className: string): T {
       // Adds the specified class to each of the elements in the given list.
-      Array.prototype.forEach.call(elems, elem => elem.classList.add(className));
+      const addClass = (elem: Element) => elem.classList.add(className);
+      Array.prototype.forEach.call(elems, addClass);
       return elems;
       },
    forEach<T extends HTMLCollection>(elems: T, fn: (elem: Element, index: number, elems: unknown[]) => unknown): T {
@@ -378,21 +408,23 @@ const dnaDom = {
       },
    filter(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index: number, elems: unknown[]) => unknown): Element[] {
       // Filters a list of elements.
-      return Array.prototype.filter.call(elems, fn);
+      return <Element[]>Array.prototype.filter.call(elems, fn);
       },
    filterBySelector(elems: Element[] | HTMLCollection, selector: string): Element[] {
       // Returns direct child elements filtered by the specified selector.
-      return Array.prototype.filter.call(elems, elem => elem.matches(selector));
+      const elemMatches = (elem: Element) => elem.matches(selector);
+      return <Element[]>Array.prototype.filter.call(elems, elemMatches);
       },
    filterByClass(elems: Element[] | HTMLCollection, ...classNames: string[]): Element[] {
       // Returns direct child elements filtered by one or more class names.
-      const hasClass = (elem: Element) => elem.classList.contains(classNames[0]!);
-      const filtered = Array.prototype.filter.call(elems, hasClass);
-      return classNames.length === 1 ? filtered : dna.dom.filterByClass(filtered, ...classNames.splice(1));
+      const hasClass =   (elem: Element) => elem.classList.contains(classNames[0]!);
+      const filtered =   <Element[]>Array.prototype.filter.call(elems, hasClass);
+      const filterMore = () => dna.dom.filterByClass(filtered, ...classNames.splice(1));
+      return classNames.length === 1 ? filtered : filterMore();
       },
    find(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index: number, elems: unknown[]) => boolean): Element | null {
       // Finds the first element that satisfies the given condition.
-      return Array.prototype.find.call(elems, fn) ?? null;
+      return <Element | undefined>Array.prototype.find.call(elems, fn) ?? null;
       },
    index(elem: Element): number {
       // Returns the index of the element within its container (relative to all its sibling elements).
@@ -404,7 +436,8 @@ const dnaDom = {
       },
    findIndex(elems: HTMLCollection | NodeListOf<Element>, selector: string): number {
       // Returns the location of the first matching element within an array of elements.
-      return Array.prototype.findIndex.call(elems, (elem) => elem.matches(selector));
+      const elemMatches = (elem: Element) => elem.matches(selector);
+      return Array.prototype.findIndex.call(elems, elemMatches);
       },
    insertAt<T extends Element>(container: Element, elem: T, index: number): T {
       const inbounds = index >= 0 && index <= container.children.length;
@@ -420,7 +453,7 @@ const dnaDom = {
       },
    getAttrs(elem: Element): Attr[] {
       // Returns the attributes of the element in a regular array.
-      return elem ? Object.values(elem.attributes) : [];
+      return <unknown>elem ? Object.values(elem.attributes) : [];
       },
    toElem(elemOrEvent: Element | Event): HTMLElement {
       // Allows convenient support of both:
@@ -429,16 +462,15 @@ const dnaDom = {
       return <HTMLElement>(dna.dom.isElem(elemOrEvent) ? elemOrEvent : (<Event>elemOrEvent).target);
       },
    on(type: string, listener: DnaEventListener, options?: Partial<DnaSettingsEventsOn>) {
-      // Resources:
-      //    type ->      https://developer.mozilla.org/en-US/docs/Web/Events
-      //    keyFilter -> https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
+      // type ->      https://developer.mozilla.org/en-US/docs/Web/Events
+      // keyFilter -> https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
       const defaults: DnaSettingsEventsOn = { keyFilter: null, selector: null };
       const settings =   { ...defaults, ...options };
       const noFilter =   !settings.keyFilter;
       const noSelector = !settings.selector;
       const delegator = (event: Event) => {
-         const target = <Element>event.target;
-         const elem =   !target || noSelector ? target : <Element>target.closest(settings.selector!);
+         const target = <Element | null>event.target;
+         const elem =   !target || noSelector ? target : target.closest(settings.selector!);
          if (elem && (noFilter || settings.keyFilter === (<KeyboardEvent>event).key))
             listener(elem, event, settings.selector);
          };
@@ -484,24 +516,30 @@ const dnaDom = {
       dna.dom.on('submit', listener, { selector: selector ?? null });
       },
    onHoverIn(listener: DnaEventListener, selector: string) {
+      // Calls the listener function when the pointer devices moves over any of the elements
+      // matching the selector.
       let ready = true;
       const delegator = (event: Event) => {
-         const target = <Element>(<Element>event.target)?.closest(selector);
-         if (target !== null && ready)
-            listener(target, event, selector);
-         ready = target === null;
+         const target = <Element | null>event.target;
+         const elem =   target?.closest(selector);
+         if (elem && ready)
+            listener(elem, event, selector);
+         ready = elem === null;
          };
       globalThis.document.addEventListener('pointerover', delegator);
       },
    onHoverOut(listener: DnaEventListener, selector: string) {
+      // Calls the listener function when the pointer devices moves off any of the elements
+      // matching the selector.
       let ready = false;
       let prevTarget: Element | null = null;
       const delegator = (event: Event) => {
-         const target = <Element>(<Element>event.target)?.closest(selector);
-         prevTarget = target ?? prevTarget;
-         if (target === null && ready)
+         const target = <Element | null>event.target;
+         const elem =   target?.closest(selector);
+         prevTarget = elem ?? prevTarget;
+         if (elem === null && ready)
             listener(prevTarget!, event, selector);
-         ready = target !== null;
+         ready = elem !== null;
          };
       globalThis.document.addEventListener('pointerover', delegator);
       },
@@ -509,10 +547,11 @@ const dnaDom = {
       // Calls the specified function once the web page is loaded and ready.
       // Example (execute myApp.setup() as soon as the DOM is interactive):
       //    dna.dom.onReady(myApp.setup);
-      const state =   globalThis.document ? globalThis.document.readyState : 'browserless';
-      const message = 'dna-engine loaded into browserless context and DOM is interactive';
-      if (state === 'browserless' && !options?.quiet)
-         console.log(dna.util.timestampMsec(), message);
+      const browserless = <boolean>!globalThis.document;
+      const state =       browserless ? 'browserless' : globalThis.document.readyState;
+      const message =     'loaded into browserless context -- DOM is interactive';
+      if (browserless && !options?.quiet)
+         console.log(dna.util.timestampMsec(), `[dna-engine] ${message}`);
       if (['complete', 'browserless'].includes(state))
          callback();
       else
@@ -735,8 +774,8 @@ const dnaUi = {
          const submissiveElem = <HTMLElement>blockingElem!;
          const ghostElem =      <HTMLElement>submissiveElem.cloneNode(true);
          submissiveElem.style.display = 'none';
-         elem.parentElement!.insertBefore(ghostElem, submissiveElem!);
-         elem.parentElement!.insertBefore(up ? elem : submissiveElem!, up ? submissiveElem! : elem);
+         elem.parentElement!.insertBefore(ghostElem, submissiveElem);
+         elem.parentElement!.insertBefore(up ? elem : submissiveElem, up ? submissiveElem : elem);
          const animate = () => {
             dna.ui.slideFadeIn(submissiveElem);
             return dna.ui.slideFadeDelete(ghostElem).then(() => elem);
@@ -802,7 +841,7 @@ const dnaUi = {
       // Sets focus on an element.
       // <input data-on-load=dna.ui.focus>
       const input = options?.firstInput ? elem.querySelector('input') : elem;
-      globalThis.requestAnimationFrame(() => (<HTMLInputElement>input)?.focus());
+      globalThis.requestAnimationFrame(() => (<HTMLInputElement | null>input)?.focus());
       return elem;
       },
    setText(elem: Element | null, text: string): Element | null {
@@ -818,7 +857,7 @@ const dnaUi = {
    getComponent(elem: Element): Element | null {
       // Returns the component (container element with a <code>data-component</code> attribute) to
       // which the element belongs.
-      return elem?.closest('[data-component]') ?? null;
+      return (<Element | undefined>elem)?.closest('[data-component]') ?? null;
       },
    };
 
@@ -828,12 +867,13 @@ const dnaUtil = {
       // Usage:
       //    dna.util.apply('app.cart.buy', [7]);       //equivalent to: app.cart.buy(7);
       //    dna.util.apply(addTootip, [elem, 'hi!']);  //equivalent to: addTootip(elem, 'hi!');
-      const callback = !fn ?        null :
+      const callback =
+         !fn                      ? null :
          typeof fn === 'function' ? fn :
-         typeof fn === 'string' ?   dna.util.getFn(fn) :
+         typeof fn === 'string'   ? <DnaCallbackFn<T> | undefined>dna.util.getFn(fn) :
          null;
       dna.core.assert(callback, 'Invalid callback function', fn);
-      return callback(...params);
+      return callback!(<Element>params[0], ...<[]>params.slice(1));
       },
    getFn(name: string) {
       // Converts a dot notation name (string) to its callable function.
@@ -842,23 +882,23 @@ const dnaUtil = {
       dna.core.assert(!/[^\p{Letter}\d.]/u.test(name), 'Invalid function name', name);
       const fields =     name.split('.');  //dot notation to array
       const tag =        fields[0]!;       //string name of the root, example: 'app'
-      const tagValue =   globalThis[<GlobalKey>tag];
+      const tagValue =   <unknown>globalThis[<GlobalKey>tag];
       const toValue =    (eval);
-      const callable =   () => ['object', 'function'].includes(toValue('typeof ' + tag));
-      const getContext = () => dna.registerContext(tag, toValue(tag));
+      const callable =   () => ['object', 'function'].includes(<string>toValue('typeof ' + tag));
+      const getContext = () => dna.registerContext(tag, <JsonObject | DnaCallback>toValue(tag));
       const getTop =     () => callable() ? getContext()[tag] : undefined;
       const top =        tagValue ?? dna.events.db.context[tag] ?? getTop();
-      const deep = (object: object, subfields: string[]): unknown =>
+      const deep = (object: object | null, subfields: string[]): unknown =>
          !subfields.length ? object :                                   //function found
-         !object ?           undefined :                                //function missing
+         !object           ? undefined :                                //function missing
          deep(object[<keyof object>subfields[0]], subfields.slice(1));  //next object field
-      return fields.length === 1 ? top : deep(top, fields.slice(1));
+      return fields.length === 1 ? top : deep(top!, fields.slice(1));
       },
    assign(data: DnaDataObject, field: string, value: Json): DnaDataObject {
       // Sets the field in the data object to the new value and returns the updated data object.
       // Example:
       //    dna.util.assign({ a: { b: 7 } }, 'a.b', 21);  //{ a: { b: 21 } }
-      const dataObj = data && typeof data === 'object' ? data : {};
+      const dataObj = <unknown>data && typeof data === 'object' ? data : {};
       const fields =  field.split('.');
       const name =    fields[0]!;
       if (fields.length > 1 && !dna.util.isObj(dataObj[name]))
@@ -904,11 +944,11 @@ const dnaUtil = {
       const dash = (word: string) => '-' + word.toLowerCase();
       return ('' + camelStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
       },
-   value<T>(data: T, field: string | string[]): unknown {
+   value(data: unknown, field: string | string[]): unknown {
       // Returns the value of the field from the data object.
       // Example:
       //    dna.util.value({ a: { b: 7 } }, 'a.b') === 7
-      const notFound =   data === null || data === undefined || field === undefined;
+      const notFound =   data === null || data === undefined || <unknown>field === undefined;
       const parts =      typeof field === 'string' ? field.split('.') : field;
       const fieldValue = notFound ? null : data[<keyof typeof data>parts[0]];
       return notFound || parts.length < 2 ? fieldValue : dna.util.value(fieldValue, parts.slice(1));
@@ -972,7 +1012,8 @@ const dnaFormat = {
          timeZoneLong:  (date: Date) => timeZoneLong(date),                //ex: "Pacific Daylight Time"
          utc:           (date: Date) => date.toUTCString(),                //ex: "Sat, 04 May 2030 08:00:00 GMT"
          };
-      const transformer = transformers[<keyof typeof transformers>dna.util.toCamel(format)];
+      type TransformersKey = keyof typeof transformers;
+      const transformer = transformers[<TransformersKey>dna.util.toCamel(format)];
       dna.core.assert(transformer, 'Unknown date format code', format);
       const formatter = (msec: DnaMsec) => transformer(new Date(msec))!;
       return <DnaFormatter>formatter;
@@ -999,7 +1040,7 @@ const dnaFormat = {
       return <DnaFormatter>new Intl.NumberFormat([], options).format;
       },
    getFormatter(fn: string): DnaFormatter {
-      return <T>(value: DnaFormatterValue, data: T) => String(dna.util.apply(fn, [value, data]));
+      return (value: DnaFormatterValue, data: unknown) => String(dna.util.apply(fn, [value, data]));
       },
    };
 
@@ -1103,9 +1144,9 @@ const dnaPanels = {
          // Automatically generates a name for unnamed menus.
          const menuNavName = 'dna-panels-' + String(dna.panels.nextMenuNav++);
          const setNavName =  (elem: Element) => (<HTMLElement>elem).dataset.menuNav = menuNavName;
-         const menu =        panels!.previousElementSibling!;
+         const menu =        panels!.previousElementSibling;
          dna.core.assert(menu?.classList.contains('dna-menu'), 'Menu not found for panels', panels);
-         setNavName(menu);
+         setNavName(menu!);
          setNavName(panels!);
          return menuNavName;
          };
@@ -1182,14 +1223,16 @@ const dnaCompile = {
       // Usage:
       //    const rules = <DnaRules>dna.dom.state(elem).dnaRules;
       //    dna.compile.setRule(rules, 'transform', 'app.cart.addTax');
-      (<DnaRulesValue>rules[key]) = value;
+      const settableRules = <{ [key: string]: DnaRulesValue }>rules;
+      settableRules[key] = value;
       return rules;
       },
    setElemRule(elem: Element, key: DnaRulesKey, value: DnaRulesValue): Element {
       // Usage:
       //    const rules = <DnaRules>dna.dom.state(elem).dnaRules;
       //    dna.compile.setRule(rules, 'transform', 'app.cart.addTax');
-      (<DnaRulesValue>dna.compile.getRules(elem)[key]) = value;
+      const rules = <{ [key: string]: DnaRulesValue }>dna.compile.getRules(elem);
+      rules[key] = value;
       return elem;
       },
    regex: {
@@ -1205,7 +1248,7 @@ const dnaCompile = {
    isDnaField(node: Element): boolean {
       // <span>~~title~~<span>  ==> true
       const value = node.firstChild?.nodeValue;  //example: "~~title~~"
-      return !!value && dna.compile.regex.dnaField.test(<string>value);
+      return !!value && dna.compile.regex.dnaField.test(value);
       },
    addFieldClass(elem: Element): Element {
       const field =    <DnaFieldName>dna.dom.state(elem).dnaField;
@@ -1221,7 +1264,7 @@ const dnaCompile = {
       //    <textarea>~~address~~</textarea>  ==>
       //       <textarea class=dna-nucleotide></p>  <!-- state: dnaField=address, rules: { val: true } -->
       dna.compile.setupNucleotide(elem);
-      const field = <DnaFieldName>elem.textContent!.replace(dna.compile.regex.dnaBasePairs, '').trim();
+      const field = elem.textContent!.replace(dna.compile.regex.dnaBasePairs, '').trim();
       dna.dom.state(elem).dnaField = field;
       dna.compile.addFieldClass(elem);
       const rules = dna.compile.getRules(elem);
@@ -1333,7 +1376,7 @@ const dnaCompile = {
       //    subTemplateName('book', 'authors') ==> 'book-authors--2'
       const getRules = () => dna.compile.getRules(dna.getClone(<Element>holder, { main: true }));
       const templateName = typeof holder === 'string' ? holder : getRules().template;
-      return templateName + '-' + arrayField + '--' + String(index);
+      return `${templateName}-${arrayField}--${index}`;
       },
    rules(elem: Element, type: DnaRulesKey, isLists = false, className?: string, init?: (elem: Element) => void): Element {
       // Examples:
@@ -1426,7 +1469,7 @@ const dnaTemplate = {
          const compileSiblings = () => {
             containerState.dnaContents = true;
             const templateName = (sibling: Element): string | false => {
-               const compileToName = (id?: string) => id ? dna.compile.template(id).name : name!;
+               const compileToName = (id?: string) => id ? dna.compile.template(id).name : name;
                const classes = sibling.classList;
                return classes.contains(dna.name.template) ? compileToName(sibling.id) :
                   classes.contains(dna.name.subClone) ?     dna.compile.getRules(sibling).template! :
@@ -1536,15 +1579,15 @@ const dnaEvents = {
          // Finds elements for the given event type and executes the callback passing in the
          //    element, event, and component (container element with "data-component" attribute).
          // Types: click|change|input|key-up|key-down|enter-key
-         const target = <HTMLElement>elem.closest('[data-' + type + ']');
-         const fn =     target?.dataset[dna.util.toCamel(type)];
+         const target = elem.closest('[data-' + type + ']');
+         const fn =     (<HTMLElement | null>target)?.dataset[dna.util.toCamel(type)];
          const isLink = target?.nodeName === 'A';
          if (type === 'click' && isLink && fn?.match(/^dna[.]/))
             event.preventDefault();
          const nextClickTarget = target?.parentElement?.closest('[data-on-click]');
          if (type === 'click' && nextClickTarget)
             runner(nextClickTarget, type, event);
-         return fn && dna.util.apply(fn, [target, event, dna.ui.getComponent(target)]);
+         return fn && dna.util.apply(fn, [target, event, dna.ui.getComponent(target!)]);
          };
       const handleEvent = (target: Element, event: Event) => {
          const updateField =  (elem: Element, calc: DnaCallback) =>
@@ -1555,7 +1598,7 @@ const dnaEvents = {
          const updateOption = (elem: Element) => updateField(elem, <DnaCallback>isChecked);
          const updateModel =  () => {
             const mainClone = dna.getClone(target, { main: true });
-            if (!mainClone) {  //TODO: figure out why some events are captured on the template instead of the clone
+            if (!<unknown>mainClone) {  //TODO: figure out why some events are captured on the template instead of the clone
                //console.error('Event not on clone:', event.timeStamp, event.type, target);
                return;
                }
@@ -1706,11 +1749,11 @@ const dnaCore = {
          return value !== undefined && value !== null;
          };
       const processLoop = (elem: Element, loop: DnaLoop) => {
-         const dataArray = <T[]>dna.util.value(data, loop.field);
+         const dataArray = <T[] | undefined>dna.util.value(data, loop.field);
          const subClones = dna.dom.filterByClass(elem.children, loop.name);
          const injectSubClone = (subElem: Element, index: number) => {
             if (!subElem.matches('option'))  //prevent select from closing on chrome
-               dna.core.inject(subElem, dataArray[index]!, index, options);
+               dna.core.inject(subElem, dataArray![index]!, index, options);
             };
          const rebuildSubClones = () => {
             subClones.forEach(subClone => subClone.remove());
@@ -1775,8 +1818,9 @@ const dnaCore = {
       if (!containerState.dnaCountsMap)
          containerState.dnaCountsMap = <DnaCountsMap>{};
       const countsMap = <DnaCountsMap>containerState.dnaCountsMap;
-      countsMap[name] = !countsMap[name] ? 1 : countsMap[name]! + 1;
-      dna.core.inject(clone, data, countsMap[name]! - 1, settings);
+      const count =     countsMap[name];
+      countsMap[name] = !count ? 1 : count + 1;
+      dna.core.inject(clone, data, countsMap[name]! - 1, settings);  //eslint-disable-line
       const intoUnwrapped = () => {
          const allClones =  dna.dom.filterByClass(container.children, dna.name.clone);
          const firstClone = () => {
@@ -1810,16 +1854,16 @@ const dnaCore = {
          // </span>
          const clones = dna.dom.filterByClass(container.children, template.name);
          const process = (clone: Element, index: number) => {
-            const separator =     (<HTMLElement>clone.getElementsByClassName(dna.name.separator)[0]);
-            const lastSeparator = (<HTMLElement>clone.getElementsByClassName(dna.name.lastSeparator)[0]);
+            const separator =     clone.getElementsByClassName(dna.name.separator)[0];
+            const lastSeparator = clone.getElementsByClassName(dna.name.lastSeparator)[0];
             const isAlmostLast =  index === clones.length - 2;
             const isLast =        index === clones.length - 1;
             const display = (elem: HTMLElement, show: boolean) =>
                show ? elem.style.removeProperty('display') : elem.style.display = 'none';
             if (separator)
-               display(separator, !isAlmostLast && !isLast);
+               display(<HTMLElement>separator, !isAlmostLast && !isLast);
             if (lastSeparator)
-               display(lastSeparator, isAlmostLast);
+               display(<HTMLElement>lastSeparator, isAlmostLast);
             };
          clones.forEach(process);
          };
@@ -1855,21 +1899,21 @@ const dnaCore = {
          callback(clone, <T>dna.getModel(clone));
       return clone;
       },
-   assert(ok: boolean | unknown, message: string, info: unknown): void {
-      // Oops, file a tps report.
+   assert(ok: unknown, message: string, info: unknown): void {
+      // Oops, file a tps report if "ok" is falsey.
       const quoteStr = (info: unknown) => typeof info === 'string' ? `"${info}"` : String(info);
       if (!ok)
-         throw Error(`[dna-engine] ${message} --> ${quoteStr(info)}`);
+        throw new Error(`[dna-engine] ${message} --> ${quoteStr(info)}`);
       },
    setup(): unknown {
-      if (!globalThis.dna)
+      if (!<Dna | undefined>globalThis.dna)
          globalThis.dna = dna;  //ensure run-time visibility of dna-engine used with module bundlers
       const setupBrowser = () => {
          dna.placeholder.setup();
          dna.panels.setup();
          dna.events.setup();
          };
-      if (globalThis.document)
+      if (<Document | undefined>globalThis.document)
          setupBrowser();
       return dna;
       },
@@ -1973,7 +2017,7 @@ const dna = {
       return !!dna.template.db[name] ||
          globalThis.document.querySelector('.dna-template#' + name) !== null;
       },
-   getModel<T>(elem: Element, options?: Partial<DnaSettingsGetModel>): T | undefined {
+   getModel<T>(elem: Element, options?: Partial<DnaSettingsGetModel>): T | undefined {  //eslint-disable-line
       // Returns the underlying data of the clone.
       return <T>dna.dom.state(dna.getClone(elem, options)).dnaModel;
       },
@@ -1987,7 +2031,7 @@ const dna = {
       const settings =  { ...defaults, ...options };
       const template =  dna.template.get(name);
       const clones =    dna.dom.filterByClass(template.container.children, dna.name.clone);
-      const countsMap = <DnaCountsMap>dna.dom.state(template.container).dnaCountsMap;
+      const countsMap = <DnaCountsMap | undefined>dna.dom.state(template.container).dnaCountsMap;
       if (countsMap)
          countsMap[name] = 0;
       if (settings.fade)
@@ -2045,7 +2089,7 @@ const dna = {
       const containerState = dna.dom.state(container);
       const clones =         dna.dom.filterByClass(container.children, 'dna-clone', name);
       clones.forEach(update);
-      containerState.dnaCountsMap = <DnaCountsMap>containerState.dnaCountsMap || <DnaCountsMap>{};
+      containerState.dnaCountsMap = containerState.dnaCountsMap || <DnaCountsMap>{};
       (<DnaCountsMap>containerState.dnaCountsMap)[name] = clones.length;
       return clone;
       },
@@ -2080,7 +2124,7 @@ const dna = {
       },
    getIndex(elem: Element, options?: Partial<DnaSettingsGetIndex>): number {
       // Returns the index of the clone.
-      const clone =  dna.getClone(elem, options)!;
+      const clone =  dna.getClone(elem, options);
       const rules =  dna.compile.getRules(clone);
       const clones = dna.dom.filterByClass(clone.parentElement!.children, 'dna-clone', rules.template!);
       return clones.indexOf(clone);

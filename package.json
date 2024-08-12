@@ -54,25 +54,6 @@
          "dna": true
       }
    },
-   "eslintConfig": {
-      "ignorePatterns": [
-         "build",
-         "dist",
-         "node_modules"
-      ],
-      "root": true,
-      "parser": "@typescript-eslint/parser",
-      "plugins": [
-         "@typescript-eslint"
-      ],
-      "extends": [
-         "eslint:recommended",
-         "plugin:@typescript-eslint/recommended"
-      ],
-      "rules": {
-         "@typescript-eslint/no-non-null-assertion": "off"
-      }
-   },
    "websiteInfo": {
       "gzipSize": "9 kb gzip",
       "jsFiddle": {
@@ -100,21 +81,22 @@
       ],
       "lint": [
          "jshint . --exclude-path .gitignore",
-         "eslint --max-warnings 0 src --ext .ts",
+         "eslint --max-warnings 0",
          "html-validator spec"
       ],
       "build": [
          "tsc",
          "copy-file src/dna-engine.css           --folder build",
-         "copy-file website/static/panel-nav.css --folder build",
-         "esm-to-plain-js --cd=build dna-engine.js dna-engine.dev.js",
+         "copy-file website/static/panel-nav.css --folder build"
+      ],
+      "publish": [
+         "esm-to-plain-js build/dna-engine.js       build/dna-engine.dev.js",
          "uglifyjs build/dna-engine.dev.js --output build/dna-engine.min.js",
          "add-dist-header build dist"
       ],
       "dev": [
          "tsc --watch --preserveWatchOutput",
-         "chokidar 'src/dna-engine.ts' --command 'src/eslint dna-engine.ts'",
-         "chokidar 'build/dna-engine'  --command 'npm run step:10'",
+         "chokidar 'build/dna-engine.js' --command 'run-scripts publish'",
          "browser-sync . --directory --startPath spec/visual.html --files dist spec"
       ],
       "web": [
@@ -139,38 +121,38 @@
       ]
    },
    "scripts": {
-      "pretest": "run-scripts clean minimize-visual lint build",
+      "pretest": "run-scripts clean minimize-visual lint build publish",
       "test": "mocha spec/*.spec.js",
       "dev": "npm test && run-scripts dev --parallel",
       "build-website": "run-scripts minimize-visual web web-dev web-publish",
       "interactive": "browser-sync . --startPath website-target/2-dev --files website-target/2-dev"
    },
    "devDependencies": {
-      "@eslint/js": "~9.7",
-      "@fortawesome/fontawesome-free": "~6.5",
-      "@types/node": "~20.14",
+      "@eslint/js": "~9.9",
+      "@fortawesome/fontawesome-free": "~6.6",
+      "@types/node": "~22.2",
       "add-dist-header": "~1.4",
       "assert-deep-strict-equal": "~1.2",
       "browser-sync": "~3.0",
       "chokidar-cli": "~3.0",
       "copy-file-util": "~1.2",
       "copy-folder-util": "~1.1",
-      "eslint": "8.57.0",
+      "eslint": "~9.9",
       "esm-to-plain-js": "~1.1",
       "fetch-json": "~3.3",
       "highlight.js": "~11.10",
       "hljs-enhance": "~2.0",
       "jsdom": "~24.1",
       "jshint": "~2.13",
-      "mocha": "~10.6",
+      "mocha": "~10.7",
       "replacer-util": "~1.3",
       "rev-web-assets": "~1.4",
       "rimraf": "~6.0",
-      "run-scripts-util": "~1.2",
+      "run-scripts-util": "~1.3",
       "serve": "~14.2",
       "typescript": "~5.5",
-      "typescript-eslint": "~7.16",
-      "uglify-js": "~3.18",
+      "typescript-eslint": "~8.0",
+      "uglify-js": "~3.19",
       "w3c-html-validator": "~1.8",
       "web-ignition": "~2.2"
    }

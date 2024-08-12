@@ -956,7 +956,7 @@
             Title: <span>&lt;script&gt;alert(2);&lt;/script&gt;</span>
          </div>
          <div class=dna-clone>
-            Title: <span>21</span>
+            Title: <span><b><i>The DOM</i></b></span>
          </div>
       </div>
    </fieldset>
@@ -964,9 +964,9 @@
 <script>
    spec.spec13 = {
       run() {
-         dna.clone('s13-book', '<script>alert(1);<\/script>');
-         dna.clone('s13-book', '<script>alert(2);<\/script>', { html: false });
-         dna.clone('s13-book', '<script>document.querySelector(".s13-book:last-child span").innerText=21;<\/script>', { html: true });
+         dna.clone('s13-book', '<script>alert(1);<\/script>');                   //render safely by default
+         dna.clone('s13-book', '<script>alert(2);<\/script>', { html: false });  //explicitly render safely
+         dna.clone('s13-book', '<b><i>The DOM</i></b>', { html: true });         //allow HTML tags
          },
       };
 </script>
