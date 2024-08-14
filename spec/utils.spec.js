@@ -152,23 +152,29 @@ describe('Formatter dna.format.getDateFormatter()', () => {
          皿('date'),
          皿('general'),
          皿('generalDate'),
-         皿('generalDay'),
          皿('generalTime'),
+         皿('generalWeekday'),
          皿('locale'),
          皿('localeDate'),
          皿('localeTime'),
+         皿('month'),
          皿('simpleDate'),
+         皿('weekday'),
+         皿('year'),
          ];
       const expected = [
          'Sat May 04 2030',        //date
          '2030-05-04 1:00am Sat',  //general
          '2030-05-04',             //generalDate
-         'Sat',                    //generalDay
          '1:00am',                 //generalTime
+         'Sat',                    //generalWeekday
          '5/4/2030, 1:00:00 AM',   //locale
          '5/4/2030',               //localeDate
          '1:00:00 AM',             //localeTime
+         'May',                    //month
          'May 4, 2030',            //simpleDate
+         'Saturday',               //weekday
+         '2030',                   //year
          ];
       assertDeepStrictEqual(actual, expected);
       });

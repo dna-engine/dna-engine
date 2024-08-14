@@ -549,7 +549,7 @@ const dnaDom = {
       //    dna.dom.onReady(myApp.setup);
       const browserless = <boolean>!globalThis.document;
       const state =       browserless ? 'browserless' : globalThis.document.readyState;
-      const message =     'loaded into browserless context -- DOM is interactive';
+      const message =     'loaded into browserless context -- DOM status interactive';
       if (browserless && !options?.quiet)
          console.log(dna.util.timestampMsec(), `[dna-engine] ${message}`);
       if (['complete', 'browserless'].includes(state))
@@ -978,7 +978,9 @@ const dnaFormat = {
       },
    getDateFormatter(format: string): DnaFormatter {
       // Returns a function to format dates into strings, like "2030-05-04 1:00am".
-      const simpleDate =    (date: Date) => date.toLocaleString([], { day: 'numeric', month: 'short', year: "numeric" });  //ex: May 4, 2030
+      const simpleDate =    (date: Date) => date.toLocaleString([], { day: 'numeric', month: 'long', year: 'numeric' });  //ex: "May 4, 2030"
+      const weekday =       (date: Date) => date.toLocaleString([], { weekday: 'long' });  //ex: "Saturday"
+      const month =         (date: Date) => date.toLocaleString([], { month: 'long' });  //ex: "May"
       const twoDigit =      (value: number) => String(value).padStart(2, '0');
       const timestamp =     (date: Date) => date.toISOString().replace('T', '+').slice(0, -5);
       const timestampMsec = (date: Date) => date.toISOString().replace('T', '+').slice(0, -1);
@@ -986,31 +988,34 @@ const dnaFormat = {
       const timeZoneLong =  (date: Date) => date.toLocaleString([], { timeZoneName: 'long', year: 'numeric' }).split(' ').slice(1).join(' ');
       const space =         (format: string) => format.replace(/\s/g, ' ');
       const general = {  //format parts of the general timestamp, ex: "2030-05-04 1:00am Sat"
-         date:  (date: Date) => `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())}`,
-         time:  (date: Date) => date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(/\s/, '').toLowerCase(),
-         day:   (date: Date) => date.toLocaleString([], { weekday: 'short' }),
-         stamp: (date: Date) => `${general.date(date)} ${general.time(date)} ${general.day(date)}`,
-         long:  (date: Date) => `${general.stamp(date)} (${timeZone(date)})`,
+         date:    (date: Date) => `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())}`,
+         time:    (date: Date) => date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(/\s/, '').toLowerCase(),
+         weekday: (date: Date) => date.toLocaleString([], { weekday: 'short' }),
+         stamp:   (date: Date) => `${general.date(date)} ${general.time(date)} ${general.weekday(date)}`,
+         long:    (date: Date) => `${general.stamp(date)} (${timeZone(date)})`,
          };
       const transformers = {
-         date:          (date: Date) => date.toDateString(),               //ex: "Sat May 04 2030"
-         general:       (date: Date) => general.stamp(date),               //ex: "2030-05-04 1:00am Sat"
-         generalDate:   (date: Date) => general.date(date),                //ex: "2030-05-04"
-         generalDay:    (date: Date) => general.day(date),                 //ex: "Sat"
-         generalLong:   (date: Date) => general.long(date),                //ex: "2030-05-04 1:00am Sat (PDT)"
-         generalTime:   (date: Date) => general.time(date),                //ex: "1:00am"
-         iso:           (date: Date) => date.toISOString(),                //ex: "2030-05-04T08:00:00.000Z"
-         locale:        (date: Date) => space(date.toLocaleString()),      //ex: "5/4/2030, 1:00:00 AM"
-         localeDate:    (date: Date) => date.toLocaleDateString(),         //ex: "5/4/2030"
-         localeTime:    (date: Date) => space(date.toLocaleTimeString()),  //ex: "1:00:00 AM"
-         simpleDate:    (date: Date) => simpleDate(date),                  //ex: May 4, 2030
-         string:        (date: Date) => date.toString(),                   //ex: "Sat May 04 2030 01:00:00 GMT-0700 (PDT)"
-         time:          (date: Date) => date.toTimeString(),               //ex: "01:00:00 GMT-0700 (PDT)"
-         timestamp:     (date: Date) => timestamp(date),                   //ex: "2030-05-04+08:00:00"
-         timestampMsec: (date: Date) => timestampMsec(date),               //ex: "2030-05-04+08:00:00.000"
-         timeZone:      (date: Date) => timeZone(date),                    //ex: "PDT"
-         timeZoneLong:  (date: Date) => timeZoneLong(date),                //ex: "Pacific Daylight Time"
-         utc:           (date: Date) => date.toUTCString(),                //ex: "Sat, 04 May 2030 08:00:00 GMT"
+         date:           (date: Date) => date.toDateString(),               //ex: "Sat May 04 2030"
+         general:        (date: Date) => general.stamp(date),               //ex: "2030-05-04 1:00am Sat"
+         generalDate:    (date: Date) => general.date(date),                //ex: "2030-05-04"
+         generalWeekday: (date: Date) => general.weekday(date),             //ex: "Sat"
+         generalLong:    (date: Date) => general.long(date),                //ex: "2030-05-04 1:00am Sat (PDT)"
+         generalTime:    (date: Date) => general.time(date),                //ex: "1:00am"
+         iso:            (date: Date) => date.toISOString(),                //ex: "2030-05-04T08:00:00.000Z"
+         locale:         (date: Date) => space(date.toLocaleString()),      //ex: "5/4/2030, 1:00:00 AM"
+         localeDate:     (date: Date) => date.toLocaleDateString(),         //ex: "5/4/2030"
+         localeTime:     (date: Date) => space(date.toLocaleTimeString()),  //ex: "1:00:00 AM"
+         month:          (date: Date) => month(date),                       //ex: "May" or "November"
+         simpleDate:     (date: Date) => simpleDate(date),                  //ex: "May 4, 2030"
+         string:         (date: Date) => date.toString(),                   //ex: "Sat May 04 2030 01:00:00 GMT-0700 (PDT)"
+         time:           (date: Date) => date.toTimeString(),               //ex: "01:00:00 GMT-0700 (PDT)"
+         timestamp:      (date: Date) => timestamp(date),                   //ex: "2030-05-04+08:00:00"
+         timestampMsec:  (date: Date) => timestampMsec(date),               //ex: "2030-05-04+08:00:00.000"
+         timeZone:       (date: Date) => timeZone(date),                    //ex: "PDT"
+         timeZoneLong:   (date: Date) => timeZoneLong(date),                //ex: "Pacific Daylight Time"
+         utc:            (date: Date) => date.toUTCString(),                //ex: "Sat, 04 May 2030 08:00:00 GMT"
+         weekday:        (date: Date) => weekday(date),                     //ex: "Saturday"
+         year:           (date: Date) => String(date.getFullYear()),        //ex: "2030"
          };
       type TransformersKey = keyof typeof transformers;
       const transformer = transformers[<TransformersKey>dna.util.toCamel(format)];
