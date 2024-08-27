@@ -130,7 +130,7 @@
    "devDependencies": {
       "@eslint/js": "~9.9",
       "@fortawesome/fontawesome-free": "~6.6",
-      "@types/node": "~22.3",
+      "@types/node": "~22.5",
       "add-dist-header": "~1.4",
       "assert-deep-strict-equal": "~1.2",
       "browser-sync": "~3.0",
@@ -142,7 +142,7 @@
       "fetch-json": "~3.3",
       "highlight.js": "~11.10",
       "hljs-enhance": "~2.0",
-      "jsdom": "~24.1",
+      "jsdom": "~25.0",
       "jshint": "~2.13",
       "mocha": "~10.7",
       "replacer-util": "~1.3",
@@ -151,7 +151,7 @@
       "run-scripts-util": "~1.3",
       "serve": "~14.2",
       "typescript": "~5.5",
-      "typescript-eslint": "~8.1",
+      "typescript-eslint": "~8.3",
       "uglify-js": "~3.19",
       "w3c-html-validator": "~1.8",
       "web-ignition": "~2.2"

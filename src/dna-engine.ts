@@ -246,7 +246,7 @@ const dnaBrowser = {
       const polyfill = (): NavigatorUAData => {
          const brandEntry = globalThis.navigator.userAgent.split(' ').pop()?.split('/') ?? [];
          const hasTouch =   !!navigator.maxTouchPoints;
-         const platform =   globalThis.navigator.platform;
+         const platform =   globalThis.navigator.platform;  //eslint-disable-line
          const mac =        hasTouch ? 'iOS' : 'macOS';
          const platforms: { [platform: string]: string} =
             { 'MacIntel': mac, 'Win32': 'Windows', 'iPhone': 'iOS', 'iPad': 'iOS' };
