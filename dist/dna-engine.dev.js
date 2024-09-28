@@ -1,4 +1,4 @@
-//! dna-engine v3.2.5 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.2.6 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -316,7 +316,7 @@ const dnaDom = {
     onReady(callback, options) {
         const browserless = !globalThis.document;
         const state = browserless ? 'browserless' : globalThis.document.readyState;
-        const message = 'loaded into browserless context -- DOM is interactive';
+        const message = 'loaded into browserless context -- DOM status interactive';
         if (browserless && !options?.quiet)
             console.log(dna.util.timestampMsec(), `[dna-engine] ${message}`);
         if (['complete', 'browserless'].includes(state))
@@ -688,7 +688,9 @@ const dnaFormat = {
         return (value) => formatter(Number(value) / units);
     },
     getDateFormatter(format) {
-        const simpleDate = (date) => date.toLocaleString([], { day: 'numeric', month: 'short', year: "numeric" });
+        const simpleDate = (date) => date.toLocaleString([], { day: 'numeric', month: 'long', year: 'numeric' });
+        const weekday = (date) => date.toLocaleString([], { weekday: 'long' });
+        const month = (date) => date.toLocaleString([], { month: 'long' });
         const twoDigit = (value) => String(value).padStart(2, '0');
         const timestamp = (date) => date.toISOString().replace('T', '+').slice(0, -5);
         const timestampMsec = (date) => date.toISOString().replace('T', '+').slice(0, -1);
@@ -698,21 +700,22 @@ const dnaFormat = {
         const general = {
             date: (date) => `${date.getFullYear()}-${twoDigit(date.getMonth() + 1)}-${twoDigit(date.getDate())}`,
             time: (date) => date.toLocaleString([], { hour: 'numeric', minute: '2-digit' }).replace(/\s/, '').toLowerCase(),
-            day: (date) => date.toLocaleString([], { weekday: 'short' }),
-            stamp: (date) => `${general.date(date)} ${general.time(date)} ${general.day(date)}`,
+            weekday: (date) => date.toLocaleString([], { weekday: 'short' }),
+            stamp: (date) => `${general.date(date)} ${general.time(date)} ${general.weekday(date)}`,
             long: (date) => `${general.stamp(date)} (${timeZone(date)})`,
         };
         const transformers = {
             date: (date) => date.toDateString(),
             general: (date) => general.stamp(date),
             generalDate: (date) => general.date(date),
-            generalDay: (date) => general.day(date),
+            generalWeekday: (date) => general.weekday(date),
             generalLong: (date) => general.long(date),
             generalTime: (date) => general.time(date),
             iso: (date) => date.toISOString(),
             locale: (date) => space(date.toLocaleString()),
             localeDate: (date) => date.toLocaleDateString(),
             localeTime: (date) => space(date.toLocaleTimeString()),
+            month: (date) => month(date),
             simpleDate: (date) => simpleDate(date),
             string: (date) => date.toString(),
             time: (date) => date.toTimeString(),
@@ -721,6 +724,8 @@ const dnaFormat = {
             timeZone: (date) => timeZone(date),
             timeZoneLong: (date) => timeZoneLong(date),
             utc: (date) => date.toUTCString(),
+            weekday: (date) => weekday(date),
+            year: (date) => String(date.getFullYear()),
         };
         const transformer = transformers[dna.util.toCamel(format)];
         dna.core.assert(transformer, 'Unknown date format code', format);
@@ -1484,7 +1489,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.2.5',
+    version: '3.2.6',
     clone(name, data, options) {
         const defaults = {
             callback: null,
