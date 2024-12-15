@@ -1699,7 +1699,7 @@ const dnaCore = {
             field === '[count]' ? index + 1 :
             dna.util.value(data, field);
          if (value !== null && value !== (<HTMLInputElement>elem).value)
-            (<HTMLInputElement>elem).value = String(value);
+            (<HTMLInputElement>elem).value = String(<unknown>value);
          };
       const setProperty = (elem: HTMLInputElement, property: string, state: boolean): HTMLInputElement => {
          dna.core.assert(['checked', 'disabled'].includes(property), 'Invalid element property type', property);
@@ -2074,7 +2074,7 @@ const dna = {
          else if (inputElem.matches('input[type=radio]'))
             (<HTMLInputElement>inputElem).checked = !!value;  //TOOD: if true, deselect other buttons in model
          else if (inputElem.matches('input, select, textarea'))
-            (<HTMLInputElement>inputElem).value = String(value);
+            (<HTMLInputElement>inputElem).value = String(<string>value);
          const model = <DnaDataObject>dna.getModel(inputElem);
          model[<DnaFieldName>field] = value;
          };
