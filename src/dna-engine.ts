@@ -68,8 +68,9 @@ export type DnaSettingsRunOnLoads = {
    pollInterval: number,  //milliseconds
    };
 export type DnaSettingsEventsOn = {
-   keyFilter:    KeyboardEvent["key"] | null,
-   selector:     string | null,
+   keyFilter:    KeyboardEvent["key"] | null,  //examples: "enter", "escape", "a", "b"
+   selector:     string | null,                //only allow events on elements matching selector
+   container:    Element | null,               //only allow events on elements within container
    };
 export type DnaSettingsPulse = {
    duration:     number,   //milliseconds displayed
@@ -464,14 +465,17 @@ const dnaDom = {
    on(type: string, listener: DnaEventListener, options?: Partial<DnaSettingsEventsOn>) {
       // type ->      https://developer.mozilla.org/en-US/docs/Web/Events
       // keyFilter -> https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
-      const defaults: DnaSettingsEventsOn = { keyFilter: null, selector: null };
-      const settings =   { ...defaults, ...options };
-      const noFilter =   !settings.keyFilter;
-      const noSelector = !settings.selector;
+      const defaults: DnaSettingsEventsOn = { keyFilter: null, selector: null, container: null };
+      const settings =    { ...defaults, ...options };
+      const noFilter =    !settings.keyFilter;
+      const noSelector =  !settings.selector;
+      const noContainer = !settings.container;
       const delegator = (event: Event) => {
-         const target = <Element | null>event.target;
-         const elem =   !target || noSelector ? target : target.closest(settings.selector!);
-         if (elem && (noFilter || settings.keyFilter === (<KeyboardEvent>event).key))
+         const target =       <Element | null>event.target;
+         const elem =         !target || noSelector ? target : target.closest(settings.selector!);
+         const expectedKey =  () => noFilter || settings.keyFilter === (<KeyboardEvent>event).key;
+         const expectedElem = () => noContainer || settings.container!.contains(target);
+         if (elem && expectedKey() && expectedElem())
             listener(elem, event, settings.selector);
          };
       globalThis.document.addEventListener(type, delegator);
