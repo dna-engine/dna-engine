@@ -1,4 +1,4 @@
-//! dna-engine v3.2.6 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.2.7 ~~ https://dna-engine.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -69,6 +69,7 @@ export type DnaSettingsRunOnLoads = {
 export type DnaSettingsEventsOn = {
     keyFilter: KeyboardEvent["key"] | null;
     selector: string | null;
+    container: Element | null;
 };
 export type DnaSettingsPulse = {
     duration: number;

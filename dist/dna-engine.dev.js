@@ -1,4 +1,4 @@
-//! dna-engine v3.2.6 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.2.7 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -238,14 +238,17 @@ const dnaDom = {
         return (dna.dom.isElem(elemOrEvent) ? elemOrEvent : elemOrEvent.target);
     },
     on(type, listener, options) {
-        const defaults = { keyFilter: null, selector: null };
+        const defaults = { keyFilter: null, selector: null, container: null };
         const settings = { ...defaults, ...options };
         const noFilter = !settings.keyFilter;
         const noSelector = !settings.selector;
+        const noContainer = !settings.container;
         const delegator = (event) => {
             const target = event.target;
             const elem = !target || noSelector ? target : target.closest(settings.selector);
-            if (elem && (noFilter || settings.keyFilter === event.key))
+            const expectedKey = () => noFilter || settings.keyFilter === event.key;
+            const expectedElem = () => noContainer || settings.container.contains(target);
+            if (elem && expectedKey() && expectedElem())
                 listener(elem, event, settings.selector);
         };
         globalThis.document.addEventListener(type, delegator);
@@ -1489,7 +1492,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.2.6',
+    version: '3.2.7',
     clone(name, data, options) {
         const defaults = {
             callback: null,

@@ -1,7 +1,7 @@
 <!doctype html>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- Folder Listing                                              -->
-<!-- v1.3.5 (November 19, 2024)                                  -->
+<!-- v1.3.6 (March 12, 2025)                                     -->
 <!-- A good looking replacement for Directory Listings:          -->
 <!--     Rename this file to "index.php" and copy it into a web  -->
 <!--     server directory to enable browsing on that directory.  -->
@@ -27,7 +27,7 @@
    <link rel=preconnect       href=https://fonts.gstatic.com crossorigin>
    <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7/css/all.min.css>
    <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/dna-engine@3.2/dist/dna-engine.css>
-   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/web-ignition@2.2/dist/reset.min.css>
+   <link rel=stylesheet       href=https://cdn.jsdelivr.net/npm/web-ignition@2.3/dist/reset.min.css>
    <style>
       body { color: dimgary; background-color: white; margin: 0px 20px; }
       body >main { min-height: auto; }
@@ -58,7 +58,7 @@
          }
    </style>
    <script defer src=https://cdn.jsdelivr.net/npm/dna-engine@3.2/dist/dna-engine.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@2.2/dist/lib-x.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@2.3/dist/lib-x.min.js></script>
    <script data-on-load=displayPath>
       const displayPath = () => {
          // Show the URL of the current folder.
@@ -69,7 +69,8 @@
          };
    </script>
    <?php
-      if (!function_exists("str_ends_with")) {
+      $gitHubUrl = "https://gist.github.com/dpilafian/930e1677d0c08eed3c39f04d32d7bf19";
+      if (!function_exists("str_ends_with")) {  //polyfill for PHP 8.0.0 str_ends_with()
          function str_ends_with($haystack, $needle) {
             return substr($haystack, -strlen($needle)) === $needle;
             }
@@ -132,7 +133,7 @@
    </ul>
    <p>
       <a href=# class=home-link><i data-icon=home></i></a>
-      <a href=https://gist.github.com/dpilafian/930e1677d0c08eed3c39f04d32d7bf19><i data-brand=github-alt></i></a>
+      <a href=<?= $gitHubUrl ?>><i data-brand=github-alt></i></a>
    </p>
 </main>
 
