@@ -298,7 +298,6 @@ main.docs-page #interactive-events p input {
    }
 .api-parameters >ul >li,
 .api-return-value >ul >li {
-   text-indent: 0px;
    border: 1px dotted steelblue;
    padding: 10px;
    margin-bottom: 10px;
@@ -314,7 +313,6 @@ main.docs-page #interactive-events p input {
 .api-parameters ul ul li,
 .api-return-value ul ul li {
    position: relative;
-   text-indent: 0px;
    padding-bottom: 5px;
    margin-left: 175px;
    }

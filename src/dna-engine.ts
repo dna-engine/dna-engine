@@ -321,7 +321,9 @@ const dnaDom = {
          dna.dom.stateDepot[Number(data.dnaState)] = {};
       return elem;
       },
-   createCustom(tag: string, options?: { id?: string, subTags?: string[], class?: string, href?: string, html?: string, name?: string, rel?: string, src?: string, text?: string, type?: string }): HTMLElement {
+   createCustom(tag: string, options?:
+      { id?: string, subTags?: string[], class?: string, href?: string, html?: string,
+      name?: string, rel?: string, src?: string, text?: string, type?: string }): HTMLElement {
       const elem = globalThis.document.createElement(tag);
       if (options?.id)
          elem.id = options.id;
@@ -346,7 +348,12 @@ const dnaDom = {
             subTag => elem.appendChild(globalThis.document.createElement(subTag)));
       return elem;
       },
-   create<K extends keyof HTMLElementTagNameMap>(tag: K, options?: { id?: string, subTags?: string[], class?: string, href?: string, html?: string, name?: string, rel?: string, src?: string, text?: string, type?: string }): HTMLElementTagNameMap[K] {
+   create<K extends keyof HTMLElementTagNameMap>(tag: K, options?:
+      { id?: string, subTags?: string[], class?: string, href?: string, html?: string,
+      name?: string, rel?: string, src?: string, text?: string, type?: string }):
+      HTMLElementTagNameMap[K] {
+      // dna.dom.create('a', { id: 'x', href: 'https://x.com', text: 'X' })
+      //    Returns: <a id=x href=https://x.com>X</a>
       const elem = globalThis.document.createElement(tag);
       if (options?.id)
          elem.id = options.id;
