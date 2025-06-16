@@ -163,7 +163,7 @@ export type DnaInfo = {
 type GlobalKey =    keyof typeof globalThis;
 type GlobalWindow = Window & typeof globalThis;
 type Dna =          typeof dna;
-declare global { var dna: Dna }  //eslint-disable-line no-var
+declare global { var dna: Dna }
 
 const dnaName = {  //class name lookup table
    animating:         'dna-animating',

@@ -128,7 +128,7 @@
       "interactive": "browser-sync . --startPath website-target/2-dev --files website-target/2-dev"
    },
    "devDependencies": {
-      "@eslint/js": "~9.28",
+      "@eslint/js": "~9.29",
       "@fortawesome/fontawesome-free": "~6.7",
       "@types/node": "~24.0",
       "add-dist-header": "~1.4",
@@ -137,7 +137,7 @@
       "chokidar-cli": "~3.0",
       "copy-file-util": "~1.2",
       "copy-folder-util": "~1.1",
-      "eslint": "~9.28",
+      "eslint": "~9.29",
       "esm-to-plain-js": "~1.1",
       "fetch-json": "~3.3",
       "highlight.js": "~11.11",
