@@ -3518,7 +3518,7 @@
          <pre><code class=language-javascript>
             const myApp = {
                start() {
-                  console.log('The DOM is loaded and ready.');
+                  console.info('The DOM is loaded and ready.');
                   },
                };
 
@@ -3546,7 +3546,7 @@
          <pre><code class=language-javascript>
             const elem = document.body;
             dna.dom.state(elem).lastUpdate = Date.now();
-            console.log(dna.dom.state(elem));  //example: {lastUpdate: 1719563344585}
+            console.info(dna.dom.state(elem));  //example: {lastUpdate: 1719563344585}
          </code></pre>
       </figure>
    </section>

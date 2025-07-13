@@ -72,17 +72,17 @@
             const setVersion = (elem) => elem.innerText = dna.version;
             globalThis.document.querySelectorAll('.version-number').forEach(setVersion);
             const runSpec = (sectionNode) => {
-               console.log(sectionNode.id);
+               console.info(sectionNode.id);
                spec[sectionNode.id].run();
                };
-            console.log('~~ dna-engine ~~');
-            console.log('Version: ' + dna.info().version);
-            console.log('Specifications:');
+            console.info('~~ dna-engine ~~');
+            console.info('Version: ' + dna.info().version);
+            console.info('Specifications:');
             const start = Date.now();
             globalThis.document.querySelectorAll('main >section').forEach(runSpec);
-            console.log('Run time (msec):', Date.now() - start);
-            console.log('Report:', dna.info());
-            console.log('');
+            console.info('Run time (msec):', Date.now() - start);
+            console.info('Report:', dna.info());
+            console.info('');
             },
          };
          const simulateNetworkDelay = false;  //force data-on-load to wait for 3 seconds
@@ -1490,7 +1490,7 @@
       smooth(rangeSlider) {
          const container = globalThis.document.querySelector('#spec18 .smooth-container');
          const updateUI =  () => spec.spec18.makeChapterBoxes(rangeSlider);
-         const status =    () => console.log(Date.now() % 10000, 'range:', Number(rangeSlider.value));
+         const status =    () => console.info(Date.now() % 10000, 'range:', Number(rangeSlider.value));
          status();
          dna.ui.smoothHeight(updateUI, { container }).then(status);
          },

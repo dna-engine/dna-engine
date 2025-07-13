@@ -562,7 +562,7 @@ const dnaDom = {
       const state =       browserless ? 'browserless' : globalThis.document.readyState;
       const message =     'loaded into browserless context -- DOM status interactive';
       if (browserless && !options?.quiet)
-         console.log(dna.util.timestampMsec(), `[dna-engine] ${message}`);
+         console.info(dna.util.timestampMsec(), `[dna-engine] ${message}`);
       if (['complete', 'browserless'].includes(state))
          callback();
       else

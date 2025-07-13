@@ -39,11 +39,11 @@
          setup() {
             const start = Date.now();
             app.doSomeStuff(),
-            console.log('Run duration (milliseconds):', Date.now() - start);
-            console.log('Template info:');
-            console.log(dna.info());
-            console.log('Data model:');
-            console.log(dna.getModels('book'));
+            console.info('Run duration (milliseconds):', Date.now() - start);
+            console.info('Template info:');
+            console.info(dna.info());
+            console.info('Data model:');
+            console.info(dna.getModels('book'));
             },
          };
    </script>
