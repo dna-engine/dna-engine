@@ -1,4 +1,4 @@
-//! dna-engine v3.2.8 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.2.9 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -272,7 +272,7 @@ const dnaDom = {
         const options = { selector: selector ?? null, keyFilter: 'Enter' };
         const register = () => dna.dom.on('keyup', listener, options);
         const delay = 250;
-        globalThis.window.setTimeout(register, delay);
+        globalThis.setTimeout(register, delay);
     },
     onFocusIn(listener, selector) {
         dna.dom.on('focusin', listener, { selector: selector ?? null });
@@ -326,9 +326,9 @@ const dnaDom = {
         if (browserless && !options?.quiet)
             console.info(dna.util.timestampMsec(), `[dna-engine] ${message}`);
         if (state === 'loading')
-            globalThis.window.addEventListener('DOMContentLoaded', callback);
+            globalThis.document.addEventListener('DOMContentLoaded', callback);
         else
-            globalThis.window.setTimeout(callback);
+            globalThis.setTimeout(callback);
         return state;
     },
     triggerChange(elem, delay) {
@@ -1495,7 +1495,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.2.8',
+    version: '3.2.9',
     clone(name, data, options) {
         const defaults = {
             callback: null,
