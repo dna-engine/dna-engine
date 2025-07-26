@@ -1,4 +1,4 @@
-//! dna-engine v3.2.7 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.2.8 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -269,7 +269,10 @@ const dnaDom = {
         dna.dom.on('keyup', listener, { selector: selector ?? null });
     },
     onEnterKey(listener, selector) {
-        dna.dom.on('keyup', listener, { selector: selector ?? null, keyFilter: 'Enter' });
+        const options = { selector: selector ?? null, keyFilter: 'Enter' };
+        const register = () => dna.dom.on('keyup', listener, options);
+        const delay = 250;
+        globalThis.window.setTimeout(register, delay);
     },
     onFocusIn(listener, selector) {
         dna.dom.on('focusin', listener, { selector: selector ?? null });
@@ -321,11 +324,11 @@ const dnaDom = {
         const state = browserless ? 'browserless' : globalThis.document.readyState;
         const message = 'loaded into browserless context -- DOM status interactive';
         if (browserless && !options?.quiet)
-            console.log(dna.util.timestampMsec(), `[dna-engine] ${message}`);
-        if (['complete', 'browserless'].includes(state))
-            callback();
-        else
+            console.info(dna.util.timestampMsec(), `[dna-engine] ${message}`);
+        if (state === 'loading')
             globalThis.window.addEventListener('DOMContentLoaded', callback);
+        else
+            globalThis.window.setTimeout(callback);
         return state;
     },
     triggerChange(elem, delay) {
@@ -1492,7 +1495,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.2.7',
+    version: '3.2.8',
     clone(name, data, options) {
         const defaults = {
             callback: null,
