@@ -559,14 +559,14 @@ const dnaDom = {
       // Example (execute myApp.setup() as soon as the DOM is interactive):
       //    dna.dom.onReady(myApp.setup);
       const browserless = <boolean>!globalThis.document;
-      const state =       browserless ? 'browserless' : globalThis.document.readyState;
+      const state =       browserless ? 'browserless' : globalThis.document.readyState;  //loading, interactive, complete
       const message =     'loaded into browserless context -- DOM status interactive';
       if (browserless && !options?.quiet)
          console.info(dna.util.timestampMsec(), `[dna-engine] ${message}`);
-      if (['complete', 'browserless'].includes(state))
-         callback();
-      else
+      if (state === 'loading')
          globalThis.window.addEventListener('DOMContentLoaded', callback);
+      else
+         globalThis.window.setTimeout(callback);
       return state;
       },
    triggerChange(elem: Element, delay?: number): Event {
