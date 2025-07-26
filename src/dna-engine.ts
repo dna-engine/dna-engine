@@ -503,7 +503,10 @@ const dnaDom = {
       dna.dom.on('keyup', listener, { selector: selector ?? null });
       },
    onEnterKey(listener: DnaEventListener, selector?: string) {
-      dna.dom.on('keyup', listener, { selector: selector ?? null, keyFilter: 'Enter' });
+      const options =  { selector: selector ?? null, keyFilter: 'Enter' };
+      const register = () => dna.dom.on('keyup', listener, options);
+      const delay =    250;  //clear out possible enter key event from address bar
+      globalThis.window.setTimeout(register, delay);
       },
    onFocusIn(listener: DnaEventListener, selector?: string) {
       dna.dom.on('focusin', listener, { selector: selector ?? null });
