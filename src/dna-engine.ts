@@ -506,7 +506,7 @@ const dnaDom = {
       const options =  { selector: selector ?? null, keyFilter: 'Enter' };
       const register = () => dna.dom.on('keyup', listener, options);
       const delay =    250;  //clear out possible enter key event from address bar
-      globalThis.window.setTimeout(register, delay);
+      globalThis.setTimeout(register, delay);
       },
    onFocusIn(listener: DnaEventListener, selector?: string) {
       dna.dom.on('focusin', listener, { selector: selector ?? null });
@@ -559,7 +559,7 @@ const dnaDom = {
       },
    onReady(callback: (...args: unknown[]) => unknown, options?: { quiet?: boolean }): DocumentReadyState | 'browserless' {
       // Calls the specified function once the web page is loaded and ready.
-      // Example (execute myApp.setup() as soon as the DOM is interactive):
+      // Example to execute myApp.setup() as soon as the DOM is interactive:
       //    dna.dom.onReady(myApp.setup);
       const browserless = <boolean>!globalThis.document;
       const state =       browserless ? 'browserless' : globalThis.document.readyState;  //loading, interactive, complete
@@ -567,9 +567,9 @@ const dnaDom = {
       if (browserless && !options?.quiet)
          console.info(dna.util.timestampMsec(), `[dna-engine] ${message}`);
       if (state === 'loading')
-         globalThis.window.addEventListener('DOMContentLoaded', callback);
+         globalThis.document.addEventListener('DOMContentLoaded', callback);
       else
-         globalThis.window.setTimeout(callback);
+         globalThis.setTimeout(callback);
       return state;
       },
    triggerChange(elem: Element, delay?: number): Event {
