@@ -2995,7 +2995,6 @@
          <pre><code class=language-css>
             [data-component=author] {
                .dna-menu {
-                  list-style-type: none;
                   padding: 0px;
                   margin-top: 10px;
                   .dna-menu-item {
@@ -3020,11 +3019,11 @@
             &lt;div data-component=author&gt;
                &lt;h2&gt;Author Information&lt;/h2&gt;
                Select:
-               &lt;ul class=dna-menu data-menu-nav=author-info&gt;
+               &lt;menu class=dna-menu data-menu-nav=author-info&gt;
                   &lt;li&gt;Jake&lt;/li&gt;
                   &lt;li&gt;Abby&lt;/li&gt;
                   &lt;li&gt;Ed&lt;/li&gt;
-               &lt;/ul&gt;
+               &lt;/menu&gt;
                &lt;div class=dna-panels data-menu-nav=author-info&gt;
                   &lt;section&gt;
                      &lt;h5&gt;Name: Jake&lt;/h5&gt;
@@ -3053,11 +3052,11 @@
             <div data-component=author>
                <h2>Author Information</h2>
                Select:
-               <ul class=dna-menu data-menu-nav=author-info>
+               <menu class=dna-menu data-menu-nav=author-info>
                   <li>Jake</li>
                   <li>Abby</li>
                   <li>Ed</li>
-               </ul>
+               </menu>
                <div class=dna-panels data-menu-nav=author-info>
                   <section>
                      <h5>Name: Jake</h5>
@@ -3079,15 +3078,15 @@
          </div>
       </figure>
       <!-- End: Result -->
-      <p>
+      <p class=external-site>
          Experiment with button navigation panels:
-         <button data-href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.panelsClick}} class=external-site>
+         <button data-href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.panelsClick}}>
             jsfiddle.net/{{package.websiteInfo.jsFiddle.panelsClick}}
          </button>
       </p>
-      <p>
+      <p class=external-site>
          Experiment with drop-down navigation panels:
-         <button data-href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.panelsDropDown}} class=external-site>
+         <button data-href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.panelsDropDown}}>
             jsfiddle.net/{{package.websiteInfo.jsFiddle.panelsDropDown}}
          </button>
       </p>

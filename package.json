@@ -116,8 +116,7 @@
          "copy-file      website/static/assets/bookmark-icon.png                  --folder website-target/3-prod/graphics",
          "copy-file      website/static/assets/dna-logo.png                       --folder website-target/3-prod/graphics",
          "copy-file      website/static/assets/mobile-home-screen.png             --folder website-target/3-prod/graphics",
-         "copy-file      website/static/assets/social-media/sample-book-cover.jpg --folder website-target/3-prod/graphics",
-         "html-validator website-target/3-prod"
+         "copy-file      website/static/assets/social-media/sample-book-cover.jpg --folder website-target/3-prod/graphics"
       ]
    },
    "scripts": {
@@ -125,6 +124,7 @@
       "test": "mocha spec/*.spec.js",
       "dev": "npm test && run-scripts dev --parallel",
       "build-website": "run-scripts minimize-visual web web-dev web-publish",
+      "validate-website": "html-validator website-target/3-prod",
       "interactive": "browser-sync . --startPath website-target/2-dev --files website-target/2-dev"
    },
    "devDependencies": {

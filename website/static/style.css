@@ -27,7 +27,7 @@
 .featured-books .book span {
    font-weight: bold;
    }
-@media (max-width: 667px) {  /* selects iPhone 6/6s/7/8/SE2/SE3 landscape and anything narrower */
+@media (max-width: 667px) {  /* selects iPhone SE (3rd gen) landscape and anything narrower */
    .featured-books {
       width: 100%;
       }
@@ -43,21 +43,22 @@ html {
 body {
    max-width: 900px;
    min-height: 100vh;
+   color: dimgray;
    background-color: rgba(255, 255, 255, 0.9);
    border-left: 1px solid steelblue;
    border-right: 1px solid steelblue;
    padding: 20px 50px 30px 50px;
    margin: 0px auto;
    }
-body >header nav ul {
+body >header >nav >menu {
    text-align: center;
    margin-bottom: 5px;
    }
-body >header nav ul li {
+body >header >nav >menu li {
    display: inline-block;
    }
-body >header nav ul li a,
-body >header nav ul li a:visited {
+body >header >nav >menu li a,
+body >header >nav >menu li a:visited {
    display: inline-block;
    font-weight: bold;
    font-size: 0.9rem;
@@ -66,8 +67,8 @@ body >header nav ul li a:visited {
    padding: 1px 12px;
    margin: 0px 10px 10px 10px;
    }
-body >header nav ul li.current a,
-body >header nav ul li a:hover {
+body >header >nav >menu li.current a,
+body >header >nav >menu li a:hover {
    color: dimgray;
    border-color: dimgray;
    }
@@ -379,6 +380,7 @@ code.block-indent {
    display: block;
    font-size: 1.4rem;
    line-height: 0.6em;
+   margin: 0px auto;
    opacity: 1;
    }
 .twitter a,
@@ -437,7 +439,6 @@ figure.hljs-enhance .dna-panels {
    }
 
 [data-component=author] .dna-menu {
-   list-style-type: none;
    padding: 0px;
    margin-top: 10px;
    }
@@ -462,7 +463,7 @@ figure.hljs-enhance .dna-panels {
    }
 
 /* Mobile */
-@media (max-width: 667px) {  /* selects iPhone 6/6s/7/8/SE2/SE3 landscape and anything narrower */
+@media (max-width: 667px) {  /* selects iPhone SE (3rd gen) landscape and anything narrower */
    html {
       background: none;
       background-color: aliceblue;
@@ -470,7 +471,7 @@ figure.hljs-enhance .dna-panels {
    body {
       padding: 20px 10px;
       }
-   body >header nav ul {
+   body >header >nav >menu {
       padding: 0px 40px;
       }
    body >header h1 {

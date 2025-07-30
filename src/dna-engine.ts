@@ -68,7 +68,7 @@ export type DnaSettingsRunOnLoads = {
    pollInterval: number,  //milliseconds
    };
 export type DnaSettingsEventsOn = {
-   keyFilter:    KeyboardEvent["key"] | null,  //examples: "enter", "escape", "a", "b"
+   keyFilter:    KeyboardEvent["key"] | null,  //examples: "Enter", "Escape", "ArrowUp", "a", "b"
    selector:     string | null,                //only allow events on elements matching selector
    container:    Element | null,               //only allow events on elements within container
    };

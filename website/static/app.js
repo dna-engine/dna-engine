@@ -33,7 +33,7 @@ app.nav = {
    setup() {
       const folder =  globalThis.location.pathname.split('/').slice(-2)[0];
       const active =  globalThis.document.getElementById('nav-' + folder)?.parentElement;
-      const current = active || globalThis.document.querySelector('header nav li');
+      const current = active || globalThis.document.querySelector('body >header >nav >menu >li');
       current.classList.add('current');
       },
    };
