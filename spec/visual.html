@@ -1088,6 +1088,7 @@
 </section>
 <script>
    spec.spec15 = {
+      bookTitles: ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE'],
       configure(clone, model) {
          clone.classList.add('color-change1');
          },
@@ -1148,12 +1149,12 @@
       run() {
          dna.registerInitializer('spec.spec15.surround', { selector: '.surrounded' });
          dna.registerInitializer(spec.spec15.surround2, { onDomReady: false });  //apply to each clone
-         const titles = ['NUKE', 'NUKE', 'Howdy HTML5', 'NUKE', 'Styling CSS3', 'NUKE', 'NUKE', 'NUKE'];
-         dna.clone('s15-book', titles);
+         dna.clone('s15-book', spec.spec15.bookTitles);  //8 books will be cloned and 6 will be automatically deleted
          const registerBye = (elem) => elem.addEventListener('click', dna.bye);
          globalThis.document.querySelectorAll('.s15-book button.b2').forEach(registerBye);
+         const selector = (count) => `.s15-book .count[data-count="${count}"]`;
          const findClone = (count) =>
-            globalThis.document.querySelector('.s15-book .count[data-count="' + count + '"]').closest('.dna-clone');
+            globalThis.document.querySelector(selector(count)).closest('.dna-clone');
          findClone(1).querySelector('button.b1').click();            //nuke 1st (bye w/data-on-click)
          findClone(2).querySelector('button.b2').click();            //nuke 2nd (bye w/event handler)
          findClone(8).querySelector('button.b3').click();            //nuke 8th (remove w/dna click callback)

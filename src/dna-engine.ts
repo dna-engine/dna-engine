@@ -949,14 +949,14 @@ const dnaUtil = {
       // Example:
       //    dna.util.toCamel('ready-set-go') === 'readySetGo'
       const hump = (match: string, letter: string): string => letter.toUpperCase();
-      return String(kebabStr).replace(/-(.)/g, hump);
+      return String(<unknown>kebabStr).replace(/-(.)/g, hump);
       },
    toKebab: (camelStr: string): string => {
       // Converts a camelCase string to kebab-case (a code made of lowercase letters and dashes).
       // Example:
       //    dna.util.toKebab('readySetGo') === 'ready-set-go'
       const dash = (word: string) => '-' + word.toLowerCase();
-      return ('' + camelStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
+      return String(<unknown>camelStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
       },
    value(data: unknown, field: string | string[]): unknown {
       // Returns the value of the field from the data object.
@@ -1283,7 +1283,8 @@ const dnaCompile = {
       //    <textarea>~~address~~</textarea>  ==>
       //       <textarea class=dna-nucleotide></p>  <!-- state: dnaField=address, rules: { val: true } -->
       dna.compile.setupNucleotide(elem);
-      const field = elem.textContent!.replace(dna.compile.regex.dnaBasePairs, '').trim();
+      const text = String(<unknown>elem.textContent);
+      const field = text.replace(dna.compile.regex.dnaBasePairs, '').trim();
       dna.dom.state(elem).dnaField = field;
       dna.compile.addFieldClass(elem);
       const rules = dna.compile.getRules(elem);
@@ -2083,12 +2084,13 @@ const dna = {
    updateField(inputElem: Element, value: Json): Element {
       const field = dna.dom.state(inputElem).dnaField;
       const update = () => {
+         const elem = <HTMLInputElement>inputElem;
          if (inputElem.matches('input[type=checkbox]'))
-            (<HTMLInputElement>inputElem).checked = !!value;
+            elem.checked = !!value;
          else if (inputElem.matches('input[type=radio]'))
-            (<HTMLInputElement>inputElem).checked = !!value;  //TOOD: if true, deselect other buttons in model
+            elem.checked = !!value;  //TOOD: if true, deselect other buttons in model
          else if (inputElem.matches('input, select, textarea'))
-            (<HTMLInputElement>inputElem).value = String(<string>value);
+            elem.value = String(<unknown>value);
          const model = <DnaDataObject>dna.getModel(inputElem);
          model[<DnaFieldName>field] = value;
          };
