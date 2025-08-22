@@ -438,11 +438,11 @@ figure.hljs-enhance .dna-panels {
    margin-bottom: 15px;
    }
 
-[data-component=author] .dna-menu {
+[data-component=author] menu.dna-menu {
    padding: 0px;
    margin-top: 10px;
    }
-[data-component=author] .dna-menu-item {
+[data-component=author] li.dna-menu-item {
    display: inline;
    background-color: lightskyblue;
    border: 2px solid silver;
@@ -450,15 +450,15 @@ figure.hljs-enhance .dna-panels {
    padding: 5px 10px;
    transition: all 400ms;
    }
-[data-component=author] .dna-menu-item.dna-selected,
-[data-component=author] .dna-menu-item:hover {
+[data-component=author] li.dna-menu-item.dna-selected,
+[data-component=author] li.dna-menu-item:hover {
    border-color: dimgray;
    }
 
-[data-component=book-catalog] .dna-menu {
+[data-component=book-catalog] nav.dna-menu {
    margin-bottom: 10px;
    }
-[data-component=book-catalog] .dna-menu button {
+[data-component=book-catalog] button.dna-menu-item {
    margin-right: 15px;
    }
 

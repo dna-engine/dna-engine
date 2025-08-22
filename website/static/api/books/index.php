@@ -1,5 +1,11 @@
 <?php
-// dna-engine
+// dna-engine ~~ MIT License
+// Books API
+// Example:
+//    HTTP GET https://dna-engine.org/api/books/3
+//    Response 200 OK
+//    Content-Type: application/json
+//    {"id":3,"title":"Howdy HTML5","author":"Ed"}
 
 // Request
 $id = basename($_SERVER["REQUEST_URI"]);

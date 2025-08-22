@@ -1,4 +1,4 @@
-//! dna-engine v3.2.9 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.3.0 ~~ https://dna-engine.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -176,6 +176,7 @@ export type DnaInfo = {
     panels: string[];
     state: unknown[];
 };
+export type DnaElems = Element[] | HTMLCollection | NodeListOf<Element>;
 type GlobalWindow = Window & typeof globalThis;
 type Dna = typeof dna;
 declare global {
@@ -336,16 +337,17 @@ declare const dna: {
             text?: string;
             type?: string;
         }): HTMLElementTagNameMap[K];
-        hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, className: string): boolean;
+        hasClass(elems: DnaElems, className: string): boolean;
         toggleClass(elem: Element, className: string, state?: boolean): Element;
         replaceClass(elem: Element, oldName: string, newName: string): Element;
-        addClass<T extends Element[] | HTMLCollection | NodeListOf<Element>>(elems: T, className: string): T;
+        addClass<T extends DnaElems>(elems: T, className: string): T;
         forEach<T extends HTMLCollection>(elems: T, fn: (elem: Element, index: number, elems: unknown[]) => unknown): T;
-        map<T>(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index: number, elems: unknown[]) => T): T[];
-        filter(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index: number, elems: unknown[]) => unknown): Element[];
-        filterBySelector(elems: Element[] | HTMLCollection, selector: string): Element[];
-        filterByClass(elems: Element[] | HTMLCollection, ...classNames: string[]): Element[];
-        find(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index: number, elems: unknown[]) => boolean): Element | null;
+        map<T>(elems: DnaElems, fn: (elem: Element, index: number, elems: unknown[]) => T): T[];
+        filter(elems: DnaElems, fn: (elem: Element, index: number, elems: unknown[]) => unknown): Element[];
+        filterBySelector(elems: DnaElems, selector: string): Element[];
+        filterByClass(elems: DnaElems, ...classNames: string[]): Element[];
+        excludeByClass(elems: DnaElems, ...classNames: string[]): Element[];
+        find(elems: DnaElems, fn: (elem: Element, index: number, elems: unknown[]) => boolean): Element | null;
         index(elem: Element): number;
         indexOf(elems: NodeListOf<Element>, elem: Element): number;
         findIndex(elems: HTMLCollection | NodeListOf<Element>, selector: string): number;

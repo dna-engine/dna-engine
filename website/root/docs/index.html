@@ -164,25 +164,27 @@
       <dl>
          <dt>Template:</dt>
          <dd>
-            An HTML element whose clones are injected with data from JavaScript
-            objects.&nbsp; The element has the <code>dna-template</code> class.
+            An HTML element whose clones are injected with data from JavaScript objects.&nbsp;
+            The element has the <code>dna-template</code> class.
          </dd>
       </dl>
       <dl>
          <dt>Data Field:</dt>
          <dd>
             Data fields identify where in the template data is to be injected during the cloning
-            process.&nbsp; The name of the data field (object property) is surrounded by a pair of
-            double tildes (example: <code>~~author~~</code>).&nbsp;
-            Mustache notation with curly braces (<code>{% raw %}{{'{{'}}</code> and
-            <code>}}{% endraw %}</code>) is also supported.
+            process.&nbsp;
+            The name of the data field (object property) is surrounded by a pair of double
+            tildes.&nbsp;
+            Mustache notation with curly braces is also supported.<br>
+            Example tilde notation: &nbsp; <code>~~author~~</code><br>
+            Example mustache notation: &nbsp; <code>{<span>{</span>author<span>}</span>}</code>
          </dd>
       </dl>
       <dl>
          <dt>Clone:</dt>
          <dd>
-            A DOM element that is made by copying a template.  The template name
-            is added as each clone's class name.
+            A DOM element that is made by copying a template.&nbsp;
+            The template name is added as each clone's class name.
          </dd>
       </dl>
    </section>
@@ -2030,9 +2032,10 @@
          <em>Note 2:</em>
          Element callbacks perform a similar function as
          <a href=#event-initializer>initializers</a>, but an element callback is specific and an
-         initializer is general.&nbsp; For example, an element callback is appropriate for an
-         animation or initiating a REST call to retrieve additional data for the element while an
-         initializer is appropriate for configuring tooltips that occur in any element.
+         initializer is general.&nbsp;
+         For example, an element callback is appropriate for an animation or initiating a REST call
+         to retrieve additional data for the element while an initializer is appropriate for
+         configuring tooltips that occur in any element.
       </p>
    </section>
 
@@ -2341,8 +2344,8 @@
       <p>
          On a static page where all the HTML is sent in a single HTTP response, any needed element
          initialization can be done one time just after page load.&nbsp;
-         Cloning with dna-engine creates elements and adds them to the DOM after the page is
-         loaded, and those new elements also need to be initialized.
+         However, cloning with dna-engine creates new elements and adds them to the DOM after the
+         page is loaded, and those new elements also need to be initialized.
       </p>
       <p>
          When you register your initializer functions, dna-engine ensures DOM elements are setup
@@ -2994,10 +2997,10 @@
          <figcaption>Example CSS Less</figcaption>
          <pre><code class=language-css>
             [data-component=author] {
-               .dna-menu {
+               menu.dna-menu {
                   padding: 0px;
                   margin-top: 10px;
-                  .dna-menu-item {
+                  li.dna-menu-item {
                      display: inline;
                      background-color: lightskyblue;
                      border: 2px solid silver;
