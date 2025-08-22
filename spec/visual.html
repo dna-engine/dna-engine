@@ -1,10 +1,10 @@
 <!doctype html>
+<html lang=en>
 <!-- - - - - - - - - - - - - - - - - -->
 <!-- dna-engine                      -->
 <!-- Visual Specification Runner     -->
 <!-- dna-engine.org/spec/visual.html -->
 <!-- - - - - - - - - - - - - - - - - -->
-<html lang=en>
 <head>
    <meta charset=utf-8>
    <meta name=viewport    content="width=device-width, initial-scale=1">
@@ -57,7 +57,7 @@
    <script defer src=../dist/dna-engine.dev.js></script>
    <script>globalThis.onerror = () => globalThis.document.body.style.background = 'pink';</script>
    <script data-on-load=specRunner.setup>
-      const spec = {};
+      const spec =   {};
       const event1 = new Date('1971-06-28T19:00:00').getTime();  //local time: June 28, 1971 at 7pm
       const event2 = new Date('2030-05-04T01:00:00').getTime();  //local time: May 4, 2030 at 1:00am
       const specRunner = {
@@ -85,14 +85,14 @@
             console.info('');
             },
          };
-         const simulateNetworkDelay = false;  //force data-on-load to wait for 3 seconds
-         const networkDelaySeconds = 3;
+         const networkDelay = { simulate: false, seconds: 3 };  //force data-on-load to wait
+         // networkDelay.simulate = true;
          const hideSetup = () => {
             const stash = specRunner.setup;
             delete specRunner.setup;
-            globalThis.setTimeout(() => specRunner.setup = stash, networkDelaySeconds * 1000);
+            globalThis.setTimeout(() => specRunner.setup = stash, networkDelay.seconds * 1000);
             };
-         if (simulateNetworkDelay)
+         if (networkDelay.simulate)
             hideSetup();
    </script>
 </head>
@@ -1123,7 +1123,7 @@
          },
       surround2(elem) {
          if (!elem.classList.contains('s15-book'))
-            throw new Error('This is not the clone you are looking for: ' + elem?.nodeName);
+            throw new Error('Call to dna.clearInitializers() in spec15 failed, ' + elem?.nodeName);
          elem.classList.add('border-change2');
          },
       goodbye(elem, event) {  //<button class=3 data-on-click=spec.spec15.goodbye>Bye 3</button>

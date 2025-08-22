@@ -158,6 +158,7 @@ export type DnaInfo = {
    panels:       string[],
    state:        unknown[],
    };
+export type DnaElems = Element[] | HTMLCollection | NodeListOf<Element>;
 
 // Types: Top Level
 type GlobalKey =    keyof typeof globalThis;
@@ -378,7 +379,7 @@ const dnaDom = {
             subTag => elem.appendChild(globalThis.document.createElement(subTag)));
       return elem;
       },
-   hasClass(elems: Element[] | HTMLCollection | NodeListOf<Element>, className: string): boolean {
+   hasClass(elems: DnaElems, className: string): boolean {
       // Returns true if any of the elements in the given list have the specified class.
       const elemHasClass = (elem: Element) => elem.classList.contains(className);
       return Array.prototype.some.call(elems, elemHasClass);
@@ -399,7 +400,7 @@ const dnaDom = {
       elem.classList.add(newName);
       return elem;
       },
-   addClass<T extends Element[] | HTMLCollection | NodeListOf<Element>>(elems: T, className: string): T {
+   addClass<T extends DnaElems>(elems: T, className: string): T {
       // Adds the specified class to each of the elements in the given list.
       const addClass = (elem: Element) => elem.classList.add(className);
       Array.prototype.forEach.call(elems, addClass);
@@ -410,27 +411,34 @@ const dnaDom = {
       Array.prototype.forEach.call(elems, fn);
       return elems;
       },
-   map<T>(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index: number, elems: unknown[]) => T): T[] {
+   map<T>(elems: DnaElems, fn: (elem: Element, index: number, elems: unknown[]) => T): T[] {
       // Loops over the given list of elements to pass each element to the specified function.
       return <T[]>Array.prototype.map.call(elems, fn);
       },
-   filter(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index: number, elems: unknown[]) => unknown): Element[] {
-      // Filters a list of elements.
+   filter(elems: DnaElems, fn: (elem: Element, index: number, elems: unknown[]) => unknown): Element[] {
+      // Returns elements that pass the filter function.
       return <Element[]>Array.prototype.filter.call(elems, fn);
       },
-   filterBySelector(elems: Element[] | HTMLCollection, selector: string): Element[] {
+   filterBySelector(elems: DnaElems, selector: string): Element[] {
       // Returns direct child elements filtered by the specified selector.
       const elemMatches = (elem: Element) => elem.matches(selector);
       return <Element[]>Array.prototype.filter.call(elems, elemMatches);
       },
-   filterByClass(elems: Element[] | HTMLCollection, ...classNames: string[]): Element[] {
-      // Returns direct child elements filtered by one or more class names.
+   filterByClass(elems: DnaElems, ...classNames: string[]): Element[] {
+      // Returns elements that have all of the given class names.
       const hasClass =   (elem: Element) => elem.classList.contains(classNames[0]!);
       const filtered =   <Element[]>Array.prototype.filter.call(elems, hasClass);
       const filterMore = () => dna.dom.filterByClass(filtered, ...classNames.splice(1));
       return classNames.length === 1 ? filtered : filterMore();
       },
-   find(elems: HTMLCollection | NodeListOf<Element>, fn: (elem: Element, index: number, elems: unknown[]) => boolean): Element | null {
+   excludeByClass(elems: DnaElems, ...classNames: string[]): Element[] {
+      // Returns elements that do not have any of the given class names.
+      const lacksClass =  (elem: Element) => !elem.classList.contains(classNames[0]!);
+      const filtered =    <Element[]>Array.prototype.filter.call(elems, lacksClass);
+      const excludeMore = () => dna.dom.excludeByClass(filtered, ...classNames.splice(1));
+      return classNames.length === 1 ? filtered : excludeMore();
+      },
+   find(elems: DnaElems, fn: (elem: Element, index: number, elems: unknown[]) => boolean): Element | null {
       // Finds the first element that satisfies the given condition.
       return <Element | undefined>Array.prototype.find.call(elems, fn) ?? null;
       },
@@ -505,7 +513,7 @@ const dnaDom = {
    onEnterKey(listener: DnaEventListener, selector?: string) {
       const options =  { selector: selector ?? null, keyFilter: 'Enter' };
       const register = () => dna.dom.on('keyup', listener, options);
-      const delay =    250;  //clear out possible enter key event from address bar
+      const delay =    250;  //clear out possible enter key user event from address bar
       globalThis.setTimeout(register, delay);
       },
    onFocusIn(listener: DnaEventListener, selector?: string) {
@@ -562,15 +570,21 @@ const dnaDom = {
       // Example to execute myApp.setup() as soon as the DOM is interactive:
       //    dna.dom.onReady(myApp.setup);
       const browserless = <boolean>!globalThis.document;
-      const state =       browserless ? 'browserless' : globalThis.document.readyState;  //loading, interactive, complete
-      const message =     'loaded into browserless context -- DOM status interactive';
+      const state =       () => browserless ? 'browserless' : globalThis.document.readyState;  //loading, interactive, complete
+      const infoMsg =     'loaded into browserless context -- DOM status interactive';
+      const start =       Date.now();
+      const maxWait =     7000;  //7 seconds
+      const fnName =      callback.name || 'anonymous';
+      const errMsg = () =>
+         `Exceeded maximum loading time of ${maxWait/1000} seconds waiting for ${fnName}`;
       if (browserless && !options?.quiet)
-         console.info(dna.util.timestampMsec(), `[dna-engine] ${message}`);
-      if (state === 'loading')
-         globalThis.document.addEventListener('DOMContentLoaded', callback);
-      else
-         globalThis.setTimeout(callback);
-      return state;
+         console.info(dna.util.timestampMsec(), `[dna-engine] ${infoMsg}`);
+      const callFn = () => {
+         dna.core.assert(Date.now() - start < maxWait, errMsg(), callback);
+         globalThis.setTimeout(state() === 'loading' ? () => callFn() : callback);
+         }
+      callFn();
+      return state();
       },
    triggerChange(elem: Element, delay?: number): Event {
       // Simulate user interaction to change an element.
@@ -1544,7 +1558,7 @@ const dnaTemplate = {
 
 const dnaEvents = {
    db: {
-      context: <DnaContext>{},  //storage to register callbacks when dna-engine is module loaded without window scope (webpack)
+      context:      <DnaContext>{},  //storage to register callbacks when dna-engine is module loaded without window scope (webpack)
       initializers: <DnaInitializer[]>[],  //example: [{ func: 'app.bar.setup', selector: '.progress-bar' }]
       },
    runOnLoads(options?: Partial<DnaSettingsRunOnLoads>): NodeListOf<Element> {
@@ -2108,7 +2122,7 @@ const dna = {
          };
       const container =      clone.parentElement!;
       const containerState = dna.dom.state(container);
-      const clones =         dna.dom.filterByClass(container.children, 'dna-clone', name);
+      const clones =         dna.dom.filterByClass(container.children, dna.name.clone, name);
       clones.forEach(update);
       containerState.dnaCountsMap = containerState.dnaCountsMap || <DnaCountsMap>{};
       (<DnaCountsMap>containerState.dnaCountsMap)[name] = clones.length;
@@ -2128,14 +2142,15 @@ const dna = {
       },
    isClone(elem: Element): boolean {
       // Returns true if the element is a clone or is inside a clone.
-      return !!elem.closest('.dna-clone');
+      return !!elem.closest(dna.selector.clone);
       },
    getClone(elem: Element, options?: Partial<DnaSettingsGetClone>): Element {
       // Returns the clone (or sub-clone) for the specified element.
       const defaults: DnaSettingsGetClone = { main: false };
       const settings = { ...defaults, ...options };
       dna.core.assert(dna.dom.isElem(elem), 'Invalid element', elem);
-      const clone = elem.closest(settings.main ? '.dna-clone:not(.dna-sub-clone)' : '.dna-clone')!;
+      const mainCloneSelector = '.dna-clone:not(.dna-sub-clone)';
+      const clone = elem.closest(settings.main ? mainCloneSelector : dna.selector.clone)!;
       dna.core.assert(clone, 'Cannot find clone', elem);
       return clone;
       },
@@ -2145,9 +2160,10 @@ const dna = {
       },
    getIndex(elem: Element, options?: Partial<DnaSettingsGetIndex>): number {
       // Returns the index of the clone.
-      const clone =  dna.getClone(elem, options);
-      const rules =  dna.compile.getRules(clone);
-      const clones = dna.dom.filterByClass(clone.parentElement!.children, 'dna-clone', rules.template!);
+      const clone =    dna.getClone(elem, options);
+      const rules =    dna.compile.getRules(clone);
+      const siblings = clone.parentElement!.children;
+      const clones =   dna.dom.filterByClass(siblings, dna.name.clone, rules.template!);
       return clones.indexOf(clone);
       },
    up(elemOrEvent: Element | Event): Promise<Element> {
@@ -2165,22 +2181,24 @@ const dna = {
       return dna.destroy(dna.ui.toClone(elemOrEvent), { fade: true });
       },
    registerInitializer(fn: DnaFunctionName | DnaInitializerFn, options?: Partial<DnaSettingsRegisterInitializer>): DnaInitializer[] {
-      // Adds a callback function to the list of initializers that are run on all DOM elements.
+      // Adds a callback function to the list of initializers that are run on all selected elements
+      // in new clones (or on <body> if no selector is specified).
       const defaults: DnaSettingsRegisterInitializer = {
          selector:   null,
          params:     [],
          onDomReady: true,
          };
-      const settings =        { ...defaults, ...options };
-      const rootSelector =    settings.selector;
-      const notTemplate =     (elem: Element) => !elem.classList.contains(dna.name.template);
-      const selectElems =     () => dna.dom.filter(globalThis.document.querySelectorAll(rootSelector!), notTemplate);
-      const onDomReadyElems = () => !rootSelector ? [globalThis.document.body] :
-         dna.dom.addClass(selectElems(), dna.name.initialized);
+      const settings =     { ...defaults, ...options };
+      const onDomReadyElems = () => {
+         const elems = globalThis.document.querySelectorAll(settings.selector ?? 'body')
+         const keep = (elem: Element) => !elem.classList.contains(dna.name.template) &&
+            !elem.classList.contains(dna.name.initialized);
+         return dna.dom.addClass(dna.dom.filter(elems, keep), dna.name.initialized);
+         };
+      const initilizeElem = (elem: Element) => dna.util.apply(fn, [elem, settings.params].flat());
       if (settings.onDomReady)
-         dna.dom.onReady(() => onDomReadyElems().forEach(
-            elem => dna.util.apply(fn, [elem, settings.params].flat())));
-      const initializer = { fn: fn, selector: rootSelector, params: settings.params };
+         dna.dom.onReady(() => onDomReadyElems().forEach(initilizeElem));
+      const initializer = { fn: fn, selector: settings.selector, params: settings.params };
       dna.events.db.initializers.push(initializer);
       return dna.events.db.initializers;
       },
@@ -2207,17 +2225,19 @@ const dna = {
       },
    info(): DnaInfo {
       // Returns status information about templates on the current web page.
-      const names =  Object.keys(dna.template.db);
-      const panels = globalThis.document.querySelectorAll('.dna-menu.dna-panels-initialized');
+      const names =    Object.keys(dna.template.db);
+      const allMenus = globalThis.document.getElementsByClassName(dna.name.menu);
+      const menus =    dna.dom.filterByClass(allMenus, dna.name.panelsInitialized);
+      const clones =   globalThis.document.getElementsByClassName(dna.name.clone);
       return {
          version:      dna.version,
          templates:    names.length,
-         clones:       globalThis.document.querySelectorAll('.dna-clone:not(.dna-sub-clone)').length,
-         subs:         globalThis.document.querySelectorAll('.dna-sub-clone').length,
+         clones:       dna.dom.excludeByClass(clones, dna.name.subClone).length,
+         subs:         dna.dom.filterByClass(clones, dna.name.subClone).length,
          names:        names,
          store:        dna.template.db,
          initializers: dna.events.db.initializers,
-         panels:       dna.dom.map(panels, panel => (<HTMLElement>panel).dataset.menuNav!),
+         panels:       menus.map(menu => (<HTMLElement>menu).dataset.menuNav!),
          state:        dna.dom.stateDepot,
          };
       },

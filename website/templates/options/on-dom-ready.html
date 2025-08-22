@@ -1,6 +1,8 @@
 <li>
    <label><b>onDomReady</b> (Boolean) &mdash;</label>
-   Run the initializer on the web page (<code>globalThis.document.body</code>)
-   once the page loads.&nbsp;
+   In addition to initializing each new clone, also initilize the entire web page once the web
+   page loads.&nbsp;
+   If no selector is specified, the <code>&lt;body&gt;</code> element is passed to the
+   initializer function.&nbsp;
    Default: <b>{{default}}</b>
 </li>
