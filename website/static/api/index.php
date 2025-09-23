@@ -2,7 +2,7 @@
 <html lang=en>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- Folder Listing                                              -->
-<!-- v1.4.1 (August 15, 2025)                                    -->
+<!-- v2.0.0 (August 24, 2025)                                    -->
 <!-- A good looking replacement for Directory Listings:          -->
 <!--     Rename this file to "index.php" and copy it into a web  -->
 <!--     server directory to enable browsing on that directory.  -->
@@ -14,8 +14,8 @@
 <!-- WTFPL                                                       -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <?php
-   $gitHubUrl =  "https://gist.github.com/dpilafian/930e1677d0c08eed3c39f04d32d7bf19";
-   $gitHubRaw =  "https://gist.githubusercontent.com/dpilafian/930e1677d0c08eed3c39f04d32d7bf19/raw";
+   $gitHubUrl =  "https://gist.github.com/pilafmon/930e1677d0c08eed3c39f04d32d7bf19";
+   $gitHubRaw =  "https://gist.githubusercontent.com/pilafmon/930e1677d0c08eed3c39f04d32d7bf19/raw";
    $cdnBase =    "https://cdn.jsdelivr.net/npm";
    $folderName = basename(__DIR__);
 
