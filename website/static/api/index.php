@@ -2,7 +2,7 @@
 <html lang=en>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- Folder Listing                                              -->
-<!-- v2.0.0 (August 24, 2025)                                    -->
+<!-- v2.0.2 (October 4, 2025)                                    -->
 <!-- A good looking replacement for Directory Listings:          -->
 <!--     Rename this file to "index.php" and copy it into a web  -->
 <!--     server directory to enable browsing on that directory.  -->
@@ -96,10 +96,10 @@
    <title>Folder: <?=$folderName?></title>
    <link rel=icon             href=<?=$gitHubRaw?>/icon.png>
    <link rel=apple-touch-icon href=<?=$gitHubRaw?>/icon.png>
-   <link rel=mask-icon        href=<?=$cdnBase?>/@fortawesome/fontawesome-free@7.0/svgs/solid/folder.svg color=darkgoldenrod>
+   <link rel=mask-icon        href=<?=$cdnBase?>/@fortawesome/fontawesome-free@7.1/svgs/solid/folder.svg color=darkgoldenrod>
    <link rel=preconnect       href=https://fonts.googleapis.com>
    <link rel=preconnect       href=https://fonts.gstatic.com crossorigin>
-   <link rel=stylesheet       href=<?=$cdnBase?>/@fortawesome/fontawesome-free@7.0/css/all.min.css>
+   <link rel=stylesheet       href=<?=$cdnBase?>/@fortawesome/fontawesome-free@7.1/css/all.min.css>
    <link rel=stylesheet       href=<?=$cdnBase?>/dna-engine@3.3/dist/dna-engine.css>
    <link rel=stylesheet       href=<?=$cdnBase?>/web-ignition@2.4/dist/reset.min.css>
    <style>

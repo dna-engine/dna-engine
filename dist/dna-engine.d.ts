@@ -1,4 +1,4 @@
-//! dna-engine v3.3.0 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.3.1 ~~ https://dna-engine.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -357,6 +357,7 @@ declare const dna: {
         toElem(elemOrEvent: Element | Event): HTMLElement;
         on(type: string, listener: DnaEventListener, options?: Partial<DnaSettingsEventsOn>): void;
         onClick(listener: DnaEventListener, selector?: string): void;
+        onClickAddClass(selector: string, className: string): void;
         onChange(listener: DnaEventListener, selector?: string): void;
         onInput(listener: DnaEventListener, selector?: string): void;
         onKeyDown(listener: DnaEventListener, selector?: string): void;

@@ -1,11 +1,11 @@
 # dna-engine
 
-# Downloaded and generated files
+# Downloaded and Generated Files
 /node_modules/
 /package-lock.json
 /build/
 /website-target/
 /spec/visual.min.html
 
-# Extraneous system files
+# Extraneous System Files
 .DS_Store

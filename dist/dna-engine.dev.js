@@ -1,4 +1,4 @@
-//! dna-engine v3.3.0 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.3.1 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -261,6 +261,9 @@ const dnaDom = {
     },
     onClick(listener, selector) {
         dna.dom.on('click', listener, { selector: selector ?? null });
+    },
+    onClickAddClass(selector, className) {
+        dna.dom.onClick((elem) => elem.classList.add(className), selector);
     },
     onChange(listener, selector) {
         dna.dom.on('change', listener, { selector: selector ?? null });
@@ -1507,7 +1510,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.3.0',
+    version: '3.3.1',
     clone(name, data, options) {
         const defaults = {
             callback: null,

@@ -28,7 +28,7 @@ displayIntro() {
 buildHtmlFiles() {
    cd $projectHome
    echo "Tasks:"
-   folderListing="$projectHome/../(gists)/folder-listing.php/folder-listing.php"
+   folderListing="$projectHome/../^gists/folder-listing.php/folder-listing.php"
    test -f $folderListing && cp $folderListing $projectHome/website/static/api/index.php
    npm run build-website
    npm run validate-website
