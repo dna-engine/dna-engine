@@ -498,6 +498,9 @@ const dnaDom = {
    onClick(listener: DnaEventListener, selector?: string) {
       dna.dom.on('click', listener, { selector: selector ?? null });
       },
+   onClickAddClass(selector: string, className: string) {
+      dna.dom.onClick((elem) => elem.classList.add(className), selector);
+      },
    onChange(listener: DnaEventListener, selector?: string) {
       dna.dom.on('change', listener, { selector: selector ?? null });
       },
