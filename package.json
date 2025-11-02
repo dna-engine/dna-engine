@@ -72,6 +72,12 @@
          "tutorial": "5ZTP0FxFiYA"
       }
    },
+   "replacerConfig": {
+      "macros": {
+         "cdn-url": "https://cdn.jsdelivr.net/npm/dna-engine@{{package.version|minor-version}}/dist/",
+         "js-uri": "/dist/dna-engine.dev.js class=dev-mode"
+      }
+   },
    "runScriptsConfig": {
       "clean": [
          "rimraf build dist"
@@ -104,11 +110,11 @@
          "copy-folder website/static website-target/1-stage",
          "replacer website/static    website-target/1-stage --ext=.html",
          "replacer website/root      website-target/1-stage --ext=.html",
-         "replacer spec --ext=.html  website-target/1-stage/spec --find=../dist/ --replacement=https://cdn.jsdelivr.net/npm/dna-engine@{{package.version{{pipe}}minor-version}}/dist/"
+         "replacer spec --ext=.html  website-target/1-stage/spec --find=../dist/ --replacement={{macro:cdn-url}}"
       ],
       "web-dev": [
          "copy-folder website-target/1-stage website-target/2-dev",
-         "replacer    website-target/1-stage website-target/2-dev --ext=.html '--regex=/https:.*dna-engine.min.js/m' --replacement=/dist/dna-engine.dev.js{{space}}class{{equals}}dev-mode"
+         "replacer    website-target/1-stage website-target/2-dev --ext=.html '--regex=/https:.*dna-engine.min.js/m' --replacement={{macro:js-uri}}"
       ],
       "web-publish": [
          "copy-file      website-target/1-stage/project.html docs/index.html",
@@ -128,7 +134,7 @@
       "interactive": "browser-sync . --startPath website-target/2-dev --files website-target/2-dev"
    },
    "devDependencies": {
-      "@eslint/js": "~9.38",
+      "@eslint/js": "~9.39",
       "@fortawesome/fontawesome-free": "~7.1",
       "@types/node": "~24.9",
       "add-dist-header": "~1.5",
@@ -137,23 +143,23 @@
       "chokidar-cli": "~3.0",
       "copy-file-util": "~1.3",
       "copy-folder-util": "~1.1",
-      "eslint": "~9.38",
+      "eslint": "~9.39",
       "esm-to-plain-js": "~1.1",
       "fetch-json": "~3.3",
       "highlight.js": "~11.11",
       "hljs-enhance": "~2.0",
-      "jsdom": "~27.0",
+      "jsdom": "~27.1",
       "jshint": "~2.13",
       "mocha": "~11.7",
       "replacer-util": "~1.4",
       "rev-web-assets": "~1.5",
-      "rimraf": "~6.0",
+      "rimraf": "~6.1",
       "run-scripts-util": "~1.3",
       "serve": "~14.2",
       "typescript": "~5.9",
       "typescript-eslint": "~8.46",
       "uglify-js": "~3.19",
-      "w3c-html-validator": "~1.9",
+      "w3c-html-validator": "~2.0",
       "web-ignition": "~2.4"
    }
 }
