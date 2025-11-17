@@ -727,7 +727,7 @@
             </div>
             Authors 1:
             <span>
-               <span data-array=~~authors~~ data-author=~~[value]~~>
+               <span data-array=~~authors~~ data-credit=~~[value]~~>
                   (<span>~~[count]~~</span>)
                   <cite>~~[value]~~</cite>
                </span>
@@ -735,7 +735,7 @@
             <br>
             Authors 2:
             <span>
-               <span data-array=~~authors~~ data-author=~~[value]~~>
+               <span data-array=~~authors~~ data-credit=~~[value]~~>
                   [<cite>~~[value]~~</cite>]
                </span>
             </span>
@@ -928,7 +928,7 @@
          dna.arrayPush(clone2, 'chapters', lastChapter);
          dna.dom.toggleClass(clone2, 'border-change1', dna.getModel(clone2).chapters.length === 5);
          const colorChange2 = (elem) => elem.classList.add('color-change2');
-         const authorElems = globalThis.document.querySelectorAll('.s12-book .s12-book-authors--0[data-author=Jake]');
+         const authorElems = globalThis.document.querySelectorAll('.s12-book .s12-book-authors--0[data-credit=Jake]');
          authorElems.forEach(colorChange2);
          },
       };
