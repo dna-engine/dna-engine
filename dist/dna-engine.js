@@ -1,4 +1,4 @@
-//! dna-engine v3.3.1 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.3.2 ~~ https://dna-engine.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -118,28 +118,7 @@ const dnaDom = {
         return elem;
     },
     createCustom(tag, options) {
-        const elem = globalThis.document.createElement(tag);
-        if (options?.id)
-            elem.id = options.id;
-        if (options?.class)
-            elem.classList.add(options.class);
-        if (options?.href)
-            elem.href = options.href;
-        if (options?.html)
-            elem.innerHTML = options.html;
-        if (options?.name)
-            elem.name = options.name;
-        if (options?.rel)
-            elem.rel = options.rel;
-        if (options?.src)
-            elem.src = options.src;
-        if (options?.text)
-            elem.textContent = options.text;
-        if (options?.type)
-            elem.type = options.type;
-        if (options?.subTags)
-            options.subTags.forEach(subTag => elem.appendChild(globalThis.document.createElement(subTag)));
-        return elem;
+        return dna.dom.create(tag, options);
     },
     create(tag, options) {
         const elem = globalThis.document.createElement(tag);
@@ -157,12 +136,17 @@ const dnaDom = {
             elem.rel = options.rel;
         if (options?.src)
             elem.src = options.src;
+        if (options?.style)
+            Object.assign(elem.style, options.style);
         if (options?.text)
             elem.textContent = options.text;
+        if (options?.title)
+            elem.title = options.title;
         if (options?.type)
             elem.type = options.type;
+        const appendNewTag = (subtag) => elem.appendChild(globalThis.document.createElement(subtag));
         if (options?.subTags)
-            options.subTags.forEach(subTag => elem.appendChild(globalThis.document.createElement(subTag)));
+            options.subTags.forEach(appendNewTag);
         return elem;
     },
     hasClass(elems, className) {
@@ -1216,10 +1200,13 @@ const dnaEvents = {
                 if (!mainClone) {
                     return;
                 }
-                if (target instanceof HTMLInputElement && target.type === 'checkbox')
+                const isCheckbox = target instanceof HTMLInputElement && target.type === 'checkbox';
+                if (isCheckbox)
                     updateField(target, isChecked);
-                if (target instanceof HTMLInputElement && target.type === 'radio')
-                    globalThis.document.querySelectorAll('input[type=radio][name=' + target.name + ']').forEach(updateOption);
+                const isRadioButton = target instanceof HTMLInputElement && target.type === 'radio';
+                const getRadioButtons = (name) => globalThis.document.querySelectorAll('input[type=radio][name=' + name + ']');
+                if (isRadioButton)
+                    getRadioButtons(target.name).forEach(updateOption);
                 else if (dna.compile.getRules(target).val)
                     updateField(target, getValue);
                 dna.refresh(mainClone);
@@ -1320,8 +1307,7 @@ const dnaCore = {
                 const field = parts[1];
                 const core = field === 0 ? index : field === 1 ? index + 1 : field === 2 ? data : dna.util.value(data, field);
                 const value = [parts[0], core, parts[2]].join('');
-                const formatted = rules.formatter ?
-                    rules.formatter(value, data) : value;
+                const formatted = rules.formatter ? rules.formatter(value, data) : value;
                 elem.setAttribute(key, formatted);
                 if (key === 'value' && value !== elem.value)
                     elem.value = value;
@@ -1510,7 +1496,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.3.1',
+    version: '3.3.2',
     clone(name, data, options) {
         const defaults = {
             callback: null,

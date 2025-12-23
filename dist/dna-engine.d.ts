@@ -1,4 +1,4 @@
-//! dna-engine v3.3.1 ~~ https://dna-engine.org ~~ MIT License
+//! dna-engine v3.3.2 ~~ https://dna-engine.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -83,6 +83,20 @@ export type DnaSettingsSmoothHeight = {
     overflow: boolean;
     duration: number;
 };
+export type DnaDomCreateOptions = Partial<{
+    id: string;
+    subTags: (keyof HTMLElementTagNameMap)[];
+    class: string;
+    href: string;
+    html: string;
+    name: string;
+    rel: string;
+    src: string;
+    style: Partial<CSSStyleDeclaration>;
+    text: string;
+    title: string;
+    type: string;
+}>;
 export type DnaModel = JsonData;
 export type DnaDataObject = JsonObject;
 export type DnaFormatter = (value: DnaFormatterValue, model?: unknown) => string;
@@ -313,30 +327,8 @@ declare const dna: {
         };
         cloneState(clone: Element): Element;
         removeState(elem: Element): Element;
-        createCustom(tag: string, options?: {
-            id?: string;
-            subTags?: string[];
-            class?: string;
-            href?: string;
-            html?: string;
-            name?: string;
-            rel?: string;
-            src?: string;
-            text?: string;
-            type?: string;
-        }): HTMLElement;
-        create<K extends keyof HTMLElementTagNameMap>(tag: K, options?: {
-            id?: string;
-            subTags?: string[];
-            class?: string;
-            href?: string;
-            html?: string;
-            name?: string;
-            rel?: string;
-            src?: string;
-            text?: string;
-            type?: string;
-        }): HTMLElementTagNameMap[K];
+        createCustom(tag: string, options?: DnaDomCreateOptions): HTMLElement | HTMLCanvasElement | HTMLImageElement | HTMLVideoElement | HTMLAnchorElement | HTMLScriptElement | HTMLEmbedElement | HTMLFormElement | HTMLHeadElement | HTMLAreaElement | HTMLObjectElement | HTMLLinkElement | HTMLMapElement | HTMLInputElement | HTMLBaseElement | HTMLDataElement | HTMLTimeElement | HTMLProgressElement | HTMLTrackElement | HTMLSourceElement | HTMLButtonElement | HTMLAudioElement | HTMLQuoteElement | HTMLBodyElement | HTMLBRElement | HTMLTableCaptionElement | HTMLTableColElement | HTMLDataListElement | HTMLModElement | HTMLDetailsElement | HTMLDialogElement | HTMLDivElement | HTMLDListElement | HTMLFieldSetElement | HTMLHeadingElement | HTMLHRElement | HTMLHtmlElement | HTMLIFrameElement | HTMLLabelElement | HTMLLegendElement | HTMLLIElement | HTMLMenuElement | HTMLMetaElement | HTMLMeterElement | HTMLOListElement | HTMLOptGroupElement | HTMLOptionElement | HTMLOutputElement | HTMLParagraphElement | HTMLPictureElement | HTMLPreElement | HTMLSelectElement | HTMLSlotElement | HTMLSpanElement | HTMLStyleElement | HTMLTableElement | HTMLTableSectionElement | HTMLTableCellElement | HTMLTemplateElement | HTMLTextAreaElement | HTMLTitleElement | HTMLTableRowElement | HTMLUListElement;
+        create<K extends keyof HTMLElementTagNameMap>(tag: K, options?: DnaDomCreateOptions): HTMLElementTagNameMap[K];
         hasClass(elems: DnaElems, className: string): boolean;
         toggleClass(elem: Element, className: string, state?: boolean): Element;
         replaceClass(elem: Element, oldName: string, newName: string): Element;

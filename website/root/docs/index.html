@@ -2113,17 +2113,34 @@
       </figure>
       <!-- End: Result -->
       <p>
-         <em>Note:</em>
+         <em>Note 1:</em>
          For text fields <code>input</code> and <code>textarea</code>, use
          <a href=#event-smart>data-on-smart-update</a>.
       </p>
       <p>
+         <em>Note 2:</em>
+         To catch enter key events outside of an input field, add the <code>data-on-enter-key</code>
+         attribute to the your web page's <code>body</code> tag.
+      </p>
+      <figure>
+         <figcaption>Example HTML</figcaption>
+         <pre><code class=language-html>
+            &lt;body data-on-enter-key=handleEnterKeyEvent&gt;
+         </code></pre>
+      </figure>
+      <p>
+         Alternatively, call
+         <code>dna.dom.onEnterKey(handleEnterKeyEvent)</code> in your JavaScript.
+      </p>
+      <p>
+         <em>Note 3:</em>
          Experiment with click events:
          <button data-href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.clickEvents}} class=external-site>
             jsfiddle.net/{{package.websiteInfo.jsFiddle.clickEvents}}
          </button>
       </p>
       <p>
+         <em>Note 4:</em>
          See how events can be used with <code>FileReader()</code> to make a reusable photo upload
          component:
          <button data-href=https://jsfiddle.net/{{package.websiteInfo.jsFiddle.photoUpload}} class=external-site>
