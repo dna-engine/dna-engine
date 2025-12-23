@@ -13,7 +13,7 @@ export type NavigatorUAData = {
    readonly platform: string;  //examples: "macOS", "Windows"
    };
 
-// Types: Options
+// Types: Settings
 export type DnaSettingsClone<T> = {
    callback:     DnaCallbackFn<T> | null,
    clones:       number,
@@ -84,6 +84,22 @@ export type DnaSettingsSmoothHeight = {
    overflow:     boolean,
    duration:     number,  //milliseconds
    };
+
+// Types: Options
+export type DnaDomCreateOptions = Partial<{
+   id:      string,
+   subTags: (keyof HTMLElementTagNameMap)[],
+   class:   string,
+   href:    string,
+   html:    string,
+   name:    string,
+   rel:     string,
+   src:     string,
+   style:   Partial<CSSStyleDeclaration>,
+   text:    string,
+   title:   string,
+   type:    string,
+   }>;
 
 // Types: Data, Templates, and Callbacks
 export type DnaModel =          JsonData;
@@ -322,39 +338,14 @@ const dnaDom = {
          dna.dom.stateDepot[Number(data.dnaState)] = {};
       return elem;
       },
-   createCustom(tag: string, options?:
-      { id?: string, subTags?: string[], class?: string, href?: string, html?: string,
-      name?: string, rel?: string, src?: string, text?: string, type?: string }): HTMLElement {
-      const elem = globalThis.document.createElement(tag);
-      if (options?.id)
-         elem.id = options.id;
-      if (options?.class)
-         elem.classList.add(options.class);
-      if (options?.href)
-         (<HTMLAnchorElement>elem).href = options.href;
-      if (options?.html)
-         elem.innerHTML = options.html;
-      if (options?.name)
-         (<HTMLInputElement>elem).name = options.name;
-      if (options?.rel)
-         (<HTMLLinkElement>elem).rel = options.rel;
-      if (options?.src)
-         (<HTMLImageElement>elem).src = options.src;
-      if (options?.text)
-         elem.textContent = options.text;
-      if (options?.type)
-         (<HTMLInputElement>elem).type = options.type;
-      if (options?.subTags)
-         options.subTags.forEach(
-            subTag => elem.appendChild(globalThis.document.createElement(subTag)));
-      return elem;
+   createCustom(tag: string, options?: DnaDomCreateOptions) {  //DEPRECATED
+      return dna.dom.create(<keyof HTMLElementTagNameMap>tag, options);
       },
-   create<K extends keyof HTMLElementTagNameMap>(tag: K, options?:
-      { id?: string, subTags?: string[], class?: string, href?: string, html?: string,
-      name?: string, rel?: string, src?: string, text?: string, type?: string }):
+   create<K extends keyof HTMLElementTagNameMap>(tag: K, options?: DnaDomCreateOptions):
       HTMLElementTagNameMap[K] {
       // dna.dom.create('a', { id: 'x', href: 'https://x.com', text: 'X' })
-      //    Returns: <a id=x href=https://x.com>X</a>
+      // Returns:
+      //    <a id=x href=https://x.com>X</a>
       const elem = globalThis.document.createElement(tag);
       if (options?.id)
          elem.id = options.id;
@@ -370,13 +361,18 @@ const dnaDom = {
          (<HTMLLinkElement>elem).rel = options.rel;
       if (options?.src)
          (<HTMLImageElement>elem).src = options.src;
+      if (options?.style)
+         Object.assign(elem.style, options.style);
       if (options?.text)
          elem.textContent = options.text;
+      if (options?.title)
+         elem.title = options.title;
       if (options?.type)
          (<HTMLInputElement>elem).type = options.type;
+      const appendNewTag = (subtag: keyof HTMLElementTagNameMap) =>
+         elem.appendChild(globalThis.document.createElement(subtag));
       if (options?.subTags)
-         options.subTags.forEach(
-            subTag => elem.appendChild(globalThis.document.createElement(subTag)));
+         options.subTags.forEach(appendNewTag);
       return elem;
       },
    hasClass(elems: DnaElems, className: string): boolean {
@@ -1615,7 +1611,8 @@ const dnaEvents = {
       const runner = (elem: Element, type: string, event: Event) => {
          // Finds elements for the given event type and executes the callback passing in the
          //    element, event, and component (container element with "data-component" attribute).
-         // Types: click|change|input|key-up|key-down|enter-key
+         // Types:
+         //    click|change|input|key-up|key-down|enter-key
          const target = elem.closest('[data-' + type + ']');
          const fn =     (<HTMLElement | null>target)?.dataset[dna.util.toCamel(type)];
          const isLink = target?.nodeName === 'A';
@@ -1639,10 +1636,14 @@ const dnaEvents = {
                //console.error('Event not on clone:', event.timeStamp, event.type, target);
                return;
                }
-            if (target instanceof HTMLInputElement && target.type === 'checkbox')
+            const isCheckbox = target instanceof HTMLInputElement && target.type === 'checkbox';
+            if (isCheckbox)
                updateField(target, <DnaCallback>isChecked);
-            if (target instanceof HTMLInputElement && target.type === 'radio')
-               globalThis.document.querySelectorAll('input[type=radio][name=' + target.name + ']').forEach(updateOption);
+            const isRadioButton = target instanceof HTMLInputElement && target.type === 'radio';
+            const getRadioButtons = (name: string) =>
+               globalThis.document.querySelectorAll('input[type=radio][name=' + name + ']');
+            if (isRadioButton)
+               getRadioButtons(target.name).forEach(updateOption);
             else if (dna.compile.getRules(target).val)
                updateField(target, <DnaCallback>getValue);
             dna.refresh(mainClone);
@@ -1684,7 +1685,7 @@ const dnaEvents = {
          // If element (or parent) has the class "external-site", page will be opened in a new tab.
          const useSameTab = dna.browser.userAgentData().mobile;
          const target =     elem.closest('.external-site') ? '_blank' : '_self';
-         const data = (<HTMLElement>elem).dataset;
+         const data =       (<HTMLElement>elem).dataset;
          globalThis.open(data.href, useSameTab ? '_self' : data.target ?? target);
          };
       dna.dom.onClick(handleEvent);
@@ -1754,8 +1755,7 @@ const dnaCore = {
             const field =     parts[1];
             const core =      field === 0 ? index : field === 1 ? index + 1 : field === 2 ? data : dna.util.value(data, field);
             const value =     [parts[0], core, parts[2]].join('');
-            const formatted = rules.formatter ?
-               rules.formatter(<DnaFormatterValue>value, data) : value;
+            const formatted = rules.formatter ? rules.formatter(value, data) : value;
             elem.setAttribute(key, formatted);
             if (key === 'value' && value !== (<HTMLInputElement>elem).value)
                // Set elem val for input fields, example: <input value=~~tag~~>

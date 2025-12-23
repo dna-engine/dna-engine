@@ -918,7 +918,7 @@
          const clone1 = globalThis.document.querySelector('.s12-book');
          dna.dom.toggleClass(clone1, 'border-change1', clone1.dataset.title === 'The DOM');
          const elem = globalThis.document.querySelector('.s12-book-authors--0:last-child');
-         elem.classList.add(elem.dataset.author === 'Bo II' ? 'color-change1' : 'color-change2');
+         elem.classList.add(elem.dataset.credit === 'Bo II' ? 'color-change1' : 'color-change2');
          const lastBook = [...globalThis.document.getElementsByClassName('s12-book')].at(-1);
          const clone2 = dna.refresh(lastBook, { data: book2, html: true });
          dna.arrayPush(clone2, 'chapters', { header: 'Bio', type: 'back' });
