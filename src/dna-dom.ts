@@ -235,7 +235,7 @@ const dnaArray = {
       //    [{ code: 'a', word: 'Ant' }, { code: 'b', word: 'Bat' }]
       const defaults =  { key: 'code', kebabCodes: false };
       const settings =  { ...defaults, ...options };
-      const codeValue = (key: string): string => settings.kebabCodes ? dna.util.toKebab(key) : key;
+      const codeValue = (key: string): string => settings.kebabCodes ? dna.str.toKebab(key) : key;
       const toObj =     (item: E) => dna.util.isObj(item) ? item : { value: item };
       return Object.keys(map).map(key => ({ ...{ [settings.key]: codeValue(key) }, ...toObj(map[key]!) }));
       },
@@ -252,7 +252,7 @@ const dnaArray = {
       const map =         <{ [code: string | number]: E }>{};
       const keyName =     <keyof E>settings.key;
       const getKeyRaw =   (obj: E) => <string | number><unknown>obj[keyName];
-      const getKeyCamel = (obj: E) => dna.util.toCamel(String(obj[keyName]));
+      const getKeyCamel = (obj: E) => dna.str.toCamel(String(obj[keyName]));
       const getKey =      settings.camelKeys ? getKeyCamel : getKeyRaw;
       array.forEach(obj => map[getKey(obj)] = obj);
       return map;
@@ -937,12 +937,9 @@ const dnaUtil = {
          dna.util.assign(<DnaDataObject>dataObj[name]!, fields.slice(1).join('.'), value);
       return dataObj;
       },
-   printf(format: string, ...values: unknown[]): string {
-      // Builds a formatted string by replacing the format specifiers with the supplied arguments.
-      // Usage:
-      //    dna.util.printf('Items in %s: %s', 'cart', 3) === 'Items in cart: 3';
-      const insertArg = (output: string, value: unknown) => output.replace(/%s/, String(value));
-      return <string>values.reduce(insertArg, format);  //eslint-disable-line @typescript-eslint/no-unnecessary-type-assertion
+   printf(format: string, ...values: unknown[]): string {  //DEPRECATED
+      console.warn('DEPRECATED: Use dna.str.printf() instead.', format);
+      return dna.str.printf(format, ...values);
       },
    round(value: number, precision: number) {
       // Rounds a number to the specified digits of precision.
@@ -958,19 +955,13 @@ const dnaUtil = {
       const emptyArray = () => value instanceof Array && value.length === 0;
       return !!value && !emptyArray() && !falseyStr();
       },
-   toCamel(kebabStr: string): string {
-      // Converts a kebab-case string (a code made of lowercase letters and dashes) to camelCase.
-      // Example:
-      //    dna.util.toCamel('ready-set-go') === 'readySetGo'
-      const hump = (match: string, letter: string): string => letter.toUpperCase();
-      return kebabStr.replace(/-(.)/g, hump);
+   toCamel(kebabStr: string): string {  //DEPRECATED
+      console.warn('DEPRECATED: Use dna.str.toCamel() instead.', kebabStr);
+      return dna.str.toCamel(kebabStr);
       },
-   toKebab(camelStr: string): string {
-      // Converts a camelCase string to kebab-case (a code made of lowercase letters and dashes).
-      // Example:
-      //    dna.util.toKebab('readySetGo') === 'ready-set-go'
-      const dash = (word: string) => '-' + word.toLowerCase();
-      return camelStr.replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
+   toKebab(camelStr: string): string {  //DEPRECATED
+      console.warn('DEPRECATED: Use dna.str.toKebab() instead.', camelStr);
+      return dna.str.toKebab(camelStr);
       },
    value(data: unknown, field: string | string[]): unknown {
       // Returns the value of the field from the data object.
@@ -991,6 +982,35 @@ const dnaUtil = {
    timestampMsec(date?: number): string {
       // Example: "2030-05-04+08:00:00.000"
       return dna.format.getDateFormatter('timestamp-msec')(date ?? Date.now());
+      },
+   };
+
+const dnaStr = {
+   printf(format: string, ...values: unknown[]): string {
+      // Builds a formatted string by replacing the format specifiers with the supplied arguments.
+      // Usage:
+      //    dna.str.printf('Items in %s: %s', 'cart', 3) === 'Items in cart: 3';
+      const insertArg = (output: string, value: unknown) => output.replace(/%s/, String(value));
+      return <string>values.reduce(insertArg, format);  //eslint-disable-line @typescript-eslint/no-unnecessary-type-assertion
+      },
+   toCamel(kebabStr: string): string {
+      // Converts a kebab-case string (a code made of lowercase letters and dashes) to camelCase.
+      // Example:
+      //    dna.str.toCamel('ready-set-go') === 'readySetGo'
+      const hump = (match: string, letter: string): string => letter.toUpperCase();
+      return kebabStr ? kebabStr.replace(/-(.)/g, hump) : '';
+      },
+   toKebab(camelStr: string): string {
+      // Converts a camelCase string to kebab-case (a code made of lowercase letters and dashes).
+      // Example:
+      //    dna.str.toKebab('readySetGo') === 'ready-set-go'
+      const dash = (word: string) => '-' + word.toLowerCase();
+      return camelStr ? camelStr.replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '') : '';
+      },
+   removeWhitespace(text: string): string {
+      // Usage:
+      //    dna.str.removeWhitespace('a b \t\n c   ') === 'abc';
+      return text ? text.trim().replace(/\s/g, '') : '';
       },
    };
 
@@ -1046,7 +1066,7 @@ const dnaFormat = {
          year:           (date: Date) => String(date.getFullYear()),        //ex: "2030"
          };
       type TransformersKey = keyof typeof transformers;
-      const transformer = transformers[<TransformersKey>dna.util.toCamel(format)];
+      const transformer = transformers[<TransformersKey>dna.str.toCamel(format)];
       dna.core.assert(transformer, 'Unknown date format code', format);
       const formatter = (msec: DnaMsec) => transformer(new Date(msec))!;
       return <DnaFormatter>formatter;
@@ -1285,7 +1305,7 @@ const dnaCompile = {
       },
    addFieldClass(elem: Element): Element {
       const field =    <DnaFieldName>dna.dom.state(elem).dnaField;
-      const htmlCase = () => dna.util.toKebab(field).replace(/[[\]]/g, '').replace(/[.]/g, '-');
+      const htmlCase = () => dna.str.toKebab(field).replace(/[[\]]/g, '').replace(/[.]/g, '-');
       if (field)
          elem.classList.add('dna-field-' + htmlCase());
       return elem;
@@ -1615,7 +1635,7 @@ const dnaEvents = {
          // Types:
          //    click|change|input|key-up|key-down|enter-key
          const target = elem.closest('[data-' + type + ']');
-         const fn =     (<HTMLElement | null>target)?.dataset[dna.util.toCamel(type)];
+         const fn =     (<HTMLElement | null>target)?.dataset[dna.str.toCamel(type)];
          const isLink = target?.nodeName === 'A';
          if (type === 'click' && isLink && fn?.match(/^dna[.]/))
             event.preventDefault();
@@ -2258,6 +2278,7 @@ const dna = {
    dom:         dnaDom,
    ui:          dnaUi,
    util:        dnaUtil,
+   str:         dnaStr,
    format:      dnaFormat,
    placeholder: dnaPlaceholder,
    panels:      dnaPanels,

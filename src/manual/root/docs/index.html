@@ -3401,6 +3401,9 @@
             <a href=#page-token><b>dna.pageToken.get</b>(key, value)</a><br>
             <a href=#page-token><b>dna.pageToken.put</b>(key, defaultValue)</a><br>
          </li>
+         <li><a href=#str-printf><b>dna.str.printf</b>(formatString, parameters...)</a></li>
+         <li><a href=#str-to-camel><b>dna.str.toCamel</b>(kebabCaseStr)</a></li>
+         <li><a href=#str-to-kebab><b>dna.str.toKebab</b>(camelCaseStr)</a></li>
          <li><a href=#ui-focus><b>dna.ui.focus</b>(elem)</a></li>
          <li><a href=#ui-get-attrs><b>dna.ui.getAttrs</b>(elem)</a></li>
          <li><a href=#ui-get-component><b>dna.ui.getComponent</b>(elem)</a></li>
@@ -3416,11 +3419,8 @@
          <li><a href=#util-assign><b>dna.util.assign</b>(data, field, value)</a></li>
          <li><a href=#util-get-fn><b>dna.util.getFn</b>(funcName)</a></li>
          <li><a href=#util-is-obj><b>dna.util.isObj</b>(value)</a></li>
-         <li><a href=#util-printf><b>dna.util.printf</b>(formatString, parameters...)</a></li>
          <li><a href=#util-real-truth><b>dna.util.realTruth</b>(value)</a></li>
          <li><a href=#util-round><b>dna.util.round</b>(value, precision)</a></li>
-         <li><a href=#util-to-camel><b>dna.util.toCamel</b>(kebabCaseStr)</a></li>
-         <li><a href=#util-to-kebab><b>dna.util.toKebab</b>(camelCaseStr)</a></li>
          <li><a href=#util-value><b>dna.util.value</b>(data, field)</a></li>
       </ol>
       <br>
@@ -3603,6 +3603,66 @@
             const a = dna.pageToken.get('favorite', 0);  //a === 0
             dna.pageToken.put('favorite', 7);
             const b = dna.pageToken.get('favorite', 0);  //b === 7
+         </code></pre>
+      </figure>
+   </section>
+
+   <!-- dna.str.printf() -->
+   <section id=str-printf>
+      <h4>dna.str.printf(formatString, args...)</h4>
+      <p class=api-description>
+         Builds a formatted string by replacing the format specifiers with the supplied arguments.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            {% render 'src/manual/templates/params/format-string-and-args.html' %}
+         </ul>
+      </div>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            dna.str.printf('%s: %s', 'Lives', 3);  //'Lives: 3'
+         </code></pre>
+      </figure>
+   </section>
+
+   <!-- dna.str.toCamel() -->
+   <section id=str-to-camel>
+      <h4>dna.str.toCamel(kebabCaseStr)</h4>
+      <p class=api-description>
+         Converts a kebab-case string (a code made of lowercase letters and dashes) to camelCase.
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            {% render 'src/manual/templates/params/kebab-str.html' %}
+         </ul>
+      </div>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            dna.str.toCamel('ready-set-go');  //'readySetGo'
+         </code></pre>
+      </figure>
+   </section>
+
+   <!-- dna.str.toKebab() -->
+   <section id=str-to-kebab>
+      <h4>dna.str.toKebab(camelCaseStr)</h4>
+      <p class=api-description>
+         Converts a camelCase string to kebab-case (a code made of lowercase letters and dashes).
+      </p>
+      <div class=api-parameters>
+         Parameters:
+         <ul>
+            {% render 'src/manual/templates/params/camel-case-str.html' %}
+         </ul>
+      </div>
+      <figure>
+         <figcaption>Example JavaScript</figcaption>
+         <pre><code class=language-javascript>
+            dna.str.toKebab('readySetGo');  //'ready-set-go'
          </code></pre>
       </figure>
    </section>
@@ -3932,26 +3992,6 @@
       </figure>
    </section>
 
-   <!-- dna.util.printf() -->
-   <section id=util-printf>
-      <h4>dna.util.printf(formatString, args...)</h4>
-      <p class=api-description>
-         Builds a formatted string by replacing the format specifiers with the supplied arguments.
-      </p>
-      <div class=api-parameters>
-         Parameters:
-         <ul>
-            {% render 'src/manual/templates/params/format-string-and-args.html' %}
-         </ul>
-      </div>
-      <figure>
-         <figcaption>Example JavaScript</figcaption>
-         <pre><code class=language-javascript>
-            dna.util.printf('%s: %s', 'Lives', 3);  //'Lives: 3'
-         </code></pre>
-      </figure>
-   </section>
-
    <!-- dna.util.realTruth() -->
    <section id=util-real-truth>
       <h4>dna.util.realTruth(value)</h4>
@@ -3991,46 +4031,6 @@
          <figcaption>Example JavaScript</figcaption>
          <pre><code class=language-javascript>
             dna.util.round(5555.55, 2);  //5600
-         </code></pre>
-      </figure>
-   </section>
-
-   <!-- dna.util.toCamel() -->
-   <section id=util-to-camel>
-      <h4>dna.util.toCamel(kebabCaseStr)</h4>
-      <p class=api-description>
-         Converts a kebab-case string (a code made of lowercase letters and dashes) to camelCase.
-      </p>
-      <div class=api-parameters>
-         Parameters:
-         <ul>
-            {% render 'src/manual/templates/params/kebab-str.html' %}
-         </ul>
-      </div>
-      <figure>
-         <figcaption>Example JavaScript</figcaption>
-         <pre><code class=language-javascript>
-            dna.util.toCamel('ready-set-go');  //'readySetGo'
-         </code></pre>
-      </figure>
-   </section>
-
-   <!-- dna.util.toKebab() -->
-   <section id=util-to-kebab>
-      <h4>dna.util.toKebab(camelCaseStr)</h4>
-      <p class=api-description>
-         Converts a camelCase string to kebab-case (a code made of lowercase letters and dashes).
-      </p>
-      <div class=api-parameters>
-         Parameters:
-         <ul>
-            {% render 'src/manual/templates/params/camel-case-str.html' %}
-         </ul>
-      </div>
-      <figure>
-         <figcaption>Example JavaScript</figcaption>
-         <pre><code class=language-javascript>
-            dna.util.toKebab('readySetGo');  //'ready-set-go'
          </code></pre>
       </figure>
    </section>

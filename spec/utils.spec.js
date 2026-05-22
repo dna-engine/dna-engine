@@ -18,26 +18,33 @@ describe(`Specifications: ${filename} - ${mode.type} (${mode.file})`, () => {
    before(setupEnv);
 
 ////////////////////////////////////////////////////////////////////////////////
-describe('Utility function dna.util.toCamel()', () => {
+describe('String utility function', () => {
 
-   it('converts a kebab (dashes) name to camelCase', () => {
+   it('dna.str.printf() builds a string from multiple variables', () => {
+      const actual =   { string: dna.str.printf('Items in %s: %s', 'cart', 3) };
+      const expected = { string: 'Items in cart: 3' };
+      assertDeepStrictEqual(actual, expected);
+      });
+
+   it('dna.str.toCamel() converts a kebab (dashes) name to camelCase', () => {
       const input =  ['ready-set-go', 'dna'];
       const output = ['readySetGo',   'dna'];
-      const actual =   { camels: input .map(dna.util.toCamel) };
+      const actual =   { camels: input .map(dna.str.toCamel) };
       const expected = { camels: output };
       assertDeepStrictEqual(actual, expected);
       });
 
-   });
-
-////////////////////////////////////////////////////////////////////////////////
-describe('Utility function dna.util.toKebab()', () => {
-
-   it('converts kebab (dashes) name to camelCase', () => {
+   it('dna.str.toKebab() converts kebab (dashes) name to camelCase', () => {
       const input =  ['readySetGo',   'dna'];
       const output = ['ready-set-go', 'dna'];
-      const actual =   { kebabs: input.map(dna.util.toKebab) };
+      const actual =   { kebabs: input.map(dna.str.toKebab) };
       const expected = { kebabs: output };
+      assertDeepStrictEqual(actual, expected);
+      });
+
+   it('dna.str.removeWhitespace() eliminates all spaces, tabs, and new lines', () => {
+      const actual =   { string: dna.str.removeWhitespace('a b \t\n c   ') };
+      const expected = { string: 'abc' };
       assertDeepStrictEqual(actual, expected);
       });
 
@@ -68,17 +75,6 @@ describe('Utility function dna.util.realTruth()', () => {
       const input = [false, 0, '0', 'f', 'F', 'faLSE', 'N', 'no', '', [], null, undefined, NaN];
       const actual =   input.map((value) => ({ in: value, out: dna.util.realTruth(value) }));
       const expected = input.map((value) => ({ in: value, out: false }));
-      assertDeepStrictEqual(actual, expected);
-      });
-
-   });
-
-////////////////////////////////////////////////////////////////////////////////
-describe('Utility function dna.util.printf()', () => {
-
-   it('builds a string from variables', () => {
-      const actual =   { string: dna.util.printf('Items in %s: %s', 'cart', 3) };
-      const expected = { string: 'Items in cart: 3' };
       assertDeepStrictEqual(actual, expected);
       });
 
@@ -144,9 +140,9 @@ describe('Utility function dna.util.assign()', () => {
    });
 
 ////////////////////////////////////////////////////////////////////////////////
-describe('Formatter dna.format.getDateFormatter()', () => {
+describe('Formatter function', () => {
 
-   it('correctly renders Star Wars Day', () => {
+   it('dna.format.getDateFormatter() correctly renders Star Wars Day', () => {
       const 皿 = (format) => dna.format.getDateFormatter(format)(timestamp);
       const actual =   [
          皿('date'),
@@ -178,24 +174,15 @@ describe('Formatter dna.format.getDateFormatter()', () => {
          ];
       assertDeepStrictEqual(actual, expected);
       });
-   });
 
-////////////////////////////////////////////////////////////////////////////////
-describe('Formatter dna.format.getNumberFormatter()', () => {
-
-   it('correctly renders π', () => {
+   it('dna.format.getNumberFormatter() correctly renders π', () => {
       const π = (format) => dna.format.getNumberFormatter(format)(Math.PI);
       const actual =   [π('#'), π('#.#'), π('#.##'), π('#.###'), π('#.####'), π('#.#####')];
       const expected = [  '3' ,   '3.1',    '3.14' ,   '3.142',    '3.1416',    '3.14159' ];
       assertDeepStrictEqual(actual, expected);
       });
 
-   });
-
-////////////////////////////////////////////////////////////////////////////////
-describe('Formatter dna.format.getPercentFormatter()', () => {
-
-   it('correctly renders √1/2 as a percentage', () => {
+   it('dna.format.getPercentFormatter() correctly renders √1/2 as a percentage', () => {
       const σ = (format) => dna.format.getPercentFormatter(format)(Math.SQRT1_2);
       const actual =   [σ('#'), σ('#.#'), σ('#.##'), σ('#.###'), σ('#.####'), σ('#.#####')];
       const expected = [ '71%',  '70.7%',  '70.71%',  '70.711%',  '70.7107%',  '70.71068%'];
