@@ -4,7 +4,7 @@
 // Example:
 //    HTTP GET https://dna-dom.org/api/books/3
 //    Response 200 OK
-//    Content-Type: application/json
+//    content-type: application/json
 //    {"id":3,"title":"Howdy HTML5","author":"Ed"}
 
 // Request
@@ -27,8 +27,8 @@ else
 
 // Response
 $origin = isset($_SERVER["HTTP_ORIGIN"]) ? $_SERVER["HTTP_ORIGIN"] : "*";
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-header("Access-Control-Allow-Origin: " . $origin);
-header("Content-Type: application/json");
+header("access-control-allow-headers: Origin, X-Requested-With, Content-Type, Accept");
+header("access-control-allow-origin: " . $origin);
+header("content-type: application/json");
 echo json_encode($resource);
 ?>
