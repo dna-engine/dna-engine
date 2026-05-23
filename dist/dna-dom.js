@@ -1,4 +1,4 @@
-//! dna-dom v3.3.4 ~~ https://dna-dom.org ~~ MIT License
+//! dna-dom v3.3.5 ~~ https://dna-dom.org ~~ MIT License
 
 const dnaName = {
     animating: 'dna-animating',
@@ -38,7 +38,7 @@ const dnaArray = {
     fromMap(map, options) {
         const defaults = { key: 'code', kebabCodes: false };
         const settings = { ...defaults, ...options };
-        const codeValue = (key) => settings.kebabCodes ? dna.util.toKebab(key) : key;
+        const codeValue = (key) => settings.kebabCodes ? dna.str.toKebab(key) : key;
         const toObj = (item) => dna.util.isObj(item) ? item : { value: item };
         return Object.keys(map).map(key => ({ ...{ [settings.key]: codeValue(key) }, ...toObj(map[key]) }));
     },
@@ -48,7 +48,7 @@ const dnaArray = {
         const map = {};
         const keyName = settings.key;
         const getKeyRaw = (obj) => obj[keyName];
-        const getKeyCamel = (obj) => dna.util.toCamel(String(obj[keyName]));
+        const getKeyCamel = (obj) => dna.str.toCamel(String(obj[keyName]));
         const getKey = settings.camelKeys ? getKeyCamel : getKeyRaw;
         array.forEach(obj => map[getKey(obj)] = obj);
         return map;
@@ -649,8 +649,8 @@ const dnaUtil = {
         return dataObj;
     },
     printf(format, ...values) {
-        const insertArg = (output, value) => output.replace(/%s/, String(value));
-        return values.reduce(insertArg, format);
+        console.warn('DEPRECATED: Use dna.str.printf() instead.', format);
+        return dna.str.printf(format, ...values);
     },
     round(value, precision) {
         return Number(value.toExponential(precision - 1));
@@ -661,12 +661,12 @@ const dnaUtil = {
         return !!value && !emptyArray() && !falseyStr();
     },
     toCamel(kebabStr) {
-        const hump = (match, letter) => letter.toUpperCase();
-        return kebabStr.replace(/-(.)/g, hump);
+        console.warn('DEPRECATED: Use dna.str.toCamel() instead.', kebabStr);
+        return dna.str.toCamel(kebabStr);
     },
     toKebab(camelStr) {
-        const dash = (word) => '-' + word.toLowerCase();
-        return camelStr.replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
+        console.warn('DEPRECATED: Use dna.str.toKebab() instead.', camelStr);
+        return dna.str.toKebab(camelStr);
     },
     value(data, field) {
         const notFound = data === null || data === undefined || field === undefined;
@@ -682,6 +682,23 @@ const dnaUtil = {
     },
     timestampMsec(date) {
         return dna.format.getDateFormatter('timestamp-msec')(date ?? Date.now());
+    },
+};
+const dnaStr = {
+    printf(format, ...values) {
+        const insertArg = (output, value) => output.replace(/%s/, String(value));
+        return values.reduce(insertArg, format);
+    },
+    toCamel(kebabStr) {
+        const hump = (match, letter) => letter.toUpperCase();
+        return kebabStr ? kebabStr.replace(/-(.)/g, hump) : '';
+    },
+    toKebab(camelStr) {
+        const dash = (word) => '-' + word.toLowerCase();
+        return camelStr ? camelStr.replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '') : '';
+    },
+    removeWhitespace(text) {
+        return text ? text.trim().replace(/\s/g, '') : '';
     },
 };
 const dnaFormat = {
@@ -733,7 +750,7 @@ const dnaFormat = {
             weekday: (date) => weekday(date),
             year: (date) => String(date.getFullYear()),
         };
-        const transformer = transformers[dna.util.toCamel(format)];
+        const transformer = transformers[dna.str.toCamel(format)];
         dna.core.assert(transformer, 'Unknown date format code', format);
         const formatter = (msec) => transformer(new Date(msec));
         return formatter;
@@ -898,7 +915,7 @@ const dnaCompile = {
     },
     addFieldClass(elem) {
         const field = dna.dom.state(elem).dnaField;
-        const htmlCase = () => dna.util.toKebab(field).replace(/[[\]]/g, '').replace(/[.]/g, '-');
+        const htmlCase = () => dna.str.toKebab(field).replace(/[[\]]/g, '').replace(/[.]/g, '-');
         if (field)
             elem.classList.add('dna-field-' + htmlCase());
         return elem;
@@ -1183,7 +1200,7 @@ const dnaEvents = {
     setup: () => {
         const runner = (elem, type, event) => {
             const target = elem.closest('[data-' + type + ']');
-            const fn = target?.dataset[dna.util.toCamel(type)];
+            const fn = target?.dataset[dna.str.toCamel(type)];
             const isLink = target?.nodeName === 'A';
             if (type === 'click' && isLink && fn?.match(/^dna[.]/))
                 event.preventDefault();
@@ -1501,7 +1518,7 @@ const dnaCore = {
     },
 };
 const dna = {
-    version: '3.3.4',
+    version: '3.3.5',
     clone(name, data, options) {
         const defaults = {
             callback: null,
@@ -1744,6 +1761,7 @@ const dna = {
     dom: dnaDom,
     ui: dnaUi,
     util: dnaUtil,
+    str: dnaStr,
     format: dnaFormat,
     placeholder: dnaPlaceholder,
     panels: dnaPanels,

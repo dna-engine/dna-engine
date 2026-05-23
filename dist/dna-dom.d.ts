@@ -1,4 +1,4 @@
-//! dna-dom v3.3.4 ~~ https://dna-dom.org ~~ MIT License
+//! dna-dom v3.3.5 ~~ https://dna-dom.org ~~ MIT License
 
 export type Json = string | number | boolean | null | undefined | JsonObject | Json[];
 export type JsonObject = {
@@ -416,6 +416,12 @@ declare const dna: {
         isObj(value: unknown): boolean;
         timestamp(date?: number): string;
         timestampMsec(date?: number): string;
+    };
+    str: {
+        printf(format: string, ...values: unknown[]): string;
+        toCamel(kebabStr: string): string;
+        toKebab(camelStr: string): string;
+        removeWhitespace(text: string): string;
     };
     format: {
         getCurrencyFormatter(iso4217: string, units?: number): DnaFormatter;

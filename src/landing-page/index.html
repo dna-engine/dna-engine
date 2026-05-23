@@ -31,8 +31,8 @@
       @media (max-width: 667px) { body { padding: 10px; } }
    </style>
    <script defer src=https://cdn.jsdelivr.net/npm/dna-dom@{{package.version|minor-version}}/dist/dna-dom.min.js></script>
-   <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@{{package.devDependencies.fetch-json|version}}/dist/fetch-json.min.js></script>
    <script defer src=https://cdn.jsdelivr.net/npm/web-ignition@{{package.devDependencies.web-ignition|version}}/dist/lib-x.min.js></script>
+   <script defer src=https://cdn.jsdelivr.net/npm/fetch-json@{{package.devDependencies.fetch-json|version}}/dist/fetch-json.min.js></script>
    <script data-on-load=showVersion>
       const showVersion = () =>
          globalThis.document.getElementById('version-number').textContent = dna.version;

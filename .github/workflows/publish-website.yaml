@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-node@v6             #see: https://github.com/actions/setup-node/releases
       - run: npm install
       - run: npm run pretest  #build website
-      - uses: actions/upload-pages-artifact@v4  #see: https://github.com/actions/upload-pages-artifact/releases
+      - uses: actions/upload-pages-artifact@v5  #see: https://github.com/actions/upload-pages-artifact/releases
         with:
           path: docs  #build output folder
 
@@ -28,5 +28,5 @@ jobs:
       url: ${{steps.deployment.outputs.page_url}}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/deploy-pages@v4           #see: https://github.com/actions/deploy-pages/releases
+      - uses: actions/deploy-pages@v5           #see: https://github.com/actions/deploy-pages/releases
         id: deployment
