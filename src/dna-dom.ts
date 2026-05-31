@@ -988,7 +988,7 @@ const dnaUtil = {
 const dnaStr = {
    printf(format: string, ...values: unknown[]): string {
       // Builds a formatted string by replacing the format specifiers with the supplied arguments.
-      // Usage:
+      // Example:
       //    dna.str.printf('Items in %s: %s', 'cart', 3) === 'Items in cart: 3';
       const insertArg = (output: string, value: unknown) => output.replace(/%s/, String(value));
       return <string>values.reduce(insertArg, format);  //eslint-disable-line @typescript-eslint/no-unnecessary-type-assertion
@@ -1004,11 +1004,13 @@ const dnaStr = {
       // Converts a camelCase string to kebab-case (a code made of lowercase letters and dashes).
       // Example:
       //    dna.str.toKebab('readySetGo') === 'ready-set-go'
-      const dash = (word: string) => '-' + word.toLowerCase();
-      return camelStr ? camelStr.replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '') : '';
+      const addDash = (word: string) => '-' + word.toLowerCase();
+      const kebab = () =>
+         camelStr.trim().replace(/([A-Z]+)/g, addDash).replace(/[-\s]+/g, '-').replace(/^-/, '');
+      return camelStr ? kebab() : '';
       },
    removeWhitespace(text: string): string {
-      // Usage:
+      // Example:
       //    dna.str.removeWhitespace('a b \t\n c   ') === 'abc';
       return text ? text.trim().replace(/\s/g, '') : '';
       },
@@ -1273,7 +1275,7 @@ const dnaCompile = {
       return <DnaRules>state.dnaRules;
       },
    setRule(rules: DnaRules, key: DnaRulesKey, value: DnaRulesValue): DnaRules {
-      // Usage:
+      // Example:
       //    const rules = <DnaRules>dna.dom.state(elem).dnaRules;
       //    dna.compile.setRule(rules, 'transform', 'app.cart.addTax');
       const settableRules = <{ [key: string]: DnaRulesValue }>rules;
@@ -1281,7 +1283,7 @@ const dnaCompile = {
       return rules;
       },
    setElemRule(elem: Element, key: DnaRulesKey, value: DnaRulesValue): Element {
-      // Usage:
+      // Example:
       //    const rules = <DnaRules>dna.dom.state(elem).dnaRules;
       //    dna.compile.setRule(rules, 'transform', 'app.cart.addTax');
       const rules = <{ [key: string]: DnaRulesValue }>dna.compile.getRules(elem);
@@ -1290,8 +1292,8 @@ const dnaCompile = {
       },
    regex: {
       dnaField:     /^[\s]*(~~|\{\{).*(~~|\}\})[\s]*$/,  //example: ~~title~~
-      dnaBasePair:  /~~|{{|}}/,  //matches the '~~' string
-      dnaBasePairs: /~~|\{\{|\}\}/g,  //matches the two '~~' strings so they can be removed
+      dnaBasePair:  /~~|{{|}}/,                          //matches the '~~' string
+      dnaBasePairs: /~~|\{\{|\}\}/g,                     //matches the two '~~' strings so they can be removed
       },
    setupNucleotide(elem: Element): Element {
       dna.compile.getRules(elem);  //initializes rules

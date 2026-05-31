@@ -27,24 +27,26 @@ describe('String utility function', () => {
       });
 
    it('dna.str.toCamel() converts a kebab (dashes) name to camelCase', () => {
-      const input =  ['ready-set-go', 'dna'];
-      const output = ['readySetGo',   'dna'];
-      const actual =   { camels: input .map(dna.str.toCamel) };
-      const expected = { camels: output };
+      const actual =   ['ready-set-go', 'dna'].map(dna.str.toCamel);
+      const expected = ['readySetGo',   'dna'];
       assertDeepStrictEqual(actual, expected);
       });
 
    it('dna.str.toKebab() converts kebab (dashes) name to camelCase', () => {
-      const input =  ['readySetGo',   'dna'];
-      const output = ['ready-set-go', 'dna'];
-      const actual =   { kebabs: input.map(dna.str.toKebab) };
-      const expected = { kebabs: output };
+      const actual =   ['readySetGo',   'dna'].map(dna.str.toKebab);
+      const expected = ['ready-set-go', 'dna'];
+      assertDeepStrictEqual(actual, expected);
+      });
+
+   it('dna.str.toKebab() correctly handles edge cases', () => {
+      const actual =   ['ready Set   go', 'Ready-----set - - go '].map(dna.str.toKebab);
+      const expected = ['ready-set-go',   'ready-set-go'];
       assertDeepStrictEqual(actual, expected);
       });
 
    it('dna.str.removeWhitespace() eliminates all spaces, tabs, and new lines', () => {
-      const actual =   { string: dna.str.removeWhitespace('a b \t\n c   ') };
-      const expected = { string: 'abc' };
+      const actual =   dna.str.removeWhitespace('a b \t\n c   ');
+      const expected = 'abc';
       assertDeepStrictEqual(actual, expected);
       });
 
@@ -54,8 +56,8 @@ describe('String utility function', () => {
 describe('Utility function dna.util.value()', () => {
 
    it('returns value from key', () => {
-      const actual =   { value: dna.util.value({ a: { b: 7 } }, 'a.b') };
-      const expected = { value: 7 };
+      const actual =   dna.util.value({ a: { b: 7 } }, 'a.b');
+      const expected = 7;
       assertDeepStrictEqual(actual, expected);
       });
 
