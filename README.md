@@ -68,28 +68,26 @@ local clone.&nbsp;
 Make your edits and rerun the tests.
 
 Pull requests welcome.&nbsp;
-Since the pacakge version number is updated during the release process, you can leave the version number unchanged.
-
-## D) Build Environment
-Check out the `runScriptsConfig` section in [package.json](package.json) for an
-interesting approach to organizing build tasks.
-
-**CLI Build Tools for package.json**
-   - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Prepend a one-line banner comment (with license notice) to distribution files_
-   - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _Copy or rename a file with optional package version number_
-   - 📂 [copy-folder-util](https://github.com/center-key/copy-folder-util):&nbsp; _Recursively copy files from one folder to another folder_
-   - 🪺 [recursive-exec](https://github.com/center-key/recursive-exec):&nbsp; _Run a command on each file in a folder and its subfolders_
-   - 🔍 [replacer-util](https://github.com/center-key/replacer-util):&nbsp; _Find and replace strings or template outputs in text files_
-   - 🔢 [rev-web-assets](https://github.com/center-key/rev-web-assets):&nbsp; _Revision web asset filenames with cache busting content hash fingerprints_
-   - 🚆 [run-scripts-util](https://github.com/center-key/run-scripts-util):&nbsp; _Organize npm package.json scripts into groups of easy to manage commands_
-   - 🚦 [w3c-html-validator](https://github.com/center-key/w3c-html-validator):&nbsp; _Check the markup validity of HTML files using the W3C validator_
+Since the pacakge version number is updated during the release process, you can leave the version
+number unchanged.
 
 <br>
 
 ---
-Feel free to submit questions at:<br>
-[github.com/dna-dom/dna-dom/issues](https://github.com/dna-dom/dna-dom/issues)
+[MIT License](LICENSE.txt)
 
-dna-dom is open source under the [MIT License](https://dna-dom.org/license).&nbsp;
+[🛡️ npm Security Aggregator](https://center-key.github.io/npm-security-aggregator/?package=dna-dom)
+
+<b>dna-dom<b> is open source under the [MIT License](https://dna-dom.org/license).&nbsp;
 The website and documentation are published under the
 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) license.
+
+See the `runScriptsConfig` section of [`package.json`](package.json) for a clean way to organize build tasks:
+   - 🎋 [`add-dist-header`](https://github.com/center-key/add-dist-header) &mdash;&nbsp; _Prepend a one-line banner comment (with license notice) to distribution files_
+   - 📄 [`copy-file-util`](https://github.com/center-key/copy-file-util) &mdash;&nbsp; _Copy or rename a file with optional package version number_
+   - 📂 [`copy-folder-util`](https://github.com/center-key/copy-folder-util) &mdash;&nbsp; _Recursively copy files from one folder to another folder_
+   - 🪺 [`recursive-exec`](https://github.com/center-key/recursive-exec) &mdash;&nbsp; _Run a command on each file in a folder and its subfolders_
+   - 🔍 [`replacer-util`](https://github.com/center-key/replacer-util) &mdash;&nbsp; _Find and replace strings or template outputs in text files_
+   - 🔢 [`rev-web-assets`](https://github.com/center-key/rev-web-assets) &mdash;&nbsp; _Revision web asset filenames with cache busting content hash fingerprints_
+   - 🚆 [`run-scripts-util`](https://github.com/center-key/run-scripts-util) &mdash;&nbsp; _Organize npm package.json scripts into groups of easy-to-manage commands_
+   - 🚦 [`w3c-html-validator`](https://github.com/center-key/w3c-html-validator) &mdash;&nbsp; _Check the markup validity of HTML files using the W3C validator_
