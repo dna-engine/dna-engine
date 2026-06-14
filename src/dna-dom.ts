@@ -305,7 +305,7 @@ const dnaDom = {
       //    dna.dom.state(document.body).lastUpdate = Date.now();
       // Class added to element:
       //    <body class=dna-state data-dna-state=21>
-      dna.core.assert(dna.dom.isElem(elem), 'Invalid element for getting state', elem);
+      dna.core.assertOk(dna.dom.isElem(elem), 'Invalid element for getting state', elem);
       const data = (<HTMLElement>elem).dataset;
       elem.classList.add('dna-state');
       if (!data.dnaState)
@@ -314,13 +314,13 @@ const dnaDom = {
       },
    componentState(elem: Element) {
       const component = dna.ui.getComponent(elem);
-      dna.core.assert(component, 'Component not found for element', elem);
+      dna.core.assertOk(component, 'Component not found for element', elem);
       return dna.dom.state(component!);
       },
    cloneState(clone: Element): Element {
       // Use imediately after cloning an element in order to grant the clone its own state
       // data (note: it's a shallow copy).
-      dna.core.assert(dna.dom.isElem(clone), 'Invalid element for copying state', clone);
+      dna.core.assertOk(dna.dom.isElem(clone), 'Invalid element for copying state', clone);
       const copy = (elem: Element) => {
          const data =     (<HTMLElement>elem).dataset;
          const newState = { ...dna.dom.stateDepot[Number(data.dnaState)] };
@@ -332,7 +332,7 @@ const dnaDom = {
       return clone;
       },
    removeState(elem: Element): Element {
-      dna.core.assert(dna.dom.isElem(elem), 'Invalid element for removing state', elem);
+      dna.core.assertOk(dna.dom.isElem(elem), 'Invalid element for removing state', elem);
       const data = (<HTMLElement>elem).dataset;
       if (data.dnaState)
          dna.dom.stateDepot[Number(data.dnaState)] = {};
@@ -454,7 +454,7 @@ const dnaDom = {
       },
    insertAt<T extends Element>(container: Element, elem: T, index: number): T {
       const inbounds = index >= 0 && index <= container.children.length;
-      dna.core.assert(inbounds, 'Invalid index to insert element', index);
+      dna.core.assertOk(inbounds, 'Invalid index to insert element', index);
       if (index === 0)
          container.prepend(elem);
       else
@@ -580,7 +580,7 @@ const dnaDom = {
       if (browserless && !options?.quiet)
          console.info(dna.util.timestampMsec(), `[dna-dom] ${infoMsg}`);
       const callFn = () => {
-         dna.core.assert(Date.now() - start < maxWait, errMsg(), callback);
+         dna.core.assertOk(Date.now() - start < maxWait, errMsg(), callback);
          globalThis.setTimeout(state() === 'loading' ? () => callFn() : callback);
          }
       callFn();
@@ -831,7 +831,7 @@ const dnaUi = {
          text:        null,
          };
       const settings = { ...defaults, ...options };
-      dna.core.assert(dna.dom.isElem(elem), 'Invalid element for dna.ui.pulse()', elem);
+      dna.core.assertOk(dna.dom.isElem(elem), 'Invalid element for dna.ui.pulse()', elem);
       const data =         (<HTMLElement>elem).dataset;
       const pulseStart =   String(Date.now());
       data.dnaPulseStart = pulseStart;
@@ -900,14 +900,14 @@ const dnaUtil = {
          typeof fn === 'function' ? fn :
          typeof fn === 'string'   ? <DnaCallbackFn<T> | undefined>dna.util.getFn(fn) :
          null;
-      dna.core.assert(callback, 'Invalid callback function', fn);
+      dna.core.assertOk(callback, 'Invalid callback function', fn);
       return callback!(<Element>params[0], ...<[]>params.slice(1));
       },
    getFn(name: string) {
       // Converts a dot notation name (string) to its callable function.
       // Example to find the buy() function:
       //    const buyFn = dna.util.getFn('app.cart.buy');
-      dna.core.assert(!/[^\p{Letter}\d.]/u.test(name), 'Invalid function name', name);
+      dna.core.assertOk(!/[^\p{Letter}\d.]/u.test(name), 'Invalid function name', name);
       const fields =     name.split('.');  //dot notation to array
       const tag =        fields[0]!;       //string name of the root, example: 'app'
       const tagValue =   <unknown>globalThis[<GlobalKey>tag];
@@ -1069,14 +1069,14 @@ const dnaFormat = {
          };
       type TransformersKey = keyof typeof transformers;
       const transformer = transformers[<TransformersKey>dna.str.toCamel(format)];
-      dna.core.assert(transformer, 'Unknown date format code', format);
+      dna.core.assertOk(transformer, 'Unknown date format code', format);
       const formatter = (msec: DnaMsec) => transformer(new Date(msec))!;
       return <DnaFormatter>formatter;
       },
    getNumberFormatter(format: string): DnaFormatter {
       // Returns a function to format numeric values into strings, like "1,000.000" and "3.14",
       // based on the supplied fixed-point notation format ("#", "#.#", "#.##", "#.###", ...).
-      dna.core.assert(/^#([.]#+)?$/.test(format), 'Unknown numeric format code', format);
+      dna.core.assertOk(/^#([.]#+)?$/.test(format), 'Unknown numeric format code', format);
       const digits =  format === '#' ? 0 : format.length - 2;
       const numeric = { minimumFractionDigits: digits, maximumFractionDigits: digits };
       return <DnaFormatter>new Intl.NumberFormat([], numeric).format;
@@ -1085,7 +1085,7 @@ const dnaFormat = {
       // Returns a function to format floats (generally from 0 to 1) into strings, like "82%"
       // and "12.57%", representing a percent value based on the supplied fixed-point notation
       // format ("#", "#.#", "#.##", "#.###", ...).
-      dna.core.assert(/^#([.]#+)?$/.test(format), 'Unknown percent format code', format);
+      dna.core.assertOk(/^#([.]#+)?$/.test(format), 'Unknown percent format code', format);
       const digits = format === '#' ? 0 : format.length - 2;
       const options: Intl.NumberFormatOptions = {
          style:                 'percent',
@@ -1200,7 +1200,7 @@ const dnaPanels = {
          const menuNavName = 'dna-panels-' + String(dna.panels.nextMenuNav++);
          const setNavName =  (elem: Element) => (<HTMLElement>elem).dataset.menuNav = menuNavName;
          const menu =        panels!.previousElementSibling;
-         dna.core.assert(menu?.classList.contains('dna-menu'), 'Menu not found for panels', panels);
+         dna.core.assertOk(menu?.classList.contains('dna-menu'), 'Menu not found for panels', panels);
          setNavName(menu!);
          setNavName(panels!);
          return menuNavName;
@@ -1216,7 +1216,7 @@ const dnaPanels = {
          const loc =          hash && first.dataset.hash ? hashIndex() : savedIndex();
          dna.dom.addClass(panels!.children, dna.name.panel);
          panels!.classList.add(dna.name.panelsInitialized);
-         dna.core.assert(menu, 'Menu not found for panels', menuNavName);
+         dna.core.assertOk(menu, 'Menu not found for panels', menuNavName);
          menu!.classList.add(dna.name.panelsInitialized);
          dna.dom.state(menu!).dnaPanels = panels;
          if (!menu!.getElementsByClassName(dna.name.menuItem).length)  //set .dna-menu-item elems if not set in the html
@@ -1480,7 +1480,7 @@ const dnaCompile = {
       },
    template(name: string): DnaTemplate {  //prepare and stash template so it can be cloned
       const elem = globalThis.document.getElementById(name)!;
-      dna.core.assert(elem, 'Template not found', name);
+      dna.core.assertOk(elem, 'Template not found', name);
       const initSubs = (elem: Element) => dna.compile.setElemRule(elem, 'subs', []);
       const saveName = (elem: Element) => {
          dna.dom.state(elem).dnaRules = { template: elem.id, subs: [] };
@@ -1602,7 +1602,7 @@ const dnaEvents = {
          const waitFor =  data.waitFor?.split(',') ?? [];
          onLoad.waiting = Date.now() - onLoad.start;
          onLoad.checks++;
-         dna.core.assert(typeof fn === 'function' || !fn, 'Invalid data-on-load function', fnName);
+         dna.core.assertOk(typeof fn === 'function' || !fn, 'Invalid data-on-load function', fnName);
          const run = () => {
             elem.classList.add(dna.name.executed);
             dna.util.apply(fnName, [elem, dna.ui.getComponent(elem)]);
@@ -1759,7 +1759,7 @@ const dnaCore = {
             (<HTMLInputElement>elem).value = <string>value;
          };
       const setProperty = (elem: HTMLInputElement, property: string, state: boolean): HTMLInputElement => {
-         dna.core.assert(['checked', 'disabled'].includes(property), 'Invalid element property type', property);
+         dna.core.assertOk(['checked', 'disabled'].includes(property), 'Invalid element property type', property);
          if (property === 'checked')
             elem.checked = state;
          else
@@ -1947,7 +1947,7 @@ const dnaCore = {
       },
    updateModelArray(container: Element): Element {
       // Sets the array field of the clone's data model to the list of sub-clone data models.
-      dna.core.assert(container.classList.contains(dna.name.array), 'Invalid array container', container);
+      dna.core.assertOk(container.classList.contains(dna.name.array), 'Invalid array container', container);
       const array =        dna.compile.getRules(container).loop!;
       const subs =         dna.dom.filterByClass(container.children, array.name);
       const model =        <DnaDataObject>dna.getModel(container);
@@ -1964,7 +1964,7 @@ const dnaCore = {
          callback(clone, dna.getModel(clone));
       return clone;
       },
-   assert(ok: unknown, message: string, info: unknown): void {
+   assertOk(ok: unknown, message: string, info: unknown): void {
       // Oops, file a tps report if "ok" is falsey.
       const quoteStr = (info: unknown) => typeof info === 'string' ? `"${info}"` : String(info);
       if (!ok)
@@ -2029,7 +2029,7 @@ const dna = {
       const template =   dna.template.get(name);
       const makeCopies = options?.clones !== undefined;
       const missing =    template.nested && !settings.container;
-      dna.core.assert(!missing, 'Container missing for nested template', name);
+      dna.core.assertOk(!missing, 'Container missing for nested template', name);
       if (settings.empty)
          dna.empty(name);
       const finish = (firstClone: Element) => {
@@ -2179,10 +2179,10 @@ const dna = {
       // Returns the clone (or sub-clone) for the specified element.
       const defaults: DnaSettingsGetClone = { main: false };
       const settings = { ...defaults, ...options };
-      dna.core.assert(dna.dom.isElem(elem), 'Invalid element', elem);
+      dna.core.assertOk(dna.dom.isElem(elem), 'Invalid element', elem);
       const mainCloneSelector = '.dna-clone:not(.dna-sub-clone)';
       const clone = elem.closest(settings.main ? mainCloneSelector : dna.selector.clone)!;
-      dna.core.assert(clone, 'Cannot find clone', elem);
+      dna.core.assertOk(clone, 'Cannot find clone', elem);
       return clone;
       },
    getClones(name: string): Element[] {
